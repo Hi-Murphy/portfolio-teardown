@@ -1,3 +1,7 @@
+import { XPLODER_VERSION } from 'xploder';
+
+import { motionTokens } from './motion';
+
 export default function HomePage() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl flex-col px-5 sm:px-8">
@@ -8,7 +12,10 @@ export default function HomePage() {
         </h1>
         <p className="text-muted text-[clamp(1rem,3.5vw,1.25rem)]">coming online slice by slice</p>
       </main>
-      <footer className="py-6 text-sm text-muted">{/* xploder version (T006) */}</footer>
+      <footer
+        className="py-6 text-sm text-muted"
+        data-motion-tokens={Object.keys(motionTokens).length}
+      >{`renderer: xploder v${XPLODER_VERSION}`}</footer>
     </div>
   );
 }

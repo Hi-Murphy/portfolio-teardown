@@ -1,0 +1,42 @@
+apps/web/app/motion.ts:1:import { motion, type MotionTokens } from 'xploder/motion';
+apps/web/app/page.tsx:1:import { XPLODER_VERSION } from 'xploder';
+Scope: all 3 workspace projects
+✓ Lockfile passes supply-chain policies (verified 11s ago)
+Lockfile is up to date, resolution step is skipped
+Packages: +7
++++++++
+Progress: resolved 7, reused 7, downloaded 0, added 7, done
+Done in 96ms using pnpm v12.15.0
+$ pnpm -r --if-present typecheck
+$ tsc --noEmit
+$ next typegen && tsc --noEmit
+Generating route types...
+✓ Types generated successfully
+$ pnpm -r --if-present lint && pnpm format:check
+$ eslint .
+$ eslint .
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1299ms
+  Running TypeScript ...
+  Finished TypeScript in 523ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 170ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+AC5-OK
