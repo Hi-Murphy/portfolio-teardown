@@ -1,0 +1,9 @@
+Scope: all 2 workspace projects
+Already up to date
+Done in 2ms using pnpm v12.15.0
+$ tsc --noEmit
+$ eslint .
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+XPLODER-OK
