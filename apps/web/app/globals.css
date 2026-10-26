@@ -16,6 +16,16 @@
   --color-accent: #60a5fa;
 }
 
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    --color-bg: #0a0a0b;
+    --color-fg: #f4f4f5;
+    --color-muted: #a1a1aa;
+    --color-accent: #60a5fa;
+    color-scheme: dark;
+  }
+}
+
 html {
   background: var(--color-bg);
   color: var(--color-fg);

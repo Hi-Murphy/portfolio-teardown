@@ -1,0 +1,33 @@
+$ pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 70ms
+  Running TypeScript ...
+  Finished TypeScript in 423ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 165ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+
+$ node /tmp/s01-checks/t005.mjs
+PASS (a) dark OS, hydration blocked (body background: rgb(10, 10, 11))
+PASS (b) dark OS, JavaScript disabled (html background: rgb(10, 10, 11))
+PASS (c) light OS resolves to light theme
+PASS (d) toggle persists against OS and clears when it matches OS
+PASS (e) dark OS preference honored after hard reload
+PASS (f) no console errors, page errors, or hydration warnings
+T005-OK
+
+$ wc -c (THEME_SCRIPT payload)
+286 theme-script.js
