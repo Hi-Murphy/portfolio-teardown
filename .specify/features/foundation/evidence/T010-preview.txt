@@ -1,0 +1,22 @@
+AC4 evidence — Vercel Git integration preview
+Probe branch: s01/preview-probe @ beebe8323c8b578a1d40701ce688c5712428c00d (empty commit; 'skip unaffected deployments' disabled in project settings)
+Vercel status: success — Deployment has completed
+Preview URL: https://portfolio-teardown-git-s01-preview-probe-murphy-3c4d.vercel.app
+
+$ curl -sSI https://portfolio-teardown-git-s01-preview-probe-murphy-3c4d.vercel.app/
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 18
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-type: text/html; charset=utf-8
+date: Wed, 28 Oct 2026 14:43:59 GMT
+etag: "a6f1eb181bc2ea318b371260e4180faa"
+last-modified: Wed, 28 Oct 2026 14:43:40 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+$ curl -s https://portfolio-teardown-git-s01-preview-probe-murphy-3c4d.vercel.app/ | grep -o ...
+Portfolio Teardown
+renderer: xploder v0.0.0
+AC4-OK
