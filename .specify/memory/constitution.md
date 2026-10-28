@@ -1,50 +1,70 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Portfolio Teardown Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Brief Is Scope
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The frozen slice brief is the complete scope for a task, and its acceptance criteria are never
+reworded or relaxed. Revisions are logged with a reason code: `spec-gap`, `criteria-wrong`,
+`unplanned-dependency`, or `implementer-error`. This keeps reviews comparable and prevents silent
+scope drift.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Static-Only Shell
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Every deployable build is a static export, with no server runtime, API routes, or database.
+Analytics are excluded because they add client cost and a data surface the product does not need.
+This keeps the site portable, fast, and simple to host.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Performance Is a Feature
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+The design target is a mid-range Android device on a 4G connection. Lighthouse mobile scores must
+meet or exceed 95 for Performance and 95 for Accessibility as the baseline. Webfonts and client
+JavaScript are excluded unless a documented need justifies their cost. Performance is a product
+constraint because the primary experience must remain usable on the target device.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Single Motion Source
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+`xploder/motion` is the only source of durations, easings, and staggers. Application and library
+code imports `motion` or its token groups from that entry point and never deep-imports `xploder/src`.
+Literal motion values and CSS transition timings are prohibited outside the token module. A single
+source makes motion consistent and lets later work tune it in one place.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Theme Integrity
+
+The default theme is light, and the first render follows the operating system preference when no
+override exists. An inline head script plus a `prefers-color-scheme` CSS fallback prevent a flash of
+the wrong theme. Returning the toggle to the OS value clears the stored override. Theme state must
+be correct before paint, not corrected after hydration.
+
+### VI. Evidence Over Assertion
+
+Every visual or performance claim includes a screenshot, log, or report in the feature's `evidence/`
+directory. Claims without evidence are treated as unverified, regardless of how plausible they look.
+Evidence makes each acceptance decision reproducible and auditable.
+
+### VII. No Secrets, Sanitized Content
+
+No secrets, tokens, credentials, private IP addresses, private hostnames, or private repository
+names enter code, comments, fixtures, evidence, or commits. Content must be sanitized before it is
+committed, and environment files remain git-ignored. This protects users, infrastructure, and the
+public history of the project.
+
+## Constraints
+
+The stack is locked to Next.js App Router with static generation, React Three Fiber with drei, GSAP,
+Tailwind CSS, zod, and pnpm workspaces. The layout is `apps/web` for the site and `packages/xploder`
+for the renderer library. Dependency additions outside this stack require an explicit decision.
+
+## Workflow
+
+Work proceeds through stage gates: RFC, then spec/plan/tasks, then execution. Murphy approves each
+gate before the next begins. Each task covers one integration seam and has one executable check that
+determines completion.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes ad-hoc practice. Amendments are proposed by pull request, include a
+semantic-version bump, and take effect after review and approval. All work must verify compliance
+with these principles before merging.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-10-28 | **Last Amended**: 2026-10-28
