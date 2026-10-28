@@ -1,0 +1,43 @@
+=== Step 1: pnpm --filter web build ===
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 68ms
+  Running TypeScript ...
+  Finished TypeScript in 424ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 164ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+
+=== Step 4: Playwright /tmp/s01-checks/t004.mjs ===
+WCAG contrast ratios
+light fg #18181b on #fafafa: 16.97:1
+light muted #52525b on #fafafa: 7.41:1
+light accent #2563eb on #fafafa: 4.95:1
+dark fg #f4f4f5 on #0a0a0b: 18.00:1
+dark muted #a1a1aa on #0a0a0b: 7.72:1
+dark accent #60a5fa on #0a0a0b: 7.78:1
+360x740: scrollWidth=360 innerWidth=360 h1="Portfolio Teardown"
+Screenshot: /Users/murphy/orca/workspaces/portfolio-teardown/s01-t004/.specify/features/foundation/evidence/T004-360.png
+1280x800: scrollWidth=1280 innerWidth=1280 h1="Portfolio Teardown"
+Screenshot: /Users/murphy/orca/workspaces/portfolio-teardown/s01-t004/.specify/features/foundation/evidence/T004-1280.png
+T004-OK
+
+=== pnpm format:check ===
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+=== Exit statuses ===
+build=0 t004=0 format:check=0

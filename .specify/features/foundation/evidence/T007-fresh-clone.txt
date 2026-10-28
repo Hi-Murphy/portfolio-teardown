@@ -1,0 +1,56 @@
+Cloning into '/tmp/s01-checks/fresh'...
+done.
+76c34d0 S01/T005: merge no-flash theme + toggle (page.tsx conflict with T006 resolved by orchestrator)
+v24.19.0
+12.15.0
+Scope: all 3 workspace projects
+✓ Lockfile passes supply-chain policies (verified 3m ago)
+Lockfile is up to date, resolution step is skipped
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: /Users/murphy/Library/pnpm/store/v11
+  Virtual store is at:             node_modules/.pnpm
+Packages: +362
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 362, reused 362, downloaded 0, added 362, done
+.../node_modules/unrs-resolver postinstall$ node postinstall.js
+.../node_modules/unrs-resolver postinstall: Done
+
+devDependencies:
++ prettier 3.9.10
++ typescript 5.9.3
+
+Done in 528ms using pnpm v12.15.0
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1092ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1232ms
+  Running TypeScript ...
+  Finished TypeScript in 672ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 163ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+AC1-EXIT=0
+$ pnpm -r --if-present typecheck
+$ tsc --noEmit
+$ next typegen && tsc --noEmit
+Generating route types...
+✓ Types generated successfully
+$ pnpm -r --if-present lint && pnpm format:check
+$ eslint .
+$ eslint .
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+ALL-GREEN

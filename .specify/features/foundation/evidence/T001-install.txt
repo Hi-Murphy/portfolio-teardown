@@ -1,0 +1,11 @@
+v24.19.0
+12.15.0
+Already up to date
+Done in 1ms using pnpm v12.15.0
+.gitignore:1:.env*	.env
+.gitignore:1:.env*	.env.local
+.gitignore:1:.env*	apps/web/.env.production
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+T001-OK

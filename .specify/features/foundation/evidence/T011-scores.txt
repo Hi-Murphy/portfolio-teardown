@@ -1,0 +1,39 @@
+Run 1
+  finalDisplayedUrl: https://portfolio-teardown-git-timurharyo-portfolio-a19548-murphy-3c4d.vercel.app/
+  formFactor: mobile
+  screenEmulation.mobile: true
+  performance: 100
+  accessibility: 100
+  LCP: 804.03
+  TBT: 27
+  CLS: 0
+  FCP: 804.03
+  vercel.live request: yes
+    https://vercel.live/_next-live/feedback/feedback.js
+Run 2
+  finalDisplayedUrl: https://portfolio-teardown-git-timurharyo-portfolio-a19548-murphy-3c4d.vercel.app/
+  formFactor: mobile
+  screenEmulation.mobile: true
+  performance: 100
+  accessibility: 100
+  LCP: 802.3119999999999
+  TBT: 39
+  CLS: 0
+  FCP: 802.3119999999999
+  vercel.live request: yes
+    https://vercel.live/_next-live/feedback/feedback.js
+Run 3
+  finalDisplayedUrl: https://portfolio-teardown-git-timurharyo-portfolio-a19548-murphy-3c4d.vercel.app/
+  formFactor: mobile
+  screenEmulation.mobile: true
+  performance: 100
+  accessibility: 100
+  LCP: 795.101
+  TBT: 34
+  CLS: 0
+  FCP: 795.101
+  vercel.live request: yes
+    https://vercel.live/_next-live/feedback/feedback.js
+MEDIAN performance: 100
+MEDIAN accessibility: 100
+AC6-OK
