@@ -1,0 +1,29 @@
+8.30.1
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+6:25PM INF 12 commits scanned.
+6:25PM INF scanned ~512127 bytes (512.13 KB) in 82.9ms
+6:25PM INF no leaks found
+GITLEAKS-EXIT=0
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+6:25PM INF scanned ~324286 bytes (324.29 KB) in 33.9ms
+6:25PM INF no leaks found
+GITLEAKS-DIR-EXIT=0
+.gitignore:1:.env*	.env
+.gitignore:1:.env*	.env.local
+.gitignore:1:.env*	.env.production
+.gitignore:1:.env*	apps/web/.env.local
+.gitignore:1:.env*	packages/xploder/.env
+CHECK-IGNORE-EXIT=0
+TRACKED-ENV-COUNT=0
