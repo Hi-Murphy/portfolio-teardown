@@ -1,0 +1,77 @@
+== T008 local checks: 2026-10-28T11:25:23Z ==
+== 1. actionlint ==
+1.7.12
+installed by downloading from release page
+built with go1.26.1 compiler for darwin/arm64
+actionlint: no errors
+== 2. secret references ==
+grep -c 'secrets\.' .github/workflows/ci.yml => 0
+== 3. build job simulation ==
+v24.19.0
+12.15.0
+Scope: all 3 workspace projects
+✓ Lockfile passes supply-chain policies (verified 1d ago)
+Lockfile is up to date, resolution step is skipped
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: /Users/murphy/Library/pnpm/store/v11
+  Virtual store is at:             node_modules/.pnpm
+Packages: +362
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 362, reused 362, downloaded 0, added 362, done
+.../node_modules/unrs-resolver postinstall$ node postinstall.js
+.../node_modules/unrs-resolver postinstall: Done
+
+devDependencies:
++ prettier 3.9.10
++ typescript 5.9.3
+
+Done in 948ms using pnpm v12.15.0
+$ pnpm -r --if-present typecheck
+$ tsc --noEmit
+$ next typegen && tsc --noEmit
+Generating route types...
+✓ Types generated successfully
+$ pnpm -r --if-present lint && pnpm format:check
+$ eslint .
+$ eslint .
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1271ms
+  Running TypeScript ...
+  Finished TypeScript in 623ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 162ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+== 4. secrets job simulation ==
+8.30.1
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+6:25PM INF 13 commits scanned.
+6:25PM INF scanned ~512702 bytes (512.70 KB) in 92ms
+6:25PM INF no leaks found
+== 5. formatting ==
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+T008-LOCAL-OK
