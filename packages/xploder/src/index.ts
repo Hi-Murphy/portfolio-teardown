@@ -1,5 +1,4 @@
 export const XPLODER_VERSION = '0.0.0';
-export type XploderPlaceholder = { readonly kind: 'xploder-placeholder' };
 
 export {
   COMPONENT_KINDS,
@@ -23,9 +22,26 @@ export { TechRegistrySchema, TechSchema } from './schema/tech';
 export type { Tech, TechRegistry, TechRegistryInput } from './schema/tech';
 
 export {
+  ComponentSchema,
+  FlowSchema,
+  LayerSchema,
+  MetaSchema,
+  ProjectSchema,
+  StorySchema,
+  createProjectSchema,
+} from './schema/project';
+export type { Component, Flow, Layer, Meta, Project, ProjectInput, Story } from './schema/project';
+
+export {
   ProjectValidationError,
   TechRegistryValidationError,
   XploderValidationError,
 } from './errors';
 
-export { defineTechRegistry, parseTechRegistry } from './parse';
+export {
+  defineProject,
+  defineTechRegistry,
+  parseProject,
+  parseTechRegistry,
+  safeParseProject,
+} from './parse';

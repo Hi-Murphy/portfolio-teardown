@@ -1,0 +1,41 @@
+$ pnpm --filter xploder exec vitest run schema parse --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t003/packages/xploder
+
+ ✓ test/schema.test.ts > project schema > parses a minimal project and applies every documented default 3ms
+ ✓ test/schema.test.ts > project schema > NEGATIVE: missing meta.name is rejected at meta.name 0ms
+ ✓ test/schema.test.ts > project schema > rejects a project without schemaVersion 0ms
+ ✓ test/schema.test.ts > project schema > rejects schemaVersion 2 0ms
+ ✓ test/schema.test.ts > project schema > rejects an empty layers array 0ms
+ ✓ test/schema.test.ts > project schema > rejects a duplicate component id across layers 0ms
+ ✓ test/schema.test.ts > project schema > rejects a flow path with one entry 0ms
+ ✓ test/schema.test.ts > project schema > rejects a flow path naming a missing component 0ms
+ ✓ test/schema.test.ts > project schema > rejects an unknown key on a layer 0ms
+ ✓ test/schema.test.ts > project schema > defaults a flow id to flow-1 0ms
+ ✓ test/parse.test.ts > project parsing > NEGATIVE: an unknown tech id is rejected with the seed registry 2ms
+ ✓ test/parse.test.ts > project parsing > accepts the same tech id when no registry is passed 1ms
+ ✓ test/parse.test.ts > project parsing > parseProject throws a ProjectValidationError with the zod cause and issues 1ms
+ ✓ test/parse.test.ts > project parsing > safeParseProject returns a failure without throwing 0ms
+ ✓ test/parse.test.ts > project parsing > defineProject includes the source and issue path in its message 0ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  11:09:58
+   Duration  104ms (import 57%, transform 30%, tests 10%, worker 3%)
+
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+$ grep XploderPlaceholder (must be absent)
+absent
+FROZEN-OK
+T003-OK
+
+$ sample author-facing error (throwaway test, not committed)
+
+$ sample author-facing error (throwaway test, not committed)
+Invalid project (content/demo.ts):
+✖ Unknown component id "ghost" in flow path.
+  → at flows[0].path[1]
+✖ Unknown tech id "okhtp". Not in the registry.
+  → at layers[0].components[0].techs[0]
