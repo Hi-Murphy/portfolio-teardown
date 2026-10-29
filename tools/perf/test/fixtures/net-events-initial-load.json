@@ -1,0 +1,104 @@
+[
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "document",
+      "type": "Document",
+      "request": { "url": "https://example.test/" }
+    }
+  },
+  {
+    "method": "Network.responseReceived",
+    "params": {
+      "requestId": "document",
+      "type": "Document",
+      "response": { "url": "https://example.test/" }
+    }
+  },
+  {
+    "method": "Network.loadingFinished",
+    "params": { "requestId": "document", "encodedDataLength": 2400 }
+  },
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "app-script",
+      "type": "Script",
+      "request": { "url": "https://example.test/_next/static/chunks/app.js" }
+    }
+  },
+  {
+    "method": "Network.dataReceived",
+    "params": { "requestId": "app-script", "encodedDataLength": 45120 }
+  },
+  {
+    "method": "Network.loadingFinished",
+    "params": { "requestId": "app-script", "encodedDataLength": 45200 }
+  },
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "stylesheet",
+      "type": "Stylesheet",
+      "request": { "url": "https://example.test/_next/static/css/app.css" }
+    }
+  },
+  {
+    "method": "Network.loadingFinished",
+    "params": { "requestId": "stylesheet", "encodedDataLength": 12800 }
+  },
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "image",
+      "type": "Image",
+      "request": { "url": "https://example.test/hero.webp" }
+    }
+  },
+  {
+    "method": "Network.loadingFinished",
+    "params": { "requestId": "image", "encodedDataLength": 8200 }
+  },
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "font",
+      "type": "Font",
+      "request": { "url": "https://example.test/fonts/inter.woff2" }
+    }
+  },
+  {
+    "method": "Network.loadingFinished",
+    "params": { "requestId": "font", "encodedDataLength": 24000 }
+  },
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "toolbar",
+      "type": "Script",
+      "request": {
+        "url": "https://vercel.live/_next-live/feedback/feedback.js"
+      }
+    }
+  },
+  {
+    "method": "Network.loadingFinished",
+    "params": { "requestId": "toolbar", "encodedDataLength": 5300 }
+  },
+  {
+    "method": "Network.requestWillBeSent",
+    "params": {
+      "requestId": "failed-beacon",
+      "type": "Fetch",
+      "request": { "url": "https://metrics.example.net/beacon" }
+    }
+  },
+  {
+    "method": "Network.dataReceived",
+    "params": { "requestId": "failed-beacon", "encodedDataLength": 777 }
+  },
+  {
+    "method": "Network.loadingFailed",
+    "params": { "requestId": "failed-beacon", "errorText": "net::ERR_ABORTED" }
+  }
+]

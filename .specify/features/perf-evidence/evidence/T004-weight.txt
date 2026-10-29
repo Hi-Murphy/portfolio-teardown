@@ -1,0 +1,43 @@
+== executor (tier 1, DeepSeek Flash, sandbox off) check log
+$ vitest run weight
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t004/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  16:12:21
+   Duration  224ms (import 88%, transform 9%, tests 2%, worker 1%)
+
+$ node tools/perf/src/cli/weight-gate.ts https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/ --out /tmp/s03-checks/t004-w
+mobile: 152048 bytes, 10 requests, PASS
+  73571 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3deo7cxyhq9b1.js
+  50836 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2scxz9bw-esxf.js
+  6501 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wzh1qwknma3l.js
+  4830 B  document  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
+  4348 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js
+desktop: 175464 bytes, 13 requests, PASS
+  73570 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3deo7cxyhq9b1.js
+  50864 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2scxz9bw-esxf.js
+  23580 B  script  https://vercel.live/_next-live/feedback/feedback.js
+  6501 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wzh1qwknma3l.js
+  4830 B  document  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
+pass: true
+weight.json: /tmp/s03-checks/t004-w/weight.json
+
+== orchestrator re-run
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+ Test Files  5 passed (5)
+      Tests  19 passed (19)
+  50841 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2scxz9bw-esxf.js
+  23580 B  script  https://vercel.live/_next-live/feedback/feedback.js
+  6476 B  script  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wzh1qwknma3l.js
+  4830 B  document  https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
+pass: true
+weight.json: /tmp/s03-checks/t004-rerun/weight.json
+mobile 152040 desktop 175466 pass true
+RERUN-OK
+
+Note: desktop profile loads the Vercel preview toolbar (vercel.live feedback.js, 23,580 B, third-party); counted per RFC D4/OQ5. RFC Stage-1 probe figure (~73 B) understated it.
