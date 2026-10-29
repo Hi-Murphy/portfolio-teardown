@@ -8,7 +8,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
+| T001 | ☑ | 1 (Flash) | evidence/T001-scaffold.txt | (merge) |
 | T002 | ☐ | | | |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |

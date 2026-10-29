@@ -2,6 +2,8 @@
 node_modules/
 .next/
 out/
+.evidence/
+out-fixtures/
 .vercel/
 next-env.d.ts
 *.tsbuildinfo

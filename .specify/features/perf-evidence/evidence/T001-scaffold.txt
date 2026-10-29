@@ -1,0 +1,122 @@
+== executor (tier 1, DeepSeek Flash) check log
+Scope: all 4 workspace projects
+Already up to date
+Done in 3ms using pnpm v12.15.0
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+packages/xploder test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t001/tools/perf
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t001/packages/xploder
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  Test Files  1 passed (1)
+tools/perf test:       Tests  1 passed (1)
+tools/perf test:    Start at  15:53:00
+tools/perf test:    Duration  125ms (import 51%, transform 24%, worker 15%, tests 10%, environment 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  9 passed (9)
+packages/xploder test:       Tests  43 passed (43)
+packages/xploder test:    Start at  15:53:00
+packages/xploder test:    Duration  177ms (import 71%, transform 15%, tests 8%, worker 5%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t001/apps/web
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  1 passed (1)
+apps/web test:       Tests  13 passed (13)
+apps/web test:    Start at  15:53:01
+apps/web test:    Duration  72ms (tests 51%, import 28%, transform 12%, worker 9%)
+apps/web test: 
+apps/web test: Done
+Usage: pnpm evidence <url> [options]
+
+Captures screenshots and Lighthouse evidence for a URL.
+$ node tools/perf/src/cli/evidence.ts --help
+Usage: pnpm evidence <url> [options]
+
+Captures screenshots and Lighthouse evidence for a URL.
+.gitignore:5:.evidence/	.evidence/x
+.gitignore:6:out-fixtures/	out-fixtures/x
+Version 1.64.1
+T001-OK
+
+== orchestrator re-run
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+apps/web test:    Start at  15:53:25
+apps/web test:    Duration  73ms (tests 51%, import 28%, transform 12%, worker 9%)
+apps/web test: 
+apps/web test: Done
+$ node tools/perf/src/cli/evidence.ts --help
+Usage: pnpm evidence <url> [options]
+
+Captures screenshots and Lighthouse evidence for a URL.
+fatal: --quiet is only valid with a single pathname
+.gitignore:5:.evidence/	.evidence/x
+.gitignore:6:out-fixtures/	out-fixtures/x
+Version 1.64.1
+RERUN-OK
