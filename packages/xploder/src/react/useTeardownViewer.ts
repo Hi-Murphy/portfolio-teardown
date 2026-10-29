@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useReducer, useState, type KeyboardEvent } from 'react';
 
 import {
+  azimuthOf,
   cameraReducer,
   INITIAL_RIG,
   keyToAction,
@@ -25,6 +26,8 @@ export interface TeardownViewerActions {
 export interface TeardownViewerHandle {
   readonly target: TeardownTarget;
   readonly rig: RigState;
+  /** Target azimuth in degrees, normalised to [0, 360). */
+  readonly azimuthDegrees: number;
   readonly actions: TeardownViewerActions;
   readonly onKeyDown: (event: KeyboardEvent) => void;
 }
@@ -64,5 +67,14 @@ export function useTeardownViewer(opts: { initial?: TeardownTarget } = {}): Tear
     [dispatch],
   );
 
-  return useMemo(() => ({ target, rig, actions, onKeyDown }), [target, rig, actions, onKeyDown]);
+  const azimuthDegrees = useMemo(() => {
+    const degrees = (azimuthOf(rig.turns) * 180) / Math.PI;
+
+    return Number((((degrees % 360) + 360) % 360).toFixed(3));
+  }, [rig.turns]);
+
+  return useMemo(
+    () => ({ target, rig, azimuthDegrees, actions, onKeyDown }),
+    [target, rig, azimuthDegrees, actions, onKeyDown],
+  );
 }

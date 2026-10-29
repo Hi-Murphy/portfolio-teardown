@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from 'react';
 
-import { azimuthOf } from '../engine/camera';
 import type { Phase } from '../engine/explode';
 import { layoutProject, type LayoutInput, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
@@ -39,12 +38,6 @@ const WRAPPER_STYLE: CSSProperties = {
 const CANVAS_STYLE: CSSProperties = {
   touchAction: 'pan-y pinch-zoom',
 };
-
-function targetAzimuthDegrees(turns: number): number {
-  const degrees = (azimuthOf(turns) * 180) / Math.PI;
-
-  return ((degrees % 360) + 360) % 360;
-}
 
 export function TeardownViewer({
   project,
@@ -86,11 +79,9 @@ export function TeardownViewer({
 
     if (element === null) return;
 
-    element.dataset.xploderAzimuth = String(
-      Number(targetAzimuthDegrees(viewer.rig.turns).toFixed(3)),
-    );
+    element.dataset.xploderAzimuth = String(viewer.azimuthDegrees);
     element.dataset.xploderZoom = String(viewer.rig.zoomFactor);
-  }, [viewer.rig]);
+  }, [viewer.azimuthDegrees, viewer.rig.zoomFactor]);
 
   return (
     <div
