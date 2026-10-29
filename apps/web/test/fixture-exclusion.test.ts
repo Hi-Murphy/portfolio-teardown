@@ -7,7 +7,7 @@ import { describe, expect, test } from 'vitest';
 const PRODUCTION_OUT = fileURLToPath(new URL('../out/', import.meta.url));
 const FIXTURE_OUT = fileURLToPath(new URL('../../../out-fixtures/', import.meta.url));
 const FIXTURE_MARKER = 'data-perf-fixture';
-const FIXTURE_ROUTE = 'fps-calibration';
+const FIXTURE_ROUTES = ['fps-calibration', 'dev/engine'];
 
 function collectFiles(root: string): string[] {
   const files: string[] = [];
@@ -30,13 +30,17 @@ describe('calibration fixture exclusion', () => {
     'production export has no fixture route or marker',
     () => {
       expect(existsSync(join(PRODUCTION_OUT, 'fixtures'))).toBe(false);
+      expect(existsSync(join(PRODUCTION_OUT, 'dev'))).toBe(false);
 
       for (const file of collectFiles(PRODUCTION_OUT)) {
         const contents = readFileSync(file, 'utf8');
 
-        expect(file).not.toContain(FIXTURE_ROUTE);
         expect(contents).not.toContain(FIXTURE_MARKER);
-        expect(contents).not.toContain(FIXTURE_ROUTE);
+
+        for (const route of FIXTURE_ROUTES) {
+          expect(file).not.toContain(route);
+          expect(contents).not.toContain(route);
+        }
       }
     },
   );
@@ -45,9 +49,12 @@ describe('calibration fixture exclusion', () => {
     'fixture export contains the marker as a positive control',
     () => {
       const files = collectFiles(FIXTURE_OUT);
-      const hasMarker = files.some((file) => readFileSync(file, 'utf8').includes(FIXTURE_MARKER));
+      const contents = files.map((file) => readFileSync(file, 'utf8'));
 
-      expect(hasMarker).toBe(true);
+      expect(contents.some((file) => file.includes(`${FIXTURE_MARKER}="fps-calibration"`))).toBe(
+        true,
+      );
+      expect(contents.some((file) => file.includes(`${FIXTURE_MARKER}="engine"`))).toBe(true);
     },
   );
 });
