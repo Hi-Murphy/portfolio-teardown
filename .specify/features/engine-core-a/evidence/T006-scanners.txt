@@ -1,0 +1,35 @@
+T006 — guard scanners (color literals, free orbit, package consumer) + motion non-vacuity · executor: tier 1 (Flash, sandboxed) · orchestrator re-run 2026-10-29T22:37:14Z
+
+== executor check log ==
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t006-scanners/apps/web
+
+
+ Test Files  4 passed (4)
+      Tests  45 passed | 4 skipped (49)
+   Start at  05:36:14
+   Duration  100ms (transform 39%, tests 36%, import 19%, worker 6%)
+
+3
+
+== orchestrator re-run ==
+FROZEN-OK
+S2-OK (incl. motion-literal-scanner.ts unchanged)
+4 scanner files -> Test Files 4 passed; Tests 45 passed | 4 skipped (playground non-vacuity, skipIf until T007)
+packages/xploder test:       Tests  106 passed (106)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  45 passed | 6 skipped (51)
+
+== orchestrator bite run: planted OrbitControls import + '#ff0000' in xploder/src/engine and a useFrame/@react-three import in apps/web/app ==
+exit=1
+ FAIL  test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals
+ FAIL  test/no-free-orbit.test.ts > free-orbit scanner > apps/web and xploder source contain no free-orbit controls
+ FAIL  test/package-consumer.test.ts > package-consumer scanner > apps/web/app imports xploder only through exported public subpaths
+<repo>/apps/web/app/__bite.ts:1 engine-identifier import { useFrame } from '@react-three/fiber';
+<repo>/apps/web/app/__bite.ts:2 engine-identifier export const u = useFrame;: expected [ { …(4) }, { …(4) }, { …(4) } ] to deeply equal []
+<repo>/packages/xploder/src/engine/__bite.ts:1 forbidden-identifier import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+<repo>/packages/xploder/src/engine/__bite.ts:1 forbidden-identifier import { OrbitControls } from 'three/addons/controls/OrbitControls.js';: expected [ { …(4) }, { …(4) }, { …(4) } ] to deeply equal []
+AssertionError: <repo>/apps/web/app/__bite.ts:1 forbidden-import import { useFrame } from '@react-three/fiber';
+AssertionError: <repo>/packages/xploder/src/engine/__bite.ts:1 forbidden-import import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+AssertionError: <repo>/packages/xploder/src/engine/__bite.ts:2 hex-color export const c = '#ff0000';: expected [ { …(4) } ] to deeply equal []
+planted files removed: BITE-CLEAN
