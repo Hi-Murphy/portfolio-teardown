@@ -1,0 +1,19 @@
+== PR #3 at d9e4d0f, ruleset 26115910 active (main, admin bypass)
+== gh pr checks 3 --required
+build (typecheck, lint, test, build)	pass	32s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988293/job/123407269785	
+perf-gate: lighthouse (mobile)	pass	1m4s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988225/job/123407270089	
+perf-gate: weight (< 3 MB)	pass	1m23s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988225/job/123407270053	
+secrets (gitleaks)	pass	7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988293/job/123407269312	
+
+== gh pr checks 3 (all)
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/EHnJYbEYbNLFV9yLm7LWrJBtcuov	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	32s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988293/job/123407269785	
+perf-gate: lighthouse (mobile)	pass	1m4s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988225/job/123407270089	
+perf-gate: weight (< 3 MB)	pass	1m23s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988225/job/123407270053	
+perf: fixture exclusion	pass	25s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988225/job/123407269825	
+perf: fps calibration	pass	58s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988225/job/123407270275	
+secrets (gitleaks)	pass	7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40861988293/job/123407269312	
+
+mergeStateStatus: CLEAN
+Note: checks-page screenshot replaced by gh pr checks text.

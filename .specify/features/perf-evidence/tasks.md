@@ -20,8 +20,8 @@
 | T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-fps.{txt,json} | 5b9e174 |
 | T011 | ☑ | 1 (Flash) + orchestrator 1-line review fix, push | evidence/T011-{ci.txt,fps-ci.json} | 9e8b84b |
 | T012 | ☑ | 1 (Flash) | evidence/T012-docs.txt | 2a574bb |
-| T013 | ☐ | | | |
-| T014 | ☐ | | | |
+| T013 | ☑ | ⚑ orchestrator (granted at G4) | evidence/T013-{ruleset.json,ci.txt} | d9e4d0f (CI head) |
+| T014 | ☑ | orchestrator (end-contract) | evidence/AC-selfcheck.md | (this commit) |
 
 Resume prompt for a fresh session: *"Read `.specify/KICKOFF-S03.md` and `.specify/features/perf-evidence/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."*
 
