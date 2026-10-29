@@ -28,6 +28,8 @@ jobs:
       - run: pnpm lint
       - run: pnpm test
       - run: pnpm build
+      - name: Fixture exclusion
+        run: pnpm --filter web exec vitest run test/fixture-exclusion.test.ts
 
   secrets:
     name: secrets (gitleaks)
