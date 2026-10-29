@@ -1,0 +1,22 @@
+G2 follow-up — Murphy feedback 'Reset Zoom is not working' · orchestrator (systematic debugging) · 2026-10-29T23:19:42Z
+
+== Reproduction before the fix ==
+Orca tab (dev server, fixture B, dpr 1), clicks via page eval with waits:
+  before: zoom=1 | 2x zoom-in: zoom=1.5625 (frame rendered) | reset: zoom=1 (frame rendered) | zoom-out at default: zoom=1 (no frame) | reset at default: zoom=1 (no frame)
+Headless (dpr 2), 10 sequences incl. after rotation, while exploded, mid-turn, fixture B: reset always returned zoom=1 and the viewer image matched the pre-zoom image byte-for-byte.
+
+Root cause: the default view is also the minimum zoom (1 x fit, RFC round-1 revision), so Zoom out and Reset were silent no-ops at the default view; 'Zoom out, then Reset' changes nothing and reads as a broken Reset.
+
+Fix (Murphy chose 'Disable at limits'; bounds unchanged): zoomAvailability(rig) in src/engine/camera.ts (a control is available exactly when pressing it changes the zoom — property-tested against the reducer over 5,000 random states), exposed as viewer.can on the xploder/react handle; the playground sets disabled on Zoom out / Reset zoom / Zoom in.
+
+== Tests ==
+packages/xploder test:       Tests  109 passed (109)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+FROZEN-OK / S2-OK
+
+== Browser verification after the fix (dev server, headless) ==
+default              {"zoom":"1","outDisabled":true,"resetDisabled":true,"inDisabled":false}
+after zoom-in        {"zoom":"1.25","outDisabled":false,"resetDisabled":false,"inDisabled":false}
+after reset          {"zoom":"1","outDisabled":true,"resetDisabled":true,"inDisabled":false}
+at max               {"zoom":"3","outDisabled":false,"resetDisabled":false,"inDisabled":true}

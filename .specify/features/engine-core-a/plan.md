@@ -188,6 +188,8 @@ export function createTurnTween(tokens: MotionTokens): {             // displaye
 export interface TeardownViewerHandle {
   readonly target: 'imploded' | 'exploded';
   readonly rig: RigState;
+  readonly azimuthDegrees: number;              // target azimuth, normalised to [0, 360) (G2 review fix: no app-side angle math)
+  readonly can: { zoomIn: boolean; zoomOut: boolean; zoomReset: boolean };  // zoomAvailability(rig): true exactly when the action changes the zoom (G2 feedback fix)
   readonly actions: {
     toggle(): void; explode(): void; implode(): void;
     rotateLeft(): void; rotateRight(): void; zoomIn(): void; zoomOut(): void; zoomReset(): void;
@@ -271,7 +273,8 @@ pnpm engine:probe <url> [--out <dir>]        exit 0 all checks pass · 2 usage �
   writes engine-probe.json + screenshot-*.png:
   { kind:'engine-probe', version:1, url, chromium,
     fixtures: { a: { instances:{layers,components}, drawCalls }, b: { … } },
-    camera: { defaultAzimuth, afterButtonRight, afterArrowRight, zoomAfter20In, zoomAfter20Out, zoomAfterReset },
+    camera: { defaultAzimuth, afterButtonRight, afterArrowRight, zoomAfter20In, zoomAfter20Out, zoomAfterReset,
+              disabledAtDefault: { zoomOut, zoomReset }, disabledAtMax: { zoomIn } },   // zoom loops use the + / - keys (disabled buttons can't be clicked)
     motion: { explode: { phases:[…], settledMs }, implode: { phases:[…], settledMs } },
     reducedMotion: { initialState, afterToggle: { phases:[…], framesIn1s }, afterToggleBack: { … } },
     checks: [{ name, pass, expected, actual }], pass }
