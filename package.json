@@ -19,6 +19,8 @@
     "perf:weight": "node tools/perf/src/cli/weight-gate.ts",
     "fps": "node tools/perf/src/cli/fps.ts",
     "fps:calibrate": "node tools/perf/src/cli/fps-calibrate.ts",
+    "engine:probe": "node tools/perf/src/cli/engine-probe.ts",
+    "fps:engine": "node tools/perf/src/cli/fps-engine.ts",
     "serve:out": "node tools/perf/src/cli/serve.ts",
     "build:fixtures": "PERF_FIXTURES=1 pnpm --filter web build"
   },
