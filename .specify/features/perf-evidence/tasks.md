@@ -15,7 +15,7 @@
 | T005 | ☑ | 1 (Flash, sandbox off) | evidence/T005-{evidence.txt,screenshot-*.png,meta.json} | c828c57 |
 | T006 | ☑ | 1 (Flash, sandbox off) | evidence/T006-preview.txt | ab4b7e0 |
 | T007 | ☑ | 1 (Flash) + ⚑ orchestrator push/PR | evidence/T007-{ci.txt,lighthouse-summary.json,weight.json} | 45fe8d6 |
-| T008 | ☐ | | | |
+| T008 | ☑ | ⚑ orchestrator (scratch PR #4, by design) | evidence/T008-violation-{A,B}.txt | n/a (scratch, closed) |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
