@@ -1,6 +1,6 @@
 # RFC — S03 Perf Gates + Evidence Loop
 
-**slice:** S03-perf-evidence · **status:** DRAFT for Murphy review (Stage 1 gate) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-03-perf-evidence.md` (frozen brief v1) · **branch:** `task/s03-perf-evidence` · **date:** 2026-10-29
+**slice:** S03-perf-evidence · **status:** APPROVED 2026-10-29, decisions recorded in §9 (Stage 1 gate) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-03-perf-evidence.md` (frozen brief v1) · **branch:** `task/s03-perf-evidence` · **date:** 2026-10-29
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins and the conflict should be raised as an open question.
 
@@ -326,3 +326,14 @@ Evidence: `pnpm evidence <url>` → Playwright Chromium → screenshots + LH run
 3. Permission for the agent to create the `main` ruleset (4 required checks, admin bypass) with `gh api` at T13 (default: granted at the G4 gate; alternatively you click it in Settings → Rules).
 4. Permission to push `task/s03-perf-evidence`, open a draft PR at T7, and push/close the scratch PR `test/s03-gate-violation` at T8 (default: granted when you approve G1).
 5. Who merges S03 to `main`, and when (needed for the AC4 prod-URL row) (default: you merge after your final validation; the `fixture exclusion` job's main-push log is the evidence).
+
+---
+
+## 9. Decisions recorded (Murphy, 2026-10-29)
+
+1. §6 open questions 1–15: **all recommended defaults accepted.**
+2. Dependencies `lighthouse@^13.6` and `playwright@^1.64` (in `tools/perf` only): **approved.**
+3. `main` ruleset (4 required checks, admin bypass) via `gh api`: **granted at the G4 gate.**
+4. Push `task/s03-perf-evidence`, draft PR at T7, scratch PR `test/s03-gate-violation` at T8: **granted at the G1 gate.**
+5. Merge: **Murphy merges after the orchestrator's final validation**, unless Murphy asks the orchestrator to merge. AC4's prod-URL row is filled from the `perf: fixture exclusion` main-push log after that merge.
+6. Usage pacing (session decision): each Stage 3 group should start in a fresh 5h window. Before every task the orchestrator checks usage. At ≥ 85% of the 5h window it starts no new task: it finishes and commits the current one, updates `tasks.md`, reports and stops. Murphy states "5h: N%" in each gate message because the local usage capture is stale.
