@@ -314,7 +314,7 @@ usePrefersReducedMotion(): boolean
 ## 9. Decisions recorded (Murphy, 2026-10-29, round 1)
 
 1. **E1 → literal reading `fps ≥ 60.00`.** The orchestrator measured it (`evidence/E1-fps-literal-probe.txt`): blocked by construction (headless cadence 59.986 Hz). Escalated to Merlin via Hermes → home Discord channel, as Murphy authorised. AC4 is unchanged in this RFC.
-2. Open questions 1–13: defaults accepted. Murphy then asked the orchestrator to challenge them, and **six defaults were revised** (need confirmation):
+2. Open questions 1–13: defaults accepted. Murphy then asked the orchestrator to challenge them, and **six defaults were revised: confirmed by Murphy (round 2, 2026-10-29)**:
    1. Q4: no jsdom. Pure env-injected adapters + real-browser coverage via `engine:probe` (D9).
    2. Q6: animated 90° turn on the `implode` tokens instead of an instant cut (D6).
    3. Q7: zoom lower bound `1 × fit` instead of `0.75 × fit`; canvas `touch-action: pan-y pinch-zoom` (D6).
@@ -325,3 +325,4 @@ usePrefersReducedMotion(): boolean
 3. Dependencies (Q2, minus `jsdom`): **approved.**
 4. Push `task/s04-engine-core-a` and open a draft PR: **granted.**
 5. Usage at this gate: 5h 56% (Murphy).
+6. **E1 record format (round 2):** Merlin's decision counts as recorded when it exists as a repo artifact the orchestrator can cite. For R1/R2 that's a revised brief committed by Merlin (the brief is frozen to the orchestrator). For R3 it's Murphy relaying Merlin's answer, which is then quoted in this section. Until then, FR-004 carries AC4 verbatim, flagged *blocked pending Merlin*.
