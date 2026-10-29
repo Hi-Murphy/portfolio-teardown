@@ -1,0 +1,223 @@
+{
+  "kind": "engine-probe",
+  "version": 1,
+  "url": "http://127.0.0.1:4199/",
+  "chromium": "156.0.8078.4",
+  "fixtures": {
+    "a": {
+      "instances": {
+        "layers": 4,
+        "components": 8
+      },
+      "drawCalls": 2
+    },
+    "b": {
+      "instances": {
+        "layers": 4,
+        "components": 5
+      },
+      "drawCalls": 2
+    }
+  },
+  "camera": {
+    "defaultAzimuth": 45,
+    "afterButtonRight": 135,
+    "afterArrowRight": 225,
+    "zoomAfter20In": 3,
+    "zoomAfter20Out": 1,
+    "zoomAfterReset": 1,
+    "disabledAtDefault": {
+      "zoomOut": true,
+      "zoomReset": true
+    },
+    "disabledAtMax": {
+      "zoomIn": true
+    }
+  },
+  "motion": {
+    "explode": {
+      "phases": [
+        "exploding",
+        "exploded"
+      ],
+      "settledMs": 1112.8
+    },
+    "implode": {
+      "phases": [
+        "imploding",
+        "imploded"
+      ],
+      "settledMs": 756.3
+    }
+  },
+  "reducedMotion": {
+    "initialState": "exploded",
+    "afterToggle": {
+      "phases": [
+        "imploded"
+      ],
+      "framesIn1s": 1
+    },
+    "afterToggleBack": {
+      "phases": [
+        "exploded"
+      ],
+      "framesIn1s": 1
+    }
+  },
+  "checks": [
+    {
+      "name": "fixture-a-instances",
+      "pass": true,
+      "expected": {
+        "layers": 4,
+        "components": 8
+      },
+      "actual": {
+        "layers": 4,
+        "components": 8
+      }
+    },
+    {
+      "name": "fixture-a-draw-calls",
+      "pass": true,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "fixture-b-instances",
+      "pass": true,
+      "expected": {
+        "layers": 4,
+        "components": 5
+      },
+      "actual": {
+        "layers": 4,
+        "components": 5
+      }
+    },
+    {
+      "name": "fixture-b-draw-calls",
+      "pass": true,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "camera-default-azimuth",
+      "pass": true,
+      "expected": 45,
+      "actual": 45
+    },
+    {
+      "name": "camera-after-button-right",
+      "pass": true,
+      "expected": 135,
+      "actual": 135
+    },
+    {
+      "name": "camera-after-arrow-right",
+      "pass": true,
+      "expected": 225,
+      "actual": 225
+    },
+    {
+      "name": "camera-zoom-after-20-in",
+      "pass": true,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "camera-zoom-after-20-out",
+      "pass": true,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "camera-zoom-after-reset",
+      "pass": true,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "camera-zoom-out-disabled-at-default",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "camera-zoom-reset-disabled-at-default",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "camera-zoom-in-disabled-at-max",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "motion-explode-phases",
+      "pass": true,
+      "expected": [
+        "exploding",
+        "exploded"
+      ],
+      "actual": [
+        "exploding",
+        "exploded"
+      ]
+    },
+    {
+      "name": "motion-implode-phases",
+      "pass": true,
+      "expected": [
+        "imploding",
+        "imploded"
+      ],
+      "actual": [
+        "imploding",
+        "imploded"
+      ]
+    },
+    {
+      "name": "reduced-motion-initial-state",
+      "pass": true,
+      "expected": "exploded",
+      "actual": "exploded"
+    },
+    {
+      "name": "reduced-motion-toggle-phases",
+      "pass": true,
+      "expected": [
+        "imploded"
+      ],
+      "actual": [
+        "imploded"
+      ]
+    },
+    {
+      "name": "reduced-motion-toggle-frames",
+      "pass": true,
+      "expected": "<= 2",
+      "actual": 1
+    },
+    {
+      "name": "reduced-motion-toggle-back-phases",
+      "pass": true,
+      "expected": [
+        "exploded"
+      ],
+      "actual": [
+        "exploded"
+      ]
+    },
+    {
+      "name": "reduced-motion-toggle-back-frames",
+      "pass": true,
+      "expected": "<= 2",
+      "actual": 1
+    }
+  ],
+  "pass": true
+}
