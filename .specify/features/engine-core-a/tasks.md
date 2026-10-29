@@ -9,7 +9,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
+| T001 | ☑ | 1 (Flash, sandbox off) | evidence/T001-surface.txt | efbf1e7 |
 | T002 | ☐ | | | |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
