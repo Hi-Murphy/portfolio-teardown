@@ -1,0 +1,25 @@
+$ pnpm --filter xploder exec vitest run fixtures generality --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t005/packages/xploder
+
+ ✓ test/generality.test.ts > exports the v1 project schema fingerprint 3ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > parses as a UI-centric project with the seed registry 1ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > uses at least six distinct registry tech ids 0ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > exercises component links, kinds, statuses, metrics, and story metrics 1ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > includes a live update flow of at least four hops 0ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  11:12:37
+   Duration  95ms (import 75%, transform 12%, tests 8%, worker 4%)
+
+$ test -f packages/xploder/test/__snapshots__/generality.test.ts.snap
+present
+$ CI=1 pnpm --filter xploder test
+ Test Files  6 passed (6)
+      Tests  26 passed (26)
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+FROZEN-OK
+T005-OK

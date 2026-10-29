@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "slug": "tidewatch",
+    "name": "Tidewatch",
+    "tagline": "The next tide, at a glance.",
+    "summary": "A fictional Android app for watching live and cached tide charts along the coast.",
+    "year": 2026,
+    "role": "Product design and Android development",
+    "tags": ["Android", "tides", "charts"],
+    "links": [
+      {
+        "label": "Project site",
+        "url": "https://example.com/tidewatch"
+      }
+    ]
+  },
+  "story": {
+    "headline": "Tide charts that stay useful away from the signal.",
+    "problem": "Coastal walks often start beyond reliable mobile coverage, where a chart that only works online is no help.",
+    "approach": "Keep a recent tide window on the phone, refresh it when a live feed is available, and present both paths in one clear chart.",
+    "outcome": "A small Android app that switches between fresh readings and a saved forecast without interrupting the view.",
+    "metrics": [
+      {
+        "label": "Saved forecast",
+        "value": "30 days"
+      },
+      {
+        "label": "Live refresh",
+        "value": "every 5 min"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "id": "ui",
+      "name": "Interface",
+      "description": "The screens and the person using them.",
+      "components": [
+        {
+          "id": "beachgoer",
+          "name": "Beachgoer",
+          "summary": "A person checking the next high tide.",
+          "description": "Chooses a nearby beach, opens its chart, and reads the tide curve.",
+          "kind": "actor",
+          "status": "shipped"
+        },
+        {
+          "id": "tide-chart-screen",
+          "name": "Tide Chart Screen",
+          "summary": "The main chart and its live-or-saved state.",
+          "description": "Draws the tide curve, highlights the next high and low water, and shows whether the reading is live.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": ["kotlin", "android", "jetpack-compose"]
+        },
+        {
+          "id": "forecast-details-panel",
+          "name": "Forecast Details Panel",
+          "summary": "A compact view of the selected day's tide events.",
+          "description": "Lists high and low water times beneath the chart when the reader expands the selected day.",
+          "kind": "module",
+          "status": "planned",
+          "techs": ["kotlin", "jetpack-compose"],
+          "metrics": [
+            {
+              "label": "Events shown",
+              "value": "4 per day"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "name": "View state",
+      "description": "The chart state the interface observes.",
+      "components": [
+        {
+          "id": "tide-view-model",
+          "name": "Tide View Model",
+          "summary": "Combines the selected beach with the latest tide series.",
+          "description": "Exposes one chart state and refreshes it when a live reading or saved forecast arrives.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": ["kotlin", "coroutines"],
+          "metrics": [
+            {
+              "label": "Chart states",
+              "value": "live, saved, refreshing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Tide data",
+      "description": "The paths that fetch and retain tide readings.",
+      "components": [
+        {
+          "id": "tide-repository",
+          "name": "Tide Repository",
+          "summary": "Chooses between a live reading and the saved forecast.",
+          "description": "Keeps the live reading and the phone's stored forecast in step so the chart always has something useful to show.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": ["kotlin", "coroutines", "kotlinx-serialization"],
+          "links": [
+            {
+              "label": "Data notes",
+              "url": "https://example.com/tidewatch/data-notes"
+            }
+          ],
+          "metrics": [
+            {
+              "label": "Saved window",
+              "value": "30 days"
+            }
+          ]
+        },
+        {
+          "id": "live-tide-client",
+          "name": "Live Tide Client",
+          "summary": "Keeps the current tide reading in step.",
+          "description": "Receives tide updates and hands each new series to the repository.",
+          "kind": "service",
+          "status": "wip",
+          "techs": ["kotlin", "okhttp", "websocket", "coroutines"],
+          "metrics": [
+            {
+              "label": "Update cadence",
+              "value": "5 min"
+            }
+          ]
+        },
+        {
+          "id": "tide-cache",
+          "name": "Tide Cache",
+          "summary": "The saved forecast kept on the phone.",
+          "description": "Retains recent tide series for beaches the reader has opened.",
+          "kind": "store",
+          "status": "wip",
+          "techs": ["kotlin", "room"],
+          "metrics": [
+            {
+              "label": "Cached beaches",
+              "value": "12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "name": "External boundary",
+      "description": "The public source of tide observations.",
+      "components": [
+        {
+          "id": "tide-feed",
+          "name": "Tide Feed",
+          "summary": "A public feed of coastal tide readings.",
+          "description": "Publishes fictional water-level observations for the beaches shown in the app.",
+          "kind": "external",
+          "status": "shipped",
+          "techs": ["kotlinx-serialization"],
+          "links": [
+            {
+              "label": "Feed overview",
+              "url": "https://example.com/tidewatch/tide-feed"
+            }
+          ],
+          "metrics": [
+            {
+              "label": "Reading interval",
+              "value": "1 min"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "live-update",
+      "label": "Live update",
+      "description": "A new tide reading travels from the public feed to the chart.",
+      "path": [
+        "beachgoer",
+        "tide-chart-screen",
+        "tide-view-model",
+        "tide-repository",
+        "live-tide-client",
+        "tide-feed"
+      ]
+    },
+    {
+      "id": "offline-read",
+      "label": "Saved forecast",
+      "description": "A reader opens the saved tide curve when the live feed is unavailable.",
+      "path": ["beachgoer", "tide-chart-screen", "tide-view-model", "tide-repository", "tide-cache"]
+    }
+  ]
+}
