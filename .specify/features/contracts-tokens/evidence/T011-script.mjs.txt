@@ -1,0 +1,177 @@
+import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
+import { chromium } from 'playwright';
+
+const baseUrl = 'http://127.0.0.1:4174';
+const evidenceDir = '/tmp/s02-wt/t011/.specify/features/contracts-tokens/evidence';
+const viewport = { width: 390, height: 844 };
+const diagnostics = [];
+
+await mkdir(evidenceDir, { recursive: true });
+
+function watch(page, name) {
+  page.on('console', (message) => {
+    if (message.type() === 'error' || message.type() === 'warning') {
+      diagnostics.push({
+        scenario: name,
+        type: message.type(),
+        text: message.text(),
+      });
+    }
+  });
+  page.on('pageerror', (error) => {
+    diagnostics.push({ scenario: name, type: 'pageerror', text: error.message });
+  });
+}
+
+async function scenario(colorScheme, options, run) {
+  const browser = await chromium.launch({ headless: true, args: ['--single-process'] });
+  try {
+    const context = await browser.newContext({ colorScheme, viewport, ...options });
+    await run(context);
+  } finally {
+    await browser.close();
+  }
+}
+
+async function networkChipColor(page) {
+  const label = page.getByText('network', { exact: true });
+  assert.equal(await label.count(), 1);
+  const dot = label.locator('xpath=..').locator('span[aria-hidden="true"]');
+  assert.equal(await dot.count(), 1);
+  return dot.evaluate((element) => getComputedStyle(element).backgroundColor);
+}
+
+try {
+  await scenario('dark', {}, async (context) => {
+    await context.route('**/_next/static/**/*.js', (route) => route.abort());
+    const page = await context.newPage();
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    const htmlClass = await page.locator('html').getAttribute('class');
+    assert.match(htmlClass ?? '', /(?:^|\s)dark(?:\s|$)/);
+    const bodyBackground = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    assert.notEqual(bodyBackground, 'rgb(255, 255, 255)');
+    await page.screenshot({ path: `${evidenceDir}/T011-dark-nohydrate.png` });
+    console.log(`PASS (a) dark OS, hydration blocked (body background: ${bodyBackground})`);
+  });
+
+  await scenario('dark', { javaScriptEnabled: false }, async (context) => {
+    const page = await context.newPage();
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    const htmlBackground = await page.evaluate(
+      () => getComputedStyle(document.documentElement).backgroundColor,
+    );
+    assert.notEqual(htmlBackground, 'rgb(255, 255, 255)');
+    await page.screenshot({ path: `${evidenceDir}/T011-dark-nojs.png` });
+    console.log(`PASS (b) dark OS, JavaScript disabled (html background: ${htmlBackground})`);
+  });
+
+  await scenario('light', {}, async (context) => {
+    const page = await context.newPage();
+    watch(page, 'c');
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    await page.getByRole('button', { name: 'Switch to dark theme' }).waitFor();
+    assert.equal(await page.locator('html').evaluate((html) => html.classList.contains('dark')), false);
+    await page.screenshot({ path: `${evidenceDir}/T011-light.png` });
+    console.log('PASS (c) light OS resolves to light theme');
+  });
+
+  await scenario('light', {}, async (context) => {
+    const page = await context.newPage();
+    watch(page, 'd');
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+    assert.equal(await page.locator('html').evaluate((html) => html.classList.contains('dark')), true);
+    assert.equal(await page.evaluate(() => localStorage.getItem('theme')), 'dark');
+    await page.screenshot({ path: `${evidenceDir}/T011-dark-toggled.png` });
+
+    await page.reload({ waitUntil: 'load' });
+    assert.equal(await page.locator('html').evaluate((html) => html.classList.contains('dark')), true);
+    await page.getByRole('button', { name: 'Switch to light theme' }).click();
+    assert.equal(await page.evaluate(() => localStorage.getItem('theme')), null);
+
+    await page.reload({ waitUntil: 'load' });
+    await page.getByRole('button', { name: 'Switch to dark theme' }).waitFor();
+    assert.equal(await page.locator('html').evaluate((html) => html.classList.contains('dark')), false);
+    console.log('PASS (d) toggle persists against OS and clears when it matches OS');
+  });
+
+  await scenario('dark', {}, async (context) => {
+    const page = await context.newPage();
+    watch(page, 'e');
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    await page.reload({ waitUntil: 'load' });
+    await page.getByRole('button', { name: 'Switch to light theme' }).waitFor();
+    assert.equal(await page.locator('html').evaluate((html) => html.classList.contains('dark')), true);
+    console.log('PASS (e) dark OS preference honored after hard reload');
+  });
+
+  const errors = diagnostics.filter((item) => item.type === 'error' || item.type === 'pageerror');
+  const hydrationWarnings = diagnostics.filter(
+    (item) => item.type === 'warning' && /hydration/i.test(item.text),
+  );
+  assert.deepEqual(errors, []);
+  assert.deepEqual(hydrationWarnings, []);
+  console.log('PASS (f) no console errors, page errors, or hydration warnings');
+
+  await scenario('light', {}, async (context) => {
+    const page = await context.newPage();
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    await page.getByRole('button', { name: 'Switch to dark theme' }).waitFor();
+    const bodyBackground = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    assert.equal(bodyBackground, 'rgb(246, 243, 234)');
+    await page.screenshot({ path: `${evidenceDir}/T011-light.png` });
+    console.log(`PASS (g) light OS body background is ${bodyBackground}`);
+  });
+
+  await scenario('light', {}, async (context) => {
+    const page = await context.newPage();
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    await page.getByRole('button', { name: 'Switch to dark theme' }).waitFor();
+    assert.equal(
+      await page.evaluate(() => getComputedStyle(document.body).backgroundColor),
+      'rgb(246, 243, 234)',
+    );
+    assert.equal(await networkChipColor(page), 'rgb(10, 110, 135)');
+
+    await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+    const darkBodyBackground = await page.evaluate(
+      () => getComputedStyle(document.body).backgroundColor,
+    );
+    const darkNetworkColor = await networkChipColor(page);
+    assert.equal(darkBodyBackground, 'rgb(11, 26, 46)');
+    assert.equal(darkNetworkColor, 'rgb(94, 211, 238)');
+    await page.screenshot({ path: `${evidenceDir}/T011-dark-toggled.png` });
+    console.log(
+      `PASS (h) toggle applied dark body ${darkBodyBackground} and network ${darkNetworkColor}`,
+    );
+
+    await page.getByRole('button', { name: 'Switch to light theme' }).click();
+    const restoredBodyBackground = await page.evaluate(
+      () => getComputedStyle(document.body).backgroundColor,
+    );
+    const restoredNetworkColor = await networkChipColor(page);
+    assert.equal(restoredBodyBackground, 'rgb(246, 243, 234)');
+    assert.equal(restoredNetworkColor, 'rgb(10, 110, 135)');
+    console.log(
+      `PASS (h) second toggle restored body ${restoredBodyBackground} and network ${restoredNetworkColor}`,
+    );
+  });
+
+  await scenario('dark', { javaScriptEnabled: false }, async (context) => {
+    const page = await context.newPage();
+    await page.goto(baseUrl, { waitUntil: 'load' });
+    const htmlBackground = await page.evaluate(
+      () => getComputedStyle(document.documentElement).backgroundColor,
+    );
+    assert.equal(htmlBackground, 'rgb(11, 26, 46)');
+    console.log(`PASS (i) dark OS without JavaScript uses navy html background ${htmlBackground}`);
+  });
+
+  console.log('T011-OK');
+} catch (error) {
+  console.error('T011-FAIL');
+  console.error(error);
+  console.error('Diagnostics:', JSON.stringify(diagnostics, null, 2));
+  process.exitCode = 1;
+}

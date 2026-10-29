@@ -1,0 +1,17 @@
+== T011 theme flip + no-flash (AC5), Playwright 1.64.1 against static out/ served at 127.0.0.1:4174 ==
+(a)-(f) are the S01 T005 checks with only screenshot filenames changed (verified by diff against /tmp/s01-checks/t005.mjs); (g)-(i) are new palette checks.
+$ node /tmp/s02-checks/t011.mjs   (orchestrator re-run)
+PASS (a) dark OS, hydration blocked (body background: rgb(11, 26, 46))
+PASS (b) dark OS, JavaScript disabled (html background: rgb(11, 26, 46))
+PASS (c) light OS resolves to light theme
+PASS (d) toggle persists against OS and clears when it matches OS
+PASS (e) dark OS preference honored after hard reload
+PASS (f) no console errors, page errors, or hydration warnings
+PASS (g) light OS body background is rgb(246, 243, 234)
+PASS (h) toggle applied dark body rgb(11, 26, 46) and network rgb(94, 211, 238)
+PASS (h) second toggle restored body rgb(246, 243, 234) and network rgb(10, 110, 135)
+PASS (i) dark OS without JavaScript uses navy html background rgb(11, 26, 46)
+T011-OK
+
+Screenshots: T011-light.png (g), T011-dark-toggled.png (h), T011-dark-nohydrate.png (a), T011-dark-nojs.png (b/i)
+FROZEN-OK

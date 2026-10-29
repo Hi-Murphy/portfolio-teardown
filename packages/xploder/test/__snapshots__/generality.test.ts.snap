@@ -1,0 +1,318 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`exports the v1 project schema fingerprint > project-schema-v1 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "flows": {
+      "default": [],
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string",
+          },
+          "id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "type": "string",
+          },
+          "label": {
+            "maxLength": 120,
+            "minLength": 1,
+            "type": "string",
+          },
+          "path": {
+            "items": {
+              "maxLength": 64,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string",
+            },
+            "minItems": 2,
+            "type": "array",
+          },
+        },
+        "required": [
+          "path",
+        ],
+        "type": "object",
+      },
+      "type": "array",
+    },
+    "layers": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "components": {
+            "default": [],
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "maxLength": 2000,
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "id": {
+                  "maxLength": 64,
+                  "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+                  "type": "string",
+                },
+                "kind": {
+                  "default": "module",
+                  "enum": [
+                    "module",
+                    "service",
+                    "store",
+                    "external",
+                    "actor",
+                  ],
+                  "type": "string",
+                },
+                "links": {
+                  "default": [],
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "label": {
+                        "maxLength": 120,
+                        "minLength": 1,
+                        "type": "string",
+                      },
+                      "url": {
+                        "format": "uri",
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "label",
+                      "url",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+                "metrics": {
+                  "default": [],
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "label": {
+                        "maxLength": 120,
+                        "minLength": 1,
+                        "type": "string",
+                      },
+                      "value": {
+                        "maxLength": 120,
+                        "minLength": 1,
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "label",
+                      "value",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+                "name": {
+                  "maxLength": 120,
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "status": {
+                  "default": "shipped",
+                  "enum": [
+                    "shipped",
+                    "wip",
+                    "planned",
+                  ],
+                  "type": "string",
+                },
+                "summary": {
+                  "maxLength": 120,
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "techs": {
+                  "default": [],
+                  "items": {
+                    "maxLength": 64,
+                    "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+                    "type": "string",
+                  },
+                  "type": "array",
+                },
+              },
+              "required": [
+                "id",
+                "name",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
+          "description": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string",
+          },
+          "id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "type": "string",
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "name",
+        ],
+        "type": "object",
+      },
+      "minItems": 1,
+      "type": "array",
+    },
+    "meta": {
+      "additionalProperties": false,
+      "properties": {
+        "links": {
+          "default": [],
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "maxLength": 120,
+                "minLength": 1,
+                "type": "string",
+              },
+              "url": {
+                "format": "uri",
+                "type": "string",
+              },
+            },
+            "required": [
+              "label",
+              "url",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "type": "string",
+        },
+        "role": {
+          "maxLength": 120,
+          "minLength": 1,
+          "type": "string",
+        },
+        "slug": {
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "type": "string",
+        },
+        "summary": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "type": "string",
+        },
+        "tagline": {
+          "maxLength": 120,
+          "minLength": 1,
+          "type": "string",
+        },
+        "tags": {
+          "items": {
+            "maxLength": 120,
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "year": {
+          "maximum": 9007199254740991,
+          "minimum": -9007199254740991,
+          "type": "integer",
+        },
+      },
+      "required": [
+        "slug",
+        "name",
+      ],
+      "type": "object",
+    },
+    "schemaVersion": {
+      "const": 1,
+      "type": "number",
+    },
+    "story": {
+      "additionalProperties": false,
+      "default": {},
+      "properties": {
+        "approach": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "type": "string",
+        },
+        "headline": {
+          "maxLength": 120,
+          "minLength": 1,
+          "type": "string",
+        },
+        "metrics": {
+          "default": [],
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "maxLength": 120,
+                "minLength": 1,
+                "type": "string",
+              },
+              "value": {
+                "maxLength": 120,
+                "minLength": 1,
+                "type": "string",
+              },
+            },
+            "required": [
+              "label",
+              "value",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "outcome": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "type": "string",
+        },
+        "problem": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+  },
+  "required": [
+    "schemaVersion",
+    "meta",
+    "layers",
+  ],
+  "type": "object",
+}
+`;

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "techs": [
+    { "id": "kotlin", "label": "Kotlin", "category": "language" },
+    { "id": "typescript", "label": "TypeScript", "category": "language" },
+    { "id": "android", "label": "Android", "category": "platform" },
+    { "id": "nodejs", "label": "Node.js", "category": "platform" },
+    {
+      "id": "jetpack-compose",
+      "label": "Jetpack Compose",
+      "category": "framework"
+    },
+    {
+      "id": "coroutines",
+      "label": "Kotlin Coroutines",
+      "category": "library"
+    },
+    {
+      "id": "kotlinx-serialization",
+      "label": "kotlinx.serialization",
+      "category": "library"
+    },
+    { "id": "hilt", "label": "Hilt", "category": "library" },
+    { "id": "okhttp", "label": "OkHttp", "category": "network" },
+    { "id": "websocket", "label": "WebSocket", "category": "network" },
+    { "id": "room", "label": "Room", "category": "storage" },
+    { "id": "gradle", "label": "Gradle", "category": "tooling" }
+  ]
+}

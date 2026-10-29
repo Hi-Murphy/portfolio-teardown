@@ -1,0 +1,20 @@
+== G1 follow-up (Murphy option C): fixtures loaded via JSON import; node-fs.d.ts shim removed ==
+$ CI=1 pnpm --filter xploder test
+ Test Files  7 passed (7)
+      Tests  34 passed (34)
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+$ git status --short
+ M packages/xploder/test/fixtures.test.ts
+ M packages/xploder/test/generality.test.ts
+ M packages/xploder/test/helpers.ts
+ D packages/xploder/test/node-fs.d.ts
+ M packages/xploder/test/parse.test.ts
+ M packages/xploder/test/registry.test.ts
+?? .specify/features/contracts-tokens/evidence/G1-followup-json-imports.txt
+?? packages/xploder/test/fixtures/index.ts
+$ git diff --stat -- packages/xploder/src packages/xploder/test/__snapshots__ (must be empty)
+[]
+FROZEN-OK
+G1-FOLLOWUP-OK

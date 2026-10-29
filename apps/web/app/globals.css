@@ -1,29 +1,35 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --color-bg: #fafafa;
-  --color-fg: #18181b;
-  --color-muted: #52525b;
-  --color-accent: #2563eb;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-}
-
-.dark {
-  --color-bg: #0a0a0b;
-  --color-fg: #f4f4f5;
-  --color-muted: #a1a1aa;
-  --color-accent: #60a5fa;
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not(.light) {
-    --color-bg: #0a0a0b;
-    --color-fg: #f4f4f5;
-    --color-muted: #a1a1aa;
-    --color-accent: #60a5fa;
-    color-scheme: dark;
-  }
+@theme inline {
+  --color-bg: var(--bp-paper);
+  --color-surface: var(--bp-surface);
+  --color-fg: var(--bp-ink);
+  --color-muted: var(--bp-label);
+  --color-accent: var(--bp-accent);
+  --color-line: var(--bp-line);
+  --color-line-muted: var(--bp-line-muted);
+  --color-grid: var(--bp-grid);
+  --color-steel: var(--bp-steel);
+  --color-tech-language: var(--bp-tech-language);
+  --color-tech-platform: var(--bp-tech-platform);
+  --color-tech-framework: var(--bp-tech-framework);
+  --color-tech-library: var(--bp-tech-library);
+  --color-tech-storage: var(--bp-tech-storage);
+  --color-tech-network: var(--bp-tech-network);
+  --color-tech-tooling: var(--bp-tech-tooling);
+  --color-tech-ai: var(--bp-tech-ai);
+  --default-transition-duration: var(--motion-duration-hover-lift);
+  --default-transition-timing-function: var(--motion-ease-hover);
+  --ease-*: initial;
+  --animate-*: initial;
+  --ease-explode: var(--motion-ease-explode);
+  --ease-implode: var(--motion-ease-implode);
+  --ease-hover: var(--motion-ease-hover);
+  --ease-tour-pulse: var(--motion-ease-tour-pulse);
+  --ease-panel-enter: var(--motion-ease-panel-enter);
+  --ease-panel-exit: var(--motion-ease-panel-exit);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 html {

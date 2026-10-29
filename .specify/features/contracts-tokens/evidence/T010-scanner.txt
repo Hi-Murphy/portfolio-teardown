@@ -1,0 +1,35 @@
+$ pnpm test   (root: xploder + web)
+ Test Files  9 passed (9)
+      Tests  43 passed (43)
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+$ pnpm --filter web exec vitest run --reporter=verbose
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > apps/web contains no motion literals 7ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > xploder source outside motion/ contains no motion literals 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-time catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-easing catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > gsap-ease catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > motion-key catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > tw-utility catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > timer catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: motion.durations.explode 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: transition-duration: var(--motion-duration-hover-lift) 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: className="ease-explode transition-colors" 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: <p>the 1990s</p> 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: { label: 'p95', value: '120 ms' } 0ms
+      Tests  13 passed (13)
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+
+== Planted-literal proof (orchestrator): append a literal transition to globals.css; scanner must FAIL ==
+$ tail -1 apps/web/app/globals.css
+a{transition: color 200ms ease-in}
+$ pnpm --filter web exec vitest run no-motion-literals → exit 1 (expected non-zero)
+apps/web/app/globals.css:40 css-easing a{transition: color 200ms ease-in}
+apps/web/app/globals.css:40 css-time a{transition: color 200ms ease-in}
+$ git diff --stat apps/web/app/globals.css (after revert; must be empty)
+[]
+PLANTED-PROOF-OK
+FROZEN-OK
+T010-OK

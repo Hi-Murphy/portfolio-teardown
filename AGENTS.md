@@ -10,8 +10,8 @@ future open-source release. The design target is a mid-range Android phone on a 
 
 - pnpm 12 workspaces; Node 24 is pinned in `.nvmrc`.
 - `apps/web`: Next.js 16 App Router, `output: 'export'`, Tailwind CSS v4.
-- `packages/xploder`: source-only TypeScript, with exports for `.` and `./motion`. It is consumed
-  through `workspace:*` and Next.js `transpilePackages`.
+- `packages/xploder`: source-only TypeScript, with exports for `.`, `./motion` and `./theme`. It is
+  consumed through `workspace:*` and Next.js `transpilePackages`.
 
 ## 3. Commands
 
@@ -20,6 +20,7 @@ future open-source release. The design target is a mid-range Android phone on a 
 - `pnpm build` — build every workspace package that defines a build.
 - `pnpm typecheck` — typecheck every workspace package.
 - `pnpm lint` — run ESLint and the Prettier check.
+- `pnpm test` — run every workspace package's tests.
 - `pnpm format` — format the repository with Prettier.
 
 ## 4. Process
@@ -34,9 +35,10 @@ future open-source release. The design target is a mid-range Android phone on a 
 ## 5. Motion convention (binding)
 
 `xploder/motion` is the only source of durations, easings, and staggers. Import `motion` (or the
-`durations`, `easings`, and `staggers` token groups) from `'xploder/motion'`; never deep-import
-`xploder/src`. Do not write literal durations, easings, or staggers, or CSS transition timings, in
-application or library code.
+`durations`, `easings`, and `staggers` token groups) from `'xploder/motion'` and palette values from
+`'xploder/theme'`; never deep-import `xploder/src`. Do not write literal durations, easings, or
+staggers, or CSS transition timings, in application or library code. No animation number literal may
+exist outside `packages/xploder/src/motion/`; `apps/web/test/no-motion-literals.test.ts` enforces it.
 
 ## 6. Theme
 

@@ -1,0 +1,9 @@
+== Build-time validation probe (US3): invalid site data module must fail `next build` ==
+Probe: app/_probe.ts = defineProject({schemaVersion:1, meta:{slug:"probe",name:"Probe"}, layers:[]}, {registry, source:"app/_probe.ts"}), imported by page.tsx
+$ pnpm --filter web build  → exit 1 (expected non-zero)
+  [cause]: Error [ProjectValidationError]: Invalid project (app/_probe.ts):
+  ✖ Too small: expected array to have >=1 items
+    → at layers
+probe files removed; working-tree diff hash identical before/after (d54c38e7…)
+Note: first probe run printed "gb: Invalid project" (minified class name). Fixed by explicit error-class names in packages/xploder/src/errors.ts (orchestrator review fix) + test "error classes keep readable names after minification".
+PROBE-OK

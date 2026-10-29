@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "slug": "ledgerline",
+    "name": "Ledgerline",
+    "tagline": "CSV reconciliation runs with a readable audit trail.",
+    "summary": "A fictional command-line harness that reconciles partner CSV exports against ledger entries.",
+    "year": 2026,
+    "role": "Pipeline design and TypeScript implementation",
+    "tags": ["CSV", "reconciliation", "Node.js"],
+    "links": [
+      {
+        "label": "Runbook",
+        "url": "https://example.com/ledgerline/runbook"
+      }
+    ]
+  },
+  "story": {
+    "headline": "Turn two disagreeing CSV exports into one accountable result.",
+    "problem": "Settlement files arrive in different column orders and include entries that the ledger does not recognize.",
+    "approach": "Ingest each export, normalize its columns, validate every row against ledger rules, then retain the matched and unmatched results together.",
+    "outcome": "An operator can rerun a reconciliation and compare its ledger output with the original partner file.",
+    "metrics": [
+      {
+        "label": "Runs retained",
+        "value": "90 days"
+      },
+      {
+        "label": "Batch limit",
+        "value": "50,000 rows"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "id": "ingest",
+      "name": "Ingest",
+      "description": "The boundary where a partner settlement export enters the harness.",
+      "components": [
+        {
+          "id": "partner-csv-drop",
+          "name": "Partner CSV Drop",
+          "summary": "A settlement export supplied by the partner.",
+          "description": "Delivers one CSV export per reconciliation run, including its header row and batch identifier.",
+          "kind": "external",
+          "status": "shipped",
+          "metrics": [
+            {
+              "label": "Accepted format",
+              "value": "UTF-8 CSV"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "normalize",
+      "name": "Normalize",
+      "description": "The stage that maps partner columns into the harness's reconciliation records.",
+      "components": [
+        {
+          "id": "column-normalizer",
+          "name": "Column Normalizer",
+          "summary": "Maps partner headers into stable reconciliation fields.",
+          "description": "Reads the export header, trims values, converts amounts to minor units, and emits one normalized record per row.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": ["typescript", "nodejs"],
+          "metrics": [
+            {
+              "label": "Header profiles",
+              "value": "3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "validate",
+      "name": "Validate",
+      "description": "The stage that checks normalized records against ledger rules.",
+      "components": [
+        {
+          "id": "ledger-validator",
+          "name": "Ledger Validator",
+          "summary": "Separates matched and unmatched reconciliation records.",
+          "description": "Checks required values, duplicate references, and ledger totals, then labels each record as matched or unmatched.",
+          "kind": "service",
+          "status": "wip",
+          "techs": ["typescript", "nodejs"],
+          "metrics": [
+            {
+              "label": "Validation rules",
+              "value": "12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "name": "Report",
+      "description": "The retained result and the person who inspects it.",
+      "components": [
+        {
+          "id": "reconciliation-ledger",
+          "name": "Reconciliation Ledger",
+          "summary": "The retained matched and unmatched results for a run.",
+          "description": "Stores each run with its source batch identifier so a later comparison can trace every result back to the partner export.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": ["typescript", "nodejs"],
+          "links": [
+            {
+              "label": "Ledger format",
+              "url": "https://example.com/ledgerline/ledger-format"
+            }
+          ],
+          "metrics": [
+            {
+              "label": "Retention",
+              "value": "90 days"
+            }
+          ]
+        },
+        {
+          "id": "settlement-operator",
+          "name": "Settlement Operator",
+          "summary": "The person who starts a run and inspects its results.",
+          "description": "Checks unmatched records after a run and keeps the partner export alongside the ledger for the next reconciliation.",
+          "kind": "actor",
+          "status": "shipped"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "nightly-reconciliation",
+      "label": "Nightly reconciliation",
+      "description": "A partner export moves through normalization and validation before its results reach the reconciliation ledger.",
+      "path": ["partner-csv-drop", "column-normalizer", "ledger-validator", "reconciliation-ledger"]
+    }
+  ]
+}

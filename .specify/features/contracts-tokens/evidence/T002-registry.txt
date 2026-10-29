@@ -1,0 +1,20 @@
+$ pnpm --filter xploder exec vitest run registry
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t002/packages/xploder
+
+ ✓ test/registry.test.ts > tech registry > parses the seed registry and defaults okhttp to its category color 2ms
+ ✓ test/registry.test.ts > tech registry > rejects a duplicate id at the duplicate entry 0ms
+ ✓ test/registry.test.ts > tech registry > rejects an unknown category 0ms
+ ✓ test/registry.test.ts > tech registry > rejects a hex color 0ms
+ ✓ test/registry.test.ts > tech registry > defineTechRegistry throws a registry validation error with the path 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  11:07:47
+   Duration  87ms (import 70%, transform 14%, tests 11%, worker 4%)
+
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+FROZEN-OK
+T002-OK
