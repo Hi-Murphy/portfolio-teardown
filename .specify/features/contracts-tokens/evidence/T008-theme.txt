@@ -1,0 +1,86 @@
+$ pnpm --filter xploder exec vitest run theme --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t008/packages/xploder
+
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+ ✓ test/theme.test.ts > blueprint palette > defines every role, category and RFC D8 value in both themes 1ms
+ ✓ test/theme.test.ts > blueprint palette > meets WCAG contrast thresholds on paper and surface 1ms
+ ✓ test/theme.test.ts > blueprint palette > emits the three theme blocks and blueprint variables as CSS 0ms
+ ✓ test/theme.test.ts > blueprint palette > resolves tech and accent colour references against a chosen palette 0ms
+ ✓ test/theme.test.ts > blueprint palette > keeps motion and theme import graphs free of zod 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  11:37:08
+   Duration  71ms (transform 36%, import 35%, tests 21%, worker 8%)
+
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+FROZEN-OK
+
+$ WCAG contrast table, computed from blueprint.ts by a throwaway test (not committed)
+theme  token              hex       vs paper  vs surface
+light  line               #1E4D8C     7.58      8.06
+light  lineMuted          #6F89AE     3.23      3.43
+light  ink                #22262B    13.71     14.58
+light  label              #4A5059     7.33      7.79
+light  accent             #0A6E87     5.27      5.60
+light  steel              #56677A     5.23      5.56
+light  tech-language      #1F5FAD     5.74      6.10
+light  tech-platform      #4A5D73     6.10      6.48
+light  tech-framework     #7A3E9D     6.30      6.70
+light  tech-library       #0F766E     4.93      5.24
+light  tech-storage       #97560F     5.18      5.51
+light  tech-network       #0A6E87     5.27      5.60
+light  tech-tooling       #5A691C     5.45      5.79
+light  tech-ai            #B0336A     5.37      5.70
+dark   line               #8CC4EE     9.36      8.25
+dark   lineMuted          #4E78A3     3.78      3.33
+dark   ink                #E6EDF5    14.81     13.06
+dark   label              #A7B8CB     8.62      7.60
+dark   accent             #4FD0E6     9.57      8.44
+dark   steel              #8FA3B8     6.74      5.94
+dark   tech-language      #7FB2F0     7.93      6.99
+dark   tech-platform      #A3B5C9     8.33      7.35
+dark   tech-framework     #C9A2E8     8.17      7.21
+dark   tech-library       #5FD3C2     9.64      8.50
+dark   tech-storage       #E8B36A     9.23      8.14
+dark   tech-network       #5ED3EE    10.01      8.83
+dark   tech-tooling       #C2CF7A    10.40      9.17
+dark   tech-ai            #F08BB4     7.54      6.65
+T008-OK
