@@ -1,0 +1,10 @@
+== Lighthouse mobile, single sanity run (not an S02 AC; constitution III baseline) ==
+$ CHROME_PATH=<playwright chromium-1248> npx lighthouse http://127.0.0.1:4174/ --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --only-categories=performance,accessibility
+lighthouse 13.6.0 | url http://127.0.0.1:4174/ | formFactor mobile | throttling simulate
+performance 100 | accessibility 100
+  largest-contentful-paint 0.9 s
+  total-blocking-time 30 ms
+  cumulative-layout-shift 0
+  first-contentful-paint 0.9 s
+failing binary audits: []
+Note: local static server (no CDN/compression); the S01 baseline was measured on the Vercel preview.
