@@ -1,0 +1,58 @@
+$ CI=1 pnpm --filter xploder exec vitest run --reporter=verbose   (CI=1: snapshots cannot be written)
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t006/packages/xploder
+
+ ✓ test/smoke.test.ts > exports the package version 1ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > has no banned property name in the input JSON Schema 1ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > closes every object node with additionalProperties: false 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > has no untyped schema nodes 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: flags strict objects containing geometry names 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: flags an open object 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: rejects x on a component at runtime 5ms
+ ✓ test/generality.test.ts > exports the v1 project schema fingerprint 4ms
+ ✓ test/generality.test.ts > fixture B parses as a pipeline with the unchanged registry-backed schema 1ms
+ ✓ test/generality.test.ts > fixture B preserves pipeline layer order through its flow path 0ms
+ ✓ test/registry.test.ts > tech registry > parses the seed registry and defaults okhttp to its category color 4ms
+ ✓ test/registry.test.ts > tech registry > rejects a duplicate id at the duplicate entry 0ms
+ ✓ test/registry.test.ts > tech registry > rejects an unknown category 0ms
+ ✓ test/registry.test.ts > tech registry > rejects a hex color 0ms
+ ✓ test/registry.test.ts > tech registry > defineTechRegistry throws a registry validation error with the path 0ms
+ ✓ test/parse.test.ts > project parsing > NEGATIVE: an unknown tech id is rejected with the seed registry 3ms
+ ✓ test/parse.test.ts > project parsing > accepts the same tech id when no registry is passed 1ms
+ ✓ test/parse.test.ts > project parsing > parseProject throws a ProjectValidationError with the zod cause and issues 1ms
+ ✓ test/parse.test.ts > project parsing > safeParseProject returns a failure without throwing 0ms
+ ✓ test/parse.test.ts > project parsing > defineProject includes the source and issue path in its message 0ms
+ ✓ test/schema.test.ts > project schema > parses a minimal project and applies every documented default 5ms
+ ✓ test/schema.test.ts > project schema > NEGATIVE: missing meta.name is rejected at meta.name 1ms
+ ✓ test/schema.test.ts > project schema > rejects a project without schemaVersion 0ms
+ ✓ test/schema.test.ts > project schema > rejects schemaVersion 2 0ms
+ ✓ test/schema.test.ts > project schema > rejects an empty layers array 0ms
+ ✓ test/schema.test.ts > project schema > rejects a duplicate component id across layers 0ms
+ ✓ test/schema.test.ts > project schema > rejects a flow path with one entry 1ms
+ ✓ test/schema.test.ts > project schema > rejects a flow path naming a missing component 0ms
+ ✓ test/schema.test.ts > project schema > rejects an unknown key on a layer 0ms
+ ✓ test/schema.test.ts > project schema > defaults a flow id to flow-1 0ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > parses as a UI-centric project with the seed registry 1ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > uses at least six distinct registry tech ids 0ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > exercises component links, kinds, statuses, metrics, and story metrics 0ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > includes a live update flow of at least four hops 0ms
+
+ Test Files  7 passed (7)
+      Tests  34 passed (34)
+   Start at  11:14:48
+   Duration  146ms (import 77%, tests 9%, transform 9%, worker 4%)
+
+
+$ git diff --stat b57e21f16c11d29a402befd1ee066c0679d56f95 -- packages/xploder/src packages/xploder/test/__snapshots__   (T005 merge vs working tree; must be empty)
+[]
+$ git status --short packages/xploder/src packages/xploder/test/__snapshots__   (must be empty)
+[]
+$ files changed by T006:
+ M packages/xploder/test/generality.test.ts
+?? .specify/features/contracts-tokens/evidence/T006-generality.txt
+?? packages/xploder/test/fixtures/project-b-pipeline.json
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+FROZEN-OK
+AC7-OK
