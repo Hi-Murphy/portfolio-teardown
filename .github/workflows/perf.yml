@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
 
+env:
+  PRODUCTION_URL: https://portfolio-teardown.vercel.app
+
 permissions:
   contents: read
   statuses: read
@@ -93,3 +96,71 @@ jobs:
           name: perf-weight
           path: .evidence/ci/
           retention-days: 14
+
+  fps-calibration:
+    name: 'perf: fps calibration'
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - name: Calibrate FPS
+        run: pnpm fps:calibrate
+      - name: Upload FPS evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: perf-fps
+          path: .evidence/ci/
+          retention-days: 14
+
+  fixture-exclusion:
+    name: 'perf: fixture exclusion'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Resolve Vercel preview
+        if: github.event_name == 'pull_request'
+        id: preview
+        run: >-
+          node tools/perf/src/cli/resolve-preview.ts
+          --repo "$GITHUB_REPOSITORY"
+          --pr "${{ github.event.pull_request.number }}"
+          --sha "${{ github.event.pull_request.head.sha }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assert fixture absent from preview
+        if: github.event_name == 'pull_request'
+        run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}fixtures/fps-calibration"
+      - name: Resolve production deployment
+        if: github.event_name == 'push'
+        run: >-
+          node tools/perf/src/cli/resolve-preview.ts
+          --production
+          --url "$PRODUCTION_URL"
+          --sha "$GITHUB_SHA"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assert fixture absent from production
+        if: github.event_name == 'push'
+        run: node tools/perf/src/cli/assert-absent.ts "$PRODUCTION_URL/fixtures/fps-calibration"
