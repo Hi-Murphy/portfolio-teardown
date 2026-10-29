@@ -11,7 +11,7 @@
 | T001 | ☑ | 1 (Flash) | evidence/T001-scaffold.txt | (merge) |
 | T002 | ☑ | 1 (Flash) | evidence/T002-core.txt | (merge) |
 | T003 | ☐ | | | |
-| T004 | ☐ | | | |
+| T004 | ☑ | 1 (Flash, sandbox off) | evidence/T004-weight.{txt,json} | (merge) |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
