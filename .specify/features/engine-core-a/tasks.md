@@ -3,7 +3,7 @@
 **Input:** `rfc.md` (approved, §9), `spec.md`, `plan.md` in `.specify/features/engine-core-a/`
 **Executor:** DeepSeek Flash seat (tier 1: `codex exec -p deepseek`; sandbox off for browser tasks, writes limited to the task worktree and `/tmp/s04-checks`). **Escalation (RFC D11):** tier 2 (OpenRouter) is **skipped** (`OPENROUTER_API_KEY` unset; logged per task). If tier 1 fails a task twice, the orchestrator **pauses and reports to Murphy** with the current 5h/7d usage and waits for "go". It never takes over automatically. Each report states the finishing tier and any skip.
 **Usage pacing:** each phase group starts in a fresh 5h window. Before each task the orchestrator checks usage. At ≥ 85% of the 5h window, no new task starts: finish and commit the current task, tick the ledger, report, STOP.
-**AC4:** Merlin decided R3 (literal `fps ≥ 60.00`, RFC §9.7). T011 measures and judges `verdicts.literal60`; a FAIL with 0 dropped frames is reported as AC4 blocked by construction (E1).
+**AC4:** brief v2 (RFC §9.8): 0 dropped frames over a ≥5s headless window, 60 ±10% band as liveness. This supersedes the literal reading (§9.7). T011's measurement is judged against v2.
 
 ## Ledger (resume point — update at every task boundary)
 
@@ -19,7 +19,7 @@
 | T008 | ☑ | 1 (Flash) + ⚑ orchestrator push/draft PR 6 | evidence/T008-exclusion.txt | 8d68519 |
 | T009 | ☑ | 1 (Flash, sandbox off) | evidence/T009-cli.txt | 78ec649 |
 | T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-{evidence.txt,engine-probe.json,screenshot-*.png,meta-*.json} | 9a8e434 |
-| T011 | ☑ (AC4 blocked, E1) | 1 (Flash, sandbox off) | evidence/T011-{fps.txt,fps.json,fps-calibration-reference.json,screenshot-desktop.png,meta.json} | 8f62738 |
+| T011 | ☑ (AC4 PASS under brief v2; literal v1 reading blocked, E1) | 1 (Flash, sandbox off) | evidence/T011-{fps.txt,fps.json,fps-calibration-reference.json,screenshot-desktop.png,meta.json} | 8f62738 |
 | T012 | ☐ | | | |
 
 Resume prompt for a fresh session: *"Read `.specify/KICKOFF-S04.md` and `.specify/features/engine-core-a/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."*
@@ -32,7 +32,7 @@ Resume prompt for a fresh session: *"Read `.specify/KICKOFF-S04.md` and `.specif
 - **Orchestrator-only steps** (marked ⚑): `git push`, opening/updating the PR, merging a Merlin brief revision from `main`. Flash prepares; the orchestrator executes.
 - **Guards (every task):** both must print OK (plan.md "Guards"):
   ```sh
-  git diff --quiet b504fba -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md && echo FROZEN-OK
+  git diff --quiet ace414b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md && echo FROZEN-OK
   git diff --quiet b504fba -- packages/xploder/src/schema packages/xploder/src/parse.ts packages/xploder/src/errors.ts packages/xploder/src/index.ts packages/xploder/src/motion/index.ts packages/xploder/src/theme packages/xploder/test/fixtures packages/xploder/test/__snapshots__/generality.test.ts.snap packages/xploder/test/geometry-free.test.ts && echo S2-OK
   ```
 - **Every check also runs:** `pnpm typecheck && pnpm lint && pnpm test` (lint includes the Prettier check).

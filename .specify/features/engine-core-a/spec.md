@@ -1,11 +1,11 @@
 # Feature Specification: S04 Engine Core A — Layout · Explode · Camera
 
 **Feature dir:** `.specify/features/engine-core-a/` · **Slice:** S04-engine-core-a · **Created:** 2026-10-29 · **Status:** Draft (Stage 2 gate)
-**Scope source:** `.specify/slices/slice-04-engine-core-a.md` (frozen brief v1) · **Design:** `rfc.md` (approved 2026-10-29; §6 defaults + six round-1 revisions confirmed; decisions in §9)
+**Scope source:** `.specify/slices/slice-04-engine-core-a.md` (frozen brief v2, AC4 revised 2026-10-30) · **Design:** `rfc.md` (approved 2026-10-29; §6 defaults + six round-1 revisions confirmed; decisions in §9)
 
 > Rule: functional requirements map **1:1** to brief AC1–AC6, and their text is quoted verbatim. This spec invents **no** new acceptance criteria. Package surface, instancing, base materials, the playground route and the evidence CLIs are supporting work under the FRs they serve. They get task-level checks, not criteria of their own. Documented values (draw-call budget, zoom bounds, layout defaults) come from the RFC and are referenced, not promoted to criteria.
 >
-> **FR-004 (AC4): Merlin decided R3 (keep the literal reading), RFC §9.7.** It was previously flagged *blocked pending Merlin* (RFC E1): under Murphy's literal reading (`fps ≥ 60.00`), headless Chromium's 59.986 Hz cadence makes it unattainable by construction (`evidence/E1-fps-literal-probe.txt`). The AC text below is unchanged. If Merlin commits a revised brief, it is merged into this branch and FR-004 is re-quoted from it.
+> **FR-004 (AC4) follows brief v2** (revision 1, reason `criteria-wrong`, adopted by Murphy as Merlin on 2026-10-30; RFC §9.8). The v1 literal "≥60fps" was unattainable by construction (`evidence/E1-fps-literal-probe.txt`). FR-004 below quotes the v2 text verbatim.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -68,7 +68,7 @@ As Murphy, I see machine-made evidence for every visual and motion claim (screen
 **Independent Test:** `evidence/` holds 8 screenshots (mobile + desktop × light + dark × imploded + exploded) plus one of fixture B, `engine-probe.json`, and `fps.json` from the engine route. The PR's checks are all green.
 
 **Acceptance Scenarios:**
-1. **Given** the fixture export served locally, **When** `pnpm fps:engine` runs headless on fixture A with continuous explode ⇄ implode, **Then** the harness reports fps per the AC4 rule in force (see the flag above), with `fps.json`, a screenshot and meta attached. *(AC4)*
+1. **Given** the fixture export served locally, **When** `pnpm fps:engine` runs headless on fixture A with continuous explode ⇄ implode, **Then** the harness reports 0 dropped frames over a ≥5s window with trace fps inside 60 ±10% (liveness), and fps/rafFps/intervals are reported as information, with `fps.json`, a screenshot and meta attached. *(AC4, brief v2)*
 2. **Given** the PR, **When** CI completes, **Then** build/typecheck/lint/test, gitleaks, the lighthouse gate, the weight gate, fps calibration and fixture exclusion are all green, and the four-way screenshot set is attached. *(AC6)*
 
 ### Edge Cases
@@ -91,7 +91,7 @@ As Murphy, I see machine-made evidence for every visual and motion claim (screen
 - **FR-001 (↔ AC1):** `/dev/engine` renders fixture A as stacked layer slabs with component slabs gridded inside; fixture B renders via the switch; layout determinism unit test green; route 404s on the production URL (CI-checked like the S3 fixture).
 - **FR-002 (↔ AC2):** explode ⇄ implode works both directions from the toggle; every duration/easing traces to the S2 motion module (exclusivity grep green over engine + playground); with `prefers-reduced-motion`, the exploded state appears instantly with no animation.
 - **FR-003 (↔ AC3):** camera defaults to locked 45° azimuth; rotate happens only in 90° snaps via button AND keyboard; zoom stays within documented bounds; a code-level test asserts no free-orbit control exists.
-- **FR-004 (↔ AC4):** FPS harness on `/dev/engine` with fixture A reports ≥60fps headless; evidence artifact attached per EVIDENCE.md. — ⚠ *reading in force: literal `fps ≥ 60.00` (Merlin R3, RFC §9.7); expected blocked by construction (E1 evidence).*
+- **FR-004 (↔ AC4):** FPS harness on `/dev/engine` with fixture A runs headless for a window of at least 5s and reports **0 dropped frames** over that window, with trace fps inside the 60 ±10% band as a liveness check. fps, rafFps and p50/p95/max frame interval are reported in the artifact as information, not gated. Evidence artifact attached per EVIDENCE.md.
 - **FR-005 (↔ AC5):** layout + renderer live in `packages/xploder`; `apps/web` imports them as a package consumer (no engine logic in the app); schema geometry-free test still green.
 - **FR-006 (↔ AC6):** full CI green on the PR — build/typecheck/lint/test, gitleaks, lighthouse gate, weight gate, fps calibration, fixture exclusion — plus screenshots (light + dark, imploded + exploded) attached as evidence.
 
@@ -128,7 +128,7 @@ Success = AC1–AC6 each pass with evidence recorded in `evidence/` and the per-
 | FR-001 | AC1 | layout test log (determinism suite + golden snapshots) + scene-graph test log + screenshots A (and B) + `engine-probe.json` instance counts + `out/` exclusion scan (with positive control) + preview 404 log + **post-merge** prod 404 log from `perf: fixture exclusion` |
 | FR-002 | AC2 | timeline test log + `engine-probe.json` state timelines (normal: both directions; reduced: one-frame switch, frame count) + motion-scanner log with non-vacuity |
 | FR-003 | AC3 | camera + no-free-orbit test logs (incl. negative control) + `engine-probe.json` camera block (45°, button 135°, key 225°, zoom clamps) |
-| FR-004 | AC4 | `pnpm fps:engine` log + `fps.json` (fixture A, desktop, headless, continuous explode ⇄ implode) + screenshot + meta, judged by the rule in force after E1 |
+| FR-004 | AC4 | `pnpm fps:engine` log + `fps.json` (fixture A, desktop, headless, continuous explode ⇄ implode) + screenshot + meta, judged against brief v2 (0 dropped frames over ≥5s, band as liveness) |
 | FR-005 | AC5 | package-consumer scan log + exports test log + unchanged S2 geometry-free/snapshot test log |
 | FR-006 | AC6 | `gh pr checks` output + PR checks screenshot (all listed checks green) + 8 screenshots (mobile/desktop × light/dark × imploded/exploded) |
 

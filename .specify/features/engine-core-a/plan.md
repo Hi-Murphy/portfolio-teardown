@@ -91,7 +91,7 @@ tools/perf/
 
 ## Guards (every task)
 
-- **Frozen files:** `git diff --quiet b504fba -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md && echo FROZEN-OK` (b504fba = last Stage 1 commit). *Exception:* a Merlin-committed brief revision merged from `main` (E1) — the guard base moves to that merge commit and the move is noted in the ledger.
+- **Frozen files:** `git diff --quiet ace414b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md && echo FROZEN-OK` (ace414b = brief v2 commit; was b504fba until RFC §9.8). *Exception:* a Merlin-committed brief revision merged from `main` (E1) — the guard base moves to that merge commit and the move is noted in the ledger.
 - **S2 contract:** `git diff --quiet b504fba -- packages/xploder/src/schema packages/xploder/src/parse.ts packages/xploder/src/errors.ts packages/xploder/src/index.ts packages/xploder/src/motion/index.ts packages/xploder/src/theme packages/xploder/test/fixtures packages/xploder/test/__snapshots__/generality.test.ts.snap packages/xploder/test/geometry-free.test.ts && echo S2-OK`.
 
 ## Public API (`xploder/layout`)
