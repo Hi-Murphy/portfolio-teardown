@@ -7,7 +7,7 @@ import {
   defineTechRegistry,
   parseTechRegistry,
 } from '../src/index';
-import { loadJson } from './helpers';
+import { techRegistryJson } from './fixtures';
 
 const okhttp = {
   id: 'okhttp',
@@ -17,7 +17,7 @@ const okhttp = {
 
 describe('tech registry', () => {
   test('parses the seed registry and defaults okhttp to its category color', () => {
-    const registry = parseTechRegistry(loadJson('./fixtures/tech-registry.json'));
+    const registry = parseTechRegistry(techRegistryJson);
 
     expect(registry.techs).toHaveLength(12);
     expect(registry.techs.find((tech) => tech.id === 'okhttp')).toMatchObject({

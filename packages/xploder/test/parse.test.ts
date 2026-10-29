@@ -9,7 +9,8 @@ import {
   parseTechRegistry,
   safeParseProject,
 } from '../src/index';
-import { loadJson, minimalProject } from './helpers';
+import { techRegistryJson } from './fixtures';
+import { minimalProject } from './helpers';
 
 function projectWithUnknownTech() {
   return {
@@ -25,7 +26,7 @@ function projectWithUnknownTech() {
 }
 
 describe('project parsing', () => {
-  const registry = parseTechRegistry(loadJson('./fixtures/tech-registry.json'));
+  const registry = parseTechRegistry(techRegistryJson);
 
   test('NEGATIVE: an unknown tech id is rejected with the seed registry', () => {
     const result = safeParseProject(projectWithUnknownTech(), { registry });

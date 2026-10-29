@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
 
 import { parseProject, parseTechRegistry } from '../src/index';
-import { loadJson } from './helpers';
+import { projectAJson, techRegistryJson } from './fixtures';
 
-const registry = parseTechRegistry(loadJson('./fixtures/tech-registry.json'));
-const project = parseProject(loadJson('./fixtures/project-a-ui-app.json'), { registry });
+const registry = parseTechRegistry(techRegistryJson);
+const project = parseProject(projectAJson, { registry });
 const components = project.layers.flatMap((layer) => layer.components);
 
 describe('fixture A: Tidewatch', () => {
