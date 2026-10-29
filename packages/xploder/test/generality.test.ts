@@ -2,14 +2,14 @@ import { expect, test } from 'vitest';
 import { z } from 'zod';
 
 import { ProjectSchema, parseProject, parseTechRegistry } from '../src/index';
-import { loadJson } from './helpers';
+import { projectBJson, techRegistryJson } from './fixtures';
 
 test('exports the v1 project schema fingerprint', () => {
   expect(z.toJSONSchema(ProjectSchema, { io: 'input' })).toMatchSnapshot('project-schema-v1');
 });
 
-const registry = parseTechRegistry(loadJson('./fixtures/tech-registry.json'));
-const pipeline = parseProject(loadJson('./fixtures/project-b-pipeline.json'), { registry });
+const registry = parseTechRegistry(techRegistryJson);
+const pipeline = parseProject(projectBJson, { registry });
 
 test('fixture B parses as a pipeline with the unchanged registry-backed schema', () => {
   expect(pipeline.meta).toMatchObject({
