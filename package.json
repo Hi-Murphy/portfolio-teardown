@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "pnpm -r --if-present build",
+    "test": "pnpm -r --if-present test",
     "typecheck": "pnpm -r --if-present typecheck",
     "lint": "pnpm -r --if-present lint && pnpm format:check",
     "format": "prettier --write .",

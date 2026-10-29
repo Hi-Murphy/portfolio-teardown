@@ -1,0 +1,24 @@
+$ pnpm install && pnpm test
+
+Done in 11.5s using pnpm v12.15.0
+$ pnpm -r --if-present test
+Scope: 2 of 3 workspace projects
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t001/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  11:05:14
+   Duration  76ms (import 43%, transform 22%, worker 21%, tests 13%, environment 1%)
+
+$ pnpm typecheck && pnpm lint
+$ next typegen && tsc --noEmit
+Generating route types...
+✓ Types generated successfully
+Checking formatting...
+All matched files use Prettier code style!
+$ grep zod → present
+FROZEN-OK
+T001-OK
