@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { describe, expect, test } from 'vitest';
@@ -9,10 +10,20 @@ import {
   type Hit,
   type MotionLiteralRule,
 } from './motion-literal-scanner';
+import { collectSourceFiles } from './source-scan';
 
 const WEB_ROOT = fileURLToPath(new URL('..', import.meta.url));
 const XPLODER_SOURCE_ROOT = fileURLToPath(
   new URL('../../../packages/xploder/src/', import.meta.url),
+);
+const ENGINE_EXPLODE = fileURLToPath(
+  new URL('../../../packages/xploder/src/engine/explode.ts', import.meta.url),
+);
+const SLABS = fileURLToPath(
+  new URL('../../../packages/xploder/src/react/scene/Slabs.tsx', import.meta.url),
+);
+const PLAYGROUND = fileURLToPath(
+  new URL('../app/dev/engine/engine-playground.tsx', import.meta.url),
 );
 
 function formatHits(hits: readonly Hit[]): string {
@@ -39,6 +50,18 @@ describe('motion-literal scanner', () => {
 
   test('xploder source outside motion/ contains no motion literals', () => {
     expectNoHits(scanDir(XPLODER_SOURCE_ROOT, { exclude: ['motion/'] }));
+  });
+
+  test('scanner roots include engine sources', () => {
+    const sourceFiles = collectSourceFiles(XPLODER_SOURCE_ROOT, { exclude: ['motion/'] });
+
+    expect(sourceFiles).toContain(ENGINE_EXPLODE);
+    expect(sourceFiles).toContain(SLABS);
+    expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
+  });
+
+  test.skipIf(!existsSync(PLAYGROUND))('scanner root includes the engine playground', () => {
+    expect(collectSourceFiles(WEB_ROOT)).toContain(PLAYGROUND);
   });
 
   for (const rule of RULE_IDS) {
