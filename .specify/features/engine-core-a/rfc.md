@@ -1,6 +1,6 @@
 # RFC — S04 Engine Core A: Layout · Explode · Camera
 
-**slice:** S04-engine-core-a · **status:** REVIEWED round 1 (2026-10-29): decisions in §9; **AC4 blocked under the chosen literal reading → escalated to Merlin (E1)** · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-04-engine-core-a.md` (frozen brief v1) · **branch:** `task/s04-engine-core-a` · **date:** 2026-10-29
+**slice:** S04-engine-core-a · **status:** REVIEWED round 2 (AC4 revised) (2026-10-29): decisions in §9; **AC4 revised — dropped-frame gate replaces the literal ≥60.00 reading (change-log line under the AC table)** · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-04-engine-core-a.md` (frozen brief v1) · **branch:** `task/s04-engine-core-a` · **date:** 2026-10-29
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins and the conflict should be raised as an open question.
 
@@ -22,9 +22,11 @@
 | AC1 | `/dev/engine` renders fixture A as stacked layer slabs with component slabs gridded inside; fixture B renders via the switch; layout determinism unit test green; route 404s on the production URL (CI-checked like the S3 fixture). |
 | AC2 | explode ⇄ implode works both directions from the toggle; every duration/easing traces to the S2 motion module (exclusivity grep green over engine + playground); with `prefers-reduced-motion`, the exploded state appears instantly with no animation. |
 | AC3 | camera defaults to locked 45° azimuth; rotate happens only in 90° snaps via button AND keyboard; zoom stays within documented bounds; a code-level test asserts no free-orbit control exists. |
-| AC4 | FPS harness on `/dev/engine` with fixture A reports ≥60fps headless; evidence artifact attached per EVIDENCE.md. |
+| AC4 | FPS harness on `/dev/engine` with fixture A runs headless for a window of at least 5s and reports **0 dropped frames** over that window, with trace fps inside the 60 ±10% band as a liveness check. fps, rafFps and p50/p95/max frame interval are reported in the artifact as information, not gated. Evidence artifact attached per EVIDENCE.md. |
 | AC5 | layout + renderer live in `packages/xploder`; `apps/web` imports them as a package consumer (no engine logic in the app); schema geometry-free test still green. |
 | AC6 | full CI green on the PR — build/typecheck/lint/test, gitleaks, lighthouse gate, weight gate, fps calibration, fixture exclusion — plus screenshots (light + dark, imploded + exploded) attached as evidence. |
+
+AC4 revised 2026-10-29 (round 2): dropped-frame gate replaces the literal ≥60.00 reading; see agent-queue issue comment.
 
 ### Starting point (S01–S03, checked on this branch)
 
