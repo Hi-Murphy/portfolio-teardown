@@ -1,6 +1,6 @@
 # RFC — S02 Contracts & Tokens
 
-**slice:** S02-contracts-tokens · **status:** DRAFT, awaiting Murphy review (Stage 1 gate) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-02-contracts-tokens.md` (frozen brief v1) · **branch:** `task/s02-contracts-tokens` · **date:** 2026-10-29
+**slice:** S02-contracts-tokens · **status:** REVIEWED 2026-10-29, decisions recorded in §9 (Stage 1 gate) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-02-contracts-tokens.md` (frozen brief v1) · **branch:** `task/s02-contracts-tokens` · **date:** 2026-10-29
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins and the conflict should be raised as an open question.
 
@@ -375,3 +375,12 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 2. Approval to add dependencies `zod@^4.6` (xploder runtime) and `vitest@^5` (xploder + web dev). zod is in the constitution's locked stack. vitest is test tooling (default: approved).
 3. Permission to push `task/s02-contracts-tokens` and open a draft PR at T12 (default: granted when you approve G3).
 4. OpenRouter access for escalation tier 2 is already configured from S01 (default: yes. If not, tier 2 is skipped and logged).
+
+---
+
+## 9. Decisions recorded (Murphy, 2026-10-29)
+
+1. §6 open questions 1–17: **all recommended defaults accepted.**
+2. Dependencies `zod@^4.6` (xploder runtime) and `vitest@^5` (xploder + web dev): **approved.**
+3. Push `task/s02-contracts-tokens` and open a draft PR at T12: **granted.**
+4. Escalation tier 2 (Sol/Gemini via OpenRouter): **not configured on the Mac** (no OpenRouter provider in the local Codex config, checked 2026-10-29). Pending Murphy's choice: A = skip tier 2 for S02, so Flash stuck ×2 goes straight to the orchestrator and every skip is logged in the task report (**default**), or B = Murphy configures an OpenRouter key outside the repo.
