@@ -19,7 +19,7 @@
 | T008 | ☑ | 1 (Flash) + ⚑ orchestrator push/draft PR 6 | evidence/T008-exclusion.txt | 8d68519 |
 | T009 | ☑ | 1 (Flash, sandbox off) | evidence/T009-cli.txt | 78ec649 |
 | T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-{evidence.txt,engine-probe.json,screenshot-*.png,meta-*.json} | 9a8e434 |
-| T011 | ☐ | | | |
+| T011 | ☑ (AC4 blocked, E1) | 1 (Flash, sandbox off) | evidence/T011-{fps.txt,fps.json,fps-calibration-reference.json,screenshot-desktop.png,meta.json} | 8f62738 |
 | T012 | ☐ | | | |
 
 Resume prompt for a fresh session: *"Read `.specify/KICKOFF-S04.md` and `.specify/features/engine-core-a/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."*
