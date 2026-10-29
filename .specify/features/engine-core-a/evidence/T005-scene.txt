@@ -1,0 +1,50 @@
+T005 — xploder/react: scene, viewer, hooks · executor: tier 1 (Flash, sandboxed) + orchestrator review fix (usePalette getSnapshot reuses env.themeMode instead of duplicating the selector logic) · re-run 2026-10-29T22:34:17Z
+
+== executor check log ==
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t005-renderer/packages/xploder
+
+(node:65746) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  05:33:04
+   Duration  166ms (import 52%, tests 25%, transform 20%, worker 3%)
+
+   Start at  05:33:04
+   Duration  72ms (tests 54%, import 27%, transform 11%, worker 8%)
+
+
+== orchestrator re-run ==
+FROZEN-OK
+S2-OK
+env.test.ts + scene.test.tsx -> Tests 18 passed
+no-motion-literals.test.ts -> Tests 13 passed
+packages/xploder test:       Tests  106 passed (106)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  13 passed | 2 skipped (15)
+
+== test names (verbose) ==
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=false prefersDark=false resolves light 1ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=false prefersDark=true resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=true prefersDark=false resolves light 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=true prefersDark=true resolves light 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=false prefersDark=false resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=false prefersDark=true resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=true prefersDark=false resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=true prefersDark=true resolves dark 0ms
+ ✓ test/env.test.ts > subscribeTheme > calls initially, follows theme changes, and removes its listeners 1ms
+ ✓ test/env.test.ts > subscribeReducedMotion > calls initially, follows changes, and removes its listener 0ms
+ ✓ test/scene.test.tsx > Scene > renders fixture A with two instanced meshes 12ms
+ ✓ test/scene.test.tsx > Scene > renders fixture B with two instanced meshes 1ms
+ ✓ test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts 6ms
+ ✓ test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth 2ms
+ ✓ test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock 2ms
+ ✓ test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion 3ms
+ ✓ test/scene.test.tsx > Scene > uses the light palette material colors 2ms
+ ✓ test/scene.test.tsx > Scene > uses the dark palette material colors 1ms
+
+== lint disables in packages/xploder/src ==
+packages/xploder/src/react/scene/CameraRig.tsx:53:    // eslint-disable-next-line react-hooks/immutability -- R3F cameras are mutable scene objects.
