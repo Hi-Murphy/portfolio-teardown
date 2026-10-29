@@ -13,7 +13,7 @@
 | T003 | ☑ | 1 (Flash, sandbox off) | evidence/T003-lighthouse.{txt,-summary.json} | be7f41f |
 | T004 | ☑ | 1 (Flash, sandbox off) | evidence/T004-weight.{txt,json} | 895c9e3 |
 | T005 | ☑ | 1 (Flash, sandbox off) | evidence/T005-{evidence.txt,screenshot-*.png,meta.json} | c828c57 |
-| T006 | ☐ | | | |
+| T006 | ☑ | 1 (Flash, sandbox off) | evidence/T006-preview.txt | (merge) |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |

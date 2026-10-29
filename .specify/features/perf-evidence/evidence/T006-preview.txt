@@ -1,0 +1,29 @@
+== executor (tier 1, DeepSeek Flash, sandbox off) check log
+$ vitest run preview
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t006/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  16:38:28
+   Duration  75ms (tests 66%, import 19%, transform 9%, worker 6%)
+
+warning: --skip-sha-check is test-only and is forbidden in perf.yml
+url=https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
+
+== orchestrator re-run (logs scanned: no token strings)
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+ Test Files  8 passed (8)
+      Tests  45 passed (45)
+$ next build
+sha-in-html OK
+$ pnpm -r --if-present build
+$ next build
+default-build no-sha OK
+warning: --skip-sha-check is test-only and is forbidden in perf.yml
+RERUN-OK
+warning: --skip-sha-check is test-only and is forbidden in perf.yml
+url=https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
