@@ -1,0 +1,55 @@
+E1 — AC4 literal reading ("reports ≥60fps headless" = trace fps >= 60.00) — probe log
+Date: 2026-10-29 · Branch: task/s04-engine-core-a (at 1a49924) · Host: Mac arm64 (Apple M4), local
+Harness: S3 tools/perf (unchanged) · Chromium 156.0.8078.4 headless (channel: chromium)
+Content: S3 calibration fixture /fixtures/fps-calibration (known-light synthetic animation), out-fixtures/ served on 127.0.0.1
+
+## 1. Ten consecutive harness runs
+
+Commands:
+  pnpm fps:calibrate --out /tmp/s04-checks/cal-0              (builds out-fixtures, exit 0)
+  pnpm fps:calibrate --no-build --out /tmp/s04-checks/cal-N   (N = 1..9, each exit 0)
+
+run  fps     frames  windowMs  droppedFrames  rafFps  p95 ms  band pass (60 ±10%)  literal >= 60.00
+0    59.322  300     5057.1    0              60.004  17.545  true                 FAIL
+1    59.373  300     5052.8    0              60.003  16.832  true                 FAIL
+2    59.355  300     5054.4    0              60.003  16.839  true                 FAIL
+3    59.365  300     5053.5    0              60.003  17.388  true                 FAIL
+4    59.356  300     5054.3    0              60.003  17.208  true                 FAIL
+5    59.367  300     5053.3    0              60.003  16.838  true                 FAIL
+6    59.446  300     5046.6    0              60.002  16.821  true                 FAIL
+7    59.824  301     5031.4    0              60.002  17.206  true                 FAIL
+8    59.380  300     5052.2    0              60.002  17.498  true                 FAIL
+9    59.377  300     5052.5    0              60.003  17.073  true                 FAIL
+
+Result: 10/10 pass the S3 band, 10/10 have zero dropped frames, 0/10 reach a literal 60.00.
+Prior S3 evidence agrees: T010-fps.json 59.63 (local), T011-fps-ci.json 59.98 (CI ubuntu).
+
+## 2. Trace analysis (one extra run with --trace)
+
+Command:
+  node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199
+  pnpm fps http://127.0.0.1:4199/fixtures/fps-calibration --trace --out /tmp/s04-checks/trace1
+  -> fps: 59.59 (301 frames / 5051 ms), exit 0
+
+DrawFrame events (single renderer pid): 301
+First-to-last DrawFrame span: 5001.2 ms -> 300 intervals -> mean interval 16.671 ms
+Bias-free cadence estimate (n-1)/span: 59.986 fps
+
+## 3. Findings
+
+F1. Headless Chromium's display cadence is the ceiling. Frames are produced at the
+    BeginFrame/vsync rate, measured here at 59.986 Hz. No content can produce more
+    frames than the display cadence, so no estimator (harness or bias-free) can read
+    >= 60.00 for any page, including the trivial calibration fixture.
+F2. The harness's estimator (frames / windowMs) adds a further low bias of ~0.6 fps:
+    the window start is a Performance timestamp taken before Tracing.start takes effect,
+    so the first ~50 ms of each ~5050 ms window has no recorded frames (the window end
+    is fine: last DrawFrame to trace end = 6.1 ms). This is an S3 tooling
+    finding, not an engine property. It is not changed in S4 without a decision.
+F3. The only ways to read >= 60.00 are to uncap the frame rate (e.g. Chromium flags
+    disabling vsync / the frame-rate limit) or to change the estimator so it reports the
+    nominal rate. Both would measure the instrument, not the engine. Not done.
+
+Conclusion: under the literal reading, AC4 is blocked by construction, independent of
+the engine. Escalated to Merlin (project layer) per the kickoff hard rules; the AC is not
+reworded or relaxed by the orchestrator.

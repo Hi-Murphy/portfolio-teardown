@@ -1,6 +1,6 @@
 # RFC — S04 Engine Core A: Layout · Explode · Camera
 
-**slice:** S04-engine-core-a · **status:** DRAFT for Murphy review (Stage 1 gate) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-04-engine-core-a.md` (frozen brief v1) · **branch:** `task/s04-engine-core-a` · **date:** 2026-10-29
+**slice:** S04-engine-core-a · **status:** REVIEWED round 1 (2026-10-29): decisions in §9; **AC4 blocked under the chosen literal reading → escalated to Merlin (E1)** · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-04-engine-core-a.md` (frozen brief v1) · **branch:** `task/s04-engine-core-a` · **date:** 2026-10-29
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins and the conflict should be raised as an open question.
 
@@ -50,7 +50,7 @@
 | @react-three/drei | 10.7.9. **Not proposed** (D6): it ships `OrbitControls` and friends. | npm |
 | gsap | 3.15.0. **Not proposed** (D4). | npm |
 | Headless WebGL (Mac) | Harness Chromium 156.0.8078.4 headless: **WebGL2 available**, renderer `ANGLE (Apple, ANGLE Metal Renderer: Apple M4)`, so it runs on the real GPU. On ubuntu CI it would be software GL (SwiftShader). | local probe (`/tmp/s04-checks/webgl-probe.mjs`) |
-| Harness readings at nominal 60 Hz | S3 calibration fixture: **59.63 fps** local (`T010-fps.json`, 301 DrawFrame / 5048 ms, 0 dropped) and **59.98 fps** CI (`T011-fps-ci.json`, 301 / 5018 ms, 0 dropped). Both < 60.00. See **E1**. | S3 evidence |
+| Harness readings at nominal 60 Hz | S3 calibration fixture: **59.63 fps** local (`T010-fps.json`, 301 DrawFrame / 5048 ms, 0 dropped) and **59.98 fps** CI (`T011-fps-ci.json`, 301 / 5018 ms, 0 dropped). Both < 60.00. Re-run today 10× locally: **59.32–59.82, 10/10 with 0 dropped frames, rAF 60.00**. One trace: 301 DrawFrame over **5001.2 ms → display cadence 59.986 Hz**. See **E1** and `evidence/E1-fps-literal-probe.txt`. | S3 evidence + local probe |
 | Tier-2 executor | `OPENROUTER_API_KEY` unset (checked today) → tier 2 skipped, as in S02/S03. | local env |
 
 ---
@@ -70,7 +70,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
   | `xploder/fixtures` | `test/fixtures/index.ts` (existing file) | `projectAJson`, `projectBJson`, `techRegistryJson` (`unknown`, as today) | no |
 
   Internal (not exported, imported relatively inside the lib): `src/engine/` (explode timeline, camera rig reducer, keymap) and **`src/motion/ease.ts`** (cubic-bezier evaluator, see D4). The `motion/index.ts` file and its exports are not touched.
-- **Peer deps** on `xploder`: `react ^19`, `three >=0.186`, `@react-three/fiber ^9.8`, all `peerDependenciesMeta.optional: true`, so a consumer that only uses `xploder/layout` needs none of them. `apps/web` adds `three` and `@react-three/fiber` as **dependencies only to satisfy the peers**. App source never imports them (D9 enforces this). Dev deps on `xploder`: the same three packages + `@types/three`, `@types/react`, `@react-three/test-renderer`, `eslint-plugin-react-hooks`. The `xploder` tsconfig gains `"jsx": "react-jsx"`.
+- **Peer deps** on `xploder`: `react ^19`, `three >=0.186`, `@react-three/fiber ^9.8`, all `peerDependenciesMeta.optional: true`, so a consumer that only uses `xploder/layout` needs none of them. `apps/web` adds `three` and `@react-three/fiber` as **dependencies only to satisfy the peers**. App source never imports them (D9 enforces this). Dev deps on `xploder`: the same three packages + `@types/three`, `@types/react`, `@react-three/test-renderer`, `eslint-plugin-react-hooks` (no `jsdom`: see D9, revised in round 1). The `xploder` tsconfig gains `"jsx": "react-jsx"`.
 - **Why separate subpaths:** the landing page and later SSR consumers can import the pure layout without pulling three (~170 KB gz) into their graph. `sideEffects: false` is already set.
 - **Why export fixtures from `test/fixtures`:** the playground needs A and B through the package (AC5), and pointing the export at the existing file means no file moves and no S2 test churn. For the OSS lib these are documented "example projects". Only the dev-only route imports them, so they never reach the production bundle. **Open question 3.**
 - **Rejected:** putting the renderer in `.` (pulls three into every consumer) · copying the fixture JSON into `apps/web` (two sources of truth) · a relative import from `apps/web` into `packages/xploder/test` (violates AC5) · a separate `xploder-react` package (premature for M1).
@@ -79,7 +79,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 
 - **R:** `layoutProject(project, options?) → ProjectLayout`, a pure function. The input type is structural, `{ layers: readonly { id; components: readonly { id }[] }[] }`, so a parsed `Project` satisfies it and the layout reads **only** layer order, component order and ids. World units: **1 unit = one component cell pitch**. Axes: `y` up, `x` = grid column, `z` = grid row.
   1. **Shared footprint.** `n_max = max(1, max components in any layer)`. `cols = ceil(sqrt(n_max))`, `rows = ceil(n_max / cols)`. Every layer slab has the same footprint: `cols × rows` cells plus `margin` on each side. The stack reads as one assembled object, and camera framing is simpler.
-  2. **Per-layer grid.** Layer with `n` components: `c = ceil(sqrt(n))`, `r = ceil(n / c)`, filled row-major in data order. The grid is centered on the footprint, and a partial last row is centered too. `n = 0` is valid (`components` defaults to `[]`) and gives an empty slab.
+  2. **Per-layer grid.** Layer with `n` components: `c = ceil(sqrt(n))`, `r = ceil(n / c)`, filled row-major in data order. The grid is centered on the footprint, and a partial last row is centered too. Axis signs are chosen so that at the default 45° azimuth, data order reads left → right, back → front (component 0 is the top-left cell on screen). `n = 0` is valid (`components` defaults to `[]`) and gives an empty slab.
   3. **Vertical stack.** Layer 0 (first in data) is at the **top**. Imploded: slabs are stacked with a gap of exactly `componentThickness`, so the components are sandwiched and the stack looks assembled. Exploded: gap = `explodedGap`, and components additionally lift `componentLift` off their slab. In both states the stack is centered on `y = 0`, so the camera target never moves while animating.
   4. **Output:** `{ version: 1, footprint: {cols, rows, width, depth}, layers: LayerSlab[], components: ComponentSlab[], bounds: {imploded, exploded} }`. Each slab has `id`, `size: Vec3`, `imploded: Vec3` and `exploded: Vec3` (box centers). Components also carry `layerId`, `layerIndex`, `slot` (index in layer) and `cell: [col, row]`. Array order **is** instance order: layers in data order, components layer-major. S5 picking maps instance index → id with no lookup table.
   5. **Defaults** (`LAYOUT_DEFAULTS`, overridable, tuned once with screenshot evidence in T2/T7): `componentSize 0.8` (0.2 gutter), `componentThickness 0.12`, `slabThickness 0.08`, `margin 0.3`, `explodedGap 1.1`, `componentLift 0.12`. These are geometry, not motion: they describe the two end states. Timing lives only in tokens (D4).
@@ -110,7 +110,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
     - explode: `delay_i = layerIndex × staggers.explodeLayer + slot × staggers.explodeComponent`, `duration_i = durations.explode × |target − from_i|`, ease `easings.explode`;
     - implode: `delay_i = (L − 1 − layerIndex) × staggers.implodeLayer` (last out, first in), `duration_i = durations.implode × |target − from_i|`, ease `easings.implode`.
   - `sample(now)` returns the progress array. `settled(now)` is true once every instance has reached the target. The R3F hook calls `sample(clock.elapsedTime)` in `useFrame`, writes matrices, and calls `invalidate()` until settled.
-  - **Interruptible-safe:** a toggle mid-flight restarts from the current `p_i`, so there is never a positional jump (C0-continuous). A half-finished explode reverses in half the implode duration. Spam-toggling always ends exactly on the last target.
+  - **Interruptible-safe:** a toggle mid-flight restarts from the current `p_i`, so there is never a positional jump (C0-continuous). A half-finished explode reverses in half the implode duration. Spam-toggling always ends exactly on the last target. **Round 1 refinement:** on an interruption, each instance's stagger delay is also scaled by `|target − from_i|`. With full delays, slabs that were mid-flight would visibly freeze for up to `(L − 1) × stagger` before reversing; scaled delays keep the cascade but make the reversal feel immediate. On a full-travel toggle the scale is 1, so the token values apply unchanged.
   - **Easing:** evaluate the token's **CSS cubic-bezier** (`easings.*.css`, parsed at runtime) with a ~30-line solver in **`src/motion/ease.ts`**. It is a new file inside `motion/`, so its numeric solver constants sit where AGENTS.md §5 allows animation numbers. It isn't exported from `motion/index.ts`, so the S2 tokens API doesn't change. `cubic-bezier(0.16, 1, 0.3, 1)` is the standard ease-out-expo curve, which is the brief's "mechanical ease-out-expo signature".
 - **Why not GSAP:** (1) **one loop.** R3F already owns the rAF and runs in `demand` mode, and a second animation loop would fight it. (2) The lib is meant for OSS release, and GSAP's no-charge "standard" license isn't an OSI license, so it would be a dependency the OSS lib would have to carry and explain. (3) ~27 KB gz saved. (4) The pure timeline is unit-testable with an injected clock, and GSAP timelines aren't without fake timers. The cost: the tokens' `gsap` easing strings go unused by the engine (still valid tokens; nothing is removed).
 - **Traceability proof (AC2 "every duration/easing traces to the S2 motion module"):**
@@ -130,9 +130,9 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 - **R:** R3F `<Canvas orthographic>` with a rig driven by a **pure reducer** (`src/engine/camera.ts`):
   - **State:** `{ step: 0 | 1 | 2 | 3, zoom: number }`. Azimuth = `45° + 90° × step`, so **the default is 45°** (`step 0`). Elevation is fixed at **true isometric** `atan(1/√2) ≈ 35.26°` (computed, no literal). The camera looks at the origin, which is the stack center (D2). There are no free angles in state.
   - **Actions (exhaustive union):** `rotateLeft` · `rotateRight` · `zoomIn` · `zoomOut` · `zoomReset`. There is no action that accepts an angle or a delta.
-  - **Snap transition: instant** (a cut to the next 90° view) in S4. There is no camera token, and adding one changes the frozen S2 tokens module. **Open question 6** (alternative: reuse the `implode` duration/easing for the turn).
-  - **Zoom bounds:** zoom is relative to **fit**. `fit = fitZoom(bounds.exploded, viewport)` is the largest zoom at which the *exploded* bounds fit the viewport with an 8% margin **at every one of the 4 azimuths**, so neither rotation nor exploding can clip at the default. Bounds: **`zoom ∈ [0.75 × fit, 3 × fit]`**, step **× 1.25**, `zoomReset` → `1 × fit`. Clamped in the reducer, recomputed on resize. Zoom changes are instant (same token reason). **Open question 7.**
-  - **Inputs:** buttons (the playground renders them and calls `viewer.actions.*`) and **keyboard** on the focusable viewer wrapper (`tabIndex=0`, `role="group"`, `aria-label`, `aria-keyshortcuts`). Keys: `ArrowLeft` / `ArrowRight` → rotate, `+`/`=` and `-` → zoom, `0` → reset. Pure `keyToAction(key)`. The handler is scoped to the wrapper, not `window`, so page keys aren't hijacked. **No wheel, drag or pinch handlers.** The canvas keeps `touch-action: pan-y`, so mobile page scroll passes through, which is the reason free orbit was cut.
+  - **Snap transition (revised in round 1): an animated 90° turn** on the `implode` tokens (`durations.implode`, `easings.implode` = `power3.inOut` / `cubic-bezier(0.76, 0, 0.24, 1)`), driven by the same frame loop as D4. The reducer's `step` changes immediately (state is always on a snap); only the *displayed* azimuth tweens from its current value to `45° + 90° × step` along the shorter arc. A second press mid-turn retargets from the current displayed angle. Under reduced motion the static twin makes the turn a cut. **Why this replaces the instant cut:** the shared square footprint (D2) means the stack's silhouette is identical at all four azimuths, so a cut reads as "the components teleported", not "the model turned". The animation is what makes a rotation legible. `implode`'s symmetric in-out curve is the token whose character matches a camera turn, and reusing it keeps AC2's "every duration/easing traces to the S2 motion module" intact without touching the frozen tokens. **Open question 6.**
+  - **Zoom bounds (revised in round 1):** zoom is relative to **fit**. `fit = fitZoom(bounds.exploded, viewport)` is the largest zoom at which the *exploded* bounds fit the viewport with an 8% margin **at every one of the 4 azimuths**, so neither rotation nor exploding can clip at the default. Bounds: **`zoom ∈ [1 × fit, 3 × fit]`**, step **× 1.25**, `zoomReset` → `1 × fit`. Zooming out past fit only adds empty paper, so the lower bound is fit itself, which means the default view is also the widest. Clamped in the reducer, recomputed on resize. Zoom steps are instant: a 25% scale change is easy to follow without animation, and it keeps a second animated channel out of S4. **Open question 7.**
+  - **Inputs:** buttons (the playground renders them and calls `viewer.actions.*`) and **keyboard** on the focusable viewer wrapper (`tabIndex=0`, `role="group"`, `aria-label`, `aria-keyshortcuts`). Keys: `ArrowLeft` / `ArrowRight` → rotate, `+`/`=` and `-` → zoom, `0` → reset. Pure `keyToAction(key)`. The handler is scoped to the wrapper, not `window`, so page keys aren't hijacked. **No wheel, drag or pinch handlers.** The canvas keeps `touch-action: pan-y pinch-zoom` (round 1: `pinch-zoom` added so browser page zoom, an a11y need, still works over the canvas), so mobile page scroll passes through, which is the reason free orbit was cut.
 - **"No free-orbit" code-level test (AC3):**
   1. **Static scan** of `packages/xploder/src` and `apps/web` (code + `package.json`s): no import from `@react-three/drei`, `three/examples`, `three/addons`, `three-stdlib` or `camera-controls`, and no identifier from the list `OrbitControls|MapControls|TrackballControls|ArcballControls|FlyControls|FirstPersonControls|PointerLockControls|CameraControls|TransformControls|DragControls`. A negative-control sample proves the scan bites (same pattern as the motion scanner).
   2. **Reducer property test:** 10,000 random action sequences, and after every step `azimuth ∈ {45, 135, 225, 315}` and `zoom ∈ [0.75·fit, 3·fit]`. `RigAction['type']` is asserted to equal exactly the five actions above.
@@ -141,7 +141,15 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 
 ### D7 — Token-fed base materials and hex-literal exclusivity (AC6 visuals, brief Deliverable 5)
 
-- **R:** `MeshLambertMaterial` (cheapest lit material; gives the box sides depth so slabs read as slabs) + one `ambientLight` + one `directionalLight` (default white, intensities only; light color is never set). Color roles: **layer slab = `grid`**, **component slab = `line`**, background = the page's `paper` (transparent canvas). They read on both themes: light `#D9E1EA`/`#1E4D8C` on `#F6F3EA`; dark `#1B3354`/`#8CC4EE` on `#0B1A2E`. **Open question 8.**
+- **R:** `MeshLambertMaterial` (cheapest lit material; gives the box sides depth so slabs read as slabs) + one `ambientLight` + one `directionalLight` (default white, intensities only; light color is never set). Color roles (revised in round 1): **layer slab = `lineMuted`**, **component slab = `line`**, background = the page's `paper` (transparent canvas). Measured WCAG contrast (flat colors, before shading):
+
+  | Slab role | slab vs paper (light / dark) | `line` component vs slab (light / dark) |
+  |---|---|---|
+  | `grid` (round-0 default) | 1.19 / 1.37 | 6.38 / 6.82 |
+  | **`lineMuted` (new default)** | **3.23 / 3.78** | **2.35 / 2.48** |
+  | `steel` | 5.23 / 6.74 | 1.45 / 1.39 |
+
+  With `grid` the slabs nearly vanish into the paper (≈ 1.2:1). Until S6 adds edge lines that would make AC1's "stacked layer slabs" hard to see in the screenshots. `lineMuted` clears the 3:1 non-text-contrast level against the paper in both themes, and components stay distinct from it, helped by Lambert side shading. **Open question 8.**
 - **Theme source:** `useBlueprintPalette()` returns `blueprint.light` or `blueprint.dark` (the JS token objects, not parsed CSS). The choice comes from pure `resolveThemeMode({ hasDarkClass, hasLightClass, prefersDark })`, which mirrors `paletteCss()`'s selector logic exactly: `.dark` → dark; otherwise media dark and not `.light` → dark; otherwise light. A `MutationObserver` on `<html class>` + a `matchMedia('(prefers-color-scheme: dark)')` listener re-resolve it. Materials update with `color.set(...)` + `invalidate()`, with no remount. A `palette` prop overrides it for OSS consumers with their own theme switch. This covers all three S1 paths (stored, OS, toggle) with no app code.
 - **Hex grep test (new):** `apps/web/test/no-color-literals.test.ts` scans `apps/web` (code + CSS) and `packages/xploder/src` **excluding `theme/`**. Patterns: `#[0-9a-fA-F]{3,8}\b` in strings/CSS, `0x[0-9a-fA-F]{6}\b`, `rgba?(`, `hsla?(`, and `new Color('<name>')` with a CSS color keyword. Same shape as the motion scanner: a negative control per rule and a non-vacuity check (engine files are in the scanned set).
 - **Rejected:** `MeshBasicMaterial` (unlit, so boxes read as flat hexagons in isometric view) · `MeshStandardMaterial` (PBR cost on mobile for no S4 gain) · reading `--bp-*` CSS variables (string parsing, and timing issues before the head style applies).
@@ -168,18 +176,19 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 | AC2 | motion-literal scanner covers engine + playground (non-vacuity) | `no-motion-literals.test.ts` |
 | AC3 | reducer property test + exact action union; `keyToAction` table | `xploder/test/camera.test.ts` |
 | AC3 | **no-free-orbit scan** (imports, identifiers, manifests, negative control) | `apps/web/test/no-free-orbit.test.ts` (scans both packages, next to the other scanners) |
-| AC3 | ortho camera, 45° at mount, 135° after `rotateRight`, `store.controls === null` | `scene.test.tsx` |
+| AC3 | ortho camera, 45° at mount, 135° after `rotateRight` once the turn settles, `store.controls === null` | `scene.test.tsx` |
+| AC3 | animated turn: the displayed azimuth stays between the two consecutive snaps, ends exactly on a snap, retargets on a second press; static twin = cut | `xploder/test/camera.test.ts` |
 | AC5 | **package-consumer scan** over `apps/web/app`: imports of `three`, `@react-three/*` and `xploder/src/*` are forbidden; only exported `xploder` subpaths are allowed; engine identifiers (`useFrame`, `InstancedMesh`, `setMatrixAt`, `Matrix4`, `OrthographicCamera`) are forbidden in app code | `apps/web/test/package-consumer.test.ts` |
 | AC5 | `xploder/package.json` exports include `./layout` + `./react`; S2 `geometry-free.test.ts` and the schema snapshot unchanged and green | `xploder/test/exports.test.ts` + existing |
 | AC6 | hex-literal scanner (D7) | `apps/web/test/no-color-literals.test.ts` |
 
-- React components stay thin. All logic (layout, timeline, rig, keymap, theme resolution, fit) is pure and unit-tested in Node. The only React-level tests use `@react-three/test-renderer` (no WebGL, no jsdom needed for the scene). Hook tests that touch `matchMedia`/`MutationObserver` use `vitest` with `environment: 'jsdom'` per file. **Open question 4** (adds `jsdom` as a dev dep of `xploder`).
+- React components stay thin. All logic (layout, timeline, rig, keymap, theme resolution, fit) is pure and unit-tested in Node. The only React-level tests use `@react-three/test-renderer` (no WebGL, no jsdom needed for the scene). **Revised in round 1: no jsdom.** The hooks are thin adapters over pure functions that take their environment as arguments (`resolveThemeMode`, `subscribeTheme(env)`, `subscribeReducedMotion(env)`). Those are unit-tested in Node with small fakes for `matchMedia`/`MutationObserver`. The real-browser wiring is covered by `engine:probe` (D10), which runs in actual Chromium. That's one dev dependency less, and it avoids a jsdom shim that would test jsdom's `matchMedia` rather than a browser's. **Open question 4.**
 
 ### D10 — Evidence and the FPS proof (AC2, AC3, AC4, AC6)
 
 - **R: one new CLI, `pnpm engine:probe <url>`** (`tools/perf/src/cli/engine-probe.ts`, same exit-code contract). It drives `/dev/engine` with Playwright and writes `engine-probe.json`: draw calls and instance counts for A and B; the default azimuth; azimuth after the rotate button and after `ArrowRight`; zoom after 20 × `+` and 20 × `-` (clamped to the documented bounds); the state timeline for one explode and one implode; and, under `reducedMotion: 'reduce'`, the state timeline + rendered frame count in the 1 s after a toggle. Screenshots are taken at each end state. This is the machine evidence for AC2/AC3 behaviour.
 - **Screenshots (AC6):** `pnpm evidence <url> --color-scheme light|dark --wait-for '[data-xploder-state=exploded]'` (and `…imploded`) against `?fixture=a&state=…`. That gives **mobile + desktop × light + dark × imploded + exploded = 8 PNGs**, plus B exploded light as the generality shot. Committed as `T0NN-screenshot-<variant>.png`.
-- **FPS (AC4):** `pnpm fps:engine` (sibling of `fps:calibrate`): `build:fixtures` → serve `out-fixtures/` on `127.0.0.1` → `measureFps` on `/dev/engine?fixture=a&cycle=1` (desktop profile, warmup 1 s, window 5 s, continuous explode ⇄ implode) → `fps.json` + screenshot + meta. Run **locally on the Mac** (real GPU, D-facts). It is **not** added as a CI job: ubuntu runners would use software GL, and AC6's CI list doesn't include an engine FPS job, so a flaky non-AC check could turn "full CI green" red. **Open question 10.**
+- **FPS (AC4):** `pnpm fps:engine` (sibling of `fps:calibrate`): `build:fixtures` → serve `out-fixtures/` on `127.0.0.1` → `measureFps` on `/dev/engine?fixture=a&cycle=1` (desktop profile, warmup 1 s, window 5 s, continuous explode ⇄ implode) → `fps.json` + screenshot + meta. Pass rule = **literal `fps ≥ 60.00`** (Murphy, round 1), with `droppedFrames`, `rafFps` and p95 reported. That rule is currently **blocked by construction** (E1) pending Merlin. `?cycle=1` re-toggles in the same frame `onSettled` fires, so the demand loop never idles inside the window. Run **locally on the Mac** (real GPU, D-facts). It is **not** added as a CI job: ubuntu runners would use software GL, and AC6's CI list doesn't include an engine FPS job, so a flaky non-AC check could turn "full CI green" red. **Open question 10.**
 - **Weight note (informational):** `perf:weight` on `out-fixtures` `/dev/engine` is recorded once, so S9 knows the engine's transfer cost before the engine ships to production. It is not a gate in S4 (the playground is not in the production build, and the landing page's gates are unaffected).
 
 ### D11 — Execution ladder (Hard Rule 5)
@@ -245,7 +254,7 @@ usePrefersReducedMotion(): boolean
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| **AC4 strict "≥60" vs a 60 Hz-capped harness** | the S3 calibration fixture itself reads 59.63 / 59.98, so a strict numeric threshold can fail with zero dropped frames | **E1** below, decided by Murphy before Stage 2. Never re-tune the harness to read higher. |
+| **AC4 literal "≥60.00" vs a 59.986 Hz headless cadence** | **materialised:** blocked by construction (E1 evidence) | escalated to Merlin 2026-10-29. Never re-tune the harness or uncap the frame rate to read higher. |
 | R3F v9 peer range `react <19.4` | a React 19.4 bump breaks the peer | pin `react` at the current `^19.3.1` resolution; Renovate-style bumps must check R3F first (noted in plan.md). |
 | WebGL screenshots blank in headless | visual evidence fails | the Mac probe shows hardware WebGL2; if captures are blank, `preserveDrawingBuffer` in playground only, never in the lib default. |
 | Theme toggle flash in canvas (one frame of the old palette) | visible flicker on toggle | the `MutationObserver` callback runs as a microtask before the next frame → `color.set` + `invalidate` land in the same frame; checked in T10 dark/light screenshots. |
@@ -259,29 +268,31 @@ usePrefersReducedMotion(): boolean
 
 ## 6. Open questions (each with recommended default)
 
-**E1 — escalation, needs your explicit call (AC4 reading).** AC4 says the harness "reports ≥60fps headless". The harness's frame source is Chromium's 60 Hz `DrawFrame` cadence over a measured window. The S3 calibration fixture, a trivially light animation, reads **59.63 fps** (local) and **59.98 fps** (CI) with **0 dropped frames**, so a literal `fps ≥ 60.00` can fail on a perfect run. I am not rewording the AC. Two readings:
-- **(a) Default:** "≥60fps" = the 60 fps floor as the S3 harness defines a 60 fps measurement: `pnpm fps … --expect 60` **passes** (S3 band) **and `droppedFrames = 0`** (no frame missed its 60 Hz slot, which is what a floor means). Raw `fps`, `rafFps` and p95 are reported as they are.
-- **(b)** Literal `fps ≥ 60.00` on the trace figure. If you choose this, I'll run it and report the number as-is. If it reads 59.x with 0 drops, that's a blocked AC escalated with evidence (and likely a brief revision for Merlin).
+**E1 — AC4 reading: Murphy chose the literal reading `fps ≥ 60.00` (round 1). Under it AC4 is blocked by construction → escalated to Merlin.**
+- Evidence (`evidence/E1-fps-literal-probe.txt`): 10 consecutive harness runs on the S3 calibration fixture read **59.32–59.82 fps**. All 10 pass the S3 band with **0 dropped frames** and rAF 60.00, and **none reaches 60.00**. A trace shows 301 DrawFrames spanning **5001.2 ms**: headless Chromium's display cadence is **59.986 Hz**, so even a bias-free estimator can't reach 60.00 for *any* content. The harness estimator adds a further −0.6 fps: its window opens before `Tracing.start` takes effect, so the first ~50 ms of each window has no recorded frames (an S3 tooling finding).
+- The only ways to read ≥ 60.00 are to uncap the frame rate (Chromium flags) or to change the estimator to report the nominal rate. Both would measure the instrument, not the engine. **Not done.**
+- Options put to Merlin (brief owner). The orchestrator does not reword the AC: **(R1, recommended)** a brief revision so AC4 reads as the S3 harness verdict `--expect 60` **and** `droppedFrames = 0` (a 60 fps floor = no frame misses its vsync slot) · **(R2)** a calibration-relative rule: engine `fps ≥` calibration `fps` measured in the same session, and 0 dropped frames · **(R3)** keep the literal AC: AC4 stays blocked and S4 cannot close.
+- **Effect on Stage 2:** spec/plan/tasks can be generated with FR-004 carrying AC4 verbatim and flagged *blocked pending Merlin*. Tasks T9/T11 are unaffected in content; only their pass verdict depends on the outcome.
 
 1. **Package surface:** new subpaths `xploder/layout` (pure) and `xploder/react` (R3F), with engine internals unexported? → **Default: yes** (D1).
-2. **Dependencies:** `three ^0.186`, `@react-three/fiber ^9.8` (optional peers of `xploder`, deps of `apps/web`), dev: `@types/three`, `@types/react`, `@react-three/test-renderer`, `eslint-plugin-react-hooks`, `jsdom`. **No drei, no GSAP.** → **Default: approved as listed.**
+2. **Dependencies:** `three ^0.186`, `@react-three/fiber ^9.8` (optional peers of `xploder`, deps of `apps/web`), dev: `@types/three`, `@types/react`, `@react-three/test-renderer`, `eslint-plugin-react-hooks`. **No drei, no GSAP, no jsdom** (round 1). → **Approved by Murphy.**
 3. **Fixtures via `xploder/fixtures`** pointing at the existing `test/fixtures/index.ts`? → **Default: yes** (D1).
-4. **Hook tests in jsdom** (per-file `environment: 'jsdom'`)? → **Default: yes** (D9).
+4. **Hook tests:** ~~jsdom~~ → **revised default: pure env-injected adapters + real-browser coverage via `engine:probe`** (D9).
 5. **Reduced-motion initial state = exploded** (normal = imploded); the toggle works instantly both ways under reduced motion? → **Default: yes** (D5).
-6. **Snap rotation is an instant cut** (no camera token exists; adding one changes the frozen S2 motion module)? → **Default: instant.** Alternative: animate the turn with the `implode` duration/easing tokens (reuses a token for a non-matching purpose).
-7. **Zoom bounds `[0.75 × fit, 3 × fit]`, step × 1.25, reset = fit, keyboard `+ - 0`, no wheel/pinch** in S4? → **Default: yes** (D6). Pinch/wheel can come with S8's input work.
-8. **Base material roles:** layer slab = `grid`, component slab = `line`, transparent canvas over `paper`, Lambert + default-white lights? → **Default: yes** (D7). S6 replaces them anyway.
+6. **Snap rotation:** ~~instant cut~~ → **revised default: animated 90° turn on the `implode` tokens, cut under reduced motion** (D6). A square stack looks identical at every 90° step, so a cut doesn't read as a rotation.
+7. **Zoom bounds:** ~~`[0.75 × fit, 3 × fit]`~~ → **revised default: `[1 × fit, 3 × fit]`**, step × 1.25, reset = fit, keyboard `+ - 0`, no wheel/pinch handlers, canvas `touch-action: pan-y pinch-zoom` (D6). Pinch/wheel model zoom can come with S8's input work.
+8. **Base material roles:** ~~slab = `grid`~~ → **revised default: slab = `lineMuted`, component = `line`** (measured contrast in D7), transparent canvas over `paper`, Lambert + default-white lights. S6 replaces them anyway.
 9. **AC1 prod-404 proof timing:** like S3, the `perf: fixture exclusion` job's `main`-push log after merge is the production evidence; pre-merge, the preview 404 + `out/` scan cover it? → **Default: yes.**
 10. **Engine FPS stays a local headless proof (Mac GPU), not a CI job** (CI keeps S3's calibration job)? → **Default: yes** (D10).
 11. **Layer 0 at the top of the stack** (UI on top for A, `ingest` on top for B)? → **Default: yes** (D2).
-12. **Interrupt semantics:** a reversal restarts from current progress with duration scaled by remaining distance? → **Default: yes** (D4).
+12. **Interrupt semantics:** a reversal restarts from current progress with duration **and stagger delay** scaled by remaining distance (round 1: delay scaling added) → **revised default** (D4).
 13. **Executor ladder as S02/S03** (Flash → tier 2 skipped → pause + usage report on 2 failures)? → **Default: yes** (D11).
 
 ---
 
 ## 7. WHAT MURPHY SHOULD TEST/VALIDATE (Stage 1)
 
-1. **E1:** pick reading (a) or (b) for AC4 (default: a).
+1. **E1:** Merlin's answer (R1 / R2 / R3) once it arrives (default: R1 recommended; no Stage 3 AC4 verdict before it).
 2. The layout rules in D2 (shared footprint, `ceil(sqrt)` grid, layer 0 on top, centered stack) match the picture in your head for both fixtures (default: accept).
 3. D4's choice of a custom tween over GSAP, including the OSS-license reason (default: accept).
 4. D6's camera: instant 90° cuts, isometric elevation, zoom bounds, no wheel/drag/pinch (default: accept).
@@ -289,9 +300,26 @@ usePrefersReducedMotion(): boolean
 
 ## 8. WHAT THE AGENT NEEDS FROM MURPHY
 
-1. Your answer to **E1** (default: reading a).
-2. Answers to open questions 1–13 (default: all recommendations accepted).
-3. Approval of the dependency list in open question 2 (default: approved).
-4. Permission to push `task/s04-engine-core-a` and open a draft PR at the end of G2 (T8) so the preview-based gates run early (default: granted at the G1 gate).
+1. ~~Your answer to E1~~ → answered (literal). Now needed: Merlin's revision decision, relayed or recorded in the vault revision log (default: R1).
+2. Confirmation of the six round-1 revisions in §9.2 (default: accepted).
+3. ~~Dependency list~~ → approved.
+4. ~~Push + draft PR~~ → granted. The branch is pushed now (for the E1 evidence); the draft PR opens at T8 as planned.
 5. Who merges, and when, for the AC1 prod-404 row (default: you merge after your final validation; the `fixture exclusion` job's main-push log is the evidence).
 6. Usage pacing as in S03 §9.6 (start each Stage 3 group in a fresh 5h window, stop at ≥ 85%; you state "5h: N%" in gate messages because the local capture is stale, last captured 03:50Z) (default: same).
+
+---
+
+## 9. Decisions recorded (Murphy, 2026-10-29, round 1)
+
+1. **E1 → literal reading `fps ≥ 60.00`.** The orchestrator measured it (`evidence/E1-fps-literal-probe.txt`): blocked by construction (headless cadence 59.986 Hz). Escalated to Merlin via Hermes → home Discord channel, as Murphy authorised. AC4 is unchanged in this RFC.
+2. Open questions 1–13: defaults accepted. Murphy then asked the orchestrator to challenge them, and **six defaults were revised** (need confirmation):
+   1. Q4: no jsdom. Pure env-injected adapters + real-browser coverage via `engine:probe` (D9).
+   2. Q6: animated 90° turn on the `implode` tokens instead of an instant cut (D6).
+   3. Q7: zoom lower bound `1 × fit` instead of `0.75 × fit`; canvas `touch-action: pan-y pinch-zoom` (D6).
+   4. Q8: slab color `lineMuted` instead of `grid`, from measured contrast (D7).
+   5. Q12: stagger delays also scaled on interruption (D4).
+   6. D2 addition: grid axis orientation fixed so data order reads left → right at the default view.
+   Unchanged after challenge: Q1, Q3, Q5, Q9, Q10, Q11, Q13 (reasons in the chat summary for this round).
+3. Dependencies (Q2, minus `jsdom`): **approved.**
+4. Push `task/s04-engine-core-a` and open a draft PR: **granted.**
+5. Usage at this gate: 5h 56% (Murphy).
