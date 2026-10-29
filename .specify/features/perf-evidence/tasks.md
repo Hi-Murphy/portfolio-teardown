@@ -17,7 +17,7 @@
 | T007 | ☑ | 1 (Flash) + ⚑ orchestrator push/PR | evidence/T007-{ci.txt,lighthouse-summary.json,weight.json} | 45fe8d6 |
 | T008 | ☑ | ⚑ orchestrator (scratch PR #4, by design) | evidence/T008-violation-{A,B}.txt | n/a (scratch, closed) |
 | T009 | ☑ | 1 (Flash) + orchestrator 1-line review fix | evidence/T009-fixture.txt | ecee529 |
-| T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-fps.{txt,json} | (merge) |
+| T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-fps.{txt,json} | 5b9e174 |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
