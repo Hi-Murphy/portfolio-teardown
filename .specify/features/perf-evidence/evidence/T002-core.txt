@@ -1,0 +1,37 @@
+== executor (tier 1, DeepSeek Flash) check log
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t002/tools/perf
+
+
+ Test Files  4 passed (4)
+      Tests  14 passed (14)
+   Start at  16:04:44
+   Duration  104ms (tests 45%, import 39%, transform 9%, worker 7%)
+
+HTTP/1.1 200 OK
+Cache-Control: public, max-age=0, must-revalidate
+Content-Length: 4244
+Content-Type: text/html; charset=utf-8
+X-Content-Type-Options: nosniff
+Content-Encoding: gzip
+Vary: Accept-Encoding
+Date: Thu, 29 Oct 2026 09:04:49 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+== orchestrator re-run (outside sandbox; incl. real Chromium launch)
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+ Test Files  4 passed (4)
+      Tests  14 passed (14)
+$ pnpm -r --if-present build
+$ next build
+http://127.0.0.1:4173/
+HTTP/1.1 200 OK
+Content-Encoding: gzip
+404-check 404
+chromium launch ok 156.0.8078.4 412x823
+RERUN-OK
