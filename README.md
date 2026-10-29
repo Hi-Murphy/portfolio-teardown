@@ -27,6 +27,7 @@ pnpm dev # start the local development server at http://localhost:3000
 pnpm build # create the static export in apps/web/out
 pnpm typecheck # typecheck every workspace package
 pnpm lint # lint every workspace package and check formatting
+pnpm test # run every workspace package's tests
 pnpm format # format the workspace with Prettier
 ```
 

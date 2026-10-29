@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   build:
-    name: build (typecheck, lint, build)
+    name: build (typecheck, lint, test, build)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -26,6 +26,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm lint
+      - run: pnpm test
       - run: pnpm build
 
   secrets:

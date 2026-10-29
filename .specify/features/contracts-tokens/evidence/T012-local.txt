@@ -1,0 +1,11 @@
+$ pnpm typecheck && pnpm lint && CI=1 pnpm test && pnpm build
+✓ Types generated successfully
+All matched files use Prettier code style!
+      Tests  43 passed (43)
+      Tests  13 passed (13)
+✓ Compiled successfully in 178ms
+$ grep "pnpm test" .github/workflows/ci.yml
+17:    name: build (typecheck, lint, test, build)
+29:      - run: pnpm test
+FROZEN-OK
+T012-FILES-OK

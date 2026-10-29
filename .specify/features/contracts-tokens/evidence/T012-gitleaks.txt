@@ -1,0 +1,7 @@
+$ gitleaks git --redact --verbose   (8.30.1)
+    ○ ░
+    ░    gitleaks
+
+12:12PM INF 41 commits scanned.
+12:12PM INF scanned ~2877848 bytes (2.88 MB) in 853ms
+12:12PM INF no leaks found
