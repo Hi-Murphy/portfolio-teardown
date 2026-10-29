@@ -3,7 +3,7 @@
 **Input:** `rfc.md` (approved, §9), `spec.md`, `plan.md` in `.specify/features/engine-core-a/`
 **Executor:** DeepSeek Flash seat (tier 1: `codex exec -p deepseek`; sandbox off for browser tasks, writes limited to the task worktree and `/tmp/s04-checks`). **Escalation (RFC D11):** tier 2 (OpenRouter) is **skipped** (`OPENROUTER_API_KEY` unset; logged per task). If tier 1 fails a task twice, the orchestrator **pauses and reports to Murphy** with the current 5h/7d usage and waits for "go". It never takes over automatically. Each report states the finishing tier and any skip.
 **Usage pacing:** each phase group starts in a fresh 5h window. Before each task the orchestrator checks usage. At ≥ 85% of the 5h window, no new task starts: finish and commit the current task, tick the ledger, report, STOP.
-**AC4:** blocked pending Merlin (RFC E1). T011 measures; the verdict is recorded only under the rule in force.
+**AC4:** Merlin decided R3 (literal `fps ≥ 60.00`, RFC §9.7). T011 measures and judges `verdicts.literal60`; a FAIL with 0 dropped frames is reported as AC4 blocked by construction (E1).
 
 ## Ledger (resume point — update at every task boundary)
 

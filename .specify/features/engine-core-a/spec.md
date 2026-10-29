@@ -5,7 +5,7 @@
 
 > Rule: functional requirements map **1:1** to brief AC1–AC6, and their text is quoted verbatim. This spec invents **no** new acceptance criteria. Package surface, instancing, base materials, the playground route and the evidence CLIs are supporting work under the FRs they serve. They get task-level checks, not criteria of their own. Documented values (draw-call budget, zoom bounds, layout defaults) come from the RFC and are referenced, not promoted to criteria.
 >
-> **FR-004 (AC4) is flagged _blocked pending Merlin_** (RFC E1): under Murphy's literal reading (`fps ≥ 60.00`), headless Chromium's 59.986 Hz cadence makes it unattainable by construction (`evidence/E1-fps-literal-probe.txt`). The AC text below is unchanged. If Merlin commits a revised brief, it is merged into this branch and FR-004 is re-quoted from it.
+> **FR-004 (AC4): Merlin decided R3 (keep the literal reading), RFC §9.7.** It was previously flagged *blocked pending Merlin* (RFC E1): under Murphy's literal reading (`fps ≥ 60.00`), headless Chromium's 59.986 Hz cadence makes it unattainable by construction (`evidence/E1-fps-literal-probe.txt`). The AC text below is unchanged. If Merlin commits a revised brief, it is merged into this branch and FR-004 is re-quoted from it.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -91,7 +91,7 @@ As Murphy, I see machine-made evidence for every visual and motion claim (screen
 - **FR-001 (↔ AC1):** `/dev/engine` renders fixture A as stacked layer slabs with component slabs gridded inside; fixture B renders via the switch; layout determinism unit test green; route 404s on the production URL (CI-checked like the S3 fixture).
 - **FR-002 (↔ AC2):** explode ⇄ implode works both directions from the toggle; every duration/easing traces to the S2 motion module (exclusivity grep green over engine + playground); with `prefers-reduced-motion`, the exploded state appears instantly with no animation.
 - **FR-003 (↔ AC3):** camera defaults to locked 45° azimuth; rotate happens only in 90° snaps via button AND keyboard; zoom stays within documented bounds; a code-level test asserts no free-orbit control exists.
-- **FR-004 (↔ AC4):** FPS harness on `/dev/engine` with fixture A reports ≥60fps headless; evidence artifact attached per EVIDENCE.md. — ⚠ *blocked pending Merlin (RFC E1); reading in force: literal `fps ≥ 60.00` (Murphy, round 1).*
+- **FR-004 (↔ AC4):** FPS harness on `/dev/engine` with fixture A reports ≥60fps headless; evidence artifact attached per EVIDENCE.md. — ⚠ *reading in force: literal `fps ≥ 60.00` (Merlin R3, RFC §9.7); expected blocked by construction (E1 evidence).*
 - **FR-005 (↔ AC5):** layout + renderer live in `packages/xploder`; `apps/web` imports them as a package consumer (no engine logic in the app); schema geometry-free test still green.
 - **FR-006 (↔ AC6):** full CI green on the PR — build/typecheck/lint/test, gitleaks, lighthouse gate, weight gate, fps calibration, fixture exclusion — plus screenshots (light + dark, imploded + exploded) attached as evidence.
 
