@@ -4,7 +4,8 @@
 
 ## Invocation contract
 
-- Murphy sends exactly one kickoff message: `Read .specify/KICKOFF-S03.md and execute Stage 1. Then STOP and wait for my message.`
+- Murphy sends exactly one kickoff message: `Read .specify/KICKOFF-S03.md and execute Stage 1 on branch task/s03-perf-evidence. Then STOP and wait for my message.`
+- ALL slice work happens on branch **`task/s03-perf-evidence`** (worktrees welcome). Never commit to `main`; integration is a PR merged only after Murphy's final validation.
 - Thereafter: **exactly ONE stage per Murphy message.** A stage ends with its end-contract below, then STOP. The next stage begins only on a new Murphy message (`approved`, or feedback).
 - Feedback instead of approval → address it **within the current stage**, re-present the end-contract, STOP again.
 - Under no circumstance chain two stages in one turn — including when review seems a formality. Gate overruns are a documented failure mode on this project and are treated as protocol violations.
