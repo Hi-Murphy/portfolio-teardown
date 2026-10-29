@@ -12,7 +12,7 @@
 | T002 | ☑ | 1 (Flash) | evidence/T002-core.txt | (merge) |
 | T003 | ☑ | 1 (Flash, sandbox off) | evidence/T003-lighthouse.{txt,-summary.json} | (merge) |
 | T004 | ☑ | 1 (Flash, sandbox off) | evidence/T004-weight.{txt,json} | (merge) |
-| T005 | ☐ | | | |
+| T005 | ☑ | 1 (Flash, sandbox off) | evidence/T005-{evidence.txt,screenshot-*.png,meta.json} | (merge) |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |

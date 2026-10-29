@@ -1,0 +1,52 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/",
+  "finalUrl": "https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/",
+  "httpStatus": 200,
+  "startedAt": "2026-10-29T09:21:55.442Z",
+  "finishedAt": "2026-10-29T09:22:16.526Z",
+  "durationMs": 21084,
+  "argv": [
+    "https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/"
+  ],
+  "colorScheme": "light",
+  "git": {
+    "sha": "b32809e73f6baa0acb0dbd8be542c78cac4d8652",
+    "dirty": false
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 1113
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 1624
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 17941
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}
