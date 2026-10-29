@@ -13,7 +13,7 @@
 | T002 | ☑ | 1 (Flash) | evidence/T002-layout.txt | 7518048 |
 | T003 | ☑ | 1 (Flash) | evidence/T003-explode.txt | 6a0a5e3 |
 | T004 | ☑ | 1 (Flash) | evidence/T004-camera.txt | faed015 |
-| T005 | ☐ | | | |
+| T005 | ☑ | 1 (Flash) + orchestrator 1-fn review fix | evidence/T005-scene.txt | 84a1a57 |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
