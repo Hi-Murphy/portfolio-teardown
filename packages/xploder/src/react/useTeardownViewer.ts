@@ -5,8 +5,10 @@ import {
   cameraReducer,
   INITIAL_RIG,
   keyToAction,
+  zoomAvailability,
   type RigAction,
   type RigState,
+  type ZoomAvailability,
 } from '../engine/camera';
 import { usePrefersReducedMotion } from './useReducedMotion';
 
@@ -28,6 +30,8 @@ export interface TeardownViewerHandle {
   readonly rig: RigState;
   /** Target azimuth in degrees, normalised to [0, 360). */
   readonly azimuthDegrees: number;
+  /** Which zoom controls would change the zoom right now (disable the others). */
+  readonly can: ZoomAvailability;
   readonly actions: TeardownViewerActions;
   readonly onKeyDown: (event: KeyboardEvent) => void;
 }
@@ -73,8 +77,10 @@ export function useTeardownViewer(opts: { initial?: TeardownTarget } = {}): Tear
     return Number((((degrees % 360) + 360) % 360).toFixed(3));
   }, [rig.turns]);
 
+  const can = useMemo(() => zoomAvailability(rig), [rig]);
+
   return useMemo(
-    () => ({ target, rig, azimuthDegrees, actions, onKeyDown }),
-    [target, rig, azimuthDegrees, actions, onKeyDown],
+    () => ({ target, rig, azimuthDegrees, can, actions, onKeyDown }),
+    [target, rig, azimuthDegrees, can, actions, onKeyDown],
   );
 }
