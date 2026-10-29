@@ -11,9 +11,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-three/fiber": "^9.8.2",
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "three": "^0.186.1",
     "xploder": "workspace:*"
   },
   "devDependencies": {

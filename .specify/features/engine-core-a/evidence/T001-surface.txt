@@ -1,0 +1,68 @@
+T001 — xploder package surface, deps and tooling · executor: tier 1 (Flash, sandbox off) · orchestrator re-run: 2026-10-29T15:26:02Z
+
+== executor check log (/tmp/s04-checks/t001.txt) ==
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t001-surface/apps/web
+apps/web test: 
+tools/perf test: 
+tools/perf test:  Test Files  10 passed (10)
+tools/perf test:       Tests  53 passed (53)
+tools/perf test:    Start at  22:25:07
+tools/perf test:    Duration  574ms (import 73%, transform 18%, tests 8%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+apps/web test: 
+apps/web test:  Test Files  1 passed | 1 skipped (2)
+apps/web test:       Tests  13 passed | 2 skipped (15)
+apps/web test:    Start at  22:25:07
+apps/web test:    Duration  496ms (transform 51%, import 19%, tests 17%, worker 13%)
+apps/web test: 
+apps/web test: Done
+$ node tools/perf/src/cli/weight-gate.ts http://127.0.0.1:<port>/ --out /tmp/s04-checks/t001-weight
+mobile: 149459 bytes, 9 requests, PASS
+  72267 B  script  http://127.0.0.1:<port>/_next/static/chunks/1kgrt2f4mrm63.js
+  50114 B  script  http://127.0.0.1:<port>/_next/static/chunks/1pa-9yuiv_1n_.js
+  6312 B  script  http://127.0.0.1:<port>/_next/static/chunks/2xfgfmozlm41z.js
+  4540 B  document  http://127.0.0.1:<port>/
+  4248 B  script  http://127.0.0.1:<port>/_next/static/chunks/turbopack-3-ry682tkyiqk.js
+desktop: 149459 bytes, 9 requests, PASS
+  72267 B  script  http://127.0.0.1:<port>/_next/static/chunks/1kgrt2f4mrm63.js
+  50114 B  script  http://127.0.0.1:<port>/_next/static/chunks/1pa-9yuiv_1n_.js
+  6312 B  script  http://127.0.0.1:<port>/_next/static/chunks/2xfgfmozlm41z.js
+  4540 B  document  http://127.0.0.1:<port>/
+  4248 B  script  http://127.0.0.1:<port>/_next/static/chunks/turbopack-3-ry682tkyiqk.js
+pass: true
+weight.json: /tmp/s04-checks/t001-weight/weight.json
+base 149460 now 149459
+├── @react-three/fiber@9.8.2
+├── three@0.186.1
+├── @react-three/fiber@9.8.2
+├── @react-three/test-renderer@9.1.1
+├── @types/three@0.186.0
+├── three@0.186.1
+
+== orchestrator re-run: guards + typecheck/lint/test ==
+FROZEN-OK
+S2-OK
+packages/xploder test:       Tests  45 passed (45)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  14 passed | 1 skipped (15)
+
+== landing weight (pnpm perf:weight on local serve:out, mobile/desktop) ==
+baseline b504fba-equivalent  mobile 149460 desktop 149460 pass true
+after T001                   mobile 149459 desktop 149459 pass true
+delta: -1 B (-0.001%), budget ±2%
+
+== new deps (pnpm ls -r --depth 0, filtered) ==
+├── @react-three/fiber@9.8.2
+├── three@0.186.1
+├── @types/react@19.3.0
+├── @types/react-dom@19.3.0
+├── @react-three/fiber@9.8.2
+├── @react-three/test-renderer@9.1.1
+├── @types/react@19.3.0
+├── @types/three@0.186.0
+├── eslint-plugin-react-hooks@7.1.1
+├── three@0.186.1
+drei/gsap/jsdom: none
