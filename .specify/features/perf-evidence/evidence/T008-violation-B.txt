@@ -1,0 +1,39 @@
+== T008 run B — scratch PR #4, commit c169745: revert A + WEIGHT_BUDGET_BYTES = 1_000
+perf run 40852377738 / ci run 40852377771
+build (typecheck, lint, test, build)	fail	26s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852377771/job/123374795101	
+perf-gate: weight (< 3 MB)	fail	1m6s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852377738/job/123374793422	
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/DWvweMShSWNELPudvkfTTa6zKMnW	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+perf-gate: lighthouse (mobile)	pass	1m9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852377738/job/123374793783	
+secrets (gitleaks)	pass	6s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852377771/job/123374794739	
+
+== Weight gate step (exit 6, both profiles over budget)
+$ node tools/perf/src/cli/weight-gate.ts https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/
+mobile: 152151 bytes, 10 requests, FAIL
+  73719 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/13tpq3h9ofloe.js
+over budget: 1000 bytes per profile
+  50812 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2mkneag1e8189.js
+  6465 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/401or_too4_ib.js
+  4824 B  document  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/
+  4349 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js
+desktop: 175568 bytes, 13 requests, FAIL
+  73713 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/13tpq3h9ofloe.js
+  50812 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2mkneag1e8189.js
+  23580 B  script  https://vercel.live/_next-live/feedback/feedback.js
+  6515 B  script  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/401or_too4_ib.js
+  4826 B  document  https://portfolio-teardown-git-test-s03-gate-violation-murphy-3c4d.vercel.app/
+pass: false
+weight.json: /home/runner/work/portfolio-teardown/portfolio-teardown/.evidence/ci/weight/weight.json
+[ELIFECYCLE] Command failed with exit code 6.
+
+== Lighthouse gate in the same run (green)
+performance: 0.99 >= 0.95 (median) pass
+lcp: 865.853 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+
+Note: 'build' fails here too (weight unit tests pin the real budget).
+
+== Cleanup
+PR #4: CLOSED (unmerged); remote branch test/s03-gate-violation deleted; local branch/worktree removed.
+git diff 45fe8d6 task/s03-perf-evidence -- tools/perf/src/budgets.ts: empty (T008-OK)
+Note: check-list screenshots replaced by gh pr checks text.
