@@ -18,7 +18,7 @@
 | T008 | ☑ | ⚑ orchestrator (scratch PR #4, by design) | evidence/T008-violation-{A,B}.txt | n/a (scratch, closed) |
 | T009 | ☑ | 1 (Flash) + orchestrator 1-line review fix | evidence/T009-fixture.txt | ecee529 |
 | T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-fps.{txt,json} | 5b9e174 |
-| T011 | ☐ | | | |
+| T011 | ☑ | 1 (Flash) + orchestrator 1-line review fix, push | evidence/T011-{ci.txt,fps-ci.json} | 9e8b84b |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |

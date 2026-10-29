@@ -1,0 +1,33 @@
+== PR #3 checks at 9e8b84b6bd093c4ad00618b2a1040ebfa5dbc12f (perf run 40855615319)
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/6rizerqj3KnAM1i5o4rExNCP4nre	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	39s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40855615395/job/123385704235	
+perf-gate: lighthouse (mobile)	pass	55s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40855615319/job/123385703545	
+perf-gate: weight (< 3 MB)	pass	1m19s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40855615319/job/123385703416	
+perf: fixture exclusion	pass	19s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40855615319/job/123385703465	
+perf: fps calibration	pass	52s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40855615319/job/123385703059	
+secrets (gitleaks)	pass	7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40855615395/job/123385703699	
+
+== perf: fps calibration (ubuntu-latest = ubuntu-26.04, headless Chromium)
+fps: 59.98 (301 frames / 5018 ms)
+rafFps: 60.00
+droppedFrames: 0
+intervalsMs: p50=16.67 p95=17.05 max=20.54
+pid: 3409 (draw-frame-frequency-fallback)
+chromium: 156.0.8078.4
+source: trace:DrawFrame
+pass: true (60 ± 10.0%, 54.00–66.00)
+
+== perf: fixture exclusion (PR preview = production-mode Vercel build)
+node tools/perf/src/cli/assert-absent.ts "https://portfolio-teardown-git-task-s03-perf-evidence-murphy-3c4d.vercel.app/fixtures/fps-calibration"
+absent: https://portfolio-teardown-git-task-s03-perf-evidence-murphy-3c4d.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+
+== build job, new 'Fixture exclusion' step after pnpm build (out/ scan; positive control skipped: no out-fixtures/ in that job — it ran locally in T009)
+##[group]Run pnpm --filter web exec vitest run test/fixture-exclusion.test.ts
+pnpm --filter web exec vitest run test/fixture-exclusion.test.ts
+ ✓ test/fixture-exclusion.test.ts (2 tests | 1 skipped) 8ms
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+
+Orchestrator review fix before push: fps artifact path .evidence/*-fps/ -> .evidence/ci/ (CI writes to .evidence/ci/fps).
+Prod-URL row of AC4 (push to main) runs after Murphy's merge.
