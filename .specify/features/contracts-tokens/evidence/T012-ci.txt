@@ -1,0 +1,17 @@
+== T012 CI on PR (AC6) ==
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/2 (draft, base main, head task/s02-contracts-tokens)
+Head commit checked: 577eb59e42f0f886665b89674e6eeb7764668c30
+Actions run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40822145100
+$ gh pr checks 2
+build (typecheck, lint, test, build)  pass  30s
+secrets (gitleaks)                    pass   5s
+Vercel                                pass   Deployment has completed
+Vercel Preview Comments               pass
+$ gh run view 40822145100 --log | grep (test step + results)
+Run pnpm test → $ pnpm -r --if-present test
+  packages/xploder: Test Files 9 passed (9) · Tests 43 passed (43)
+  apps/web:         Test Files 1 passed (1) · Tests 13 passed (13)
+  secrets job: INF no leaks found
+$ curl -sI <vercel preview for branch> → HTTP/2 200; body contains "--bp-paper:#F6F3EA" and "palette · blueprint v1"
+Annotations: 2 informational notices (GitHub ubuntu-latest → Ubuntu 26 label migration); no warnings/errors.
+Screenshot: T012-ci.png (Actions run summary, both jobs green)
