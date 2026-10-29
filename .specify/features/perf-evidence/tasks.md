@@ -14,7 +14,7 @@
 | T004 | ☑ | 1 (Flash, sandbox off) | evidence/T004-weight.{txt,json} | 895c9e3 |
 | T005 | ☑ | 1 (Flash, sandbox off) | evidence/T005-{evidence.txt,screenshot-*.png,meta.json} | c828c57 |
 | T006 | ☑ | 1 (Flash, sandbox off) | evidence/T006-preview.txt | ab4b7e0 |
-| T007 | ☐ | | | |
+| T007 | ☑ | 1 (Flash) + ⚑ orchestrator push/PR | evidence/T007-{ci.txt,lighthouse-summary.json,weight.json} | 45fe8d6 |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
