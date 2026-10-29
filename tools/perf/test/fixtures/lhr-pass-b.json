@@ -1,0 +1,40 @@
+{
+  "requestedUrl": "http://127.0.0.1:4173/",
+  "mainDocumentUrl": "http://127.0.0.1:4173/",
+  "finalUrl": "http://127.0.0.1:4173/",
+  "lighthouseVersion": "13.6.0",
+  "userAgent": "Mozilla/5.0 HeadlessChrome/156.0.8078.4",
+  "environment": {
+    "hostUserAgent": "Mozilla/5.0 HeadlessChrome/156.0.8078.4",
+    "benchmarkIndex": 1490
+  },
+  "configSettings": {
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate"
+  },
+  "categories": {
+    "performance": {
+      "score": 0.98
+    }
+  },
+  "audits": {
+    "largest-contentful-paint": {
+      "numericValue": 1800
+    },
+    "cumulative-layout-shift": {
+      "numericValue": 0
+    },
+    "total-blocking-time": {
+      "numericValue": 18
+    },
+    "first-contentful-paint": {
+      "numericValue": 800
+    },
+    "speed-index": {
+      "numericValue": 1000
+    },
+    "total-byte-weight": {
+      "numericValue": 147000
+    }
+  }
+}

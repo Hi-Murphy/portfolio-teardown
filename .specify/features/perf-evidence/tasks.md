@@ -10,7 +10,7 @@
 |---|---|---|---|---|
 | T001 | ☑ | 1 (Flash) | evidence/T001-scaffold.txt | (merge) |
 | T002 | ☑ | 1 (Flash) | evidence/T002-core.txt | (merge) |
-| T003 | ☐ | | | |
+| T003 | ☑ | 1 (Flash, sandbox off) | evidence/T003-lighthouse.{txt,-summary.json} | (merge) |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
