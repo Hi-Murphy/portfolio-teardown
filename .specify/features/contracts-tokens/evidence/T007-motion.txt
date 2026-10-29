@@ -1,0 +1,60 @@
+$ pnpm --filter xploder exec vitest run motion --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t007/packages/xploder
+
+ ✓ test/motion.test.ts > xploder motion tokens > matches the RFC D9 seed table 1ms
+ ✓ test/motion.test.ts > xploder motion tokens > resolveMotion returns the static twin only when reduced motion is requested 0ms
+ ✓ test/motion.test.ts > xploder motion tokens > motionCss emits the contract units and reduced-motion static twin 0ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  11:35:49
+   Duration  62ms (import 44%, transform 22%, tests 19%, worker 15%, environment 1%)
+
+$ pnpm typecheck && pnpm lint && pnpm build
+✓ Types generated successfully
+All matched files use Prettier code style!
+✓ Compiled successfully in 179ms
+┌ ○ /
+FROZEN-OK
+
+$ motionCss() output (pretty-printed by a throwaway test, not committed)
+:root{
+--motion-duration-explode:900ms;
+--motion-duration-implode:600ms;
+--motion-duration-hover-lift:180ms;
+--motion-duration-hover-settle:240ms;
+--motion-duration-tour-pulse:500ms;
+--motion-duration-tour-beat:1600ms;
+--motion-duration-panel-enter:320ms;
+--motion-duration-panel-exit:200ms;
+--motion-ease-explode:cubic-bezier(0.16, 1, 0.3, 1);
+--motion-ease-implode:cubic-bezier(0.76, 0, 0.24, 1);
+--motion-ease-hover:cubic-bezier(0.25, 1, 0.5, 1);
+--motion-ease-tour-pulse:cubic-bezier(0.37, 0, 0.63, 1);
+--motion-ease-panel-enter:cubic-bezier(0.16, 1, 0.3, 1);
+--motion-ease-panel-exit:cubic-bezier(0.32, 0, 0.67, 0);
+--motion-stagger-explode-layer:60ms;
+--motion-stagger-explode-component:20ms;
+--motion-stagger-implode-layer:40ms;
+--motion-stagger-tour-step:150ms;
+--motion-distance-hover-lift:4px;
+--motion-distance-panel-offset:16px;
+}@media (prefers-reduced-motion: reduce){
+:root{
+--motion-duration-explode:0ms;
+--motion-duration-implode:0ms;
+--motion-duration-hover-lift:0ms;
+--motion-duration-hover-settle:0ms;
+--motion-duration-tour-pulse:0ms;
+--motion-duration-tour-beat:0ms;
+--motion-duration-panel-enter:0ms;
+--motion-duration-panel-exit:0ms;
+--motion-stagger-explode-layer:0ms;
+--motion-stagger-explode-component:0ms;
+--motion-stagger-implode-layer:0ms;
+--motion-stagger-tour-step:0ms;
+--motion-distance-hover-lift:0px;
+--motion-distance-panel-offset:0px;
+}}
+T007-OK
