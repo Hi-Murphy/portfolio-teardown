@@ -6,7 +6,8 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
-    "./motion": "./src/motion/index.ts"
+    "./motion": "./src/motion/index.ts",
+    "./theme": "./src/theme/index.ts"
   },
   "scripts": {
     "test": "vitest run",
