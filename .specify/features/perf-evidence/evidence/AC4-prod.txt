@@ -1,0 +1,9 @@
+== AC4 prod-URL verification (post-merge)
+main push: merge commit fb73bc9 (PR #3); perf run 40863054965, job 'perf: fixture exclusion' 123410846140 = success
+steps: resolve-preview --production (Vercel status success on fb73bc9 + production HTML contains the full SHA) -> assert-absent
+
+absent: https://portfolio-teardown.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+
+== orchestrator independent check 2026-10-29T11:12Z
+curl https://portfolio-teardown.vercel.app/ | grep -c fb73bc97d8b2ca488d1b459af6ffcc518dc5d67d -> 1 (prod serves the merge commit)
+curl -o /dev/null -w %{http_code} https://portfolio-teardown.vercel.app/fixtures/fps-calibration -> 404
