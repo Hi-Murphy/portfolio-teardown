@@ -1,4 +1,4 @@
-# Slice 04 — Engine Core A: Layout · Explode · Camera · FROZEN BRIEF v1
+# Slice 04 — Engine Core A: Layout · Explode · Camera · FROZEN BRIEF v2
 
 **slice:** S04-engine-core-a · **project:** portfolio-teardown · **repo:** Hi-Murphy/portfolio-teardown · **milestone:** M1 · **author:** Merlin (project layer) · **orchestrator:** Opus 5.5 (orca) · **branch:** `task/s04-engine-core-a` · **depends on:** S2 ✅ (contracts/tokens) · S3 ✅ (gates/evidence)
 
@@ -23,7 +23,7 @@ Build the spatial foundation of the teardown engine: given a validated `Project`
 3. **Camera rig:** orthographic camera, locked 45° default, 90° snap-rotate (button + keyboard), bounded zoom, no free-orbit path in code.
 4. **Dev playground route in `apps/web`** (e.g. `/dev/engine`): renders fixture A with toggle + rotate + zoom controls; fixture B switchable (query param or control); **excluded from production build** (404 on prod like the S3 fixture).
 5. **Base materials token-fed:** colors from S2 theme tokens only; light/dark toggle respected (S1 mechanism); no hardcoded hex (grep test).
-6. **Perf proof:** playground holds ≥60fps headless (S3 FPS harness) on fixture A desktop; draw-call/instance budget documented; evidence artifacts attached.
+6. **Perf proof:** playground holds the 60fps floor headless (S3 FPS harness: 0 dropped frames over a ≥5s window on fixture A desktop, per AC4); draw-call/instance budget documented; evidence artifacts attached.
 7. **Tests:** layout determinism · no-free-orbit assertion · reduced-motion behavior · motion-literal + hex-literal exclusivity extended over engine code · fixture-exclusion check extended to the new route.
 
 ## Non-goals (hard)
@@ -48,3 +48,6 @@ Build the spatial foundation of the teardown engine: given a validated `Project`
 
 ## Freeze protocol
 Frozen at commit; work only on `task/s04-engine-core-a`; integration via PR after Murphy's final validation. Scope/AC changes = revision, logged in the vault revision log with reason code. Design decisions (instancing strategy, layout algorithm details, zoom bounds, GSAP-vs-tween mechanics, draw-call budget) live in `.specify/features/engine-core-a/rfc.md` — orchestrator-authored, Murphy-reviewed before spec/plan/tasks and again before execution. **This slice is the Large-effort split candidate: if it accrues 2 revisions, split it (layout vs animation vs camera), don't re-plan it.**
+
+## Revision log
+- **v2 · 2026-10-30 · AC4 · reason `criteria-wrong`**: the literal "≥60fps" is unattainable by construction in headless Chromium (display cadence 59.986 Hz; the S3 calibration fixture reads 59.3–59.8 fps with 0 dropped frames). AC4 now gates on 0 dropped frames over a ≥5s window, with the 60 ±10% band as a liveness check. AC4 text drafted by Mercure (`b884e95`, 2026-10-29) and adopted by Murphy as Merlin on 2026-10-30. Header, Deliverable 6 and this log were written by the orchestrator under Murphy's one-time authorization. Evidence: `.specify/features/engine-core-a/evidence/E1-fps-literal-probe.txt`, `T011-fps.json`. Revision count: 1 of 2 (split trigger).
