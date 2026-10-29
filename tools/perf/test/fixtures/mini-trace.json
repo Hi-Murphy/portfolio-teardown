@@ -1,0 +1,1238 @@
+[
+  {
+    "args": {
+      "frameSeqId": 23,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216890723,
+    "tts": 4730
+  },
+  {
+    "args": {
+      "frameSeqId": 26,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216893395,
+    "tts": 2686
+  },
+  {
+    "args": {
+      "frameSeqId": 26,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216894350,
+    "tts": 2439
+  },
+  {
+    "args": {
+      "frameSeqId": 24,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216907313,
+    "tts": 4827
+  },
+  {
+    "args": {
+      "frameSeqId": 27,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216910026,
+    "tts": 2756
+  },
+  {
+    "args": {
+      "frameSeqId": 27,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216911016,
+    "tts": 2449
+  },
+  {
+    "args": {
+      "frameSeqId": 25,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216923981,
+    "tts": 4932
+  },
+  {
+    "args": {
+      "frameSeqId": 28,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216926723,
+    "tts": 2817
+  },
+  {
+    "args": {
+      "frameSeqId": 28,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216927682,
+    "tts": 2455
+  },
+  {
+    "args": {
+      "frameSeqId": 26,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216942532,
+    "tts": 5061
+  },
+  {
+    "args": {
+      "frameSeqId": 29,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216942917,
+    "tts": 2859
+  },
+  {
+    "args": {
+      "frameSeqId": 29,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216944348,
+    "tts": 2461
+  },
+  {
+    "args": {
+      "frameSeqId": 27,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216957375,
+    "tts": 5195
+  },
+  {
+    "args": {
+      "frameSeqId": 30,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216960048,
+    "tts": 2913
+  },
+  {
+    "args": {
+      "frameSeqId": 30,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216961014,
+    "tts": 2468
+  },
+  {
+    "args": {
+      "frameSeqId": 28,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216974058,
+    "tts": 5344
+  },
+  {
+    "args": {
+      "frameSeqId": 31,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216976752,
+    "tts": 2970
+  },
+  {
+    "args": {
+      "frameSeqId": 31,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216977680,
+    "tts": 2474
+  },
+  {
+    "args": {
+      "frameSeqId": 29,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272216990755,
+    "tts": 5479
+  },
+  {
+    "args": {
+      "frameSeqId": 32,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272216993471,
+    "tts": 3116
+  },
+  {
+    "args": {
+      "frameSeqId": 32,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272216994346,
+    "tts": 2482
+  },
+  {
+    "args": {
+      "frameSeqId": 30,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217007426,
+    "tts": 5690
+  },
+  {
+    "args": {
+      "frameSeqId": 33,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217010106,
+    "tts": 3292
+  },
+  {
+    "args": {
+      "frameSeqId": 33,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217011012,
+    "tts": 2493
+  },
+  {
+    "args": {
+      "frameSeqId": 31,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217025891,
+    "tts": 5852
+  },
+  {
+    "args": {
+      "frameSeqId": 34,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217026316,
+    "tts": 3433
+  },
+  {
+    "args": {
+      "frameSeqId": 34,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217027678,
+    "tts": 2499
+  },
+  {
+    "args": {
+      "frameSeqId": 32,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217040802,
+    "tts": 6062
+  },
+  {
+    "args": {
+      "frameSeqId": 35,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217043479,
+    "tts": 3618
+  },
+  {
+    "args": {
+      "frameSeqId": 35,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217044344,
+    "tts": 2505
+  },
+  {
+    "args": {
+      "frameSeqId": 33,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217057379,
+    "tts": 6206
+  },
+  {
+    "args": {
+      "frameSeqId": 36,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217060093,
+    "tts": 3744
+  },
+  {
+    "args": {
+      "frameSeqId": 36,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217061010,
+    "tts": 2511
+  },
+  {
+    "args": {
+      "frameSeqId": 34,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217074064,
+    "tts": 6354
+  },
+  {
+    "args": {
+      "frameSeqId": 37,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217076771,
+    "tts": 3860
+  },
+  {
+    "args": {
+      "frameSeqId": 37,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217077676,
+    "tts": 2517
+  },
+  {
+    "args": {
+      "frameSeqId": 35,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217090802,
+    "tts": 6563
+  },
+  {
+    "args": {
+      "frameSeqId": 38,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217093476,
+    "tts": 4029
+  },
+  {
+    "args": {
+      "frameSeqId": 38,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217094342,
+    "tts": 2529
+  },
+  {
+    "args": {
+      "frameSeqId": 36,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217109259,
+    "tts": 6777
+  },
+  {
+    "args": {
+      "frameSeqId": 39,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217109677,
+    "tts": 4212
+  },
+  {
+    "args": {
+      "frameSeqId": 39,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217111008,
+    "tts": 2538
+  },
+  {
+    "args": {
+      "frameSeqId": 37,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217124212,
+    "tts": 7059
+  },
+  {
+    "args": {
+      "frameSeqId": 40,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217126884,
+    "tts": 4466
+  },
+  {
+    "args": {
+      "frameSeqId": 40,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217127674,
+    "tts": 2545
+  },
+  {
+    "args": {
+      "frameSeqId": 38,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217140758,
+    "tts": 7250
+  },
+  {
+    "args": {
+      "frameSeqId": 41,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217143467,
+    "tts": 4649
+  },
+  {
+    "args": {
+      "frameSeqId": 41,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217144340,
+    "tts": 2551
+  },
+  {
+    "args": {
+      "frameSeqId": 39,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217157342,
+    "tts": 7397
+  },
+  {
+    "args": {
+      "frameSeqId": 42,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217160038,
+    "tts": 4767
+  },
+  {
+    "args": {
+      "frameSeqId": 42,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217161006,
+    "tts": 2557
+  },
+  {
+    "args": {
+      "frameSeqId": 40,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217174050,
+    "tts": 7526
+  },
+  {
+    "args": {
+      "frameSeqId": 43,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217176461,
+    "tts": 4891
+  },
+  {
+    "args": {
+      "frameSeqId": 43,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217177672,
+    "tts": 2563
+  },
+  {
+    "args": {
+      "frameSeqId": 41,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217190793,
+    "tts": 7751
+  },
+  {
+    "args": {
+      "frameSeqId": 44,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217193455,
+    "tts": 5067
+  },
+  {
+    "args": {
+      "frameSeqId": 44,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217194338,
+    "tts": 2580
+  },
+  {
+    "args": {
+      "frameSeqId": 42,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217207451,
+    "tts": 7971
+  },
+  {
+    "args": {
+      "frameSeqId": 45,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217210219,
+    "tts": 5305
+  },
+  {
+    "args": {
+      "frameSeqId": 45,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217211004,
+    "tts": 2586
+  },
+  {
+    "args": {
+      "frameSeqId": 43,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217224148,
+    "tts": 8199
+  },
+  {
+    "args": {
+      "frameSeqId": 46,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217226802,
+    "tts": 5499
+  },
+  {
+    "args": {
+      "frameSeqId": 46,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217227670,
+    "tts": 2597
+  },
+  {
+    "args": {
+      "frameSeqId": 44,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217240784,
+    "tts": 8414
+  },
+  {
+    "args": {
+      "frameSeqId": 47,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217244336,
+    "tts": 2605
+  },
+  {
+    "args": {
+      "frameSeqId": 45,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217257410,
+    "tts": 8593
+  },
+  {
+    "args": {
+      "frameSeqId": 48,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217261002,
+    "tts": 2612
+  },
+  {
+    "args": {
+      "frameSeqId": 46,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217275086,
+    "tts": 8741
+  },
+  {
+    "args": {
+      "frameSeqId": 49,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217277668,
+    "tts": 2619
+  },
+  {
+    "args": {
+      "frameSeqId": 47,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217290735,
+    "tts": 8908
+  },
+  {
+    "args": {
+      "frameSeqId": 50,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217294334,
+    "tts": 2625
+  },
+  {
+    "args": {
+      "frameSeqId": 48,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217307454,
+    "tts": 9140
+  },
+  {
+    "args": {
+      "frameSeqId": 51,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217311000,
+    "tts": 2632
+  },
+  {
+    "args": {
+      "frameSeqId": 49,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217324122,
+    "tts": 9353
+  },
+  {
+    "args": {
+      "frameSeqId": 52,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217327666,
+    "tts": 2639
+  },
+  {
+    "args": {
+      "frameSeqId": 50,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217340927,
+    "tts": 9565
+  },
+  {
+    "args": {
+      "frameSeqId": 53,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217344332,
+    "tts": 2645
+  },
+  {
+    "args": {
+      "frameSeqId": 51,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217359010,
+    "tts": 9756
+  },
+  {
+    "args": {
+      "frameSeqId": 54,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217360998,
+    "tts": 2652
+  },
+  {
+    "args": {
+      "frameSeqId": 52,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217374210,
+    "tts": 10019
+  },
+  {
+    "args": {
+      "frameSeqId": 55,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217377664,
+    "tts": 2660
+  },
+  {
+    "args": {
+      "frameSeqId": 53,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217390686,
+    "tts": 10166
+  },
+  {
+    "args": {
+      "frameSeqId": 56,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217394330,
+    "tts": 2671
+  },
+  {
+    "args": {
+      "frameSeqId": 54,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97521,
+    "s": "t",
+    "tid": 5475331,
+    "ts": 272217407370,
+    "tts": 10291
+  },
+  {
+    "args": {
+      "frameSeqId": 57,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DrawFrame",
+    "ph": "I",
+    "pid": 97520,
+    "s": "t",
+    "tid": 5475330,
+    "ts": 272217410070,
+    "tts": 6964
+  },
+  {
+    "args": {
+      "frameSeqId": 57,
+      "hasPartialUpdate": false,
+      "layerTreeId": 1
+    },
+    "cat": "disabled-by-default-devtools.timeline.frame",
+    "name": "DroppedFrame",
+    "ph": "I",
+    "pid": 97519,
+    "s": "t",
+    "tid": 5475295,
+    "ts": 272217410996,
+    "tts": 2678
+  }
+]

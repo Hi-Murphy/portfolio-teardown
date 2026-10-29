@@ -1,0 +1,34 @@
+== executor (tier 1, DeepSeek Flash, sandbox off) check log
+$ vitest run lighthouse
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t003/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  16:14:10
+   Duration  405ms (import 92%, transform 5%, tests 3%)
+
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4173/ --out /tmp/s03-checks/t003-lh
+performance: 1 >= 0.95 (median) pass
+lcp: 760.8103000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: /tmp/s03-checks/t003-lh/lighthouse-summary.json
+
+== orchestrator re-run
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+ Test Files  5 passed (5)
+      Tests  19 passed (19)
+$ pnpm -r --if-present build
+$ next build
+http://127.0.0.1:4174/
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4174/ --out /tmp/s03-checks/t003-rerun
+performance: 1 >= 0.95 (median) pass
+lcp: 758.9733000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: /tmp/s03-checks/t003-rerun/lighthouse-summary.json
+pass true runs 3 median 1 performance:1 lcp:758.9733000000001 cls:[0,0,0]
+closed-port exit=3
+RERUN-OK

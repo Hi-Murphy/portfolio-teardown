@@ -12,6 +12,8 @@ future open-source release. The design target is a mid-range Android phone on a 
 - `apps/web`: Next.js 16 App Router, `output: 'export'`, Tailwind CSS v4.
 - `packages/xploder`: source-only TypeScript, with exports for `.`, `./motion` and `./theme`. It is
   consumed through `workspace:*` and Next.js `transpilePackages`.
+- `tools/perf`: private Node 24/TypeScript perf tooling for evidence, Lighthouse, weight, FPS, preview
+  resolution, and serving the static export.
 
 ## 3. Commands
 
@@ -22,6 +24,10 @@ future open-source release. The design target is a mid-range Android phone on a 
 - `pnpm lint` — run ESLint and the Prettier check.
 - `pnpm test` — run every workspace package's tests.
 - `pnpm format` — format the repository with Prettier.
+- `pnpm evidence <url>` — write screenshots, a Lighthouse summary, and `meta.json` to `.evidence/`.
+- `pnpm perf:lighthouse <url>` / `pnpm perf:weight <url>` — run the mobile performance and weight gates.
+- `pnpm fps <url>` / `pnpm fps:calibrate` — measure FPS or calibrate the dev-only fixture.
+- `pnpm build && pnpm serve:out` — serve the local production export.
 
 ## 4. Process
 
@@ -31,6 +37,7 @@ future open-source release. The design target is a mid-range Android phone on a 
 - Never run `specify init` inside the repo, including with `--here` or `--force`.
 - Acceptance criteria are never reworded or relaxed. A blocked criterion is escalated with evidence.
 - Visual and performance claims require evidence files in `evidence/`.
+- Evidence follows `.specify/EVIDENCE.md`.
 
 ## 5. Motion convention (binding)
 

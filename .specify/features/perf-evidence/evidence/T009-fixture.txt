@@ -1,0 +1,48 @@
+== executor (tier 1, DeepSeek Flash) check log — variant shipped: direct distDir (Next 16.4.3 writes the static export to distDir)
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t009/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+   Start at  16:54:59
+   Duration  85ms (import 38%, tests 30%, transform 16%, worker 15%, environment 1%)
+
+out-fixtures/fixtures/fps-calibration/__next._full.txt
+out-fixtures/fixtures/fps-calibration/__next.fixtures.fps-calibration.__PAGE__.txt
+out-fixtures/fixtures/fps-calibration.html
+out-fixtures/fixtures/fps-calibration.txt
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t009/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  17:01:24
+   Duration  74ms (tests 50%, import 29%, worker 11%, transform 10%)
+
+
+== orchestrator review fix: main-thread lane travel was scrollWidth-clientWidth (0 on wide viewports, lane static on desktop); now track width minus box width
+== orchestrator re-run (incl. real-browser lane-motion probe, mobile + desktop)
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+packages/xploder test:       Tests  43 passed (43)
+apps/web test:       Tests  15 passed (15)
+tools/perf test:       Tests  45 passed (45)
+$ pnpm -r --if-present build
+$ next build
+      Tests  2 passed (2)
+out/: no marker
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+out-fixtures/fixtures/fps-calibration.html
+out-fixtures/fixtures/fps-calibration.txt
+      Tests  2 passed (2)
+vercel-guard build exit=1
+PERF_FIXTURES must never be set on Vercel
+http://127.0.0.1:4175/
+mobile compositor moves: true main-thread moves: true
+desktop compositor moves: true main-thread moves: true
+XPLODER-OK
+RERUN-OK

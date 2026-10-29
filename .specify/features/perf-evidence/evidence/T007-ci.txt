@@ -1,0 +1,20 @@
+== PR #3 checks (gh pr checks 3), head 45fe8d6b340192b8a659b2e966334eee885291b1
+secrets (gitleaks)	pass	6s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40851756604/job/123372695591	
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/5aZZAH1CK3RrKCnyzuRNJSPW3nE5	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	30s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40851756604/job/123372696030	
+perf-gate: lighthouse (mobile)	pass	1m10s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40851756709/job/123372696455	
+perf-gate: weight (< 3 MB)	pass	1m16s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40851756709/job/123372697333	
+secrets (gitleaks)	pass	6s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40851756604/job/123372695591	
+
+== perf run 40851756709: gate step output (resolve step emits url only to $GITHUB_OUTPUT; SHA check active: perf.yml contains --skip-sha-check 0 times)
+perf-gate: lighthouse (mobile) | Lighthouse gate | 2026-10-29T09:43:34.3940508Z performance: 1 >= 0.95 (median) pass
+perf-gate: lighthouse (mobile) | Lighthouse gate | 2026-10-29T09:43:34.3940916Z lcp: 776.653 < 2500 (median) pass
+perf-gate: lighthouse (mobile) | Lighthouse gate | 2026-10-29T09:43:34.3942442Z cls: 0, 0, 0 === 0 (every-run) pass
+perf-gate: lighthouse (mobile) | Lighthouse gate | 2026-10-29T09:43:34.3943315Z summary: /home/runner/work/portfolio-teardown/portfolio-teardown/.evidence/ci/lighthouse/lighthouse-summary.json
+
+== artifact summaries
+lighthouse https://portfolio-teardown-git-task-s03-perf-evidence-murphy-3c4d.vercel.app/ pass=true performance=1 lcp=776.653 cls=[0,0,0] versions {"lighthouse":"13.6.0","chromium":"156.0.0.0"} benchmarkIndex 2639,2858.5,2977
+weight https://portfolio-teardown-git-task-s03-perf-evidence-murphy-3c4d.vercel.app/ pass=true mobile 152148 desktop 175544
+runner image: ubuntu-26.04 (20261025.179.1)
+Note: checks-list screenshot replaced by the gh pr checks text above.

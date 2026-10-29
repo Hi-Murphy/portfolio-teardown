@@ -13,7 +13,14 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "lint": "pnpm -r --if-present lint && pnpm format:check",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "evidence": "node tools/perf/src/cli/evidence.ts",
+    "perf:lighthouse": "node tools/perf/src/cli/lighthouse-gate.ts",
+    "perf:weight": "node tools/perf/src/cli/weight-gate.ts",
+    "fps": "node tools/perf/src/cli/fps.ts",
+    "fps:calibrate": "node tools/perf/src/cli/fps-calibrate.ts",
+    "serve:out": "node tools/perf/src/cli/serve.ts",
+    "build:fixtures": "PERF_FIXTURES=1 pnpm --filter web build"
   },
   "devDependencies": {
     "prettier": "^3.9.10",

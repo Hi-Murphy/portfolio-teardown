@@ -1,0 +1,56 @@
+== executor (tier 1, DeepSeek Flash, sandbox off) check log
+$ vitest run evidence
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t005/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  16:20:56
+   Duration  327ms (import 96%, transform 2%, tests 1%, worker 1%)
+
+$ node tools/perf/src/cli/evidence.ts https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
+ok screenshot-mobile (2005 ms)
+ok screenshot-desktop (2445 ms)
+ok lighthouse (17874 ms)
+evidence: /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t005/.evidence/20261029-092057-portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d-vercel-app
+total 1088
+drwxr-xr-x@ 7 murphy  staff     224 Oct 29 16:21 .
+drwxr-xr-x@ 4 murphy  staff     128 Oct 29 16:20 ..
+-rw-r--r--@ 1 murphy  staff  438365 Oct 29 16:21 lighthouse-report.json
+-rw-r--r--@ 1 murphy  staff    1636 Oct 29 16:21 lighthouse-summary.json
+-rw-r--r--@ 1 murphy  staff    1218 Oct 29 16:21 meta.json
+-rw-r--r--@ 1 murphy  staff   43201 Oct 29 16:21 screenshot-desktop.png
+-rw-r--r--@ 1 murphy  staff   61148 Oct 29 16:20 screenshot-mobile.png
+evidence-dir-clean=ok
+usage=2 unreachable=3
+exact clean-tree assertion pending orchestrator commit; changed files:
+ M tools/perf/src/cli/evidence.ts
+?? tools/perf/src/evidence.ts
+?? tools/perf/test/evidence.test.ts
+T005-SEMANTIC-OK-PENDING-COMMIT
+
+== orchestrator re-run (after committing code, so the clean-tree assertion is meaningful)
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+ Test Files  7 passed (7)
+      Tests  33 passed (33)
+$ node tools/perf/src/cli/evidence.ts https://portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d.vercel.app/
+ok screenshot-mobile (1113 ms)
+ok screenshot-desktop (1624 ms)
+ok lighthouse (17941 ms)
+evidence: /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t005/.evidence/20261029-092155-portfolio-teardown-git-task-s02-contracts-tokens-murphy-3c4d-vercel-app
+total 1088
+drwxr-xr-x@ 7 murphy  staff     224 Oct 29 16:22 .
+drwxr-xr-x@ 5 murphy  staff     160 Oct 29 16:21 ..
+-rw-r--r--@ 1 murphy  staff  438398 Oct 29 16:22 lighthouse-report.json
+-rw-r--r--@ 1 murphy  staff    1564 Oct 29 16:22 lighthouse-summary.json
+-rw-r--r--@ 1 murphy  staff    1219 Oct 29 16:22 meta.json
+-rw-r--r--@ 1 murphy  staff   43201 Oct 29 16:21 screenshot-desktop.png
+-rw-r--r--@ 1 murphy  staff   61148 Oct 29 16:21 screenshot-mobile.png
+meta exit 0 steps screenshot-mobile:true screenshot-desktop:true lighthouse:true tools {"evidence":"0.0.0","lighthouse":"13.6.0","playwright":"1.64.1","chromium":"156.0.8078.4","node":"v24.19.0","os":"darwin","arch":"arm64"}
+CLEAN-TREE-OK
+usage=2 unreachable=3
+XPLODER-OK
+RERUN-OK

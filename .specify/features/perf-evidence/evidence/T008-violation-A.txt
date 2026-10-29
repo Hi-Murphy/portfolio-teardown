@@ -1,0 +1,18 @@
+== T008 run A — scratch PR #4 (closed, unmerged), commit 3bbf080: LCP_MAX_MS = 1
+perf run 40852093423 / ci run 40852093360
+build (typecheck, lint, test, build)	fail	28s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852093360/job/123373833747	
+perf-gate: lighthouse (mobile)	fail	1m1s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852093423/job/123373833790	
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/7UiUCuY5Z2fCd2N6CwMiPCvojdes	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+perf-gate: weight (< 3 MB)	pass	1m12s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852093423/job/123373834194	
+secrets (gitleaks)	pass	7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40852093360/job/123373833410	
+
+== Lighthouse gate step (exit 6 on LCP only)
+performance: 0.99 >= 0.95 (median) pass
+error: Lighthouse budget violated
+lcp: 815.4729999999998 < 1 (median) fail
+cls: 0, 0, 0 === 0 (every-run) pass
+[ELIFECYCLE] Command failed with exit code 6.
+##[error]Process completed with exit code 6.
+
+Note: 'build' also fails in this run because tools/perf unit tests pin the real thresholds (lighthouse.test.ts: 2 failures). That is an additional guard: a loosened or changed threshold breaks CI twice.
