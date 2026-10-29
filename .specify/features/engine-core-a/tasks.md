@@ -11,7 +11,7 @@
 |---|---|---|---|---|
 | T001 | ☑ | 1 (Flash, sandbox off) | evidence/T001-surface.txt | efbf1e7 |
 | T002 | ☑ | 1 (Flash) | evidence/T002-layout.txt | 7518048 |
-| T003 | ☐ | | | |
+| T003 | ☑ | 1 (Flash) | evidence/T003-explode.txt | 6a0a5e3 |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
