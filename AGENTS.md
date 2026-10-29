@@ -10,8 +10,9 @@ future open-source release. The design target is a mid-range Android phone on a 
 
 - pnpm 12 workspaces; Node 24 is pinned in `.nvmrc`.
 - `apps/web`: Next.js 16 App Router, `output: 'export'`, Tailwind CSS v4.
-- `packages/xploder`: source-only TypeScript, with exports for `.`, `./motion` and `./theme`. It is
-  consumed through `workspace:*` and Next.js `transpilePackages`.
+- `packages/xploder`: source-only TypeScript, with exports for `.`, `./motion`, `./theme`,
+  `./layout`, `./react` and `./fixtures`. `./react` needs the optional React, `three` and
+  `@react-three/fiber` peers. It is consumed through `workspace:*` and Next.js `transpilePackages`.
 - `tools/perf`: private Node 24/TypeScript perf tooling for evidence, Lighthouse, weight, FPS, preview
   resolution, and serving the static export.
 
