@@ -8,11 +8,11 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☑ | 1 (Flash) | evidence/T001-scaffold.txt | (merge) |
-| T002 | ☑ | 1 (Flash) | evidence/T002-core.txt | (merge) |
-| T003 | ☑ | 1 (Flash, sandbox off) | evidence/T003-lighthouse.{txt,-summary.json} | (merge) |
-| T004 | ☑ | 1 (Flash, sandbox off) | evidence/T004-weight.{txt,json} | (merge) |
-| T005 | ☑ | 1 (Flash, sandbox off) | evidence/T005-{evidence.txt,screenshot-*.png,meta.json} | (merge) |
+| T001 | ☑ | 1 (Flash) | evidence/T001-scaffold.txt | 27e4b9b |
+| T002 | ☑ | 1 (Flash) | evidence/T002-core.txt | 5d4885d |
+| T003 | ☑ | 1 (Flash, sandbox off) | evidence/T003-lighthouse.{txt,-summary.json} | be7f41f |
+| T004 | ☑ | 1 (Flash, sandbox off) | evidence/T004-weight.{txt,json} | 895c9e3 |
+| T005 | ☑ | 1 (Flash, sandbox off) | evidence/T005-{evidence.txt,screenshot-*.png,meta.json} | c828c57 |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
