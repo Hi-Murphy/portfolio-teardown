@@ -56,3 +56,17 @@ $ pnpm typecheck && pnpm lint
 All matched files use Prettier code style!
 FROZEN-OK
 AC7-OK
+
+== Post-merge commit-range proof (orchestrator) ==
+T005 merge: b57e21f16c11d29a402befd1ee066c0679d56f95
+T006 merge: 7b5bb85b9a995f3e8640af8b80c91f777fbab77a
+$ git diff --stat b57e21f..7b5bb85b9a995f3e8640af8b80c91f777fbab77a -- packages/xploder/src packages/xploder/test/__snapshots__
+[]
+$ git diff --stat b57e21f..7b5bb85b9a995f3e8640af8b80c91f777fbab77a   (everything that changed between the two merges)
+ .../contracts-tokens/evidence/T004-geometry.txt    |  21 ++
+ .../contracts-tokens/evidence/T006-generality.txt  |  58 +++++
+ .../xploder/test/fixtures/project-b-pipeline.json  | 145 ++++++++++++
+ packages/xploder/test/generality.test.ts           |  55 ++++-
+ packages/xploder/test/geometry-free.test.ts        | 245 +++++++++++++++++++++
+ 5 files changed, 523 insertions(+), 1 deletion(-)
+AC7-COMMIT-RANGE-OK
