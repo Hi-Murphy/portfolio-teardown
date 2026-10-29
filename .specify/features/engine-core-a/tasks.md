@@ -17,7 +17,7 @@
 | T006 | ☑ | 1 (Flash) | evidence/T006-scanners.txt | a24b582 |
 | T007 | ☑ | 1 (Flash, sandbox off) + orchestrator review fixes | evidence/T007-{playground.txt,screenshot-*.png,meta-*.json} | 610f95a |
 | T008 | ☑ | 1 (Flash) + ⚑ orchestrator push/draft PR 6 | evidence/T008-exclusion.txt | 8d68519 |
-| T009 | ☐ | | | |
+| T009 | ☑ | 1 (Flash, sandbox off) | evidence/T009-cli.txt | 78ec649 |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
