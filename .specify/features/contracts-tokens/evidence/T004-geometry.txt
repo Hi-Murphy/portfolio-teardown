@@ -1,0 +1,21 @@
+$ pnpm --filter xploder exec vitest run geometry --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s02-wt/t004/packages/xploder
+
+ ✓ test/geometry-free.test.ts > geometry-free project schema > has no banned property name in the input JSON Schema 1ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > closes every object node with additionalProperties: false 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > has no untyped schema nodes 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: flags strict objects containing geometry names 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: flags an open object 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: rejects x on a component at runtime 3ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  11:12:52
+   Duration  91ms (import 69%, transform 14%, tests 13%, worker 4%)
+
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+FROZEN-OK
+T004-OK
