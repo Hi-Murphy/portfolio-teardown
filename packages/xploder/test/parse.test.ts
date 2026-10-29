@@ -91,4 +91,11 @@ describe('project parsing', () => {
     expect(thrown.message).toContain('content/demo.ts');
     expect(thrown.message).toContain('layers[0].components[0].techs[0]');
   });
+
+  test('error classes keep readable names after minification', () => {
+    const error = new ProjectValidationError('x', new ZodError([]));
+
+    expect(error.name).toBe('ProjectValidationError');
+    expect(String(error)).toMatch(/^ProjectValidationError: /);
+  });
 });
