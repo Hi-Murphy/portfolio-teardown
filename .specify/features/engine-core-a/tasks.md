@@ -15,7 +15,7 @@
 | T004 | ☑ | 1 (Flash) | evidence/T004-camera.txt | faed015 |
 | T005 | ☑ | 1 (Flash) + orchestrator 1-fn review fix | evidence/T005-scene.txt | 84a1a57 |
 | T006 | ☑ | 1 (Flash) | evidence/T006-scanners.txt | a24b582 |
-| T007 | ☐ | | | |
+| T007 | ☑ | 1 (Flash, sandbox off) + orchestrator review fixes | evidence/T007-{playground.txt,screenshot-*.png,meta-*.json} | 610f95a |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
