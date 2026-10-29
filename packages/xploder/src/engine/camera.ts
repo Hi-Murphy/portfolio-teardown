@@ -62,6 +62,21 @@ export function cameraReducer(state: RigState, action: RigAction): RigState {
   }
 }
 
+export interface ZoomAvailability {
+  readonly zoomIn: boolean;
+  readonly zoomOut: boolean;
+  readonly zoomReset: boolean;
+}
+
+// A zoom control is available exactly when pressing it would change the zoom.
+export function zoomAvailability(state: RigState): ZoomAvailability {
+  return {
+    zoomIn: state.zoomFactor < ZOOM_BOUNDS.max,
+    zoomOut: state.zoomFactor > ZOOM_BOUNDS.min,
+    zoomReset: state.zoomFactor !== ZOOM_BOUNDS.min,
+  };
+}
+
 export function azimuthOf(turns: number): number {
   return VIEW.baseAzimuth + turns * VIEW.snap;
 }

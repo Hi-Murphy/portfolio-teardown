@@ -11,7 +11,8 @@ type FixtureId = 'a' | 'b';
 
 const BUTTON_BASE =
   'inline-flex min-h-11 items-center justify-center rounded border border-line px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
-const BUTTON_IDLE = 'bg-bg text-fg hover:bg-fg/10';
+const BUTTON_IDLE =
+  'bg-bg text-fg hover:bg-fg/10 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-bg';
 const BUTTON_SELECTED = 'bg-fg text-bg';
 
 function updateFixtureUrl(fixture: FixtureId): void {
@@ -148,6 +149,7 @@ export function EnginePlayground() {
         <button
           type="button"
           data-engine-control="zoom-out"
+          disabled={!viewer.can.zoomOut}
           className={`${BUTTON_BASE} ${BUTTON_IDLE}`}
           onClick={viewer.actions.zoomOut}
         >
@@ -156,6 +158,7 @@ export function EnginePlayground() {
         <button
           type="button"
           data-engine-control="zoom-reset"
+          disabled={!viewer.can.zoomReset}
           className={`${BUTTON_BASE} ${BUTTON_IDLE}`}
           onClick={viewer.actions.zoomReset}
         >
@@ -164,6 +167,7 @@ export function EnginePlayground() {
         <button
           type="button"
           data-engine-control="zoom-in"
+          disabled={!viewer.can.zoomIn}
           className={`${BUTTON_BASE} ${BUTTON_IDLE}`}
           onClick={viewer.actions.zoomIn}
         >

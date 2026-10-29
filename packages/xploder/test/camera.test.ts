@@ -8,6 +8,7 @@ import {
   keyToAction,
   RIG_ACTION_TYPES,
   ZOOM_BOUNDS,
+  zoomAvailability,
   type RigAction,
   type RigState,
 } from '../src/engine/camera';
@@ -106,6 +107,41 @@ describe('cameraReducer', () => {
 
     expect(right).toEqual({ step: 1, turns: 1, zoomFactor: INITIAL_RIG.zoomFactor });
     expect(left).toEqual({ step: 3, turns: -1, zoomFactor: INITIAL_RIG.zoomFactor });
+  });
+});
+
+describe('zoomAvailability', () => {
+  test('disables zoom out and reset at the default fit view, enables zoom in', () => {
+    expect(zoomAvailability(INITIAL_RIG)).toEqual({
+      zoomIn: true,
+      zoomOut: false,
+      zoomReset: false,
+    });
+  });
+
+  test('disables zoom in at the maximum', () => {
+    let rig = INITIAL_RIG;
+
+    for (let index = 0; index < 20; index += 1) rig = cameraReducer(rig, { type: 'zoomIn' });
+
+    expect(zoomAvailability(rig)).toEqual({ zoomIn: false, zoomOut: true, zoomReset: true });
+  });
+
+  test('enables a zoom control exactly when pressing it changes the zoom', () => {
+    const random = mulberry32(0x200a11);
+    let rig = INITIAL_RIG;
+
+    for (let index = 0; index < 5_000; index += 1) {
+      const available = zoomAvailability(rig);
+
+      for (const type of ['zoomIn', 'zoomOut', 'zoomReset'] as const) {
+        const changes = cameraReducer(rig, { type }).zoomFactor !== rig.zoomFactor;
+
+        expect(available[type], `${type} at zoomFactor ${rig.zoomFactor}`).toBe(changes);
+      }
+
+      rig = cameraReducer(rig, randomAction(random));
+    }
   });
 });
 
