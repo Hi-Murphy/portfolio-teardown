@@ -31,4 +31,21 @@ pnpm test # run every workspace package's tests
 pnpm format # format the workspace with Prettier
 ```
 
+## Evidence & perf gates
+
+Install the pinned Chromium once, then run evidence or a gate against a deployed preview or a local
+export:
+
+```sh
+pnpm --filter perf-tools exec playwright install chromium
+pnpm evidence <url> # screenshots, Lighthouse summary, meta
+pnpm perf:lighthouse <url> # mobile performance gate
+pnpm perf:weight <url> # initial-load weight gate
+pnpm fps <url> # animation FPS harness
+pnpm build && pnpm serve:out # serve the local production export
+```
+
+The task-type artifact matrix, naming rules, FPS interface, and gate-failure escalation are binding
+in [`.specify/EVIDENCE.md`](.specify/EVIDENCE.md).
+
 Contributing agents: read AGENTS.md.
