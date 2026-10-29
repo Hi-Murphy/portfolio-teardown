@@ -1,0 +1,39 @@
+$ pnpm typecheck && pnpm lint
+✓ Types generated successfully
+All matched files use Prettier code style!
+$ pnpm build
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+  Creating an optimized production build ...
+✓ Compiled successfully in 164ms
+  Running TypeScript ...
+  Finished TypeScript in 478ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 169ms
+  Finalizing page optimization ...
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+○  (Static)  prerendered as static content
+$ grep built HTML for token CSS
+--bp-paper:#F6F3EA
+--bp-paper:#0B1A2E
+--motion-duration-explode:900ms
+prefers-reduced-motion: reduce
+$ head order: theme script before token style
+script@ 886 style@ 1176
+$ AC1 imports in apps/web
+1:import type { TechCategory } from 'xploder';
+apps/web/app/motion.ts:1:import { motion, type MotionTokens } from 'xploder/motion';
+apps/web/app/layout.tsx:3:import { motionCss } from 'xploder/motion';
+apps/web/app/layout.tsx:4:import { paletteCss } from 'xploder/theme';
+$ zod in client JS? (expect none)
+no zod in out/_next/static
+$ generated utilities resolve to tokens
+.bg-bg{background-color:var(--bp-paper)}
+.bg-tech-network{background-color:var(--bp-tech-network)}
+FROZEN-OK
+T009-OK
