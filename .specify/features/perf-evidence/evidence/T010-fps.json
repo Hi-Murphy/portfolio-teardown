@@ -1,0 +1,22 @@
+{
+  "kind": "fps",
+  "version": 1,
+  "url": "http://127.0.0.1:65136/fixtures/fps-calibration",
+  "fps": 59.62805957813842,
+  "frames": 301,
+  "droppedFrames": 0,
+  "windowMs": 5047.959,
+  "intervalsMs": {
+    "p50": 16.661,
+    "p95": 16.906,
+    "max": 17.933
+  },
+  "rafFps": 60.00240009600384,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 98841,
+  "pidSource": "draw-frame-frequency-fallback",
+  "expect": 60,
+  "tolerance": 0.1,
+  "pass": true
+}

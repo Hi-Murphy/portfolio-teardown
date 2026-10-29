@@ -1,0 +1,68 @@
+== executor (tier 1, DeepSeek Flash, sandbox off) check log
+$ vitest run fps
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s03-wt/t010/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  17:08:31
+   Duration  227ms (import 89%, transform 9%, tests 2%, worker 1%)
+
+$ node tools/perf/src/cli/fps-calibrate.ts --out /tmp/s03-checks/t010-fps
+building fixture export...
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 75ms
+  Running TypeScript ...
+  Finished TypeScript in 470ms ...
+  Collecting page data using 5 workers ...
+  Generating static pages using 5 workers (0/4) ...
+  Generating static pages using 5 workers (1/4) 
+  Generating static pages using 5 workers (2/4) 
+  Generating static pages using 5 workers (3/4) 
+✓ Generating static pages using 5 workers (4/4) in 176ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+fixture: http://127.0.0.1:65090/fixtures/fps-calibration
+$ node tools/perf/src/cli/fps.ts http://127.0.0.1:65090/fixtures/fps-calibration --expect 60 --tolerance 0.1 --out /tmp/s03-checks/t010-fps
+fps: 59.36 (300 frames / 5054 ms)
+rafFps: 60.00
+droppedFrames: 0
+intervalsMs: p50=16.66 p95=18.04 max=19.19
+pid: 98255 (draw-frame-frequency-fallback)
+chromium: 156.0.8078.4
+source: trace:DrawFrame
+pass: true (60 ± 10.0%, 54.00–66.00)
+fps.json: /tmp/s03-checks/t010-fps/fps.json
+
+== orchestrator re-run (local headless, Mac arm64)
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+ Test Files  9 passed (9)
+      Tests  51 passed (51)
+intervalsMs: p50=16.66 p95=16.91 max=17.93
+pid: 98841 (draw-frame-frequency-fallback)
+chromium: 156.0.8078.4
+source: trace:DrawFrame
+pass: true (60 ± 10.0%, 54.00–66.00)
+fps.json: /tmp/s03-checks/t010-rerun/fps.json
+{"fps":59.62805957813842,"frames":301,"windowMs":5047.959,"rafFps":60.00240009600384,"dropped":0,"intervals":{"p50":16.661,"p95":16.906,"max":17.933},"pidSource":"draw-frame-frequency-fallback","pass":true,"chromium":"156.0.8078.4"}
+unreachable exit=3
+XPLODER-OK
+RERUN-OK
+
+Note: TracingStartedInBrowser is not emitted under the D7 categories; renderer pid is chosen as the busiest DrawFrame process and recorded as pidSource=draw-frame-frequency-fallback.
