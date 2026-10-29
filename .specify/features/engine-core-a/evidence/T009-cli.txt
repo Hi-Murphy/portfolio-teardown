@@ -1,0 +1,48 @@
+T009 — engine:probe + fps:engine CLIs · executor: tier 1 (Flash, sandbox off) · orchestrator re-run 2026-10-29T23:25:21Z
+
+== executor check log (tail) ==
+$ vitest run engine-probe
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t009-clis/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  06:24:16
+   Duration  68ms (import 46%, tests 20%, transform 19%, worker 15%)
+
+
+== orchestrator re-run ==
+FROZEN-OK
+S2 files + S3 harness (fps.ts, cli/fps.ts, budgets.ts) unchanged
+engine-probe.test.ts -> Tests 2 passed (all-pass + each of the 20 checks failing once)
+pnpm engine:probe --help / pnpm fps:engine --help -> exit 0
+pnpm engine:probe not-a-url -> exit 2
+pnpm engine:probe http://127.0.0.1:9/ -> exit 3
+packages/xploder test:       Tests  109 passed (109)
+tools/perf test:       Tests  55 passed (55)
+apps/web test:       Tests  50 passed | 1 skipped (51)
+
+== probe checks (20) ==
+- fixture-a-instances
+- fixture-a-draw-calls
+- fixture-b-instances
+- fixture-b-draw-calls
+- camera-default-azimuth
+- camera-after-button-right
+- camera-after-arrow-right
+- camera-zoom-after-20-in
+- camera-zoom-after-20-out
+- camera-zoom-after-reset
+- camera-zoom-out-disabled-at-default
+- camera-zoom-reset-disabled-at-default
+- camera-zoom-in-disabled-at-max
+- motion-explode-phases
+- motion-implode-phases
+- reduced-motion-initial-state
+- reduced-motion-toggle-phases
+- reduced-motion-toggle-frames
+- reduced-motion-toggle-back-phases
+- reduced-motion-toggle-back-frames
+
+Executor smoke runs (informational; the evidence runs are T010/T011): engine:probe exit 0, 20/20 checks; fps:engine fps=59.35, droppedFrames=0, r1=true, literal60=false.
