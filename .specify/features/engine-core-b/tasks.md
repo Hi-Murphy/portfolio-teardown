@@ -19,8 +19,8 @@
 | T008 | ☑ | 1 (Flash) + orchestrator cleanup (process declare) | evidence/T008-log-handle.txt | d58b4b4 |
 | T009 | ☑ (R6: mobile caption covers the top layer, raised at G2) | 1 (Flash, sandbox off; 1st dispatch hung on runner stdin, infra not executor) + orchestrator fix (loop param) | evidence/T009-{log-playground.txt,screenshot-*.png,meta-c-tour.json} | 1b9c5ae |
 | T010 | ☑ + ⚑ pushed, draft PR #8 | 1 (Flash, sandbox on); build/exclusion re-run outside sandbox | evidence/T010-log-scanners.txt | 3fff46c |
-| T010a | ☐ | | | |
-| T010b | ☐ | | | |
+| T010a | ☑ (G2 feedback, scope-add rev 1) | 1 (Flash, sandbox off) | evidence/T010a-{log-scroll.txt,screenshot-desktop-zoomed-*.png} | 082e28b |
+| T010b | ☑ (R6 fixed) | 1 (Flash, sandbox off) + orchestrator test fix (fragile react-dom reach) | evidence/T010b-{log-caption.txt,screenshot-mobile-*-target.png} | 872a987 |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
