@@ -9,11 +9,11 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
+| T001 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator (sandbox loopback EPERM) | evidence/T001-log-guard.txt | 324a7af |
+| T002 | ☑ | 1 (Flash, 2nd dispatch after an orchestrator spec fix, not an executor failure; F6 found) | evidence/T002-log-pick.txt | b1c2643 |
+| T003 | ☑ | 1 (Flash, sandbox on) | evidence/T003-log-pointer-focus.txt | 8dbce93 |
+| T004 | ☑ | 1 (Flash, sandbox on) | evidence/T004-log-fixture-c.txt | 3fe8a6b |
+| T005 | ☑ | 1 (Flash) + 2 one-line orchestrator review fixes with tests | evidence/T005-log-tour.txt | 8248d3e |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |

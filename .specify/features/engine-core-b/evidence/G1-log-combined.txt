@@ -1,0 +1,12 @@
+SURFACE-OK
+FROZEN-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+typecheck+lint-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  23 passed (23)
+packages/xploder test:       Tests  210 passed (210)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
