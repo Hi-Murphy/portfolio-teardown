@@ -1,0 +1,44 @@
+T011 — FPS evidence on /dev/engine (fixture A) · executor: tier 1 (Flash, sandbox off) · 2026-10-29T23:31:32Z
+Host: Mac arm64 (Apple M4), headless Chromium 156.0.8078.4 (WebGL2 via ANGLE/Metal). Harness: S3 'pnpm fps' unchanged (fps:engine delegates to it).
+Measured ONCE (no rerun). Target: out-fixtures served on 127.0.0.1, /dev/engine?fixture=a&cycle=1 (continuous explode <-> implode, onSettled re-toggles in the same frame), warmup 1000 ms, window 5000 ms.
+
+== pnpm fps:engine --out <dir> ==
+fps: 59.34 (300 frames / 5056 ms)
+rafFps: 60.00
+droppedFrames: 0
+intervalsMs: p50=16.67 p95=17.25 max=18.54
+pass: true (60 ± 10.0%, 54.00–66.00)
+literal60: false
+r1: true
+rule: literal60 (Merlin R3, RFC §9.7)
+{"fps":59.33546650928264,"frames":300,"windowMs":5055.998,"droppedFrames":0,"rafFps":60.00401364639775,"p95":17.254,"verdicts":{"literal60":false,"r1":true}}
+
+== result (T011-fps.json) ==
+{
+ "fps": 59.33546650928264,
+ "frames": 300,
+ "windowMs": 5055.998,
+ "droppedFrames": 0,
+ "rafFps": 60.00401364639775,
+ "intervalsMs": {
+  "p50": 16.667,
+  "p95": 17.254,
+  "max": 18.537
+ },
+ "bandPass": true,
+ "verdicts": {
+  "literal60": false,
+  "r1": true
+ },
+ "rule": "literal60 (Merlin R3, RFC §9.7)"
+}
+
+== same-session reference: pnpm fps:calibrate --no-build (T011-fps-calibration-reference.json) ==
+{"fps":59.36894374931107,"frames":300,"windowMs":5053.147,"droppedFrames":0,"rafFps":60.002809496096816,"pass":true}
+
+== AC4 verdict under the rule in force (literal fps >= 60.00, Merlin R3, RFC §9.7) ==
+literal60 = FALSE (59.335). droppedFrames = 0, rAF 60.004, S3 band pass = true, r1 = true.
+The engine produced 300 DrawFrames in the window — the same count as the trivially light S3 calibration fixture in the same session (59.369, 300 frames). The shortfall is the headless display cadence (59.986 Hz) plus the harness window-start bias documented in E1-fps-literal-probe.txt, not engine cost.
+=> AC4 BLOCKED BY CONSTRUCTION (E1), not an engine defect. Not rerun; harness and frame rate untouched.
+
+Screenshot of the measured page: T011-screenshot-desktop.png (+ T011-meta.json, evidence exit 0).

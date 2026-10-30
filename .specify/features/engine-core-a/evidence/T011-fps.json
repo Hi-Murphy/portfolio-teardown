@@ -1,0 +1,27 @@
+{
+  "kind": "fps",
+  "version": 1,
+  "url": "http://127.0.0.1:54568/dev/engine?fixture=a&cycle=1",
+  "fps": 59.33546650928264,
+  "frames": 300,
+  "droppedFrames": 0,
+  "windowMs": 5055.998,
+  "intervalsMs": {
+    "p50": 16.667,
+    "p95": 17.254,
+    "max": 18.537
+  },
+  "rafFps": 60.00401364639775,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 79904,
+  "pidSource": "draw-frame-frequency-fallback",
+  "expect": 60,
+  "tolerance": 0.1,
+  "pass": true,
+  "verdicts": {
+    "literal60": false,
+    "r1": true
+  },
+  "rule": "literal60 (Merlin R3, RFC §9.7)"
+}

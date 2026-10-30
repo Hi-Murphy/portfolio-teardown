@@ -1,0 +1,34 @@
+T007 — /dev/engine playground · executor: tier 1 (Flash, sandbox off) + orchestrator review fixes · re-run 2026-10-29T22:42:23Z
+
+Orchestrator review fixes (after viewing the executor's screenshots):
+  1. Layout: viewer moved directly under the header at h-[60dvh] (was below controls+readout at 70dvh, which put the model below the fold on mobile and cut the stack in viewport screenshots).
+  2. AC5: the playground computed the azimuth itself (45 + step·90). xploder/react now exposes viewer.azimuthDegrees; the app reads it, and TeardownViewer uses it for data-xploder-azimuth.
+
+== executor check log (tail) ==
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --wait-for '[data-xploder-ready="true"][data-xploder-state="imploded"]' --out /tmp/s04-checks/t007-a
+warning: --out is not git-ignored: /tmp/s04-checks/t007-a
+ok screenshot-mobile (911 ms)
+ok screenshot-desktop (1017 ms)
+ok lighthouse (5821 ms)
+evidence: /tmp/s04-checks/t007-a
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=b&state=exploded' --runs 1 --wait-for '[data-xploder-ready="true"][data-xploder-state="exploded"]' --out /tmp/s04-checks/t007-b
+warning: --out is not git-ignored: /tmp/s04-checks/t007-b
+ok screenshot-mobile (1110 ms)
+ok screenshot-desktop (1019 ms)
+ok lighthouse (5750 ms)
+evidence: /tmp/s04-checks/t007-b
+evidence-a-exit=0
+evidence-b-exit=0
+T007-OK
+
+== orchestrator re-run ==
+packages/xploder test:       Tests  106 passed (106)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  50 passed | 1 skipped (51)
+(apps/web: playground non-vacuity tests now run; 1 skip = fixture-exclusion positive control needs out-fixtures at test time)
+pnpm build:fixtures -> routes include ○ /dev/engine and ○ /fixtures/fps-calibration
+pnpm evidence <local>/dev/engine?fixture=a --runs 1 --wait-for [data-xploder-ready][state=imploded] -> exit 0
+pnpm evidence <local>/dev/engine?fixture=b&state=exploded --runs 1 --wait-for [ready][state=exploded] -> exit 0
+
+Readout in screenshots: A imploded = 4 layers · 8 components, 2 draw calls, 144 triangles; B exploded = 4 · 5, 2 draw calls, 108 triangles; azimuth 45°, zoom 1.00×.
+Files: T007-screenshot-{desktop,mobile}-a.png, T007-screenshot-{desktop,mobile}-b-exploded.png, T007-meta-{a,b}.json (local target 127.0.0.1).

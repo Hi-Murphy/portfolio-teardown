@@ -1,0 +1,12 @@
+T011 — AC4 verdict re-judged against brief v2 (RFC §9.8) · orchestrator · no rerun; data from T011-fps.json (measured once, 2026-10-30)
+
+AC4 (brief v2, verbatim): FPS harness on `/dev/engine` with fixture A runs headless for a window of at least 5s and reports **0 dropped frames** over that window, with trace fps inside the 60 ±10% band as a liveness check. fps, rafFps and p50/p95/max frame interval are reported in the artifact as information, not gated. Evidence artifact attached per EVIDENCE.md.
+
+window ≥ 5s           : windowMs = 5055.998  -> PASS
+0 dropped frames      : droppedFrames = 0  -> PASS
+liveness 60 ±10% band : fps = 59.335 in [54, 66]  -> PASS (harness pass=True)
+information (not gated): rafFps = 60.004, intervals p50/p95/max = 16.667/17.254/18.537 ms, frames = 300
+
+Context: same-session S3 calibration reference (T011-fps-calibration-reference.json) = 59.369 fps, 300 frames, 0 dropped.
+
+AC4 under brief v2: PASS

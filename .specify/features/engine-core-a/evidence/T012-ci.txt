@@ -1,0 +1,39 @@
+T012 — PR ready, full CI · ⚑ orchestrator · 2026-10-30T00:19:53Z
+
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/6 — marked ready for review; CI head 6e265c1 (workflows 'CI' run 40976377632 and 'perf' run 40976377771, both success on 6e265c1).
+
+== local: pnpm install --frozen-lockfile && typecheck && lint && test && build ==
+LOCAL-ALL-GREEN
+packages/xploder test:       Tests  109 passed (109)
+tools/perf test:       Tests  55 passed (55)
+apps/web test:       Tests  51 passed (51)
+Note: the first local run failed the fixture-exclusion positive control because the slice worktree held a stale, git-ignored out-fixtures/ from 2026-10-29 20:06 (built before /dev/engine existed). After pnpm build:fixtures, all green. Environment-only; CI has no out-fixtures in the build job.
+
+== gh pr checks 6 ==
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/6W7wd9nZa9TyRrB4wBKoUeoEDnCy	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	41s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40976377632/job/123805309383	
+perf-gate: lighthouse (mobile)	pass	57s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40976377771/job/123805310405	
+perf-gate: weight (< 3 MB)	pass	1m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40976377771/job/123805310719	
+perf: fixture exclusion	pass	22s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40976377771/job/123805310700	
+perf: fps calibration	pass	1m4s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40976377771/job/123805310727	
+secrets (gitleaks)	pass	7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/40976377632/job/123805309695	
+
+non-pass checks: 0
+
+== perf: fixture exclusion (job 123805310700) ==
+absent: https://portfolio-teardown-git-task-s04-engine-core-a-murphy-3c4d.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+absent: https://portfolio-teardown-git-task-s04-engine-core-a-murphy-3c4d.vercel.app/dev/engine returned HTTP 404 without data-perf-fixture
+
+== perf-gate: lighthouse (mobile) (job 123805310405) ==
+performance: 0.99 >= 0.95 (median) pass
+lcp: 778.438 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+
+== perf-gate: weight (< 3 MB) (job 123805310719) ==
+✓ Lockfile passes supply-chain policies (619 entries in 2.9s)
+mobile: 152579 bytes, 10 requests, PASS
+desktop: 176039 bytes, 13 requests, PASS
+pass: true
+
+Screenshot of the checks page: not attached — anonymous GitHub does not render check names (two attempts); the gh output + run URLs above are the CI evidence type per EVIDENCE.md §3.

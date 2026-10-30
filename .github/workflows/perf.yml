@@ -152,6 +152,9 @@ jobs:
       - name: Assert fixture absent from preview
         if: github.event_name == 'pull_request'
         run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}fixtures/fps-calibration"
+      - name: Assert engine playground absent from preview
+        if: github.event_name == 'pull_request'
+        run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}dev/engine"
       - name: Resolve production deployment
         if: github.event_name == 'push'
         run: >-
@@ -164,3 +167,6 @@ jobs:
       - name: Assert fixture absent from production
         if: github.event_name == 'push'
         run: node tools/perf/src/cli/assert-absent.ts "$PRODUCTION_URL/fixtures/fps-calibration"
+      - name: Assert engine playground absent from production
+        if: github.event_name == 'push'
+        run: node tools/perf/src/cli/assert-absent.ts "$PRODUCTION_URL/dev/engine"

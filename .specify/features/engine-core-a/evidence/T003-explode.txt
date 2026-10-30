@@ -1,0 +1,45 @@
+T003 — easing evaluator + explode timeline · executor: tier 1 (Flash, sandboxed) · orchestrator re-run 2026-10-29T15:35:14Z
+
+== executor check log ==
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t003-explode/packages/xploder
+
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  22:34:29
+   Duration  103ms (transform 45%, tests 36%, import 15%, worker 4%)
+
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t003-explode/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  22:34:29
+   Duration  72ms (tests 53%, import 27%, transform 12%, worker 8%)
+
+
+== orchestrator re-run ==
+FROZEN-OK
+S2-OK
+vitest run test/ease.test.ts test/explode.test.ts -> Test Files 2 passed, Tests 13 passed
+no-motion-literals.test.ts -> Tests 13 passed
+packages/xploder test:       Tests  69 passed (69)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  13 passed | 2 skipped (15)
+
+== test names ==
+- parses both token curves and whitespace variants'
+- rejects non-cubic-bezier easing tokens'
+- returns exact endpoints for every motion curve'
+- matches a dense-bisection reference for the explode curve'
+- is monotone across the explode curve'
+- orders layer slabs first and reaches each target at its computed end'
+- staggers layers from zero and components by slot during explode'
+- reverses the layer order during implode without component slot stagger'
+- transitions phases as each direction settles'
+- preserves position at a 40% interruption and reverses without a jump'
+- settles on the last target after 50 random toggles in two seconds'
+- cuts to the target with the static twin tokens'
+- scales settle time and mid-curve samples with duration and stagger tokens'

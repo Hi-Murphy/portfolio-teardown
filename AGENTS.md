@@ -10,8 +10,9 @@ future open-source release. The design target is a mid-range Android phone on a 
 
 - pnpm 12 workspaces; Node 24 is pinned in `.nvmrc`.
 - `apps/web`: Next.js 16 App Router, `output: 'export'`, Tailwind CSS v4.
-- `packages/xploder`: source-only TypeScript, with exports for `.`, `./motion` and `./theme`. It is
-  consumed through `workspace:*` and Next.js `transpilePackages`.
+- `packages/xploder`: source-only TypeScript, with exports for `.`, `./motion`, `./theme`,
+  `./layout`, `./react` and `./fixtures`. `./react` needs the optional React, `three` and
+  `@react-three/fiber` peers. It is consumed through `workspace:*` and Next.js `transpilePackages`.
 - `tools/perf`: private Node 24/TypeScript perf tooling for evidence, Lighthouse, weight, FPS, preview
   resolution, and serving the static export.
 
@@ -27,6 +28,8 @@ future open-source release. The design target is a mid-range Android phone on a 
 - `pnpm evidence <url>` — write screenshots, a Lighthouse summary, and `meta.json` to `.evidence/`.
 - `pnpm perf:lighthouse <url>` / `pnpm perf:weight <url>` — run the mobile performance and weight gates.
 - `pnpm fps <url>` / `pnpm fps:calibrate` — measure FPS or calibrate the dev-only fixture.
+- `pnpm engine:probe <url>` / `pnpm fps:engine` — probe `/dev/engine` behaviour or measure its FPS
+  (fixture export).
 - `pnpm build && pnpm serve:out` — serve the local production export.
 
 ## 4. Process

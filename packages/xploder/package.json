@@ -7,7 +7,10 @@
   "exports": {
     ".": "./src/index.ts",
     "./motion": "./src/motion/index.ts",
-    "./theme": "./src/theme/index.ts"
+    "./theme": "./src/theme/index.ts",
+    "./layout": "./src/layout/index.ts",
+    "./react": "./src/react/index.ts",
+    "./fixtures": "./test/fixtures/index.ts"
   },
   "scripts": {
     "test": "vitest run",
@@ -17,9 +20,32 @@
   "dependencies": {
     "zod": "^4.6.7"
   },
+  "peerDependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "react": "^19.3.1",
+    "three": "^0.186.1"
+  },
+  "peerDependenciesMeta": {
+    "@react-three/fiber": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "three": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@react-three/fiber": "^9.8.2",
+    "@react-three/test-renderer": "^9.1.1",
+    "@types/react": "^19.3.0",
+    "@types/three": "^0.186.0",
     "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "react": "^19.3.1",
+    "three": "^0.186.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.0",
     "vitest": "^5.0.5"

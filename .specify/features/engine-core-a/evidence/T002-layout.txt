@@ -1,0 +1,37 @@
+T002 — layout engine + determinism suite · executor: tier 1 (Flash, sandboxed) · orchestrator re-run 2026-10-29T15:30:24Z
+
+== executor check log ==
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s04-t002-layout/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  22:29:01
+   Duration  216ms (tests 67%, import 19%, transform 13%, worker 1%)
+
+
+== orchestrator re-run ==
+FROZEN-OK
+S2-OK
+CI=true vitest run test/layout.test.ts -> Tests 11 passed (11); snapshots pre-existing, none written
+packages/xploder test:       Tests  56 passed (56)
+tools/perf test:       Tests  53 passed (53)
+apps/web test:       Tests  13 passed | 2 skipped (15)
+(apps/web: 2 skipped = fixture-exclusion tests; no out/ in this worktree)
+
+== fixture A layout readout (same values as the golden snapshot; world units, 1 = cell pitch) ==
+footprint {"cols":2,"rows":2,"width":2.6,"depth":2.6}
+layer 0 ui        imploded y=0.240 exploded y=1.830
+layer 1 state     imploded y=0.040 exploded y=0.530
+layer 2 data      imploded y=-0.160 exploded y=-0.770
+layer 3 platform  imploded y=-0.360 exploded y=-2.070
+  comp ui/0 beachgoer          cell=0,0 x=-0.500 z=-0.500
+  comp ui/1 tide-chart-screen  cell=1,0 x=0.500 z=-0.500
+  comp ui/2 forecast-details-panel cell=0,1 x=0.000 z=0.500
+  comp state/0 tide-view-model    cell=0,0 x=0.000 z=0.000
+  comp data/0 tide-repository    cell=0,0 x=-0.500 z=-0.500
+  comp data/1 live-tide-client   cell=1,0 x=0.500 z=-0.500
+  comp data/2 tide-cache         cell=0,1 x=0.000 z=0.500
+  comp platform/0 tide-feed          cell=0,0 x=0.000 z=0.000
+fitZoom(bounds.exploded, 1280x720) = 108.611 px/unit
