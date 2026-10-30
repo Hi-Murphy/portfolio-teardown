@@ -1,0 +1,162 @@
+T002 - Pure pick (ray <-> AABB with occlusion)
+==============================================
+
+RESULT: PASS
+
+The task check was run from the repository root on 2026-10-30. The sandbox-safe
+test command from the dispatch note replaces `pnpm test`, because `tools/perf`
+tests cannot bind 127.0.0.1 (EPERM) in the sandbox. The orchestrator re-runs the
+full check outside the sandbox.
+
+Commands and output
+-------------------
+
+$ pnpm --filter xploder exec vitest run test/pick.test.ts --reporter=verbose
+
+  RUN  v5.0.5 /private/tmp/s05-wt/t002/packages/xploder
+
+  ✓ test/pick.test.ts > rayBoxDistance > hits from the x axis
+  ✓ test/pick.test.ts > rayBoxDistance > hits from the y axis
+  ✓ test/pick.test.ts > rayBoxDistance > hits from the z axis
+  ✓ test/pick.test.ts > rayBoxDistance > misses a box outside the ray lane
+  ✓ test/pick.test.ts > rayBoxDistance > returns zero when the ray origin is inside the box
+  ✓ test/pick.test.ts > rayBoxDistance > returns null when the ray points away from the box
+  ✓ test/pick.test.ts > rayBoxDistance > returns null for a parallel ray outside a slab
+  ✓ test/pick.test.ts > pick > fixture A: top-layer component centre rays pick themselves
+  ✓ test/pick.test.ts > pick > fixture B: top-layer component centre rays pick themselves
+  ✓ test/pick.test.ts > pick > fixture A imploded: lower layers are occluded and never pick themselves
+  ✓ test/pick.test.ts > pick > fixture B imploded: lower layers are occluded and never pick themselves
+  ✓ test/pick.test.ts > pick > matches an independent marching reference for both states and all azimuths
+  stdout | test/pick.test.ts > pick > prints the exploded visibility table for evidence
+
+  Exploded visibility table (grid rays per component, step 0.05 world units)
+
+  fixture A:
+    azimuth 0.785398:
+      beachgoer: 194
+      tide-chart-screen: 194
+      forecast-details-panel: 195
+      tide-view-model: 70
+      tide-repository: 0
+      live-tide-client: 149
+      tide-cache: 157
+      tide-feed: 72
+    azimuth 2.356194:
+      beachgoer: 194
+      tide-chart-screen: 196
+      forecast-details-panel: 195
+      tide-view-model: 70
+      tide-repository: 149
+      live-tide-client: 182
+      tide-cache: 42
+      tide-feed: 72
+    azimuth 3.926991:
+      beachgoer: 196
+      tide-chart-screen: 194
+      forecast-details-panel: 195
+      tide-view-model: 70
+      tide-repository: 182
+      live-tide-client: 149
+      tide-cache: 42
+      tide-feed: 72
+    azimuth 5.497787:
+      beachgoer: 194
+      tide-chart-screen: 194
+      forecast-details-panel: 195
+      tide-view-model: 70
+      tide-repository: 149
+      live-tide-client: 0
+      tide-cache: 157
+      tide-feed: 72
+
+  fixture B:
+    azimuth 0.785398:
+      partner-csv-drop: 194
+      column-normalizer: 156
+      ledger-validator: 156
+      reconciliation-ledger: 151
+      settlement-operator: 185
+    azimuth 2.356194:
+      partner-csv-drop: 194
+      column-normalizer: 156
+      ledger-validator: 156
+      reconciliation-ledger: 151
+      settlement-operator: 185
+    azimuth 3.926991:
+      partner-csv-drop: 194
+      column-normalizer: 156
+      ledger-validator: 156
+      reconciliation-ledger: 185
+      settlement-operator: 151
+    azimuth 5.497787:
+      partner-csv-drop: 194
+      column-normalizer: 156
+      ledger-validator: 156
+      reconciliation-ledger: 185
+      settlement-operator: 151
+
+  ✓ test/pick.test.ts > pick > prints the exploded visibility table for evidence
+  ✓ test/pick.test.ts > pick > returns the nearest component when two lie along the same ray
+  ✓ test/pick.test.ts > pick > returns null when the nearest hit is only a layer slab
+  ✓ test/pick.test.ts > pick > uses lerped component centres during the explode timeline
+
+  Test Files  1 passed (1)
+       Tests  16 passed (16)
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+
+  $ pnpm -r --if-present typecheck
+  packages/xploder typecheck$ tsc --noEmit
+  tools/perf typecheck$ tsc --noEmit
+  packages/xploder typecheck: Done
+  apps/web typecheck$ next typegen && tsc --noEmit
+  tools/perf typecheck: Done
+  apps/web typecheck: Generating route types...
+  apps/web typecheck: ✓ Types generated successfully
+  apps/web typecheck: Done
+  $ pnpm -r --if-present lint && pnpm format:check
+  packages/xploder lint$ eslint .
+  tools/perf lint$ eslint .
+  tools/perf lint: Done
+  packages/xploder lint: Done
+  apps/web lint$ eslint .
+  apps/web lint: Done
+  $ prettier --check .
+  Checking formatting...
+  All matched files use Prettier code style!
+
+  Test Files  21 passed (21)
+       Tests  187 passed (187)
+
+  Test Files  4 passed | 1 skipped (5)
+       Tests  49 passed | 2 skipped (51)
+
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+T002-OK
+
+
+---
+## Orchestrator re-run of the T002 Check block (outside executor sandbox), 2026-10-30T05:48:58Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  1 passed (1)
+Tests  16 passed (16)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  21 passed (21)
+packages/xploder test:       Tests  187 passed (187)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+T002-OK
