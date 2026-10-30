@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "slug": "lockerbay",
+    "name": "Lockerbay",
+    "tagline": "Neighbourhood parcel pickups, on your schedule.",
+    "summary": "A fictional service for collecting parcels from neighbourhood street lockers.",
+    "year": 2026,
+    "role": "Service design and full-stack development",
+    "tags": ["parcels", "lockers", "logistics"],
+    "links": [
+      {
+        "label": "Project site",
+        "url": "https://example.com/lockerbay"
+      }
+    ]
+  },
+  "story": {
+    "headline": "Parcel pickup that follows the recipient, not the delivery round.",
+    "problem": "Delivery windows do not always match the time a recipient can reach a shared locker.",
+    "approach": "Give each parcel a pickup code, route locker events through a small booking service, and retry failed notices before parking them for review.",
+    "outcome": "Recipients collect parcels at street lockers while operators can trace every booking and notification attempt."
+  },
+  "layers": [
+    {
+      "id": "client",
+      "name": "Client",
+      "description": "Recipients and the phone app they use at a street locker.",
+      "components": [
+        {
+          "id": "recipient",
+          "name": "Recipient",
+          "summary": "A person collecting a parcel from a neighbourhood locker.",
+          "description": "Receives a pickup code and uses the app to open the assigned locker.",
+          "kind": "actor",
+          "status": "shipped"
+        },
+        {
+          "id": "pickup-app",
+          "name": "Pickup App",
+          "summary": "The Android app that shows pickup codes and locker access.",
+          "description": "Keeps the recipient's active parcel, pickup code, and locker details available at the kerbside.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": ["kotlin", "jetpack-compose", "okhttp"]
+        }
+      ]
+    },
+    {
+      "id": "edge",
+      "name": "Edge",
+      "description": "The public entry point and session boundary for pickup requests.",
+      "components": [
+        {
+          "id": "pickup-api",
+          "name": "Pickup API",
+          "summary": "The public entry point for pickup and locker requests.",
+          "description": "Validates app requests and routes bookings, locker events, and notifications to internal services.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": ["typescript", "nodejs"],
+          "links": [
+            {
+              "label": "Request contract",
+              "url": "https://example.com/lockerbay/request-contract"
+            }
+          ]
+        },
+        {
+          "id": "session-gate",
+          "name": "Session Gate",
+          "summary": "Checks that each pickup session is active and belongs to its recipient.",
+          "description": "Issues short-lived session claims before the API accepts a locker action.",
+          "kind": "service",
+          "status": "wip",
+          "techs": ["typescript", "nodejs"]
+        }
+      ]
+    },
+    {
+      "id": "services",
+      "name": "Services",
+      "description": "The booking, notification, planning, and audit paths behind a pickup.",
+      "components": [
+        {
+          "id": "booking-service",
+          "name": "Booking Service",
+          "summary": "Creates and tracks each parcel's locker booking.",
+          "description": "Reserves a locker slot, records the pickup window, and coordinates the services that complete a handoff.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": ["typescript", "nodejs"]
+        },
+        {
+          "id": "notifier",
+          "name": "Notifier",
+          "summary": "Sends pickup codes and collection notices to recipients.",
+          "description": "Subscribes to booking events and delivers each notice through the push gateway.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": ["nodejs", "websocket"]
+        },
+        {
+          "id": "retry-scheduler",
+          "name": "Retry Scheduler",
+          "summary": "Queues failed notices for another delivery attempt.",
+          "description": "Waits for a failed push event, retries it on a fixed cadence, and sends exhausted attempts to the dead-letter store.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": ["nodejs"]
+        },
+        {
+          "id": "slot-planner",
+          "name": "Slot Planner",
+          "summary": "Chooses a locker that can hold a parcel for its pickup window.",
+          "description": "Checks locker size and availability before handing the selected slot to the booking service.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": ["typescript"]
+        },
+        {
+          "id": "audit-trail",
+          "name": "Audit Trail",
+          "summary": "Records every booking and notification state change for operator review.",
+          "description": "Will store an append-only sequence of booking, locker, and delivery events once the planned audit pipeline ships.",
+          "kind": "module",
+          "status": "planned",
+          "techs": ["typescript"]
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Storage",
+      "description": "The records that track locker capacity and undelivered notices.",
+      "components": [
+        {
+          "id": "locker-registry",
+          "name": "Locker Registry",
+          "summary": "The authoritative record of locker locations, sizes, and availability.",
+          "description": "Returns locker metadata and holds the current occupancy state for each street locker.",
+          "kind": "store",
+          "status": "shipped",
+          "links": [
+            {
+              "label": "Locker model",
+              "url": "https://example.com/lockerbay/locker-model"
+            }
+          ]
+        },
+        {
+          "id": "dead-letter-store",
+          "name": "Dead Letter Store",
+          "summary": "A durable queue for notices that exhausted their retries.",
+          "description": "Retains failed notification events with their last error so an operator can inspect or replay them.",
+          "kind": "store",
+          "status": "shipped"
+        }
+      ]
+    },
+    {
+      "id": "external",
+      "name": "External systems",
+      "description": "The delivery and hardware boundaries outside Lockerbay.",
+      "components": [
+        {
+          "id": "push-gateway",
+          "name": "Push Gateway",
+          "summary": "A delivery service that forwards mobile push notices.",
+          "description": "Accepts notification payloads from the notifier and reports whether each push was accepted.",
+          "kind": "external",
+          "status": "shipped"
+        },
+        {
+          "id": "locker-hardware",
+          "name": "Locker Hardware",
+          "summary": "The physical locker controller that opens doors and reports sensor events.",
+          "description": "Receives unlock commands from the booking service and emits door and parcel-state events.",
+          "kind": "external",
+          "status": "shipped"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "pickup-ready",
+      "label": "Pickup code delivered",
+      "description": "A parcel booking reaches the assigned locker and its pickup code is delivered to the recipient.",
+      "path": [
+        "recipient",
+        "pickup-app",
+        "pickup-api",
+        "booking-service",
+        "locker-registry",
+        "notifier",
+        "push-gateway"
+      ]
+    },
+    {
+      "id": "push-failed",
+      "label": "Notice fails, retry queued",
+      "description": "A failed push is retried before its event moves to the dead-letter store for review.",
+      "path": [
+        "booking-service",
+        "notifier",
+        "push-gateway",
+        "retry-scheduler",
+        "dead-letter-store"
+      ]
+    }
+  ]
+}
