@@ -1,0 +1,189 @@
+T011a - fps:engine --scenario tour
+Sandbox: OFF
+Server: not started; real FPS measurement: not run (T014).
+
+Commands and output:
+$ pnpm --filter perf-tools exec vitest run test/fps-engine.test.ts 2>&1 | tee /tmp/s05-checks/t011a.txt
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t011a/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  20:31:03
+   Duration  216ms (import 94%, transform 3%, tests 1%, worker 1%)
+
+
+$ node tools/perf/src/cli/fps-engine.ts --help | tee -a /tmp/s05-checks/t011a.txt
+Usage: pnpm fps:engine [--scenario explode|tour] [options]
+
+Builds the fixture export, serves it on 127.0.0.1, and measures /dev/engine
+with the S3 FPS harness.
+
+Scenarios:
+  explode         /dev/engine?fixture=a&cycle=1 via pnpm fps (default)
+  tour            live-update tour via in-process Playwright
+
+Options:
+  --scenario <name>  explode or tour (default: explode)
+  --no-build         use an existing out-fixtures/ export
+  --out <dir>        output directory for fps.json
+  --help             show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+
+$ ! grep -n 'literal60' tools/perf/src/cli/fps-engine.ts && echo 'no literal60' | tee -a /tmp/s05-checks/t011a.txt
+no literal60
+
+$ ! grep -nE 'fps\s*(>=|>|<=|<)\s*[0-9]' tools/perf/src/cli/fps-engine.ts && echo 'no literal fps comparison' | tee -a /tmp/s05-checks/t011a.txt
+no literal fps comparison
+
+Guards:
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+
+$ pnpm typecheck && pnpm lint && pnpm test && echo T011a-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s05-wt/t011a/tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s05-wt/t011a/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:72899) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72896) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72895) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72897) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72903) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+tools/perf test: 
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  61 passed (61)
+tools/perf test:    Start at  20:31:08
+tools/perf test:    Duration  1.05s (import 86%, tests 7%, transform 6%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: 
+packages/xploder test:  Test Files  30 passed (30)
+packages/xploder test:       Tests  255 passed (255)
+packages/xploder test:    Start at  20:31:08
+packages/xploder test:    Duration  3.50s (tests 66%, import 26%, transform 6%, worker 2%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s05-wt/t011a/apps/web
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+apps/web test:    Start at  20:31:12
+apps/web test:    Duration  92ms (tests 52%, import 28%, transform 11%, worker 8%)
+apps/web test: 
+apps/web test: Done
+T011a-OK
+
+
+---
+Orchestrator review fix: the tour step counter counted every mutation record of data-xploder-tour-step, including same-value rewrites; it now counts only value changes.
+      Tests  6 passed (6)
+no literal60
+no literal fps comparison
+
+
+---
+## Orchestrator re-run of the T011a Check block (outside executor sandbox), 2026-10-30T13:31:48Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  1 passed (1)
+Tests  2 passed (2)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  61 passed (61)
+packages/xploder test:  Test Files  30 passed (30)
+packages/xploder test:       Tests  255 passed (255)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T011a-OK
