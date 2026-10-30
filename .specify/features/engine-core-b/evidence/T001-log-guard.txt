@@ -1,0 +1,158 @@
+T001 - Frozen-surface guard + emphasis tokens
+=============================================
+
+Commands run from the repository root
+-------------------------------------
+
+  pnpm --filter xploder exec vitest run test/frozen-surface.test.ts test/emphasis-tokens.test.ts
+
+  cp packages/xploder/src/parse.ts /tmp/s05-checks/t001-parse.backup
+  printf ' ' >> packages/xploder/src/parse.ts
+  if pnpm --filter xploder exec vitest run test/frozen-surface.test.ts >/tmp/s05-checks/t001-neg.txt 2>&1; then
+    echo 'NEG-CONTROL-FAILED'; exit 1
+  fi
+  cp /tmp/s05-checks/t001-parse.backup packages/xploder/src/parse.ts
+  cmp -s /tmp/s05-checks/t001-parse.backup packages/xploder/src/parse.ts
+
+  git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+  git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+  test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+
+  before=$(shasum -a 256 packages/xploder/test/frozen-surface.manifest.json | awk '{print $1}')
+  packages/xploder/test/frozen-surface.generate.sh
+  after=$(shasum -a 256 packages/xploder/test/frozen-surface.manifest.json | awk '{print $1}')
+  test "$before" = "$after"
+
+  pnpm typecheck && pnpm lint && pnpm test && echo T001-OK
+
+The requested `git checkout -- packages/xploder/src/parse.ts` restore could not write
+`.git/worktrees/t001/index.lock` under the read-only sandboxed Git directory. The negative
+control used a byte-for-byte temporary backup restore instead; `cmp` and the frozen guard both
+confirmed the restored file matches base `53b2b2b`.
+
+Focused tests
+-------------
+
+  RUN  v5.0.5 /private/tmp/s05-wt/t001/packages/xploder
+
+  Test Files  2 passed (2)
+       Tests  6 passed (6)
+    Start at  12:33:40
+    Duration  92ms (transform 53%, import 30%, tests 12%, worker 6%)
+
+Negative control
+----------------
+
+  RUN  v5.0.5 /private/tmp/s05-wt/t001/packages/xploder
+
+   FAIL  test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit
+  AssertionError: src/parse.ts: expected 'eb451104d2fd40f9448bbf08f0ca461ff75c5...' to be '336cc6966f025004b6ce66ef0551ac0fdbd53...' // Object.is equality
+
+  Expected: "336cc6966f025004b6ce66ef0551ac0fdbd5381618a47ce6445c43ce357041f5"
+  Received: "eb451104d2fd40f9448bbf08f0ca461ff75c5df9aa68fe2d034ff508bcd62ce5"
+
+   Test Files  1 failed (1)
+        Tests  1 failed | 1 passed (2)
+
+  negative control: red as expected; frozen file restored byte-for-byte
+
+Guards and generator idempotency
+--------------------------------
+
+  FROZEN-OK
+  SURFACE-OK
+  BRIEF-HISTORY-OK
+  wrote packages/xploder/test/frozen-surface.manifest.json (47 files)
+  before=097e445a41ce38746a1d2b9a54b38423bc597c493d7a132330da77aa3d7b14c3
+  after=097e445a41ce38746a1d2b9a54b38423bc597c493d7a132330da77aa3d7b14c3
+  IDEMPOTENT-OK
+
+Manifest count
+--------------
+
+  47 files from 38 frozen path-list entries.
+
+Full check output
+-----------------
+
+  $ pnpm typecheck
+  packages/xploder typecheck: Done
+  tools/perf typecheck: Done
+  apps/web typecheck: Done
+
+  $ pnpm lint
+  packages/xploder lint: Done
+  tools/perf lint: Done
+  apps/web lint: Done
+  Checking formatting...
+  All matched files use Prettier code style!
+
+  $ pnpm test
+  packages/xploder test: Test Files  18 passed (18)
+  packages/xploder test:      Tests  115 passed (115)
+  packages/xploder test: Done
+
+  tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+  tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+  tools/perf test: Error: listen EPERM: operation not permitted 127.0.0.1
+  tools/perf test:  Test Files  2 failed | 9 passed (11)
+  tools/perf test:      Tests  47 passed | 8 skipped (55)
+
+  apps/web test: Failed
+  [ELIFECYCLE] Command failed with signal SIGKILL.
+  Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  x "pnpm recursive run" failed in /private/tmp/s05-wt/t001/tools/perf
+
+Offline coverage for the sandbox-blocked suites
+----------------------------------------------
+
+  $ pnpm --filter web test
+
+  Test Files  4 passed | 1 skipped (5)
+       Tests  49 passed | 2 skipped (51)
+
+  $ pnpm --filter perf-tools exec vitest run --exclude test/serve.test.ts --exclude test/reach.test.ts
+
+  Test Files  9 passed (9)
+       Tests  47 passed (47)
+
+Blocker
+-------
+
+The exact `pnpm test` command cannot complete in this executor sandbox because the existing
+`tools/perf/test/serve.test.ts` and `tools/perf/test/reach.test.ts` suites must bind a local
+127.0.0.1 HTTP server. The sandbox denies that bind with `EPERM`; no supported skip/env mode is
+present, and approval policy is `never`. `tools/perf` tests that do not bind a socket pass (47/47),
+as do xploder (115/115) and web (49 passed, 2 skipped).
+
+The orchestrator must rerun the exact Check block outside the network-restricted sandbox and append
+the resulting `T001-OK` line.
+
+T001-BLOCKED: local loopback bind denied by executor sandbox
+
+
+---
+Executor note: the sandboxed run could not finish `pnpm test` (tools/perf suites bind 127.0.0.1 → EPERM in the codex sandbox). The orchestrator re-ran the full Check block outside the sandbox:
+
+## Orchestrator re-run of the T001 Check block (outside executor sandbox), 2026-10-30T05:35:42Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  12:35:42
+   Duration  93ms (transform 52%, import 31%, tests 12%, worker 6%)
+
+negative control: red as expected
+AssertionError: src/parse.ts: expected 'eb451104d2fd40f9448bbf08f0ca461ff75c5…' to be '336cc6966f025004b6ce66ef0551ac0fdbd53…' // Object.is equality
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+packages/xploder test:  Test Files  18 passed (18)
+packages/xploder test:       Tests  115 passed (115)
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+T001-OK
