@@ -11,6 +11,7 @@ import { Lights } from './Lights';
 import { PickBridge, type PickBridgeHandle } from './PickBridge';
 import { Slabs } from './Slabs';
 import { Stats, type ViewerStats } from './Stats';
+import { ViewScroll } from './ViewScroll';
 
 export interface SceneProps {
   readonly layout: ProjectLayout;
@@ -28,6 +29,8 @@ export interface SceneProps {
   readonly onEmphasisPhase?: (phase: EmphasisPhase) => void;
   readonly progressRef?: RefObject<Float32Array | null>;
   readonly pickBridgeRef?: RefObject<PickBridgeHandle>;
+  readonly scrollRef?: RefObject<HTMLDivElement | null>;
+  readonly onScrollExtent?: (extent: number) => void;
 }
 
 function defaultNow(): number {
@@ -50,6 +53,8 @@ export function Scene({
   onEmphasisPhase,
   progressRef,
   pickBridgeRef,
+  scrollRef,
+  onScrollExtent,
 }: SceneProps) {
   const emphasisDriver = useEmphasisDriver({
     layout,
@@ -75,6 +80,9 @@ export function Scene({
         progressRef={progressRef}
       />
       <CameraRig layout={layout} tokens={tokens} rig={rig} now={now} onAzimuth={onAzimuth} />
+      {scrollRef === undefined ? null : (
+        <ViewScroll layout={layout} rig={rig} scrollRef={scrollRef} onExtent={onScrollExtent} />
+      )}
       {pickBridgeRef === undefined ? null : (
         <PickBridge bridgeRef={pickBridgeRef} progressRef={progressRef} />
       )}

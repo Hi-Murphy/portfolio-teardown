@@ -5,11 +5,13 @@ import {
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
   type CSSProperties,
   type ReactNode,
 } from 'react';
 
 import type { Phase } from '../engine/explode';
+import { rescaleScroll } from '../interaction/scroll';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
 import type { Palette } from '../theme';
@@ -50,7 +52,18 @@ const CANVAS_STYLE: CSSProperties = {
 
 const STAGE_STYLE: CSSProperties = {
   height: '100%',
+  overflowX: 'hidden',
+  overflowY: 'auto',
+  position: 'relative',
+  scrollbarWidth: 'thin',
   touchAction: 'pan-y pinch-zoom',
+  width: '100%',
+};
+
+const CANVAS_VIEWPORT_STYLE: CSSProperties = {
+  height: '100%',
+  position: 'sticky',
+  top: 0,
   width: '100%',
 };
 
@@ -71,6 +84,9 @@ export function TeardownViewer({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<Float32Array | null>(null);
+  const [scrollExtentPx, setScrollExtentPx] = useState(0);
+  const publishedExtentRef = useRef(0);
+  const adjustedExtentRef = useRef(0);
   const pickBridgeRef = useRef<PickBridgeHandle>({
     camera: null,
     progress: null,
@@ -84,6 +100,13 @@ export function TeardownViewer({
   const resolvedPalette = palette ?? themePalette;
   const tokens = useMemo(() => resolveMotion(prefersReducedMotion), [prefersReducedMotion]);
   const layout = useMemo(() => layoutProject(project, layoutOptions), [project, layoutOptions]);
+
+  const onScrollExtent = useCallback((extent: number) => {
+    if (extent === publishedExtentRef.current) return;
+
+    publishedExtentRef.current = extent;
+    setScrollExtentPx(extent);
+  }, []);
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
 
@@ -146,6 +169,22 @@ export function TeardownViewer({
   }, []);
 
   useLayoutEffect(() => {
+    const stage = stageRef.current;
+    const previousExtent = adjustedExtentRef.current;
+
+    if (stage === null || scrollExtentPx === previousExtent) return;
+
+    const nextScrollTop =
+      previousExtent === 0
+        ? scrollExtentPx / 2
+        : rescaleScroll(stage.scrollTop, previousExtent, scrollExtentPx);
+
+    adjustedExtentRef.current = scrollExtentPx;
+    stage.scrollTop = nextScrollTop;
+    stage.dispatchEvent(new Event('scroll'));
+  }, [scrollExtentPx]);
+
+  useLayoutEffect(() => {
     const element = wrapperRef.current;
 
     if (element === null) return;
@@ -199,30 +238,35 @@ export function TeardownViewer({
       className={className}
     >
       <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
-        <Canvas
-          orthographic
-          frameloop="demand"
-          dpr={[1, 2]}
-          gl={{ antialias: true, alpha: true }}
-          style={CANVAS_STYLE}
-          fallback={fallback ?? <p>WebGL is unavailable for this architecture view.</p>}
-        >
-          <Scene
-            layout={layout}
-            palette={resolvedPalette}
-            tokens={tokens}
-            target={viewer.target}
-            rig={viewer.rig}
-            slug={project.meta.slug}
-            onPhase={onPhase}
-            onSettled={onSettled}
-            onStats={onStatsChange}
-            emphasis={emphasis}
-            onEmphasisPhase={onEmphasisPhase}
-            progressRef={progressRef}
-            pickBridgeRef={pickBridgeRef}
-          />
-        </Canvas>
+        <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
+          <Canvas
+            orthographic
+            frameloop="demand"
+            dpr={[1, 2]}
+            gl={{ antialias: true, alpha: true }}
+            style={CANVAS_STYLE}
+            fallback={fallback ?? <p>WebGL is unavailable for this architecture view.</p>}
+          >
+            <Scene
+              layout={layout}
+              palette={resolvedPalette}
+              tokens={tokens}
+              target={viewer.target}
+              rig={viewer.rig}
+              slug={project.meta.slug}
+              onPhase={onPhase}
+              onSettled={onSettled}
+              onStats={onStatsChange}
+              emphasis={emphasis}
+              onEmphasisPhase={onEmphasisPhase}
+              progressRef={progressRef}
+              pickBridgeRef={pickBridgeRef}
+              scrollRef={stageRef}
+              onScrollExtent={onScrollExtent}
+            />
+          </Canvas>
+        </div>
+        <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
       </div>
       {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
         <TourCaption
