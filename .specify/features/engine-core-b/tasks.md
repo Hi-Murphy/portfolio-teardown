@@ -14,11 +14,11 @@
 | T003 | ☑ | 1 (Flash, sandbox on) | evidence/T003-log-pointer-focus.txt | 8dbce93 |
 | T004 | ☑ | 1 (Flash, sandbox on) | evidence/T004-log-fixture-c.txt | 3fe8a6b |
 | T005 | ☑ | 1 (Flash) + 2 one-line orchestrator review fixes with tests | evidence/T005-log-tour.txt | 8248d3e |
-| T006 | ☐ | | | |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
-| T009 | ☐ | | | |
-| T010 | ☐ | | | |
+| T006 | ☑ | 1 (Flash) + 2 one-line orchestrator review fixes | evidence/T006-log-emphasis.txt | 98da2b7 |
+| T007 | ☑ | 1 (Flash, sandbox off) + orchestrator reverted an out-of-scope next.config change | evidence/T007-log-pointer.txt | 7462c9e |
+| T008 | ☑ | 1 (Flash) + orchestrator cleanup (process declare) | evidence/T008-log-handle.txt | d58b4b4 |
+| T009 | ☑ (R6: mobile caption covers the top layer, raised at G2) | 1 (Flash, sandbox off; 1st dispatch hung on runner stdin, infra not executor) + orchestrator fix (loop param) | evidence/T009-{log-playground.txt,screenshot-*.png,meta-c-tour.json} | 1b9c5ae |
+| T010 | ☑ + ⚑ pushed, draft PR #8 | 1 (Flash, sandbox on); build/exclusion re-run outside sandbox | evidence/T010-log-scanners.txt | 3fff46c |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
