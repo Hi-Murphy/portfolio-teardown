@@ -388,3 +388,4 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
     - **Input:** native scrolling only (touch swipe, wheel, trackpad, scrollbar), so there are no custom wheel/drag handlers (S4 D6). The page scroll takes over at either end (scroll chaining). Keyboard scrolling of the stage is left to S8. Horizontal scroll is out of scope (not requested).
     - **Invariants:** still 2 draw calls; zero CLS (the spacer lives inside a fixed-height container); no motion (user-driven scroll, so nothing to reduce); the tour never scrolls ("camera stays put").
     - → task T010a, evidence in G3 (probe: zoom 3×, scroll to top → a top-layer slab is hoverable; scroll to bottom → a bottom-layer slab is hoverable).
+11. **G2 re-validation (Murphy, 2026-10-30):** vertical scroll and the caption anchor tested in Orca's browser, "all good". G3 on hold until Murphy's go (5h 53% at this gate). The revision-log entry for §9.10 is Murphy's to add in the vault.
