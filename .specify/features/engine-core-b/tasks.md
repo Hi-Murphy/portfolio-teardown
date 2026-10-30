@@ -21,13 +21,13 @@
 | T010 | ☑ + ⚑ pushed, draft PR #8 | 1 (Flash, sandbox on); build/exclusion re-run outside sandbox | evidence/T010-log-scanners.txt | 3fff46c |
 | T010a | ☑ (G2 feedback, scope-add rev 1) | 1 (Flash, sandbox off) | evidence/T010a-{log-scroll.txt,screenshot-desktop-zoomed-*.png} | 082e28b |
 | T010b | ☑ (R6 fixed) | 1 (Flash, sandbox off) + orchestrator test fix (fragile react-dom reach) | evidence/T010b-{log-caption.txt,screenshot-mobile-*-target.png} | 872a987 |
-| T010c | ☐ | | | |
-| T010d | ☐ | | | |
-| T011a | ☐ | | | |
-| T011b | ☐ | | | |
-| T012 | ☐ | | | |
-| T013 | ☐ | | | |
-| T014 | ☐ | | | |
+| T010c | ☑ (caption CLS found by the probe) | 1 (Flash, sandbox off) | evidence/T010c-log-caption-cls.txt | c6ca0a9 |
+| T010d | ☑ (F8 tour clock stall; Play/Pause width) | 1 (Flash, sandbox off); orchestrator negative control | evidence/T010d-log-tour-clock.txt | a12c7ac |
+| T011a | ☑ | 1 (Flash, sandbox off) + orchestrator counter fix | evidence/T011a-log-fps-tool.txt | bedaaf9 |
+| T011b | ☑ (3 rounds: scope amendments by the orchestrator, not executor failures) | 1 (Flash, sandbox off) | evidence/T011b-log-probe-tool.txt | ac4a43c |
+| T012 | ☑ 69/69 | 1 (Flash, sandbox off); orchestrator removed 2 duplicate screenshots | evidence/T012-{log-probe.txt,engine-probe.json,log-touch-trace.json,screenshot-*.png} | 862d579 |
+| T013 | ☑ 14 shots | 1 (Flash, sandbox off) | evidence/T013-{log-matrix.txt,screenshot-*.png,meta-*.json} | da65e3c |
+| T014 | ☑ AC5 pass | 1 (Flash, alone) | evidence/T014-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 4a71777 |
 | T015 | ☐ | | | |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specify/features/engine-core-b/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
