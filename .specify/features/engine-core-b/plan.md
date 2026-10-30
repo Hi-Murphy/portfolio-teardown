@@ -317,6 +317,7 @@ projectCJson ─parseProject(json,{registry})─▶ Project ─▶ useTeardownVi
 
 - Fixture switch gains **C** (`projectCJson` from `xploder/fixtures`; `?fixture=a|b|c`).
 - `useTeardownViewer({ initial, project })`.
+- **`<TeardownViewer layoutOptions={{ explodedGap: 2 }}>`** (F6 decision A, RFC §9.8): a consumer option of the existing S4 API, so S4 `LAYOUT_DEFAULTS` and tests stay unchanged. With it, every component of A, B and C is visible when exploded at all four azimuths (smallest visible area 0.31 world units², `evidence/F6-log-visibility.txt`), at a fit-zoom cost of ×0.72.
 - **Layer focus**: one button per `project.layers` entry (`data-engine-control="focus-<layerId>"`, `aria-pressed={viewer.focus.layerId === id}`, `disabled={viewer.focus.suspended}`).
 - **Tour**: Play/Pause (one toggle button), Step, Stop (`data-engine-control="tour-play|tour-step|tour-stop"`), and when `viewer.tour.showFlowSelector` a segmented group (`data-engine-control="flow-<flowId>"`, `aria-pressed`). Hidden entirely when the project has no flows.
 - **URL params** (read once after mount, like S4): `highlight=<componentId>` → `actions.highlight`; `focus=<layerId>` → `toggleFocus`; `flow=<flowId>` → `selectFlow`; `tour=play` → `play()`; `tour=paused&step=<n>` → `step()` n+1 times (n is 0-based); `loop=1` → when `tour.status` becomes `ended`, `play()`.
@@ -339,7 +340,7 @@ pnpm engine:probe <url> [--out <dir>] [--only s4|s5]      exit 0 all checks pass
   S4 block unchanged (fixtures now a/b/c: c = 5 layers / 13 components, drawCalls 2).
   S5 block, observations → checks:
     hitMap   { imploded|exploded: { [componentId]: [x,y][] }, grid: { cols, rows } }      (mouse sweep, desktop 1280×800)
-             exploded-all-components-hit · imploded-top-layer-hit
+             exploded-all-components-hit (holds with explodedGap 2, F6) · imploded-top-layer-hit
     hover    { state, id, highlight, cursor, pixelBefore, pixelAfter, accent } ×2 states
              hover-highlight-{exploded,imploded} · hover-cursor-pointer · hover-pixel-toward-accent · hover-leave-clears
     touch    trace: [{ type, pointerType, t }] · tap results ×2 states (context: hasTouch, isMobile, 390×844)
