@@ -21,7 +21,8 @@
 | T010 | ☑ + ⚑ pushed, draft PR #8 | 1 (Flash, sandbox on); build/exclusion re-run outside sandbox | evidence/T010-log-scanners.txt | 3fff46c |
 | T010a | ☑ (G2 feedback, scope-add rev 1) | 1 (Flash, sandbox off) | evidence/T010a-{log-scroll.txt,screenshot-desktop-zoomed-*.png} | 082e28b |
 | T010b | ☑ (R6 fixed) | 1 (Flash, sandbox off) + orchestrator test fix (fragile react-dom reach) | evidence/T010b-{log-caption.txt,screenshot-mobile-*-target.png} | 872a987 |
-| T011 | ☐ | | | |
+| T011a | ☐ | | | |
+| T011b | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
@@ -316,22 +317,46 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 
 ## Phase G3: Evidence (US1–US5) → STOP for Murphy after T014
 
-### T011 [US5] Probe S5 groups + `fps:engine --scenario tour` (literal60 removed)
+### T011 — split at G3 start (orchestrator, 2026-10-30) into T011a ∥ T011b
 
-- **Seam:** Playwright ↔ `/dev/engine` DOM contract (`data-xploder-*`, `data-engine-*`) ↔ evidence JSON.
-- **Files:** `tools/perf/src/engine-probe.ts` (S5 observation types + `evaluateProbe` checks exactly as named in plan.md "Evidence CLIs"), `tools/perf/src/cli/engine-probe.ts` (drive script; `--only s4|s5`; fixtures a/b/c), `tools/perf/src/cli/fps-engine.ts` (`--scenario explode|tour`; `literal60` removed from both; verdict `{ rule: 'dropped-frames', droppedFrames0, liveness, pass }`; tour scenario in-process with the step-counter trigger), `tools/perf/test/engine-probe.test.ts` (one passing synthetic observation + one failing case per S5 group), `tools/perf/test/fps-engine.test.ts` (verdict function, no `literal60` key, scenario URL), `AGENTS.md` §3 (`pnpm fps:engine [--scenario tour]`).
+Reason: two independent seams (probe vs FPS tool, different files), and the probe gains the G2 additions (zoomed scroll, RFC §9.10; caption anchor, R6/§9.9). Check names below extend plan.md "Evidence CLIs".
+
+### T011a [P] [US5] `fps:engine --scenario tour` (literal60 removed)
+
+- **Seam:** fixture export ↔ in-process `measureFps` with a tour step counter ↔ `fps.json` verdict.
+- **Files:** `tools/perf/src/cli/fps-engine.ts` (`--scenario explode|tour`, default `explode`; `literal60` removed from both; verdict `{ rule: 'dropped-frames', droppedFrames0, liveness, pass }` with `liveness = inBand(fps, FPS_NOMINAL, FPS_TOLERANCE)`; tour scenario in-process per plan.md, URL `dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1`, wait for `[data-xploder-ready=true][data-xploder-tour=playing]`, the `trigger` installs a MutationObserver counting `data-xploder-tour-step` changes, then read the counter and `[data-engine-draw-calls]`; `fps.json` adds `scenario`, `tourStepsAdvanced`, `drawCalls`), `tools/perf/test/fps-engine.test.ts` (verdict function incl. band edges and dropped frames, no `literal60` key anywhere in the output, scenario URL builder), `AGENTS.md` §3 (`pnpm fps:engine [--scenario tour]`).
 - **Check:**
   ```sh
-  set -euo pipefail; pnpm --filter perf-tools test 2>&1 | tee /tmp/s05-checks/t011.txt
-  node tools/perf/src/cli/engine-probe.ts --help && node tools/perf/src/cli/fps-engine.ts --help | tee -a /tmp/s05-checks/t011.txt
-  ! grep -n 'literal60' tools/perf/src/cli/fps-engine.ts && echo 'no literal60' | tee -a /tmp/s05-checks/t011.txt
-  pnpm typecheck && pnpm lint && pnpm test && echo T011-OK
+  set -euo pipefail; pnpm --filter perf-tools exec vitest run test/fps-engine.test.ts 2>&1 | tee /tmp/s05-checks/t011a.txt
+  node tools/perf/src/cli/fps-engine.ts --help | tee -a /tmp/s05-checks/t011a.txt
+  ! grep -n 'literal60' tools/perf/src/cli/fps-engine.ts && echo 'no literal60' | tee -a /tmp/s05-checks/t011a.txt
+  ! grep -nE 'fps\s*(>=|>|<=|<)\s*[0-9]' tools/perf/src/cli/fps-engine.ts && echo 'no literal fps comparison' | tee -a /tmp/s05-checks/t011a.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T011a-OK
   ```
-- **Evidence:** `evidence/T011-log-tools.txt`
-- **WHAT MURPHY SHOULD TEST/VALIDATE:**
-  1. Nothing hands-on (default: agent log).
-- **WHAT THE AGENT NEEDS FROM MURPHY:**
-  1. Nothing (default: proceed; F2 in scope per RFC §9.2).
+  (The real measurement is T014; T011a only builds and unit-tests the tool. A smoke `--scenario tour` run is allowed for development but its result is not evidence.)
+- **Evidence:** `evidence/T011a-log-fps-tool.txt`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Nothing hands-on (default: agent log).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing (default: proceed; F2 in scope, RFC §9.2).
+
+### T011b [P] [US1] [US2] [US3] [US4] `engine:probe` S5 groups
+
+- **Seam:** Playwright ↔ `/dev/engine` DOM contract (`data-xploder-*`, `data-engine-*`, `data-engine-control`) ↔ `engine-probe.json`.
+- **Files:** `tools/perf/src/engine-probe.ts` (S5 observation types + `evaluateProbe` checks), `tools/perf/src/cli/engine-probe.ts` (drive script, `--only s4|s5`, fixtures a/b/c), `tools/perf/test/engine-probe.test.ts` (one passing synthetic observation + one failing case per S5 group). S4 checks stay as they are (fixture C adds an instance-count check: 5 layers / 13 components, 2 draw calls).
+- **S5 check groups:** exactly the plan.md list (hit map, hover incl. pixel-under-pointer, touch incl. the pointer trace, CLS, focus, tour, selector, caption, reduced motion) **plus**:
+  - `scroll`: at zoom 1 the stage has no scrollable overflow (`scrollHeight − clientHeight ≤ 1`) → `scroll-zoom1-no-overflow`; after zoom-in ×5 the stage overflows → `scroll-zoomed-overflows`; scroll to the top and hover-sweep the upper third → some layer-0 id → `scroll-top-reaches-top-layer`; scroll to the bottom and sweep the lower third → some last-layer id → `scroll-bottom-reaches-bottom-layer`; azimuth and zoom unchanged by scrolling → `scroll-camera-still`;
+  - `captionAnchor`: for each step of C `pickup-ready` (paused via Step), the target's hit-map point (from the exploded hit map, zoom 1) lies outside the caption's bounding box → `caption-clear-of-target` (mobile 390×844 and desktop).
+- The probe uses the fixture export (`out-fixtures`) served on `127.0.0.1`, mouse sweeps on desktop 1280×800, touch on a `hasTouch`/`isMobile` 390×844 context, and `reducedMotion: 'reduce'` for the reduced group. Pixel checks decode screenshot clips in the page (no new dependency).
+- **Check:**
+  ```sh
+  set -euo pipefail; pnpm --filter perf-tools exec vitest run test/engine-probe.test.ts 2>&1 | tee /tmp/s05-checks/t011b.txt
+  node tools/perf/src/cli/engine-probe.ts --help | tee -a /tmp/s05-checks/t011b.txt
+  # development dry run against the local fixture server (see rules) must exit 0; its output is not the T012 evidence
+  pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s05-checks/t011b-dry 2>&1 | tail -15 | tee -a /tmp/s05-checks/t011b.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T011b-OK
+  ```
+- **Evidence:** `evidence/T011b-log-probe-tool.txt`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Nothing hands-on (default: agent log).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing (default: proceed).
 
 ### T012 [P] [US1] [US2] [US3] [US4] Behaviour evidence: probe run (normal + reduced motion)
 
@@ -419,7 +444,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 
 ## Dependencies & order
 
-T001 → (T002 ∥ T003) → T004 → T005 → **STOP G1** → T006 → T007 → T008 → T009 → T010 (⚑ push + draft PR) → T010a → T010b (G2 feedback) → **STOP G2** → T011 → (T012 ∥ T013) → T014 (alone) → **STOP G3** → T015 → **STOP G4**.
+T001 → (T002 ∥ T003) → T004 → T005 → **STOP G1** → T006 → T007 → T008 → T009 → T010 (⚑ push + draft PR) → T010a → T010b (G2 feedback) → **STOP G2** → (T011a ∥ T011b) → (T012 ∥ T013) → T014 (alone) → **STOP G3** → T015 → **STOP G4**.
 
 T004 precedes T005 so the tour tests include fixture C's two flows. T014 runs after T012/T013 so no other browser load overlaps the FPS window.
 
