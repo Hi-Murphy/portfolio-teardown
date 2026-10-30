@@ -1,0 +1,31 @@
+{
+  "kind": "fps-evidence-meta",
+  "version": 1,
+  "task": "T014",
+  "date": "2026-10-30T21:32:29+07:00",
+  "command": "set -euo pipefail; pnpm fps:engine --scenario tour --out /tmp/s05-checks/t014",
+  "exitCode": 0,
+  "target": "http://127.0.0.1:63535/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1",
+  "targetHost": "127.0.0.1",
+  "chromium": "156.0.8078.4",
+  "node": "v24.19.0",
+  "result": {
+    "fps": 59.411352321201534,
+    "frames": 300,
+    "droppedFrames": 0,
+    "windowMs": 5049.54,
+    "tourStepsAdvanced": 4,
+    "drawCalls": 2,
+    "liveness": true,
+    "pass": true
+  },
+  "screenshot": {
+    "date": "2026-10-30T21:33:07+07:00",
+    "command": "pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play' --out /tmp/s05-checks/t014-evidence --runs 1 --wait-for '[data-xploder-ready=\"true\"][data-xploder-tour=\"playing\"]'",
+    "exitCode": 0,
+    "target": "http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play",
+    "targetHost": "127.0.0.1",
+    "chromium": "156.0.8078.4",
+    "image": "1350x940 PNG"
+  }
+}
