@@ -358,8 +358,9 @@ export function EnginePlayground() {
             Tour
           </dt>
           <dd data-engine-tour={viewer.tour.status} className="mt-1 font-mono text-fg">
-            {viewer.tour.status}
-            {viewer.tour.step >= 0 ? ` · ${viewer.tour.step + 1}/${viewer.tour.total}` : ''}
+            {viewer.tour.step >= 0
+              ? `${viewer.tour.status} · ${viewer.tour.step + 1}/${viewer.tour.total}`
+              : viewer.tour.status}
           </dd>
         </div>
       </dl>

@@ -1,0 +1,546 @@
+$ pnpm --filter perf-tools exec vitest run test/engine-probe.test.ts 2>&1 | tee /tmp/s05-checks/t011b.txt
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t011b/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  20:46:44
+   Duration  76ms (transform 50%, tests 25%, import 20%, worker 5%)
+
+$ node tools/perf/src/cli/engine-probe.ts --help | tee -a /tmp/s05-checks/t011b.txt
+Usage: pnpm engine:probe <base-url> [options]
+
+Probes /dev/engine behaviour in Chromium. <base-url> must end in "/" and serve
+an out-fixtures export (for example, http://127.0.0.1:4199/).
+
+Options:
+  --out <dir>     output directory (default: .evidence/<timestamp>-engine-probe)
+  --only s4|s5    run only one probe block (default: both)
+  --help          show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+$ pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s05-checks/t011b-dry 2>&1 | tail -15 | tee -a /tmp/s05-checks/t011b.txt
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}} actual {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}} actual {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1} actual {"target":"tide-chart-screen","frameDelta":1,"highlight":"tide-chart-screen","tweening":["false"],"pulse":["false"]}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1} actual {"target":"ui","frameDelta":1,"highlight":"ui","tweening":["false"],"pulse":["false"]}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"} actual {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":[1,1,1,1,1],"intervalsMs":[1599.300000011921,1600.8999999761581,1599.2000000476837,1597.7999999523163],"tweening":["false","false","false","false","false","false","false"],"pulse":["false","false","false","false","false","false","false"]}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\"" actual ["false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false"]
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1599.8999999761581,1601.6000000238419],"tolerance":0.2} actual [1599.300000011921,1600.8999999761581,1599.2000000476837,1597.7999999523163]
+PASS scroll-zoom1-no-overflow: expected "<= 1px" actual 0
+PASS scroll-zoomed-overflows: expected "> 1px" actual 803
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"] actual ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3} actual {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)" actual [{"viewport":"desktop","step":0,"target":"recipient","point":{"x":626,"y":205},"caption":{"left":77,"top":397,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":1,"target":"pickup-app","point":{"x":654,"y":225},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":2,"target":"pickup-api","point":{"x":626,"y":284},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":3,"target":"booking-service","point":{"x":626,"y":334},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":4,"target":"locker-registry","point":{"x":626,"y":424},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"desktop","step":5,"target":"notifier","point":{"x":654,"y":354},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":6,"target":"push-gateway","point":{"x":626,"y":493},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"mobile","step":0,"target":"recipient","point":{"x":178,"y":189},"caption":{"left":29,"top":403.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":1,"target":"pickup-app","point":{"x":212,"y":210},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":2,"target":"pickup-api","point":{"x":178,"y":273},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":3,"target":"booking-service","point":{"x":173,"y":326},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":4,"target":"locker-registry","point":{"x":178,"y":420},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true},{"viewport":"mobile","step":5,"target":"notifier","point":{"x":212,"y":347},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":6,"target":"push-gateway","point":{"x":178,"y":494},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true}]
+pass: true
+engine-probe.json: /tmp/s05-checks/t011b-dry/engine-probe.json
+$ pnpm typecheck && pnpm lint && pnpm test && echo T011b-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s05-wt/t011b/tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s05-wt/t011b/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:76089) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:76094) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:76093) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  66 passed (66)
+tools/perf test:    Start at  20:48:48
+tools/perf test:    Duration  634ms (import 76%, transform 16%, tests 7%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:76096) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:76100) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  30 passed (30)
+packages/xploder test:       Tests  255 passed (255)
+packages/xploder test:    Start at  20:48:48
+packages/xploder test:    Duration  3.12s (tests 58%, transform 21%, import 19%, worker 1%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s05-wt/t011b/apps/web
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+apps/web test:    Start at  20:48:52
+apps/web test:    Duration  149ms (transform 38%, tests 37%, import 20%, worker 5%)
+apps/web test: 
+apps/web test: Done
+T011b-OK
+================================================================================
+FOLLOW-UP 2026-10-30 — whole-script buffered CLS observation
+================================================================================
+
+Implementation: every desktop/mobile/reduced page installs an init-script
+PerformanceObserver({ type: "layout-shift", buffered: true }). Each entry records
+value, startTime, page, current probe group, and every source node as {tag,dataAttributes}.
+Entries are retained across navigations through a page binding and summed at the end.
+
+$ pnpm --filter perf-tools exec vitest run test/engine-probe.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t011b/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  20:59:24
+   Duration  84ms (transform 55%, tests 21%, import 20%, worker 4%)
+
+$ node tools/perf/src/cli/engine-probe.ts --help
+Usage: pnpm engine:probe <base-url> [options]
+
+Probes /dev/engine behaviour in Chromium. <base-url> must end in "/" and serve
+an out-fixtures export (for example, http://127.0.0.1:4199/).
+
+Options:
+  --out <dir>     output directory (default: .evidence/<timestamp>-engine-probe)
+  --only s4|s5    run only one probe block (default: both)
+  --help          show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+
+$ pnpm build:fixtures
+Result: fixture export built successfully; /dev/engine included.
+
+$ pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s05-checks/t011b-dry-follow-3
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4199/ --out /tmp/s05-checks/t011b-dry-follow-3
+error: engine probe failed: page.waitForSelector: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator('[data-xploder-ready="true"][data-xploder-tour="playing"][data-xploder-tour-flow="live-update"][data-xploder-tour-step="3"]') to be visible
+
+[ELIFECYCLE] Command failed with exit code 4.
+engine:probe exit 4
+
+Earlier development runs (same command, different --out dirs):
+- run 1: exit 4, tour timing timeout waiting for live-update step 2
+- run 2: completed; exit 6; only cls-zero failed (artifact below)
+- --only s5: exit 4, tour timing timeout waiting for live-update step 1
+
+$ node <summarize /tmp/s05-checks/t011b-cls-follow-2/engine-probe.json>
+{
+  "failedChecks": [
+    "cls-zero"
+  ],
+  "entryCount": 38,
+  "total": 0.021489589118957524,
+  "captionSourcedTotal": 0.00260013427734375,
+  "nonCaptionTotal": 0.018889454841613775,
+  "groups": {
+    "desktop/s4-fixtures-camera": {
+      "entries": 3,
+      "total": 0.0018478454589843751,
+      "captionSourced": 0,
+      "nonCaption": 0.0018478454589843751
+    },
+    "desktop/s4-motion": {
+      "entries": 1,
+      "total": 0.0006159484863281251,
+      "captionSourced": 0,
+      "nonCaption": 0.0006159484863281251
+    },
+    "desktop/hitMap": {
+      "entries": 1,
+      "total": 0.0006159484863281251,
+      "captionSourced": 0,
+      "nonCaption": 0.0006159484863281251
+    },
+    "desktop/hover": {
+      "entries": 2,
+      "total": 0.0012318969726562501,
+      "captionSourced": 0,
+      "nonCaption": 0.0012318969726562501
+    },
+    "desktop/focus": {
+      "entries": 2,
+      "total": 0.0012318969726562501,
+      "captionSourced": 0,
+      "nonCaption": 0.0012318969726562501
+    },
+    "desktop/tour": {
+      "entries": 10,
+      "total": 0.003996342468261719,
+      "captionSourced": 0,
+      "nonCaption": 0.003996342468261719
+    },
+    "desktop/selector": {
+      "entries": 3,
+      "total": 0.0018478454589843751,
+      "captionSourced": 0,
+      "nonCaption": 0.0018478454589843751
+    },
+    "desktop/caption": {
+      "entries": 1,
+      "total": 0.0006159484863281251,
+      "captionSourced": 0,
+      "nonCaption": 0.0006159484863281251
+    },
+    "desktop/scroll": {
+      "entries": 1,
+      "total": 0.0006159484863281251,
+      "captionSourced": 0,
+      "nonCaption": 0.0006159484863281251
+    },
+    "desktop/captionAnchor": {
+      "entries": 8,
+      "total": 0.004927587890625001,
+      "captionSourced": 0,
+      "nonCaption": 0.004927587890625001
+    },
+    "reduced/s4-reduced-motion": {
+      "entries": 1,
+      "total": 0.0006159484863281251,
+      "captionSourced": 0,
+      "nonCaption": 0.0006159484863281251
+    },
+    "reduced/reduced-motion": {
+      "entries": 5,
+      "total": 0.0033264314651489254,
+      "captionSourced": 0.00260013427734375,
+      "nonCaption": 0.0007262971878051759
+    }
+  }
+}
+
+ENTRIES (one compact JSON object per layout-shift entry):
+{"value":0.0006159484863281251,"startTime":326.9000000357628,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"s4-fixtures-camera"}
+{"value":0.0006159484863281251,"startTime":311.2000000476837,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"s4-fixtures-camera"}
+{"value":0.0006159484863281251,"startTime":324.39999997615814,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"s4-fixtures-camera"}
+{"value":0.0006159484863281251,"startTime":312.5999999642372,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"s4-motion"}
+{"value":0.0006159484863281251,"startTime":317.10000002384186,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"hitMap"}
+{"value":0.0006159484863281251,"startTime":310.4000000357628,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"hover"}
+{"value":0.0006159484863281251,"startTime":309.30000001192093,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"hover"}
+{"value":0.0006159484863281251,"startTime":311.2000000476837,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"focus"}
+{"value":0.0006159484863281251,"startTime":311.89999997615814,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"focus"}
+{"value":0.0006159484863281251,"startTime":314.69999998807907,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"tour"}
+{"value":0.0006159484863281251,"startTime":325.39999997615814,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"tour"}
+{"value":0.0006159484863281251,"startTime":310.80000001192093,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"tour"}
+{"value":0.0006159484863281251,"startTime":310.10000002384186,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"tour"}
+{"value":0.0006159484863281251,"startTime":310.80000001192093,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"tour"}
+{"value":0.00009515142440795898,"startTime":885.1999999880791,"sources":[{"node":null},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-stop"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-step"}}}],"page":"desktop","group":"tour"}
+{"value":0.00009515142440795898,"startTime":5928,"sources":[{"node":null},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-stop"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-step"}}}],"page":"desktop","group":"tour"}
+{"value":0.0006159484863281251,"startTime":313.5,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"tour"}
+{"value":0.00005517435073852539,"startTime":883.2000000476837,"sources":[{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-stop"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-step"}}}],"page":"desktop","group":"tour"}
+{"value":0.00005517435073852539,"startTime":915.6000000238419,"sources":[{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-stop"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-step"}}}],"page":"desktop","group":"tour"}
+{"value":0.0006159484863281251,"startTime":313.69999998807907,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"selector"}
+{"value":0.0006159484863281251,"startTime":312.89999997615814,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"selector"}
+{"value":0.0006159484863281251,"startTime":311.39999997615814,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"selector"}
+{"value":0.0006159484863281251,"startTime":313.39999997615814,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"caption"}
+{"value":0.0006159484863281251,"startTime":313,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"scroll"}
+{"value":0.0006159484863281251,"startTime":311.30000001192093,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":309,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":309.69999998807907,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":327.5999999642372,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":310.80000001192093,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":311.80000001192093,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":326.19999998807907,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":311,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"desktop","group":"captionAnchor"}
+{"value":0.0006159484863281251,"startTime":325.9000000357628,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"reduced","group":"s4-reduced-motion"}
+{"value":0.0006159484863281251,"startTime":311.10000002384186,"sources":[{"node":{"tag":"section","dataAttributes":{}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-right"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-reset"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"rotate-left"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"zoom-out"}}}],"page":"reduced","group":"reduced-motion"}
+{"value":0.00005517435073852539,"startTime":1130.1000000238419,"sources":[{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-stop"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-step"}}}],"page":"reduced","group":"reduced-motion"}
+{"value":0.0018339111328125,"startTime":2734.5,"sources":[{"node":{"tag":"div","dataAttributes":{"data-xploder-caption":"","data-xploder-caption-anchor":"bottom"}}}],"page":"reduced","group":"reduced-motion"}
+{"value":0.0007662231445312499,"startTime":4333.899999976158,"sources":[{"node":{"tag":"div","dataAttributes":{"data-xploder-caption":"","data-xploder-caption-anchor":"bottom"}}}],"page":"reduced","group":"reduced-motion"}
+{"value":0.00005517435073852539,"startTime":9778.600000023842,"sources":[{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-stop"}}},{"node":{"tag":"button","dataAttributes":{"data-engine-control":"tour-step"}}}],"page":"reduced","group":"reduced-motion"}
+
+Tour-clock stall reproduction (frames continue, step remains 1):
+{"run":1,"samples":[{"elapsedMs":0,"step":"0","frame":"63"},{"elapsedMs":0,"step":"0","frame":"93"},{"elapsedMs":0,"step":"0","frame":"124"},{"elapsedMs":0,"step":"1","frame":"155"},{"elapsedMs":0,"step":"1","frame":"185"},{"elapsedMs":0,"step":"1","frame":"216"},{"elapsedMs":0,"step":"1","frame":"246"},{"elapsedMs":0,"step":"1","frame":"277"},{"elapsedMs":0,"step":"1","frame":"308"},{"elapsedMs":0,"step":"1","frame":"338"}]}
+STALL: run 1 remained at step 1 past 3s while the frame counter continued advancing
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t011b/packages/xploder
+
+(node:79859) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:79856) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:79857) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:79858) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:79862) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  30 passed (30)
+      Tests  255 passed (255)
+   Start at  21:03:34
+   Duration  3.04s (tests 70%, import 22%, transform 6%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t011b/apps/web
+
+
+ Test Files  5 passed (5)
+      Tests  53 passed | 1 skipped (54)
+   Start at  21:03:37
+   Duration  114ms (tests 56%, import 25%, transform 9%, worker 9%)
+
+
+$ guards
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+
+VERDICT: T011b-BLOCKED. The completed dry run has exactly one failing check
+(cls-zero), but 36 of 38 entries are not caption-sourced: non-caption total
+0.018889454841613775 versus caption-sourced total 0.00260013427734375.
+The dominant recurring source is a 6px load-time shift of the playground controls.
+Separately, the dry run is not stable: the tour clock can stop advancing after step 1
+while data-engine-frame continues to increase. T011b-OK was therefore not printed.
+
+===== FINAL ROUND =====
+
+Date: 2026-10-30
+Changes in this round:
+- `cls-zero` now gates only the interaction phase: per page, entries whose
+  `startTime` is after that page's first `[data-xploder-ready="true"]` moment,
+  through the end of every group, including entries with `hadRecentInput`.
+- Pre-ready entries are split into `s5.clsLoad` information (value, startTime,
+  source elements/rects, `hadRecentInput`) with a note pointing at
+  `evidence/F7-log-cls-load-s4-vs-s5.txt`. They are not part of `cls-zero`.
+- Source attribution now records text-node parent, data attributes, text and the
+  previous/current rects.
+- Root cause found while re-running: the playground's Tour status `<dd>` replaced
+  sibling text nodes when the tour status/step changed. The resulting 0.0000275
+  entry carried `hadRecentInput: true` and a text source on `[data-engine-tour]`.
+  The status is now rendered as one text node, so React updates the node in place.
+
+Commands run from the repository root:
+
+$ pnpm --filter perf-tools exec vitest run test/engine-probe.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t011b/tools/perf
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+
+$ node tools/perf/src/cli/engine-probe.ts --help
+Usage: pnpm engine:probe <base-url> [options]
+
+Probes /dev/engine behaviour in Chromium. <base-url> must end in "/" and serve
+an out-fixtures export (for example, http://127.0.0.1:4199/).
+
+Options:
+  --out <dir>     output directory (default: .evidence/<timestamp>-engine-probe)
+  --only s4|s5    run only one probe block (default: both)
+  --help          show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+
+$ pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s05-checks/t011b-dry
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}} actual {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}} actual {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1} actual {"target":"tide-chart-screen","frameDelta":1,"highlight":"tide-chart-screen","tweening":["false"],"pulse":["false"]}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1} actual {"target":"ui","frameDelta":1,"highlight":"ui","tweening":["false"],"pulse":["false"]}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"} actual {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":[1,1,1,1,1],"intervalsMs":[1600.300000011921,1599.4000000357628,1599,1599.5999999642372],"tweening":["false","false","false","false","false","false","false"],"pulse":["false","false","false","false","false","false","false"]}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\"" actual ["false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false"]
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1598.699999988079,1600.300000011921],"tolerance":0.2} actual [1600.300000011921,1599.4000000357628,1599,1599.5999999642372]
+PASS scroll-zoom1-no-overflow: expected "<= 1px" actual 0
+PASS scroll-zoomed-overflows: expected "> 1px" actual 803
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"] actual ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3} actual {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)" actual [{"viewport":"desktop","step":0,"target":"recipient","point":{"x":626,"y":205},"caption":{"left":77,"top":397,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":1,"target":"pickup-app","point":{"x":654,"y":225},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":2,"target":"pickup-api","point":{"x":626,"y":284},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":3,"target":"booking-service","point":{"x":626,"y":334},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":4,"target":"locker-registry","point":{"x":626,"y":424},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"desktop","step":5,"target":"notifier","point":{"x":654,"y":354},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":6,"target":"push-gateway","point":{"x":626,"y":493},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"mobile","step":0,"target":"recipient","point":{"x":178,"y":189},"caption":{"left":29,"top":403.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":1,"target":"pickup-app","point":{"x":212,"y":210},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":2,"target":"pickup-api","point":{"x":178,"y":273},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":3,"target":"booking-service","point":{"x":173,"y":326},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":4,"target":"locker-registry","point":{"x":178,"y":420},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true},{"viewport":"mobile","step":5,"target":"notifier","point":{"x":212,"y":347},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":6,"target":"push-gateway","point":{"x":178,"y":494},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true}]
+pass: true
+engine-probe.json: /tmp/s05-checks/t011b-dry/engine-probe.json
+
+Measured CLS split (from /tmp/s05-checks/t011b-dry/engine-probe.json):
+checks 69 failed 0 pass true
+cls total 0 entries 0
+clsLoad total 0.018478454589843752 entries 30
+clsLoad note: pre-ready page-load shifts: pre-existing S4 playground behaviour (F7), not S5; see .specify/features/engine-core-b/evidence/F7-log-cls-load-s4-vs-s5.txt
+
+$ guards
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint: Done
+All matched files use Prettier code style!
+packages/xploder: Test Files 31 passed (31); Tests 256 passed (256)
+apps/web: Test Files 5 passed (5); Tests 53 passed | 1 skipped (54)
+
+T011b-OK
+
+
+---
+## Orchestrator re-run of the T011b Check block (outside executor sandbox), 2026-10-30T14:26:32Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  1 passed (1)
+Tests  2 passed (2)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  31 passed (31)
+packages/xploder test:       Tests  256 passed (256)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T011b-OK
