@@ -1,6 +1,6 @@
 # RFC — S05 Engine Core B: Hover · Layer Focus · Guided Tour
 
-**slice:** S05-engine-core-b · **status:** DRAFT round 0 (2026-10-30), awaiting Murphy's review · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-05-engine-core-b.md` (frozen brief v1) · **branch:** `task/s05-engine-core-b` · **base:** `53b2b2b` (brief freeze, = `main` at kickoff) · **date:** 2026-10-30
+**slice:** S05-engine-core-b · **status:** REVIEWED round 1 (2026-10-30): defaults accepted, six self-review refinements R1–R6 applied (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-05-engine-core-b.md` (frozen brief v1) · **branch:** `task/s05-engine-core-b` · **base:** `53b2b2b` (brief freeze, = `main` at kickoff) · **date:** 2026-10-30
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins and the conflict should be raised as an open question.
 
@@ -75,7 +75,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
   | `test/fixtures/project-c-*.json` + one re-export line in `test/fixtures/index.ts` | new + 1 line | fixture C (D9) | no |
 
 - **Frozen set (must be byte-identical to `53b2b2b`):** S2 = `src/schema/**`, `src/parse.ts`, `src/errors.ts`, `src/index.ts`, `src/motion/index.ts`, `src/theme/**`, `test/fixtures/{project-a-ui-app,project-b-pipeline,tech-registry}.json`; S4 = `src/layout/**`, `src/engine/**`, `src/motion/ease.ts`, `src/react/scene/CameraRig.tsx`, `test/__snapshots__/*.snap`, and `package.json` `exports`.
-- **Guard, two layers:** (1) a vitest **hash manifest** (`packages/xploder/test/frozen-surface.test.ts`): sha256 of every frozen file, generated once from `53b2b2b` and committed. It runs in CI without git history (the checkout may be shallow). (2) The **diff log** `git diff --stat --exit-code 53b2b2b -- <frozen set>` as a committed evidence file at T5 and at G4. Together they are the "diff-verified" proof for AC3.
+- **Guard, two layers:** (1) a vitest **hash manifest** (`packages/xploder/test/frozen-surface.test.ts`): sha256 of every frozen file, generated once from `53b2b2b` and committed. It runs in CI without git history (the checkout may be shallow). (2) The **diff log** `git diff --stat --exit-code 53b2b2b -- <frozen set>` as a committed evidence file at T5 and at G4. Together they are the "diff-verified" proof for AC3. **Scope (round 1, R5):** the manifest's header names it as the S5 freeze. A later slice that legitimately changes one of these files (S6 materials, for example) regenerates the manifest in the same diff and states the reason in its commit message, so the guard never blocks a later slice silently.
 - **No new subpath export.** The new modules are imported relatively inside the lib, like S4's `engine/`. They can be exported additively later, for example a headless `xploder/interaction` for OSS consumers. **Open question 1.**
 - **Rejected:** editing `engine/explode.ts` or `CameraRig.tsx` (S4 behaviour is frozen) · a new `xploder-interaction` package (premature) · putting the dim level into `theme/blueprint.ts` (S2 token API frozen).
 
@@ -126,6 +126,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
   - Slabs are axis-aligned boxes in world space (the camera rotates, the model doesn't), so picking is a slab test per box. `pick(ray, layout, progress) → componentIndex | null` tests **all layer slabs and all components** and returns the nearest hit. **If the nearest hit is a layer slab, the result is `null`**, so components hidden inside the imploded stack can't be hovered through it.
   - **Hit boxes use rest positions (explode progress, no hover lift).** Otherwise a pointer at a slab's lower edge would unhover the slab as it lifts, then rehover it as it settles: a flicker loop.
   - The React adapter builds the ray with `Raycaster.setFromCamera(ndc, camera)` and passes plain `Vec3`s to `pick`. While an explode/implode or turn tween runs, the last pointer position is **re-picked every frame**, so a stationary mouse tracks moving slabs.
+  - **Closed-loop correctness (round 1, R1).** A pure `pick` test proves the maths. It does not prove that the slab under the pointer is the one that lights up: an axis or sign error between camera placement and ray construction would highlight the wrong slab while every black-box check still passed. Two checks close the loop: (a) **in Node**, a test-renderer scene projects each component's centre through the **real** rig camera (`Vector3.project`), builds the ray back from that NDC with `Raycaster.setFromCamera`, and asserts `pick` returns that same id, for 4 azimuths × both states (visible components only when imploded); (b) **in the browser**, the probe screenshots a small clip around the pointer before and after hovering and asserts that **the pixel under the pointer changes toward `accent`**. It decodes the PNG in the page with a 2D canvas, so no new dependency is needed.
   - **Why not R3F `onPointerMove` + `instanceId`:** `InstancedMesh.raycast` caches a bounding sphere that goes stale after the explode moves the instances. It has no occluder semantics across the two meshes. It also can't be unit-tested in Node the way a pure function can.
 - **Pointer semantics (`interaction/pointer.ts`, pure reducer):**
   - `pointerType === 'mouse'`: `pointermove` → highlight = hit (or `null`); `pointerleave` → clear; clicks do not change the highlight.
@@ -138,7 +139,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 ### D5 — Layer focus (AC2)
 
 - **R:** `focus.ts` reducer, state `{ layerId: string | null }`. Actions: `toggle(layerId)` (same id → release, other id → switch, **one layer at a time**), `release`. `d_l` targets 1 for every layer ≠ focused.
-- **Activation surface:** HTML toggle buttons per layer (`aria-pressed`), rendered by the consumer from `viewer.layers`. Clicking a layer **slab** does not focus it, because tap is already the hover equivalent on touch and overloading it would be ambiguous. **Open question 11.**
+- **Activation surface:** HTML toggle buttons per layer (`aria-pressed`), rendered by the consumer from `project.layers`. An unknown layer id is ignored. Clicking a layer **slab** does not focus it, because tap is already the hover equivalent on touch and overloading it would be ambiguous. **Open question 11.**
 - **`Esc`:** a `window` `keydown` listener, **registered only while focus or a tour is active** and skipped when `event.defaultPrevented`. This is needed because keyboard focus is usually on a control button, not on the viewer wrapper. Esc is layered: **tour active → stop the tour** (which restores focus, D6); **otherwise focus active → release**. **Open question 7.**
 - **Survives explode/implode and 90° snaps by construction:** focus state is independent of `target` and `rig` (separate reducer), and dimming is per layer index, so it follows the instances wherever the timeline moves them. Proved three ways: a property test interleaving random viewer actions with focus actions; a scene test (focus → explode → `rotateRight` → instance colours still dimmed); a probe screenshot sequence (D12).
 
@@ -163,7 +164,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 - **Camera stays put:** the tour never dispatches a rig action. This is structural: the tour module has no access to the rig. The probe asserts azimuth and zoom are unchanged over a full tour.
 - **Play on an imploded stack auto-explodes it** (`actions.explode()`, the S4 tween, unchanged), because most tour targets sit inside the assembled stack and can't be seen. Stop does not implode. **Open question 8.**
 - **Coexistence with focus ("focus yields to tour highlight, restores after"):** while `status ≠ idle` the stored focus is **suspended** (every `d_l` targets 0, so the whole architecture is visible for the walk-through), and the focus controls show the stored layer as pressed but disabled. On `stop` (or `Esc`), the stored focus restores and fades back in. Hover keeps working during the tour.
-- **Flow switch:** selecting another flow stops the current one and selects the new one in `idle`, with no autoplay. The selector is disabled while `playing`. **Open question 8.**
+- **Flow switch:** selecting another flow stops the current one and selects the new one in `idle`, with no autoplay. The selector stays enabled in every state (round 1, R4: disabling it while playing added state for no gain, because switching already stops the tour). **Open question 8.**
 
 ### D7 — Caption overlay (AC3)
 
@@ -177,7 +178,11 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
 
 ### D8 — Controls and multi-flow selector (AC3, AC6)
 
-- **R: headless in the lib, rendered by the consumer.** `useTeardownViewer({ initial?, flows? })` adds additive fields to the handle:
+- **R: headless in the lib, rendered by the consumer.** `useTeardownViewer({ initial?, project? })` adds additive fields to the handle.
+  - **One source of truth (round 1, R2):** the hook takes the **same `project` object** that is passed to `<TeardownViewer>`, not a separate `flows` list. Flow paths, layer ids and caption text then all come from one object, and `TeardownViewer` warns in development if `viewer` was built from a different project.
+  - **Project switch resets the interaction state:** when `project.meta.slug` changes (fixture A → C), highlight, focus and tour all return to their initial state. Otherwise, focusing A's `ui` layer and then switching to C would leave a focus on a layer id C doesn't have. Actions that name an unknown component, layer or flow id are ignored.
+
+  The new handle fields:
 
   ```ts
   handle.highlight: string | null
@@ -188,7 +193,7 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
                       selectFlow(id), play(), pause(), stop(), step() }
   ```
 
-  `TeardownViewer` renders the caption overlay and writes `data-xploder-highlight|focus|tour|tour-flow|tour-step|tweening` on the wrapper for tests and evidence. The playground renders the buttons and the selector (a segmented button group with `aria-pressed`, matching the fixture switch). That is thin consumer code, so AC6's package-consumer scan stays meaningful. **Open question 11.**
+  `TeardownViewer` renders the caption overlay and writes `data-xploder-highlight|focus|tour|tour-flow|tour-step|tweening|pulse` on the wrapper for tests and evidence. The playground renders the buttons and the selector (a segmented button group with `aria-pressed`, matching the fixture switch). That is thin consumer code, so AC6's package-consumer scan stays meaningful. **Open question 11.**
 - **Selector visibility rule** (`flows.length > 1`) is pure and lives in the lib. Fixture **A** (2 flows) and **C** (2 flows) show it; **B** (1 flow) is the negative control.
 
 ### D9 — Fixture C (AC3)
@@ -207,13 +212,14 @@ Each decision gives a recommendation (**R**), the reason, and what was rejected.
   - focus: dim applies in one frame;
   - tour: target tint is instant, **no pulse**, caption appears instantly (`tourStep` = 0, `tourPulse` = 0).
 - **Step cadence is preserved.** The static twin also zeroes `tourBeat`, but `tourBeat` is the narrative pace, not a tween. Using 0 would race through every step instantly and break "caption stepping preserved" (Deliverable 5). The tour clock therefore reads **`motion.durations.tourBeat` (the base token)** in both modes, and only the transitions use the resolved tokens. **Open question 9.**
-- **Observable:** `data-xploder-tweening` is `"true"` while any S5 channel is mid-tween. Under reduced motion it must **never** be `"true"`, which a `MutationObserver` log in the probe checks. Rendered frames per state change = exactly 1 (`data-engine-frame` delta), including one frame per tour step and no frames between steps (the beat wake-up is a timer, not a running loop).
+- **Observable (split in round 1, R3):** `data-xploder-tweening` is `"true"` only while a **transition** (hover, dim or tour-target tint) is mid-tween. The continuous tour pulse is reported separately as `data-xploder-pulse`. Without the split, `tweening` would read `"true"` for the whole of a normal-motion tour and couldn't tell a tween from the pulse. Under reduced motion **neither** may ever be `"true"`, which a `MutationObserver` log in the probe checks. Rendered frames per state change = exactly 1 (`data-engine-frame` delta), including one frame per tour step and no frames between steps (the beat wake-up is a timer, not a running loop).
 
 ### D11 — Test strategy
 
 | AC | Assertion | Where |
 |---|---|---|
 | AC1 | `pick`: rays through each component centre hit that component at progress 0 and 1, from all 4 azimuths; imploded: occluded components return `null`, top-layer components hit; nearest-hit ordering; rest-position hit boxes | `xploder/test/pick.test.ts` |
+| AC1 | **closed loop:** project each component centre through the real rig camera → `setFromCamera` → `pick` returns the same id, 4 azimuths × both states (R1) | `xploder/test/pick-scene.test.tsx` (test-renderer) |
 | AC1 | pointer reducer: mouse hover/leave; touch tap/second tap/other/empty/outside; mouse click is a no-op | `xploder/test/pointer.test.ts` |
 | AC1 | scene: highlight → that instance's colour = `accent` mix at tween end; lift equals `hoverLift`/(zoom·cos elevation); **neutral state colours = S4 roles**; still exactly 2 `InstancedMesh` | `xploder/test/emphasis-scene.test.tsx` (test-renderer) |
 | AC1 | motion + hex scanners cover the new files (non-vacuity list extended: `interaction/*.ts`, `scene/Emphasis.tsx`, `overlay/TourCaption.tsx`) | `apps/web/test/no-*-literals.test.ts` |
@@ -231,7 +237,7 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
 
 - **`pnpm engine:probe` extended** (same CLI, new check groups, same exit codes). New observations:
   - **Hit map:** for each state (imploded, exploded) the probe sweeps a grid of mouse positions and reads `data-xploder-highlight`. It records which component sits under which points: every component is hit at least once when exploded, and the top-layer components are hit when imploded. This is black-box, so no debug API is needed. It also gives the probe a target point for each id.
-  - **Hover (desktop):** move to a component's point → highlight = id, `cursor: pointer`; leave → cleared. Both states.
+  - **Hover (desktop):** move to a component's point → highlight = id, `cursor: pointer`, and **the pixel under the pointer shifts toward `accent`** (R1, D4); leave → cleared. Both states.
   - **Tap (touch emulation):** a context with `hasTouch: true, isMobile: true`, using `page.touchscreen.tap`. Tap → highlight; tap again → cleared; tap other → switched; tap empty → cleared. **The pointer-event trace** (`type`, `pointerType`, timestamps) is recorded as the touch-emulation artifact. Both states.
   - **CLS:** `layout-shift` entries summed over the whole script = **0**, with the entries listed.
   - **Focus:** toggle → `data-xploder-focus`; `Esc` releases; toggle releases; focus → explode → rotate → still focused; screenshots after each step.
@@ -273,7 +279,7 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
 | T3 | `interaction/pointer.ts` + `interaction/focus.ts` + tests (incl. focus/viewer property test) | `pnpm --filter xploder test pointer focus` green | AC1, AC2 |
 | T4 | `interaction/tour.ts` + tests (step order for A×2, B, C×2 once C exists; controls; ended; flow switch; focus suspension; base-`tourBeat` cadence) | `pnpm --filter xploder test tour` green | AC3, AC4 |
 | T5 | Fixture C JSON + re-export + `fixture-c.test.ts` (own snapshot) + diff evidence | `pnpm --filter xploder test` green; `git diff --stat 53b2b2b` log committed showing only additive files | AC3 |
-| T6 | `interaction/emphasis.ts` channels + `scene/Emphasis.tsx` + `instanceColor`/lift in `Slabs` (additive) + `emphasis-scene.test.tsx` (neutral = S4, highlight, dim, still 2 meshes) | test-renderer suite green; S4 suites untouched and green | AC1, AC2, AC4 |
+| T6 | `interaction/emphasis.ts` channels + `scene/Emphasis.tsx` + `instanceColor`/lift in `Slabs` (additive) + `emphasis-scene.test.tsx` (neutral = S4, highlight, dim, still 2 meshes) + `pick-scene.test.tsx` (closed loop, R1) | test-renderer suite green; S4 suites untouched and green | AC1, AC2, AC4 |
 | T7 | Pointer wiring: canvas listeners, ray, re-pick during tweens, cursor, outside-tap clear | typecheck/lint/test green; `pnpm dev` manual smoke logged (the real proof is T12) | AC1 |
 | T8 | Handle API (D8) + `Esc` listener + tour runtime (beat timer, auto-explode, focus suspension) + `<TourCaption>` + wrapper data attributes | unit + scene tests green | AC2, AC3 |
 | T9 | Playground: fixture C switch, layer focus buttons, tour controls + selector, URL params (`highlight focus flow tour step loop`) | `pnpm dev` → A/B/C render; screenshot (light, desktop + mobile) | AC3, AC6 |
@@ -301,6 +307,7 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
 | Idle beats read as low fps | AC5 false fail | continuous pulse while playing (D2/D12); `tourStepsAdvanced` proves the tour was live |
 | Touch emulation differs from real Android | tap works headless but not on device | `click`-based tap relies on the browser's own tap detection; Murphy's post-merge Orca check (brief) + optional phone check (§7) |
 | `Esc` listener on `window` steals Esc from future dialogs | page-level conflict in S7/S10 | registered only while focus/tour active; skips `defaultPrevented` events; documented for S7 |
+| Caption overlay covers the top layer on a phone (round 1, R6) | the slab being explained is hidden under its own caption | the box is compact (`max-inline-size`, no fixed height) and sits in the top-left margin that `fitZoom`'s 8% framing leaves; the T13 **mobile** screenshots (tour state, both themes) are checked for overlap. If it overlaps, the fallback is a bottom-anchored box, still zero-CLS because it is a single text swap inside a box whose start point is fixed. Moving the caption outside the canvas is **not** an option: the brief requires an overlay |
 | Frozen-file drift goes unnoticed (the S4 b884e95 lesson) | AC3 diff claim false | hash-manifest test in CI + diff log at T5 and G4; check `git log` for foreign commits on the brief before each gate |
 | Slice size (15 tasks) | revisions → split | G1/G2/G3 align with hover · focus · tour seams, so a split costs no re-planning |
 
@@ -352,3 +359,20 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
 3. Push permission: push `task/s05-engine-core-b` and open a draft PR at T9 (end of G2), as in S04 (default: granted at G2; nothing is pushed in Stage 1).
 4. Who merges, and when, for the post-merge prod-404 row (default: you merge after your final validation; the `fixture exclusion` job's main-push log is the evidence).
 5. Usage pacing (default: as S04: start each Stage 3 group in a fresh 5h window and stop at ≥ 85%; please state "5h: N%" in gate messages, because the local usage capture is stale, last captured 2026-10-29 03:50Z).
+
+---
+
+## 9. Decisions recorded (Murphy, 2026-10-30, round 1)
+
+1. **Open questions 1–16: defaults accepted**, on the condition that the orchestrator first reviewed its own RFC for improvements. Six refinements came out of that review. None changes an AC, a token value, or a default answer:
+   1. **R1 — closed-loop pick verification** (D4, D11, D12): a Node scene test round-trips each component through the real camera, and the probe asserts the pixel under the pointer turns toward `accent`. This catches a "wrong slab lights up" bug that the pure tests and the black-box hit map would both miss.
+   2. **R2 — one project object** (D8): `useTeardownViewer({ project })` instead of a separate `flows` list; a project switch resets highlight/focus/tour; unknown ids are ignored. This fixes D5's reference to a `viewer.layers` field that D8 never defined.
+   3. **R3 — `data-xploder-pulse` split from `data-xploder-tweening`** (D8, D10), so the AC4 "no tweens" check can't be confused with the continuous tour pulse.
+   4. **R4 — the flow selector stays enabled** while playing (D6); switching already stops the tour.
+   5. **R5 — frozen-surface manifest scoped to S5** (D1), with a documented regeneration rule for later slices.
+   6. **R6 — caption-overlap risk on mobile** recorded with a check (T13 mobile tour shots) and a zero-CLS fallback (§5).
+2. **F2 (remove `literal60` from `fps:engine`): in scope.**
+3. **Push + draft PR: granted at G2** (end of T10). Nothing is pushed before then.
+4. **Merge:** the orchestrator merges the PR **only after Murphy says so**. The post-merge `fixture exclusion` main-push log is the AC6 prod-404 evidence.
+5. Usage at this gate: **5h 18%** (Murphy).
+
