@@ -22,6 +22,7 @@
 | T010a | ☑ (G2 feedback, scope-add rev 1) | 1 (Flash, sandbox off) | evidence/T010a-{log-scroll.txt,screenshot-desktop-zoomed-*.png} | 082e28b |
 | T010b | ☑ (R6 fixed) | 1 (Flash, sandbox off) + orchestrator test fix (fragile react-dom reach) | evidence/T010b-{log-caption.txt,screenshot-mobile-*-target.png} | 872a987 |
 | T010c | ☐ | | | |
+| T010d | ☐ | | | |
 | T011a | ☐ | | | |
 | T011b | ☐ | | | |
 | T012 | ☐ | | | |
@@ -330,6 +331,20 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Nothing hands-on (default: probe evidence at T012).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing (default: proceed).
 
+### T010d [US3] Tour clock never stalls; Play/Pause keeps its width (F8, RFC §9.12)
+
+- **Seam:** `useTourClock` timer ↔ tour reducer; playground tour toggle ↔ layout.
+- **Files:** `packages/xploder/src/react/useTourClock.ts`: each timer fire dispatches `tick` **and** bumps a local wake counter that is in the effect's dependencies, so the effect always re-arms from the current `positionAt(…).nextBoundary`, even when the tick folded nothing (an early fire). No literal delay. Plus `packages/xploder/test/tour-clock.test.tsx` (vitest fake timers + an injected `now` that lags the timer by a fraction of a millisecond: the tour must still advance through every step of A `live-update`). `apps/web/app/dev/engine/engine-playground.tsx`: the Play/Pause button gets a fixed width that fits the longer label (a Tailwind width utility, or an inline-grid that stacks both labels with the inactive one `invisible`), so toggling never moves Step/Stop.
+- **Check:**
+  ```sh
+  set -euo pipefail; pnpm --filter xploder exec vitest run test/tour-clock.test.tsx test/viewer-handle.test.tsx test/tour.test.ts 2>&1 | tail -4 | tee /tmp/s05-checks/t010d.txt
+  pnpm --filter web exec vitest run test/no-motion-literals.test.ts test/package-consumer.test.ts 2>&1 | tail -3 | tee -a /tmp/s05-checks/t010d.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T010d-OK
+  ```
+- **Evidence:** `evidence/T010d-log-tour-clock.txt`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Nothing hands-on (default: the probe's tour groups at T012).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing (default: proceed).
+
 ---
 
 ## Phase G3: Evidence (US1–US5) → STOP for Murphy after T014
@@ -362,7 +377,7 @@ Reason: two independent seams (probe vs FPS tool, different files), and the prob
 - **S5 check groups:** exactly the plan.md list (hit map, hover incl. pixel-under-pointer, touch incl. the pointer trace, CLS, focus, tour, selector, caption, reduced motion) **plus**:
   - `scroll`: at zoom 1 the stage has no scrollable overflow (`scrollHeight − clientHeight ≤ 1`) → `scroll-zoom1-no-overflow`; after zoom-in ×5 the stage overflows → `scroll-zoomed-overflows`; scroll to the top and hover-sweep the upper third → some layer-0 id → `scroll-top-reaches-top-layer`; scroll to the bottom and sweep the lower third → some last-layer id → `scroll-bottom-reaches-bottom-layer`; azimuth and zoom unchanged by scrolling → `scroll-camera-still`;
   - `captionAnchor`: for each step of C `pickup-ready` (paused via Step), the target's hit-map point (from the exploded hit map, zoom 1) lies outside the caption's bounding box → `caption-clear-of-target` (mobile 390×844 and desktop).
-- **`cls-zero` covers the whole probe script** (every context and page: hover, tap, focus, tour, caption, reduced motion, scroll), per RFC D12; the report lists every `layout-shift` entry with its source elements (amended at G3 after the first dry run scoped it to hover/tap/focus only).
+- **`cls-zero` covers the whole probe script's interaction phase** (every context and page: hover, tap, focus, tour, caption, reduced motion, scroll, from `[data-xploder-ready=true]` on each page to the end of each group), counting every entry including `hadRecentInput` ones; page-load entries before ready are reported as `clsLoad` information with the F7 attribution (RFC §9.12). The report lists every entry with its source elements.
 - The probe uses the fixture export (`out-fixtures`) served on `127.0.0.1`, mouse sweeps on desktop 1280×800, touch on a `hasTouch`/`isMobile` 390×844 context, and `reducedMotion: 'reduce'` for the reduced group. Pixel checks decode screenshot clips in the page (no new dependency).
 - **Check:**
   ```sh

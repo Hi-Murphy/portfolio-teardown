@@ -1,0 +1,37 @@
+F7 attribution (orchestrator, 2026-10-30): page-load layout shifts on /dev/engine?fixture=a, fixture exports of the S4 base 53b2b2b (port 4198) vs S05 HEAD (port 4199), headless Chromium 1280x800, buffered layout-shift observer until viewer ready + 1.5 s, no input. Same shift in both: pre-existing S4 playground behaviour.
+{
+ "url": "http://127.0.0.1:4198/dev/engine?fixture=a",
+ "total": 0.0006079925537109376,
+ "shifts": [
+  {
+   "value": 0.0006079925537109376,
+   "t": 330,
+   "input": false,
+   "sources": [
+    "DL y720→714 h80→86",
+    "BUTTON#rotate-right y640→637 h44→44",
+    "BUTTON#zoom-reset y640→637 h44→44",
+    "BUTTON#rotate-left y640→637 h44→44",
+    "BUTTON#zoom-out y640→637 h44→44"
+   ]
+  }
+ ]
+}
+{
+ "url": "http://127.0.0.1:4199/dev/engine?fixture=a",
+ "total": 0.0006159484863281251,
+ "shifts": [
+  {
+   "value": 0.0006159484863281251,
+   "t": 321,
+   "input": false,
+   "sources": [
+    "SECTION y720→714 h78→78",
+    "BUTTON#rotate-right y640→637 h44→44",
+    "BUTTON#zoom-reset y640→637 h44→44",
+    "BUTTON#rotate-left y640→637 h44→44",
+    "BUTTON#zoom-out y640→637 h44→44"
+   ]
+  }
+ ]
+}
