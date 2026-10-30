@@ -376,3 +376,6 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
 4. **Merge:** the orchestrator merges the PR **only after Murphy says so**. The post-merge `fixture exclusion` main-push log is the AC6 prod-404 evidence.
 5. Usage at this gate: **5h 18%** (Murphy).
 
+6. **Stage 2 corrections (orchestrator, 2026-10-30), found while writing plan.md against the code:**
+   1. **D3 material colour.** D3 said the material colour becomes white and `instanceColor` carries the absolute token colour. That would break S4's frozen `scene.test.tsx` test, which asserts `material.color` equals `lineMuted`/`line`. **Correction:** the material keeps the S4 role colour, and `instanceColor` is a per-channel multiplier (`target ⊘ base` in linear space; white = unchanged). Same pixels, same 2 draw calls, S4 test untouched. Base role channels are asserted nonzero (plan.md "Emphasis rendering").
+   2. **D12 FPS trigger.** `pnpm fps` has no trigger option, so "the trigger presses Play" can't run through it. **Correction:** the tour scenario autoplays via `?tour=play` and measures in-process with `measureFps`, whose `trigger` installs the step counter. The window is still entirely inside an active tour.
