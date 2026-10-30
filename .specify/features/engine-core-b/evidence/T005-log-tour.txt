@@ -1,0 +1,126 @@
+T005 - Tour state machine
+Working directory: /tmp/s05-wt/t005
+
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ pnpm --filter xploder exec vitest run test/tour.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t005/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  12:51:36
+   Duration  118ms (import 75%, transform 17%, tests 5%, worker 3%)
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test && echo T005-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t005/packages/xploder
+
+(node:20992) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  22 passed (22)
+      Tests  192 passed (192)
+   Start at  12:51:41
+   Duration  494ms (tests 56%, import 32%, transform 9%, worker 3%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t005/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  49 passed | 2 skipped (51)
+   Start at  12:51:41
+   Duration  97ms (tests 49%, import 31%, transform 11%, worker 9%)
+
+T005-OK
+
+
+---
+Orchestrator review fixes (2 one-liners in src/interaction/tour.ts + 2 tests in test/tour.test.ts):
+1. step past the last step from paused/playing → ended with anchor = action.now (was the paused elapsed time, giving a wrong stepStartedAt).
+2. selectFlow with the already selected flow is a no-op (was: stopped a playing tour; plan says only a switch to another flow stops).
+
+
+---
+## Orchestrator re-run of the T005 Check block (outside executor sandbox), 2026-10-30T05:52:50Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  2 passed (2)
+Tests  29 passed (29)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+packages/xploder test:  Test Files  22 passed (22)
+packages/xploder test:       Tests  194 passed (194)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+T005-OK

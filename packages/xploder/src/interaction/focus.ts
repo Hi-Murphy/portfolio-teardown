@@ -1,5 +1,6 @@
-// T005 will re-point this type at './tour'.
-export type TourStatus = 'idle' | 'playing' | 'paused' | 'ended';
+import type { TourStatus } from './tour';
+
+export type { TourStatus } from './tour';
 
 export interface FocusState {
   readonly layerId: string | null;
