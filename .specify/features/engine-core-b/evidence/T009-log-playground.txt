@@ -1,0 +1,159 @@
+T009 — Playground: fixture C, focus + tour controls, URL params
+Date: 2026-10-30 (Asia/Jakarta)
+Working directory: /tmp/s05-wt/t009
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test:
+tools/perf test:  RUN  v5.0.5 /private/tmp/s05-wt/t009/tools/perf
+packages/xploder test:
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s05-wt/t009/packages/xploder
+packages/xploder test:
+tools/perf test:
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+tools/perf test:    Start at  19:16:20
+tools/perf test:    Duration  1.06s (import 79%, transform 13%, tests 6%, worker 1%)
+tools/perf test:
+tools/perf test: Done
+packages/xploder test:
+packages/xploder test:  Test Files  27 passed (27)
+packages/xploder test:       Tests  241 passed (241)
+packages/xploder test:    Start at  19:16:20
+packages/xploder test:    Duration  3.51s (tests 57%, transform 24%, import 18%, worker 1%)
+packages/xploder test:
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test:
+apps/web test:  RUN  v5.0.5 /private/tmp/s05-wt/t009/apps/web
+apps/web test:
+apps/web test:
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+apps/web test:    Start at  19:16:24
+apps/web test:    Duration  521ms (transform 54%, tests 20%, import 18%, worker 9%)
+apps/web test:
+apps/web test: Done
+(Three.js emitted its existing CJS deprecation warning during xploder tests; no test failed.)
+
+$ pnpm --filter web exec vitest run test/package-consumer.test.ts test/fixture-exclusion.test.ts 2>&1 | tail -4
+      Tests  11 passed | 2 skipped (13)
+   Start at  19:16:30
+   Duration  75ms (import 36%, tests 35%, transform 15%, worker 13%)
+
+$ pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1236ms
+  Running TypeScript ...
+  Finished TypeScript in 972ms
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+✓ Generating static pages using 6 workers (5/5) in 179ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+$ echo $$ > /tmp/s05-checks/serve.pid; exec node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199
+http://127.0.0.1:4199/
+server pid 57983 ready
+
+$ pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --wait-for '[data-xploder-ready=true]' --out /tmp/s05-checks/t009-a
+warning: --out is not git-ignored: /tmp/s05-checks/t009-a
+ok screenshot-mobile (1176 ms)
+ok screenshot-desktop (1017 ms)
+ok lighthouse (5823 ms)
+evidence: /tmp/s05-checks/t009-a
+
+$ pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=b&state=exploded' --runs 1 --wait-for '[data-xploder-ready=true]' --out /tmp/s05-checks/t009-b
+warning: --out is not git-ignored: /tmp/s05-checks/t009-b
+ok screenshot-mobile (1093 ms)
+ok screenshot-desktop (1015 ms)
+ok lighthouse (5707 ms)
+evidence: /tmp/s05-checks/t009-b
+
+$ pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --wait-for '[data-xploder-ready=true]' --out /tmp/s05-checks/t009-c
+warning: --out is not git-ignored: /tmp/s05-checks/t009-c
+ok screenshot-mobile (1091 ms)
+ok screenshot-desktop (1025 ms)
+ok lighthouse (5732 ms)
+evidence: /tmp/s05-checks/t009-c
+
+$ pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=1' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t009-c-tour
+warning: --out is not git-ignored: /tmp/s05-checks/t009-c-tour
+ok screenshot-mobile (1218 ms)
+ok screenshot-desktop (1176 ms)
+ok lighthouse (5803 ms)
+evidence: /tmp/s05-checks/t009-c-tour
+
+$ kill "$(cat /tmp/s05-checks/serve.pid)"
+fixture server stopped
+
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(cat packages/xploder/test/frozen-surface.paths)
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)"
+BRIEF-HISTORY-OK
+
+T009-OK
+
+
+---
+Orchestrator review fix: `loop=1` (plan.md Playground) was wired to the S4 `cycle` param instead; added the `loop` query param and restored `cycle` to its S4 meaning only.
+R6 check (caption vs top layer): the mobile tour screenshot shows the caption covering the top layer, which holds the step target; raised to Murphy at the G2 stop.
+
+
+---
+## Orchestrator re-run of the T009 Check block (outside executor sandbox), 2026-10-30T12:19:35Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  1 passed (1)
+Tests  8 passed (8)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  27 passed (27)
+packages/xploder test:       Tests  241 passed (241)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  50 passed | 1 skipped (51)
+T009-OK
