@@ -1,11 +1,23 @@
 import { useThree, useFrame } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef, type RefObject } from 'react';
-import { BoxGeometry, InstancedMesh, MeshLambertMaterial, Object3D } from 'three';
+import {
+  BoxGeometry,
+  InstancedBufferAttribute,
+  InstancedMesh,
+  MeshLambertMaterial,
+  Object3D,
+} from 'three';
 
 import { createExplodeTimeline, type ExplodeTimeline, type Phase } from '../../engine/explode';
 import type { ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
 import type { Palette } from '../../theme';
+
+export interface EmphasisDriver {
+  sample(now: number, zoom: number): boolean;
+  readonly lift: Float32Array;
+  writeColors(layers: InstancedMesh, components: InstancedMesh): boolean;
+}
 
 export interface SlabsProps {
   readonly layout: ProjectLayout;
@@ -16,6 +28,8 @@ export interface SlabsProps {
   readonly now: () => number;
   readonly onPhase?: (phase: Phase) => void;
   readonly onSettled?: (state: 'imploded' | 'exploded') => void;
+  readonly emphasis?: EmphasisDriver;
+  readonly progressRef?: RefObject<Float32Array | null>;
 }
 
 type TimelineKey = {
@@ -33,15 +47,17 @@ function writeInstances(
   progress: Float32Array,
   offset: number,
   dummy: Object3D,
+  lift?: ArrayLike<number>,
 ): void {
   if (mesh === null) return;
 
   placements.forEach((placement, index) => {
     const amount = progress[offset + index] ?? 0;
+    const liftY = lift?.[index] ?? 0;
 
     dummy.position.set(
       placement.imploded[0] + (placement.exploded[0] - placement.imploded[0]) * amount,
-      placement.imploded[1] + (placement.exploded[1] - placement.imploded[1]) * amount,
+      placement.imploded[1] + (placement.exploded[1] - placement.imploded[1]) * amount + liftY,
       placement.imploded[2] + (placement.exploded[2] - placement.imploded[2]) * amount,
     );
     dummy.scale.set(placement.size[0], placement.size[1], placement.size[2]);
@@ -58,9 +74,23 @@ function writeMatrices(
   layout: ProjectLayout,
   progress: Float32Array,
   dummy: Object3D,
+  lift?: ArrayLike<number>,
 ): void {
   writeInstances(layers.current, layout.layers, progress, 0, dummy);
-  writeInstances(components.current, layout.components, progress, layout.layers.length, dummy);
+  writeInstances(
+    components.current,
+    layout.components,
+    progress,
+    layout.layers.length,
+    dummy,
+    lift,
+  );
+}
+
+function initializeInstanceColor(mesh: InstancedMesh | null, count: number): void {
+  if (mesh === null) return;
+
+  mesh.instanceColor = new InstancedBufferAttribute(new Float32Array(count * 3).fill(1), 3);
 }
 
 export function Slabs({
@@ -72,8 +102,10 @@ export function Slabs({
   now,
   onPhase,
   onSettled,
+  emphasis,
+  progressRef,
 }: SlabsProps) {
-  const { invalidate } = useThree();
+  const { camera, invalidate } = useThree();
   const layersRef = useRef<InstancedMesh>(null);
   const componentsRef = useRef<InstancedMesh>(null);
   const timelineRef = useRef<ExplodeTimeline | null>(null);
@@ -98,6 +130,22 @@ export function Slabs({
   useLayoutEffect(() => {
     onSettledRef.current = onSettled;
   }, [onSettled]);
+
+  // Keyed on the layout (not just counts): meshes remount per project slug, and a
+  // remounted mesh needs its colour buffer before its shader first compiles.
+  useLayoutEffect(() => {
+    initializeInstanceColor(layersRef.current, layout.layers.length);
+    initializeInstanceColor(componentsRef.current, layout.components.length);
+    invalidate();
+  }, [invalidate, layout, slug]);
+
+  useLayoutEffect(() => {
+    if (progressRef !== undefined) progressRef.current = progress;
+
+    return () => {
+      if (progressRef?.current === progress) progressRef.current = null;
+    };
+  }, [progress, progressRef]);
 
   useLayoutEffect(() => {
     layerMaterial.color.set(palette.lineMuted);
@@ -143,37 +191,50 @@ export function Slabs({
     }
 
     pendingSettlementRef.current = !settled;
-    writeMatrices(layersRef, componentsRef, layout, progress, dummy);
+    writeMatrices(layersRef, componentsRef, layout, progress, dummy, emphasis?.lift);
 
     if (settled) {
       onSettledRef.current?.(timeline.target === 1 ? 'exploded' : 'imploded');
     }
 
     invalidate();
-  }, [dummy, invalidate, layout, now, progress, target, tokens]);
+  }, [dummy, emphasis?.lift, invalidate, layout, now, progress, target, tokens]);
 
   useFrame(() => {
     const timeline = timelineRef.current;
+    const timelinePending = timeline !== null && pendingSettlementRef.current;
 
-    if (timeline === null || !pendingSettlementRef.current) return;
+    if (!timelinePending && emphasis === undefined) return;
 
     const timestamp = now();
-    const settled = timeline.sample(timestamp, progress);
-    const phase = timeline.phase(timestamp);
+    const emphasisMoving = emphasis?.sample(timestamp, camera.zoom) ?? false;
 
-    if (phaseRef.current !== phase) {
-      phaseRef.current = phase;
-      onPhaseRef.current?.(phase);
+    let settled = true;
+
+    if (timelinePending && timeline !== null) {
+      settled = timeline.sample(timestamp, progress);
+
+      const phase = timeline.phase(timestamp);
+
+      if (phaseRef.current !== phase) {
+        phaseRef.current = phase;
+        onPhaseRef.current?.(phase);
+      }
+
+      pendingSettlementRef.current = !settled;
+
+      if (settled) {
+        onSettledRef.current?.(timeline.target === 1 ? 'exploded' : 'imploded');
+      }
     }
 
-    writeMatrices(layersRef, componentsRef, layout, progress, dummy);
-    pendingSettlementRef.current = !settled;
+    writeMatrices(layersRef, componentsRef, layout, progress, dummy, emphasis?.lift);
 
-    if (settled) {
-      onSettledRef.current?.(timeline.target === 1 ? 'exploded' : 'imploded');
-    } else {
-      invalidate();
+    if (emphasis !== undefined && layersRef.current !== null && componentsRef.current !== null) {
+      emphasis.writeColors(layersRef.current, componentsRef.current);
     }
+
+    if ((timelinePending && !settled) || emphasisMoving) invalidate();
   });
 
   return (

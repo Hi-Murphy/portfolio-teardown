@@ -1,9 +1,12 @@
+import type { RefObject } from 'react';
+
 import type { Phase } from '../../engine/explode';
 import type { RigState } from '../../engine/camera';
 import type { ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
 import type { Palette } from '../../theme';
 import { CameraRig } from './CameraRig';
+import { useEmphasisDriver, type EmphasisPhase, type EmphasisState } from './Emphasis';
 import { Lights } from './Lights';
 import { Slabs } from './Slabs';
 import { Stats, type ViewerStats } from './Stats';
@@ -20,6 +23,9 @@ export interface SceneProps {
   readonly onSettled?: (state: 'imploded' | 'exploded') => void;
   readonly onStats?: (stats: ViewerStats) => void;
   readonly onAzimuth?: (azimuth: number) => void;
+  readonly emphasis?: EmphasisState;
+  readonly onEmphasisPhase?: (phase: EmphasisPhase) => void;
+  readonly progressRef?: RefObject<Float32Array | null>;
 }
 
 function defaultNow(): number {
@@ -38,7 +44,19 @@ export function Scene({
   onSettled,
   onStats,
   onAzimuth,
+  emphasis,
+  onEmphasisPhase,
+  progressRef,
 }: SceneProps) {
+  const emphasisDriver = useEmphasisDriver({
+    layout,
+    palette,
+    tokens,
+    now,
+    state: emphasis,
+    onPhase: onEmphasisPhase,
+  });
+
   return (
     <>
       <Slabs
@@ -50,6 +68,8 @@ export function Scene({
         now={now}
         onPhase={onPhase}
         onSettled={onSettled}
+        emphasis={emphasisDriver}
+        progressRef={progressRef}
       />
       <CameraRig layout={layout} tokens={tokens} rig={rig} now={now} onAzimuth={onAzimuth} />
       <Lights />
