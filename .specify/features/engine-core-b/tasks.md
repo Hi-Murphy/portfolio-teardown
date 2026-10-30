@@ -19,6 +19,8 @@
 | T008 | ☑ | 1 (Flash) + orchestrator cleanup (process declare) | evidence/T008-log-handle.txt | d58b4b4 |
 | T009 | ☑ (R6: mobile caption covers the top layer, raised at G2) | 1 (Flash, sandbox off; 1st dispatch hung on runner stdin, infra not executor) + orchestrator fix (loop param) | evidence/T009-{log-playground.txt,screenshot-*.png,meta-c-tour.json} | 1b9c5ae |
 | T010 | ☑ + ⚑ pushed, draft PR #8 | 1 (Flash, sandbox on); build/exclusion re-run outside sandbox | evidence/T010-log-scanners.txt | 3fff46c |
+| T010a | ☐ | | | |
+| T010b | ☐ | | | |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
@@ -274,6 +276,42 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
   1. G2 validation (default: proceed to G3 on "approved").
   2. Your look at the dim level and highlight colour in both themes (default: keep 0.3 / `accent`; `ink` is the fallback highlight).
 
+### T010a [US1] Vertical scroll when zoomed (G2 feedback, RFC §9.10)
+
+- **Seam:** stage scroll container ↔ `camera.setViewOffset` ↔ picking (new modules only; `CameraRig.tsx` and `engine/camera.ts` untouched).
+- **Files:** new `src/interaction/scroll.ts` (pure: `scrollExtent(contentTopPx, contentBottomPx, viewportHeight, marginPx)` → px ≥ 0; `offsetFor(scrollTop, extent)` → view-offset px with `offsetFor(extent / 2, extent) = 0` and the centre preserved; `rescaleScroll(prevScrollTop, prevExtent, nextExtent)` keeping the same content point at the viewport centre); new `src/react/scene/ViewScroll.tsx` (inside the Canvas: projects the 8 corners of `bounds.exploded` with the live camera to get the content's px extent, publishes the extent, applies `setViewOffset`/`clearViewOffset` + `updateProjectionMatrix()` + `invalidate()` on scroll, zoom, rotate and resize); **additive** edits to `TeardownViewer.tsx` (stage = scroll container with `overflow-y: auto`, `scrollbar-width: thin`; a sticky viewport-sized canvas wrapper; a spacer div sized by the extent; on first zoom-in the scroll starts centred) and `Scene.tsx` (mount `ViewScroll`); `test/scroll.test.ts`, `test/view-scroll.test.tsx`.
+- **Tests:** pure: extent 0 at zoom factor 1 for A/B/C at all 4 azimuths (S4 framing preserved); extent grows with zoom; `offsetFor`/`rescaleScroll` round-trips. Scene (test-renderer): with a view offset of +d px, a world point's projected screen y moves by exactly d px; the real-camera closed-loop pick (as `pick-scene.test.tsx`) still agrees with the pure model under an offset; `clearViewOffset` at zoom 1 → projection matrix equals S4's; still 2 `InstancedMesh`.
+- **Check:**
+  ```sh
+  set -euo pipefail; pnpm --filter xploder exec vitest run test/scroll.test.ts test/view-scroll.test.tsx test/pick-scene.test.tsx test/scene.test.tsx test/frozen-surface.test.ts 2>&1 | tee /tmp/s05-checks/t010a.txt
+  pnpm --filter web exec vitest run test/no-motion-literals.test.ts test/no-color-literals.test.ts test/no-free-orbit.test.ts test/package-consumer.test.ts 2>&1 | tail -4 | tee -a /tmp/s05-checks/t010a.txt
+  # browser smoke (sandbox off): fixture A exploded, zoom in ×5 (key '+'), scroll the stage to the top → hovering near the top finds a layer-0 id; scroll to the bottom → hovering near the bottom finds a last-layer id; at zoom 1 the stage has no scrollable overflow
+  pnpm typecheck && pnpm lint && pnpm test && echo T010a-OK
+  ```
+- **Evidence:** `evidence/T010a-log-scroll.txt` (+ smoke output, two screenshots: zoomed top / zoomed bottom)
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. In Orca's browser: zoom in, then scroll/swipe up and down to reach the top and bottom layers; at the ends the page scrolls on (default: accept).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Log the scope addition in the vault revision log (S05 revision 1 of 2, reason `scope-add`) (default: you log it; the RFC §9.10 entry is the repo record).
+
+### T010b [US3] Caption anchors away from the target layer (R6, RFC §9.9)
+
+- **Seam:** tour position ↔ `TourCaption` placement.
+- **Files:** `src/react/overlay/TourCaption.tsx` (+ a pure `captionAnchor(targetLayerIndex, layerCount)` in `src/interaction/tour.ts` or a new `src/interaction/caption.ts`: `'bottom'` when the target layer index < layerCount / 2, else `'top'`; `'top'` when there is no target); the caption box is keyed by its anchor; `TeardownViewer.tsx` passes what it needs; tests for the pure function and a render test that the anchor follows the step.
+- **Check:**
+  ```sh
+  set -euo pipefail; pnpm --filter xploder exec vitest run test/viewer-handle.test.tsx 2>&1 | tail -4 | tee /tmp/s05-checks/t010b.txt
+  # local fixture server, then the mobile tour screenshot at a top-layer step and at a bottom-layer step:
+  pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=1' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t010b-top-target
+  pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=6' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t010b-bottom-target
+  pnpm typecheck && pnpm lint && pnpm test && echo T010b-OK
+  ```
+- **Evidence:** `evidence/T010b-log-caption.txt`, `T010b-screenshot-mobile-{top,bottom}-target.png`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. The two mobile shots: the caption never covers the highlighted slab (default: accept).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (default: proceed).
+
 ---
 
 ## Phase G3: Evidence (US1–US5) → STOP for Murphy after T014
@@ -381,7 +419,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 
 ## Dependencies & order
 
-T001 → (T002 ∥ T003) → T004 → T005 → **STOP G1** → T006 → T007 → T008 → T009 → T010 (⚑ push + draft PR) → **STOP G2** → T011 → (T012 ∥ T013) → T014 (alone) → **STOP G3** → T015 → **STOP G4**.
+T001 → (T002 ∥ T003) → T004 → T005 → **STOP G1** → T006 → T007 → T008 → T009 → T010 (⚑ push + draft PR) → T010a → T010b (G2 feedback) → **STOP G2** → T011 → (T012 ∥ T013) → T014 (alone) → **STOP G3** → T015 → **STOP G4**.
 
 T004 precedes T005 so the tour tests include fixture C's two flows. T014 runs after T012/T013 so no other browser load overlaps the FPS window.
 
