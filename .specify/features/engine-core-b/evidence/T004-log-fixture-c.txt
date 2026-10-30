@@ -1,0 +1,403 @@
+T004 — Fixture C (data only) + diff proof
+
+Sandbox note: the real Git index is read-only, so the diff commands use a temporary
+copy of the index with the new files marked intent-to-add. Object writes are redirected
+to /tmp and existing objects are read through Git alternates. The source tree is unaffected.
+
+The task `pnpm test` step is run as `pnpm --filter xploder test && pnpm --filter web test`,
+as instructed for this sandbox. The orchestrator reruns the full check outside it.
+
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ set -euo pipefail; pnpm --filter xploder exec vitest run test/fixture-c.test.ts 2>&1 | tee /tmp/s05-checks/t004.txt
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t004/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  12:44:31
+   Duration  109ms (import 60%, transform 27%, tests 10%, worker 3%)
+
+
+$ CI=true pnpm --filter xploder exec vitest run test/fixture-c.test.ts 2>&1 | tail -3
+   Start at  12:44:31
+   Duration  102ms (import 67%, transform 18%, tests 11%, worker 3%)
+
+
+$ pnpm --filter xploder exec vitest run test/frozen-surface.test.ts 2>&1 | tail -3 | tee -a /tmp/s05-checks/t004.txt
+   Start at  12:44:32
+   Duration  125ms (transform 76%, import 17%, tests 6%, worker 2%)
+
+
+$ git diff --stat 53b2b2b -- packages/xploder/src packages/xploder/package.json | tee /tmp/s05-checks/t004-src-diff.txt
+ packages/xploder/src/interaction/focus.ts   | 32 +++++++++++++++++++++++
+ packages/xploder/src/interaction/pointer.ts | 39 +++++++++++++++++++++++++++++
+ packages/xploder/src/motion/emphasis.ts     | 13 ++++++++++
+ 3 files changed, 84 insertions(+)
+
+$ git diff --name-status 53b2b2b -- packages/xploder/test/fixtures | tee -a /tmp/s05-checks/t004.txt
+M	packages/xploder/test/fixtures/index.ts
+A	packages/xploder/test/fixtures/project-c-lockerbay.json
+
+$ git diff 53b2b2b -- packages/xploder/test/fixtures/index.ts | grep -E '^[+-][^+-]' | tee -a /tmp/s05-checks/t004.txt
++import projectCLockerbay from './project-c-lockerbay.json';
++export const projectCJson: unknown = projectCLockerbay;
+
+$ git diff --stat 53b2b2b -- packages/xploder/test/fixtures
+ packages/xploder/test/fixtures/index.ts            |   2 +
+ .../xploder/test/fixtures/project-c-lockerbay.json | 213 +++++++++++++++++++++
+ 2 files changed, 215 insertions(+)
+
+$ git diff 53b2b2b -- packages/xploder/test/fixtures
+diff --git a/packages/xploder/test/fixtures/index.ts b/packages/xploder/test/fixtures/index.ts
+index 62ac9a0..c994173 100644
+--- a/packages/xploder/test/fixtures/index.ts
++++ b/packages/xploder/test/fixtures/index.ts
+@@ -2,8 +2,10 @@
+ // parsers exactly like runtime JSON input, with no help from TypeScript's inferred types.
+ import projectAUiApp from './project-a-ui-app.json';
+ import projectBPipeline from './project-b-pipeline.json';
++import projectCLockerbay from './project-c-lockerbay.json';
+ import techRegistry from './tech-registry.json';
+ 
+ export const techRegistryJson: unknown = techRegistry;
+ export const projectAJson: unknown = projectAUiApp;
+ export const projectBJson: unknown = projectBPipeline;
++export const projectCJson: unknown = projectCLockerbay;
+diff --git a/packages/xploder/test/fixtures/project-c-lockerbay.json b/packages/xploder/test/fixtures/project-c-lockerbay.json
+new file mode 100644
+index 0000000..9d83681
+--- /dev/null
++++ b/packages/xploder/test/fixtures/project-c-lockerbay.json
+@@ -0,0 +1,213 @@
++{
++  "schemaVersion": 1,
++  "meta": {
++    "slug": "lockerbay",
++    "name": "Lockerbay",
++    "tagline": "Neighbourhood parcel pickups, on your schedule.",
++    "summary": "A fictional service for collecting parcels from neighbourhood street lockers.",
++    "year": 2026,
++    "role": "Service design and full-stack development",
++    "tags": ["parcels", "lockers", "logistics"],
++    "links": [
++      {
++        "label": "Project site",
++        "url": "https://example.com/lockerbay"
++      }
++    ]
++  },
++  "story": {
++    "headline": "Parcel pickup that follows the recipient, not the delivery round.",
++    "problem": "Delivery windows do not always match the time a recipient can reach a shared locker.",
++    "approach": "Give each parcel a pickup code, route locker events through a small booking service, and retry failed notices before parking them for review.",
++    "outcome": "Recipients collect parcels at street lockers while operators can trace every booking and notification attempt."
++  },
++  "layers": [
++    {
++      "id": "client",
++      "name": "Client",
++      "description": "Recipients and the phone app they use at a street locker.",
++      "components": [
++        {
++          "id": "recipient",
++          "name": "Recipient",
++          "summary": "A person collecting a parcel from a neighbourhood locker.",
++          "description": "Receives a pickup code and uses the app to open the assigned locker.",
++          "kind": "actor",
++          "status": "shipped"
++        },
++        {
++          "id": "pickup-app",
++          "name": "Pickup App",
++          "summary": "The Android app that shows pickup codes and locker access.",
++          "description": "Keeps the recipient's active parcel, pickup code, and locker details available at the kerbside.",
++          "kind": "module",
++          "status": "shipped",
++          "techs": ["kotlin", "jetpack-compose", "okhttp"]
++        }
++      ]
++    },
++    {
++      "id": "edge",
++      "name": "Edge",
++      "description": "The public entry point and session boundary for pickup requests.",
++      "components": [
++        {
++          "id": "pickup-api",
++          "name": "Pickup API",
++          "summary": "The public entry point for pickup and locker requests.",
++          "description": "Validates app requests and routes bookings, locker events, and notifications to internal services.",
++          "kind": "service",
++          "status": "shipped",
++          "techs": ["typescript", "nodejs"],
++          "links": [
++            {
++              "label": "Request contract",
++              "url": "https://example.com/lockerbay/request-contract"
++            }
++          ]
++        },
++        {
++          "id": "session-gate",
++          "name": "Session Gate",
++          "summary": "Checks that each pickup session is active and belongs to its recipient.",
++          "description": "Issues short-lived session claims before the API accepts a locker action.",
++          "kind": "service",
++          "status": "wip",
++          "techs": ["typescript", "nodejs"]
++        }
++      ]
++    },
++    {
++      "id": "services",
++      "name": "Services",
++      "description": "The booking, notification, planning, and audit paths behind a pickup.",
++      "components": [
++        {
++          "id": "booking-service",
++          "name": "Booking Service",
++          "summary": "Creates and tracks each parcel's locker booking.",
++          "description": "Reserves a locker slot, records the pickup window, and coordinates the services that complete a handoff.",
++          "kind": "service",
++          "status": "shipped",
++          "techs": ["typescript", "nodejs"]
++        },
++        {
++          "id": "notifier",
++          "name": "Notifier",
++          "summary": "Sends pickup codes and collection notices to recipients.",
++          "description": "Subscribes to booking events and delivers each notice through the push gateway.",
++          "kind": "service",
++          "status": "shipped",
++          "techs": ["nodejs", "websocket"]
++        },
++        {
++          "id": "retry-scheduler",
++          "name": "Retry Scheduler",
++          "summary": "Queues failed notices for another delivery attempt.",
++          "description": "Waits for a failed push event, retries it on a fixed cadence, and sends exhausted attempts to the dead-letter store.",
++          "kind": "service",
++          "status": "shipped",
++          "techs": ["nodejs"]
++        },
++        {
++          "id": "slot-planner",
++          "name": "Slot Planner",
++          "summary": "Chooses a locker that can hold a parcel for its pickup window.",
++          "description": "Checks locker size and availability before handing the selected slot to the booking service.",
++          "kind": "module",
++          "status": "shipped",
++          "techs": ["typescript"]
++        },
++        {
++          "id": "audit-trail",
++          "name": "Audit Trail",
++          "summary": "Records every booking and notification state change for operator review.",
++          "description": "Will store an append-only sequence of booking, locker, and delivery events once the planned audit pipeline ships.",
++          "kind": "module",
++          "status": "planned",
++          "techs": ["typescript"]
++        }
++      ]
++    },
++    {
++      "id": "storage",
++      "name": "Storage",
++      "description": "The records that track locker capacity and undelivered notices.",
++      "components": [
++        {
++          "id": "locker-registry",
++          "name": "Locker Registry",
++          "summary": "The authoritative record of locker locations, sizes, and availability.",
++          "description": "Returns locker metadata and holds the current occupancy state for each street locker.",
++          "kind": "store",
++          "status": "shipped",
++          "links": [
++            {
++              "label": "Locker model",
++              "url": "https://example.com/lockerbay/locker-model"
++            }
++          ]
++        },
++        {
++          "id": "dead-letter-store",
++          "name": "Dead Letter Store",
++          "summary": "A durable queue for notices that exhausted their retries.",
++          "description": "Retains failed notification events with their last error so an operator can inspect or replay them.",
++          "kind": "store",
++          "status": "shipped"
++        }
++      ]
++    },
++    {
++      "id": "external",
++      "name": "External systems",
++      "description": "The delivery and hardware boundaries outside Lockerbay.",
++      "components": [
++        {
++          "id": "push-gateway",
++          "name": "Push Gateway",
++          "summary": "A delivery service that forwards mobile push notices.",
++          "description": "Accepts notification payloads from the notifier and reports whether each push was accepted.",
++          "kind": "external",
++          "status": "shipped"
++        },
++        {
++          "id": "locker-hardware",
++          "name": "Locker Hardware",
++          "summary": "The physical locker controller that opens doors and reports sensor events.",
++          "description": "Receives unlock commands from the booking service and emits door and parcel-state events.",
++          "kind": "external",
++          "status": "shipped"
++        }
++      ]
++    }
++  ],
++  "flows": [
++    {
++      "id": "pickup-ready",
++      "label": "Pickup code delivered",
++      "description": "A parcel booking reaches the assigned locker and its pickup code is delivered to the recipient.",
++      "path": [
++        "recipient",
++        "pickup-app",
++        "pickup-api",
++        "booking-service",
++        "locker-registry",
++        "notifier",
++        "push-gateway"
++      ]
++    },
++    {
++      "id": "push-failed",
++      "label": "Notice fails, retry queued",
++      "description": "A failed push is retried before its event moves to the dead-letter store for review.",
++      "path": [
++        "booking-service",
++        "notifier",
++        "push-gateway",
++        "retry-scheduler",
++        "dead-letter-store"
++      ]
++    }
++  ]
++}
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t004/packages/xploder
+
+(node:17372) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  21 passed (21)
+      Tests  178 passed (178)
+   Start at  12:44:40
+   Duration  507ms (tests 40%, transform 29%, import 28%, worker 3%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t004/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  49 passed | 2 skipped (51)
+   Start at  12:44:41
+   Duration  496ms (transform 55%, tests 19%, import 17%, worker 10%)
+
+
+T004-OK
+
+
+---
+## Orchestrator re-run of the T004 Check block (outside executor sandbox), 2026-10-30T05:45:11Z
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+      Tests  7 passed (7)
+      Tests  2 passed (2)
+$ git diff --stat 53b2b2b -- packages/xploder/src packages/xploder/package.json
+ packages/xploder/src/interaction/focus.ts   | 32 +++++++++++++++++++++++
+ packages/xploder/src/interaction/pointer.ts | 39 +++++++++++++++++++++++++++++
+ packages/xploder/src/motion/emphasis.ts     | 13 ++++++++++
+ 3 files changed, 84 insertions(+)
+$ git diff --name-status 53b2b2b -- packages/xploder/test/fixtures
+M	packages/xploder/test/fixtures/index.ts
+A	packages/xploder/test/fixtures/project-c-lockerbay.json
+$ fixtures/index.ts changed lines
++import projectCLockerbay from './project-c-lockerbay.json';
++export const projectCJson: unknown = projectCLockerbay;
+SURFACE-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+typecheck+lint-ok
+packages/xploder test:  Test Files  21 passed (21)
+packages/xploder test:       Tests  178 passed (178)
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+T004-OK
