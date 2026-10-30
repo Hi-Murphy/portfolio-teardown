@@ -25,7 +25,7 @@ const XPLODER_EXPORTS = new Set(
 );
 const IMPORT_SPECIFIER = /(?:\bfrom\s*|\bimport\s*\(\s*)['"]([^'"]+)['"]/g;
 const ENGINE_IDENTIFIER =
-  /\b(?:useFrame|useThree|InstancedMesh|setMatrixAt|Matrix4|OrthographicCamera|BoxGeometry)\b/g;
+  /\b(?:useFrame|useThree|InstancedMesh|setMatrixAt|Matrix4|OrthographicCamera|BoxGeometry|Raycaster|setColorAt|instanceColor)\b/g;
 
 function ruleForSpecifier(specifier: string): string | null {
   if (
@@ -133,6 +133,19 @@ describe('package-consumer scanner', () => {
       'const instances = new InstancedMesh(geometry, material, count);',
       'fixture-identifier.ts',
     );
+
+    expect(
+      hits.map((hit) => hit.rule),
+      formatHits(hits),
+    ).toContain('engine-identifier');
+  });
+
+  test.each([
+    'const raycaster = new Raycaster();',
+    'mesh.setColorAt(index, color);',
+    'const attribute = mesh.instanceColor;',
+  ])('catches a newly public engine identifier: %s', (sample) => {
+    const hits = scanText(sample, 'fixture-identifier.ts');
 
     expect(
       hits.map((hit) => hit.rule),

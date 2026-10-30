@@ -16,6 +16,18 @@ const SLABS = fileURLToPath(
 const PLAYGROUND = fileURLToPath(
   new URL('../app/dev/engine/engine-playground.tsx', import.meta.url),
 );
+const S05_SOURCE_FILES = [
+  'interaction/pick.ts',
+  'interaction/pointer.ts',
+  'interaction/focus.ts',
+  'interaction/tour.ts',
+  'interaction/emphasis.ts',
+  'react/scene/Emphasis.tsx',
+  'react/scene/PickBridge.tsx',
+  'react/overlay/TourCaption.tsx',
+  'react/useTourClock.ts',
+  'react/usePointerPick.ts',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 const RULES = [
   ['hex-color', /(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g],
@@ -75,6 +87,7 @@ describe('color-literal scanner', () => {
 
     expect(sourceFiles).toContain(ENGINE_EXPLODE);
     expect(sourceFiles).toContain(SLABS);
+    expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 
