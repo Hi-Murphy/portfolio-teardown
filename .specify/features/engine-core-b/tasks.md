@@ -78,8 +78,12 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 - **Seam:** layout + explode progress ↔ `pick()` (the instance-index contract shared with the S4 timeline).
 - **Files:** `src/interaction/pick.ts`, `test/pick.test.ts`. Per plan.md "Internal modules". Tests:
   - `rayBoxDistance`: hit from each axis, miss, origin inside box (t = 0), ray pointing away → null;
-  - for fixture A and B, for azimuths `VIEW.baseAzimuth + k·VIEW.snap` (k = 0..3): build the camera direction from `VIEW.elevation`/azimuth exactly as `CameraRig.placeCamera` does (re-derived in the test, not imported), cast a parallel (orthographic) ray through each component's centre → **exploded (progress all 1): every component returns its own index**;
-  - **imploded (progress all 0):** top-layer components return their own index; for every component in layers ≥ 1 the centre ray returns `null` or a top-layer index, never its own (occlusion);
+  - for fixture A and B, for azimuths `VIEW.baseAzimuth + k·VIEW.snap` (k = 0..3), build the camera direction from `VIEW.elevation`/azimuth exactly as `CameraRig.placeCamera` does (re-derived in the test, not imported) and cast parallel (orthographic) rays;
+  - **amended 2026-10-30 (orchestrator spec fix, RFC §9.7 F6):** the original bullet "exploded: every component's centre ray returns its own index" was wrong. In the exploded state the slab above overlaps lower layers on screen, so a nearest-hit picker correctly returns `null` for some centre rays. It is replaced by:
+    - **reference agreement:** for both states (progress all 0 / all 1) and all 4 azimuths, on a screen-space grid of rays (step ≤ 0.05 world units, covering the projected stack bounds), `pick` equals an **independent reference**: march along the ray in steps ≤ 0.005 and return the first box that contains the point (component → its index, layer slab → `null`, none → `null`);
+    - **top layer:** every top-layer component's centre ray returns its own index in both states;
+    - **imploded occlusion:** for every component in layers ≥ 1, the centre ray returns `null` or a top-layer index, never its own;
+    - **visibility table (information, not asserted):** for the exploded state, per azimuth, the count of grid rays that pick each component, printed into the evidence file;
   - nearest wins when two components overlap along a ray; a ray that hits only a layer slab → `null`;
   - mid-explode (progress 0.5) uses lerped centres.
 - **Check:**
