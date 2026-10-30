@@ -15,11 +15,77 @@ export interface TourCaptionProps {
   readonly tokens: MotionTokens;
 }
 
+export interface TourCaptionLiveRegionProps {
+  readonly project: ViewerProject;
+  readonly flowId: string;
+  readonly position: TourPosition;
+}
+
 const MILLISECONDS_PER_SECOND = 1_000;
 const CAPTION_INSET = '0.75rem';
+const VISUALLY_HIDDEN_STYLE: CSSProperties = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  whiteSpace: 'nowrap',
+  margin: '-1px',
+  padding: 0,
+  border: 0,
+};
 
 function milliseconds(seconds: number): number {
   return seconds * MILLISECONDS_PER_SECOND;
+}
+
+interface CaptionCopy {
+  readonly heading: string;
+  readonly componentLabel: string;
+  readonly summary: string | null;
+  readonly description: string | null;
+}
+
+function captionCopy(
+  project: ViewerProject,
+  flowId: string,
+  position: TourPosition,
+): CaptionCopy | null {
+  const flow = project.flows?.find((candidate) => candidate.id === flowId);
+  const component = project.layers
+    .flatMap((layer) => layer.components)
+    .find((candidate) => candidate.id === position.componentId);
+
+  if (flow === undefined) return null;
+
+  return {
+    heading: `${flow.label ?? flow.id} · Step ${position.step + 1} of ${position.total}`,
+    componentLabel: component?.name ?? component?.id ?? position.componentId ?? '',
+    summary: component?.summary ?? null,
+    description: position.step === 0 ? (flow.description ?? null) : null,
+  };
+}
+
+export function TourCaptionLiveRegion({ project, flowId, position }: TourCaptionLiveRegionProps) {
+  const copy = captionCopy(project, flowId, position);
+
+  if (copy === null) return null;
+
+  const announcement = [copy.heading, copy.componentLabel, copy.summary, copy.description]
+    .filter((part): part is string => part !== null)
+    .join('. ');
+
+  return (
+    <div
+      data-xploder-caption-live=""
+      aria-live="polite"
+      aria-atomic="true"
+      style={VISUALLY_HIDDEN_STYLE}
+    >
+      {announcement}
+    </div>
+  );
 }
 
 export function TourCaption({
@@ -31,10 +97,7 @@ export function TourCaption({
   tokens,
 }: TourCaptionProps) {
   const captionRef = useRef<HTMLDivElement>(null);
-  const flow = project.flows?.find((candidate) => candidate.id === flowId);
-  const component = project.layers
-    .flatMap((layer) => layer.components)
-    .find((candidate) => candidate.id === position.componentId);
+  const copy = captionCopy(project, flowId, position);
 
   useLayoutEffect(() => {
     const element = captionRef.current;
@@ -50,7 +113,7 @@ export function TourCaption({
     });
   }, [flowId, position.step, tokens]);
 
-  if (flow === undefined) return null;
+  if (copy === null) return null;
 
   const style: CSSProperties = {
     position: 'absolute',
@@ -76,19 +139,13 @@ export function TourCaption({
       ref={captionRef}
       data-xploder-caption=""
       data-xploder-caption-anchor={anchor}
-      aria-live="polite"
-      aria-atomic="true"
       style={style}
       onPointerDown={(event) => event.stopPropagation()}
     >
-      <p style={secondaryStyle}>
-        {flow.label ?? flow.id} · Step {position.step + 1} of {position.total}
-      </p>
-      <p style={bodyStyle}>{component?.name ?? component?.id ?? position.componentId}</p>
-      {component?.summary === undefined ? null : <p style={bodyStyle}>{component.summary}</p>}
-      {position.step === 0 && flow.description !== undefined ? (
-        <p style={bodyStyle}>{flow.description}</p>
-      ) : null}
+      <p style={secondaryStyle}>{copy.heading}</p>
+      <p style={bodyStyle}>{copy.componentLabel}</p>
+      {copy.summary === null ? null : <p style={bodyStyle}>{copy.summary}</p>}
+      {copy.description === null ? null : <p style={bodyStyle}>{copy.description}</p>}
     </div>
   );
 }

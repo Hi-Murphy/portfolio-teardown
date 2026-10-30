@@ -16,7 +16,7 @@ import { rescaleScroll } from '../interaction/scroll';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
 import type { Palette } from '../theme';
-import { TourCaption } from './overlay/TourCaption';
+import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
 import { Scene } from './scene/Scene';
 import type { EmphasisPhase, EmphasisState } from './scene/Emphasis';
 import type { PickBridgeHandle } from './scene/PickBridge';
@@ -280,15 +280,22 @@ export function TeardownViewer({
         <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
       </div>
       {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
-        <TourCaption
-          key={captionSide}
-          project={project}
-          flowId={viewer.tour.flowId}
-          position={position}
-          anchor={captionSide}
-          palette={resolvedPalette}
-          tokens={tokens}
-        />
+        <>
+          <TourCaptionLiveRegion
+            project={project}
+            flowId={viewer.tour.flowId}
+            position={position}
+          />
+          <TourCaption
+            key={`${captionSide}:${viewer.tour.flowId}:${position.step}`}
+            project={project}
+            flowId={viewer.tour.flowId}
+            position={position}
+            anchor={captionSide}
+            palette={resolvedPalette}
+            tokens={tokens}
+          />
+        </>
       )}
     </div>
   );
