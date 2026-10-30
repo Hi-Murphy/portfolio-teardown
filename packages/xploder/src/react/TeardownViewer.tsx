@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import type { Phase } from '../engine/explode';
+import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
@@ -100,6 +101,16 @@ export function TeardownViewer({
   const resolvedPalette = palette ?? themePalette;
   const tokens = useMemo(() => resolveMotion(prefersReducedMotion), [prefersReducedMotion]);
   const layout = useMemo(() => layoutProject(project, layoutOptions), [project, layoutOptions]);
+  const targetLayerIndex =
+    position.componentId === null
+      ? null
+      : project.layers.findIndex((layer) =>
+          layer.components.some((component) => component.id === position.componentId),
+        );
+  const captionSide = captionAnchor(
+    targetLayerIndex === null || targetLayerIndex < 0 ? null : targetLayerIndex,
+    project.layers.length,
+  );
 
   const onScrollExtent = useCallback((extent: number) => {
     if (extent === publishedExtentRef.current) return;
@@ -270,9 +281,11 @@ export function TeardownViewer({
       </div>
       {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
         <TourCaption
+          key={captionSide}
           project={project}
           flowId={viewer.tour.flowId}
           position={position}
+          anchor={captionSide}
           palette={resolvedPalette}
           tokens={tokens}
         />
