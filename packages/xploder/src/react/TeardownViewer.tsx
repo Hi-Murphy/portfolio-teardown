@@ -1,30 +1,34 @@
 import { Canvas } from '@react-three/fiber';
 import {
   useCallback,
+  useEffect,
   useLayoutEffect,
   useMemo,
-  useReducer,
   useRef,
   type CSSProperties,
   type ReactNode,
 } from 'react';
 
 import type { Phase } from '../engine/explode';
-import { INITIAL_POINTER, pointerReducer } from '../interaction/pointer';
-import { layoutProject, type LayoutInput, type LayoutOptions } from '../layout';
+import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
 import type { Palette } from '../theme';
+import { TourCaption } from './overlay/TourCaption';
 import { Scene } from './scene/Scene';
-import type { EmphasisState } from './scene/Emphasis';
+import type { EmphasisPhase, EmphasisState } from './scene/Emphasis';
 import type { PickBridgeHandle } from './scene/PickBridge';
 import type { ViewerStats } from './scene/Stats';
 import { usePointerPick } from './usePointerPick';
 import { useBlueprintPalette } from './usePalette';
 import { usePrefersReducedMotion } from './useReducedMotion';
-import type { TeardownViewerHandle } from './useTeardownViewer';
+import {
+  viewerMetadataOf,
+  type TeardownViewerHandle,
+  type ViewerProject,
+} from './useTeardownViewer';
 
 export interface TeardownViewerProps {
-  project: LayoutInput & { meta: { slug: string } };
+  project: ViewerProject;
   viewer: TeardownViewerHandle;
   palette?: Palette;
   layoutOptions?: Partial<LayoutOptions>;
@@ -50,6 +54,9 @@ const STAGE_STYLE: CSSProperties = {
   width: '100%',
 };
 
+const PROJECT_MISMATCH_WARNING =
+  'TeardownViewer: pass the same project object to useTeardownViewer({ project }) and <TeardownViewer project>.';
+
 export function TeardownViewer({
   project,
   viewer,
@@ -70,27 +77,51 @@ export function TeardownViewer({
     onFrame: null,
   });
   const readyRef = useRef(false);
-  const [pointer, dispatchPointer] = useReducer(pointerReducer, INITIAL_POINTER);
+  const warnedProjectRef = useRef(false);
+  const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
   const themePalette = useBlueprintPalette();
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
   const tokens = useMemo(() => resolveMotion(prefersReducedMotion), [prefersReducedMotion]);
   const layout = useMemo(() => layoutProject(project, layoutOptions), [project, layoutOptions]);
 
-  usePointerPick(stageRef, pickBridgeRef, layout, dispatchPointer, pointer);
+  usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
+
+  useEffect(() => {
+    if (warnedProjectRef.current) return;
+    if (viewerProject === undefined || viewerProject === project) return;
+
+    warnedProjectRef.current = true;
+    console.warn(PROJECT_MISMATCH_WARNING);
+  }, [project, viewerProject]);
 
   const emphasis = useMemo<EmphasisState>(
     () => ({
-      highlight: pointer.highlight,
-      focusLayerId: null,
-      focusSuspended: false,
-      tourComponentId: null,
+      highlight: viewer.highlight,
+      focusLayerId: viewer.focus.layerId,
+      focusSuspended: viewer.tour.status !== 'idle',
+      tourComponentId: position.componentId,
+      stepStartedAt: position.stepStartedAt,
+      tourPlaying: viewer.tour.status === 'playing',
     }),
-    [pointer.highlight],
+    [
+      position.componentId,
+      position.stepStartedAt,
+      viewer.focus.layerId,
+      viewer.highlight,
+      viewer.tour.status,
+    ],
   );
 
   const onPhase = useCallback((phase: Phase) => {
     if (wrapperRef.current !== null) wrapperRef.current.dataset.xploderState = phase;
+  }, []);
+
+  const onEmphasisPhase = useCallback((phase: EmphasisPhase) => {
+    if (wrapperRef.current === null) return;
+
+    wrapperRef.current.dataset.xploderTweening = String(phase.tweening);
+    wrapperRef.current.dataset.xploderPulse = String(phase.pulse);
   }, []);
 
   const onStatsChange = useCallback(
@@ -110,6 +141,15 @@ export function TeardownViewer({
 
     if (element === null) return;
 
+    element.dataset.xploderTweening = 'false';
+    element.dataset.xploderPulse = 'false';
+  }, []);
+
+  useLayoutEffect(() => {
+    const element = wrapperRef.current;
+
+    if (element === null) return;
+
     element.dataset.xploderAzimuth = String(viewer.azimuthDegrees);
     element.dataset.xploderZoom = String(viewer.rig.zoomFactor);
   }, [viewer.azimuthDegrees, viewer.rig.zoomFactor]);
@@ -119,12 +159,33 @@ export function TeardownViewer({
 
     if (element === null) return;
 
-    if (pointer.highlight === null) {
+    if (viewer.highlight === null) {
       delete element.dataset.xploderHighlight;
     } else {
-      element.dataset.xploderHighlight = pointer.highlight;
+      element.dataset.xploderHighlight = viewer.highlight;
     }
-  }, [pointer.highlight]);
+  }, [viewer.highlight]);
+
+  useLayoutEffect(() => {
+    const element = wrapperRef.current;
+
+    if (element === null) return;
+
+    if (viewer.focus.layerId === null) {
+      delete element.dataset.xploderFocus;
+    } else {
+      element.dataset.xploderFocus = viewer.focus.layerId;
+    }
+
+    element.dataset.xploderTour = viewer.tour.status;
+    element.dataset.xploderTourStep = String(viewer.tour.step);
+
+    if (viewer.tour.flowId === null) {
+      delete element.dataset.xploderTourFlow;
+    } else {
+      element.dataset.xploderTourFlow = viewer.tour.flowId;
+    }
+  }, [viewer.focus.layerId, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
 
   return (
     <div
@@ -157,11 +218,21 @@ export function TeardownViewer({
             onSettled={onSettled}
             onStats={onStatsChange}
             emphasis={emphasis}
+            onEmphasisPhase={onEmphasisPhase}
             progressRef={progressRef}
             pickBridgeRef={pickBridgeRef}
           />
         </Canvas>
       </div>
+      {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
+        <TourCaption
+          project={project}
+          flowId={viewer.tour.flowId}
+          position={position}
+          palette={resolvedPalette}
+          tokens={tokens}
+        />
+      )}
     </div>
   );
 }
