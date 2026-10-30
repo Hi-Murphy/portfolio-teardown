@@ -1,4 +1,4 @@
-import { useEffect, type Dispatch } from 'react';
+import { useEffect, useState, type Dispatch } from 'react';
 
 import { positionAt, type TourAction, type TourFlow, type TourState } from '../interaction/tour';
 import { motion } from '../motion';
@@ -11,6 +11,8 @@ export function useTourClock(
   now: () => number,
   dispatch: Dispatch<TourAction>,
 ): void {
+  const [wake, setWake] = useState(0);
+
   useEffect(() => {
     if (state.status !== 'playing') return;
 
@@ -20,8 +22,11 @@ export function useTourClock(
     if (nextBoundary === null) return;
 
     const delay = Math.max(0, nextBoundary - timestamp) * MILLISECONDS_PER_SECOND;
-    const timer = setTimeout(() => dispatch({ type: 'tick', now: now() }), delay);
+    const timer = setTimeout(() => {
+      dispatch({ type: 'tick', now: now() });
+      setWake((current) => current + 1);
+    }, delay);
 
     return () => clearTimeout(timer);
-  }, [dispatch, flows, now, state]);
+  }, [dispatch, flows, now, state, wake]);
 }
