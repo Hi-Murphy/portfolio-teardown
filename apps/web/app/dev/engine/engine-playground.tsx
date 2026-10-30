@@ -263,7 +263,7 @@ export function EnginePlayground() {
             type="button"
             data-engine-control="tour-play"
             aria-pressed={viewer.tour.status === 'playing'}
-            className={`${BUTTON_BASE} ${BUTTON_IDLE}`}
+            className={`${BUTTON_BASE} ${BUTTON_IDLE} w-20`}
             onClick={viewer.tour.status === 'playing' ? viewer.actions.pause : viewer.actions.play}
           >
             {viewer.tour.status === 'playing' ? 'Pause' : 'Play'}
