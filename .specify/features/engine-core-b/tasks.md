@@ -21,6 +21,7 @@
 | T010 | ☑ + ⚑ pushed, draft PR #8 | 1 (Flash, sandbox on); build/exclusion re-run outside sandbox | evidence/T010-log-scanners.txt | 3fff46c |
 | T010a | ☑ (G2 feedback, scope-add rev 1) | 1 (Flash, sandbox off) | evidence/T010a-{log-scroll.txt,screenshot-desktop-zoomed-*.png} | 082e28b |
 | T010b | ☑ (R6 fixed) | 1 (Flash, sandbox off) + orchestrator test fix (fragile react-dom reach) | evidence/T010b-{log-caption.txt,screenshot-mobile-*-target.png} | 872a987 |
+| T010c | ☐ | | | |
 | T011a | ☐ | | | |
 | T011b | ☐ | | | |
 | T012 | ☐ | | | |
@@ -313,6 +314,22 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: proceed).
 
+### T010c [US3] Caption: no layout shift between steps (found by T011b, RFC D7)
+
+- **Seam:** `TourCaption` DOM structure ↔ Layout Instability.
+- **Finding:** the T011b dry run measured CLS 0.0018 / 0.0008 when a **bottom-anchored** caption changed height between steps (its start point moves). D7's zero-CLS argument assumed a top anchor; T010b's bottom anchor broke it.
+- **Fix:** the visible caption box is keyed by `${anchor}:${flowId}:${step}`, so each step **replaces** the box (removal + insertion is not a layout shift) and the WAAPI fade runs on mount. The `aria-live="polite"` announcement moves to a **persistent, visually hidden** region inside the viewer wrapper (always mounted while the tour is not idle, so screen readers keep announcing). The visible box keeps `user-select: text` and the palette styles; its `aria-live` is removed, so the text isn't announced twice. Visually-hidden styles use no colour or motion literals.
+- **Check:**
+  ```sh
+  set -euo pipefail; pnpm --filter xploder exec vitest run test/caption.test.ts test/viewer-handle.test.tsx 2>&1 | tail -4 | tee /tmp/s05-checks/t010c.txt
+  pnpm --filter web exec vitest run test/no-motion-literals.test.ts test/no-color-literals.test.ts 2>&1 | tail -3 | tee -a /tmp/s05-checks/t010c.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T010c-OK
+  ```
+  The CLS proof is the T011b probe run (whole-script `cls-zero`).
+- **Evidence:** `evidence/T010c-log-caption-cls.txt`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Nothing hands-on (default: probe evidence at T012).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing (default: proceed).
+
 ---
 
 ## Phase G3: Evidence (US1–US5) → STOP for Murphy after T014
@@ -345,6 +362,7 @@ Reason: two independent seams (probe vs FPS tool, different files), and the prob
 - **S5 check groups:** exactly the plan.md list (hit map, hover incl. pixel-under-pointer, touch incl. the pointer trace, CLS, focus, tour, selector, caption, reduced motion) **plus**:
   - `scroll`: at zoom 1 the stage has no scrollable overflow (`scrollHeight − clientHeight ≤ 1`) → `scroll-zoom1-no-overflow`; after zoom-in ×5 the stage overflows → `scroll-zoomed-overflows`; scroll to the top and hover-sweep the upper third → some layer-0 id → `scroll-top-reaches-top-layer`; scroll to the bottom and sweep the lower third → some last-layer id → `scroll-bottom-reaches-bottom-layer`; azimuth and zoom unchanged by scrolling → `scroll-camera-still`;
   - `captionAnchor`: for each step of C `pickup-ready` (paused via Step), the target's hit-map point (from the exploded hit map, zoom 1) lies outside the caption's bounding box → `caption-clear-of-target` (mobile 390×844 and desktop).
+- **`cls-zero` covers the whole probe script** (every context and page: hover, tap, focus, tour, caption, reduced motion, scroll), per RFC D12; the report lists every `layout-shift` entry with its source elements (amended at G3 after the first dry run scoped it to hover/tap/focus only).
 - The probe uses the fixture export (`out-fixtures`) served on `127.0.0.1`, mouse sweeps on desktop 1280×800, touch on a `hasTouch`/`isMobile` 390×844 context, and `reducedMotion: 'reduce'` for the reduced group. Pixel checks decode screenshot clips in the page (no new dependency).
 - **Check:**
   ```sh
