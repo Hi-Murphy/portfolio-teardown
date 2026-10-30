@@ -1,0 +1,15 @@
+AC1 — production URL check after merge · orchestrator · 2026-10-30T00:50:03Z
+
+PR #6 squash-merged to main as 965a5ba (2026-10-30T00:48:18Z).
+
+== perf workflow on push to main (run 40981978701, head 965a5ba): job 'perf: fixture exclusion' = success ==
+'Resolve production deployment' passed: production confirmed serving 965a5ba before the asserts ran.
+perf: fixture exclusion	Assert fixture absent from production	2026-10-30T00:48:52.2054511Z absent: https://portfolio-teardown.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+perf: fixture exclusion	Assert engine playground absent from production	2026-10-30T00:48:52.5453457Z absent: https://portfolio-teardown.vercel.app/dev/engine returned HTTP 404 without data-perf-fixture
+
+== independent re-check (curl, orchestrator) ==
+https://portfolio-teardown.vercel.app/ -> 200, HTML build id contains 965a5babee286f46e1d3e0f9905a39aa96d0c455
+https://portfolio-teardown.vercel.app/dev/engine -> 404, data-perf-fixture occurrences: 0
+https://portfolio-teardown.vercel.app/fixtures/fps-calibration -> 404, data-perf-fixture occurrences: 0
+
+CI workflow on push to main (run 40981978674, head 965a5ba): success.
