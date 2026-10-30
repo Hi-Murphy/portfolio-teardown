@@ -20,7 +20,7 @@
 | T009 | ☑ | 1 (Flash, sandbox off) | evidence/T009-cli.txt | 78ec649 |
 | T010 | ☑ | 1 (Flash, sandbox off) | evidence/T010-{evidence.txt,engine-probe.json,screenshot-*.png,meta-*.json} | 9a8e434 |
 | T011 | ☑ (AC4 PASS under brief v2; literal v1 reading blocked, E1) | 1 (Flash, sandbox off) | evidence/T011-{fps.txt,fps.json,fps-calibration-reference.json,screenshot-desktop.png,meta.json} | 8f62738 |
-| T012 | ☐ | | | |
+| T012 | ☑ | ⚑ orchestrator | evidence/{T012-ci.txt,AC-selfcheck.md} | 6e265c1 (CI head) |
 
 Resume prompt for a fresh session: *"Read `.specify/KICKOFF-S04.md` and `.specify/features/engine-core-a/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."*
 
