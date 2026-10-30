@@ -1,7 +1,7 @@
 # Feature Specification: S05 Engine Core B — Hover · Layer Focus · Guided Tour
 
 **Feature dir:** `.specify/features/engine-core-b/` · **Slice:** S05-engine-core-b · **Created:** 2026-10-30 · **Status:** Draft (Stage 2 gate)
-**Scope source:** `.specify/slices/slice-05-engine-core-b.md` (frozen brief v1) · **Design:** `rfc.md` (approved 2026-10-30; §6 defaults + round-1 refinements R1–R6; decisions in §9)
+**Scope source:** `.specify/slices/slice-05-engine-core-b.md` (frozen brief **v2**, 2026-10-30: AC7 added by revision 1, reason `spec-gap`, commit `d552ef4`) · **Design:** `rfc.md` (approved 2026-10-30; §6 defaults + round-1 refinements R1–R6; decisions in §9)
 
 > Rule: functional requirements map **1:1** to brief AC1–AC6, and their text is quoted verbatim. This spec invents **no** new acceptance criteria. Emphasis rendering, picking, the tour machine, the caption overlay, fixture C, the frozen-surface guard and the evidence tooling are supporting work under the FRs they serve. They get task-level checks, not criteria of their own. Documented values (dim level, highlight role, pulse floor, draw-call baseline) come from the RFC and are referenced, not promoted to criteria.
 >
@@ -125,6 +125,8 @@ As Murphy, I see machine-made evidence for every visual, motion and touch claim 
 - **FR-005 (↔ AC5):** perf gate, dropped-frames style: **0 dropped frames over a ≥5s headless window while the tour is actively playing** on fixture A (`/dev/engine`), fps within the 60 ±10% liveness band, raw fps/intervals reported as information; draw-call count documented and not regressed vs S4 baseline; evidence artifact attached per EVIDENCE.md.
 - **FR-006 (↔ AC6):** all engine logic in `packages/xploder` (apps/web thin-consumer test still green); full CI green on the PR (build/typecheck/lint/test, gitleaks, lighthouse, weight, fps calibration, fixture exclusion); `/dev/engine` still 404s on production; screenshots attached (light+dark × hover/focus/tour).
 
+- **FR-007 (↔ AC7, brief v2):** at zoom >1×, vertical scroll inside the viewer shifts the camera view window (`setViewOffset`) so the topmost and bottommost layers of the fixture stack are reachable — evidenced by top + bottom screenshots at max zoom; at 1× zoom viewer behavior is identical to v1 (no scroll capture); S4 camera-rig files untouched (frozen-surface diff check green); draw calls remain 2; zero CLS contribution; scroll module unit + component tests green in CI.
+
 ### Supporting requirements (brief deliverables; no new criteria)
 
 | Deliverable (brief)                                                                                                   | Serves                  | Design                     |
@@ -164,6 +166,7 @@ Success = AC1–AC6 each pass with evidence recorded in `evidence/` and the per-
 | FR-004 | AC4 | channel/tour tests with the static twin · `engine-probe.json` reduced-motion group (MutationObserver log: `tweening`/`pulse` never `"true"`, frames per change = 1, cadence kept) + screenshots                                                                             |
 | FR-005 | AC5 | `pnpm fps:engine --scenario tour` log + `fps.json` (droppedFrames, band, fps/rafFps/intervals, `tourStepsAdvanced`, `drawCalls`) + screenshot + meta                                                                                                                         |
 | FR-006 | AC6 | package-consumer scan log · `gh pr checks` output (all listed checks green) · 12-shot screenshot matrix + fixture C selector shot · **post-merge** prod-404 log from `perf: fixture exclusion`                                                                                |
+| FR-007 | AC7 | `scroll.test.ts` + `view-scroll.test.tsx` logs (CI) · T010a top/bottom screenshots at max zoom (3×) · probe `scroll` group (`scroll-zoom1-no-overflow`, `scroll-zoomed-overflows`, `scroll-top-reaches-top-layer`, `scroll-bottom-reaches-bottom-layer`, `scroll-camera-still`) · frozen-surface test + diff log · draw calls 2 · interaction-phase `cls-zero` covering the scroll group |
 
 ## Assumptions
 

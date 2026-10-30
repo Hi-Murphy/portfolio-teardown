@@ -40,9 +40,9 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specif
 - **Orchestrator-only steps** (marked ⚑): `git push`, opening/updating the PR, merging the PR (only after Murphy says "merge"). Flash prepares; the orchestrator executes.
 - **Guards (every task):** all must print OK (plan.md "Guards"):
   ```sh
-  git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+  git diff --quiet d552ef4 -- .specify/slices && git diff --quiet 53b2b2b -- .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
   git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK   # from T001 on
-  test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+  test -z "$(git log --oneline d552ef4..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK   # guard base for the brief moved to d552ef4 (brief v2, RFC §9.13)
   ```
 - **Every check also runs:** `pnpm typecheck && pnpm lint && pnpm test` (lint includes the Prettier check).
 - **Never:** add dependencies · add a package export · edit a frozen-surface file (plan.md "Guards") or an existing S2/S4 test · import `@react-three/drei`, GSAP, `three/examples`, `three/addons`, `three-stdlib` or `camera-controls` · write motion literals (durations, easings, staggers, timer delays) outside `packages/xploder/src/motion/` · write hex/`rgb()`/`hsl()`/`0x` colours outside `packages/xploder/src/theme/` · put engine logic or `three`/`@react-three/*` imports in `apps/web` · deep-import `xploder/src` from the app · compare fps to a literal number in any tool or check · add a threshold override to any perf CLI · uncap the browser frame rate · set `PERF_FIXTURES` on Vercel · put private hostnames, IPs or tokens anywhere (`127.0.0.1` is fine) · run `specify init` · use bare `git stash`.
@@ -491,3 +491,4 @@ T004 precedes T005 so the tour tests include fixture C's two flows. T014 runs af
 | FR-004 | AC4 | T005, T006, T008, T012 |
 | FR-005 | AC5 | T011, T014 |
 | FR-006 | AC6 | T001, T009, T010, T013, T015 |
+| FR-007 | AC7 (brief v2) | T010a, T011b, T012, T015 |
