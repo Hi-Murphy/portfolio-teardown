@@ -25,6 +25,18 @@ const SLABS = fileURLToPath(
 const PLAYGROUND = fileURLToPath(
   new URL('../app/dev/engine/engine-playground.tsx', import.meta.url),
 );
+const S05_SOURCE_FILES = [
+  'interaction/pick.ts',
+  'interaction/pointer.ts',
+  'interaction/focus.ts',
+  'interaction/tour.ts',
+  'interaction/emphasis.ts',
+  'react/scene/Emphasis.tsx',
+  'react/scene/PickBridge.tsx',
+  'react/overlay/TourCaption.tsx',
+  'react/useTourClock.ts',
+  'react/usePointerPick.ts',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 function formatHits(hits: readonly Hit[]): string {
   return hits.map((hit) => `${hit.file}:${hit.line} ${hit.rule} ${hit.snippet}`).join('\n');
@@ -57,6 +69,7 @@ describe('motion-literal scanner', () => {
 
     expect(sourceFiles).toContain(ENGINE_EXPLODE);
     expect(sourceFiles).toContain(SLABS);
+    expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 

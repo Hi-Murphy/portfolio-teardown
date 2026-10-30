@@ -1,0 +1,177 @@
+T010 scanner upkeep
+Base: 53b2b2b
+Worktree: /tmp/s05-wt/t010
+
+$ pnpm --filter web exec vitest run test/no-motion-literals.test.ts test/no-color-literals.test.ts test/package-consumer.test.ts test/fixture-exclusion.test.ts test/no-free-orbit.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t010/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  19:20:31
+   Duration  475ms (transform 53%, tests 18%, import 18%, worker 11%)
+
+$ pnpm build
+
+> [build error excerpt]
+-----
+FATAL: An unexpected Turbopack error occurred.
+-----
+Error [TurbopackInternalError]: Failed to write app endpoint /page
+
+Caused by:
+- [project]/apps/web/app/globals.css [app-client] (css)
+- creating new process
+- binding to a port
+- Operation not permitted (os error 1)
+
+[ELIFECYCLE] Command failed with exit code 1.
+
+SANDBOX NOTE: The build failure is the expected loopback restriction: Turbopack cannot create a process that binds a local port. No source/build error was reported before the EPERM.
+
+$ pnpm --filter web exec vitest run test/fixture-exclusion.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t010/apps/web
+
+
+ Test Files  1 skipped (1)
+      Tests  2 skipped (2)
+   Start at  19:21:43
+   Duration  59ms (import 56%, transform 22%, worker 21%, environment 1%)
+
+The two fixture-exclusion checks are conditional on `apps/web/out/` and `out-fixtures/`; both are absent because the sandboxed build did not complete. The orchestrator must rerun the build and this scanner outside the sandbox.
+
+Guards:
+
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md
+FROZEN-OK
+
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths)
+SURFACE-OK
+
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)"
+BRIEF-HISTORY-OK
+
+Sandbox-safe replacement for the full test command:
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test && echo T010-OK
+
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t010/packages/xploder
+
+(node:60249) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60245) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60248) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60247) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  27 passed (27)
+      Tests  241 passed (241)
+   Start at  19:21:56
+   Duration  3.04s (tests 72%, import 20%, transform 6%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t010/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  19:21:59
+   Duration  94ms (tests 52%, import 28%, transform 11%, worker 9%)
+
+T010-OK
+
+
+---
+## Orchestrator re-run of the T010 Check (outside sandbox), 2026-10-30T12:22:32Z
+ Test Files  4 passed (4)
+      Tests  52 passed (52)
+✓ Compiled successfully in 658ms
+✓ Generating static pages using 4 workers (3/3) in 170ms
+✓ Compiled successfully in 1429ms
+      Tests  2 passed (2)
+
+
+---
+## Orchestrator re-run of the T010 Check block (outside executor sandbox), 2026-10-30T12:22:45Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  1 passed (1)
+Tests  2 passed (2)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  27 passed (27)
+packages/xploder test:       Tests  241 passed (241)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  54 passed (54)
+T010-OK
