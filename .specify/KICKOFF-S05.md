@@ -16,7 +16,7 @@
 2. The brief is the only scope source. AC1–AC6 are inviolable — no rewording, no relaxing, no silent descoping. A blocked AC = STOP + escalate with evidence. **Perf criteria stay in dropped-frames style (S04 lesson); a literal fps threshold in any task check = protocol violation.**
 3. S2 contract (schema/parse/tokens public API) and S4 behavior (layout/camera) are frozen — extend `packages/xploder` with NEW modules only; fixture C is an additive data file. No DNS/Vercel-project changes; no analytics; no secrets.
 4. Evidence discipline: every visual/motion/touch claim attaches machine-made evidence per `.specify/EVIDENCE.md`. "It looks right" is not a report.
-5. Escalation ladder per task: executor (DeepSeek Flash) stuck ×2 → Sol/Gemini via OpenRouter → stuck ×2 → orchestrator executes personally. Report which tier finished each task.
+5. Escalation ladder per task: executor (DeepSeek Flash) stuck ×2 → orchestrator executes personally. (Tier 1.5 Sol/Gemini via OpenRouter is **DORMANT** — skip-with-record unless `OPENROUTER_API_KEY` is present; Murphy decision 2026-10-30.) Report which tier finished each task.
 6. Every task decomposition ends with: **WHAT MURPHY SHOULD TEST/VALIDATE** + **WHAT THE AGENT NEEDS FROM MURPHY** (numbered, each with a default).
 7. Commit at each stage boundary with message prefix `S05/stage-N:`.
 
