@@ -1,0 +1,114 @@
+T010b — Caption anchors away from the target layer
+Date: 2026-10-30
+Worktree: /tmp/s05-wt/t010b
+
+Focused implementation tests
+$ pnpm --filter xploder exec vitest run test/caption.test.tsx test/viewer-handle.test.tsx
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  19:41:08
+   Duration  116ms
+
+Fixture build
+$ pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+✓ Compiled successfully in 1663ms
+✓ Generating static pages using 6 workers (5/5) in 181ms
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+Local fixture server
+$ node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199
+http://127.0.0.1:4199/
+$ curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4199/dev/engine
+200
+
+Task check — focused test
+$ pnpm --filter xploder exec vitest run test/viewer-handle.test.tsx 2>&1 | tail -4
+
+      Tests  8 passed (8)
+   Start at  19:43:21
+   Duration  129ms (import 59%, tests 25%, transform 14%, worker 2%)
+
+Task check — top target (fixture C pickup-ready step 1, layer 0 → anchor bottom)
+$ pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=1' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t010b-top-target
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=1' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t010b-top-target
+warning: --out is not git-ignored: /tmp/s05-checks/t010b-top-target
+ok screenshot-mobile (1228 ms)
+ok screenshot-desktop (1180 ms)
+ok lighthouse (5790 ms)
+evidence: /tmp/s05-checks/t010b-top-target
+
+Task check — bottom target (fixture C pickup-ready step 6, layer 4 → anchor top)
+$ pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=6' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t010b-bottom-target
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded&flow=pickup-ready&tour=paused&step=6' --runs 1 --wait-for '[data-xploder-tour=paused][data-xploder-tweening=false]' --out /tmp/s05-checks/t010b-bottom-target
+warning: --out is not git-ignored: /tmp/s05-checks/t010b-bottom-target
+ok screenshot-mobile (1210 ms)
+ok screenshot-desktop (1177 ms)
+ok lighthouse (5842 ms)
+evidence: /tmp/s05-checks/t010b-bottom-target
+
+Server teardown
+$ <Ctrl-C in the fixture-server session>
+$ curl -sf -o /dev/null http://127.0.0.1:4199/dev/engine; echo $?
+SERVER-STOPPED
+
+Mobile visual review (721 × 1440)
+- T010b-screenshot-mobile-top-target.png: Pickup App is highlighted at the top of the exploded stack; the caption is bottom-anchored and does not overlap the highlighted slab.
+- T010b-screenshot-mobile-bottom-target.png: Push Gateway is highlighted near the bottom of the exploded stack; the caption is top-anchored and does not overlap the highlighted slab.
+
+Guard checks
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths)
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)"
+BRIEF-HISTORY-OK
+
+Full check
+$ pnpm typecheck && pnpm lint && pnpm test
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint: Done
+All matched files use Prettier code style!
+tools/perf test: Test Files  11 passed (11)
+tools/perf test:      Tests  55 passed (55)
+packages/xploder test: Test Files  30 passed (30)
+packages/xploder test:       Tests  256 passed (256)
+apps/web test: Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T010b-OK
+
+
+---
+Orchestrator review fix: replaced test/caption.test.tsx (it reached react-dom/server through @react-three/fiber's transitive resolution, a fragile path, and react-dom is not an xploder dependency) with pure captionAnchor tests in test/caption.test.ts. The anchor-follows-step behaviour is proven by the two mobile screenshots here and by the G3 probe. Orchestrator viewed both screenshots: the highlighted slab is clear of the caption in each.
+
+
+---
+## Orchestrator re-run of the T010b Check block (outside executor sandbox), 2026-10-30T12:45:49Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  2 passed (2)
+Tests  10 passed (10)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  30 passed (30)
+packages/xploder test:       Tests  255 passed (255)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T010b-OK
