@@ -1,0 +1,6 @@
+# T015 production evidence: /dev/engine absent on production (AC6)
+Captured by the orchestrator, 2026-10-31T00:50:34Z, from the main-push perf run after the S05 merge.
+main head: 524a6cd (S05 squash merge, PR #8) · run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41152254071 · job 'perf: fixture exclusion' = success
+
+Assert fixture absent from production	2026-10-31T00:49:53.5360133Z absent: https://portfolio-teardown.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+Assert engine playground absent from production	2026-10-31T00:49:53.7657755Z absent: https://portfolio-teardown.vercel.app/dev/engine returned HTTP 404 without data-perf-fixture
