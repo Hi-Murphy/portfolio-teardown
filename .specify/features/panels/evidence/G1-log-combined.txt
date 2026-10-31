@@ -1,0 +1,26 @@
+# G1 combined gate log — orchestrator, outside the sandbox, slice branch task/s07-panels after T001–T006 merges + integration fixes
+$ pnpm typecheck
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm lint
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm test
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:  Test Files  50 passed (50)
+packages/xploder test:       Tests  517 passed (517)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+## Guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+BRIEF-HISTORY-OK
+## Frozen-surface diff stats (expected empty)
+base 53b2b2b (frozen-surface.paths): 0 changed-file lines
+base f31600e (frozen-surface.s5.paths): 0 changed-file lines
+base 0b2c678 (frozen-surface.s6.paths): 0 changed-file lines

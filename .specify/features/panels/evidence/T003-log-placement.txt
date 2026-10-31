@@ -291,3 +291,29 @@ SURFACE-S6-OK
 +zsh:33> test -z ''
 +zsh:33> echo BRIEF-HISTORY-OK
 BRIEF-HISTORY-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:02Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-place.test.ts --reporter verbose
+stage histogram A: stage1=436 stage2=76 stage3=0 stage4=0
+stage histogram B: stage1=436 stage2=76 stage3=0 stage4=0
+stage histogram C: stage1=418 stage2=94 stage3=0 stage4=0
+stage histogram synthetic 1x1: stage1=96 stage2=224 stage3=160 stage4=32
+stage histogram synthetic 2x1: stage1=224 stage2=192 stage3=96 stage4=0
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps every A fixture panel disjoint and inside the canvas 14ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps every B fixture panel disjoint and inside the canvas 9ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps every C fixture panel disjoint and inside the canvas 9ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps synthetic 1x1 panels disjoint and inside at every stage 7ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps synthetic 2x1 panels disjoint and inside at every stage 7ms
+ ✓ test/panel-place.test.ts > placement hysteresis > changes the A dock only after the current size no longer fits 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis > changes the B dock only after the current size no longer fits 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis > changes the C dock only after the current size no longer fits 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis does not keep a cramped size > a stage-3/4 current size is re-placed once a readable dock fits again 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis does not keep a cramped size > a readable current size is still kept while it fits 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > keeps the R2 gap clear of the S5 hover lift 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 328 x 444 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 358 x 506 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 768 x 614 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 1216 x 480 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > computes and clips the visible slab rect after scrolling 0ms
+ Test Files  1 passed (1)
+      Tests  16 passed (16)

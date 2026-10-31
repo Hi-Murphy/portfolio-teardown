@@ -9,7 +9,7 @@ import type { TechRegistry } from '../schema/tech';
 
 export interface PanelComponentInput {
   readonly id: string;
-  readonly name: string;
+  readonly name?: string;
   readonly summary?: string;
   readonly description?: string;
   readonly kind?: ComponentKind;
@@ -118,7 +118,7 @@ export function detailModel(
 
   return {
     id: component.id,
-    name: component.name,
+    name: component.name ?? component.id,
     meta: {
       kind: component.kind ?? 'module',
       status: component.status ?? 'shipped',

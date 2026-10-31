@@ -22,12 +22,12 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
-| T006 | ☐ | | | |
+| T001 | ☑ (32 files sealed; negative control red) | 1 (Flash, sandbox on); full check re-run by orchestrator outside the sandbox | evidence/T001-log-guard.txt | b12badb |
+| T002 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T002-log-state.txt | 0b35dda |
+| T003 | ☑ (+ orchestrator review fix: hysteresis never keeps a stage-3/4 size, 2 tests) | 1 (Flash, sandbox on) + orchestrator review fix | evidence/T003-log-placement.txt | c847ce3 + G1 integration |
+| T004 | ☑ (local `PanelClickEvent` replaced by `PanelEvent` at integration) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T004-log-tour-click.txt | e642dd6 + G1 integration |
+| T005 | ☑ (+ `name` optional → falls back to id, 1 test) | 1 (Flash, sandbox on) + orchestrator integration fix | evidence/T005-log-content.txt | b2530bf + G1 integration |
+| T006 | ☑ (local `Dock` replaced by `place.ts` import) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T006-log-motion.txt | 0f252dc + G1 integration |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |

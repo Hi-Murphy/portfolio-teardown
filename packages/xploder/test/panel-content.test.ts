@@ -179,4 +179,13 @@ describe('chipModels', () => {
       ),
     ).toThrow(ProjectValidationError);
   });
+
+  test('a component without a name falls back to its id (ViewerProject allows no name)', () => {
+    const model = detailModel(
+      { meta: { slug: 'nameless' }, layers: [{ components: [{ id: 'bare' }] }] },
+      'bare',
+    );
+
+    expect(model?.name).toBe('bare');
+  });
 });

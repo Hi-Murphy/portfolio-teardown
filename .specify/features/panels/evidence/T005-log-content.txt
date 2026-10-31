@@ -345,3 +345,44 @@ SURFACE-S2S4-OK
 SURFACE-S5-OK
 SURFACE-S6-OK
 BRIEF-HISTORY-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:03Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-content.test.ts --reporter verbose
+ ✓ test/panel-content.test.ts > detailModel > A/beachgoer equals the fixture and registry content 1ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-chart-screen equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/forecast-details-panel equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-view-model equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-repository equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/live-tide-client equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-cache equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-feed equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/partner-csv-drop equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/column-normalizer equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/ledger-validator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/reconciliation-ledger equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/settlement-operator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/recipient equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-app equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-api equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/session-gate equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/booking-service equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/notifier equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/retry-scheduler equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/slot-planner equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/audit-trail equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-registry equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/dead-letter-store equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/push-gateway equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-hardware equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > omits every empty optional section for beachgoer 0ms
+ ✓ test/panel-content.test.ts > detailModel > returns null for a missing component id 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > A keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > B keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > C keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > fixture C has no story metrics 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses raw labels without a registry and omits category metadata 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses registry labels, categories and colour references in tech order 0ms
+ ✓ test/panel-content.test.ts > chipModels > parsing with the registry rejects an unknown tech id 1ms
+ ✓ test/panel-content.test.ts > chipModels > a component without a name falls back to its id (ViewerProject allows no name) 0ms
+ Test Files  1 passed (1)
+      Tests  36 passed (36)

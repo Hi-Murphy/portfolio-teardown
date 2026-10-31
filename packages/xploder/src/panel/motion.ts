@@ -1,6 +1,5 @@
 import type { MotionTokens } from '../motion';
-
-type Dock = 'left' | 'right' | 'top' | 'bottom';
+import type { Dock } from './place';
 
 const MILLISECONDS_PER_SECOND = 1_000;
 

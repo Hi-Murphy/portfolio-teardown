@@ -197,7 +197,14 @@ export function placePanel(input: PlacePanelInput): Placement {
 
   const free = freeSpace(slab, canvas, look);
 
-  if (currentValid && input.current != null && free[input.current.dock] >= input.current.size) {
+  // Hysteresis (RFC R1) keeps a readable dock while it still fits. A cramped current
+  // size (stage 3/4) is never kept, so the panel grows back once there is room again.
+  if (
+    currentValid &&
+    input.current != null &&
+    input.current.size >= minimumSize(input.current.dock, look) &&
+    free[input.current.dock] >= input.current.size
+  ) {
     return result(
       input.current.dock,
       input.current.size,

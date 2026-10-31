@@ -274,3 +274,43 @@ BRIEF-HISTORY-OK
 
 $ echo T002-OK
 T002-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:02Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-state.test.ts --reporter verbose
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(X) 1ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(X) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(X) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > openDetail for the current component is a no-op 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > closed returns false 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > detail returns true 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > caseStudy returns true 0ms
+ ✓ test/panel-state.test.ts > panel state sequence > opens, switches, closes on the same slab, and toggles the case study 0ms
+ Test Files  1 passed (1)
+      Tests  35 passed (35)

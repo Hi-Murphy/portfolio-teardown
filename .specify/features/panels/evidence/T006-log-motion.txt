@@ -232,3 +232,19 @@ SURFACE-S6-OK
 
 $ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
 BRIEF-HISTORY-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:03Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-motion.test.ts --reporter verbose
+ ✓ test/panel-motion.test.ts > panel motion > left enter starts offset toward its edge and settles 1ms
+ ✓ test/panel-motion.test.ts > panel motion > left exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > right enter starts offset toward its edge and settles 0ms
+ ✓ test/panel-motion.test.ts > panel motion > right exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > top enter starts offset toward its edge and settles 0ms
+ ✓ test/panel-motion.test.ts > panel motion > top exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > bottom enter starts offset toward its edge and settles 0ms
+ ✓ test/panel-motion.test.ts > panel motion > bottom exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > the reduced-motion twin returns no animation for either phase 0ms
+ ✓ test/panel-motion.test.ts > panel motion > the source has no duration or easing literals beyond the milliseconds constant 0ms
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+no-motion-literals:       Tests  15 passed (15)

@@ -1,11 +1,9 @@
 import type { TourStatus } from '../interaction/tour';
+import type { PanelEvent } from './state';
 
 export type TourCommand =
   | { readonly type: 'jump'; readonly step: number; readonly resume: boolean }
   | { readonly type: 'pause' };
-
-export type PanelClickEvent =
-  { readonly type: 'slab'; readonly hit: string | null } | { readonly type: 'closeControl' };
 
 export interface SlabClickInput {
   readonly hit: string | null;
@@ -18,7 +16,7 @@ export interface SlabClickInput {
 }
 
 export interface SlabClickDecision {
-  readonly panelEvent: PanelClickEvent | null;
+  readonly panelEvent: PanelEvent | null;
   readonly tour: TourCommand | null;
 }
 

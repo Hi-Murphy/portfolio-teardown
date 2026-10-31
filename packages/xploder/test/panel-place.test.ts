@@ -369,6 +369,46 @@ describe('placement hysteresis', () => {
   );
 });
 
+describe('placement hysteresis does not keep a cramped size', () => {
+  test('a stage-3/4 current size is re-placed once a readable dock fits again', () => {
+    const canvas = { width: 358, height: 506 } as const;
+    const smallSlab = { left: 150, top: 200, right: 210, bottom: 240 };
+    const cramped = placePanel({
+      canvas,
+      slab: smallSlab,
+      kind: 'detail',
+      current: { dock: 'bottom', size: PANEL_LOOK.compactMinPx },
+    });
+
+    expect(cramped.stage).toBe(1);
+    expect(cramped.size).toBeGreaterThan(PANEL_LOOK.compactMinPx);
+
+    const zeroSize = placePanel({
+      canvas,
+      slab: smallSlab,
+      kind: 'detail',
+      current: { dock: 'top', size: 0 },
+    });
+
+    expect(zeroSize.stage).toBe(1);
+    expect(zeroSize.size).toBeGreaterThan(0);
+  });
+
+  test('a readable current size is still kept while it fits', () => {
+    const canvas = { width: 358, height: 506 } as const;
+    const slab = { left: 150, top: 40, right: 210, bottom: 80 };
+    const kept = placePanel({
+      canvas,
+      slab,
+      kind: 'detail',
+      current: { dock: 'bottom', size: PANEL_LOOK.sheet.minPx },
+    });
+
+    expect(kept.dock).toBe('bottom');
+    expect(kept.size).toBe(PANEL_LOOK.sheet.minPx);
+  });
+});
+
 describe('panel sizing and visible rects', () => {
   test('keeps the R2 gap clear of the S5 hover lift', () => {
     expect(PANEL_LOOK.gapPx).toBeGreaterThanOrEqual(2 * motion.distances.hoverLift);

@@ -250,3 +250,30 @@ $ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/te
 SURFACE-S6-OK
 $ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
 BRIEF-HISTORY-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:03Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-tour-click.test.ts --reporter verbose
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > fixture A exposes the expected live-update path 1ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + null 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the first occurrence before playback starts 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the next occurrence after the current step 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > wraps to the first occurrence when no later occurrence exists 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > returns null when the component is absent 0ms
+ ✓ test/panel-tour-click.test.ts > jumpSequence > stops, steps to the target, and resumes only when requested 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while playing lands on the target step and keeps playing 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while paused lands on the target step and stays paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping from ended returns to the first step, paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > pause then play resumes from the current step 0ms
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
