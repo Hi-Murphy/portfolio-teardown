@@ -29,6 +29,8 @@
 | T013 | ☑ 104/104 | 1 (Flash, sandbox off; driver-only fixes reviewed); 1st dispatch lost to an orchestrator cwd error (not an executor failure) | evidence/T013-{engine-probe.json,log-probe.txt,screenshot-*.png} | d0ffdc8 |
 | T014 | ☑ 16 shots (round 2) | 1 (Flash, sandbox off) | evidence/T014-{log-matrix.txt,screenshot-*.png,meta-*.json} | 4e68a4d |
 | T015 | ☑ 0 dropped / 5.05 s, 2 calls | 1 (Flash, sandbox off, alone) | evidence/T015-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 635b0c2 |
+| T016a | ☐ (final validation: crash) | | | |
+| T016b | ☐ (final validation: callout columns) | | | |
 | T016 | ☑ PR #10 ready, 8/8 CI green; waiting for "merge" | ⚑ orchestrator | evidence/{T016-ci.txt,T016-log-gate.txt,T016-log-surface-diff.txt,AC-selfcheck.md} | c186765 (CI head) |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specify/features/blueprint-theme/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
@@ -432,6 +434,20 @@ New scope `s6` (CLI `--scope s6`; `all` = s4 + s5 + s6). Every S4/S5 check stays
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. "merge" when you're satisfied (default: no merge without it).
   2. After the merge: nothing; the agent reminds you to `git pull` the original clone.
+
+### T016a [US2] No crash on fixture switch (final-validation feedback, RFC §9.13.1)
+
+- **Seam:** `<BlueprintOverlay>` settled frame ↔ project/layout identity.
+- **Fix:** `SettledFrame` records the `layout` it was measured on; `overlayVisible` also requires `settled.layout === layout`; on a layout change the settled frame and any pending frame are dropped. `overlayLabels`/`titleBlockLines` skip unmatched layers/components instead of throwing.
+- **Check:** `overlay-model.test.ts` covers a frame from fixture C with project B (no throw, nothing rendered) + the full suite; orchestrator browser check: switch A → C → B → A in the playground with no runtime error.
+- **Evidence:** `evidence/T016a-log-switch.txt`
+
+### T016b [US2] Aligned callout columns + leaders only for the highlighted part (RFC §9.13.2)
+
+- **Seam:** overlay model/placement ↔ S5 `viewer.highlight` (read-only) ↔ `<BlueprintOverlay>`.
+- **Design:** RFC §9.13.2 (columns on wide canvases when they fit; on-part number tags otherwise; leader + accent only for the highlighted part).
+- **Check:** pure tests for both modes and the mode choice; the dense sweep updated to the new contract (columns: no overlaps, no hull hits, inside; tags: inside, no tag overlaps another tag or another part's hull); full suite; orchestrator screenshots; the probe and matrix re-run (T013/T014 re-runs).
+- **Evidence:** `evidence/T016b-log-callouts.txt` + screenshots
 
 ---
 
