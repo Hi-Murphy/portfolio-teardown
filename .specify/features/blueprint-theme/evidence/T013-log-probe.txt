@@ -1,0 +1,282 @@
+# S06 / T013 probe evidence
+
+Date: 2026-10-31 (Asia/Jakarta)
+Target: http://127.0.0.1:4199/ (out-fixtures static export)
+Result: 104 checks, 0 failed; pass=true
+
+The first real browser run exposed two probe-driver issues, both fixed without changing a T012 pass rule:
+- default-gap C used the 40x24 shared hit-map grid, which skipped four thin faces; DEFAULT_GAP_GRID is 80x48.
+- overlay-selectable compared Selection API text case-exactly, although CSS renders layer labels uppercase; comparison now normalizes case and whitespace.
+
+COMMAND: pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1124ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1787ms
+  Running TypeScript ...
+  Finished TypeScript in 1308ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 203ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+
+COMMAND: node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199
+OUTPUT: http://127.0.0.1:4199/
+SERVER-READY
+
+COMMAND: pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s06-checks/t013 2>&1 | tee /tmp/s06-checks/t013.txt
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4199/ --out /tmp/s06-checks/t013
+PASS fixture-a-instances: expected {"layers":4,"components":8} actual {"layers":4,"components":8}
+PASS fixture-a-draw-calls: expected 2 actual 2
+PASS fixture-b-instances: expected {"layers":4,"components":5} actual {"layers":4,"components":5}
+PASS fixture-b-draw-calls: expected 2 actual 2
+PASS fixture-c-instances: expected {"layers":5,"components":13} actual {"layers":5,"components":13}
+PASS fixture-c-draw-calls: expected 2 actual 2
+PASS camera-default-azimuth: expected 45 actual 45
+PASS camera-after-button-right: expected 135 actual 135
+PASS camera-after-arrow-right: expected 225 actual 225
+PASS camera-zoom-after-20-in: expected 3 actual 3
+PASS camera-zoom-after-20-out: expected 1 actual 1
+PASS camera-zoom-after-reset: expected 1 actual 1
+PASS camera-zoom-out-disabled-at-default: expected true actual true
+PASS camera-zoom-reset-disabled-at-default: expected true actual true
+PASS camera-zoom-in-disabled-at-max: expected true actual true
+PASS motion-explode-phases: expected ["exploding","exploded"] actual ["exploding","exploded"]
+PASS motion-implode-phases: expected ["imploding","imploded"] actual ["imploding","imploded"]
+PASS reduced-motion-initial-state: expected "exploded" actual "exploded"
+PASS reduced-motion-toggle-phases: expected ["imploded"] actual ["imploded"]
+PASS reduced-motion-toggle-frames: expected "<= 2" actual 2
+PASS reduced-motion-toggle-back-phases: expected ["exploded"] actual ["exploded"]
+PASS reduced-motion-toggle-back-frames: expected "<= 2" actual 2
+PASS hitmap-exploded-all-components-hit: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"] actual ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS hitmap-imploded-top-layer-hit: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","forecast-details-panel","tide-chart-screen"]
+PASS hover-highlight-exploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-highlight-imploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-cursor-pointer: expected {"exploded":"pointer","imploded":"pointer"} actual {"exploded":"pointer","imploded":"pointer"}
+PASS hover-pixel-toward-accent: expected "distance to accent decreases in both states" actual {"exploded":{"before":246.5461417260469,"after":92.22255689363638},"imploded":{"before":246.5461417260469,"after":179.73869922751751}}
+PASS hover-leave-clears: expected {"exploded":true,"imploded":true} actual {"exploded":true,"imploded":true}
+PASS tap-highlight-exploded: expected "beachgoer" actual "beachgoer"
+PASS tap-highlight-imploded: expected "beachgoer" actual "beachgoer"
+PASS tap-second-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-other-switches: expected {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"} actual {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"}
+PASS tap-empty-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-outside-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS trace-pointertype-touch: expected "pointerdown, pointerup and click all with pointerType=touch" actual [{"type":"pointerdown","pointerType":"touch","t":4542.699999988079},{"type":"pointerup","pointerType":"touch","t":4543.399999976158},{"type":"click","pointerType":"touch","t":4544.699999988079},{"type":"pointerdown","pointerType":"touch","t":4637.199999988079},{"type":"pointerup","pointerType":"touch","t":4637.300000011921},{"type":"click","pointerType":"touch","t":4637.599999964237},{"type":"pointerdown","pointerType":"touch","t":4671.300000011921},{"type":"pointerup","pointerType":"touch","t":4671.399999976158},{"type":"click","pointerType":"touch","t":4671.599999964237},{"type":"pointerdown","pointerType":"touch","t":4703.599999964237},{"type":"pointerup","pointerType":"touch","t":4703.699999988079},{"type":"click","pointerType":"touch","t":4704},{"type":"pointerdown","pointerType":"touch","t":4737.5},{"type":"pointerup","pointerType":"touch","t":4737.699999988079},{"type":"click","pointerType":"touch","t":4738},{"type":"pointerdown","pointerType":"touch","t":4770.300000011921},{"type":"pointerup","pointerType":"touch","t":4770.399999976158},{"type":"click","pointerType":"touch","t":4770.800000011921},{"type":"pointerdown","pointerType":"touch","t":4803.599999964237},{"type":"pointerup","pointerType":"touch","t":4803.699999988079},{"type":"click","pointerType":"touch","t":4804},{"type":"pointerdown","pointerType":"touch","t":4838.5},{"type":"pointerup","pointerType":"touch","t":4841.800000011921},{"type":"click","pointerType":"touch","t":4842.599999964237},{"type":"pointerdown","pointerType":"touch","t":4437.400000035763},{"type":"pointerup","pointerType":"touch","t":4437.699999988079},{"type":"click","pointerType":"touch","t":4439.100000023842},{"type":"pointerdown","pointerType":"touch","t":4489.100000023842},{"type":"pointerup","pointerType":"touch","t":4489.300000011921},{"type":"click","pointerType":"touch","t":4489.800000011921},{"type":"pointerdown","pointerType":"touch","t":4504.800000011921},{"type":"pointerup","pointerType":"touch","t":4504.900000035763},{"type":"click","pointerType":"touch","t":4505.5},{"type":"pointerdown","pointerType":"touch","t":4521.600000023842},{"type":"pointerup","pointerType":"touch","t":4521.699999988079},{"type":"click","pointerType":"touch","t":4522.100000023842},{"type":"pointerdown","pointerType":"touch","t":4538.199999988079},{"type":"pointerup","pointerType":"touch","t":4538.300000011921},{"type":"click","pointerType":"touch","t":4538.699999988079},{"type":"pointerdown","pointerType":"touch","t":4554.5},{"type":"pointerup","pointerType":"touch","t":4554.600000023842},{"type":"click","pointerType":"touch","t":4554.800000011921},{"type":"pointerdown","pointerType":"touch","t":4572},{"type":"pointerup","pointerType":"touch","t":4572},{"type":"click","pointerType":"touch","t":4572.300000011921},{"type":"pointerdown","pointerType":"touch","t":4587.900000035763},{"type":"pointerup","pointerType":"touch","t":4588.699999988079},{"type":"click","pointerType":"touch","t":4589.199999988079}]
+PASS cls-zero: expected 0 actual {"total":0,"entries":[]}
+PASS focus-toggle-sets: expected "ui" actual "ui"
+PASS focus-pixel-toward-paper: expected "distance to paper decreases" actual {"before":40.422765862815474,"after":11.532562594670795}
+PASS focus-esc-releases: expected null actual null
+PASS focus-toggle-releases: expected null actual null
+PASS focus-survives-explode: expected {"state":"exploded","layer":"ui"} actual {"state":"exploded","layer":"ui"}
+PASS focus-survives-rotate: expected {"azimuth":135,"layer":"ui"} actual {"azimuth":135,"layer":"ui"}
+PASS tour-order-a-live-update: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"]
+PASS tour-order-a-offline-read: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"]
+PASS tour-order-c-pickup-ready: expected ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"] actual ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"]
+PASS tour-order-c-push-failed: expected ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"] actual ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"]
+PASS tour-pause-holds: expected 3 actual 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0" actual [[0,1,2,3,4,5],[0,1,2,3,4],[0,1,2,3,4,5,6],[0,1,2,3,4]]
+PASS tour-stop-clears: expected "every flow stops idle with no caption" actual [{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false}]
+PASS tour-camera-still: expected "azimuth and zoom unchanged during each flow" actual [{"azimuths":[45,45,45,45,45,45],"zooms":[1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]},{"azimuths":[45,45,45,45,45,45,45],"zooms":[1,1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]}]
+PASS tour-focus-suspended-restored: expected {"during":true,"after":true,"layerAfter":"ui"} actual {"during":true,"after":true,"layerAfter":"ui"}
+PASS selector-a-visible: expected "at least one visible flow selector button" actual {"flowButtons":2,"visible":true}
+PASS selector-b-hidden: expected {"flowButtons":0,"visible":false} actual {"flowButtons":0,"visible":false}
+PASS selector-c-two-flows: expected {"flowButtons":2,"visible":true} actual {"flowButtons":2,"visible":true}
+PASS caption-selectable: expected "user-select text and selection round-trip" actual {"userSelect":"text","selectedText":"Recipient","text":"Recipient"}
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}} actual {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}} actual {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1} actual {"target":"tide-chart-screen","frameDelta":1,"highlight":"tide-chart-screen","tweening":["false"],"pulse":["false"]}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1} actual {"target":"ui","frameDelta":1,"highlight":"ui","tweening":["false"],"pulse":["false"]}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"} actual {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":[1,1,1,1,1],"intervalsMs":[1599.5999999642372,1599.7000000476837,1598.8999999761581,1599],"tweening":["false","false","false","false","false","false","false"],"pulse":["false","false","false","false","false","false","false"]}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\"" actual ["false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false"]
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1599.199999988079,1600.300000011921],"tolerance":0.2} actual [1599.5999999642372,1599.7000000476837,1598.8999999761581,1599]
+PASS scroll-zoom1-no-overflow: expected "<= 1px" actual 0
+PASS scroll-zoomed-overflows: expected "> 1px" actual 803
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"] actual ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3} actual {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)" actual [{"viewport":"desktop","step":0,"target":"recipient","point":{"x":626,"y":205},"caption":{"left":77,"top":397,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":1,"target":"pickup-app","point":{"x":654,"y":225},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":2,"target":"pickup-api","point":{"x":626,"y":284},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":3,"target":"booking-service","point":{"x":626,"y":334},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":4,"target":"locker-registry","point":{"x":626,"y":424},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"desktop","step":5,"target":"notifier","point":{"x":654,"y":354},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":6,"target":"push-gateway","point":{"x":626,"y":493},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"mobile","step":0,"target":"recipient","point":{"x":178,"y":189},"caption":{"left":29,"top":403.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":1,"target":"pickup-app","point":{"x":212,"y":210},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":2,"target":"pickup-api","point":{"x":178,"y":273},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":3,"target":"booking-service","point":{"x":173,"y":326},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":4,"target":"locker-registry","point":{"x":178,"y":420},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true},{"viewport":"mobile","step":5,"target":"notifier","point":{"x":212,"y":347},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":6,"target":"push-gateway","point":{"x":178,"y":494},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true}]
+PASS bp-fill-near-paper-light: expected "fill is closer to --bp-paper than --bp-line" actual {"toPaper":12.215136779721744,"toLine":65.55242980264804}
+PASS bp-edge-ink-light: expected {"scanPixels":">= 60","closestDeltaE":"<= 10"} actual {"scanPixels":60,"closestDeltaE":0}
+PASS bp-fill-near-paper-dark: expected "fill is closer to --bp-paper than --bp-line" actual {"toPaper":18.916937280935677,"toLine":50.51499698130196}
+PASS bp-edge-ink-dark: expected {"scanPixels":">= 60","closestDeltaE":"<= 10"} actual {"scanPixels":60,"closestDeltaE":0}
+PASS bp-kind-distinct: expected "deltaE >= 3" actual 15.079558282702157
+PASS bp-toggle-switches: expected "fill is closer to dark paper than light paper" actual {"toDarkPaper":18.916937280935677,"toLightPaper":73.07270431123831}
+PASS bp-os-dark-first-paint: expected {"backgroundDeltaE":"<= 3","fill":"closer to dark paper"} actual {"backgroundDeltaE":0,"fillToDarkPaper":18.916937280935677,"fillToLightPaper":73.07270431123831}
+PASS overlay-default-a-imploded-mobile: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"a","state":"imploded","viewport":"mobile","titleBlock":"shown","overlay":"shown","hidden":"0","labelCount":0}
+PASS overlay-default-a-imploded-desktop: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"a","state":"imploded","viewport":"desktop","titleBlock":"shown","overlay":"shown","hidden":"0","labelCount":0}
+PASS overlay-default-a-exploded-mobile: expected {"overlay":"shown","hidden":"0"} actual {"fixture":"a","state":"exploded","viewport":"mobile","titleBlock":"hidden","overlay":"shown","hidden":"0","labelCount":14}
+PASS overlay-default-a-exploded-desktop: expected {"overlay":"shown","hidden":"0"} actual {"fixture":"a","state":"exploded","viewport":"desktop","titleBlock":"hidden","overlay":"shown","hidden":"0","labelCount":14}
+PASS overlay-default-b-imploded-mobile: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"b","state":"imploded","viewport":"mobile","titleBlock":"shown","overlay":"shown","hidden":"0","labelCount":0}
+PASS overlay-default-b-imploded-desktop: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"b","state":"imploded","viewport":"desktop","titleBlock":"shown","overlay":"shown","hidden":"0","labelCount":0}
+PASS overlay-default-b-exploded-mobile: expected {"overlay":"shown","hidden":"0"} actual {"fixture":"b","state":"exploded","viewport":"mobile","titleBlock":"hidden","overlay":"shown","hidden":"0","labelCount":11}
+PASS overlay-default-b-exploded-desktop: expected {"overlay":"shown","hidden":"0"} actual {"fixture":"b","state":"exploded","viewport":"desktop","titleBlock":"hidden","overlay":"shown","hidden":"0","labelCount":11}
+PASS overlay-default-c-imploded-mobile: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"c","state":"imploded","viewport":"mobile","titleBlock":"shown","overlay":"shown","hidden":"0","labelCount":0}
+PASS overlay-default-c-imploded-desktop: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"c","state":"imploded","viewport":"desktop","titleBlock":"shown","overlay":"shown","hidden":"0","labelCount":0}
+PASS overlay-default-c-exploded-mobile: expected {"overlay":"shown","hidden":"0"} actual {"fixture":"c","state":"exploded","viewport":"mobile","titleBlock":"hidden","overlay":"shown","hidden":"0","labelCount":20}
+PASS overlay-default-c-exploded-desktop: expected {"overlay":"shown","hidden":"0"} actual {"fixture":"c","state":"exploded","viewport":"desktop","titleBlock":"hidden","overlay":"shown","hidden":"0","labelCount":20}
+PASS overlay-360-boxes: expected {"samples":8,"everyBox":"inside viewer, font-size >= 12px, no pairwise intersections"} actual [{"fixture":"a","state":"imploded","theme":"light","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":185,"top":433,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"a","state":"imploded","theme":"dark","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":185,"top":433,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"a","state":"exploded","theme":"light","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"layer:ui","left":21,"top":189.9199981689453,"right":111,"bottom":210.9199981689453,"fontSize":12},{"key":"layer:state","left":21,"top":275.7200012207031,"right":119,"bottom":296.7200012207031,"fontSize":12},{"key":"layer:data","left":21,"top":361.5199890136719,"right":111,"bottom":382.5199890136719,"fontSize":12},{"key":"layer:platform","left":21,"top":477.82000732421875,"right":171,"bottom":498.82000732421875,"fontSize":12},{"key":"part:beachgoer","left":200,"top":130.55999755859375,"right":231,"bottom":151.55999755859375,"fontSize":12},{"key":"part:tide-chart-screen","left":233.77499389648438,"top":211.05999755859375,"right":264.7749938964844,"bottom":232.05999755859375,"fontSize":12},{"key":"part:forecast-details-panel","left":112.11250305175781,"top":159.80999755859375,"right":143.1125030517578,"bottom":180.80999755859375,"fontSize":12},{"key":"part:tide-view-model","left":164.5,"top":235.86000061035156,"right":195.5,"bottom":256.8599853515625,"fontSize":12},{"key":"part:tide-repository","left":200,"top":302.1600036621094,"right":231,"bottom":323.1600036621094,"fontSize":12},{"key":"part:live-tide-client","left":233.77499389648438,"top":382.6600036621094,"right":264.7749938964844,"bottom":403.6600036621094,"fontSize":12},{"key":"part:tide-cache","left":112.11250305175781,"top":331.4100036621094,"right":143.1125030517578,"bottom":352.4100036621094,"fontSize":12},{"key":"part:tide-feed","left":164.5,"top":407.4599914550781,"right":195.5,"bottom":428.4599914550781,"fontSize":12},{"key":"dimension:stack","left":21,"top":318.6199951171875,"right":89,"bottom":339.6199951171875,"fontSize":12},{"key":"dimension:footprint","left":107.09251403808594,"top":513.5623168945312,"right":153.09251403808594,"bottom":534.5623168945312,"fontSize":12}]},{"fixture":"a","state":"exploded","theme":"dark","viewer":{"left":17,"top":68,"right":343,"bottom":510},"boxes":[{"key":"layer:ui","left":21,"top":152.9199981689453,"right":111,"bottom":173.9199981689453,"fontSize":12},{"key":"layer:state","left":21,"top":238.72000122070312,"right":119,"bottom":259.7200012207031,"fontSize":12},{"key":"layer:data","left":21,"top":324.5199890136719,"right":111,"bottom":345.5199890136719,"fontSize":12},{"key":"layer:platform","left":21,"top":440.82000732421875,"right":171,"bottom":461.82000732421875,"fontSize":12},{"key":"part:beachgoer","left":200,"top":93.55999755859375,"right":231,"bottom":114.55999755859375,"fontSize":12},{"key":"part:tide-chart-screen","left":233.77499389648438,"top":174.05999755859375,"right":264.7749938964844,"bottom":195.05999755859375,"fontSize":12},{"key":"part:forecast-details-panel","left":112.11250305175781,"top":122.80999755859375,"right":143.1125030517578,"bottom":143.80999755859375,"fontSize":12},{"key":"part:tide-view-model","left":164.5,"top":198.86000061035156,"right":195.5,"bottom":219.86000061035156,"fontSize":12},{"key":"part:tide-repository","left":200,"top":265.1600036621094,"right":231,"bottom":286.1600036621094,"fontSize":12},{"key":"part:live-tide-client","left":233.77499389648438,"top":345.6600036621094,"right":264.7749938964844,"bottom":366.6600036621094,"fontSize":12},{"key":"part:tide-cache","left":112.11250305175781,"top":294.4100036621094,"right":143.1125030517578,"bottom":315.4100036621094,"fontSize":12},{"key":"part:tide-feed","left":164.5,"top":370.4599914550781,"right":195.5,"bottom":391.4599914550781,"fontSize":12},{"key":"dimension:stack","left":21,"top":281.6199951171875,"right":89,"bottom":302.6199951171875,"fontSize":12},{"key":"dimension:footprint","left":107.09251403808594,"top":476.56231689453125,"right":153.09251403808594,"bottom":497.56231689453125,"fontSize":12}]},{"fixture":"c","state":"imploded","theme":"light","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":193,"top":416,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"c","state":"imploded","theme":"dark","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":193,"top":416,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"c","state":"exploded","theme":"light","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"layer:client","left":22.43146324157715,"top":176.6497802734375,"right":90.43146324157715,"bottom":197.6497802734375,"fontSize":12},{"key":"layer:edge","left":37.43146514892578,"top":243.49234008789062,"right":90.43146514892578,"bottom":264.4923400878906,"fontSize":12},{"key":"layer:services","left":21,"top":310.33489990234375,"right":104,"bottom":331.33489990234375,"fontSize":12},{"key":"layer:storage","left":21,"top":377.1774597167969,"right":96,"bottom":398.1774597167969,"fontSize":12},{"key":"layer:external","left":21,"top":474.5199890136719,"right":163,"bottom":495.5199890136719,"fontSize":12},{"key":"part:recipient","left":186.84378051757812,"top":138.85787963867188,"right":217.84378051757812,"bottom":159.85787963867188,"fontSize":12},{"key":"part:pickup-app","left":213.15621948242188,"top":215.0493621826172,"right":244.15621948242188,"bottom":236.0493621826172,"fontSize":12},{"key":"part:pickup-api","left":115.84378051757812,"top":205.70042419433594,"right":146.84378051757812,"bottom":226.70042419433594,"fontSize":12},{"key":"part:session-gate","left":213.15621948242188,"top":281.89190673828125,"right":244.15621948242188,"bottom":302.89190673828125,"fontSize":12},{"key":"part:booking-service","left":115.84378051757812,"top":257.35150146484375,"right":146.84378051757812,"bottom":278.35150146484375,"fontSize":12},{"key":"part:notifier","left":229.15621948242188,"top":256.54296875,"right":260.1562194824219,"bottom":277.54296875,"fontSize":12},{"key":"part:retry-scheduler","left":239.46864318847656,"top":348.7344665527344,"right":270.4686279296875,"bottom":369.7344665527344,"fontSize":12},{"key":"part:slot-planner","left":102.68756866455078,"top":341.13873291015625,"right":133.68756103515625,"bottom":362.13873291015625,"fontSize":12},{"key":"part:audit-trail","left":200,"top":356.3302001953125,"right":231,"bottom":377.3302001953125,"fontSize":12},{"key":"part:locker-registry","left":115.84378051757812,"top":400.3855285644531,"right":146.84378051757812,"bottom":421.3855285644531,"fontSize":12},{"key":"part:dead-letter-store","left":213.15621948242188,"top":415.5770263671875,"right":244.15621948242188,"bottom":436.5770263671875,"fontSize":12},{"key":"part:push-gateway","left":99.84378051757812,"top":436.72808837890625,"right":130.84378051757812,"bottom":457.72808837890625,"fontSize":12},{"key":"part:locker-hardware","left":213.15621948242188,"top":482.4195861816406,"right":244.15621948242188,"bottom":503.4195861816406,"fontSize":12},{"key":"dimension:stack","left":21,"top":340.83489990234375,"right":89,"bottom":361.83489990234375,"fontSize":12},{"key":"dimension:footprint","left":116.79383850097656,"top":500.2569885253906,"right":162.79383850097656,"bottom":521.2569580078125,"fontSize":12}]},{"fixture":"c","state":"exploded","theme":"dark","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"layer:client","left":22.43146324157715,"top":176.6497802734375,"right":90.43146324157715,"bottom":197.6497802734375,"fontSize":12},{"key":"layer:edge","left":37.43146514892578,"top":243.49234008789062,"right":90.43146514892578,"bottom":264.4923400878906,"fontSize":12},{"key":"layer:services","left":21,"top":310.33489990234375,"right":104,"bottom":331.33489990234375,"fontSize":12},{"key":"layer:storage","left":21,"top":377.1774597167969,"right":96,"bottom":398.1774597167969,"fontSize":12},{"key":"layer:external","left":21,"top":474.5199890136719,"right":163,"bottom":495.5199890136719,"fontSize":12},{"key":"part:recipient","left":186.84378051757812,"top":138.85787963867188,"right":217.84378051757812,"bottom":159.85787963867188,"fontSize":12},{"key":"part:pickup-app","left":213.15621948242188,"top":215.0493621826172,"right":244.15621948242188,"bottom":236.0493621826172,"fontSize":12},{"key":"part:pickup-api","left":115.84378051757812,"top":205.70042419433594,"right":146.84378051757812,"bottom":226.70042419433594,"fontSize":12},{"key":"part:session-gate","left":213.15621948242188,"top":281.89190673828125,"right":244.15621948242188,"bottom":302.89190673828125,"fontSize":12},{"key":"part:booking-service","left":115.84378051757812,"top":257.35150146484375,"right":146.84378051757812,"bottom":278.35150146484375,"fontSize":12},{"key":"part:notifier","left":229.15621948242188,"top":256.54296875,"right":260.1562194824219,"bottom":277.54296875,"fontSize":12},{"key":"part:retry-scheduler","left":239.46864318847656,"top":348.7344665527344,"right":270.4686279296875,"bottom":369.7344665527344,"fontSize":12},{"key":"part:slot-planner","left":102.68756866455078,"top":341.13873291015625,"right":133.68756103515625,"bottom":362.13873291015625,"fontSize":12},{"key":"part:audit-trail","left":200,"top":356.3302001953125,"right":231,"bottom":377.3302001953125,"fontSize":12},{"key":"part:locker-registry","left":115.84378051757812,"top":400.3855285644531,"right":146.84378051757812,"bottom":421.3855285644531,"fontSize":12},{"key":"part:dead-letter-store","left":213.15621948242188,"top":415.5770263671875,"right":244.15621948242188,"bottom":436.5770263671875,"fontSize":12},{"key":"part:push-gateway","left":99.84378051757812,"top":436.72808837890625,"right":130.84378051757812,"bottom":457.72808837890625,"fontSize":12},{"key":"part:locker-hardware","left":213.15621948242188,"top":482.4195861816406,"right":244.15621948242188,"bottom":503.4195861816406,"fontSize":12},{"key":"dimension:stack","left":21,"top":340.83489990234375,"right":89,"bottom":361.83489990234375,"fontSize":12},{"key":"dimension:footprint","left":116.79383850097656,"top":500.2569885253906,"right":162.79383850097656,"bottom":521.2569580078125,"fontSize":12}]}]
+PASS overlay-selectable: expected "Selection API returns layer-label and title-row text; user-select is not none" actual {"userSelect":"text","titleUserSelect":"text","layerText":"1 Interface","selectedLayerText":"1 INTERFACE","titleRowText":"1 Interface","selectedTitleRowText":"1 Interface"}
+PASS overlay-colors-light: expected {"label":{"r":74,"g":80,"b":89},"ink":{"r":34,"g":38,"b":43},"steel":{"r":86,"g":103,"b":122}} actual {"layer":{"r":74,"g":80,"b":89},"part":{"r":34,"g":38,"b":43},"dimension":{"r":86,"g":103,"b":122},"title":{"r":34,"g":38,"b":43}}
+PASS overlay-colors-dark: expected {"label":{"r":167,"g":184,"b":203},"ink":{"r":230,"g":237,"b":245},"steel":{"r":143,"g":163,"b":184}} actual {"layer":{"r":167,"g":184,"b":203},"part":{"r":230,"g":237,"b":245},"dimension":{"r":143,"g":163,"b":184},"title":{"r":230,"g":237,"b":245}}
+PASS overlay-hit-through: expected {"hoverHighlight":"beachgoer","tapHighlight":"beachgoer","afterLabelTap":null} actual {"hoverTarget":"beachgoer","hoverHighlight":"beachgoer","tapTarget":"beachgoer","tapHighlight":"beachgoer","labelTarget":"layer:ui","afterLabelTap":null}
+PASS overlay-cls-zero: expected "0 layout-shift entries with a source inside the overlay" actual []
+PASS trace-order-a-live-update: expected ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client tide-feed"] actual ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client tide-feed"]
+PASS trace-order-a-offline-read: expected ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository tide-cache"] actual ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository tide-cache"]
+PASS trace-order-c-pickup-ready: expected ["recipient","recipient pickup-app","recipient pickup-app pickup-api","recipient pickup-app pickup-api booking-service","recipient pickup-app pickup-api booking-service locker-registry","recipient pickup-app pickup-api booking-service locker-registry notifier","recipient pickup-app pickup-api booking-service locker-registry notifier push-gateway"] actual ["recipient","recipient pickup-app","recipient pickup-app pickup-api","recipient pickup-app pickup-api booking-service","recipient pickup-app pickup-api booking-service locker-registry","recipient pickup-app pickup-api booking-service locker-registry notifier","recipient pickup-app pickup-api booking-service locker-registry notifier push-gateway"]
+PASS trace-order-c-push-failed: expected ["booking-service","booking-service notifier","booking-service notifier push-gateway","booking-service notifier push-gateway retry-scheduler","booking-service notifier push-gateway retry-scheduler dead-letter-store"] actual ["booking-service","booking-service notifier","booking-service notifier push-gateway","booking-service notifier push-gateway retry-scheduler","booking-service notifier push-gateway retry-scheduler dead-letter-store"]
+PASS trace-stop-clears: expected "every flow leaves data-xploder-trace empty after Stop" actual [{"fixture":"a","flowId":"live-update","stopTrace":""},{"fixture":"a","flowId":"offline-read","stopTrace":""},{"fixture":"c","flowId":"pickup-ready","stopTrace":""},{"fixture":"c","flowId":"push-failed","stopTrace":""}]
+PASS rm-trace-static: expected ">= 2 different playing steps with a trace and 0 overlay animations" actual [{"step":1,"trace":"beachgoer tide-chart-screen","animations":0},{"step":3,"trace":"beachgoer tide-chart-screen tide-view-model tide-repository","animations":0}]
+PASS default-gap-hitmap-a: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"] actual ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS default-gap-hitmap-c: expected ["recipient","pickup-app","pickup-api","session-gate","booking-service","notifier","retry-scheduler","slot-planner","audit-trail","locker-registry","dead-letter-store","push-gateway","locker-hardware"] actual ["audit-trail","booking-service","dead-letter-store","locker-hardware","locker-registry","notifier","pickup-api","pickup-app","push-gateway","recipient","retry-scheduler","session-gate","slot-planner"]
+PASS draw-calls-mid-tour: expected 2 actual 2
+PASS overlay-no-blink: expected {"throttle":4,"rounds":4,"blinkFrames":0,"stuckHiddenAfterSettle":[]} actual {"throttle":4,"rounds":4,"framesSampled":750,"blinkFrames":0,"stuckHiddenAfterSettle":[]}
+pass: true
+engine-probe.json: /tmp/s06-checks/t013/engine-probe.json
+
+COMMAND: node -e "<T013 verifier>"
+104 checks 0 failed
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t013/packages/xploder
+
+(node:42362) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42361) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42364) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42365) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42366) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42368) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42369) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:42371) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  44 passed (44)
+      Tests  385 passed (385)
+   Start at  16:57:35
+   Duration  17.64s (tests 90%, import 8%, transform 2%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t013/apps/web
+
+
+ Test Files  5 passed (5)
+      Tests  53 passed | 1 skipped (54)
+   Start at  16:57:53
+   Duration  117ms (tests 59%, import 25%, worker 8%, transform 7%)
+
+COMMAND: frozen-surface guards (plan.md "Guards")
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+
+
+COMMAND: kill "$(cat /tmp/s06-checks/serve.pid)"; echo T013-OK
+T013-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  75 passed (75)
+packages/xploder test:  Test Files  44 passed (44)
+packages/xploder test:       Tests  385 passed (385)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T013-OK (orchestrator full re-run)
