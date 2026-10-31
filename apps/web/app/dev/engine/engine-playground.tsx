@@ -14,7 +14,11 @@ const BUTTON_BASE =
 const BUTTON_IDLE =
   'bg-bg text-fg hover:bg-fg/10 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-bg';
 const BUTTON_SELECTED = 'bg-fg text-bg';
-const PLAYGROUND_LAYOUT_OPTIONS = { explodedGap: 2 } as const;
+const PLAYGROUND_GRID_STYLE = {
+  backgroundImage:
+    'linear-gradient(to right, var(--color-grid) 1px, transparent 1px), linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px)',
+  backgroundSize: '32px 32px',
+};
 
 function updateFixtureUrl(fixture: FixtureId): void {
   const url = new URL(window.location.href);
@@ -120,15 +124,16 @@ export function EnginePlayground() {
 
   return (
     <div className="flex flex-col gap-4">
-      <TeardownViewer
-        project={project}
-        viewer={viewer}
-        layoutOptions={PLAYGROUND_LAYOUT_OPTIONS}
-        onStats={onStats}
-        onSettled={onSettled}
-        className="h-[60dvh] w-full rounded border border-line"
-        aria-label={`${project.meta.name} architecture view`}
-      />
+      <div className="h-[60dvh] w-full rounded border border-line" style={PLAYGROUND_GRID_STYLE}>
+        <TeardownViewer
+          project={project}
+          viewer={viewer}
+          onStats={onStats}
+          onSettled={onSettled}
+          className="h-full w-full"
+          aria-label={`${project.meta.name} architecture view`}
+        />
+      </div>
       <section
         aria-label="Engine playground controls"
         className="flex flex-wrap items-center gap-2 rounded border border-line bg-surface p-3 sm:p-4"

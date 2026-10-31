@@ -28,6 +28,22 @@ const S05_SOURCE_FILES = [
   'react/useTourClock.ts',
   'react/usePointerPick.ts',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S06_SOURCE_FILES = [
+  'look/tokens.ts',
+  'look/fills.ts',
+  'look/product.ts',
+  'overlay/project.ts',
+  'overlay/parts.ts',
+  'overlay/dimension.ts',
+  'overlay/place.ts',
+  'overlay/trace.ts',
+  'overlay/timing.ts',
+  'overlay/model.ts',
+  'react/scene/blueprintMaterial.ts',
+  'react/scene/OverlayProjector.tsx',
+  'react/overlay/BlueprintOverlay.tsx',
+  'react/overlay/CircuitTrace.tsx',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 const RULES = [
   ['hex-color', /(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g],
@@ -88,6 +104,7 @@ describe('color-literal scanner', () => {
     expect(sourceFiles).toContain(ENGINE_EXPLODE);
     expect(sourceFiles).toContain(SLABS);
     expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
+    expect(sourceFiles).toEqual(expect.arrayContaining(S06_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 
