@@ -4,7 +4,8 @@ import { parseProject, parseTechRegistry, type Project } from '../src/index';
 import { fitZoom, layoutProject, VIEW } from '../src/layout';
 import { resolveViewerLayoutOptions } from '../src/look/product';
 import { look } from '../src/look/tokens';
-import { overlayLabels } from '../src/overlay/model';
+import { calloutMode, placeColumns } from '../src/overlay/columns';
+import { overlayBaseModel, overlayLabels } from '../src/overlay/model';
 import {
   PLACEMENT_RADII,
   placeLabels,
@@ -101,6 +102,119 @@ function maximumLeaderLength(placements: readonly LabelPlacement[]): number {
   }, 0);
 }
 
+function expectColumnBoxes(
+  frame: OverlayFrame,
+  layout: ReturnType<typeof layoutProject>,
+  project: Project,
+  viewport: { readonly width: number; readonly height: number },
+  context: string,
+  fail: (context: string, detail: string) => void,
+): void {
+  const columns = placeColumns(frame, layout, project, viewport, look);
+
+  if (columns === null) {
+    fail(context, 'column mode has no layout');
+    return;
+  }
+
+  const boxes = [
+    ...columns.layerLabels,
+    ...columns.groups.flatMap((group) => group.items),
+    columns.rail.label,
+    columns.footprint,
+  ];
+
+  for (const placement of boxes) {
+    const placementBox = box(placement);
+
+    if (
+      placement.x < VIEWPORT_INSET_PX ||
+      placement.y < VIEWPORT_INSET_PX ||
+      placement.x + placement.w > viewport.width - VIEWPORT_INSET_PX ||
+      placement.y + placement.h > viewport.height - VIEWPORT_INSET_PX
+    ) {
+      fail(context, `${placement.key} outside viewport`);
+    }
+
+    if (frame.components.some((component) => rectIntersectsPolygon(placementBox, component.hull))) {
+      fail(context, `${placement.key} intersects a hull`);
+    }
+  }
+
+  for (let leftIndex = 0; leftIndex < boxes.length; leftIndex += 1) {
+    const left = boxes[leftIndex];
+
+    if (left === undefined) continue;
+
+    for (let rightIndex = leftIndex + 1; rightIndex < boxes.length; rightIndex += 1) {
+      const right = boxes[rightIndex];
+
+      if (right !== undefined && rectsIntersect(box(left), box(right))) {
+        fail(context, `${left.key} overlaps ${right.key}`);
+      }
+    }
+  }
+}
+
+function expectTagBoxes(
+  project: Project,
+  frame: OverlayFrame,
+  layout: ReturnType<typeof layoutProject>,
+  viewport: { readonly width: number; readonly height: number },
+  context: string,
+  fail: (context: string, detail: string) => void,
+): number {
+  const model = overlayBaseModel({
+    frame,
+    layout,
+    project,
+    viewport,
+    offsetY: 0,
+    target: 'exploded',
+    look,
+  });
+  const tags = model.labels.filter((label) => label.kind === 'tag');
+
+  if (tags.length !== frame.components.length) {
+    fail(context, `tags=${tags.length} expected=${frame.components.length}`);
+  }
+  if (model.hidden > 0) fail(context, `hidden=${model.hidden}`);
+
+  for (const tag of tags) {
+    if (
+      tag.x < VIEWPORT_INSET_PX ||
+      tag.y < VIEWPORT_INSET_PX ||
+      tag.x + tag.w > viewport.width - VIEWPORT_INSET_PX ||
+      tag.y + tag.h > viewport.height - VIEWPORT_INSET_PX
+    ) {
+      fail(context, `${tag.key} outside viewport`);
+    }
+
+    for (const component of frame.components) {
+      if (tag.key === `part:${component.id}`) continue;
+      if (rectIntersectsPolygon(box(tag), component.hull)) {
+        fail(context, `${tag.key} intersects ${component.id}`);
+      }
+    }
+  }
+
+  for (let leftIndex = 0; leftIndex < tags.length; leftIndex += 1) {
+    const left = tags[leftIndex];
+
+    if (left === undefined) continue;
+
+    for (let rightIndex = leftIndex + 1; rightIndex < tags.length; rightIndex += 1) {
+      const right = tags[rightIndex];
+
+      if (right !== undefined && rectsIntersect(box(left), box(right))) {
+        fail(context, `${left.key} overlaps ${right.key}`);
+      }
+    }
+  }
+
+  return tags.length;
+}
+
 describe('overlay label placement matrix', () => {
   test.each(PROJECTS)(
     'keeps every %s label readable across azimuths, states and viewports',
@@ -155,13 +269,13 @@ describe('overlay label placement matrix', () => {
   );
 
   test(
-    'keeps every label readable across the dense canvas sweep',
+    'keeps every callout readable across the dense canvas sweep',
     () => {
       let cases = 0;
       let failures = 0;
-      let fallbackLabels = 0;
-      let fallbackCases = 0;
-      let maxLeader = 0;
+      let columnCases = 0;
+      let tagCases = 0;
+      let tagCount = 0;
       const examples: string[] = [];
 
       function fail(context: string, detail: string): void {
@@ -181,70 +295,20 @@ describe('overlay label placement matrix', () => {
               cases += 1;
 
               const frame = overlayFrame(layout, 1, { azimuth, zoom, ...viewport });
-              const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
-              const result = placeLabels(
-                labels,
-                frame.components.map((component) => component.hull),
-                viewport,
-                look,
-              );
+              const columns =
+                width >= look.annotation.wideMinPx
+                  ? placeColumns(frame, layout, project, viewport, look)
+                  : null;
+              const mode = calloutMode(frame, layout, project, viewport, look, columns);
               const azimuthDegrees = Math.round((azimuth * 180) / Math.PI);
               const context = `${fixture} ${azimuthDegrees}deg ${width}x${height}`;
 
-              fallbackLabels += result.fellBack.length;
-              if (result.fellBack.length > 0) fallbackCases += 1;
-
-              if (
-                result.hidden.length > 0 ||
-                result.offscreen.length > 0 ||
-                result.placements.length !== labels.length
-              ) {
-                fail(
-                  context,
-                  `hidden=[${result.hidden.join(',')}] offscreen=[${result.offscreen.join(',')}]`,
-                );
-                continue;
-              }
-
-              maxLeader = Math.max(maxLeader, maximumLeaderLength(result.placements));
-
-              for (const placement of result.placements) {
-                const placementBox = box(placement);
-
-                if (
-                  placement.x < VIEWPORT_INSET_PX ||
-                  placement.y < VIEWPORT_INSET_PX ||
-                  placement.x + placement.w > viewport.width - VIEWPORT_INSET_PX ||
-                  placement.y + placement.h > viewport.height - VIEWPORT_INSET_PX
-                ) {
-                  fail(context, `${placement.key} outside viewport`);
-                }
-
-                if (
-                  frame.components.some((component) =>
-                    rectIntersectsPolygon(placementBox, component.hull),
-                  )
-                ) {
-                  fail(context, `${placement.key} intersects a hull`);
-                }
-              }
-
-              for (let leftIndex = 0; leftIndex < result.placements.length; leftIndex += 1) {
-                const left = result.placements[leftIndex];
-
-                if (left === undefined) continue;
-
-                for (
-                  let rightIndex = leftIndex + 1;
-                  rightIndex < result.placements.length;
-                  rightIndex += 1
-                ) {
-                  const right = result.placements[rightIndex];
-
-                  if (right !== undefined && rectsIntersect(box(left), box(right))) {
-                    fail(context, `${left.key} overlaps ${right.key}`);
-                  }
-                }
+              if (mode === 'columns') {
+                columnCases += 1;
+                expectColumnBoxes(frame, layout, project, viewport, context, fail);
+              } else {
+                tagCases += 1;
+                tagCount += expectTagBoxes(project, frame, layout, viewport, context, fail);
               }
             }
           }
@@ -252,7 +316,7 @@ describe('overlay label placement matrix', () => {
       }
 
       console.log(
-        `dense placement sweep: cases=${cases} failures=${failures} maxLeader=${maxLeader.toFixed(2)}px fallbackLabels=${fallbackLabels} fallbackCases=${fallbackCases}`,
+        `dense callout sweep: cases=${cases} failures=${failures} columns=${columnCases} tags=${tagCases} tagsPlaced=${tagCount}`,
       );
 
       expect(examples).toStrictEqual([]);
@@ -378,6 +442,19 @@ describe('placement priority and fallback', () => {
     expect(part?.radius).toBe(8);
     expect(dimension?.radius).toBe(8);
     expect(layer?.leader).toBeNull();
+  });
+
+  test('prefers a radius-zero tag centred on its anchor', () => {
+    const text = '1.1';
+    const size = labelBox(text, look.annotation);
+    const tag = placeLabels([{ key: 'part', kind: 'tag', anchor, text }], [], viewport, look)
+      .placements[0];
+
+    expect(tag?.direction).toBe('C');
+    expect(tag?.radius).toBe(0);
+    expect(tag?.x).toBe(anchor[0] - size.w / 2);
+    expect(tag?.y).toBe(anchor[1] - size.h / 2);
+    expect(tag?.leader).toBeNull();
   });
 
   test('orders layer, part and dimension labels regardless of input order', () => {

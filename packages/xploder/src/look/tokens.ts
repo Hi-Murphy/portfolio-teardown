@@ -29,6 +29,12 @@ export interface LookTokens {
     readonly balloonFillRole: PaletteRole;
     readonly labelFillRole: PaletteRole;
   };
+  readonly callouts: {
+    readonly columnGapPx: number;
+    readonly rowGapPx: number;
+    readonly groupGapPx: number;
+    readonly emphasisRole: PaletteRole;
+  };
   readonly trace: {
     readonly role: PaletteRole;
     readonly casingRole: PaletteRole;
@@ -73,6 +79,12 @@ export const look = {
     balloonRole: 'line',
     balloonFillRole: 'surface',
     labelFillRole: 'paper',
+  },
+  callouts: {
+    columnGapPx: 24,
+    rowGapPx: 4,
+    groupGapPx: 12,
+    emphasisRole: 'accent',
   },
   trace: { role: 'accent', casingRole: 'paper', strokePx: 2, casingPx: 2, padPx: 3 },
   titleBlock: {

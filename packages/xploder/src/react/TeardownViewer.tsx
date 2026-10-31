@@ -350,6 +350,7 @@ export function TeardownViewer({
             phase={phase}
             tour={viewer.tour}
             focus={viewer.focus}
+            highlight={viewer.highlight}
             look={look}
             onTitleBlockShown={onTitleBlockShown}
           />

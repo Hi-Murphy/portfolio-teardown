@@ -14,7 +14,8 @@ import type { ProjectLayout } from '../../layout';
 import type { LookTokens } from '../../look/tokens';
 import type { MotionTokens } from '../../motion';
 import {
-  overlayModel,
+  overlayBaseModel,
+  overlayStateModel,
   overlayVisible,
   traceModel,
   type OverlayLabel,
@@ -37,6 +38,7 @@ export interface BlueprintOverlayProps {
   readonly phase: Phase | null;
   readonly tour: Pick<TeardownViewerHandle['tour'], 'flowId' | 'status' | 'step'>;
   readonly focus: TeardownViewerHandle['focus'];
+  readonly highlight: string | null;
   readonly look: LookTokens;
   readonly onTitleBlockShown?: (shown: boolean) => void;
 }
@@ -121,10 +123,12 @@ function labelStyle(
     style.color = palette[look.annotation.textRole];
     style.background = palette[look.annotation.labelFillRole];
     style.textTransform = 'uppercase';
-  } else if (label.kind === 'part') {
+  } else if (label.kind === 'part' || label.kind === 'tag') {
     style.color = palette[look.annotation.partRole];
     style.background = palette[look.annotation.balloonFillRole];
-    style.border = `1px solid ${palette[look.annotation.balloonRole]}`;
+    style.border = `1px solid ${
+      palette[label.emphasis === true ? look.callouts.emphasisRole : look.annotation.balloonRole]
+    }`;
     style.borderRadius = '999px';
   } else {
     style.color = palette[look.annotation.dimensionRole];
@@ -171,7 +175,19 @@ function titleBlockStyle(
 
 export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOverlayProps>(
   function BlueprintOverlay(
-    { project, layout, palette, tokens, target, phase, tour, focus, look, onTitleBlockShown },
+    {
+      project,
+      layout,
+      palette,
+      tokens,
+      target,
+      phase,
+      tour,
+      focus,
+      highlight,
+      look,
+      onTitleBlockShown,
+    },
     ref,
   ) {
     const rootRef = useRef<HTMLDivElement>(null);
@@ -265,21 +281,25 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       layoutMatches,
     });
 
-    const model = useMemo<OverlayModel | null>(() => {
-      if (settled === null || !visible) return null;
+    const baseModel = useMemo<OverlayModel | null>(() => {
+      if (settled === null) return null;
 
-      return overlayModel({
+      return overlayBaseModel({
         frame: settled.frame,
         layout,
         project,
         viewport: { width: settled.width, height: settled.height },
         offsetY: settled.offsetY,
         target: settled.target,
-        tour,
-        focus,
         look,
       });
-    }, [focus, layout, look, project, settled, tour, visible]);
+    }, [layout, look, project, settled]);
+
+    const model = useMemo<OverlayModel | null>(() => {
+      if (baseModel === null) return null;
+
+      return overlayStateModel(baseModel, project, focus, tour, highlight, look);
+    }, [baseModel, focus, highlight, look, project, tour]);
 
     const trace = useMemo<TraceModel | null>(() => {
       if (settled === null || !visible) return null;
@@ -352,6 +372,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       <div
         ref={rootRef}
         data-xploder-overlay={shown ? 'shown' : 'hidden'}
+        data-xploder-callouts={shown ? (model?.calloutMode ?? 'none') : 'none'}
         data-xploder-overlay-hidden={hidden}
         style={ROOT_STYLE}
       >
@@ -394,6 +415,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
             <span
               key={label.key}
               data-xploder-label={label.key}
+              data-xploder-emphasis={label.emphasis === true ? 'true' : undefined}
               style={labelStyle(label, palette, look, transition)}
             >
               {label.text}

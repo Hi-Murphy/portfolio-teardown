@@ -1,0 +1,208 @@
+T016b — Aligned callout columns + leaders only for the highlighted part
+RFC §9.13.2
+Repo: /tmp/s06-wt/t016b
+Date: 2026-10-31
+
+Sandbox note: the tools/perf suites cannot bind 127.0.0.1 here (EPERM), so the task's
+"every check" step uses the approved substitute: typecheck, lint/format, xploder tests,
+and web tests. The orchestrator re-runs the full check outside the sandbox.
+
+Guard commands and output
+-------------------------
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+Targeted callout and dense-sweep commands and output
+----------------------------------------------------
+$ pnpm --filter xploder exec vitest run test/overlay-columns.test.ts --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t016b/packages/xploder
+
+stdout | test/overlay-columns.test.ts > callout tags > uses phone tags for fixture A without tag overlaps or foreign hull hits
+A 360x640: mode=tags tags=8 hidden=0
+A 390x844: mode=tags tags=8 hidden=0
+
+stdout | test/overlay-columns.test.ts > callout tags > uses phone tags for fixture C without tag overlaps or foreign hull hits
+C 360x640: mode=tags tags=13 hidden=0
+C 390x844: mode=tags tags=13 hidden=0
+
+ ✓ test/overlay-columns.test.ts > callout columns > keeps every fixture A part and layer callout in aligned clear columns 10ms
+ ✓ test/overlay-columns.test.ts > callout columns > keeps every fixture C part and layer callout in aligned clear columns 5ms
+ ✓ test/overlay-columns.test.ts > callout columns > draws one accent leader from the highlighted A callout to the part anchor 1ms
+ ✓ test/overlay-columns.test.ts > callout columns > draws one accent leader from the highlighted C callout to the part anchor 1ms
+ ✓ test/overlay-columns.test.ts > callout tags > uses phone tags for fixture A without tag overlaps or foreign hull hits 5ms
+ ✓ test/overlay-columns.test.ts > callout tags > uses phone tags for fixture C without tag overlaps or foreign hull hits 6ms
+ ✓ test/overlay-columns.test.ts > callout tags > marks only the highlighted tag without adding a leader 1ms
+ ✓ test/overlay-columns.test.ts > callout tags > falls back to tags on a wide canvas when the columns do not fit 0ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  19:18:33
+   Duration  142ms (import 36%, tests 32%, transform 30%, worker 2%)
+
+
+$ pnpm --filter xploder exec vitest run test/overlay-place.test.ts -t "dense canvas sweep" --reporter=verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t016b/packages/xploder
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every callout readable across the dense canvas sweep
+dense callout sweep: cases=7344 failures=0 columns=4040 tags=3304 tagsPlaced=28568
+
+ ↓ test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports
+ ↓ test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports
+ ↓ test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every callout readable across the dense canvas sweep 4668ms
+ ↓ test/overlay-place.test.ts > overlay label placement matrix > is deterministic for identical input
+ ↓ test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart
+ ↓ test/overlay-place.test.ts > separating-axis intersection > detects separated, touching, overlapping and contained rectangles
+ ↓ test/overlay-place.test.ts > separating-axis intersection > uses polygon edges as SAT axes
+ ↓ test/overlay-place.test.ts > placement priority and fallback > pins the placement radii
+ ↓ test/overlay-place.test.ts > placement priority and fallback > uses each type first preferred direction at the smallest radius
+ ↓ test/overlay-place.test.ts > placement priority and fallback > prefers a radius-zero tag centred on its anchor
+ ↓ test/overlay-place.test.ts > placement priority and fallback > orders layer, part and dimension labels regardless of input order
+ ↓ test/overlay-place.test.ts > placement priority and fallback > retries a part with its short text before hiding it
+ ↓ test/overlay-place.test.ts > placement priority and fallback > reports an off-screen anchor without counting it as hidden
+ ↓ test/overlay-place.test.ts > placement priority and fallback > tries alternative anchors after the primary
+ ↓ test/overlay-place.test.ts > placement priority and fallback > uses the primary anchor for the off-screen decision
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 15 skipped (16)
+   Start at  19:18:33
+   Duration  4.76s (tests 99%, import 1%)
+
+
+Full check command and output
+-----------------------------
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t016b/packages/xploder
+
+(node:60844) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60845) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60846) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60848) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60847) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60849) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60852) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:60856) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  45 passed (45)
+      Tests  397 passed (397)
+   Start at  19:18:46
+   Duration  5.77s (tests 81%, import 15%, transform 3%, worker 1%)
+
+    Isolate  45 workers spawned · ~80ms startup each (spawn + environment, per file)
+             at least ~320ms faster with isolate: false — reuses workers across files instead of one per file
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t016b/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  19:18:52
+   Duration  100ms (tests 54%, import 28%, transform 9%, worker 9%)
+
+T016b-OK
+
+## Orchestrator review (2026-10-31)
+- Screenshots (next dev -p 3001, Playwright, dpr 1): columns A light / C dark (1280x800), tags C mobile 360x740, highlight leader C (highlight=notifier → accent border + one leader).
+- Added probe observables: data-xploder-callouts="columns|tags|none" on the overlay root; data-xploder-emphasis="true" on the highlighted callout/tag.
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  3 passed (3)
+      Tests  46 passed (46)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  75 passed (75)
+packages/xploder test:  Test Files  45 passed (45)
+packages/xploder test:       Tests  397 passed (397)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T016B-OK (orchestrator full re-run)

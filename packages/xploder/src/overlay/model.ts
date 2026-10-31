@@ -5,9 +5,10 @@ import type { MotionTokens } from '../motion';
 import { emphasis } from '../motion/emphasis';
 import type { PaletteRole } from '../theme';
 
+import { calloutMode, placeColumns, type CalloutMode, type ColumnLayout } from './columns';
 import { footprintDimension, stackDimension, type DimensionSegment } from './dimension';
 import { layerText, partShortText, partText } from './parts';
-import { placeLabels, type LabelKind, type PlacementLabel } from './place';
+import { placeLabels, type LabelKind, type LabelPlacement, type PlacementLabel } from './place';
 import type { OverlayFrame, Vec2 } from './project';
 import { traceTiming } from './timing';
 import { placeTitleBlockResponsive, titleBlockLines } from './titleBlock';
@@ -73,6 +74,8 @@ export interface OverlayLabel {
   readonly h: number;
   readonly text: string;
   readonly srText?: string;
+  readonly anchor?: Vec2;
+  readonly emphasis?: boolean;
   readonly opacity: number;
 }
 
@@ -88,7 +91,7 @@ export type OverlayStrokeKind =
 export interface OverlayStroke {
   readonly key: string;
   readonly kind: OverlayStrokeKind;
-  readonly points: readonly [Vec2, Vec2];
+  readonly points: readonly Vec2[];
   readonly role: PaletteRole;
   readonly opacity: number;
 }
@@ -116,6 +119,7 @@ export interface OverlayModel {
   readonly titleBlock: OverlayTitleBlock | null;
   readonly hidden: number;
   readonly shown: boolean;
+  readonly calloutMode: CalloutMode | null;
 }
 
 export interface OverlayModelInput {
@@ -128,7 +132,13 @@ export interface OverlayModelInput {
   readonly tour: { readonly status: OverlayTourStatus };
   readonly focus: OverlayFocus;
   readonly look: LookTokens;
+  readonly highlight?: string | null;
 }
+
+export type OverlayBaseModelInput = Pick<
+  OverlayModelInput,
+  'frame' | 'layout' | 'project' | 'viewport' | 'offsetY' | 'target' | 'look'
+>;
 
 export interface TraceFlow {
   readonly path: readonly string[];
@@ -316,106 +326,134 @@ function stroke(
   };
 }
 
-export function overlayModel({
-  frame,
-  layout,
-  project,
-  viewport,
-  offsetY,
-  target,
-  tour,
-  focus,
-  look,
-}: OverlayModelInput): OverlayModel {
-  if (tour.status !== 'idle') {
-    return { labels: [], strokes: [], titleBlock: null, hidden: 0, shown: false };
-  }
-
-  const viewportFrame = shiftFrame(frame, -offsetY);
-  const focusActive = focus.layerId !== null && !focus.suspended;
-  const opacityForLayer = (layerIndex: number | null): number => {
-    if (!focusActive || layerIndex === null) return 1;
-
-    return project.layers[layerIndex]?.id === focus.layerId ? 1 : emphasis.dim.level;
+function emptyOverlayModel(): OverlayModel {
+  return {
+    labels: [],
+    strokes: [],
+    titleBlock: null,
+    hidden: 0,
+    shown: false,
+    calloutMode: null,
   };
+}
 
-  if (target === 'imploded') {
-    const lines = titleBlockLines(project, layout);
-    const layoutResult = placeTitleBlockResponsive(lines, viewportFrame, viewport, look);
-
-    if (layoutResult === null) {
-      return { labels: [], strokes: [], titleBlock: null, hidden: 0, shown: false };
-    }
-
-    const { placement, columns } = layoutResult;
-
-    return {
-      labels: [],
-      strokes: [],
-      titleBlock: {
-        x: placement.x,
-        y: placement.y + offsetY,
-        w: placement.w,
-        h: placement.h,
-        columns,
-        title: lines.title,
-        meta: lines.meta,
-        rows: lines.rows.map((text, layerIndex) => ({
-          layerIndex,
-          text,
-          opacity: opacityForLayer(layerIndex),
-        })),
-      },
-      hidden: 0,
-      shown: true,
-    };
-  }
-
-  const labels = overlayLabels(viewportFrame, layout, project, viewport, target);
-  const wide = viewport.width >= look.annotation.wideMinPx;
-  const meta = new Map<string, LabelMeta>();
-
-  for (const label of labels) {
-    if (label.kind !== 'part' || label.layerIndex === undefined || label.slot === undefined) {
-      meta.set(label.key, { layerIndex: label.layerIndex ?? null });
-      continue;
-    }
-
-    const component = project.layers[label.layerIndex]?.components[label.slot];
-
-    meta.set(label.key, {
-      layerIndex: label.layerIndex,
-      srText: wide ? undefined : (component?.name ?? component?.id),
-    });
-  }
-
-  const result = placeLabels(
-    labels,
-    viewportFrame.components.map((component) => component.hull),
-    viewport,
-    look,
+function dimensionLabels(frame: OverlayFrame, layout: ProjectLayout): PlacementLabel[] {
+  const stack = stackDimension(frame);
+  const footprint = footprintDimension(frame, layout.footprint);
+  const stackAnchors = STACK_LABEL_ANCHOR_TS.map((t) =>
+    railPoint(stack.rail.from, stack.rail.to, t),
   );
-  const renderLabels = result.placements.map((placement): OverlayLabel => {
-    const labelMeta = meta.get(placement.key);
 
-    if (labelMeta === undefined) throw new Error('Missing placed label metadata.');
+  return [
+    {
+      key: 'dimension:stack',
+      kind: 'dimension',
+      anchor: stack.labelAnchor,
+      anchors: stackAnchors,
+      text: stack.text,
+    },
+    {
+      key: 'dimension:footprint',
+      kind: 'dimension',
+      anchor: footprint.labelAnchor,
+      text: footprint.text,
+    },
+  ];
+}
 
-    return {
-      key: placement.key,
-      kind: placement.kind,
-      layerIndex: labelMeta.layerIndex,
-      x: placement.x,
-      y: placement.y + offsetY,
-      w: placement.w,
-      h: placement.h,
-      text: placement.text,
-      ...(labelMeta.srText === undefined ? {} : { srText: labelMeta.srText }),
-      opacity: opacityForLayer(labelMeta.layerIndex),
-    };
+function tagLabels(
+  frame: OverlayFrame,
+  layout: ProjectLayout,
+  project: OverlayProject,
+): PlacementLabel[] {
+  const labels: PlacementLabel[] = [];
+
+  frame.layers.forEach((layerFrame) => {
+    const layerIndex = project.layers.findIndex((layer) => layer.id === layerFrame.id);
+    const layer = project.layers[layerIndex];
+    const anchor = leftmost(layerFrame.corners);
+
+    if (layer === undefined || anchor === null) return;
+
+    labels.push({
+      key: `layer:${layer.id}`,
+      kind: 'layer',
+      anchor,
+      text: layerText(layerIndex, layer.name ?? layer.id),
+      layerIndex,
+    });
   });
-  const stack = stackDimension(viewportFrame);
-  const footprint = footprintDimension(viewportFrame, layout.footprint);
-  const strokes: OverlayStroke[] = [
+
+  frame.components.forEach((componentFrame, obstacleIndex) => {
+    const layerIndex = project.layers.findIndex((layer) => layer.id === componentFrame.layerId);
+    const layer = project.layers[layerIndex];
+
+    if (layer === undefined) return;
+
+    const slot = layer.components.findIndex((component) => component.id === componentFrame.id);
+    const component = layer.components[slot];
+
+    if (component === undefined) return;
+
+    labels.push({
+      key: `part:${component.id}`,
+      kind: 'tag',
+      anchor: componentFrame.anchor,
+      text: partShortText(layerIndex, slot),
+      layerIndex,
+      slot,
+      excludeObstacles: [obstacleIndex],
+    });
+  });
+
+  labels.push(...dimensionLabels(frame, layout));
+
+  return labels;
+}
+
+interface RenderLabelOptions {
+  readonly anchor?: Vec2;
+  readonly srText?: string;
+}
+
+function renderLabel(
+  placement: Pick<LabelPlacement, 'key' | 'x' | 'y' | 'w' | 'h' | 'text'>,
+  kind: LabelKind,
+  layerIndex: number | null,
+  offsetY: number,
+  options: RenderLabelOptions = {},
+): OverlayLabel {
+  return {
+    key: placement.key,
+    kind,
+    layerIndex,
+    x: placement.x,
+    y: placement.y + offsetY,
+    w: placement.w,
+    h: placement.h,
+    text: placement.text,
+    ...(options.anchor === undefined
+      ? {}
+      : { anchor: [options.anchor[0], options.anchor[1] + offsetY] as Vec2 }),
+    ...(options.srText === undefined ? {} : { srText: options.srText }),
+    opacity: 1,
+  };
+}
+
+function dimensionStrokes(
+  frame: OverlayFrame,
+  layout: ProjectLayout,
+  look: LookTokens,
+  offsetY: number,
+  stack: {
+    readonly rail: DimensionSegment;
+    readonly ticks: readonly DimensionSegment[];
+    readonly extensionLines: readonly DimensionSegment[];
+  } = stackDimension(frame),
+): OverlayStroke[] {
+  const footprint = footprintDimension(frame, layout.footprint);
+
+  return [
     stroke('stack:rail', 'stack-rail', stack.rail, look.annotation.dimensionRole, 1, offsetY),
     ...stack.ticks.map((tick, index) =>
       stroke(`stack:tick:${index}`, 'stack-tick', tick, look.annotation.dimensionRole, 1, offsetY),
@@ -459,33 +497,247 @@ export function overlayModel({
       ),
     ),
   ];
+}
 
-  for (const placement of result.placements) {
-    if (placement.leader === null) continue;
+function columnModel(
+  frame: OverlayFrame,
+  layout: ProjectLayout,
+  columns: ColumnLayout,
+  offsetY: number,
+  look: LookTokens,
+): OverlayModel {
+  const labels: OverlayLabel[] = [];
 
+  for (const layerLabel of columns.layerLabels) {
+    labels.push(renderLabel(layerLabel, 'layer', layerLabel.layerIndex, offsetY));
+  }
+
+  for (const group of columns.groups) {
+    for (const item of group.items) {
+      const component = frame.components.find((candidate) => candidate.id === item.componentId);
+
+      labels.push(
+        renderLabel(item, 'part', group.layerIndex, offsetY, {
+          anchor: component?.anchor,
+        }),
+      );
+    }
+  }
+
+  labels.push(renderLabel(columns.rail.label, 'dimension', null, offsetY));
+  labels.push(renderLabel(columns.footprint, 'dimension', null, offsetY));
+
+  return {
+    labels,
+    strokes: dimensionStrokes(frame, layout, look, offsetY, columns.rail),
+    titleBlock: null,
+    hidden: 0,
+    shown: true,
+    calloutMode: 'columns',
+  };
+}
+
+function tagsModel(
+  frame: OverlayFrame,
+  layout: ProjectLayout,
+  project: OverlayProject,
+  viewport: { readonly width: number; readonly height: number },
+  offsetY: number,
+  look: LookTokens,
+): OverlayModel {
+  const labels = tagLabels(frame, layout, project);
+  const meta = new Map<string, LabelMeta>();
+
+  for (const label of labels) {
+    if (label.kind !== 'tag') {
+      meta.set(label.key, { layerIndex: label.layerIndex ?? null });
+      continue;
+    }
+
+    const component = project.layers[label.layerIndex ?? -1]?.components[label.slot ?? -1];
+
+    meta.set(label.key, {
+      layerIndex: label.layerIndex ?? null,
+      srText: component?.name ?? component?.id,
+    });
+  }
+
+  const result = placeLabels(
+    labels,
+    frame.components.map((component) => component.hull),
+    viewport,
+    look,
+  );
+  const renderLabels = result.placements.map((placement): OverlayLabel => {
     const labelMeta = meta.get(placement.key);
 
     if (labelMeta === undefined) throw new Error('Missing placed label metadata.');
 
-    strokes.push(
-      stroke(
-        `leader:${placement.key}`,
-        'leader',
-        placement.leader,
-        look.annotation.leaderRole,
-        opacityForLayer(labelMeta.layerIndex),
-        offsetY,
-      ),
-    );
-  }
+    return renderLabel(placement, placement.kind, labelMeta.layerIndex, offsetY, {
+      anchor: placement.anchor,
+      srText: labelMeta.srText,
+    });
+  });
 
   return {
     labels: renderLabels,
-    strokes,
+    strokes: dimensionStrokes(frame, layout, look, offsetY),
     titleBlock: null,
     hidden: result.hidden.length,
     shown: true,
+    calloutMode: 'tags',
   };
+}
+
+export function overlayBaseModel({
+  frame,
+  layout,
+  project,
+  viewport,
+  offsetY,
+  target,
+  look,
+}: OverlayBaseModelInput): OverlayModel {
+  const viewportFrame = shiftFrame(frame, -offsetY);
+
+  if (viewportFrame.layers.length === 0) return emptyOverlayModel();
+
+  if (target === 'imploded') {
+    const lines = titleBlockLines(project, layout);
+    const layoutResult = placeTitleBlockResponsive(lines, viewportFrame, viewport, look);
+
+    if (layoutResult === null) return emptyOverlayModel();
+
+    const { placement, columns } = layoutResult;
+
+    return {
+      labels: [],
+      strokes: [],
+      titleBlock: {
+        x: placement.x,
+        y: placement.y + offsetY,
+        w: placement.w,
+        h: placement.h,
+        columns,
+        title: lines.title,
+        meta: lines.meta,
+        rows: lines.rows.map((text, layerIndex) => ({ layerIndex, text, opacity: 1 })),
+      },
+      hidden: 0,
+      shown: true,
+      calloutMode: null,
+    };
+  }
+
+  const columns =
+    viewport.width >= look.annotation.wideMinPx
+      ? placeColumns(viewportFrame, layout, project, viewport, look)
+      : null;
+  const mode = calloutMode(viewportFrame, layout, project, viewport, look, columns);
+
+  if (mode === 'columns' && columns !== null) {
+    return columnModel(viewportFrame, layout, columns, offsetY, look);
+  }
+
+  return tagsModel(viewportFrame, layout, project, viewport, offsetY, look);
+}
+
+export function overlayHighlight(
+  base: OverlayModel,
+  highlight: string | null | undefined,
+  look: LookTokens,
+): OverlayModel {
+  if (highlight === null || highlight === undefined) return base;
+
+  const key = `part:${highlight}`;
+  const target = base.labels.find((label) => label.key === key);
+
+  if (target === undefined) return base;
+
+  const labels = base.labels.map((label) =>
+    label.key === key ? { ...label, emphasis: true } : label,
+  );
+
+  if (base.calloutMode !== 'columns' || target.anchor === undefined) {
+    return { ...base, labels };
+  }
+
+  const middleY = target.y + target.h / 2;
+  const leader: OverlayStroke = {
+    key: `leader:${key}`,
+    kind: 'leader',
+    points: [[target.x, middleY], [target.x - 12, middleY], target.anchor],
+    role: look.callouts.emphasisRole,
+    opacity: target.opacity,
+  };
+
+  return {
+    ...base,
+    labels,
+    strokes: [...base.strokes.filter((candidate) => candidate.key !== leader.key), leader],
+  };
+}
+
+export function overlayStateModel(
+  base: OverlayModel,
+  project: OverlayProject,
+  focus: OverlayFocus,
+  tour: { readonly status: OverlayTourStatus },
+  highlight: string | null | undefined,
+  look: LookTokens,
+): OverlayModel {
+  if (tour.status !== 'idle') return emptyOverlayModel();
+
+  const focusActive = focus.layerId !== null && !focus.suspended;
+  const labelLayers = new Map(base.labels.map((label) => [label.key, label.layerIndex] as const));
+  const opacityForLayer = (layerIndex: number | null): number => {
+    if (!focusActive || layerIndex === null) return 1;
+
+    return project.layers[layerIndex]?.id === focus.layerId ? 1 : emphasis.dim.level;
+  };
+  const focused: OverlayModel = !focusActive
+    ? base
+    : {
+        ...base,
+        labels: base.labels.map((label) => ({
+          ...label,
+          opacity: opacityForLayer(label.layerIndex),
+        })),
+        strokes: base.strokes.map((candidate) => {
+          if (candidate.kind !== 'leader') return candidate;
+
+          const labelKey = candidate.key.slice('leader:'.length);
+          return {
+            ...candidate,
+            opacity: opacityForLayer(labelLayers.get(labelKey) ?? null),
+          };
+        }),
+        titleBlock:
+          base.titleBlock === null
+            ? null
+            : {
+                ...base.titleBlock,
+                rows: base.titleBlock.rows.map((row) => ({
+                  ...row,
+                  opacity: opacityForLayer(row.layerIndex),
+                })),
+              },
+      };
+
+  return overlayHighlight(focused, highlight, look);
+}
+
+export function overlayModel(input: OverlayModelInput): OverlayModel {
+  if (input.tour.status !== 'idle') return emptyOverlayModel();
+
+  return overlayStateModel(
+    overlayBaseModel(input),
+    input.project,
+    input.focus,
+    input.tour,
+    input.highlight,
+    input.look,
+  );
 }
 
 export function traceVertices(

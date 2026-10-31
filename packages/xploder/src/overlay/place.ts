@@ -10,9 +10,9 @@ const VIEWPORT_INSET_PX = 4;
 // candidate set, so the cap is larger while still bounding settle-time cost on phones.
 const SEARCH_NODE_LIMIT = 3_000;
 
-export type LabelKind = 'layer' | 'part' | 'dimension';
+export type LabelKind = 'layer' | 'part' | 'tag' | 'dimension';
 
-export type PlacementDirection = 'W' | 'NW' | 'SW' | 'N' | 'S' | 'NE' | 'E' | 'SE';
+export type PlacementDirection = 'C' | 'W' | 'NW' | 'SW' | 'N' | 'S' | 'NE' | 'E' | 'SE';
 
 export interface PlacementLabel {
   readonly key: string;
@@ -23,6 +23,7 @@ export interface PlacementLabel {
   readonly shortText?: string;
   readonly layerIndex?: number;
   readonly slot?: number;
+  readonly excludeObstacles?: readonly number[];
 }
 
 export interface Rect {
@@ -57,10 +58,12 @@ export interface PlacementResult {
 const PREFERENCES = {
   layer: ['W', 'NW', 'SW', 'N', 'S', 'NE', 'E', 'SE'],
   part: ['NE', 'N', 'NW', 'E', 'W', 'SE', 'S', 'SW'],
+  tag: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
   dimension: ['W', 'E', 'S', 'N', 'SW', 'NW', 'SE', 'NE'],
 } as const satisfies Readonly<Record<LabelKind, readonly PlacementDirection[]>>;
 
 const DIRECTIONS = {
+  C: [0, 0],
   W: [-1, 0],
   NW: [-1, -1],
   SW: [-1, 1],
@@ -88,7 +91,9 @@ interface LabelOption {
 
 function orderKey(label: PlacementLabel): readonly [number, number, number] {
   if (label.kind === 'layer') return [0, label.layerIndex ?? 0, 0];
-  if (label.kind === 'part') return [1, label.layerIndex ?? 0, label.slot ?? 0];
+  if (label.kind === 'part' || label.kind === 'tag') {
+    return [1, label.layerIndex ?? 0, label.slot ?? 0];
+  }
   return [2, 0, 0];
 }
 
@@ -297,17 +302,50 @@ function placementsForText(
   gapPx: number,
 ): LabelPlacement[] {
   const placements: LabelPlacement[] = [];
+  const excluded = new Set(label.excludeObstacles ?? []);
+  const labelObstacles = obstacles.filter((_, index) => !excluded.has(index));
 
   const anchors = [label.anchor, ...(label.anchors ?? [])];
 
   for (const anchor of anchors) {
+    if (label.kind === 'tag') {
+      const centered: Candidate = {
+        x: anchor[0] - box.w / 2,
+        y: anchor[1] - box.h / 2,
+        w: box.w,
+        h: box.h,
+        direction: 'C',
+        radius: 0,
+      };
+
+      if (
+        insideViewport(centered, viewport) &&
+        !labelObstacles.some((hull) => rectOverlapsPolygon(inflate(centered, gapPx), hull)) &&
+        !placed.some((rect) => rectsOverlap(inflate(centered, gapPx), rect))
+      ) {
+        placements.push({
+          key: label.key,
+          kind: label.kind,
+          anchor,
+          text,
+          x: centered.x,
+          y: centered.y,
+          w: centered.w,
+          h: centered.h,
+          direction: centered.direction,
+          radius: centered.radius,
+          leader: null,
+        });
+      }
+    }
+
     for (const radius of PLACEMENT_RADII) {
       for (const direction of PREFERENCES[label.kind]) {
         const next = clampToViewport(candidate(anchor, box, radius, direction), viewport);
         const inflated = inflate(next, gapPx);
 
         if (!insideViewport(next, viewport)) continue;
-        if (obstacles.some((hull) => rectOverlapsPolygon(inflated, hull))) continue;
+        if (labelObstacles.some((hull) => rectOverlapsPolygon(inflated, hull))) continue;
         if (placed.some((rect) => rectsOverlap(inflated, rect))) continue;
 
         placements.push({
