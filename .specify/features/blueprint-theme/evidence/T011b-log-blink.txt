@@ -1,0 +1,66 @@
+# T011b — overlay blink on implode/explode (G2 feedback, Murphy tested on phone, 2026-10-31)
+Repro: Playwright Pixel 7 emulation, CPU throttle 4x, /dev/engine?fixture=a (pnpm dev, localhost), rAF sampling from click until the explode phase reaches the target; a 'blink frame' = overlay opacity > 0 with label/title-block elements present before the phase reaches the target.
+
+## Before the fix
+{
+ "throttle": 4,
+ "rounds": 6,
+ "framesSampled": 1511,
+ "blinkFrames": 8,
+ "firstBlinks": [
+  {
+   "round": 0,
+   "to": "exploded",
+   "t": 4093.600000023842,
+   "phase": "imploded",
+   "attr": "shown",
+   "op": 1,
+   "n": 13
+  },
+  {
+   "round": 0,
+   "to": "exploded",
+   "t": 4101.699999988079,
+   "phase": "exploding",
+   "attr": "shown",
+   "op": 1,
+   "n": 13
+  },
+  {
+   "round": 2,
+   "to": "exploded",
+   "t": 9355.300000011921,
+   "phase": "imploded",
+   "attr": "shown",
+   "op": 1,
+   "n": 13
+  },
+  {
+   "round": 2,
+   "to": "exploded",
+   "t": 9361,
+   "phase": "exploding",
+   "attr": "shown",
+   "op": 1,
+   "n": 13
+  },
+  {
+   "round": 4,
+   "to": "exploded",
+   "t": 14612.100000023842,
+   "phase": "imploded",
+   "attr": "shown",
+   "op": 1,
+   "n": 13
+  },
+  {
+   "round": 4,
+   "to": "exploded",
+   "t": 14612.100000023842,
+   "phase": "imploded",
+   "attr": "shown",
+   "op": 1,
+   "n": 13
+  }
+ ]
+}

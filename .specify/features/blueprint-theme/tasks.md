@@ -23,6 +23,7 @@
 | T010 | ☑ | 1 (Flash, sandbox on) + orchestrator browser step (sandbox EPERM) | evidence/T010-{log-trace.txt,screenshot-*.png,meta.json} | 748b96e |
 | T011 | ☑ + ⚑ pushed, draft PR | 1 (Flash, sandbox on); build + full check re-run by orchestrator | evidence/T011-log-scanners.txt, G2-log-combined.txt | 73da9a5 |
 | T011a | ☑ (G2 feedback: imploded title block) | 1 (Flash, sandbox on) + orchestrator browser step | evidence/T011a-{log-titleblock.txt,screenshot-*.png} | f365b6e |
+| T011b | ☐ (G2 feedback: blink) | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
@@ -280,6 +281,18 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specif
   1. Imploded shows only the stack plus the title block; exploded unchanged (default: accept in the G2 re-walkthrough).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: G2 re-validation after this task).
+
+### T011b [US2] No overlay blink on implode/explode (G2 feedback)
+
+- **Seam:** viewer target + explode phase ↔ `<BlueprintOverlay>` visibility.
+- **Cause (measured, evidence/T011b-log-blink.txt):** clicking Explode/Implode changes `target` at once; for 1–2 frames the overlay re-renders the new state's model on the old settled frame (13 exploded labels over the closed stack, or the title block over the open one) before the projector's `moving` event hides it. 8 blink frames over 6 toggles at 4× CPU throttle.
+- **Fix:** visibility is pure `overlayVisible({ moving, settledTarget, target, phase })` = not moving ∧ a settled frame exists ∧ the frame was settled for the current target ∧ the explode phase equals the target state. When it is false, the overlay renders no labels, strokes, title block or trace, and opacity drops to 0 synchronously (layout effect, before paint). `settled` events that arrive while the phase is still `exploding`/`imploding` are ignored.
+- **Check:** `pnpm --filter xploder exec vitest run test/overlay-model.test.ts` (visibility truth table) + `pnpm typecheck && pnpm lint && pnpm test`; orchestrator browser re-run of the blink probe → `blinkFrames: 0`.
+- **Evidence:** `evidence/T011b-log-blink.txt` (before/after)
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Toggle implode/explode on your phone: no text flashes (default: accept after your re-test).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (default: G2 re-validation).
 
 ---
 
