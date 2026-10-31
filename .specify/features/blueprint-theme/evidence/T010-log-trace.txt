@@ -1,0 +1,185 @@
+S06/T010 — CircuitTrace + reduced-motion twin
+Run from: /tmp/s06-wt/t010 (repo root)
+
+Sandbox note: the browser step cannot bind localhost in this sandbox. This is the expected EPERM limitation stated in the task prompt. The orchestrator must run the browser/evidence command outside the sandbox.
+
+## Commands run (sandbox core check)
+$ pnpm --filter xploder exec vitest run test/overlay-model.test.ts test/overlay-trace.test.ts
+$ pnpm typecheck
+$ pnpm lint
+$ pnpm --filter xploder test
+$ pnpm --filter web test
+$ echo T010-OK
+
+## Full sandbox core output
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t010/packages/xploder
+
+
+ Test Files  2 passed (2)
+      Tests  49 passed (49)
+   Start at  13:12:33
+   Duration  1.05s (tests 90%, import 6%, transform 4%)
+
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t010/packages/xploder
+
+(node:6263) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6262) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6264) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6265) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6267) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6269) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6268) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6271) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  43 passed (43)
+      Tests  366 passed (366)
+   Start at  13:12:39
+   Duration  3.42s (tests 74%, import 20%, transform 5%, worker 1%)
+
+    Isolate  43 workers spawned · ~82ms startup each (spawn + environment, per file)
+             at least ~309ms faster with isolate: false — reuses workers across files instead of one per file
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t010/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  13:12:42
+   Duration  93ms (tests 52%, import 28%, transform 10%, worker 9%)
+
+T010-OK
+
+## Browser evidence attempt
+$ pnpm --filter web dev >/tmp/s06-checks/dev.log 2>&1 &
+$ curl -sf --max-time 1 -o /dev/null http://localhost:3000/dev/engine
+$ pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t010
+The dev server failed before the evidence CLI could run; no T010 screenshots or meta.json were produced in this sandbox.
+--- /tmp/s06-checks/dev.log ---
+$ next dev
+⨯ Failed to start server
+Error: listen EPERM: operation not permitted 0.0.0.0:3000
+    at new Promise (<anonymous>) {
+  code: 'EPERM',
+  errno: -1,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 3000
+}
+[?25h
+[ELIFECYCLE] Command failed with exit code 1.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /private/tmp/s06-wt/t010/apps/web
+
+
+Orchestrator follow-up: run the task Check block outside the sandbox to capture T010-screenshot-{mobile,desktop}.png and T010-meta.json and re-confirm the trace selector.
+
+
+## Frozen-surface guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+
+T010-OK
+
+## Orchestrator browser step (2026-10-31)
+- paused at step 3: data-xploder-trace = "beachgoer tide-chart-screen tide-view-model tide-repository" (= live-update path prefix), draw-in animations finished.
+- reduced motion while playing: trace present, overlay getAnimations() = [] (static twin).
+- Screenshots: T010-screenshot-desktop.png (light), T010-screenshot-mobile-dark.png, T010-screenshot-desktop-reduced-motion.png.
+- Observation for G2 (not S6 scope): on 360 px the S5 tour caption (anchored top while the target is in the lower half, S5 §9.9) covers the top layer and part of the trace.
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  2 passed (2)
+      Tests  49 passed (49)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  43 passed (43)
+packages/xploder test:       Tests  366 passed (366)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T010-OK (orchestrator full re-run)
