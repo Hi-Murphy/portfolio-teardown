@@ -16,8 +16,9 @@
 | T004 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T004-log-overlay-geometry.txt | c88c3d2 |
 | T005 | ☑ (look-ahead deviation accepted, see log) | 1 (Flash, sandbox on) + orchestrator review fix (search cap 100k → 2k, measured) | evidence/T005-log-placement.txt | 53cbeb1 |
 | T006 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T006-log-trace.txt | ad7244a |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
+| T007 | ☑ (+ T007a fix) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T007-log-material.txt | 14bc3fa |
+| T007a | ☑ (found by the pre-T009 browser check: tone mapping + StrictMode double-patch) | ⚑ orchestrator | evidence/T007a-{log-material-fix.txt,screenshot-desktop-*.png} | (this commit) |
+| T008 | ☑ (Scene.tsx additive conflict with T007 resolved) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T008-log-projector.txt | cddae21 |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
@@ -45,6 +46,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specif
 - **Every check also runs:** `pnpm typecheck && pnpm lint && pnpm test` (lint includes the Prettier check).
 - **Never:** add dependencies · add a package export or change `TeardownViewerProps` · edit a frozen file (S2/S4 or S5 lists in plan.md "Guards") or an existing S2/S4/S5 test · edit `LAYOUT_DEFAULTS` · replace the `MeshLambertMaterial` class · import `@react-three/drei`, GSAP, `three/examples`, `three/addons`, `three-stdlib` or `camera-controls` · load a texture or image asset in the renderer · add a WebGL object (mesh, line, sprite) beyond the 2 `InstancedMesh`es · put text into WebGL · write motion literals (durations, easings, staggers, timer delays) outside `packages/xploder/src/motion/` · write hex/`rgb()`/`hsl()`/`0x` colours outside `packages/xploder/src/theme/` (GLSL included) · put engine logic or `three`/`@react-three/*` imports in `apps/web` · deep-import `xploder/src` from the app · add hover/tap behaviour or a panel · compare fps to a literal number in any tool or check · add a threshold override to any perf CLI · set `PERF_FIXTURES` on Vercel · put private hostnames, IPs or tokens anywhere (`127.0.0.1` is fine) · run `specify init` · use bare `git stash`.
 - **Evidence** goes to `.specify/features/blueprint-theme/evidence/T0NN-*.{txt,png,json}` (naming per `.specify/EVIDENCE.md` §4). Throwaway scripts live in `/tmp/s06-checks/`. Run `mkdir -p /tmp/s06-checks .specify/features/blueprint-theme/evidence` first, and run every check under `set -euo pipefail`.
+- **Dev server** (T009–T011): Next 16 dev blocks `/_next` dev resources for the `127.0.0.1` origin, so dev-server checks use `http://localhost:3000` (found in T007a).
 - **Local fixture server** (T011–T015): `pnpm build:fixtures && (node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199 & echo $! > /tmp/s06-checks/serve.pid)`, then `until curl -sf -o /dev/null http://127.0.0.1:4199/dev/engine; do sleep 0.5; done`; stop with `kill "$(cat /tmp/s06-checks/serve.pid)"`.
 
 ---
@@ -210,8 +212,8 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specif
   set -euo pipefail; pnpm --filter xploder exec vitest run test/overlay-model.test.ts 2>&1 | tee /tmp/s06-checks/t009.txt
   pnpm typecheck && pnpm lint && pnpm test
   pnpm --filter web dev >/tmp/s06-checks/dev.log 2>&1 & echo $! > /tmp/s06-checks/dev.pid
-  until curl -sf -o /dev/null http://127.0.0.1:3000/dev/engine; do sleep 0.5; done
-  for s in light dark; do pnpm evidence 'http://127.0.0.1:3000/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme $s --wait-for '[data-xploder-overlay="shown"]' --out /tmp/s06-checks/t009-$s; done
+  until curl -sf -o /dev/null http://localhost:3000/dev/engine; do sleep 0.5; done
+  for s in light dark; do pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme $s --wait-for '[data-xploder-overlay="shown"]' --out /tmp/s06-checks/t009-$s; done
   kill "$(cat /tmp/s06-checks/dev.pid)"; echo T009-OK
   ```
 - **Evidence:** `evidence/T009-log-overlay.txt`, `T009-screenshot-{mobile,desktop}-{light,dark}.png`, `T009-meta-{light,dark}.json`
@@ -229,8 +231,8 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specif
   set -euo pipefail; pnpm --filter xploder exec vitest run test/overlay-model.test.ts test/overlay-trace.test.ts 2>&1 | tee /tmp/s06-checks/t010.txt
   pnpm typecheck && pnpm lint && pnpm test
   pnpm --filter web dev >/tmp/s06-checks/dev.log 2>&1 & echo $! > /tmp/s06-checks/dev.pid
-  until curl -sf -o /dev/null http://127.0.0.1:3000/dev/engine; do sleep 0.5; done
-  pnpm evidence 'http://127.0.0.1:3000/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t010
+  until curl -sf -o /dev/null http://localhost:3000/dev/engine; do sleep 0.5; done
+  pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t010
   kill "$(cat /tmp/s06-checks/dev.pid)"; echo T010-OK
   ```
 - **Evidence:** `evidence/T010-log-trace.txt`, `T010-screenshot-{mobile,desktop}.png`, `T010-meta.json`

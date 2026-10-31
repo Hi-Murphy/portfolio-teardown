@@ -15,7 +15,10 @@ import { layoutProject, type ProjectLayout } from '../src/layout';
 import { motion } from '../src/motion';
 import { parseProject, parseTechRegistry, type Project } from '../src/index';
 import { Scene, type SceneProps } from '../src/react/scene/Scene';
-import { BLUEPRINT_PROGRAM_CACHE_KEY } from '../src/react/scene/blueprintMaterial';
+import {
+  BLUEPRINT_PROGRAM_CACHE_KEY,
+  blueprintUniformsFor,
+} from '../src/react/scene/blueprintMaterial';
 import type { ComponentKind } from '../src/schema/constants';
 import { blueprint, type Palette } from '../src/theme';
 import { projectAJson, techRegistryJson } from './fixtures';
@@ -179,6 +182,30 @@ describe('blueprint scene', () => {
       expect(
         materialOf(meshWithCount(renderer, layoutA.components.length)).color.getHexString(),
       ).toBe(palette.line.slice(1).toLowerCase());
+    } finally {
+      await renderer.unmount();
+    }
+  });
+
+  test('the shader reads the uniform objects Slabs writes, untone-mapped', async () => {
+    const renderer = await renderScene(projectA, layoutA, { look, kinds: kindsA });
+
+    try {
+      await renderer.advanceFrames(1, 0);
+
+      for (const mesh of instancedMeshes(renderer)) {
+        const material = materialOf(mesh);
+        const shaderUniforms = shaderSource(material).uniforms;
+        const written = blueprintUniformsFor(material);
+
+        // A second patch (React StrictMode re-runs memos) must not swap the uniform objects.
+        expect(blueprintUniformsFor(material)).toBe(written);
+        expect(shaderUniforms.uEdgePx).toBe(written.uEdgePx);
+        expect(shaderUniforms.uAccent).toBe(written.uAccent);
+        expect(shaderUniforms.uPaper).toBe(written.uPaper);
+        expect(written.uEdgePx.value).toBeGreaterThan(0);
+        expect(material.toneMapped).toBe(false);
+      }
     } finally {
       await renderer.unmount();
     }

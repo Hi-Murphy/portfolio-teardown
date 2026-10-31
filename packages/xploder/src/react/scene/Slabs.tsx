@@ -16,11 +16,7 @@ import type { MotionTokens } from '../../motion';
 import { emphasis as emphasisTokens } from '../../motion/emphasis';
 import type { ComponentKind } from '../../schema/constants';
 import type { Palette } from '../../theme';
-import {
-  createBlueprintUniforms,
-  patchBlueprintMaterial,
-  type BlueprintUniforms,
-} from './blueprintMaterial';
+import { blueprintUniformsFor, type BlueprintUniforms } from './blueprintMaterial';
 
 export interface EmphasisDriver {
   sample(now: number, zoom: number): boolean;
@@ -202,13 +198,11 @@ export function Slabs({
   const blueprintMaterials = useMemo<BlueprintMaterials | null>(() => {
     if (look === undefined) return null;
 
-    const layers = createBlueprintUniforms(layerMaterial.color);
-    const components = createBlueprintUniforms(componentMaterial.color);
+    const layers = blueprintUniformsFor(layerMaterial);
+    const components = blueprintUniformsFor(componentMaterial);
 
     layers.uFaces.value.set(look.faces.top, look.faces.left, look.faces.right);
     components.uFaces.value.set(look.faces.top, look.faces.left, look.faces.right);
-    patchBlueprintMaterial(layerMaterial, layers);
-    patchBlueprintMaterial(componentMaterial, components);
 
     return { layers, components };
   }, [componentMaterial, layerMaterial, look]);

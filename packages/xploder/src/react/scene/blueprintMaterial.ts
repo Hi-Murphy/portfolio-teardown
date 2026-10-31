@@ -95,6 +95,8 @@ export function patchBlueprintMaterial(
   material: MeshLambertMaterial,
   uniforms: BlueprintUniforms,
 ): void {
+  // Palette colours are drawn as-is: R3F's default ACES tone mapping would grey them out.
+  material.toneMapped = false;
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
     shader.vertexShader = injectAfter(shader.vertexShader, COMMON_INCLUDE, VERTEX_DECLARATIONS);
@@ -111,4 +113,20 @@ export function patchBlueprintMaterial(
     ).replace(OPAQUE_FRAGMENT_INCLUDE, '');
   };
   material.customProgramCacheKey = () => BLUEPRINT_PROGRAM_CACHE_KEY;
+}
+
+const patchedUniforms = new WeakMap<MeshLambertMaterial, BlueprintUniforms>();
+
+// Idempotent per material: React may run the caller's memo twice (StrictMode), and the
+// shader must keep reading the same uniform objects that Slabs writes every frame.
+export function blueprintUniformsFor(material: MeshLambertMaterial): BlueprintUniforms {
+  const cached = patchedUniforms.get(material);
+
+  if (cached !== undefined) return cached;
+
+  const uniforms = createBlueprintUniforms(material.color);
+
+  patchBlueprintMaterial(material, uniforms);
+  patchedUniforms.set(material, uniforms);
+  return uniforms;
 }
