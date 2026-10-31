@@ -15,6 +15,8 @@ import {
 } from '../src/overlay/titleBlock';
 import { projectAJson, projectBJson, projectCJson, techRegistryJson } from './fixtures';
 
+// Pure maths, but ~7k cases: ~17 s locally and ~44 s on CI runners (vitest default is 30 s).
+const DENSE_SWEEP_TIMEOUT_MS = 180_000;
 const registry = parseTechRegistry(techRegistryJson);
 const PROJECTS = [
   ['A', parseProject(projectAJson, { registry })],
@@ -247,5 +249,5 @@ describe('imploded title block placement matrix', () => {
     console.log(`dense title block sweep: cases=${cases} failures=${failures}`);
     expect(examples).toStrictEqual([]);
     expect(failures).toBe(0);
-  });
+  }, DENSE_SWEEP_TIMEOUT_MS);
 });

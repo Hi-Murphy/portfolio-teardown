@@ -17,6 +17,8 @@ import { labelBox } from '../src/overlay/parts';
 import { overlayFrame, type OverlayFrame, type Vec2 } from '../src/overlay/project';
 import { projectAJson, projectBJson, projectCJson, techRegistryJson } from './fixtures';
 
+// Pure maths, but ~7k cases: ~17 s locally and ~44 s on CI runners (vitest default is 30 s).
+const DENSE_SWEEP_TIMEOUT_MS = 180_000;
 const registry = parseTechRegistry(techRegistryJson);
 const PROJECTS = [
   ['A', parseProject(projectAJson, { registry })],
@@ -270,7 +272,7 @@ describe('overlay label placement matrix', () => {
     expect(placeLabels(labels, obstacles, viewport, look)).toStrictEqual(
       placeLabels(labels, obstacles, viewport, look),
     );
-  });
+  }, DENSE_SWEEP_TIMEOUT_MS);
 
   test('reports off-screen anchors separately at 3x zoom and keeps placed boxes apart', () => {
     const project = PROJECTS[0][1];
