@@ -8,6 +8,7 @@ import type { Palette } from '../../theme';
 import { CameraRig } from './CameraRig';
 import { useEmphasisDriver, type EmphasisPhase, type EmphasisState } from './Emphasis';
 import { Lights } from './Lights';
+import { OverlayProjector, type OverlayEvent } from './OverlayProjector';
 import { PickBridge, type PickBridgeHandle } from './PickBridge';
 import { Slabs } from './Slabs';
 import { Stats, type ViewerStats } from './Stats';
@@ -31,11 +32,15 @@ export interface SceneProps {
   readonly pickBridgeRef?: RefObject<PickBridgeHandle>;
   readonly scrollRef?: RefObject<HTMLDivElement | null>;
   readonly onScrollExtent?: (extent: number) => void;
+  readonly onOverlay?: (event: OverlayEvent) => void;
+  readonly onOverlayScroll?: (offsetY: number) => void;
 }
 
 function defaultNow(): number {
   return performance.now() / 1000;
 }
+
+function ignoreOverlayScroll(): void {}
 
 export function Scene({
   layout,
@@ -55,6 +60,8 @@ export function Scene({
   pickBridgeRef,
   scrollRef,
   onScrollExtent,
+  onOverlay,
+  onOverlayScroll,
 }: SceneProps) {
   const emphasisDriver = useEmphasisDriver({
     layout,
@@ -85,6 +92,14 @@ export function Scene({
       )}
       {pickBridgeRef === undefined ? null : (
         <PickBridge bridgeRef={pickBridgeRef} progressRef={progressRef} />
+      )}
+      {onOverlay === undefined ? null : (
+        <OverlayProjector
+          layout={layout}
+          progressRef={progressRef}
+          onOverlay={onOverlay}
+          onOverlayScroll={onOverlayScroll ?? ignoreOverlayScroll}
+        />
       )}
       <Lights />
       <Stats layout={layout} onStats={onStats} />
