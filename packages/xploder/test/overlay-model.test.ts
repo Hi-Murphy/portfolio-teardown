@@ -123,19 +123,37 @@ describe('overlay model visibility', () => {
 
     expect(model.labels).toStrictEqual([]);
     expect(model.strokes).toStrictEqual([]);
+    expect(model.titleBlock).toBeNull();
     expect(model.hidden).toBe(0);
     expect(model.shown).toBe(false);
   });
 
-  test('keeps layer and dimension labels but removes parts when imploded', () => {
+  test('replaces every on-drawing annotation with a title block when imploded', () => {
     const model = modelFor(NARROW, { target: 'imploded' });
 
-    expect(parts(model)).toStrictEqual([]);
-    expect(model.labels.some((label) => label.kind === 'layer')).toBe(true);
-    expect(model.labels.map((label) => label.key)).toEqual(
-      expect.arrayContaining(['dimension:stack', 'dimension:footprint']),
-    );
+    expect(model.labels).toStrictEqual([]);
+    expect(model.strokes).toStrictEqual([]);
+    expect(model.hidden).toBe(0);
     expect(model.shown).toBe(true);
+    expect(model.titleBlock).toStrictEqual(
+      expect.objectContaining({
+        title: 'Tidewatch',
+        meta: '4 layers · 2 × 2',
+        rows: project.layers.map((layer, layerIndex) => ({
+          layerIndex,
+          text: `${layerIndex + 1} ${layer.name}`,
+          opacity: 1,
+        })),
+      }),
+    );
+  });
+
+  test('keeps exploded annotations free of a title block', () => {
+    const model = modelFor(WIDE);
+
+    expect(model.labels.length).toBeGreaterThan(0);
+    expect(model.strokes.length).toBeGreaterThan(0);
+    expect(model.titleBlock).toBeNull();
   });
 
   test('dims labels and leaders outside the focused layer', () => {
@@ -170,6 +188,22 @@ describe('overlay model visibility', () => {
     expect(absent.strokes.every((stroke) => stroke.opacity === 1)).toBe(true);
     expect(suspended.labels.every((label) => label.opacity === 1)).toBe(true);
     expect(suspended.strokes.every((stroke) => stroke.opacity === 1)).toBe(true);
+  });
+
+  test('dims title block rows outside the focused layer', () => {
+    const model = modelFor(WIDE, {
+      target: 'imploded',
+      focus: { layerId: 'data', suspended: false },
+    });
+    const titleBlock = model.titleBlock;
+
+    if (titleBlock === null) throw new Error('Missing title block');
+
+    const focused = titleBlock.rows.filter((row) => project.layers[row.layerIndex]?.id === 'data');
+    const dimmed = titleBlock.rows.filter((row) => project.layers[row.layerIndex]?.id !== 'data');
+
+    expect(focused.every((row) => row.opacity === 1)).toBe(true);
+    expect(dimmed.every((row) => row.opacity === emphasis.dim.level)).toBe(true);
   });
 });
 
@@ -246,6 +280,20 @@ describe('overlay model labels', () => {
       expect(stroke.points[0]).toStrictEqual(shiftPoint(original.points[0], OFFSET_Y));
       expect(stroke.points[1]).toStrictEqual(shiftPoint(original.points[1], OFFSET_Y));
     }
+  });
+
+  test('returns the title block in content space after an offset round trip', () => {
+    const base = modelFor(WIDE, { target: 'imploded' });
+    const shifted = modelFor(WIDE, { target: 'imploded', offsetY: OFFSET_Y });
+
+    if (base.titleBlock === null || shifted.titleBlock === null) {
+      throw new Error('Missing title block');
+    }
+
+    expect(shifted.titleBlock.x).toBe(base.titleBlock.x);
+    expect(shifted.titleBlock.y).toBe(base.titleBlock.y + OFFSET_Y);
+    expect(shifted.titleBlock.w).toBe(base.titleBlock.w);
+    expect(shifted.titleBlock.h).toBe(base.titleBlock.h);
   });
 });
 
