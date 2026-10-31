@@ -1,6 +1,6 @@
 # RFC — S06 Blueprint Theme Applied
 
-**slice:** S06-blueprint-theme · **status:** DRAFT for Murphy review (Stage 1) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-06-blueprint-theme.md` (frozen brief v1) · **branch:** `task/s06-blueprint-theme` · **base:** `bb6a514` (brief freeze; S5 shipped at `524a6cd` + `f31600e`) · **date:** 2026-10-31
+**slice:** S06-blueprint-theme · **status:** REVIEWED round 1 (2026-10-31): defaults accepted, self-review refinements R1–R6 applied (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-06-blueprint-theme.md` (frozen brief v1) · **branch:** `task/s06-blueprint-theme` · **base:** `bb6a514` (brief freeze; S5 shipped at `524a6cd` + `f31600e`) · **date:** 2026-10-31
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict should be raised as an open question.
 
@@ -353,3 +353,25 @@ All logic is pure and runs in Node. React-level tests use `@react-three/test-ren
 3. Push permission: push `task/s06-blueprint-theme` and open a draft PR at the end of G2, as in S05 (default: granted at G2; nothing is pushed in Stages 1–2).
 4. Merge: the orchestrator merges only after you say "merge" (default: as S05).
 5. Usage pacing (default: start each Stage 3 group in a fresh 5h window, stop at ≥ 85%; please keep stating "5h: N%" in gate messages, because the local usage capture is stale, last captured 2026-10-29).
+
+---
+
+## 9. Decisions recorded (Murphy, 2026-10-31, round 1)
+
+1. **Open questions 1–11: defaults accepted.** Murphy invited further improvements ("if you think something can be improved, go on, I will accept that as well"). The orchestrator's self-review produced six refinements. None changes an AC, a token value or a default answer:
+   1. **R1 — deterministic label boxes** (D7). Label and balloon boxes are sized by a conservative monospace model (`ceil(chars × 0.62 × fontPx) + 2 × 4 px` wide, `ceil(1.4 × fontPx) + 2 × 2 px` tall; 0.62 em is at least the advance width of SF Mono, Menlo, DejaVu Sans Mono and Consolas). The box size is set explicitly in CSS, so real text always fits inside it. The browser runs **the same pure placement** on the same sizes as the Node matrix test, with no DOM measurement. That closes the gap between "the test passed" and "the page shows it".
+   2. **R2 — long → short fallback before hiding** (D7). At ≥ 768 px, a part callout that cannot place its long text (`1.2 Tide chart screen`) retries with the short text (`1.2`) before it is counted as hidden. The matrix test therefore reports `hidden = 0` with or without the fallback, and it records how many labels fell back.
+   3. **R3 — overlay observables** (D6, D12). The wrapper exposes `data-xploder-overlay="hidden|shown"`, `data-xploder-overlay-hidden="<n>"` (labels that could not be placed) and `data-xploder-trace="<id id …>"`, so the probe and the evidence CLI (`--wait-for '[data-xploder-overlay="shown"]'`) observe the overlay without a debug API.
+   4. **R4 — trace under geometry motion** (D8). If the visitor rotates or zooms during a tour, the trace hides with the rest of the overlay and is re-routed at settle from the new anchors. The newest hop's draw-in is **not** replayed (only a step change plays it).
+   5. **R5 — no new public API** (D1). `Scene`/`Slabs` are internal, so the `look` and `kinds` props are internal. `TeardownViewer` always renders the blueprint look and overlay, and `TeardownViewerProps` is **unchanged**. `react/index.ts` needs no change. The only visible API effect is the product `explodedGap` default (D9), which the brief mandates.
+   6. **R6 — pixel ratio for the edge width** (D3). `uEdgePx = look.edge.*Px × dpr`, with `dpr` read from R3F's `viewport.dpr` each frame (it changes on a zoom of the browser, and between dpr 1 and 2 on the `[1, 2]` clamp), so edges stay 1 CSS px on every screen.
+2. **Open question 9 (ladder): pause + usage report after two Flash failures, then the orchestrator executes personally on Murphy's go.**
+3. **WHAT MURPHY SHOULD TEST/VALIDATE (Stage 1): all defaults accepted.**
+4. **Push + draft PR: granted at the end of G2.** Nothing is pushed before then.
+5. **Merge:** only on Murphy's "merge", as in S05.
+6. Usage at this gate: **5h 60%** (Murphy).
+7. **Stage 2 corrections (orchestrator, 2026-10-31), found while writing plan.md against the code.** None changes an AC or a default:
+   1. **No `react-dom` in xploder.** `TeardownViewer`'s DOM can't be rendered in Node, and adding a dependency is forbidden. Every overlay decision (visibility rules, label texts, placement, strokes, trace state) therefore lives in a pure `overlay/model.ts`, unit-tested in Node. `BlueprintOverlay`/`CircuitTrace` are thin renderers, proved in the browser by the probe. The product-default wiring is proved by `resolveViewerLayoutOptions` (pure), a source assertion on `TeardownViewer.tsx`, and the probe's default-gap hit map.
+   2. **S5's `milliseconds` helper is private** to the sealed `TourCaption.tsx`. `overlay/timing.ts` defines its own, with a named constant, following S5's pattern.
+   3. **The evidence CLI's mobile profile is 412 px wide** (Lighthouse emulation), not 360. The 360 px readability screenshots therefore come from the probe's `overlay-360` group (light + dark). The 412 px `pnpm evidence` shots stay as the AC3 light/dark matrix.
+   4. **Chunk names verified in `three@0.186.1`:** `color_vertex` (with `vColor` as `vec4`), `color_fragment`, `normal_fragment_begin`, `opaque_fragment`. The patch targets exactly these.
