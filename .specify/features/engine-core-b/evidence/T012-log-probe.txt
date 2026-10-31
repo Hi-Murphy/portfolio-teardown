@@ -1,0 +1,273 @@
+T012 — Behaviour evidence: probe run (normal + reduced motion)
+
+Target: http://127.0.0.1:4199/
+Fixture server: supplied by the orchestrator and already running; this executor did not build fixtures or start/stop the server.
+Browser reported by probe: 156.0.8078.4
+
+Commands run from /tmp/s05-wt/t012:
+  pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s05-checks/t012 2>&1 | tee /tmp/s05-checks/t012.txt
+  node -e "const r=require('/tmp/s05-checks/t012/engine-probe.json');const bad=r.checks.filter(c=>!c.pass);console.log(r.checks.length,'checks',bad.length,'failed');if(!r.pass||bad.length)process.exit(1)"
+  git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+  git diff --quiet 53b2b2b -- $(cat packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+  test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+  pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+
+Probe output (complete):
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4199/ --out /tmp/s05-checks/t012
+PASS fixture-a-instances: expected {"layers":4,"components":8} actual {"layers":4,"components":8}
+PASS fixture-a-draw-calls: expected 2 actual 2
+PASS fixture-b-instances: expected {"layers":4,"components":5} actual {"layers":4,"components":5}
+PASS fixture-b-draw-calls: expected 2 actual 2
+PASS fixture-c-instances: expected {"layers":5,"components":13} actual {"layers":5,"components":13}
+PASS fixture-c-draw-calls: expected 2 actual 2
+PASS camera-default-azimuth: expected 45 actual 45
+PASS camera-after-button-right: expected 135 actual 135
+PASS camera-after-arrow-right: expected 225 actual 225
+PASS camera-zoom-after-20-in: expected 3 actual 3
+PASS camera-zoom-after-20-out: expected 1 actual 1
+PASS camera-zoom-after-reset: expected 1 actual 1
+PASS camera-zoom-out-disabled-at-default: expected true actual true
+PASS camera-zoom-reset-disabled-at-default: expected true actual true
+PASS camera-zoom-in-disabled-at-max: expected true actual true
+PASS motion-explode-phases: expected ["exploding","exploded"] actual ["exploding","exploded"]
+PASS motion-implode-phases: expected ["imploding","imploded"] actual ["imploding","imploded"]
+PASS reduced-motion-initial-state: expected "exploded" actual "exploded"
+PASS reduced-motion-toggle-phases: expected ["imploded"] actual ["imploded"]
+PASS reduced-motion-toggle-frames: expected "<= 2" actual 1
+PASS reduced-motion-toggle-back-phases: expected ["exploded"] actual ["exploded"]
+PASS reduced-motion-toggle-back-frames: expected "<= 2" actual 1
+PASS hitmap-exploded-all-components-hit: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"] actual ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS hitmap-imploded-top-layer-hit: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","forecast-details-panel","tide-chart-screen"]
+PASS hover-highlight-exploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-highlight-imploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-cursor-pointer: expected {"exploded":"pointer","imploded":"pointer"} actual {"exploded":"pointer","imploded":"pointer"}
+PASS hover-pixel-toward-accent: expected "distance to accent decreases in both states" actual {"exploded":{"before":44.10215414239989,"after":19.4164878389476},"imploded":{"before":44.10215414239989,"after":19.4164878389476}}
+PASS hover-leave-clears: expected {"exploded":true,"imploded":true} actual {"exploded":true,"imploded":true}
+PASS tap-highlight-exploded: expected "beachgoer" actual "beachgoer"
+PASS tap-highlight-imploded: expected "beachgoer" actual "beachgoer"
+PASS tap-second-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-other-switches: expected {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"} actual {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"}
+PASS tap-empty-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-outside-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS trace-pointertype-touch: expected "pointerdown, pointerup and click all with pointerType=touch" actual [{"type":"pointerdown","pointerType":"touch","t":4465.700000047684},{"type":"pointerup","pointerType":"touch","t":4466.400000035763},{"type":"click","pointerType":"touch","t":4467.600000023842},{"type":"pointerdown","pointerType":"touch","t":4662.200000047684},{"type":"pointerup","pointerType":"touch","t":4662.300000011921},{"type":"click","pointerType":"touch","t":4662.5},{"type":"pointerdown","pointerType":"touch","t":4695.400000035763},{"type":"pointerup","pointerType":"touch","t":4695.5},{"type":"click","pointerType":"touch","t":4695.700000047684},{"type":"pointerdown","pointerType":"touch","t":4728.800000011921},{"type":"pointerup","pointerType":"touch","t":4728.900000035763},{"type":"click","pointerType":"touch","t":4729.200000047684},{"type":"pointerdown","pointerType":"touch","t":4762.400000035763},{"type":"pointerup","pointerType":"touch","t":4762.5},{"type":"click","pointerType":"touch","t":4762.700000047684},{"type":"pointerdown","pointerType":"touch","t":4795.5},{"type":"pointerup","pointerType":"touch","t":4795.600000023842},{"type":"click","pointerType":"touch","t":4795.900000035763},{"type":"pointerdown","pointerType":"touch","t":4828.600000023842},{"type":"pointerup","pointerType":"touch","t":4828.700000047684},{"type":"click","pointerType":"touch","t":4829},{"type":"pointerdown","pointerType":"touch","t":4862.300000011921},{"type":"pointerup","pointerType":"touch","t":4862.900000035763},{"type":"click","pointerType":"touch","t":4863.5},{"type":"pointerdown","pointerType":"touch","t":4411.900000035763},{"type":"pointerup","pointerType":"touch","t":4412},{"type":"click","pointerType":"touch","t":4412.5},{"type":"pointerdown","pointerType":"touch","t":4446},{"type":"pointerup","pointerType":"touch","t":4446.100000023842},{"type":"click","pointerType":"touch","t":4446.300000011921},{"type":"pointerdown","pointerType":"touch","t":4463},{"type":"pointerup","pointerType":"touch","t":4463.100000023842},{"type":"click","pointerType":"touch","t":4463.300000011921},{"type":"pointerdown","pointerType":"touch","t":4479},{"type":"pointerup","pointerType":"touch","t":4479},{"type":"click","pointerType":"touch","t":4479.199999988079},{"type":"pointerdown","pointerType":"touch","t":4496.199999988079},{"type":"pointerup","pointerType":"touch","t":4496.300000011921},{"type":"click","pointerType":"touch","t":4496.800000011921},{"type":"pointerdown","pointerType":"touch","t":4510.800000011921},{"type":"pointerup","pointerType":"touch","t":4510.900000035763},{"type":"click","pointerType":"touch","t":4511.199999988079},{"type":"pointerdown","pointerType":"touch","t":4529.400000035763},{"type":"pointerup","pointerType":"touch","t":4529.400000035763},{"type":"click","pointerType":"touch","t":4529.699999988079},{"type":"pointerdown","pointerType":"touch","t":4544.800000011921},{"type":"pointerup","pointerType":"touch","t":4545.5},{"type":"click","pointerType":"touch","t":4545.800000011921}]
+PASS cls-zero: expected 0 actual {"total":0,"entries":[]}
+PASS focus-toggle-sets: expected "ui" actual "ui"
+PASS focus-pixel-toward-paper: expected "distance to paper decreases" actual {"before":310.9035220128585,"after":51}
+PASS focus-esc-releases: expected null actual null
+PASS focus-toggle-releases: expected null actual null
+PASS focus-survives-explode: expected {"state":"exploded","layer":"ui"} actual {"state":"exploded","layer":"ui"}
+PASS focus-survives-rotate: expected {"azimuth":135,"layer":"ui"} actual {"azimuth":135,"layer":"ui"}
+PASS tour-order-a-live-update: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"]
+PASS tour-order-a-offline-read: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"]
+PASS tour-order-c-pickup-ready: expected ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"] actual ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"]
+PASS tour-order-c-push-failed: expected ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"] actual ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"]
+PASS tour-pause-holds: expected 3 actual 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0" actual [[0,1,2,3,4,5],[0,1,2,3,4],[0,1,2,3,4,5,6],[0,1,2,3,4]]
+PASS tour-stop-clears: expected "every flow stops idle with no caption" actual [{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false}]
+PASS tour-camera-still: expected "azimuth and zoom unchanged during each flow" actual [{"azimuths":[45,45,45,45,45,45],"zooms":[1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]},{"azimuths":[45,45,45,45,45,45,45],"zooms":[1,1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]}]
+PASS tour-focus-suspended-restored: expected {"during":true,"after":true,"layerAfter":"ui"} actual {"during":true,"after":true,"layerAfter":"ui"}
+PASS selector-a-visible: expected "at least one visible flow selector button" actual {"flowButtons":2,"visible":true}
+PASS selector-b-hidden: expected {"flowButtons":0,"visible":false} actual {"flowButtons":0,"visible":false}
+PASS selector-c-two-flows: expected {"flowButtons":2,"visible":true} actual {"flowButtons":2,"visible":true}
+PASS caption-selectable: expected "user-select text and selection round-trip" actual {"userSelect":"text","selectedText":"Recipient","text":"Recipient"}
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}} actual {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}} actual {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1} actual {"target":"tide-chart-screen","frameDelta":1,"highlight":"tide-chart-screen","tweening":["false"],"pulse":["false"]}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1} actual {"target":"ui","frameDelta":1,"highlight":"ui","tweening":["false"],"pulse":["false"]}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"} actual {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":[1,1,1,1,1],"intervalsMs":[1597.699999988079,1601.199999988079,1603.1000000238419,1598.6000000238419],"tweening":["false","false","false","false","false","false","false"],"pulse":["false","false","false","false","false","false","false"]}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\"" actual ["false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false"]
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1600.8999999761581,1600.1000000238419],"tolerance":0.2} actual [1597.699999988079,1601.199999988079,1603.1000000238419,1598.6000000238419]
+PASS scroll-zoom1-no-overflow: expected "<= 1px" actual 0
+PASS scroll-zoomed-overflows: expected "> 1px" actual 803
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"] actual ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3} actual {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)" actual [{"viewport":"desktop","step":0,"target":"recipient","point":{"x":626,"y":205},"caption":{"left":77,"top":397,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":1,"target":"pickup-app","point":{"x":654,"y":225},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":2,"target":"pickup-api","point":{"x":626,"y":284},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":3,"target":"booking-service","point":{"x":626,"y":334},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":4,"target":"locker-registry","point":{"x":626,"y":424},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"desktop","step":5,"target":"notifier","point":{"x":654,"y":354},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":6,"target":"push-gateway","point":{"x":626,"y":493},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"mobile","step":0,"target":"recipient","point":{"x":178,"y":189},"caption":{"left":29,"top":403.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":1,"target":"pickup-app","point":{"x":212,"y":210},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":2,"target":"pickup-api","point":{"x":178,"y":273},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":3,"target":"booking-service","point":{"x":173,"y":326},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":4,"target":"locker-registry","point":{"x":178,"y":420},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true},{"viewport":"mobile","step":5,"target":"notifier","point":{"x":212,"y":347},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":6,"target":"push-gateway","point":{"x":178,"y":494},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true}]
+pass: true
+engine-probe.json: /tmp/s05-checks/t012/engine-probe.json
+
+Probe verification:
+69 checks 0 failed
+pass: true
+
+CLS summary:
+{
+  "cls": {
+    "total": 0,
+    "entries": 0,
+    "byGroup": {}
+  },
+  "clsLoad": {
+    "total": 0.017862506103515627,
+    "entries": 29,
+    "note": "pre-ready page-load shifts: pre-existing S4 playground behaviour (F7), not S5; see .specify/features/engine-core-b/evidence/F7-log-cls-load-s4-vs-s5.txt",
+    "byGroup": {
+      "desktop:caption": {
+        "entries": 1,
+        "value": 0.0006159484863281251
+      },
+      "desktop:captionAnchor": {
+        "entries": 8,
+        "value": 0.004927587890625001
+      },
+      "desktop:focus": {
+        "entries": 2,
+        "value": 0.0012318969726562501
+      },
+      "desktop:hitMap": {
+        "entries": 1,
+        "value": 0.0006159484863281251
+      },
+      "desktop:hover": {
+        "entries": 2,
+        "value": 0.0012318969726562501
+      },
+      "desktop:s4-fixtures-camera": {
+        "entries": 2,
+        "value": 0.0012318969726562501
+      },
+      "desktop:s4-motion": {
+        "entries": 1,
+        "value": 0.0006159484863281251
+      },
+      "desktop:scroll": {
+        "entries": 1,
+        "value": 0.0006159484863281251
+      },
+      "desktop:selector": {
+        "entries": 3,
+        "value": 0.0018478454589843751
+      },
+      "desktop:tour": {
+        "entries": 6,
+        "value": 0.0036956909179687507
+      },
+      "reduced:reduced-motion": {
+        "entries": 1,
+        "value": 0.0006159484863281251
+      },
+      "reduced:s4-reduced-motion": {
+        "entries": 1,
+        "value": 0.0006159484863281251
+      }
+    }
+  }
+}
+
+Screenshot mapping (evidence name | probe artifact | note):
+T012-screenshot-hover-exploded.png | screenshot-hover-exploded.png | exact
+T012-screenshot-hover-imploded.png | screenshot-hover-imploded.png | exact
+T012-screenshot-tap-exploded.png | screenshot-touch-exploded.png | probe names touch gestures "touch"; exact tap state
+T012-screenshot-tap-imploded.png | screenshot-touch-imploded.png | probe names touch gestures "touch"; exact tap state
+T012-screenshot-focus-dimmed.png | screenshot-focus-exploded.png | exact focus-dimmed state captured while exploded
+T012-screenshot-focus-after-explode.png | screenshot-focus-exploded.png | closest available; probe does not emit a separate post-toggle focus screenshot
+T012-screenshot-focus-after-rotate.png | screenshot-focus-exploded.png | closest available; probe does not emit a screenshot after rotate
+T012-screenshot-tour-a.png | screenshot-tour-a-live-update.png | closest available; live-update flow on fixture A
+T012-screenshot-tour-c-selector.png | screenshot-c-exploded.png | closest available; shows fixture C with its two-flow selector
+T012-screenshot-rm-hover.png | screenshot-reduced-hover.png | exact
+T012-screenshot-rm-focus.png | screenshot-reduced-focus.png | exact
+T012-screenshot-rm-tour.png | screenshot-reduced-tour.png | exact
+
+Guard output:
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+
+Typecheck, lint, and test output:
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t012/packages/xploder
+
+(node:87921) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:87917) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:87922) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:87924) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:87930) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:87928) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  31 passed (31)
+      Tests  256 passed (256)
+   Start at  21:30:13
+   Duration  3.16s (tests 59%, import 20%, transform 19%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t012/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  21:30:16
+   Duration  629ms (transform 53%, tests 18%, import 17%, worker 11%)
+
+T012-OK
+
+
+---
+Orchestrator evidence-integrity fix: the probe captures one focus screenshot; the executor had copied it under three names. The two duplicates (focus-after-explode, focus-after-rotate) were deleted so no file claims a state it does not show. Focus surviving explode and a 90 degree snap is proven by the checks focus-survives-explode and focus-survives-rotate in T012-engine-probe.json (state attribute + dimmed pixel), not by screenshots.

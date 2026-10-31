@@ -1,0 +1,13 @@
+F6 measurement (orchestrator, 2026-10-30): exploded state, pure pick over a dense orthographic ray grid (step 0.03), visible screen area per component in world units² (top-layer slab ≈ 0.48). "zoom×" = fitZoom vs the S4 default gap on a 390×500 viewport. explodedGap is varied through layoutOptions only; S4 LAYOUT_DEFAULTS are untouched.
+A gap 1.1 zoom×1.00 | az45: min 0.00 hidden<0.05: tide-repository(0.00) | az135: min 0.10 | az225: min 0.10 | az315: min 0.00 hidden<0.05: live-tide-client(0.00)
+A gap 1.5 zoom×0.85 | az45: min 0.09 | az135: min 0.33 | az225: min 0.33 | az315: min 0.09
+A gap 2 zoom×0.72 | az45: min 0.42 | az135: min 0.48 | az225: min 0.48 | az315: min 0.42
+A gap 2.5 zoom×0.62 | az45: min 0.48 | az135: min 0.48 | az225: min 0.48 | az315: min 0.48
+B gap 1.1 zoom×1.00 | az45: min 0.37 | az135: min 0.37 | az225: min 0.37 | az315: min 0.37
+B gap 1.5 zoom×0.84 | az45: min 0.48 | az135: min 0.48 | az225: min 0.48 | az315: min 0.48
+B gap 2 zoom×0.70 | az45: min 0.48 | az135: min 0.48 | az225: min 0.48 | az315: min 0.48
+B gap 2.5 zoom×0.60 | az45: min 0.48 | az135: min 0.48 | az225: min 0.48 | az315: min 0.48
+C gap 1.1 zoom×1.00 | az45: min 0.00 hidden<0.05: booking-service(0.00),notifier(0.00) | az135: min 0.00 hidden<0.05: slot-planner(0.00) | az225: min 0.00 hidden<0.05: audit-trail(0.00) | az315: min 0.00 hidden<0.05: notifier(0.00),retry-scheduler(0.00)
+C gap 1.5 zoom×0.84 | az45: min 0.05 hidden<0.05: booking-service(0.05) | az135: min 0.05 hidden<0.05: slot-planner(0.05) | az225: min 0.05 hidden<0.05: audit-trail(0.05) | az315: min 0.05 hidden<0.05: retry-scheduler(0.05)
+C gap 2 zoom×0.71 | az45: min 0.31 | az135: min 0.33 | az225: min 0.33 | az315: min 0.31
+C gap 2.5 zoom×0.61 | az45: min 0.48 | az135: min 0.48 | az225: min 0.48 | az315: min 0.48

@@ -1,0 +1,153 @@
+# T006 — emphasis channels + instance-colour rendering
+# Repo root: current T006 worktree
+# Sandbox note: the final "every check" step substitutes the full workspace test command
+# with pnpm test disabled, because tools/perf cannot bind loopback here.
+
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed "s#^#packages/xploder/#" packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ set -euo pipefail; pnpm --filter xploder exec vitest run test/emphasis.test.ts test/emphasis-scene.test.tsx test/pick-scene.test.tsx 2>&1 | tee /tmp/s05-checks/t006.txt
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t006/packages/xploder
+
+(node:46089) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:46088) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  23 passed (23)
+   Start at  17:54:03
+   Duration  175ms (import 59%, tests 21%, transform 19%, worker 2%)
+
+
+$ pnpm --filter xploder exec vitest run test/scene.test.tsx test/frozen-surface.test.ts 2>&1 | tail -4 | tee -a /tmp/s05-checks/t006.txt
+      Tests  10 passed (10)
+   Start at  17:54:04
+   Duration  163ms (import 48%, transform 30%, tests 21%, worker 2%)
+
+
+$ pnpm --filter web exec vitest run test/no-motion-literals.test.ts test/no-color-literals.test.ts 2>&1 | tail -4 | tee -a /tmp/s05-checks/t006.txt
+      Tests  26 passed (26)
+   Start at  17:54:04
+   Duration  78ms (tests 56%, import 25%, transform 12%, worker 7%)
+
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test && echo T006-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t006/packages/xploder
+
+(node:46302) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:46305) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:46303) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  26 passed (26)
+      Tests  233 passed (233)
+   Start at  17:54:08
+   Duration  3.03s (tests 75%, import 18%, transform 5%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t006/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  49 passed | 2 skipped (51)
+   Start at  17:54:12
+   Duration  94ms (tests 49%, import 30%, transform 11%, worker 10%)
+
+T006-OK
+
+
+---
+Orchestrator review fixes:
+1. Slabs: instanceColor initialisation keyed on layout + slug (was counts only; a remount between projects with equal counts would compile the shader without the colour buffer).
+2. Emphasis: invalidate() when the driver is rebuilt (pause/resume, step, palette); otherwise a pulse stopped mid-dip stays at a partial tint.
+
+
+---
+## Orchestrator re-run of the T006 Check block (outside executor sandbox), 2026-10-30T10:55:03Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  5 passed (5)
+Tests  33 passed (33)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  26 passed (26)
+packages/xploder test:       Tests  233 passed (233)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  49 passed | 2 skipped (51)
+T006-OK

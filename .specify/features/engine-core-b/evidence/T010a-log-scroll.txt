@@ -1,0 +1,171 @@
+$ git diff --quiet 53b2b2b -- .specify/slices .specify/KICKOFF.md .specify/KICKOFF-S02.md .specify/KICKOFF-S03.md .specify/KICKOFF-S04.md .specify/KICKOFF-S05.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-OK
+SURFACE-OK
+$ test -z "$(git log --oneline 53b2b2b..HEAD -- .specify/slices .specify/KICKOFF-S05.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+$ pnpm --filter xploder exec vitest run test/scroll.test.ts test/view-scroll.test.tsx test/pick-scene.test.tsx test/scene.test.tsx test/frozen-surface.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t010a/packages/xploder
+
+(node:63258) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63259) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63257) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  5 passed (5)
+      Tests  30 passed (30)
+   Start at  19:37:25
+   Duration  251ms (transform 46%, import 40%, tests 12%, worker 1%)
+
+$ pnpm --filter web exec vitest run test/no-motion-literals.test.ts test/no-color-literals.test.ts test/no-free-orbit.test.ts test/package-consumer.test.ts
+
+ RUN  v5.0.5 /private/tmp/s05-wt/t010a/apps/web
+
+
+ Test Files  4 passed (4)
+      Tests  52 passed (52)
+   Start at  19:37:26
+   Duration  128ms (transform 48%, tests 32%, import 15%, worker 4%)
+
+$ pnpm --filter web exec next dev -p 3110 &
+$ node /tmp/s05-checks/t010a-smoke.mjs 'http://localhost:3110/dev/engine?fixture=a&state=exploded'
+zoom 1: {"extent":0,"scrollTop":0,"clientHeight":538,"scrollHeight":538,"overflow":0}
+zoom 3: {"extent":903.8399999999999,"scrollTop":451,"clientHeight":538,"scrollHeight":1442,"overflow":904}
+top hit: layer 0 beachgoer at 611.3,248.7
+top stage: {"extent":903.8400000000001,"scrollTop":0,"clientHeight":538,"scrollHeight":1442,"overflow":904}
+bottom hit: layer 3 tide-feed at 611.3,437.0
+bottom stage: {"extent":903.8400000000001,"scrollTop":904,"clientHeight":538,"scrollHeight":1442,"overflow":904}
+t010a smoke: OK
+$ pnpm typecheck && pnpm lint && pnpm test && echo T010a-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s05-wt/t010a/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:63543) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:63539) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:63544) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s05-wt/t010a/tools/perf
+tools/perf test: 
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:63553) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:63566) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+tools/perf test:    Start at  19:37:44
+tools/perf test:    Duration  949ms (import 67%, transform 26%, tests 7%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: 
+packages/xploder test:  Test Files  29 passed (29)
+packages/xploder test:       Tests  253 passed (253)
+packages/xploder test:    Start at  19:37:44
+packages/xploder test:    Duration  3.49s (tests 63%, import 22%, transform 14%, worker 1%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s05-wt/t010a/apps/web
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+apps/web test:    Start at  19:37:48
+apps/web test:    Duration  114ms (tests 46%, import 25%, transform 19%, worker 9%)
+apps/web test: 
+apps/web test: Done
+T010a-OK
+
+
+---
+## Orchestrator re-run of the T010a Check block (outside executor sandbox), 2026-10-30T12:38:48Z
+FROZEN-OK
+SURFACE-OK
+BRIEF-HISTORY-OK
+Test Files  5 passed (5)
+Tests  30 passed (30)
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  11 passed (11)
+tools/perf test:       Tests  55 passed (55)
+packages/xploder test:  Test Files  29 passed (29)
+packages/xploder test:       Tests  253 passed (253)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T010a-OK

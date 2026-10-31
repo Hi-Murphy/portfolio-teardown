@@ -1,4 +1,4 @@
-# Slice 05 — Engine Core B: Hover · Layer Focus · Guided Tour · FROZEN BRIEF v1
+# Slice 05 — Engine Core B: Hover · Layer Focus · Guided Tour · FROZEN BRIEF v2
 
 **slice:** S05-engine-core-b · **project:** portfolio-teardown · **repo:** Hi-Murphy/portfolio-teardown · **milestone:** M1 · **author:** Merlin (project layer) · **orchestrator:** Opus 5.5 (orca) · **branch:** `task/s05-engine-core-b` · **depends on:** S4 ✅ (layout/explode/camera) · S2 ✅ · S3 ✅
 
@@ -30,6 +30,7 @@ Build the interaction layer on top of Engine Core A: **component hover highlight
 - **AC4:** with `prefers-reduced-motion` emulated: hover/focus/tour produce instant state changes, no tweens (verified via emulation + evidence artifact).
 - **AC5:** perf gate, dropped-frames style: **0 dropped frames over a ≥5s headless window while the tour is actively playing** on fixture A (`/dev/engine`), fps within the 60 ±10% liveness band, raw fps/intervals reported as information; draw-call count documented and not regressed vs S4 baseline; evidence artifact attached per EVIDENCE.md.
 - **AC6:** all engine logic in `packages/xploder` (apps/web thin-consumer test still green); full CI green on the PR (build/typecheck/lint/test, gitleaks, lighthouse, weight, fps calibration, fixture exclusion); `/dev/engine` still 404s on production; screenshots attached (light+dark × hover/focus/tour).
+- **AC7 (v2 — added by revision 1, reason `spec-gap`):** at zoom >1×, vertical scroll inside the viewer shifts the camera view window (`setViewOffset`) so the topmost and bottommost layers of the fixture stack are reachable — evidenced by top + bottom screenshots at max zoom; at 1× zoom viewer behavior is identical to v1 (no scroll capture); S4 camera-rig files untouched (frozen-surface diff check green); draw calls remain 2; zero CLS contribution; scroll module unit + component tests green in CI.
 
 ## Executor rules (binding)
 - Tasks sized for DeepSeek Flash: one integration seam + one executable check each. **Every visual/motion/touch claim attaches machine-made evidence** per `.specify/EVIDENCE.md` — screenshots for states, harness output for motion perf, touch-emulation traces for tap behavior.
@@ -42,3 +43,7 @@ Build the interaction layer on top of Engine Core A: **component hover highlight
 
 ## Freeze protocol
 Frozen at commit; work only on `task/s05-engine-core-b`; integration via PR after Murphy's final validation. Scope/AC changes = revision, logged in the vault revision log with reason code (counter: S05 starts at 0 of 2; >2 = split, don't re-plan). Design decisions (raycast strategy, tour state machine, caption overlay mechanics, dim-level token values) live in `.specify/features/engine-core-b/rfc.md` — orchestrator-authored, Murphy-reviewed before spec/plan/tasks and again before execution.
+
+
+## Revision log
+- **v2 · 2026-10-30 · AC7 added · reason `spec-gap`** (relayed as "scope-add"; taxonomy-corrected by Merlin — the ledger has four codes and this is squarely "the artifact never said it"): brief v1 specified bounded zoom but never specified how to reach layers outside the viewport while zoomed. Murphy found it at G2 (zoom centres on stack middle; top/bottom unreachable). Fix = new scroll module via `setViewOffset` (RFC §9.10, T010a `082e28b`, frozen-surface evidence FROZEN-OK/SURFACE-OK/BRIEF-HISTORY-OK); S4 camera untouched, 1× behavior unchanged, 2 draw calls, zero CLS. AC7 codifies the fix as an executable gate — it grades work already built, adds no new scope. Adopted: Murphy (relay 2026-10-30). Written by: Merlin (brief author). **Revision count: 1 of 2 (split trigger).**

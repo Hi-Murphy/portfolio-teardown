@@ -1,0 +1,22 @@
+## T015 check (orchestrator), 2026-10-31T00:27:29Z, HEAD 81db098
+Done in 77ms using pnpm v12.15.0
+$ pnpm -r --if-present typecheck
+typecheck-ok
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+lint+format-ok
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  31 passed (31)
+packages/xploder test:       Tests  256 passed (256)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+✓ Compiled successfully in 1158ms
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 173ms
+$ git diff --stat --exit-code 53b2b2b -- <frozen surface>
+SURFACE-DIFF-EMPTY
+$ brief/kickoff vs v2 base d552ef4 (expected: only the Merlin ladder erratum lines)
+ .specify/KICKOFF-S05.md                   | 2 +-
+ .specify/slices/slice-05-engine-core-b.md | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
