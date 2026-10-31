@@ -35,6 +35,15 @@ export interface TitleBlockLayout {
 
 const CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left'] as const;
 
+function layerRow(
+  layer: TitleBlockProject['layers'][number] | null | undefined,
+  layerIndex: number,
+): string | null {
+  if (layer === null || layer === undefined) return null;
+
+  return `${layerNumber(layerIndex)} ${layer.name ?? layer.id}`;
+}
+
 function inflate(rect: Rect, amount: number): Rect {
   return {
     x: rect.x - amount,
@@ -62,12 +71,16 @@ export function titleBlockLines(
   project: TitleBlockProject,
   layout: Pick<ProjectLayout, 'footprint'>,
 ): TitleBlockLines {
+  const rows = project.layers.flatMap((layer, layerIndex) => {
+    const row = layerRow(layer, layerIndex);
+
+    return row === null ? [] : [row];
+  });
+
   return {
     title: project.meta.name ?? project.meta.slug,
-    meta: `${project.layers.length} layers · ${layout.footprint.cols} × ${layout.footprint.rows}`,
-    rows: project.layers.map(
-      (layer, layerIndex) => `${layerNumber(layerIndex)} ${layer.name ?? layer.id}`,
-    ),
+    meta: `${rows.length} layers · ${layout.footprint.cols} × ${layout.footprint.rows}`,
+    rows,
   };
 }
 

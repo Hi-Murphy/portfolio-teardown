@@ -48,6 +48,7 @@ export interface BlueprintOverlayHandle {
 
 interface SettledFrame {
   readonly frame: Extract<OverlayEvent, { kind: 'settled' }>['frame'];
+  readonly layout: ProjectLayout;
   readonly width: number;
   readonly height: number;
   readonly offsetY: number;
@@ -178,6 +179,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     const fadeAnimationRef = useRef<Animation | null>(null);
     const targetRef = useRef(target);
     const phaseRef = useRef(phase);
+    const layoutRef = useRef(layout);
     const [settled, setSettled] = useState<SettledFrame | null>(null);
     const [moving, setMoving] = useState(false);
 
@@ -198,6 +200,16 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     // A settled frame can arrive a frame before React commits the explode phase that
     // produced it; keep it pending and apply it once phase and target agree.
     const pendingRef = useRef<Omit<SettledFrame, 'target'> | null>(null);
+
+    useLayoutEffect(() => {
+      layoutRef.current = layout;
+      pendingRef.current = null;
+      fadeAnimationRef.current?.cancel();
+      fadeAnimationRef.current = null;
+      setSettled(null);
+
+      if (rootRef.current !== null) rootRef.current.style.opacity = '0';
+    }, [layout]);
 
     const applyPending = useCallback(() => {
       const pending = pendingRef.current;
@@ -228,6 +240,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
 
         pendingRef.current = {
           frame: event.frame,
+          layout: layoutRef.current,
           width: event.width,
           height: event.height,
           offsetY: event.offsetY,
@@ -243,11 +256,13 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
 
     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
 
+    const layoutMatches = settled?.layout === layout;
     const visible = overlayVisible({
       moving,
       settledTarget: settled?.target ?? null,
       target,
       phase,
+      layoutMatches,
     });
 
     const model = useMemo<OverlayModel | null>(() => {
