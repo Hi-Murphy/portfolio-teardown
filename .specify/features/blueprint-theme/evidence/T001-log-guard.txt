@@ -1,0 +1,162 @@
+$ bash packages/xploder/test/frozen-surface.generate-s5.sh
+wrote packages/xploder/test/frozen-surface.s5.manifest.json (31 files)
+
+$ grep -Ec '^    "[^"]+": "[0-9a-f]{64}",?$' packages/xploder/test/frozen-surface.s5.manifest.json
+31
+
+$ pnpm --filter xploder exec vitest run test/frozen-surface.test.ts test/look-tokens.test.ts
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t001/packages/xploder
+
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  10:35:41
+   Duration  120ms (transform 58%, import 26%, tests 11%, worker 5%)
+
+
+$ printf ' ' >> packages/xploder/src/interaction/tour.ts
+
+$ pnpm --filter xploder exec vitest run test/frozen-surface.test.ts  # expected to fail
+
+Expected: "abd43a4a298c744c4d4e6d1740469baa766c97955ff9718d5cd5057964862317"
+Received: "72ee053286daef8cb1404555660fbc0055c0fa243dcc541f4851eba90ba6c002"
+
+ ❯ test/frozen-surface.test.ts:150:47
+    148|       if (workingCopy === undefined) throw new Error(`Missing working …
+    149|
+    150|       expect(await sha256(workingCopy), path).toBe(expected);
+       |                                               ^
+    151|     }
+    152|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  10:35:42
+   Duration  109ms (transform 55%, import 26%, tests 16%, worker 3%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s06-wt/t001/packages/xploder
+
+
+$ cp "$(git rev-parse --git-path index)" /tmp/s06-checks/t001-index
+$ GIT_INDEX_FILE=/tmp/s06-checks/t001-index git checkout -- packages/xploder/src/interaction/tour.ts
+S5 negative control: red as expected
+
+$ git diff --stat --exit-code f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths)
+S5-DIFF-EMPTY
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t001/packages/xploder
+
+(node:55018) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55023) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55022) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:55025) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55029) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55032) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  32 passed (32)
+      Tests  261 passed (261)
+   Start at  10:35:51
+   Duration  3.14s (tests 63%, import 20%, transform 16%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t001/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  10:35:54
+   Duration  581ms (transform 56%, tests 18%, import 17%, worker 10%)
+
+T001-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+orchestrator re-run: S5 negative control red as expected
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  32 passed (32)
+packages/xploder test:       Tests  261 passed (261)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T001-OK-orchestrator-full
