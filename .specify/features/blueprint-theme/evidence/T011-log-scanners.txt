@@ -1,0 +1,148 @@
+S06/T011 — Playground default + backdrop, scanner upkeep
+Run from: /tmp/s06-wt/t011 (repo root)
+
+## Commands run
+$ grep -q 'explodedGap' apps/web/app/dev/engine/engine-playground.tsx && { echo 'override still present'; exit 1; } || true
+$ pnpm --filter web exec vitest run test/no-color-literals.test.ts test/no-motion-literals.test.ts test/package-consumer.test.ts test/fixture-exclusion.test.ts 2>&1 | tee /tmp/s06-checks/t011.txt
+$ printf '\nconst probeHex = "#123456";\n' >> packages/xploder/src/overlay/model.ts
+$ pnpm --filter web exec vitest run test/no-color-literals.test.ts >/tmp/s06-checks/t011-neg-hex.txt 2>&1
+$ git checkout -- packages/xploder/src/overlay/model.ts
+$ printf '\nconst probeMs = { transition: "opacity 200ms" };\n' >> packages/xploder/src/overlay/model.ts
+$ pnpm --filter web exec vitest run test/no-motion-literals.test.ts >/tmp/s06-checks/t011-neg-motion.txt 2>&1
+$ git checkout -- packages/xploder/src/overlay/model.ts
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test && echo T011-OK
+$ pnpm build
+
+## Scanner check
+RUN  v5.0.5 /private/tmp/s06-wt/t011/apps/web
+
+Test Files  3 passed | 1 skipped (4)
+     Tests  40 passed | 2 skipped (42)
+  Start at  13:16:24
+  Duration  487ms (transform 53%, tests 19%, import 18%, worker 11%)
+
+## Negative control: color literal
+The scanner rejected the appended literal as expected:
+
+FAIL  test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals
+AssertionError: /private/tmp/s06-wt/t011/packages/xploder/src/overlay/model.ts:440 hex-color const probeHex = "#123456";: expected [ { ...(4) } ] to deeply equal []
+
+Received:
+[
+  {
+    "file": "/private/tmp/s06-wt/t011/packages/xploder/src/overlay/model.ts",
+    "line": 440,
+    "rule": "hex-color",
+    "snippet": "const probeHex = \"#123456\";",
+  },
+]
+
+Test Files  1 failed (1)
+     Tests  1 failed | 10 passed (11)
+  Start at  13:16:24
+  Duration  78ms (tests 63%, import 22%, transform 9%, worker 6%)
+
+## Negative control: motion literal
+The scanner rejected the appended timing as expected:
+
+FAIL  test/no-motion-literals.test.ts > motion-literal scanner > xploder source outside motion/ contains no motion literals
+AssertionError: /private/tmp/s06-wt/t011/packages/xploder/src/overlay/model.ts:440 css-time const probeMs = { transition: "opacity 200ms" };
+/private/tmp/s06-wt/t011/packages/xploder/src/overlay/model.ts:440 motion-key const probeMs = { transition: "opacity 200ms" };: expected [ { ...(4) }, { ...(4) } ] to deeply equal []
+
+Received:
+[
+  {
+    "file": "/private/tmp/s06-wt/t011/packages/xploder/src/overlay/model.ts",
+    "line": 440,
+    "rule": "css-time",
+    "snippet": "const probeMs = { transition: \"opacity 200ms\" };",
+  },
+  {
+    "file": "/private/tmp/s06-wt/t011/packages/xploder/src/overlay/model.ts",
+    "line": 440,
+    "rule": "motion-key",
+    "snippet": "const probeMs = { transition: \"opacity 200ms\" };",
+  },
+]
+
+Test Files  1 failed (1)
+     Tests  1 failed | 14 passed (15)
+  Start at  13:16:25
+  Duration  79ms (tests 64%, import 20%, transform 10%, worker 5%)
+
+negative controls: red as expected
+
+Sandbox restore note: both `git checkout -- packages/xploder/src/overlay/model.ts` calls were blocked by the sandbox while creating the Git index lock (Operation not permitted). The file was restored byte-for-byte from a pre-test copy at /tmp/s06-checks/t011-model.ts.orig; `cmp` and `git diff --exit-code -- packages/xploder/src/overlay/model.ts` both passed afterwards.
+
+## Workspace checks
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint: Done
+tools/perf lint: Done
+apps/web lint: Done
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm --filter xploder test
+Test Files  43 passed (43)
+     Tests  366 passed (366)
+
+$ pnpm --filter web test
+Test Files  4 passed | 1 skipped (5)
+     Tests  52 passed | 2 skipped (54)
+
+## Build attempt
+$ pnpm build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+
+Error [TurbopackInternalError]: Failed to write app endpoint /page
+Caused by:
+- [project]/apps/web/app/globals.css [app-client] (css)
+- creating new process
+- binding to a port
+- Operation not permitted (os error 1)
+
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+  × "pnpm recursive run" failed in /private/tmp/s06-wt/t011/apps/web
+
+Sandbox note: the production build cannot bind a port in this sandbox and fails with EPERM before compiling application code. The orchestrator must rerun `pnpm build` outside the sandbox.
+
+## Frozen-surface guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+
+T011-OK
+## Orchestrator: pnpm build outside the sandbox
+
+
+○  (Static)  prerendered as static content
+
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  4 passed (4)
+      Tests  41 passed | 1 skipped (42)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  43 passed (43)
+packages/xploder test:       Tests  366 passed (366)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T011-OK (orchestrator full re-run)
