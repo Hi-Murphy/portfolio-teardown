@@ -31,4 +31,5 @@ Ledger: `../tasks.md`. Every task was finished by tier 1 (DeepSeek Flash); tier 
 
 1. Final validation in Orca's browser via `pnpm dev` → `/dev/engine` (the route is excluded from previews and production): both palettes, callout readability, tour trace, title block when imploded.
 2. "merge" when satisfied.
-3. Carry-over noted, not in S6 scope: on a phone, S5's tour caption sits over the top layer (candidate for S8/S10).
+3. Carry-over noted, not in S6 scope: on a phone, S5's tour caption sits over the top layer (candidate for S8/S10). Both carry-overs for Merlin are recorded in RFC §9.14.
+4. Final validation: accepted by Murphy on 2026-10-31; merge on Murphy's command.
