@@ -10,12 +10,12 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
-| T006 | ☐ | | | |
+| T001 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T001-log-guard.txt | b291309 |
+| T002 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T002-log-fills.txt | e042085 |
+| T003 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T003-log-product-gap.txt | f3e9da0 |
+| T004 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T004-log-overlay-geometry.txt | c88c3d2 |
+| T005 | ☑ (look-ahead deviation accepted, see log) | 1 (Flash, sandbox on) + orchestrator review fix (search cap 100k → 2k, measured) | evidence/T005-log-placement.txt | 53cbeb1 |
+| T006 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T006-log-trace.txt | ad7244a |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
