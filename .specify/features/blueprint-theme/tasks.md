@@ -17,11 +17,11 @@
 | T005 | ☑ (look-ahead deviation accepted, see log) | 1 (Flash, sandbox on) + orchestrator review fix (search cap 100k → 2k, measured) | evidence/T005-log-placement.txt | 53cbeb1 |
 | T006 | ☑ | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T006-log-trace.txt | ad7244a |
 | T007 | ☑ (+ T007a fix) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T007-log-material.txt | 14bc3fa |
-| T007a | ☑ (found by the pre-T009 browser check: tone mapping + StrictMode double-patch) | ⚑ orchestrator | evidence/T007a-{log-material-fix.txt,screenshot-desktop-*.png} | (this commit) |
+| T007a | ☑ (found by the pre-T009 browser check: tone mapping + StrictMode double-patch) | ⚑ orchestrator | evidence/T007a-{log-material-fix.txt,screenshot-desktop-*.png} | 14d15e7 |
 | T008 | ☑ (Scene.tsx additive conflict with T007 resolved) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T008-log-projector.txt | cddae21 |
-| T009 | ☐ | | | |
-| T010 | ☐ | | | |
-| T011 | ☐ | | | |
+| T009 | ☑ (+ label background fix) | 1 (Flash, sandbox on) + orchestrator screenshot step (sandbox EPERM) and labelFillRole fix | evidence/T009-{log-overlay.txt,screenshot-*.png,meta.json} | 99a946b |
+| T010 | ☑ | 1 (Flash, sandbox on) + orchestrator browser step (sandbox EPERM) | evidence/T010-{log-trace.txt,screenshot-*.png,meta.json} | 748b96e |
+| T011 | ☑ + ⚑ pushed, draft PR | 1 (Flash, sandbox on); build + full check re-run by orchestrator | evidence/T011-log-scanners.txt, G2-log-combined.txt | 73da9a5 |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |

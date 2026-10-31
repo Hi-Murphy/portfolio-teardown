@@ -1,0 +1,22 @@
+# S06 G2 combined gate log — 2026-10-31T06:19:25Z — HEAD 73da9a5 (task/s06-blueprint-theme)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+S2S4-DIFF-EMPTY
+S5-DIFF-EMPTY
+$ git diff --stat bb6a514 -- packages apps tools | tail -1
+ 37 files changed, 5777 insertions(+), 20 deletions(-)
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  43 passed (43)
+packages/xploder test:       Tests  366 passed (366)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+✓ Compiled successfully in 864ms
+G2-OK
