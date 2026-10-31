@@ -232,6 +232,7 @@ export interface OverlayDefaultObservation {
   viewport: 'mobile' | 'desktop';
   titleBlock: string | null;
   overlay: string | null;
+  callouts: string | null;
   hidden: string | null;
   labelCount: number;
 }
@@ -249,6 +250,7 @@ export interface Overlay360Observation {
   fixture: 'a' | 'c';
   state: 'imploded' | 'exploded';
   theme: 'light' | 'dark';
+  callouts: string | null;
   viewer: { left: number; top: number; right: number; bottom: number };
   boxes: OverlayBoxObservation[];
 }
@@ -273,10 +275,21 @@ export interface OverlayColoursObservation {
 export interface OverlayHitThroughObservation {
   hoverTarget: string;
   hoverHighlight: string | null;
+  hoverLeaderCount: number;
+  hoverEmphasisKey: string | null;
+  afterLeaveHighlight: string | null;
+  afterLeaveLeaderCount: number;
+  afterLeaveEmphasisKey: string | null;
   tapTarget: string;
   tapHighlight: string | null;
   labelTarget: string;
   afterLabelTap: string | null;
+}
+
+export interface OverlayLeadersAtRestObservation {
+  callouts: string | null;
+  leaders: number;
+  highlight: string | null;
 }
 
 export interface TraceFlowObservation {
@@ -296,6 +309,16 @@ export interface BlinkObservation {
   framesSampled: number;
   blinkFrames: number;
   stuckHiddenAfterSettle: { round: number; to: string; end: string | null }[];
+  offenders?: {
+    round: number;
+    to: string;
+    t: number;
+    phase: string | null;
+    attr: string | null;
+    opacity: number;
+    textElements: number;
+    control: string | null;
+  }[];
 }
 
 export interface S6Observation {
@@ -305,6 +328,7 @@ export interface S6Observation {
   selectable: OverlaySelectableObservation;
   colours: { light: OverlayColoursObservation; dark: OverlayColoursObservation };
   hitThrough: OverlayHitThroughObservation;
+  leadersAtRest: OverlayLeadersAtRestObservation;
   cls: ClsObservation;
   trace: { flows: TraceFlowObservation[]; reducedMotion: ReducedTraceObservation };
   defaultGap: { a: string[]; c: string[] };
@@ -1217,7 +1241,9 @@ function s6Checks(observation: S6Observation): EngineProbeCheck[] {
         const pass =
           state === 'imploded'
             ? sample?.titleBlock === 'shown' && sample.labelCount === 0
-            : sample?.overlay === 'shown' && sample.hidden === '0';
+            : sample?.overlay === 'shown' &&
+              sample.hidden === '0' &&
+              sample.callouts === (viewport === 'desktop' ? 'columns' : 'tags');
 
         checks.push({
           name: `overlay-default-${fixture}-${state}-${viewport}`,
@@ -1225,7 +1251,11 @@ function s6Checks(observation: S6Observation): EngineProbeCheck[] {
           expected:
             state === 'imploded'
               ? { titleBlock: 'shown', labelCount: 0 }
-              : { overlay: 'shown', hidden: '0' },
+              : {
+                  overlay: 'shown',
+                  hidden: '0',
+                  callouts: viewport === 'desktop' ? 'columns' : 'tags',
+                },
           actual: sample ?? null,
         });
       }
@@ -1252,7 +1282,10 @@ function s6Checks(observation: S6Observation): EngineProbeCheck[] {
       sample.boxes.every(
         (box) => boxInside(box, sample.viewer) && box.fontSize >= OVERLAY_FONT_PX_MIN,
       ) &&
-      !hasOverlappingBoxes(sample.boxes),
+      !hasOverlappingBoxes(sample.boxes) &&
+      (sample.state === 'imploded' ||
+        (sample.callouts === 'tags' &&
+          !hasOverlappingBoxes(sample.boxes.filter((box) => box.key.startsWith('part:'))))),
   );
 
   checks.push(
@@ -1262,6 +1295,7 @@ function s6Checks(observation: S6Observation): EngineProbeCheck[] {
       expected: {
         samples: 8,
         everyBox: 'inside viewer, font-size >= 12px, no pairwise intersections',
+        explodedCallouts: 'tags, no tag/tag overlaps',
       },
       actual: overlay360Samples.map((sample) => sample ?? null),
     },
@@ -1309,14 +1343,33 @@ function s6Checks(observation: S6Observation): EngineProbeCheck[] {
       name: 'overlay-hit-through',
       pass:
         observation.hitThrough.hoverHighlight === observation.hitThrough.hoverTarget &&
+        observation.hitThrough.hoverLeaderCount === 1 &&
+        observation.hitThrough.hoverEmphasisKey === `part:${observation.hitThrough.hoverTarget}` &&
+        observation.hitThrough.afterLeaveHighlight === null &&
+        observation.hitThrough.afterLeaveLeaderCount === 0 &&
+        observation.hitThrough.afterLeaveEmphasisKey === null &&
         observation.hitThrough.tapHighlight === observation.hitThrough.tapTarget &&
         observation.hitThrough.afterLabelTap === null,
       expected: {
         hoverHighlight: observation.hitThrough.hoverTarget,
+        hoverLeaderCount: 1,
+        hoverEmphasisKey: `part:${observation.hitThrough.hoverTarget}`,
+        afterLeaveHighlight: null,
+        afterLeaveLeaderCount: 0,
+        afterLeaveEmphasisKey: null,
         tapHighlight: observation.hitThrough.tapTarget,
         afterLabelTap: null,
       },
       actual: observation.hitThrough,
+    },
+    {
+      name: 'overlay-no-leaders-at-rest',
+      pass:
+        observation.leadersAtRest.callouts === 'columns' &&
+        observation.leadersAtRest.leaders === 0 &&
+        observation.leadersAtRest.highlight === null,
+      expected: { callouts: 'columns', leaders: 0, highlight: null },
+      actual: observation.leadersAtRest,
     },
     {
       name: 'overlay-cls-zero',

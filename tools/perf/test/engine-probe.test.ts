@@ -318,6 +318,7 @@ function passingS6(): S6Observation {
         viewport,
         titleBlock: state === 'imploded' ? 'shown' : 'hidden',
         overlay: 'shown',
+        callouts: state === 'exploded' ? (viewport === 'desktop' ? 'columns' : 'tags') : 'none',
         hidden: '0',
         labelCount: state === 'imploded' ? 0 : 3,
       })),
@@ -329,25 +330,46 @@ function passingS6(): S6Observation {
         fixture,
         state,
         theme,
+        callouts: state === 'exploded' ? 'tags' : 'none',
         viewer: { left: 0, top: 0, right: 360, bottom: 740 },
-        boxes: [
-          {
-            key: state === 'imploded' ? 'titleblock' : 'layer:ui',
-            left: 10,
-            top: 10,
-            right: 110,
-            bottom: 30,
-            fontSize: 12,
-          },
-          {
-            key: 'dimension:stack',
-            left: 10,
-            top: 40,
-            right: 110,
-            bottom: 60,
-            fontSize: 12,
-          },
-        ],
+        boxes:
+          state === 'imploded'
+            ? [
+                {
+                  key: 'titleblock',
+                  left: 10,
+                  top: 10,
+                  right: 110,
+                  bottom: 30,
+                  fontSize: 12,
+                },
+              ]
+            : [
+                {
+                  key: 'layer:ui',
+                  left: 10,
+                  top: 10,
+                  right: 110,
+                  bottom: 30,
+                  fontSize: 12,
+                },
+                {
+                  key: 'dimension:stack',
+                  left: 10,
+                  top: 40,
+                  right: 110,
+                  bottom: 60,
+                  fontSize: 12,
+                },
+                {
+                  key: 'part:beachgoer',
+                  left: 120,
+                  top: 10,
+                  right: 180,
+                  bottom: 30,
+                  fontSize: 12,
+                },
+              ],
       })),
     ),
   );
@@ -404,11 +426,17 @@ function passingS6(): S6Observation {
     hitThrough: {
       hoverTarget: 'tide-chart-screen',
       hoverHighlight: 'tide-chart-screen',
+      hoverLeaderCount: 1,
+      hoverEmphasisKey: 'part:tide-chart-screen',
+      afterLeaveHighlight: null,
+      afterLeaveLeaderCount: 0,
+      afterLeaveEmphasisKey: null,
       tapTarget: 'tide-chart-screen',
       tapHighlight: 'tide-chart-screen',
       labelTarget: 'layer:ui',
       afterLabelTap: null,
     },
+    leadersAtRest: { callouts: 'columns', leaders: 0, highlight: null },
     cls: { total: 0, entries: [] },
     trace: {
       flows: [
@@ -684,6 +712,9 @@ function failS6Check(observation: EngineProbeObservation, name: string): void {
     case 'overlay-hit-through':
       s6.hitThrough.afterLabelTap = s6.hitThrough.tapTarget;
       break;
+    case 'overlay-no-leaders-at-rest':
+      s6.leadersAtRest.leaders = 1;
+      break;
     case 'overlay-cls-zero':
       s6.cls.entries.push({
         value: 0.01,
@@ -785,7 +816,7 @@ describe('evaluateProbe', () => {
     const result = evaluateProbe(passingObservation());
 
     expect(result.pass).toBe(true);
-    expect(result.checks).toHaveLength(104);
+    expect(result.checks).toHaveLength(105);
     expect(result.checks.every((check) => check.pass)).toBe(true);
   });
 
@@ -843,7 +874,7 @@ describe('evaluateProbe', () => {
   test('fails each S6 check once without failing another', () => {
     const baseline = evaluateProbe(passingObservation(), 's6');
 
-    expect(baseline.checks).toHaveLength(35);
+    expect(baseline.checks).toHaveLength(36);
     expect(baseline.pass).toBe(true);
 
     for (const check of baseline.checks) {
@@ -855,6 +886,84 @@ describe('evaluateProbe', () => {
       expect(
         result.checks.filter((candidate) => !candidate.pass).map((candidate) => candidate.name),
       ).toEqual([check.name]);
+    }
+  });
+
+  test('fails the callout-mode and leader rules when their products regress', () => {
+    const cases: { check: string; mutate: (observation: EngineProbeObservation) => void }[] = [
+      {
+        check: 'overlay-default-a-exploded-desktop',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlayDefaults.find(
+            (candidate) =>
+              candidate.fixture === 'a' &&
+              candidate.state === 'exploded' &&
+              candidate.viewport === 'desktop',
+          );
+          if (sample !== undefined) sample.callouts = 'tags';
+        },
+      },
+      {
+        check: 'overlay-default-a-exploded-mobile',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlayDefaults.find(
+            (candidate) =>
+              candidate.fixture === 'a' &&
+              candidate.state === 'exploded' &&
+              candidate.viewport === 'mobile',
+          );
+          if (sample !== undefined) sample.callouts = 'columns';
+        },
+      },
+      {
+        check: 'overlay-360-boxes',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlay360.find(
+            (candidate) => candidate.state === 'exploded',
+          );
+          if (sample !== undefined) sample.callouts = 'columns';
+        },
+      },
+      {
+        check: 'overlay-360-boxes',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlay360.find(
+            (candidate) => candidate.state === 'exploded',
+          );
+          const tag = sample?.boxes.find((box) => box.key === 'part:beachgoer');
+          if (tag !== undefined) tag.left = 100;
+        },
+      },
+      {
+        check: 'overlay-hit-through',
+        mutate: (observation) => {
+          if (observation.s6 !== undefined) observation.s6.hitThrough.hoverLeaderCount = 2;
+        },
+      },
+      {
+        check: 'overlay-hit-through',
+        mutate: (observation) => {
+          if (observation.s6 !== undefined) {
+            observation.s6.hitThrough.afterLeaveEmphasisKey = 'part:tide-chart-screen';
+          }
+        },
+      },
+      {
+        check: 'overlay-no-leaders-at-rest',
+        mutate: (observation) => {
+          if (observation.s6 !== undefined) observation.s6.leadersAtRest.callouts = 'tags';
+        },
+      },
+    ];
+
+    for (const { check, mutate } of cases) {
+      const observation = passingObservation();
+      mutate(observation);
+      const result = evaluateProbe(observation, 's6');
+
+      expect(
+        result.checks.filter((candidate) => !candidate.pass).map((candidate) => candidate.name),
+      ).toEqual([check]);
     }
   });
 });

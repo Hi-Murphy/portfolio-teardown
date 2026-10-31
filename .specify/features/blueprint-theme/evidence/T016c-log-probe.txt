@@ -1,0 +1,43 @@
+# T016c — evidence re-run after T016a/T016b (2026-10-31)
+Executor (tier 1, Flash, sandbox off) adapted the probe to the callout modes and ran the full probe: 105 checks, 1 failed — overlay-no-blink 3/1055 frames (run1 files kept: T016c-engine-probe-run1-failed.json, T016c-log-probe-run1-failed.txt). It stopped correctly (no rerun-until-green).
+
+## Orchestrator diagnosis
+- Not reproducible: reference rAF probe 12 rounds on next dev (0), 24 rounds on the fixture export A+C (0); probe --scope s6 ×2 (0, 600 frames); full probe ×1 (0, 750 frames) — diagnostic runs, not used as the verdict.
+- The run1 observation stored only a count. Hypothesis: under 4x throttle in the long full run, React committed the click 1–3 frames late; those frames still show the previous, correct state but the metric counted from the click.
+- Probe change (orchestrator): count from the first frame in which the click is committed (the toggle control's label flipped), and record up to 12 offending frames (phase, overlay attr, opacity, text count, control label).
+- Negative control of the refined rule (reference script with the identical rule): pre-T011b build f365b6e → blinkFrames 11 (13 exploded labels over the closed stack, control already flipped); current build → 0. The rule still catches the real bug.
+
+## Official run (refined probe, fixture export of the slice branch after T016b)
+probe: 105 checks, 0 failed; pass true
+blink: {"throttle":4,"rounds":4,"framesSampled":600,"blinkFrames":0,"stuckHiddenAfterSettle":[],"offenders":[]}
+overlay-hit-through true
+overlay-no-leaders-at-rest true
+overlay-360-boxes true
+overlay-cls-zero true
+draw-calls-mid-tour true
+scroll-top-reaches-top-layer true
+scroll-bottom-reaches-bottom-layer true
+default-gap-hitmap-a true
+default-gap-hitmap-c true
+matrix: 8 pnpm evidence runs exit 0, 16 PNGs (T016c-screenshot-{mobile,desktop}-{light,dark}-{imploded,exploded,tour,c-default}.png)
+fps (run alone): {"ok":true,"droppedFrames":0,"liveness":true,"windowMs":5047.619,"tourStepsAdvanced":3,"drawCalls":2,"info":{"fps":59.433962824848706,"rafFps":60.0028094960968,"intervalsMs":{"p50":16.674,"p95":17.602,"max":18.354}}}
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  1 passed (1)
+      Tests  17 passed (17)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:  Test Files  45 passed (45)
+packages/xploder test:       Tests  397 passed (397)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T016C-OK (orchestrator full re-run)
