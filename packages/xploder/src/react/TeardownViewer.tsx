@@ -13,8 +13,11 @@ import {
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
+import { resolveViewerLayoutOptions } from '../look/product';
+import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
+import type { ComponentKind } from '../schema/constants';
 import type { Palette } from '../theme';
 import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
 import { Scene } from './scene/Scene';
@@ -29,6 +32,10 @@ import {
   type TeardownViewerHandle,
   type ViewerProject,
 } from './useTeardownViewer';
+
+type ViewerComponent = ViewerProject['layers'][number]['components'][number] & {
+  readonly kind?: ComponentKind;
+};
 
 export interface TeardownViewerProps {
   project: ViewerProject;
@@ -100,7 +107,21 @@ export function TeardownViewer({
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
   const tokens = useMemo(() => resolveMotion(prefersReducedMotion), [prefersReducedMotion]);
-  const layout = useMemo(() => layoutProject(project, layoutOptions), [project, layoutOptions]);
+  const resolvedLayoutOptions = useMemo(
+    () => resolveViewerLayoutOptions(layoutOptions),
+    [layoutOptions],
+  );
+  const layout = useMemo(
+    () => layoutProject(project, resolvedLayoutOptions),
+    [project, resolvedLayoutOptions],
+  );
+  const kinds = useMemo(
+    () =>
+      project.layers.flatMap((layer) =>
+        layer.components.map((component) => (component as ViewerComponent).kind ?? 'module'),
+      ),
+    [project],
+  );
   const targetLayerIndex =
     position.componentId === null
       ? null
@@ -274,6 +295,8 @@ export function TeardownViewer({
               pickBridgeRef={pickBridgeRef}
               scrollRef={stageRef}
               onScrollExtent={onScrollExtent}
+              look={look}
+              kinds={kinds}
             />
           </Canvas>
         </div>
