@@ -34,7 +34,7 @@ Build the interaction layer on top of Engine Core A: **component hover highlight
 
 ## Executor rules (binding)
 - Tasks sized for DeepSeek Flash: one integration seam + one executable check each. **Every visual/motion/touch claim attaches machine-made evidence** per `.specify/EVIDENCE.md` — screenshots for states, harness output for motion perf, touch-emulation traces for tap behavior.
-- Escalation ladder: Flash stuck ×2 → Sol/Gemini (OpenRouter) → ×2 → orchestrator executes. Report which tier finished each task.
+- Escalation ladder: Flash stuck ×2 → orchestrator executes personally. (Tier 1.5 Sol/Gemini via OpenRouter is **DORMANT** — skip-with-record unless `OPENROUTER_API_KEY` is present; Murphy decision 2026-10-30.) Report which tier finished each task.
 - Each task ends with WHAT MURPHY SHOULD TEST/VALIDATE + WHAT THE AGENT NEEDS FROM MURPHY (numbered, defaults).
 - No secrets; gitleaks green.
 
