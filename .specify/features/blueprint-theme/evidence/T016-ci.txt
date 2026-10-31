@@ -1,0 +1,14 @@
+# T016 — PR #10 CI (head c186765, 2026-10-31)
+gh pr checks 10:
+Vercel: pass  https://vercel.com/murphy-3c4d/portfolio-teardown/6pTDEjBoGUDbUXWwr2c8CscXm5Np
+Vercel Preview Comments: pass  https://vercel.com/github
+build (typecheck, lint, test, build): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41197696225/job/124527096061
+perf-gate: lighthouse (mobile): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41197696205/job/124527096385
+perf-gate: weight (< 3 MB): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41197696205/job/124527096473
+perf: fixture exclusion: pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41197696205/job/124527096431
+perf: fps calibration: pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41197696205/job/124527096236
+secrets (gitleaks): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41197696225/job/124527096202
+
+Dense sweeps on the CI runner: placement 7344 cases / 0 failures (overlay-place.test.ts 36.8 s, within the 180 s test timeout); title block 7344 / 0.
+Earlier red runs in this stage were test-timeout issues only (see G3-log-combined.txt); no assertion ever failed on CI.
+PR marked ready for review; merge waits for Murphy's 'merge'.

@@ -29,7 +29,7 @@
 | T013 | ☑ 104/104 | 1 (Flash, sandbox off; driver-only fixes reviewed); 1st dispatch lost to an orchestrator cwd error (not an executor failure) | evidence/T013-{engine-probe.json,log-probe.txt,screenshot-*.png} | d0ffdc8 |
 | T014 | ☑ 16 shots (round 2) | 1 (Flash, sandbox off) | evidence/T014-{log-matrix.txt,screenshot-*.png,meta-*.json} | 4e68a4d |
 | T015 | ☑ 0 dropped / 5.05 s, 2 calls | 1 (Flash, sandbox off, alone) | evidence/T015-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 635b0c2 |
-| T016 | ☐ | | | |
+| T016 | ☑ PR #10 ready, 8/8 CI green; waiting for "merge" | ⚑ orchestrator | evidence/{T016-ci.txt,T016-log-gate.txt,T016-log-surface-diff.txt,AC-selfcheck.md} | c186765 (CI head) |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specify/features/blueprint-theme/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 
