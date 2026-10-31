@@ -1,0 +1,60 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3",
+  "finalUrl": "http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3",
+  "httpStatus": 200,
+  "startedAt": "2026-10-31T07:40:07.510Z",
+  "finishedAt": "2026-10-31T07:40:16.105Z",
+  "durationMs": 8595,
+  "argv": [
+    "http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3",
+    "--runs",
+    "1",
+    "--color-scheme",
+    "dark",
+    "--wait-for",
+    "[data-xploder-trace=\"beachgoer tide-chart-screen tide-view-model tide-repository\"]",
+    "--out",
+    "/tmp/s06-checks/t014-tour-dark"
+  ],
+  "colorScheme": "dark",
+  "git": {
+    "sha": "3a8a2f9783689f4c200e5db5d0a68fbb6e77dbac",
+    "dirty": true
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 1295
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 1260
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 5868
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}

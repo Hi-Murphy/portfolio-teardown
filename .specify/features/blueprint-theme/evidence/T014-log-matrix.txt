@@ -1,0 +1,426 @@
+T014 screenshot matrix — light/dark × imploded/exploded/tour + fixture C default
+STARTED: 2026-10-31T07:38:20Z
+ROOT: /tmp/s06-wt/t014
+
+COMMAND: git status --short --branch
+## task/s06-t014-matrix
+?? .specify/features/blueprint-theme/evidence/T014-log-matrix.txt
+EXIT_CODE: 0
+
+COMMAND: git rev-parse HEAD
+3a8a2f9783689f4c200e5db5d0a68fbb6e77dbac
+EXIT_CODE: 0
+
+== Guards ==
+
+COMMAND: git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+EXIT_CODE: 0
+
+COMMAND: git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+EXIT_CODE: 0
+
+COMMAND: git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+EXIT_CODE: 0
+
+COMMAND: test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+EXIT_CODE: 0
+
+== Required checks ==
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t014/packages/xploder
+
+(node:26958) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26959) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26961) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26967) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:26969) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26971) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26977) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26981) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  44 passed (44)
+      Tests  385 passed (385)
+   Start at  14:38:30
+   Duration  17.99s (tests 85%, import 8%, transform 7%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t014/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  14:38:48
+   Duration  522ms (transform 53%, tests 19%, import 18%, worker 10%)
+
+EXIT_CODE: 0
+
+== Fixture export and server ==
+
+COMMAND: rm -rf /tmp/s06-checks/t014-imploded-* /tmp/s06-checks/t014-exploded-* /tmp/s06-checks/t014-tour-* /tmp/s06-checks/t014-c-*
+EXIT_CODE: 0
+
+COMMAND: pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1274ms
+  Running TypeScript ...
+  Finished TypeScript in 1098ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 188ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+EXIT_CODE: 0
+
+COMMAND: (node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199 > /tmp/s06-checks/t014-serve.log 2>&1 & echo $! > /tmp/s06-checks/serve.pid)
+EXIT_CODE: 0
+SERVER_PID: 27099
+
+COMMAND: for i in {1..120}; do curl -sf -o /dev/null http://127.0.0.1:4199/dev/engine && { echo SERVER-READY; exit 0; }; sleep 0.5; done; echo SERVER-NOT-READY; exit 1
+SERVER-READY
+EXIT_CODE: 0
+
+== Evidence captures ==
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --color-scheme light --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t014-imploded-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --color-scheme light --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t014-imploded-light
+warning: --out is not git-ignored: /tmp/s06-checks/t014-imploded-light
+ok screenshot-mobile (1196 ms)
+ok screenshot-desktop (1038 ms)
+ok lighthouse (5874 ms)
+evidence: /tmp/s06-checks/t014-imploded-light
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-exploded-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-exploded-light
+warning: --out is not git-ignored: /tmp/s06-checks/t014-exploded-light
+ok screenshot-mobile (1116 ms)
+ok screenshot-desktop (1056 ms)
+ok lighthouse (5792 ms)
+evidence: /tmp/s06-checks/t014-exploded-light
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --color-scheme light --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t014-tour-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --color-scheme light --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t014-tour-light
+warning: --out is not git-ignored: /tmp/s06-checks/t014-tour-light
+ok screenshot-mobile (1299 ms)
+ok screenshot-desktop (1270 ms)
+ok lighthouse (5849 ms)
+evidence: /tmp/s06-checks/t014-tour-light
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-c-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-c-light
+warning: --out is not git-ignored: /tmp/s06-checks/t014-c-light
+ok screenshot-mobile (1129 ms)
+ok screenshot-desktop (1031 ms)
+ok lighthouse (5811 ms)
+evidence: /tmp/s06-checks/t014-c-light
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --color-scheme dark --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t014-imploded-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --color-scheme dark --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t014-imploded-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t014-imploded-dark
+ok screenshot-mobile (1103 ms)
+ok screenshot-desktop (1021 ms)
+ok lighthouse (5775 ms)
+evidence: /tmp/s06-checks/t014-imploded-dark
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-exploded-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-exploded-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t014-exploded-dark
+ok screenshot-mobile (1113 ms)
+ok screenshot-desktop (1031 ms)
+ok lighthouse (5786 ms)
+evidence: /tmp/s06-checks/t014-exploded-dark
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --color-scheme dark --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t014-tour-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --color-scheme dark --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t014-tour-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t014-tour-dark
+ok screenshot-mobile (1295 ms)
+ok screenshot-desktop (1260 ms)
+ok lighthouse (5868 ms)
+evidence: /tmp/s06-checks/t014-tour-dark
+EXIT_CODE: 0
+
+COMMAND: pnpm evidence 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-c-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t014-c-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t014-c-dark
+ok screenshot-mobile (1115 ms)
+ok screenshot-desktop (1035 ms)
+ok lighthouse (5785 ms)
+evidence: /tmp/s06-checks/t014-c-dark
+EXIT_CODE: 0
+
+== Capture count ==
+
+COMMAND: ls /tmp/s06-checks/t014-*/screenshot-*.png | wc -l
+      16
+EXIT_CODE: 0
+CAPTURE-COUNT-OK: 16
+
+== Copy committed evidence ==
+
+COMMAND: cp /tmp/s06-checks/t014-imploded-light/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-imploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-exploded-light/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-exploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-tour-light/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-tour.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-c-light/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-c-default.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-imploded-light/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-imploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-exploded-light/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-exploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-tour-light/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-tour.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-c-light/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-c-default.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-imploded-light/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-imploded-light.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-exploded-light/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-exploded-light.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-tour-light/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-tour-light.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-c-light/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-c-default-light.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-imploded-dark/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-imploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-exploded-dark/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-exploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-tour-dark/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-tour.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-c-dark/screenshot-mobile.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-c-default.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-imploded-dark/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-imploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-exploded-dark/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-exploded.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-tour-dark/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-tour.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-c-dark/screenshot-desktop.png /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-c-default.png
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-imploded-dark/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-imploded-dark.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-exploded-dark/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-exploded-dark.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-tour-dark/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-tour-dark.json
+EXIT_CODE: 0
+
+COMMAND: cp /tmp/s06-checks/t014-c-dark/meta.json /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-c-default-dark.json
+EXIT_CODE: 0
+
+== Committed evidence verification ==
+
+COMMAND: ls '/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence'/T014-screenshot-*.png | wc -l
+      16
+EXIT_CODE: 0
+COMMITTED-COUNT-OK: 16
+
+COMMAND: file '/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence'/T014-screenshot-*.png
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-c-default.png:  PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-exploded.png:   PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-imploded.png:   PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-dark-tour.png:       PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-c-default.png: PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-exploded.png:  PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-imploded.png:  PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-desktop-light-tour.png:      PNG image data, 1350 x 940, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-c-default.png:   PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-exploded.png:    PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-imploded.png:    PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-dark-tour.png:        PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-c-default.png:  PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-exploded.png:   PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-imploded.png:   PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-screenshot-mobile-light-tour.png:       PNG image data, 721 x 1440, 8-bit/color RGB, non-interlaced
+EXIT_CODE: 0
+
+COMMAND: ls -lh '/tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence'/T014-meta-*.json
+-rw-r--r--@ 1 murphy  wheel   1.3K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-c-default-dark.json
+-rw-r--r--@ 1 murphy  wheel   1.3K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-c-default-light.json
+-rw-r--r--@ 1 murphy  wheel   1.3K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-exploded-dark.json
+-rw-r--r--@ 1 murphy  wheel   1.3K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-exploded-light.json
+-rw-r--r--@ 1 murphy  wheel   1.2K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-imploded-dark.json
+-rw-r--r--@ 1 murphy  wheel   1.2K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-imploded-light.json
+-rw-r--r--@ 1 murphy  wheel   1.4K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-tour-dark.json
+-rw-r--r--@ 1 murphy  wheel   1.4K Oct 31 14:40 /tmp/s06-wt/t014/.specify/features/blueprint-theme/evidence/T014-meta-tour-light.json
+EXIT_CODE: 0
+
+== Stop fixture server ==
+
+COMMAND: kill 27099
+EXIT_CODE: 0
+
+FINISHED: 2026-10-31T07:40:31Z
+T014-OK
+
+## Round 1 (before T014a) — preserved
+T014 screenshot matrix
+Started: 2026-10-31T14:11:40+07:00
+
+$ pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1112ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1687ms
+  Running TypeScript ...
+  Finished TypeScript in 1390ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 183ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+... (round 1 failed at the evidence desktop profile, fixture C: data-xploder-overlay-hidden=1 → task T014a)
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  74 passed (74)
+packages/xploder test:  Test Files  44 passed (44)
+packages/xploder test:       Tests  385 passed (385)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+T014-OK (orchestrator full re-run)
