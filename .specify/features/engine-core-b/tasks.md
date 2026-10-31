@@ -28,7 +28,7 @@
 | T012 | ☑ 69/69 | 1 (Flash, sandbox off); orchestrator removed 2 duplicate screenshots | evidence/T012-{log-probe.txt,engine-probe.json,log-touch-trace.json,screenshot-*.png} | 862d579 |
 | T013 | ☑ 14 shots | 1 (Flash, sandbox off) | evidence/T013-{log-matrix.txt,screenshot-*.png,meta-*.json} | da65e3c |
 | T014 | ☑ AC5 pass | 1 (Flash, alone) | evidence/T014-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 4a71777 |
-| T015 | ☐ | | | |
+| T015 | ☑ pre-merge (PR #8 ready, 8/8 checks green); prod-404 row after merge | ⚑ orchestrator | evidence/{T015-ci.txt,T015-log-surface-diff.txt,AC-selfcheck.md} | 64240e2 (CI head) |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S05.md` and `.specify/features/engine-core-b/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 

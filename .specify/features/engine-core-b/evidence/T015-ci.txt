@@ -1,0 +1,18 @@
+# T015 CI evidence (orchestrator, 2026-10-31T00:29:44Z)
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/8 · checks below are for head 64240e2
+
+$ gh pr checks 8
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/GktwmMnByeuJLLnnSHVydBt6vSSR	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	56s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41150303055/job/124384990450	
+perf-gate: lighthouse (mobile)	pass	53s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41150303280/job/124384991379	
+perf-gate: weight (< 3 MB)	pass	1m9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41150303280/job/124384991364	
+perf: fixture exclusion	pass	26s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41150303280/job/124384991109	
+perf: fps calibration	pass	49s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41150303280/job/124384991418	
+secrets (gitleaks)	pass	7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41150303055/job/124384990562	
+
+$ perf: fixture exclusion job on the PR preview (relevant lines)
+perf: fixture exclusion	Assert fixture absent from preview	2026-10-31T00:28:20.6665681Z absent: https://portfolio-teardown-git-task-s05-engine-core-b-murphy-3c4d.vercel.app/fixtures/fps-calibration returned HTTP 404 with
+perf: fixture exclusion	Assert engine playground absent from preview	2026-10-31T00:28:21.0501497Z absent: https://portfolio-teardown-git-task-s05-engine-core-b-murphy-3c4d.vercel.app/dev/engine returned HTTP 404 without 
+
+Production 404 for /dev/engine: pending the main-push run of the same job after merge.
