@@ -1,0 +1,296 @@
+# T005 — label placement + readability matrix
+
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ pnpm --filter xploder exec vitest run test/overlay-place.test.ts --reporter verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t005/packages/xploder
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports
+A 45deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 135deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=79.20px
+A 135deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 225deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=79.20px
+A 225deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 315deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 45deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+A 45deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 135deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+A 135deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=79.20px
+A 225deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=79.20px
+A 315deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 45deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+A 45deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+A 135deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+A 225deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+A 315deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=44.73px
+A 45deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=79.20px
+A 135deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=79.20px
+A 225deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports
+B 45deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg imploded 360x480: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+B 45deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+B 225deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg imploded 360x640: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+B 135deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 390x844: placed=6 hidden=0 fellBack=0 maxLeader=56.00px
+B 315deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 768x1024: placed=6 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 1280x720: placed=6 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports
+C 45deg imploded 360x480: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 45deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg imploded 360x480: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 135deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=36.00px
+C 225deg imploded 360x480: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 225deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 315deg imploded 360x480: placed=7 hidden=0 fellBack=0 maxLeader=56.49px
+C 315deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 360x640: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 45deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 135deg imploded 360x640: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 135deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 225deg imploded 360x640: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 225deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 315deg imploded 360x640: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 315deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 45deg imploded 390x844: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 45deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg imploded 390x844: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 225deg imploded 390x844: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 225deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 390x844: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 315deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 768x1024: placed=7 hidden=0 fellBack=0 maxLeader=28.28px
+C 45deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg imploded 768x1024: placed=7 hidden=0 fellBack=0 maxLeader=28.28px
+C 135deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 225deg imploded 768x1024: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 225deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 768x1024: placed=7 hidden=0 fellBack=0 maxLeader=56.00px
+C 315deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 1280x720: placed=7 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg imploded 1280x720: placed=7 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg exploded 1280x720: placed=20 hidden=0 fellBack=1 maxLeader=50.91px
+C 225deg imploded 1280x720: placed=7 hidden=0 fellBack=0 maxLeader=79.20px
+C 225deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 1280x720: placed=7 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports 40ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports 18ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports 49ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart
+zoomed 3x 360x640: placed=3 hidden=1 fellBack=0 offscreen=10 maxLeader=79.20px
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > is deterministic for identical input 1ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart 1ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > detects separated, touching, overlapping and contained rectangles 0ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > uses polygon edges as SAT axes 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > uses each type first preferred direction at the smallest radius 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > orders layer, part and dimension labels regardless of input order 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > retries a part with its short text before hiding it 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > reports an off-screen anchor without counting it as hidden 0ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  11:01:52
+   Duration  204ms (tests 73%, import 20%, transform 6%, worker 1%)
+
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t005/packages/xploder
+
+(node:86408) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:86403) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:86410) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:86412) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:86418) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:86422) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  40 passed (40)
+      Tests  332 passed (332)
+   Start at  11:02:01
+   Duration  3.30s (tests 64%, import 19%, transform 16%, worker 1%)
+
+    Isolate  40 workers spawned · ~78ms startup each (spawn + environment, per file)
+             at least ~268ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+$ pnpm --filter web test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t005/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  11:02:05
+   Duration  516ms (transform 56%, tests 18%, import 16%, worker 10%)
+
+
+T005-OK
+
+## Orchestrator review (2026-10-31)
+- Deviation accepted: first-fit (RFC D7) is kept as the first pass; a deterministic bounded look-ahead over the SAME candidate set runs only when first-fit would hide a label. It never relaxes a rule, so AC3 is unchanged.
+- Measured (temporary instrumentation, removed): first-fit alone hides 1 label in 4 of 120 matrix cases (A imploded: 45deg/315deg at 360x480, 225deg/315deg at 390x844). Worst placeLabels runtime 1.41 ms (Node, Apple M-series).
+- Review fix: SEARCH_NODE_LIMIT lowered from 100_000 to 2_000 to bound settle-time cost for future, larger projects on phones. The matrix test passes at 500 and at 2_000 (11/11).
+A 45 imploded 360x480: firstFitHidden=1 1.41ms
+A 315 imploded 360x480: firstFitHidden=1 0.40ms
+A 225 imploded 390x844: firstFitHidden=1 0.63ms
+A 315 imploded 390x844: firstFitHidden=1 0.78ms
+cases needing search (approx, unsorted firstFit) 4 / 120; worst placeLabels ms (node, M-series) 1.41
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  40 passed (40)
+packages/xploder test:       Tests  332 passed (332)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T005-OK (orchestrator full re-run)
