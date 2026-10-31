@@ -24,11 +24,11 @@
 | T011 | ☑ + ⚑ pushed, draft PR | 1 (Flash, sandbox on); build + full check re-run by orchestrator | evidence/T011-log-scanners.txt, G2-log-combined.txt | 73da9a5 |
 | T011a | ☑ (G2 feedback: imploded title block) | 1 (Flash, sandbox on) + orchestrator browser step | evidence/T011a-{log-titleblock.txt,screenshot-*.png} | f365b6e |
 | T011b | ☑ (G2 feedback: blink 8 → 0 frames; no stuck state) | 1 (Flash, sandbox on) + orchestrator review fix (pending settle) | evidence/T011b-log-blink.txt | d8a3cfc |
-| T012 | ☐ | | | |
-| T014a | ☐ (found by T014) | | | |
-| T013 | ☐ | | | |
-| T014 | ☐ | | | |
-| T015 | ☐ | | | |
+| T012 | ☑ | 1 (Flash, sandbox on); browser path validated in T013 | evidence/T012-log-probe-tool.txt | a28a22a |
+| T014a | ☑ (found by T014: 680/19 836 → 0) | 1 (Flash, sandbox on) | evidence/T014a-log-placement-sweep.txt | 3a8a2f9 |
+| T013 | ☑ 104/104 | 1 (Flash, sandbox off; driver-only fixes reviewed); 1st dispatch lost to an orchestrator cwd error (not an executor failure) | evidence/T013-{engine-probe.json,log-probe.txt,screenshot-*.png} | d0ffdc8 |
+| T014 | ☑ 16 shots (round 2) | 1 (Flash, sandbox off) | evidence/T014-{log-matrix.txt,screenshot-*.png,meta-*.json} | 4e68a4d |
+| T015 | ☑ 0 dropped / 5.05 s, 2 calls | 1 (Flash, sandbox off, alone) | evidence/T015-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 635b0c2 |
 | T016 | ☐ | | | |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specify/features/blueprint-theme/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_

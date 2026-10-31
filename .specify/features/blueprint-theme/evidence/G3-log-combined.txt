@@ -1,0 +1,22 @@
+# S06 G3 combined gate log — 2026-10-31T10:03:47Z — HEAD 635b0c2
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+S2S4-DIFF-EMPTY
+S5-DIFF-EMPTY
+probe 104 checks 0 failed, pass true
+fps tour: dropped 0 liveness true windowMs 5051.579 steps 3 drawCalls 2
+screenshots T014: 16
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  75 passed (75)
+packages/xploder test:  Test Files  44 passed (44)
+packages/xploder test:       Tests  385 passed (385)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+G3-OK
