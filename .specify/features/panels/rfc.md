@@ -1,6 +1,6 @@
 # RFC — S07 Panels: Component Detail · Case Study · Tech Chips
 
-**slice:** S07-panels · **status:** DRAFT for Gate 1 (Murphy review) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-07-panels.md` (frozen brief v1) · **branch:** `task/s07-panels` · **base:** `3f06c8f` (brief freeze; S6 shipped at `0ce25ed` + fix `0b2c678`) · **date:** 2026-10-31
+**slice:** S07-panels · **status:** APPROVED at Gate 1 (2026-10-31): defaults accepted, self-review refinements R1–R7 applied (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-07-panels.md` (frozen brief v1) · **branch:** `task/s07-panels` · **base:** `3f06c8f` (brief freeze; S6 shipped at `0ce25ed` + fix `0b2c678`) · **date:** 2026-10-31
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§6).
 
@@ -100,7 +100,7 @@ wrapper  (tabIndex 0, role=group, position:relative, onKeyDown = S4 keys)
 
 **R:**
 - **A sibling of the stage, never a child.** The panel is outside the scrolling stage, so stage scroll never moves it, the stage's size and `scrollHeight` never change, and S5's pick listeners never see panel clicks. S5's outside-tap check (`stage.parentElement.contains(target)`) counts the panel as *inside* the viewer, so tapping the panel does not clear a touch highlight.
-- **Positioned overlay, zero reflow:** `position:absolute; top:0; left:0`. The dock position is applied with **`transform: translate(x, y)` only**, never by changing `top/left/right/bottom`. The size is set with explicit `width` / `max-height`. Insertion is a new node, which is not a layout shift, and transform moves are not layout shifts. The stage is never resized, so there is no layout animation on it (brief deliverable 6).
+- **Positioned overlay, zero reflow** _(positioning superseded by R1, §9.2.1: CSS edge anchors + remount on dock change)_: `position:absolute; top:0; left:0`. The dock position is applied with **`transform: translate(x, y)` only**, never by changing `top/left/right/bottom`. The size is set with explicit `width` / `max-height`. Insertion is a new node, which is not a layout shift, and transform moves are not layout shifts. The stage is never resized, so there is no layout animation on it (brief deliverable 6).
 - **Two boxes:** the outer *surface* owns the placement transform. The inner *motion box* owns the enter/exit animation (`opacity` + `translate` by `panelOffset`). The two transforms never fight.
 - **Content keyed by `${kind}:${id}:${axis}`:** switching component, or switching between a side dock and a sheet (a width change), remounts the content subtree. New nodes are not shifts, so text reflow inside a resized panel cannot produce layout-shift entries (D11 CLS).
 - **Scroll containment:** the content box is `overflow-y:auto; overscroll-behavior:contain`, so scrolling a long case study never chains to the page.
@@ -115,7 +115,7 @@ wrapper  (tabIndex 0, role=group, position:relative, onKeyDown = S4 keys)
 **Algorithm:**
 1. If `S` is empty (slab scrolled fully off-screen): keep the current dock (nothing to cover).
 2. Free space per side: `free.right = W − inset − (S.right + gap)`, `free.left = S.left − gap − inset`, `free.bottom = H − inset − (S.bottom + gap)`, `free.top = S.top − gap − inset`.
-3. **Hysteresis:** if the current dock still has `free ≥ min`, keep it, sized `min(pref, free)`. Docks don't flip-flop while scrolling.
+3. **Hysteresis** _(refined by R1: keep while `free ≥ current size`)_: if the current dock still has `free ≥ min`, keep it, sized `min(pref, free)`. Docks don't flip-flop while scrolling.
 4. **Preference order:** wide (`W ≥ 640`): the side opposite the slab's centre x, then the other side, then the sheet opposite the slab's centre y, then the other sheet. Narrow: the sheet opposite the centre y, then the other sheet.
    - **Stage 1:** the first dock in that order with `free ≥ pref`.
    - **Stage 2:** the first dock with `free ≥ min`, sized to `free`.
@@ -394,3 +394,20 @@ Tier 1 = DeepSeek Flash 4.1 via `codex` (browser tasks run with the sandbox off,
 3. Push permission: push `task/s07-panels` and open a draft PR at the end of G2, as in S06 (default: granted at G2; nothing is pushed in Stages 1–2).
 4. Merge: the orchestrator merges only after you say "merge" (default: as before).
 5. Usage pacing: start each Stage 3 group in a fresh 5h window and stop at ≥ 85% (default; please keep stating "5h: N%" in gate messages).
+
+---
+
+## 9. Decisions recorded (Murphy, 2026-10-31, Gate 1)
+
+1. **WHAT MURPHY SHOULD TEST/VALIDATE (Stage 1): all accepted**, including **Q-TOUR = D6 as written**: jump-to-step when the clicked part is in the active flow (play state preserved), else pause + detail panel; explicit Play resumes from the current step.
+2. **Q1–Q8: defaults.** Murphy approved improvements found by the orchestrator ("if you can find better, approved to be implemented"). The self-review while writing `plan.md` against the code produced the refinements below. **None changes an AC or a default answer.**
+   1. **R1 — Dock anchoring by CSS edges and remount on dock change** (replaces the transform-positioning line of D2). Each mounted surface uses its dock's natural anchors: right = `top/right: inset`; bottom = `bottom/left/right: inset`; and so on. It has a fixed `width` (side) or `max-height` (sheet) for its whole life. The surface is keyed `${kind}:${id}:${dock}:${size}`, so a dock or size change is a **new element**, and a new element is not a layout shift. No property that moves a mounted surface's start point ever changes. Hysteresis (D3 step 3) therefore becomes "keep the current dock while `free ≥ current size`", otherwise re-dock (D3 steps 4–5). The actual box is ⊆ the allocated rect, so the never-cover proof is unchanged. A sheet with short content simply hugs its edge. This is simpler than transform positioning and removes the measure/translate path entirely.
+   2. **R2 — gap vs S5 hover lift.** S5's emphasis lifts a highlighted slab by `distances.hoverLift` (4 px) without changing explode progress, so the hull does not include the lift. The placement gap must exceed it: `look.gap ≥ 2 × motion.distances.hoverLift` is asserted in `panel-place.test.ts`. With gap 8 and lift 4, a lifted slab still never touches the panel.
+   3. **R3 — CLS criterion made precise** (D11). The **strict** measure is: zero `layout-shift` entries, counted **including** `hadRecentInput`, with any source inside the viewer wrapper (stage, overlay, caption, panel, chips) over the whole panel scenario. The page-wide total is reported too. Playground chrome text (the stats `<dl>`) can shift outside the viewer, and such entries are listed separately and attributed. The probe also asserts that the stage's rect and `scrollHeight` are identical before, during and after every open/close.
+   4. **R4 — deterministic programmatic open for evidence.** `useViewerPanels().actions.openDetail(id)` (it bypasses the tour decision; it is for app chrome and evidence), plus the playground URL params `?select=<componentId>` and `?panel=case-study`. `pnpm evidence --wait-for '[data-xploder-panel-ready="true"]'` can then shoot any panel state without clicking.
+   5. **R5 — switch vs close motion** (D10). Switching A → B (or a re-dock) mounts the new surface with `panelEnter`, and the old one unmounts at once (never two panels). Only a real close plays `panelExit`. During the exit the surface has `pointer-events:none` and is marked `data-xploder-panel-exiting`.
+   6. **R6 — lifecycle wiring in `TeardownViewer`.** A project change resets the panels (layout effect keyed by `project.meta.slug`; the handle may live in the app). Opening the case study pauses a playing tour through a layout effect on the panel-state transition, because the panel handle does not own the viewer. The pause, jump and reset all go through the public viewer actions only.
+   7. **R7 — pick helper.** `usePointerPick`'s `pickAt` is private to a sealed file. S7 adds `react/panel/pickAt.ts`, which duplicates its ~25 lines (bridge camera/progress → `Raycaster` → `interaction/pick.ts`). `pick.ts` itself is imported read-only. `viewer-panels.test.tsx` cross-checks both on the same ray via the existing `pick-scene` fixture approach.
+3. **Push + draft PR: granted at the end of G2.** Nothing is pushed before then.
+4. **Merge:** only on Murphy's "merge".
+5. Usage at this gate: **5h 0%** (Murphy).
