@@ -1,3 +1,5 @@
 # False positive (S06, 2026-10-31): sha256 digest of the public test file test/emphasis-tokens.test.ts in the S5
 # frozen-surface hash manifest; the key name contains "tokens", which trips generic-api-key. Not a secret.
 ed99a15f67991f92bb37ab7379d21b68fcb1950c:packages/xploder/test/frozen-surface.s5.manifest.json:generic-api-key:23
+# Same false positive after the squash merge of PR #10 (history rewritten, new commit). Not a secret.
+0ce25edb991d00f7031a8d36eb304d3ab25a6e66:packages/xploder/test/frozen-surface.s5.manifest.json:generic-api-key:23
