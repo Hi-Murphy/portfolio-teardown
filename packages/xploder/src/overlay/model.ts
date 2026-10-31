@@ -1,3 +1,4 @@
+import type { Phase } from '../engine/explode';
 import type { ProjectLayout } from '../layout';
 import { look, type LookTokens } from '../look/tokens';
 import type { MotionTokens } from '../motion';
@@ -14,6 +15,20 @@ import { traceRoute, type TraceHop } from './trace';
 
 export type OverlayState = 'imploded' | 'exploded';
 export type OverlayTourStatus = 'idle' | 'playing' | 'paused' | 'ended';
+
+export function overlayVisible({
+  moving,
+  settledTarget,
+  target,
+  phase,
+}: {
+  readonly moving: boolean;
+  readonly settledTarget: 'imploded' | 'exploded' | null;
+  readonly target: 'imploded' | 'exploded';
+  readonly phase: Phase | null;
+}): boolean {
+  return !moving && settledTarget !== null && settledTarget === target && phase === target;
+}
 
 export interface OverlayProject {
   readonly meta: {
