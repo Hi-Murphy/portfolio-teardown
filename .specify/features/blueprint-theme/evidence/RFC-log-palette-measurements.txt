@@ -1,0 +1,102 @@
+# S06 RFC evidence — palette measurements (contrast, category fill separation, emphasis basis)
+# date: 2026-10-31 · base: bb6a514 · python3 3.9.6
+# inputs: packages/xploder/src/theme/blueprint.ts (S2 tokens, copied verbatim into the script). WCAG 2 contrast on sRGB; ΔE = CIE76.
+# KIND map evaluated: module->line, service->tech.framework, store->tech.storage, external->steel, actor->tech.tooling
+# command: python3 color.py (source below) · exit code: 0
+
+== light
+  text ink       on paper CR 13.71  on surface 14.58
+  text label     on paper CR 7.33  on surface 7.79
+  text steel     on paper CR 5.23  on surface 5.56
+  text line      on paper CR 7.58  on surface 8.06
+  text accent    on paper CR 5.27  on surface 5.60
+  text lineMuted on paper CR 3.23  on surface 3.43
+  wash 0.14: min ΔE between kind fills 1.2 (module/external); max 4.0
+    edge line vs fill CR: module 7.07, service 7.10, store 7.14, external 7.14, actor 7.13
+    highlight fill (accent 0.35) ΔE vs kind fills: module 8.2, service 8.8, store 9.8, external 8.8, actor 9.3
+  wash 0.22: min ΔE between kind fills 2.0 (module/external); max 6.6
+    edge line vs fill CR: module 6.51, service 6.55, store 6.61, external 6.61, actor 6.59
+    highlight fill (accent 0.35) ΔE vs kind fills: module 5.1, service 6.8, store 8.2, external 5.9, actor 7.2
+  emphasis basis (accent-line, paper-line) cosine 0.411
+== dark
+  text ink       on paper CR 14.81  on surface 13.06
+  text label     on paper CR 8.62  on surface 7.60
+  text steel     on paper CR 6.74  on surface 5.94
+  text line      on paper CR 9.36  on surface 8.25
+  text accent    on paper CR 9.57  on surface 8.44
+  text lineMuted on paper CR 3.78  on surface 3.33
+  wash 0.14: min ΔE between kind fills 7.1 (module/external); max 34.3
+    edge line vs fill CR: module 4.10, service 4.42, store 4.13, external 4.88, actor 3.85
+    highlight fill (accent 0.35) ΔE vs kind fills: module 22.6, service 36.6, store 38.2, external 28.0, actor 30.7
+  wash 0.22: min ΔE between kind fills 9.1 (module/external); max 43.4
+    edge line vs fill CR: module 3.18, service 3.49, store 3.21, external 3.95, actor 2.95
+    highlight fill (accent 0.35) ΔE vs kind fills: module 17.7, service 36.5, store 41.8, external 23.9, actor 33.5
+  emphasis basis (accent-line, paper-line) cosine 0.269
+
+### sRGB-space (gamma) mixing
+== light
+  wash 0.12: min ΔE kind fills 3.2 (module/external); max 11.1; line-vs-fill CR min 6.66; highlight(accent .4) ΔE min 19.2
+     fill vs paper ΔE: module 8.0, service 9.3, store 5.4, external 5.0, actor 5.0
+  wash 0.18: min ΔE kind fills 4.9 (module/external); max 16.8; line-vs-fill CR min 6.01; highlight(accent .4) ΔE min 15.6
+     fill vs paper ΔE: module 12.4, service 14.1, store 9.5, external 8.1, actor 9.0
+  wash 0.24: min ΔE kind fills 6.6 (module/external); max 22.6; line-vs-fill CR min 5.42; highlight(accent .4) ΔE min 12.6
+     fill vs paper ΔE: module 16.8, service 19.0, store 13.7, external 11.3, actor 13.0
+== dark
+  wash 0.12: min ΔE kind fills 2.4 (module/external); max 13.5; line-vs-fill CR min 6.36; highlight(accent .4) ΔE min 22.3
+     fill vs paper ΔE: module 14.8, service 14.7, store 14.1, external 12.7, actor 15.6
+  wash 0.18: min ΔE kind fills 3.6 (module/external); max 19.6; line-vs-fill CR min 5.49; highlight(accent .4) ΔE min 18.7
+     fill vs paper ΔE: module 18.9, service 18.6, store 19.4, external 15.9, actor 21.5
+  wash 0.24: min ΔE kind fills 4.7 (module/external); max 25.3; line-vs-fill CR min 4.72; highlight(accent .4) ΔE min 15.3
+     fill vs paper ΔE: module 22.9, service 22.6, store 24.9, external 19.1, actor 27.4
+
+# ---- source ----
+import math, itertools
+L={'paper':'F6F3EA','surface':'FCFAF4','grid':'D9E1EA','line':'1E4D8C','lineMuted':'6F89AE','ink':'22262B','label':'4A5059','accent':'0A6E87','steel':'56677A',
+ 'language':'1F5FAD','platform':'4A5D73','framework':'7A3E9D','library':'0F766E','storage':'97560F','network':'0A6E87','tooling':'5A691C','ai':'B0336A'}
+D={'paper':'0B1A2E','surface':'112540','grid':'1B3354','line':'8CC4EE','lineMuted':'4E78A3','ink':'E6EDF5','label':'A7B8CB','accent':'4FD0E6','steel':'8FA3B8',
+ 'language':'7FB2F0','platform':'A3B5C9','framework':'C9A2E8','library':'5FD3C2','storage':'E8B36A','network':'5ED3EE','tooling':'C2CF7A','ai':'F08BB4'}
+def lin(h):
+  c=[int(h[i:i+2],16)/255 for i in (0,2,4)]
+  return [x/12.92 if x<=0.04045 else ((x+0.055)/1.055)**2.4 for x in c]
+def lum(c): return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2]
+def cr(a,b):
+  la,lb=sorted([lum(a),lum(b)],reverse=True); return (la+0.05)/(lb+0.05)
+def lab(c):
+  M=[[0.4124,0.3576,0.1805],[0.2126,0.7152,0.0722],[0.0193,0.1192,0.9505]]
+  X,Y,Z=[sum(M[i][j]*c[j] for j in range(3)) for i in range(3)]
+  n=[0.95047,1,1.08883]; f=lambda t: t**(1/3) if t>0.008856 else 7.787*t+16/116
+  fx,fy,fz=f(X/n[0]),f(Y/n[1]),f(Z/n[2]); return (116*fy-16,500*(fx-fy),200*(fy-fz))
+def de(a,b): return math.dist(lab(a),lab(b))
+def mix(a,b,t): return [a[i]+(b[i]-a[i])*t for i in range(3)]
+KIND={'module':'line','service':'framework','store':'storage','external':'steel','actor':'tooling'}
+for name,P in (('light',L),('dark',D)):
+  p={k:lin(v) for k,v in P.items()}
+  print(f'== {name}')
+  for role in ('ink','label','steel','line','accent','lineMuted'):
+    print(f'  text {role:9} on paper CR {cr(p[role],p["paper"]):.2f}  on surface {cr(p[role],p["surface"]):.2f}')
+  for w in (0.14,0.22):
+    fills={k:mix(p['surface'],p[r],w) for k,r in KIND.items()}
+    hi=mix(p['surface'],p['accent'],0.35)
+    pairs=sorted((de(fills[a],fills[b]),a,b) for a,b in itertools.combinations(fills,2))
+    print(f'  wash {w}: min ΔE between kind fills {pairs[0][0]:.1f} ({pairs[0][1]}/{pairs[0][2]}); max {pairs[-1][0]:.1f}')
+    print('    edge line vs fill CR: '+', '.join(f'{k} {cr(p["line"],f):.2f}' for k,f in fills.items()))
+    print('    highlight fill (accent 0.35) ΔE vs kind fills: '+', '.join(f'{k} {de(hi,f):.1f}' for k,f in fills.items()))
+  # decomposition conditioning
+  a=[p['accent'][i]-p['line'][i] for i in range(3)]; b=[p['paper'][i]-p['line'][i] for i in range(3)]
+  cos=sum(x*y for x,y in zip(a,b))/math.sqrt(sum(x*x for x in a)*sum(y*y for y in b))
+  print(f'  emphasis basis (accent-line, paper-line) cosine {cos:.3f}')
+  al=[p['accent'][i]-p['lineMuted'][i] for i in range(3)]; bl=[p['paper'][i]-p['lineMuted'][i] for i in range(3)]
+print('\n### sRGB-space (gamma) mixing')
+def srgb(h): return [int(h[i:i+2],16)/255 for i in (0,2,4)]
+def tolin(c): return [x/12.92 if x<=0.04045 else ((x+0.055)/1.055)**2.4 for x in c]
+for name,P in (('light',L),('dark',D)):
+  s={k:srgb(v) for k,v in P.items()}
+  print(f'== {name}')
+  for w in (0.12,0.18,0.24):
+    fills={k:tolin(mix(s['surface'],s[r],w)) for k,r in KIND.items()}
+    hi=tolin(mix(s['surface'],s['accent'],0.4))
+    pairs=sorted((de(fills[a],fills[b]),a,b) for a,b in itertools.combinations(fills,2))
+    print(f'  wash {w}: min ΔE kind fills {pairs[0][0]:.1f} ({pairs[0][1]}/{pairs[0][2]}); max {pairs[-1][0]:.1f}; '
+      +'line-vs-fill CR min {:.2f}; '.format(min(cr(tolin(s["line"]),f) for f in fills.values()))
+      +'highlight(accent .4) ΔE min {:.1f}'.format(min(de(hi,f) for f in fills.values())))
+    print('     fill vs paper ΔE: '+', '.join(f'{k} {de(f,tolin(s["paper"])):.1f}' for k,f in fills.items()))
