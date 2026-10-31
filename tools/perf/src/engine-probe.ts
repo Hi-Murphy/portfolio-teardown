@@ -445,6 +445,11 @@ function sameSet(actual: readonly string[], expected: readonly string[]): boolea
   return equal([...actual].sort(), [...expected].sort());
 }
 
+function sameSelectedText(actual: string, expected: string): boolean {
+  const normalize = (text: string) => text.trim().replace(/\s+/g, ' ').toLowerCase();
+  return normalize(actual) === normalize(expected);
+}
+
 function includesPhasePair(phases: readonly string[], from: string, to: string): boolean {
   return phases.some((phase, index) => phase === from && phases[index + 1] === to);
 }
@@ -1266,9 +1271,15 @@ function s6Checks(observation: S6Observation): EngineProbeCheck[] {
         observation.selectable.userSelect !== 'none' &&
         observation.selectable.titleUserSelect !== 'none' &&
         observation.selectable.layerText.length > 0 &&
-        observation.selectable.selectedLayerText === observation.selectable.layerText &&
+        sameSelectedText(
+          observation.selectable.selectedLayerText,
+          observation.selectable.layerText,
+        ) &&
         observation.selectable.titleRowText.length > 0 &&
-        observation.selectable.selectedTitleRowText === observation.selectable.titleRowText,
+        sameSelectedText(
+          observation.selectable.selectedTitleRowText,
+          observation.selectable.titleRowText,
+        ),
       expected: 'Selection API returns layer-label and title-row text; user-select is not none',
       actual: observation.selectable,
     },

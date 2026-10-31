@@ -163,6 +163,7 @@ const CAPTION_SELECTOR = '[data-xploder-caption]';
 const STAGE_SELECTOR = '[data-xploder-stage]';
 const DESKTOP_GRID = { cols: 40, rows: 24 } as const;
 const MOBILE_GRID = { cols: 32, rows: 24 } as const;
+const DEFAULT_GAP_GRID = { cols: 80, rows: 48 } as const;
 const CAPTION_DESKTOP_GRID = { cols: 80, rows: 48 } as const;
 const CAPTION_MOBILE_GRID = { cols: 64, rows: 48 } as const;
 const PICKUP_READY_PATH = [
@@ -1920,7 +1921,7 @@ async function captureDefaultGap(
     await setTheme(page, 'light');
     await waitForSettledEmphasis(page);
     await waitForOverlay(page, 'exploded');
-    const map = await sweepHitMap(page, DESKTOP_GRID);
+    const map = await sweepHitMap(page, DEFAULT_GAP_GRID);
     await clearPointer(page);
     ids[fixture] = Object.keys(map.points).sort();
     if (fixture === 'a') pointsA = map.points;

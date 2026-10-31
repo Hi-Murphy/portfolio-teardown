@@ -789,6 +789,21 @@ describe('evaluateProbe', () => {
     expect(result.checks.every((check) => check.pass)).toBe(true);
   });
 
+  test('accepts the CSS-transformed text returned by the Selection API', () => {
+    const observation = passingObservation();
+    const selectable = observation.s6?.selectable;
+    if (selectable === undefined) throw new Error('S6 fixture is missing');
+    selectable.layerText = '1 Interface';
+    selectable.selectedLayerText = '1 INTERFACE';
+    selectable.titleRowText = '1 Interface';
+    selectable.selectedTitleRowText = ' 1   INTERFACE ';
+
+    const result = evaluateProbe(observation, 's6');
+    const check = result.checks.find((candidate) => candidate.name === 'overlay-selectable');
+
+    expect(check?.pass).toBe(true);
+  });
+
   test('fails each S4 check once without failing another', () => {
     const baseline = evaluateProbe(passingObservation(), 's4');
 
