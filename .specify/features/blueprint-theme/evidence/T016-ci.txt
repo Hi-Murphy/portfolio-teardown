@@ -12,3 +12,13 @@ secrets (gitleaks): pass  https://github.com/Hi-Murphy/portfolio-teardown/action
 Dense sweeps on the CI runner: placement 7344 cases / 0 failures (overlay-place.test.ts 36.8 s, within the 180 s test timeout); title block 7344 / 0.
 Earlier red runs in this stage were test-timeout issues only (see G3-log-combined.txt); no assertion ever failed on CI.
 PR marked ready for review; merge waits for Murphy's 'merge'.
+
+## Final-validation round CI (head 9f9cbbd)
+Vercel: pass  https://vercel.com/murphy-3c4d/portfolio-teardown/HmS5EMcZFxp4g83oRXRcn9oZ4MVF
+Vercel Preview Comments: pass  https://vercel.com/github
+build (typecheck, lint, test, build): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41202987048/job/124542338933
+perf-gate: lighthouse (mobile): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41202987079/job/124542338824
+perf-gate: weight (< 3 MB): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41202987079/job/124542338830
+perf: fixture exclusion: pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41202987079/job/124542338868
+perf: fps calibration: pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41202987079/job/124542338747
+secrets (gitleaks): pass  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41202987048/job/124542338738
