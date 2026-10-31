@@ -2,12 +2,15 @@ import type { RefObject } from 'react';
 
 import type { Phase } from '../../engine/explode';
 import type { RigState } from '../../engine/camera';
+import type { LookTokens } from '../../look/tokens';
 import type { ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
+import type { ComponentKind } from '../../schema/constants';
 import type { Palette } from '../../theme';
 import { CameraRig } from './CameraRig';
 import { useEmphasisDriver, type EmphasisPhase, type EmphasisState } from './Emphasis';
 import { Lights } from './Lights';
+import { OverlayProjector, type OverlayEvent } from './OverlayProjector';
 import { PickBridge, type PickBridgeHandle } from './PickBridge';
 import { Slabs } from './Slabs';
 import { Stats, type ViewerStats } from './Stats';
@@ -31,11 +34,17 @@ export interface SceneProps {
   readonly pickBridgeRef?: RefObject<PickBridgeHandle>;
   readonly scrollRef?: RefObject<HTMLDivElement | null>;
   readonly onScrollExtent?: (extent: number) => void;
+  readonly look?: LookTokens;
+  readonly kinds?: readonly ComponentKind[];
+  readonly onOverlay?: (event: OverlayEvent) => void;
+  readonly onOverlayScroll?: (offsetY: number) => void;
 }
 
 function defaultNow(): number {
   return performance.now() / 1000;
 }
+
+function ignoreOverlayScroll(): void {}
 
 export function Scene({
   layout,
@@ -55,6 +64,10 @@ export function Scene({
   pickBridgeRef,
   scrollRef,
   onScrollExtent,
+  look,
+  kinds,
+  onOverlay,
+  onOverlayScroll,
 }: SceneProps) {
   const emphasisDriver = useEmphasisDriver({
     layout,
@@ -78,6 +91,8 @@ export function Scene({
         onSettled={onSettled}
         emphasis={emphasisDriver}
         progressRef={progressRef}
+        look={look}
+        kinds={kinds}
       />
       <CameraRig layout={layout} tokens={tokens} rig={rig} now={now} onAzimuth={onAzimuth} />
       {scrollRef === undefined ? null : (
@@ -85,6 +100,14 @@ export function Scene({
       )}
       {pickBridgeRef === undefined ? null : (
         <PickBridge bridgeRef={pickBridgeRef} progressRef={progressRef} />
+      )}
+      {onOverlay === undefined ? null : (
+        <OverlayProjector
+          layout={layout}
+          progressRef={progressRef}
+          onOverlay={onOverlay}
+          onOverlayScroll={onOverlayScroll ?? ignoreOverlayScroll}
+        />
       )}
       <Lights />
       <Stats layout={layout} onStats={onStats} />

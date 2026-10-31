@@ -1,0 +1,45 @@
+# S06 G1 combined gate log — 2026-10-31T04:04:13Z — HEAD 53cbeb1 (task/s06-blueprint-theme)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ git diff --stat --exit-code 53b2b2b -- <S2/S4 frozen set>
+S2S4-DIFF-EMPTY
+$ git diff --stat --exit-code f31600e -- <S5 frozen set>
+S5-DIFF-EMPTY
+$ git diff --stat bb6a514 -- packages apps tools
+ packages/xploder/src/look/fills.ts                 | 266 ++++++++++++
+ packages/xploder/src/look/product.ts               |   9 +
+ packages/xploder/src/look/tokens.ts                |  68 +++
+ packages/xploder/src/overlay/dimension.ts          | 164 ++++++++
+ packages/xploder/src/overlay/parts.ts              |  40 ++
+ packages/xploder/src/overlay/place.ts              | 458 +++++++++++++++++++++
+ packages/xploder/src/overlay/project.ts            | 185 +++++++++
+ packages/xploder/src/overlay/timing.ts             |  30 ++
+ packages/xploder/src/overlay/trace.ts              |  83 ++++
+ .../xploder/test/frozen-surface.generate-s5.sh     |  54 +++
+ .../xploder/test/frozen-surface.s5.manifest.json   |  37 ++
+ packages/xploder/test/frozen-surface.s5.paths      |  25 ++
+ packages/xploder/test/frozen-surface.test.ts       |  32 ++
+ packages/xploder/test/look-fills.test.ts           | 264 ++++++++++++
+ packages/xploder/test/look-tokens.test.ts          |  79 ++++
+ packages/xploder/test/overlay-dimension.test.ts    | 126 ++++++
+ packages/xploder/test/overlay-parts.test.ts        |  58 +++
+ packages/xploder/test/overlay-place.test.ts        | 399 ++++++++++++++++++
+ packages/xploder/test/overlay-project.test.ts      | 196 +++++++++
+ packages/xploder/test/overlay-timing.test.ts       |  54 +++
+ packages/xploder/test/overlay-trace.test.ts        | 143 +++++++
+ packages/xploder/test/product-gap.test.ts          | 248 +++++++++++
+ 22 files changed, 3018 insertions(+)
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  40 passed (40)
+packages/xploder test:       Tests  332 passed (332)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+G1-OK

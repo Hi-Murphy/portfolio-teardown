@@ -6,6 +6,7 @@ import {
   type LayoutShiftObservation,
   type PixelObservation,
   type S5Observation,
+  type S6Observation,
   totalLayoutShift,
 } from '../src/engine-probe.ts';
 
@@ -14,6 +15,11 @@ const MID: PixelObservation = { r: 100, g: 100, b: 100 };
 const ACCENTWARD: PixelObservation = { r: 10, g: 10, b: 10 };
 const WHITE: PixelObservation = { r: 255, g: 255, b: 255 };
 const PAPERWARD: PixelObservation = { r: 160, g: 160, b: 160 };
+const LIGHT_PAPER: PixelObservation = { r: 246, g: 243, b: 234 };
+const LIGHT_LINE: PixelObservation = { r: 30, g: 77, b: 140 };
+const DARK_PAPER: PixelObservation = { r: 11, g: 26, b: 46 };
+const DARK_LINE: PixelObservation = { r: 140, g: 196, b: 238 };
+const OFF: PixelObservation = { r: 1, g: 2, b: 3 };
 const LIVE_UPDATE = [
   'beachgoer',
   'tide-chart-screen',
@@ -22,6 +28,52 @@ const LIVE_UPDATE = [
   'live-tide-client',
   'tide-feed',
 ];
+const OFFLINE_READ = [...LIVE_UPDATE.slice(0, 4), 'tide-cache'];
+const PICKUP_READY = [
+  'recipient',
+  'pickup-app',
+  'pickup-api',
+  'booking-service',
+  'locker-registry',
+  'notifier',
+  'push-gateway',
+];
+const PUSH_FAILED = [
+  'booking-service',
+  'notifier',
+  'push-gateway',
+  'retry-scheduler',
+  'dead-letter-store',
+];
+const FIXTURE_A_COMPONENTS = [
+  'beachgoer',
+  'forecast-details-panel',
+  'live-tide-client',
+  'tide-cache',
+  'tide-chart-screen',
+  'tide-feed',
+  'tide-repository',
+  'tide-view-model',
+];
+const FIXTURE_C_COMPONENTS = [
+  'recipient',
+  'pickup-app',
+  'pickup-api',
+  'session-gate',
+  'booking-service',
+  'notifier',
+  'retry-scheduler',
+  'slot-planner',
+  'audit-trail',
+  'locker-registry',
+  'dead-letter-store',
+  'push-gateway',
+  'locker-hardware',
+];
+
+function tracePrefixes(path: readonly string[]): string[] {
+  return path.map((_, index) => path.slice(0, index + 1).join(' '));
+}
 
 function passingS5(): S5Observation {
   const captionAnchorSamples = Array.from({ length: 14 }, (_, index) => ({
@@ -251,6 +303,186 @@ function passingS5(): S5Observation {
   };
 }
 
+function passingS6(): S6Observation {
+  const edgeScan = Array.from({ length: 60 }, (_, index) =>
+    index === 30 ? LIGHT_LINE : LIGHT_PAPER,
+  );
+  const darkEdgeScan = Array.from({ length: 60 }, (_, index) =>
+    index === 30 ? DARK_LINE : DARK_PAPER,
+  );
+  const overlayDefaults = (['a', 'b', 'c'] as const).flatMap((fixture) =>
+    (['imploded', 'exploded'] as const).flatMap((state) =>
+      (['mobile', 'desktop'] as const).map((viewport) => ({
+        fixture,
+        state,
+        viewport,
+        titleBlock: state === 'imploded' ? 'shown' : 'hidden',
+        overlay: 'shown',
+        callouts: state === 'exploded' ? (viewport === 'desktop' ? 'columns' : 'tags') : 'none',
+        hidden: '0',
+        labelCount: state === 'imploded' ? 0 : 3,
+      })),
+    ),
+  );
+  const overlay360 = (['a', 'c'] as const).flatMap((fixture) =>
+    (['imploded', 'exploded'] as const).flatMap((state) =>
+      (['light', 'dark'] as const).map((theme) => ({
+        fixture,
+        state,
+        theme,
+        callouts: state === 'exploded' ? 'tags' : 'none',
+        viewer: { left: 0, top: 0, right: 360, bottom: 740 },
+        boxes:
+          state === 'imploded'
+            ? [
+                {
+                  key: 'titleblock',
+                  left: 10,
+                  top: 10,
+                  right: 110,
+                  bottom: 30,
+                  fontSize: 12,
+                },
+              ]
+            : [
+                {
+                  key: 'layer:ui',
+                  left: 10,
+                  top: 10,
+                  right: 110,
+                  bottom: 30,
+                  fontSize: 12,
+                },
+                {
+                  key: 'dimension:stack',
+                  left: 10,
+                  top: 40,
+                  right: 110,
+                  bottom: 60,
+                  fontSize: 12,
+                },
+                {
+                  key: 'part:beachgoer',
+                  left: 120,
+                  top: 10,
+                  right: 180,
+                  bottom: 30,
+                  fontSize: 12,
+                },
+              ],
+      })),
+    ),
+  );
+  const lightExpected = {
+    label: { r: 74, g: 80, b: 89 },
+    ink: { r: 34, g: 38, b: 43 },
+    steel: { r: 86, g: 103, b: 122 },
+  };
+  const darkExpected = {
+    label: { r: 167, g: 184, b: 203 },
+    ink: { r: 230, g: 237, b: 245 },
+    steel: { r: 143, g: 163, b: 184 },
+  };
+
+  return {
+    palette: {
+      light: { fill: LIGHT_PAPER, edgeScan, paper: LIGHT_PAPER, line: LIGHT_LINE },
+      dark: { fill: DARK_PAPER, edgeScan: darkEdgeScan, paper: DARK_PAPER, line: DARK_LINE },
+      kinds: { store: { r: 151, g: 86, b: 15 }, service: { r: 122, g: 62, b: 157 } },
+      toggle: { fill: DARK_PAPER, lightPaper: LIGHT_PAPER, darkPaper: DARK_PAPER },
+      osDarkFirstPaint: {
+        background: DARK_PAPER,
+        fill: DARK_PAPER,
+        lightPaper: LIGHT_PAPER,
+        darkPaper: DARK_PAPER,
+      },
+    },
+    overlayDefaults,
+    overlay360,
+    selectable: {
+      userSelect: 'text',
+      titleUserSelect: 'text',
+      layerText: '01 UI',
+      selectedLayerText: '01 UI',
+      titleRowText: '01 UI',
+      selectedTitleRowText: '01 UI',
+    },
+    colours: {
+      light: {
+        layer: lightExpected.label,
+        part: lightExpected.ink,
+        dimension: lightExpected.steel,
+        title: lightExpected.ink,
+        expected: lightExpected,
+      },
+      dark: {
+        layer: darkExpected.label,
+        part: darkExpected.ink,
+        dimension: darkExpected.steel,
+        title: darkExpected.ink,
+        expected: darkExpected,
+      },
+    },
+    hitThrough: {
+      hoverTarget: 'tide-chart-screen',
+      hoverHighlight: 'tide-chart-screen',
+      hoverLeaderCount: 1,
+      hoverEmphasisKey: 'part:tide-chart-screen',
+      afterLeaveHighlight: null,
+      afterLeaveLeaderCount: 0,
+      afterLeaveEmphasisKey: null,
+      tapTarget: 'tide-chart-screen',
+      tapHighlight: 'tide-chart-screen',
+      labelTarget: 'layer:ui',
+      afterLabelTap: null,
+    },
+    leadersAtRest: { callouts: 'columns', leaders: 0, highlight: null },
+    cls: { total: 0, entries: [] },
+    trace: {
+      flows: [
+        { fixture: 'a', flowId: 'live-update', traces: tracePrefixes(LIVE_UPDATE), stopTrace: '' },
+        {
+          fixture: 'a',
+          flowId: 'offline-read',
+          traces: tracePrefixes(OFFLINE_READ),
+          stopTrace: '',
+        },
+        {
+          fixture: 'c',
+          flowId: 'pickup-ready',
+          traces: tracePrefixes(PICKUP_READY),
+          stopTrace: '',
+        },
+        {
+          fixture: 'c',
+          flowId: 'push-failed',
+          traces: tracePrefixes(PUSH_FAILED),
+          stopTrace: '',
+        },
+      ],
+      reducedMotion: {
+        samples: [
+          { step: 1, trace: 'beachgoer tide-chart-screen', animations: 0 },
+          {
+            step: 3,
+            trace: 'beachgoer tide-chart-screen tide-view-model tide-repository',
+            animations: 0,
+          },
+        ],
+      },
+    },
+    defaultGap: { a: FIXTURE_A_COMPONENTS, c: FIXTURE_C_COMPONENTS },
+    drawCallsMidTour: 2,
+    blink: {
+      throttle: 4,
+      rounds: 4,
+      framesSampled: 900,
+      blinkFrames: 0,
+      stuckHiddenAfterSettle: [],
+    },
+  };
+}
+
 function passingObservation(): EngineProbeObservation {
   return {
     fixtures: {
@@ -278,6 +510,7 @@ function passingObservation(): EngineProbeObservation {
       afterToggleBack: { phases: ['exploded'], framesIn1s: 1 },
     },
     s5: passingS5(),
+    s6: passingS6(),
   };
 }
 
@@ -435,6 +668,126 @@ function failS5Group(observation: EngineProbeObservation, group: S5Group): void 
   }
 }
 
+function failS6Check(observation: EngineProbeObservation, name: string): void {
+  const s6 = observation.s6;
+  if (s6 === undefined) throw new Error('S6 fixture is missing');
+
+  switch (name) {
+    case 'bp-fill-near-paper-light':
+      s6.palette.light.fill = LIGHT_LINE;
+      break;
+    case 'bp-fill-near-paper-dark':
+      s6.palette.dark.fill = DARK_LINE;
+      break;
+    case 'bp-edge-ink-light':
+      s6.palette.light.edgeScan = Array.from({ length: 60 }, () => LIGHT_PAPER);
+      break;
+    case 'bp-edge-ink-dark':
+      s6.palette.dark.edgeScan = Array.from({ length: 60 }, () => DARK_PAPER);
+      break;
+    case 'bp-kind-distinct':
+      s6.palette.kinds.service = s6.palette.kinds.store;
+      break;
+    case 'bp-toggle-switches':
+      s6.palette.toggle.fill = s6.palette.toggle.lightPaper;
+      break;
+    case 'bp-os-dark-first-paint':
+      s6.palette.osDarkFirstPaint.background = s6.palette.osDarkFirstPaint.lightPaper;
+      break;
+    case 'overlay-360-boxes': {
+      const box = s6.overlay360[0]?.boxes[0];
+      if (box === undefined) throw new Error('360 box is missing');
+      box.fontSize = 11;
+      break;
+    }
+    case 'overlay-selectable':
+      s6.selectable.selectedLayerText = 'wrong';
+      break;
+    case 'overlay-colors-light':
+      s6.colours.light.layer = OFF;
+      break;
+    case 'overlay-colors-dark':
+      s6.colours.dark.layer = OFF;
+      break;
+    case 'overlay-hit-through':
+      s6.hitThrough.afterLabelTap = s6.hitThrough.tapTarget;
+      break;
+    case 'overlay-no-leaders-at-rest':
+      s6.leadersAtRest.leaders = 1;
+      break;
+    case 'overlay-cls-zero':
+      s6.cls.entries.push({
+        value: 0.01,
+        startTime: 1,
+        hadRecentInput: false,
+        page: 'desktop',
+        group: 's6-overlay-default',
+        sources: [
+          {
+            node: {
+              tag: 'div',
+              dataAttributes: { 'data-xploder-label': 'layer:ui' },
+              parentTag: 'div',
+              text: 'UI',
+              inOverlay: true,
+            },
+            previousRect: { x: 0, y: 0, width: 100, height: 20 },
+            currentRect: { x: 0, y: 0, width: 100, height: 40 },
+          },
+        ],
+      });
+      break;
+    case 'trace-stop-clears': {
+      const flow = s6.trace.flows[0];
+      if (flow === undefined) throw new Error('trace flow is missing');
+      flow.stopTrace = 'beachgoer';
+      break;
+    }
+    case 'rm-trace-static':
+      s6.trace.reducedMotion.samples[0]!.animations = 1;
+      break;
+    case 'default-gap-hitmap-a':
+      s6.defaultGap.a = s6.defaultGap.a.slice(0, -1);
+      break;
+    case 'default-gap-hitmap-c':
+      s6.defaultGap.c = s6.defaultGap.c.slice(0, -1);
+      break;
+    case 'draw-calls-mid-tour':
+      s6.drawCallsMidTour = 1;
+      break;
+    case 'overlay-no-blink':
+      s6.blink.blinkFrames = 1;
+      break;
+    default: {
+      const overlay = /^overlay-default-(a|b|c)-(imploded|exploded)-(mobile|desktop)$/.exec(name);
+      if (overlay !== null) {
+        const sample = s6.overlayDefaults.find(
+          (candidate) =>
+            candidate.fixture === overlay[1] &&
+            candidate.state === overlay[2] &&
+            candidate.viewport === overlay[3],
+        );
+        if (sample === undefined) throw new Error('overlay default sample is missing');
+        if (sample.state === 'imploded') sample.titleBlock = 'hidden';
+        else sample.overlay = 'hidden';
+        break;
+      }
+
+      const trace = /^trace-order-(a|c)-(.+)$/.exec(name);
+      if (trace !== null) {
+        const flow = s6.trace.flows.find(
+          (candidate) => candidate.fixture === trace[1] && candidate.flowId === trace[2],
+        );
+        if (flow === undefined) throw new Error('trace flow is missing');
+        flow.traces[0] = 'wrong';
+        break;
+      }
+
+      throw new Error(`no failure mutation for ${name}`);
+    }
+  }
+}
+
 describe('evaluateProbe', () => {
   test('sums layout shifts across every page and probe group', () => {
     const entries: LayoutShiftObservation[] = [
@@ -463,8 +816,23 @@ describe('evaluateProbe', () => {
     const result = evaluateProbe(passingObservation());
 
     expect(result.pass).toBe(true);
-    expect(result.checks).toHaveLength(69);
+    expect(result.checks).toHaveLength(105);
     expect(result.checks.every((check) => check.pass)).toBe(true);
+  });
+
+  test('accepts the CSS-transformed text returned by the Selection API', () => {
+    const observation = passingObservation();
+    const selectable = observation.s6?.selectable;
+    if (selectable === undefined) throw new Error('S6 fixture is missing');
+    selectable.layerText = '1 Interface';
+    selectable.selectedLayerText = '1 INTERFACE';
+    selectable.titleRowText = '1 Interface';
+    selectable.selectedTitleRowText = ' 1   INTERFACE ';
+
+    const result = evaluateProbe(observation, 's6');
+    const check = result.checks.find((candidate) => candidate.name === 'overlay-selectable');
+
+    expect(check?.pass).toBe(true);
   });
 
   test('fails each S4 check once without failing another', () => {
@@ -501,5 +869,101 @@ describe('evaluateProbe', () => {
 
     expect(result.pass).toBe(false);
     expect(result.checks.some((check) => !check.pass)).toBe(true);
+  });
+
+  test('fails each S6 check once without failing another', () => {
+    const baseline = evaluateProbe(passingObservation(), 's6');
+
+    expect(baseline.checks).toHaveLength(36);
+    expect(baseline.pass).toBe(true);
+
+    for (const check of baseline.checks) {
+      const observation = structuredClone(passingObservation());
+      failS6Check(observation, check.name);
+      const result = evaluateProbe(observation, 's6');
+
+      expect(result.pass).toBe(false);
+      expect(
+        result.checks.filter((candidate) => !candidate.pass).map((candidate) => candidate.name),
+      ).toEqual([check.name]);
+    }
+  });
+
+  test('fails the callout-mode and leader rules when their products regress', () => {
+    const cases: { check: string; mutate: (observation: EngineProbeObservation) => void }[] = [
+      {
+        check: 'overlay-default-a-exploded-desktop',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlayDefaults.find(
+            (candidate) =>
+              candidate.fixture === 'a' &&
+              candidate.state === 'exploded' &&
+              candidate.viewport === 'desktop',
+          );
+          if (sample !== undefined) sample.callouts = 'tags';
+        },
+      },
+      {
+        check: 'overlay-default-a-exploded-mobile',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlayDefaults.find(
+            (candidate) =>
+              candidate.fixture === 'a' &&
+              candidate.state === 'exploded' &&
+              candidate.viewport === 'mobile',
+          );
+          if (sample !== undefined) sample.callouts = 'columns';
+        },
+      },
+      {
+        check: 'overlay-360-boxes',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlay360.find(
+            (candidate) => candidate.state === 'exploded',
+          );
+          if (sample !== undefined) sample.callouts = 'columns';
+        },
+      },
+      {
+        check: 'overlay-360-boxes',
+        mutate: (observation) => {
+          const sample = observation.s6?.overlay360.find(
+            (candidate) => candidate.state === 'exploded',
+          );
+          const tag = sample?.boxes.find((box) => box.key === 'part:beachgoer');
+          if (tag !== undefined) tag.left = 100;
+        },
+      },
+      {
+        check: 'overlay-hit-through',
+        mutate: (observation) => {
+          if (observation.s6 !== undefined) observation.s6.hitThrough.hoverLeaderCount = 2;
+        },
+      },
+      {
+        check: 'overlay-hit-through',
+        mutate: (observation) => {
+          if (observation.s6 !== undefined) {
+            observation.s6.hitThrough.afterLeaveEmphasisKey = 'part:tide-chart-screen';
+          }
+        },
+      },
+      {
+        check: 'overlay-no-leaders-at-rest',
+        mutate: (observation) => {
+          if (observation.s6 !== undefined) observation.s6.leadersAtRest.callouts = 'tags';
+        },
+      },
+    ];
+
+    for (const { check, mutate } of cases) {
+      const observation = passingObservation();
+      mutate(observation);
+      const result = evaluateProbe(observation, 's6');
+
+      expect(
+        result.checks.filter((candidate) => !candidate.pass).map((candidate) => candidate.name),
+      ).toEqual([check]);
+    }
   });
 });

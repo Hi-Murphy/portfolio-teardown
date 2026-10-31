@@ -1,0 +1,129 @@
+$ pnpm --filter xploder exec vitest run test/overlay-project.test.ts test/overlay-parts.test.ts test/overlay-dimension.test.ts
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t004/packages/xploder
+
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  10:41:52
+   Duration  155ms (import 72%, transform 20%, tests 5%, worker 3%)
+
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t004/packages/xploder
+
+(node:61004) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:61002) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:61001) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:61003) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:61018) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:61020) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  35 passed (35)
+      Tests  274 passed (274)
+   Start at  10:41:57
+   Duration  3.24s (tests 66%, import 25%, transform 8%, worker 2%)
+
+    Isolate  35 workers spawned · ~88ms startup each (spawn + environment, per file)
+             at least ~254ms faster with isolate: false — reuses workers across files instead of one per file
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t004/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  10:42:00
+   Duration  118ms (tests 53%, import 28%, transform 10%, worker 9%)
+
+
+T004-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  35 passed (35)
+packages/xploder test:       Tests  274 passed (274)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T004-OK (orchestrator full re-run)

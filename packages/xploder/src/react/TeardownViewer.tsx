@@ -13,12 +13,18 @@ import {
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
+import { resolveViewerLayoutOptions } from '../look/product';
+import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
+import { traceVertices } from '../overlay/model';
+import type { ComponentKind } from '../schema/constants';
 import type { Palette } from '../theme';
+import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
 import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
 import { Scene } from './scene/Scene';
 import type { EmphasisPhase, EmphasisState } from './scene/Emphasis';
+import type { OverlayEvent } from './scene/OverlayProjector';
 import type { PickBridgeHandle } from './scene/PickBridge';
 import type { ViewerStats } from './scene/Stats';
 import { usePointerPick } from './usePointerPick';
@@ -29,6 +35,10 @@ import {
   type TeardownViewerHandle,
   type ViewerProject,
 } from './useTeardownViewer';
+
+type ViewerComponent = ViewerProject['layers'][number]['components'][number] & {
+  readonly kind?: ComponentKind;
+};
 
 export interface TeardownViewerProps {
   project: ViewerProject;
@@ -84,8 +94,10 @@ export function TeardownViewer({
 }: TeardownViewerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<BlueprintOverlayHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
+  const [phase, setPhase] = useState<Phase | null>(null);
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
   const pickBridgeRef = useRef<PickBridgeHandle>({
@@ -100,7 +112,21 @@ export function TeardownViewer({
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
   const tokens = useMemo(() => resolveMotion(prefersReducedMotion), [prefersReducedMotion]);
-  const layout = useMemo(() => layoutProject(project, layoutOptions), [project, layoutOptions]);
+  const resolvedLayoutOptions = useMemo(
+    () => resolveViewerLayoutOptions(layoutOptions),
+    [layoutOptions],
+  );
+  const layout = useMemo(
+    () => layoutProject(project, resolvedLayoutOptions),
+    [project, resolvedLayoutOptions],
+  );
+  const kinds = useMemo(
+    () =>
+      project.layers.flatMap((layer) =>
+        layer.components.map((component) => (component as ViewerComponent).kind ?? 'module'),
+      ),
+    [project],
+  );
   const targetLayerIndex =
     position.componentId === null
       ? null
@@ -117,6 +143,20 @@ export function TeardownViewer({
 
     publishedExtentRef.current = extent;
     setScrollExtentPx(extent);
+  }, []);
+
+  const onOverlay = useCallback((event: OverlayEvent) => {
+    overlayRef.current?.update(event);
+  }, []);
+
+  const onTitleBlockShown = useCallback((shown: boolean) => {
+    if (wrapperRef.current !== null) {
+      wrapperRef.current.dataset.xploderTitleblock = shown ? 'shown' : 'hidden';
+    }
+  }, []);
+
+  const onOverlayScroll = useCallback((offsetY: number) => {
+    overlayRef.current?.setScroll(offsetY);
   }, []);
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
@@ -149,6 +189,8 @@ export function TeardownViewer({
 
   const onPhase = useCallback((phase: Phase) => {
     if (wrapperRef.current !== null) wrapperRef.current.dataset.xploderState = phase;
+
+    setPhase(phase);
   }, []);
 
   const onEmphasisPhase = useCallback((phase: EmphasisPhase) => {
@@ -235,7 +277,24 @@ export function TeardownViewer({
     } else {
       element.dataset.xploderTourFlow = viewer.tour.flowId;
     }
-  }, [viewer.focus.layerId, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
+
+    const traceFlow =
+      viewer.tour.flowId === null
+        ? undefined
+        : project.flows?.find((flow) => flow.id === viewer.tour.flowId);
+
+    element.dataset.xploderTrace = traceVertices(
+      viewer.tour.status,
+      traceFlow,
+      viewer.tour.step,
+    ).join(' ');
+  }, [
+    project.flows,
+    viewer.focus.layerId,
+    viewer.tour.flowId,
+    viewer.tour.status,
+    viewer.tour.step,
+  ]);
 
   return (
     <div
@@ -247,6 +306,7 @@ export function TeardownViewer({
       onKeyDown={viewer.onKeyDown}
       style={WRAPPER_STYLE}
       className={className}
+      data-xploder-titleblock="hidden"
     >
       <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
         <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
@@ -274,8 +334,26 @@ export function TeardownViewer({
               pickBridgeRef={pickBridgeRef}
               scrollRef={stageRef}
               onScrollExtent={onScrollExtent}
+              look={look}
+              kinds={kinds}
+              onOverlay={onOverlay}
+              onOverlayScroll={onOverlayScroll}
             />
           </Canvas>
+          <BlueprintOverlay
+            ref={overlayRef}
+            project={project}
+            layout={layout}
+            palette={resolvedPalette}
+            tokens={tokens}
+            target={viewer.target}
+            phase={phase}
+            tour={viewer.tour}
+            focus={viewer.focus}
+            highlight={viewer.highlight}
+            look={look}
+            onTitleBlockShown={onTitleBlockShown}
+          />
         </div>
         <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
       </div>

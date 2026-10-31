@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
 import manifestJson from './frozen-surface.manifest.json';
+import manifestS5Json from './frozen-surface.s5.manifest.json';
 
 interface FrozenSurfaceManifest {
   readonly base: string;
@@ -14,6 +15,12 @@ const REQUIRED_FILES = [
   'src/engine/camera.ts',
   'src/react/scene/CameraRig.tsx',
   'test/scene.test.tsx',
+] as const;
+const REQUIRED_S5_FILES = [
+  'src/interaction/tour.ts',
+  'src/react/scene/Emphasis.tsx',
+  'src/react/scene/ViewScroll.tsx',
+  'test/tour.test.ts',
 ] as const;
 
 type RawImportMeta = ImportMeta & {
@@ -117,5 +124,30 @@ describe('frozen S2/S4 surface', () => {
     expect(await sha256('abc')).toBe(
       'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
     );
+  });
+});
+
+describe('frozen S5 surface', () => {
+  test('matches every hash recorded from the base commit', async () => {
+    const manifest = manifestS5Json as FrozenSurfaceManifest;
+    const entries = Object.entries(manifest.files);
+
+    expect(manifest.base).toBe('f31600e');
+    expect(manifest.note).toBe(
+      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+    );
+    expect(entries.length).toBeGreaterThanOrEqual(25);
+
+    for (const path of REQUIRED_S5_FILES) {
+      expect(manifest.files).toHaveProperty(path);
+    }
+
+    for (const [path, expected] of entries) {
+      const workingCopy = rawFiles[path];
+
+      if (workingCopy === undefined) throw new Error(`Missing working copy for ${path}`);
+
+      expect(await sha256(workingCopy), path).toBe(expected);
+    }
   });
 });

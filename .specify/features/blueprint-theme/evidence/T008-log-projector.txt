@@ -1,0 +1,81 @@
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ pnpm --filter xploder exec vitest run test/overlay-projector.test.tsx
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t008/packages/xploder
+
+(node:97574) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  12:46:01
+   Duration  168ms (import 49%, tests 36%, transform 13%, worker 1%)
+
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+Checking formatting...
+All matched files use Prettier code style!
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t008/packages/xploder
+
+
+ Test Files  41 passed (41)
+      Tests  344 passed (344)
+   Start at  12:46:05
+   Duration  3.56s (tests 70%, import 22%, transform 7%, worker 1%)
+
+    Isolate  41 workers spawned · ~81ms startup each (spawn + environment, per file)
+             at least ~289ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t008/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  12:46:09
+   Duration  134ms (tests 44%, import 33%, worker 12%, transform 10%)
+
+
+T008-OK
+
+## Orchestrator re-run after merge into the slice branch (2026-10-31; Scene.tsx additive conflict with T007 resolved by keeping both prop sets)
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  42 passed (42)
+packages/xploder test:       Tests  351 passed (351)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T008-OK (orchestrator full re-run)

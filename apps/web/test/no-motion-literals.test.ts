@@ -37,6 +37,23 @@ const S05_SOURCE_FILES = [
   'react/useTourClock.ts',
   'react/usePointerPick.ts',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S06_SOURCE_FILES = [
+  'look/tokens.ts',
+  'look/fills.ts',
+  'look/product.ts',
+  'overlay/project.ts',
+  'overlay/parts.ts',
+  'overlay/dimension.ts',
+  'overlay/place.ts',
+  'overlay/trace.ts',
+  'overlay/timing.ts',
+  'overlay/model.ts',
+  'overlay/titleBlock.ts',
+  'react/scene/blueprintMaterial.ts',
+  'react/scene/OverlayProjector.tsx',
+  'react/overlay/BlueprintOverlay.tsx',
+  'react/overlay/CircuitTrace.tsx',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 function formatHits(hits: readonly Hit[]): string {
   return hits.map((hit) => `${hit.file}:${hit.line} ${hit.rule} ${hit.snippet}`).join('\n');
@@ -70,6 +87,7 @@ describe('motion-literal scanner', () => {
     expect(sourceFiles).toContain(ENGINE_EXPLODE);
     expect(sourceFiles).toContain(SLABS);
     expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
+    expect(sourceFiles).toEqual(expect.arrayContaining(S06_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 

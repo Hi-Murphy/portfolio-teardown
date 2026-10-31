@@ -25,7 +25,7 @@ const XPLODER_EXPORTS = new Set(
 );
 const IMPORT_SPECIFIER = /(?:\bfrom\s*|\bimport\s*\(\s*)['"]([^'"]+)['"]/g;
 const ENGINE_IDENTIFIER =
-  /\b(?:useFrame|useThree|InstancedMesh|setMatrixAt|Matrix4|OrthographicCamera|BoxGeometry|Raycaster|setColorAt|instanceColor)\b/g;
+  /\b(?:useFrame|useThree|InstancedMesh|setMatrixAt|Matrix4|OrthographicCamera|BoxGeometry|Raycaster|setColorAt|instanceColor|onBeforeCompile|instanceFill|placeLabels|traceRoute)\b/g;
 
 function ruleForSpecifier(specifier: string): string | null {
   if (

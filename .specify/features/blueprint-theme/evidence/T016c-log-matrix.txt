@@ -1,0 +1,64 @@
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=a --runs 1 --color-scheme light --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t016c-imploded-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --color-scheme light --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t016c-imploded-light
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-imploded-light
+ok screenshot-mobile (1143 ms)
+ok screenshot-desktop (1028 ms)
+ok lighthouse (5878 ms)
+evidence: /tmp/s06-checks/t016c-imploded-light
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-exploded-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-exploded-light
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-exploded-light
+ok screenshot-mobile (1142 ms)
+ok screenshot-desktop (1048 ms)
+ok lighthouse (5851 ms)
+evidence: /tmp/s06-checks/t016c-exploded-light
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3 --runs 1 --color-scheme light --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t016c-tour-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --color-scheme light --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t016c-tour-light
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-tour-light
+ok screenshot-mobile (1322 ms)
+ok screenshot-desktop (1284 ms)
+ok lighthouse (5917 ms)
+evidence: /tmp/s06-checks/t016c-tour-light
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-c-light
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --color-scheme light --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-c-light
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-c-light
+ok screenshot-mobile (1125 ms)
+ok screenshot-desktop (1040 ms)
+ok lighthouse (5823 ms)
+evidence: /tmp/s06-checks/t016c-c-light
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=a --runs 1 --color-scheme dark --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t016c-imploded-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a' --runs 1 --color-scheme dark --wait-for '[data-xploder-titleblock="shown"]' --out /tmp/s06-checks/t016c-imploded-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-imploded-dark
+ok screenshot-mobile (1118 ms)
+ok screenshot-desktop (1028 ms)
+ok lighthouse (5800 ms)
+evidence: /tmp/s06-checks/t016c-imploded-dark
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-exploded-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-exploded-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-exploded-dark
+ok screenshot-mobile (1124 ms)
+ok screenshot-desktop (1028 ms)
+ok lighthouse (5848 ms)
+evidence: /tmp/s06-checks/t016c-exploded-dark
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3 --runs 1 --color-scheme dark --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t016c-tour-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3' --runs 1 --color-scheme dark --wait-for '[data-xploder-trace="beachgoer tide-chart-screen tide-view-model tide-repository"]' --out /tmp/s06-checks/t016c-tour-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-tour-dark
+ok screenshot-mobile (1327 ms)
+ok screenshot-desktop (1261 ms)
+ok lighthouse (5918 ms)
+evidence: /tmp/s06-checks/t016c-tour-dark
+exit=0
+$ pnpm evidence http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-c-dark
+$ node tools/perf/src/cli/evidence.ts 'http://127.0.0.1:4199/dev/engine?fixture=c&state=exploded' --runs 1 --color-scheme dark --wait-for '[data-xploder-overlay="shown"][data-xploder-overlay-hidden="0"]' --out /tmp/s06-checks/t016c-c-dark
+warning: --out is not git-ignored: /tmp/s06-checks/t016c-c-dark
+ok screenshot-mobile (1124 ms)
+ok screenshot-desktop (1053 ms)
+ok lighthouse (5825 ms)
+evidence: /tmp/s06-checks/t016c-c-dark
+exit=0

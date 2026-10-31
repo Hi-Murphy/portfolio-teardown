@@ -1,0 +1,229 @@
+# T009 — overlay model + BlueprintOverlay
+
+Date: 2026-10-31T13:04:02+0700
+Environment: Node v24.19.0, pnpm 12.15.0, macOS worktree /private/tmp/s06-wt/t009
+Sandbox: uses the prescribed sandbox-safe workspace check (`pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test`). The dev-server screenshot step is blocked at `listen EPERM`.
+
+## 1. Overlay model tests
+
+$ pnpm --filter xploder exec vitest run test/overlay-model.test.ts --reporter verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t009/packages/xploder
+
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps layer and dimension labels but removes parts when imploded 3ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 109ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 207ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short part text with a screen-reader name below the wide threshold 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text at the wide threshold 101ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 100ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports the placement hidden count 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 201ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and one leader for every placed leader 201ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  13:03:48
+   Duration  1.02s (tests 96%, import 3%, transform 1%)
+
+
+## 2. Shared-label-builder regression
+
+The verbose T005 matrix prints the same 120 matrix lines byte-for-byte after moving `labelsFor` + `leftmost` into `overlayLabels`; `diff -u` exited 0 with no output.
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > is deterministic for identical input 1ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart 1ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > detects separated, touching, overlapping and contained rectangles 0ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > uses polygon edges as SAT axes 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > uses each type first preferred direction at the smallest radius 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > orders layer, part and dimension labels regardless of input order 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > retries a part with its short text before hiding it 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > reports an off-screen anchor without counting it as hidden 0ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  13:03:49
+   Duration  203ms (tests 73%, import 20%, transform 6%, worker 1%)
+
+
+## 3. Guards
+
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+## 4. Sandbox-safe workspace check
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t009/packages/xploder
+
+(node:3712) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3711) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3713) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3715) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3714) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3716) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3717) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3722) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  43 passed (43)
+      Tests  362 passed (362)
+   Start at  13:03:54
+   Duration  3.37s (tests 73%, import 21%, transform 5%, worker 1%)
+
+    Isolate  43 workers spawned · ~84ms startup each (spawn + environment, per file)
+             at least ~317ms faster with isolate: false — reuses workers across files instead of one per file
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t009/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  13:03:58
+   Duration  95ms (tests 51%, import 30%, transform 10%, worker 9%)
+
+
+## 5. Dev-server evidence attempt
+
+$ pnpm --filter web dev >/tmp/s06-checks/dev.log 2>&1 & echo $! > /tmp/s06-checks/dev.pid
+$ until curl -sf -o /dev/null http://localhost:3000/dev/engine; do sleep 0.5; done
+$ for s in light dark; do pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded' --runs 1 --color-scheme $s --wait-for '[data-xploder-overlay="shown"]' --out /tmp/s06-checks/t009-$s; done
+$ kill "$(cat /tmp/s06-checks/dev.pid)"; echo T009-OK
+
+$ next dev
+⨯ Failed to start server
+Error: listen EPERM: operation not permitted 0.0.0.0:3000
+    at new Promise (<anonymous>) {
+  code: 'EPERM',
+  errno: -1,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 3000
+}
+[?25h
+[ELIFECYCLE] Command failed with exit code 1.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /private/tmp/s06-wt/t009/apps/web
+
+
+The dev server could not bind port 3000 (`listen EPERM: operation not permitted 0.0.0.0:3000`), so the curl readiness loop never completed and the evidence CLI/Chromium never ran. No T009 screenshots or meta files were produced in this sandbox. The orchestrator must run the screenshot step outside the sandbox.
+
+### Exact task command
+
+$ pnpm --filter xploder exec vitest run test/overlay-model.test.ts 2>&1 | tee /tmp/s06-checks/t009.txt
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t009/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  13:04:36
+   Duration  1.02s (tests 96%, import 3%, transform 1%)
+
+## Result
+
+T009-OK
+
+## Orchestrator review (2026-10-31)
+- Screenshot step run by the orchestrator (sandbox EPERM on :3000): T009-screenshot-{mobile,desktop}-{light,dark}.png, plus fixture C (mobile light, desktop dark).
+- Review fix: on 360 px the stack-dimension rail ran through the layer-label text (labels had no background). Added look.annotation.labelFillRole = 'paper' and applied it as the background of layer and dimension labels, so strokes pass under text as they do under the part balloons. look-tokens test covers the new role.
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  3 passed (3)
+      Tests  25 passed (25)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  43 passed (43)
+packages/xploder test:       Tests  362 passed (362)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T009-OK (orchestrator full re-run)

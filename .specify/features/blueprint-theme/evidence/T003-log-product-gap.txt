@@ -1,0 +1,103 @@
+# S06/T003 — product explodedGap default + occlusion test
+# date: 2026-10-31 · cwd: /private/tmp/s06-wt/t003 · node v24.19.0 · vitest 5.0.5
+
+# command 1: focused check
+$ pnpm --filter xploder exec vitest run test/product-gap.test.ts --reporter verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t003/packages/xploder
+
+stdout | test/product-gap.test.ts > product gap occlusion > fixture A keeps every component at least half visible
+Fixture A at 45 degrees: beachgoer 100% · tide-chart-screen 100% · forecast-details-panel 100% · tide-view-model 100% · tide-repository 88% · live-tide-client 100% · tide-cache 100% · tide-feed 100%
+Fixture A at 45 degrees: minimum 88% (tide-repository)
+Fixture A at 135 degrees: minimum 100% (beachgoer)
+Fixture A at 225 degrees: minimum 100% (beachgoer)
+Fixture A at 315 degrees: minimum 88% (live-tide-client)
+
+ ✓ test/product-gap.test.ts > product layout defaults > uses an exploded gap of 2 without changing the layout primitive 1ms
+ ✓ test/product-gap.test.ts > product gap occlusion > fixture A keeps every component at least half visible 198ms
+stdout | test/product-gap.test.ts > product gap occlusion > fixture C keeps every component at least half visible
+Fixture C at 45 degrees: recipient 100% · pickup-app 100% · pickup-api 100% · session-gate 100% · booking-service 66% · notifier 88% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 100% · dead-letter-store 100% · push-gateway 100% · locker-hardware 100%
+Fixture C at 45 degrees: minimum 66% (booking-service)
+Fixture C at 135 degrees: minimum 68% (slot-planner)
+Fixture C at 225 degrees: minimum 68% (audit-trail)
+Fixture C at 315 degrees: minimum 66% (retry-scheduler)
+
+ ✓ test/product-gap.test.ts > product gap occlusion > fixture C keeps every component at least half visible 453ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  10:39:16
+   Duration  744ms (tests 94%, import 4%, transform 1%)
+
+# command 2: sandbox-safe replacement for `pnpm test` (tools/perf cannot bind loopback here)
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test && echo T003-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t003/packages/xploder
+
+ Test Files  33 passed (33)
+      Tests  264 passed (264)
+   Start at  10:39:24
+   Duration  3.25s (tests 73%, import 21%, transform 5%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t003/apps/web
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  10:39:27
+   Duration  91ms (tests 52%, import 27%, transform 11%, worker 9%)
+
+T003-OK
+
+# command 3: frozen-surface guards
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+
+T003-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  33 passed (33)
+packages/xploder test:       Tests  264 passed (264)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T003-OK (orchestrator full re-run)

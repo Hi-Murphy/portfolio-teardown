@@ -1,0 +1,188 @@
+# S06 RFC evidence — explodedGap occlusion sweep
+# date: 2026-10-31 · base: bb6a514 (task/s06-blueprint-theme = brief freeze) · node v24.19.0 · vitest 5.0.5
+# command: pnpm --filter xploder exec vitest run test/zz-s06-occlusion.tmp.test.ts   (temporary file, removed after the run; source below)
+# method: pure picker (src/interaction/pick.ts, layer slabs occlude) over an orthographic ray grid, exploded (progress 1),
+#         true-isometric elevation, azimuths 45/135/225/315 (45 = default angle). visible% = visible area / unoccluded silhouette area.
+#         fitZoom = px per world unit at the given viewport (S4 fitZoom, exploded bounds).
+# exit code: 0
+
+grid step 0.015 world units; visible = rays whose nearest hit (layer slabs occlude) is the component; full = rays hitting the component box alone; exploded (progress 1)
+A gap 1.1: fitZoom 360x640 82.2 px/u, 1280x720 108.6 px/u; worst over 4 azimuths 0% (tide-repository@45)
+    az  45: min visible   0% (tide-repository); <50%: tide-view-model=38%, tide-repository=0%, tide-feed=38%
+      45° named: tide-repository 0% · tide-view-model 38% · tide-feed 38% · live-tide-client 76% · tide-cache 81%
+    az 135: min visible  21% (tide-cache); <50%: tide-view-model=38%, tide-cache=21%, tide-feed=38%
+    az 225: min visible  21% (tide-cache); <50%: tide-view-model=38%, tide-cache=21%, tide-feed=38%
+    az 315: min visible   0% (live-tide-client); <50%: tide-view-model=38%, live-tide-client=0%, tide-feed=38%
+A gap 1.4: fitZoom 360x640 82.2 px/u, 1280x720 95.9 px/u; worst over 4 azimuths 0% (tide-repository@45)
+    az  45: min visible   0% (tide-repository); <50%: tide-repository=0%
+      45° named: tide-repository 0% · tide-view-model 79% · tide-feed 79% · live-tide-client 100% · tide-cache 100%
+    az 135: min visible  54% (tide-cache); <50%: none
+    az 225: min visible  54% (tide-cache); <50%: none
+    az 315: min visible   0% (live-tide-client); <50%: live-tide-client=0%
+A gap 1.6: fitZoom 360x640 79.1 px/u, 1280x720 89.0 px/u; worst over 4 azimuths 38% (tide-repository@45)
+    az  45: min visible  38% (tide-repository); <50%: tide-repository=38%
+      45° named: tide-repository 38% · tide-view-model 94% · tide-feed 94% · live-tide-client 100% · tide-cache 100%
+    az 135: min visible  81% (tide-cache); <50%: none
+    az 225: min visible  81% (tide-cache); <50%: none
+    az 315: min visible  38% (live-tide-client); <50%: live-tide-client=38%
+A gap 1.8: fitZoom 360x640 73.8 px/u, 1280x720 83.0 px/u; worst over 4 azimuths 68% (tide-repository@45)
+    az  45: min visible  68% (tide-repository); <50%: none
+      45° named: tide-repository 68% · tide-view-model 100% · tide-feed 100% · live-tide-client 100% · tide-cache 100%
+    az 135: min visible  99% (tide-cache); <50%: none
+    az 225: min visible  99% (tide-cache); <50%: none
+    az 315: min visible  68% (live-tide-client); <50%: none
+A gap 2.0: fitZoom 360x640 69.2 px/u, 1280x720 77.8 px/u; worst over 4 azimuths 88% (tide-repository@45)
+    az  45: min visible  88% (tide-repository); <50%: none
+      45° named: tide-repository 88% · tide-view-model 100% · tide-feed 100% · live-tide-client 100% · tide-cache 100%
+    az 135: min visible 100% (beachgoer); <50%: none
+    az 225: min visible 100% (beachgoer); <50%: none
+    az 315: min visible  88% (live-tide-client); <50%: none
+A gap 2.4: fitZoom 360x640 61.4 px/u, 1280x720 69.1 px/u; worst over 4 azimuths 100% (beachgoer@45)
+    az  45: min visible 100% (beachgoer); <50%: none
+      45° named: tide-repository 100% · tide-view-model 100% · tide-feed 100% · live-tide-client 100% · tide-cache 100%
+    az 135: min visible 100% (beachgoer); <50%: none
+    az 225: min visible 100% (beachgoer); <50%: none
+    az 315: min visible 100% (beachgoer); <50%: none
+B gap 1.1: fitZoom 360x640 101.8 px/u, 1280x720 117.2 px/u; worst over 4 azimuths 77% (reconciliation-ledger@45)
+    az  45: min visible  77% (reconciliation-ledger); <50%: none
+    az 135: min visible  77% (reconciliation-ledger); <50%: none
+    az 225: min visible  77% (settlement-operator); <50%: none
+    az 315: min visible  77% (settlement-operator); <50%: none
+B gap 1.4: fitZoom 360x640 91.2 px/u, 1280x720 102.6 px/u; worst over 4 azimuths 100% (partner-csv-drop@45)
+    az  45: min visible 100% (partner-csv-drop); <50%: none
+    az 135: min visible 100% (partner-csv-drop); <50%: none
+    az 225: min visible 100% (partner-csv-drop); <50%: none
+    az 315: min visible 100% (partner-csv-drop); <50%: none
+B gap 1.6: fitZoom 360x640 84.2 px/u, 1280x720 94.7 px/u; worst over 4 azimuths 100% (partner-csv-drop@45)
+    az  45: min visible 100% (partner-csv-drop); <50%: none
+    az 135: min visible 100% (partner-csv-drop); <50%: none
+    az 225: min visible 100% (partner-csv-drop); <50%: none
+    az 315: min visible 100% (partner-csv-drop); <50%: none
+B gap 1.8: fitZoom 360x640 78.2 px/u, 1280x720 88.0 px/u; worst over 4 azimuths 100% (partner-csv-drop@45)
+    az  45: min visible 100% (partner-csv-drop); <50%: none
+    az 135: min visible 100% (partner-csv-drop); <50%: none
+    az 225: min visible 100% (partner-csv-drop); <50%: none
+    az 315: min visible 100% (partner-csv-drop); <50%: none
+B gap 2.0: fitZoom 360x640 73.0 px/u, 1280x720 82.1 px/u; worst over 4 azimuths 100% (partner-csv-drop@45)
+    az  45: min visible 100% (partner-csv-drop); <50%: none
+    az 135: min visible 100% (partner-csv-drop); <50%: none
+    az 225: min visible 100% (partner-csv-drop); <50%: none
+    az 315: min visible 100% (partner-csv-drop); <50%: none
+B gap 2.4: fitZoom 360x640 64.4 px/u, 1280x720 72.5 px/u; worst over 4 azimuths 100% (partner-csv-drop@45)
+    az  45: min visible 100% (partner-csv-drop); <50%: none
+    az 135: min visible 100% (partner-csv-drop); <50%: none
+    az 225: min visible 100% (partner-csv-drop); <50%: none
+    az 315: min visible 100% (partner-csv-drop); <50%: none
+C gap 1.1: fitZoom 360x640 69.0 px/u, 1280x720 85.9 px/u; worst over 4 azimuths 0% (booking-service@45)
+    az  45: min visible   0% (booking-service); <50%: pickup-api=21%, session-gate=38%, booking-service=0%, notifier=0%, locker-registry=21%, dead-letter-store=38%, push-gateway=21%, locker-hardware=38%
+      45° named: booking-service 0% · notifier 0% · retry-scheduler 77% · slot-planner 77% · audit-trail 81% · locker-registry 21% · dead-letter-store 38% · push-gateway 21% · locker-hardware 38%
+    az 135: min visible   0% (slot-planner); <50%: pickup-api=21%, session-gate=38%, slot-planner=0%, audit-trail=21%, locker-registry=21%, dead-letter-store=38%, push-gateway=21%, locker-hardware=38%
+    az 225: min visible   0% (audit-trail); <50%: pickup-api=38%, session-gate=21%, slot-planner=21%, audit-trail=0%, locker-registry=38%, dead-letter-store=21%, push-gateway=38%, locker-hardware=21%
+    az 315: min visible   0% (notifier); <50%: pickup-api=38%, session-gate=21%, notifier=0%, retry-scheduler=0%, locker-registry=38%, dead-letter-store=21%, push-gateway=38%, locker-hardware=21%
+C gap 1.4: fitZoom 360x640 67.0 px/u, 1280x720 75.4 px/u; worst over 4 azimuths 0% (booking-service@45)
+    az  45: min visible   0% (booking-service); <50%: booking-service=0%, notifier=0%
+      45° named: booking-service 0% · notifier 0% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 54% · dead-letter-store 79% · push-gateway 54% · locker-hardware 79%
+    az 135: min visible   0% (slot-planner); <50%: slot-planner=0%
+    az 225: min visible   0% (audit-trail); <50%: audit-trail=0%
+    az 315: min visible   0% (notifier); <50%: notifier=0%, retry-scheduler=0%
+C gap 1.6: fitZoom 360x640 62.0 px/u, 1280x720 69.7 px/u; worst over 4 azimuths 21% (slot-planner@135)
+    az  45: min visible  21% (booking-service); <50%: booking-service=21%, notifier=38%
+      45° named: booking-service 21% · notifier 38% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 77% · dead-letter-store 94% · push-gateway 77% · locker-hardware 94%
+    az 135: min visible  21% (slot-planner); <50%: slot-planner=21%
+    az 225: min visible  21% (audit-trail); <50%: audit-trail=21%
+    az 315: min visible  21% (retry-scheduler); <50%: notifier=38%, retry-scheduler=21%
+C gap 1.8: fitZoom 360x640 57.7 px/u, 1280x720 64.9 px/u; worst over 4 azimuths 43% (audit-trail@225)
+    az  45: min visible  43% (booking-service); <50%: booking-service=43%
+      45° named: booking-service 43% · notifier 68% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 98% · dead-letter-store 100% · push-gateway 98% · locker-hardware 100%
+    az 135: min visible  43% (slot-planner); <50%: slot-planner=43%
+    az 225: min visible  43% (audit-trail); <50%: audit-trail=43%
+    az 315: min visible  43% (retry-scheduler); <50%: retry-scheduler=43%
+C gap 2.0: fitZoom 360x640 53.9 px/u, 1280x720 60.6 px/u; worst over 4 azimuths 65% (booking-service@45)
+    az  45: min visible  65% (booking-service); <50%: none
+      45° named: booking-service 65% · notifier 88% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 100% · dead-letter-store 100% · push-gateway 100% · locker-hardware 100%
+    az 135: min visible  68% (slot-planner); <50%: none
+    az 225: min visible  68% (audit-trail); <50%: none
+    az 315: min visible  66% (retry-scheduler); <50%: none
+C gap 2.4: fitZoom 360x640 47.6 px/u, 1280x720 53.6 px/u; worst over 4 azimuths 100% (recipient@45)
+    az  45: min visible 100% (recipient); <50%: none
+      45° named: booking-service 100% · notifier 100% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 100% · dead-letter-store 100% · push-gateway 100% · locker-hardware 100%
+    az 135: min visible 100% (recipient); <50%: none
+    az 225: min visible 100% (recipient); <50%: none
+    az 315: min visible 100% (recipient); <50%: none
+
+# ---- source of the temporary sweep test ----
+import { test } from 'vitest';
+import { writeFileSync } from 'node:fs';
+import { parseProject, parseTechRegistry } from '../src/index';
+import { pick, rayBoxDistance, type Ray } from '../src/interaction/pick';
+import { fitZoom, layoutProject, VIEW, type Vec3 } from '../src/layout';
+import { projectAJson, projectBJson, projectCJson, techRegistryJson } from './fixtures';
+
+const registry = parseTechRegistry(techRegistryJson);
+const PROJECTS = [
+  ['A', parseProject(projectAJson, { registry })],
+  ['B', parseProject(projectBJson, { registry })],
+  ['C', parseProject(projectCJson, { registry })],
+] as const;
+const GAPS = [1.1, 1.4, 1.6, 1.8, 2.0, 2.4];
+const STEP = 0.015; // world units in the screen plane
+const lines: string[] = [];
+
+function basis(az: number) {
+  const se = Math.sin(VIEW.elevation), ce = Math.cos(VIEW.elevation);
+  const toCam: Vec3 = [ce * Math.sin(az), se, ce * Math.cos(az)];
+  const right: Vec3 = [Math.cos(az), 0, -Math.sin(az)];
+  const up: Vec3 = [-se * Math.sin(az), ce, -se * Math.cos(az)];
+  return { toCam, right, up };
+}
+
+test('S06 RFC occlusion sweep', () => {
+  lines.push(`grid step ${STEP} world units; visible = rays whose nearest hit (layer slabs occlude) is the component; full = rays hitting the component box alone; exploded (progress 1)`);
+  for (const [name, project] of PROJECTS) {
+    for (const gap of GAPS) {
+      const layout = layoutProject(project, { explodedGap: gap });
+      const progress = new Float32Array(layout.layers.length + layout.components.length).fill(1);
+      const b = layout.bounds.exploded;
+      const zMobile = fitZoom(b, { width: 360, height: 640 });
+      const zDesk = fitZoom(b, { width: 1280, height: 720 });
+      const rows: string[] = [];
+      let worstAll = Infinity, worstAllId = '';
+      for (const azDeg of [45, 135, 225, 315]) {
+        const az = (azDeg * Math.PI) / 180;
+        const { toCam, right, up } = basis(az);
+        const R = Math.hypot(b.max[0] - b.min[0], b.max[1] - b.min[1], b.max[2] - b.min[2]);
+        const vis = new Float64Array(layout.components.length);
+        const full = new Float64Array(layout.components.length);
+        for (let u = -R; u <= R; u += STEP) for (let v = -R; v <= R; v += STEP) {
+          const origin: Vec3 = [
+            u * right[0] + v * up[0] + 2 * R * toCam[0],
+            u * right[1] + v * up[1] + 2 * R * toCam[1],
+            u * right[2] + v * up[2] + 2 * R * toCam[2],
+          ];
+          const ray: Ray = { origin, direction: [-toCam[0], -toCam[1], -toCam[2]] };
+          const hit = pick(ray, layout, progress);
+          if (hit !== null) vis[hit] += STEP * STEP;
+          layout.components.forEach((c, i) => {
+            if (rayBoxDistance(ray, c.exploded, c.size) !== null) full[i] += STEP * STEP;
+          });
+        }
+        let worst = Infinity, worstId = '';
+        const hidden: string[] = [];
+        layout.components.forEach((c, i) => {
+          const frac = vis[i] / full[i];
+          if (frac < worst) { worst = frac; worstId = c.id; }
+          if (frac < 0.5) hidden.push(`${c.id}=${(frac * 100).toFixed(0)}%`);
+        });
+        if (worst < worstAll) { worstAll = worst; worstAllId = `${worstId}@${azDeg}`; }
+        rows.push(`    az ${String(azDeg).padStart(3)}: min visible ${(worst * 100).toFixed(0).padStart(3)}% (${worstId}); <50%: ${hidden.join(', ') || 'none'}`);
+        if (azDeg === 45 && (name === 'A' || name === 'C')) {
+          const watch = name === 'A' ? ['tide-repository', 'tide-view-model', 'tide-feed', 'live-tide-client', 'tide-cache'] : ['booking-service', 'notifier', 'retry-scheduler', 'slot-planner', 'audit-trail', 'locker-registry', 'dead-letter-store', 'push-gateway', 'locker-hardware'];
+          rows.push('      45° named: ' + watch.map((id) => { const i = layout.components.findIndex((c) => c.id === id); return `${id} ${(vis[i] / full[i] * 100).toFixed(0)}%`; }).join(' · '));
+        }
+      }
+      lines.push(`${name} gap ${gap.toFixed(1)}: fitZoom 360x640 ${zMobile.toFixed(1)} px/u, 1280x720 ${zDesk.toFixed(1)} px/u; worst over 4 azimuths ${(worstAll * 100).toFixed(0)}% (${worstAllId})`);
+      lines.push(...rows);
+    }
+  }
+  writeFileSync('/tmp/s06/occlusion.txt', lines.join('\n') + '\n');
+}, 600000);

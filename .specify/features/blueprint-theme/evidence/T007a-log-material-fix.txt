@@ -1,0 +1,27 @@
+# T007a — orchestrator fix found by the pre-T009 browser sanity check (2026-10-31)
+target: pnpm --filter web dev → http://localhost:3000/dev/engine?fixture=a&state=exploded (Playwright Chromium, 1280x800, dpr 1)
+Note: Next 16 dev blocks /_next dev resources for the 127.0.0.1 origin (allowedDevOrigins), so dev-server checks must use localhost; tasks.md T009/T010 commands corrected.
+
+Symptoms (T007a-screenshot-desktop-light-before.png): colours shifted to neutral grey (plate fill #dddddd instead of ≈#eeefed); edges ~35% ink; changing look.edge.*Px 1→4 changed nothing.
+Cause 1: R3F <Canvas> defaults to ACES filmic tone mapping → patched materials now set toneMapped = false (token colours drawn as-is; needed for AC1 and the probe's ΔE pixel checks).
+Cause 2: Slabs patched the shared materials inside useMemo (a side effect). React dev StrictMode runs memos twice, so the shader held one uniform set while Slabs wrote the other: uEdgePx (and uAccent/uPaper, i.e. S5 highlight/dim recovery) never reached the GPU. Fix: blueprintUniformsFor(material) caches one uniform set per material (WeakMap), idempotent.
+After: T007a-screenshot-desktop-{light,dark}.png — crisp ink-blue outlines, paper plates, kind fills.
+
+$ pnpm --filter xploder exec vitest run test/blueprint-scene.test.tsx
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+negative controls (run before commit): removing toneMapped=false → 1 failed | 7 passed; removing the per-material cache → 1 failed | 7 passed
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  42 passed (42)
+packages/xploder test:       Tests  352 passed (352)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T007a-OK

@@ -9,9 +9,14 @@ import {
 } from 'three';
 
 import { createExplodeTimeline, type ExplodeTimeline, type Phase } from '../../engine/explode';
+import { hexToLinear, highlightFill, kindFill, layerFill, type Rgb } from '../../look/fills';
+import type { LookTokens } from '../../look/tokens';
 import type { ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
+import { emphasis as emphasisTokens } from '../../motion/emphasis';
+import type { ComponentKind } from '../../schema/constants';
 import type { Palette } from '../../theme';
+import { blueprintUniformsFor, type BlueprintUniforms } from './blueprintMaterial';
 
 export interface EmphasisDriver {
   sample(now: number, zoom: number): boolean;
@@ -30,6 +35,17 @@ export interface SlabsProps {
   readonly onSettled?: (state: 'imploded' | 'exploded') => void;
   readonly emphasis?: EmphasisDriver;
   readonly progressRef?: RefObject<Float32Array | null>;
+  readonly look?: LookTokens;
+  readonly kinds?: readonly ComponentKind[];
+}
+
+interface FillMesh extends InstancedMesh {
+  instanceFill?: InstancedBufferAttribute;
+}
+
+interface BlueprintMaterials {
+  readonly layers: BlueprintUniforms;
+  readonly components: BlueprintUniforms;
 }
 
 type TimelineKey = {
@@ -93,6 +109,56 @@ function initializeInstanceColor(mesh: InstancedMesh | null, count: number): voi
   mesh.instanceColor = new InstancedBufferAttribute(new Float32Array(count * 3).fill(1), 3);
 }
 
+function initializeInstanceFill(mesh: FillMesh | null, count: number): void {
+  if (mesh === null) return;
+
+  const attribute = new InstancedBufferAttribute(new Float32Array(count * 3), 3);
+
+  mesh.instanceFill = attribute;
+  mesh.geometry.setAttribute('instanceFill', attribute);
+}
+
+function setFill(attribute: InstancedBufferAttribute, index: number, fill: Rgb): void {
+  attribute.array[index * 3] = fill[0];
+  attribute.array[index * 3 + 1] = fill[1];
+  attribute.array[index * 3 + 2] = fill[2];
+}
+
+function writeLayerFill(mesh: FillMesh | null, palette: Palette): void {
+  const attribute = mesh?.instanceFill;
+
+  if (mesh === null || attribute === undefined) return;
+
+  const fill = layerFill(palette);
+
+  for (let index = 0; index < mesh.count; index += 1) setFill(attribute, index, fill);
+
+  attribute.needsUpdate = true;
+}
+
+function writeComponentFill(
+  mesh: FillMesh | null,
+  layout: ProjectLayout,
+  palette: Palette,
+  kinds: readonly ComponentKind[] | undefined,
+): void {
+  const attribute = mesh?.instanceFill;
+
+  if (mesh === null || attribute === undefined) return;
+
+  layout.components.forEach((_, index) => {
+    setFill(attribute, index, kindFill(palette, kinds?.[index] ?? 'module'));
+  });
+  attribute.needsUpdate = true;
+}
+
+function setLinearColor(
+  colour: { setRGB(red: number, green: number, blue: number): void },
+  value: Rgb,
+): void {
+  colour.setRGB(value[0], value[1], value[2]);
+}
+
 export function Slabs({
   layout,
   palette,
@@ -104,8 +170,10 @@ export function Slabs({
   onSettled,
   emphasis,
   progressRef,
+  look,
+  kinds,
 }: SlabsProps) {
-  const { camera, invalidate } = useThree();
+  const { camera, invalidate, viewport } = useThree();
   const layersRef = useRef<InstancedMesh>(null);
   const componentsRef = useRef<InstancedMesh>(null);
   const timelineRef = useRef<ExplodeTimeline | null>(null);
@@ -118,10 +186,36 @@ export function Slabs({
     () => new Float32Array(layout.layers.length + layout.components.length),
     [layout],
   );
-  const geometry = useMemo(() => new BoxGeometry(1, 1, 1), []);
+  const layerGeometry = useMemo(() => new BoxGeometry(1, 1, 1), []);
+  const componentGeometry = useMemo(() => new BoxGeometry(1, 1, 1), []);
   const layerMaterial = useMemo(() => new MeshLambertMaterial(), []);
   const componentMaterial = useMemo(() => new MeshLambertMaterial(), []);
   const dummy = useMemo(() => new Object3D(), []);
+  const edgeUniformsRef = useRef<{
+    readonly layers: BlueprintUniforms['uEdgePx'];
+    readonly components: BlueprintUniforms['uEdgePx'];
+  } | null>(null);
+  const blueprintMaterials = useMemo<BlueprintMaterials | null>(() => {
+    if (look === undefined) return null;
+
+    const layers = blueprintUniformsFor(layerMaterial);
+    const components = blueprintUniformsFor(componentMaterial);
+
+    layers.uFaces.value.set(look.faces.top, look.faces.left, look.faces.right);
+    components.uFaces.value.set(look.faces.top, look.faces.left, look.faces.right);
+
+    return { layers, components };
+  }, [componentMaterial, layerMaterial, look]);
+
+  useLayoutEffect(() => {
+    edgeUniformsRef.current =
+      blueprintMaterials === null
+        ? null
+        : {
+            layers: blueprintMaterials.layers.uEdgePx,
+            components: blueprintMaterials.components.uEdgePx,
+          };
+  }, [blueprintMaterials]);
 
   useLayoutEffect(() => {
     onPhaseRef.current = onPhase;
@@ -136,8 +230,14 @@ export function Slabs({
   useLayoutEffect(() => {
     initializeInstanceColor(layersRef.current, layout.layers.length);
     initializeInstanceColor(componentsRef.current, layout.components.length);
+
+    if (look !== undefined) {
+      initializeInstanceFill(layersRef.current, layout.layers.length);
+      initializeInstanceFill(componentsRef.current, layout.components.length);
+    }
+
     invalidate();
-  }, [invalidate, layout, slug]);
+  }, [invalidate, layout, look, slug]);
 
   useLayoutEffect(() => {
     if (progressRef !== undefined) progressRef.current = progress;
@@ -153,13 +253,32 @@ export function Slabs({
     invalidate();
   }, [componentMaterial, invalidate, layerMaterial, palette.line, palette.lineMuted]);
 
+  useLayoutEffect(() => {
+    if (blueprintMaterials === null || look === undefined) return;
+
+    const accent = hexToLinear(palette[emphasisTokens.highlight.role]);
+    const paper = hexToLinear(palette[emphasisTokens.dim.toward]);
+    const highlight = highlightFill(palette);
+
+    for (const uniforms of [blueprintMaterials.layers, blueprintMaterials.components]) {
+      setLinearColor(uniforms.uAccent.value, accent);
+      setLinearColor(uniforms.uPaper.value, paper);
+      setLinearColor(uniforms.uHighlightFill.value, highlight);
+    }
+
+    writeLayerFill(layersRef.current as FillMesh | null, palette);
+    writeComponentFill(componentsRef.current as FillMesh | null, layout, palette, kinds);
+    invalidate();
+  }, [blueprintMaterials, invalidate, kinds, layout, look, palette]);
+
   useLayoutEffect(
     () => () => {
-      geometry.dispose();
+      layerGeometry.dispose();
+      componentGeometry.dispose();
       layerMaterial.dispose();
       componentMaterial.dispose();
     },
-    [componentMaterial, geometry, layerMaterial],
+    [componentGeometry, componentMaterial, layerGeometry, layerMaterial],
   );
 
   useLayoutEffect(() => {
@@ -201,6 +320,15 @@ export function Slabs({
   }, [dummy, emphasis?.lift, invalidate, layout, now, progress, target, tokens]);
 
   useFrame(() => {
+    const edgeUniforms = edgeUniformsRef.current;
+
+    if (edgeUniforms !== null && look !== undefined) {
+      const dpr = viewport.dpr;
+
+      edgeUniforms.layers.value = look.edge.layerPx * dpr;
+      edgeUniforms.components.value = look.edge.componentPx * dpr;
+    }
+
     const timeline = timelineRef.current;
     const timelinePending = timeline !== null && pendingSettlementRef.current;
 
@@ -242,14 +370,14 @@ export function Slabs({
       <instancedMesh
         key={`${slug}-layers`}
         ref={layersRef}
-        args={[geometry, layerMaterial, layout.layers.length]}
+        args={[layerGeometry, layerMaterial, layout.layers.length]}
         frustumCulled={false}
         dispose={null}
       />
       <instancedMesh
         key={`${slug}-components`}
         ref={componentsRef}
-        args={[geometry, componentMaterial, layout.components.length]}
+        args={[componentGeometry, componentMaterial, layout.components.length]}
         frustumCulled={false}
         dispose={null}
       />

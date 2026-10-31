@@ -1,0 +1,192 @@
+$ pnpm --filter xploder exec vitest run test/look-fills.test.ts --reporter verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t002/packages/xploder
+
+stdout | test/look-fills.test.ts > look fills > prints and enforces the light/dark parity table
+[light]
+  text contrast on paper
+    ink       13.71 : 1
+    label      7.33 : 1
+    steel      5.23 : 1
+  stroke contrast on paper
+    lineMuted   3.23 : 1
+    accent     5.27 : 1
+  line edge vs kind fill contrast
+    module     6.01 : 1
+    service    6.12 : 1
+    store      6.27 : 1
+    external   6.32 : 1
+    actor      6.28 : 1
+  highlight fill vs kind fill (CIE76 ΔE)
+    module     15.6
+    service    21.6
+    store      25.4
+    external   18.6
+    actor      22.3
+  smallest kind ΔE 4.9 (module/external)
+[dark]
+  text contrast on paper
+    ink       14.81 : 1
+    label      8.62 : 1
+    steel      6.74 : 1
+  stroke contrast on paper
+    lineMuted   3.78 : 1
+    accent     9.57 : 1
+  line edge vs kind fill contrast
+    module     5.56 : 1
+    service    5.81 : 1
+    store      5.74 : 1
+    external   6.04 : 1
+    actor      5.49 : 1
+  highlight fill vs kind fill (CIE76 ΔE)
+    module     18.7
+    service    24.4
+    store      23.4
+    external   21.1
+    actor      20.5
+  smallest kind ΔE 3.6 (module/external)
+
+ ✓ test/look-fills.test.ts > look fills > mixes sRGB endpoints and the paper/line midpoint in sRGB before decoding 1ms
+ ✓ test/look-fills.test.ts > look fills > derives every kind, layer and highlight fill through the sRGB wash 0ms
+ ✓ test/look-fills.test.ts > look fills > prints and enforces the light/dark parity table 1ms
+ ✓ test/look-fills.test.ts > look fills > round-trips the S5 emphasis composition for both bases and palettes 5ms
+ ✓ test/look-fills.test.ts > look fills > maps a neutral ratio to exactly zero emphasis 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  10:39:51
+   Duration  69ms (tests 42%, import 30%, transform 19%, worker 8%)
+
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t002/packages/xploder
+
+(node:58371) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58369) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58370) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58372) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58381) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58383) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  33 passed (33)
+      Tests  266 passed (266)
+   Start at  10:39:56
+   Duration  3.43s (tests 72%, import 23%, transform 3%, worker 1%)
+
+    Isolate  33 workers spawned · ~94ms startup each (spawn + environment, per file)
+             at least ~252ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+$ pnpm --filter web test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t002/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  10:40:00
+   Duration  163ms (tests 51%, import 26%, transform 12%, worker 10%)
+
+
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths)
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths)
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)"
+BRIEF-HISTORY-OK
+T002-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  33 passed (33)
+packages/xploder test:       Tests  266 passed (266)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T002-OK (orchestrator full re-run)

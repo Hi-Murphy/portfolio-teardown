@@ -1,0 +1,9 @@
+# T016 — frozen-surface diff logs (HEAD 2fa5333)
+$ git diff --stat --exit-code 53b2b2b -- <S2/S4 frozen set: packages/xploder/test/frozen-surface.paths>
+S2S4-DIFF-EMPTY (exit 0)
+$ git diff --stat --exit-code f31600e -- <S5 frozen set: packages/xploder/test/frozen-surface.s5.paths>
+S5-DIFF-EMPTY (exit 0)
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md
+BRIEF+KICKOFF-UNCHANGED
+$ git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md
+(empty) BRIEF-HISTORY-OK

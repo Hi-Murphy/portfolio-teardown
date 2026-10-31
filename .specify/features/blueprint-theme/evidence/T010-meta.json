@@ -1,0 +1,9 @@
+{ "task": "T010", "date": "2026-10-31", "target": "http://localhost:3000/dev/engine?fixture=a&state=exploded&flow=live-update&tour=paused&step=3 | &tour=play (pnpm --filter web dev, local)",
+  "tool": "Playwright Chromium (tools/perf dependency), 1280x800 and 360x740, dpr 1; reducedMotion reduce for the RM shot",
+  "observed": {
+    "paused-step3": { "data-xploder-trace": "beachgoer tide-chart-screen tide-view-model tide-repository", "overlayAnimations": ["finished","finished"] },
+    "playing-step0": { "data-xploder-trace": "beachgoer" },
+    "reduced-motion-playing-step1": { "data-xploder-trace": "beachgoer tide-chart-screen", "overlayAnimations": [] }
+  },
+  "note": "Executor sandbox could not bind port 3000 (EPERM); the orchestrator ran the browser step. data-xploder-overlay reads 'hidden' during a tour by design (annotations step back, RFC D7); the trace is reported by data-xploder-trace.",
+  "exitCode": 0 }

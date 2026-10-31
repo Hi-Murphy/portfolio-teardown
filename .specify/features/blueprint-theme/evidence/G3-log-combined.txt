@@ -1,0 +1,28 @@
+# S06 G3 combined gate log — 2026-10-31T10:03:47Z — HEAD 635b0c2
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+S2S4-DIFF-EMPTY
+S5-DIFF-EMPTY
+probe 104 checks 0 failed, pass true
+fps tour: dropped 0 liveness true windowMs 5051.579 steps 3 drawCalls 2
+screenshots T014: 16
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  75 passed (75)
+packages/xploder test:  Test Files  44 passed (44)
+packages/xploder test:       Tests  385 passed (385)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+G3-OK
+
+## CI follow-up (2026-10-31)
+PR #10 build job failed after the G3 push: 'keeps every label readable across the dense canvas sweep' timed out at vitest's default 30 s (43.6 s on the CI runner vs ~17 s locally). No assertion failed. Fix: explicit DENSE_SWEEP_TIMEOUT_MS = 180_000 on both dense-sweep tests (test-runner timeout, not a readability or perf threshold).
+Prettier then flagged the reformatted tests (my push skipped a failed lint exit); fixed in 378bb32.
+CI on 378bb32: all 8 checks pass — https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41194090126 · https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41194090122
+Correction: 2c9033c attached the timeout to the wrong test (the sweep already carried an explicit 30_000 from T014a, and the new constant landed on the next test). The CI pass on 378bb32 was a fast runner. Fixed: the sweep test now uses DENSE_SWEEP_TIMEOUT_MS; the determinism test is back to its original form.

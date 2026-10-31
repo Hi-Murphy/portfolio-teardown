@@ -1,0 +1,38 @@
+$ node tools/perf/src/cli/fps-engine.ts --scenario tour --out /tmp/s06-checks/t016c-fps
+building fixture export...
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 71ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 390ms
+  Running TypeScript ...
+  Finished TypeScript in 776ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 185ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+fixture: http://127.0.0.1:58972/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1
+scenario: tour
+fps: 59.43 (300 frames / 5048 ms)
+droppedFrames: 0
+tourStepsAdvanced: 3
+drawCalls: 2
+liveness: true
+verdict: pass (dropped-frames)
+fps.json: /tmp/s06-checks/t016c-fps/fps.json
+{"ok":true,"droppedFrames":0,"liveness":true,"windowMs":5047.619,"tourStepsAdvanced":3,"drawCalls":2,"info":{"fps":59.433962824848706,"rafFps":60.0028094960968,"intervalsMs":{"p50":16.674,"p95":17.602,"max":18.354}}}

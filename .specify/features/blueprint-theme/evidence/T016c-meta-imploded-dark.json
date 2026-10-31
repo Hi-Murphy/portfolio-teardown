@@ -1,0 +1,60 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://127.0.0.1:4199/dev/engine?fixture=a",
+  "finalUrl": "http://127.0.0.1:4199/dev/engine?fixture=a",
+  "httpStatus": 200,
+  "startedAt": "2026-10-31T12:49:56.331Z",
+  "finishedAt": "2026-10-31T12:50:04.459Z",
+  "durationMs": 8128,
+  "argv": [
+    "http://127.0.0.1:4199/dev/engine?fixture=a",
+    "--runs",
+    "1",
+    "--color-scheme",
+    "dark",
+    "--wait-for",
+    "[data-xploder-titleblock=\"shown\"]",
+    "--out",
+    "/tmp/s06-checks/t016c-imploded-dark"
+  ],
+  "colorScheme": "dark",
+  "git": {
+    "sha": "655ab5ece6085fcb49161a746f87c65feeacb19c",
+    "dirty": true
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 1118
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 1028
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 5800
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}
