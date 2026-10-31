@@ -1,0 +1,252 @@
+T016c — Evidence re-run after T016a/T016b (probe, matrix, FPS)
+Date: 2026-10-31
+Sandbox: OFF (browser task)
+
+STATUS: BLOCKED at step 2. The unchanged overlay-no-blink check failed (blinkFrames=3). Per EVIDENCE.md §6, the budget failure was not rerun to green. Matrix and FPS steps were not run.
+
+Targeted probe tests
+$ pnpm --filter perf-tools exec vitest run test/engine-probe.test.ts
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t016c/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  17 passed (17)
+   Start at  19:23:38
+   Duration  96ms (tests 45%, transform 38%, import 14%, worker 3%)
+
+
+Fixture export
+$ pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1096ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1701ms
+  Running TypeScript ...
+  Finished TypeScript in 1170ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 191ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+
+Probe (local fixture export, 127.0.0.1:4199)
+$ pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s06-checks/t016c-probe
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4199/ --out /tmp/s06-checks/t016c-probe
+PASS fixture-a-instances: expected {"layers":4,"components":8} actual {"layers":4,"components":8}
+PASS fixture-a-draw-calls: expected 2 actual 2
+PASS fixture-b-instances: expected {"layers":4,"components":5} actual {"layers":4,"components":5}
+PASS fixture-b-draw-calls: expected 2 actual 2
+PASS fixture-c-instances: expected {"layers":5,"components":13} actual {"layers":5,"components":13}
+PASS fixture-c-draw-calls: expected 2 actual 2
+PASS camera-default-azimuth: expected 45 actual 45
+PASS camera-after-button-right: expected 135 actual 135
+PASS camera-after-arrow-right: expected 225 actual 225
+PASS camera-zoom-after-20-in: expected 3 actual 3
+PASS camera-zoom-after-20-out: expected 1 actual 1
+PASS camera-zoom-after-reset: expected 1 actual 1
+PASS camera-zoom-out-disabled-at-default: expected true actual true
+PASS camera-zoom-reset-disabled-at-default: expected true actual true
+PASS camera-zoom-in-disabled-at-max: expected true actual true
+PASS motion-explode-phases: expected ["exploding","exploded"] actual ["exploding","exploded"]
+PASS motion-implode-phases: expected ["imploding","imploded"] actual ["imploding","imploded"]
+PASS reduced-motion-initial-state: expected "exploded" actual "exploded"
+PASS reduced-motion-toggle-phases: expected ["imploded"] actual ["imploded"]
+PASS reduced-motion-toggle-frames: expected "<= 2" actual 2
+PASS reduced-motion-toggle-back-phases: expected ["exploded"] actual ["exploded"]
+PASS reduced-motion-toggle-back-frames: expected "<= 2" actual 2
+PASS hitmap-exploded-all-components-hit: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"] actual ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS hitmap-imploded-top-layer-hit: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","forecast-details-panel","tide-chart-screen"]
+PASS hover-highlight-exploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-highlight-imploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-cursor-pointer: expected {"exploded":"pointer","imploded":"pointer"} actual {"exploded":"pointer","imploded":"pointer"}
+PASS hover-pixel-toward-accent: expected "distance to accent decreases in both states" actual {"exploded":{"before":246.5461417260469,"after":92.22255689363638},"imploded":{"before":246.5461417260469,"after":179.73869922751751}}
+PASS hover-leave-clears: expected {"exploded":true,"imploded":true} actual {"exploded":true,"imploded":true}
+PASS tap-highlight-exploded: expected "beachgoer" actual "beachgoer"
+PASS tap-highlight-imploded: expected "beachgoer" actual "beachgoer"
+PASS tap-second-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-other-switches: expected {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"} actual {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"}
+PASS tap-empty-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-outside-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS trace-pointertype-touch: expected "pointerdown, pointerup and click all with pointerType=touch" actual [{"type":"pointerdown","pointerType":"touch","t":4466},{"type":"pointerup","pointerType":"touch","t":4467},{"type":"click","pointerType":"touch","t":4471.399999976158},{"type":"pointerdown","pointerType":"touch","t":4556.799999952316},{"type":"pointerup","pointerType":"touch","t":4556.899999976158},{"type":"click","pointerType":"touch","t":4557.299999952316},{"type":"pointerdown","pointerType":"touch","t":4591.799999952316},{"type":"pointerup","pointerType":"touch","t":4591.899999976158},{"type":"click","pointerType":"touch","t":4592.199999988079},{"type":"pointerdown","pointerType":"touch","t":4624.699999988079},{"type":"pointerup","pointerType":"touch","t":4625.199999988079},{"type":"click","pointerType":"touch","t":4625.699999988079},{"type":"pointerdown","pointerType":"touch","t":4658},{"type":"pointerup","pointerType":"touch","t":4658.199999988079},{"type":"click","pointerType":"touch","t":4658.599999964237},{"type":"pointerdown","pointerType":"touch","t":4692.899999976158},{"type":"pointerup","pointerType":"touch","t":4693.199999988079},{"type":"click","pointerType":"touch","t":4693.799999952316},{"type":"pointerdown","pointerType":"touch","t":4725.099999964237},{"type":"pointerup","pointerType":"touch","t":4725.399999976158},{"type":"click","pointerType":"touch","t":4726.099999964237},{"type":"pointerdown","pointerType":"touch","t":4759.599999964237},{"type":"pointerup","pointerType":"touch","t":4761},{"type":"click","pointerType":"touch","t":4761.899999976158},{"type":"pointerdown","pointerType":"touch","t":4424.800000011921},{"type":"pointerup","pointerType":"touch","t":4425.100000023842},{"type":"click","pointerType":"touch","t":4426.400000035763},{"type":"pointerdown","pointerType":"touch","t":4471.199999988079},{"type":"pointerup","pointerType":"touch","t":4471.400000035763},{"type":"click","pointerType":"touch","t":4471.900000035763},{"type":"pointerdown","pointerType":"touch","t":4489.5},{"type":"pointerup","pointerType":"touch","t":4489.600000023842},{"type":"click","pointerType":"touch","t":4490},{"type":"pointerdown","pointerType":"touch","t":4506},{"type":"pointerup","pointerType":"touch","t":4506.199999988079},{"type":"click","pointerType":"touch","t":4506.5},{"type":"pointerdown","pointerType":"touch","t":4523.300000011921},{"type":"pointerup","pointerType":"touch","t":4523.5},{"type":"click","pointerType":"touch","t":4523.900000035763},{"type":"pointerdown","pointerType":"touch","t":4539.600000023842},{"type":"pointerup","pointerType":"touch","t":4539.600000023842},{"type":"click","pointerType":"touch","t":4539.900000035763},{"type":"pointerdown","pointerType":"touch","t":4555.900000035763},{"type":"pointerup","pointerType":"touch","t":4555.900000035763},{"type":"click","pointerType":"touch","t":4556.300000011921},{"type":"pointerdown","pointerType":"touch","t":4571.400000035763},{"type":"pointerup","pointerType":"touch","t":4572.199999988079},{"type":"click","pointerType":"touch","t":4572.800000011921}]
+PASS cls-zero: expected 0 actual {"total":0,"entries":[]}
+PASS focus-toggle-sets: expected "ui" actual "ui"
+PASS focus-pixel-toward-paper: expected "distance to paper decreases" actual {"before":40.422765862815474,"after":11.532562594670795}
+PASS focus-esc-releases: expected null actual null
+PASS focus-toggle-releases: expected null actual null
+PASS focus-survives-explode: expected {"state":"exploded","layer":"ui"} actual {"state":"exploded","layer":"ui"}
+PASS focus-survives-rotate: expected {"azimuth":135,"layer":"ui"} actual {"azimuth":135,"layer":"ui"}
+PASS tour-order-a-live-update: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"]
+PASS tour-order-a-offline-read: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"]
+PASS tour-order-c-pickup-ready: expected ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"] actual ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"]
+PASS tour-order-c-push-failed: expected ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"] actual ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"]
+PASS tour-pause-holds: expected 3 actual 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0" actual [[0,1,2,3,4,5],[0,1,2,3,4],[0,1,2,3,4,5,6],[0,1,2,3,4]]
+PASS tour-stop-clears: expected "every flow stops idle with no caption" actual [{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false}]
+PASS tour-camera-still: expected "azimuth and zoom unchanged during each flow" actual [{"azimuths":[45,45,45,45,45,45],"zooms":[1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]},{"azimuths":[45,45,45,45,45,45,45],"zooms":[1,1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]}]
+PASS tour-focus-suspended-restored: expected {"during":true,"after":true,"layerAfter":"ui"} actual {"during":true,"after":true,"layerAfter":"ui"}
+PASS selector-a-visible: expected "at least one visible flow selector button" actual {"flowButtons":2,"visible":true}
+PASS selector-b-hidden: expected {"flowButtons":0,"visible":false} actual {"flowButtons":0,"visible":false}
+PASS selector-c-two-flows: expected {"flowButtons":2,"visible":true} actual {"flowButtons":2,"visible":true}
+PASS caption-selectable: expected "user-select text and selection round-trip" actual {"userSelect":"text","selectedText":"Recipient","text":"Recipient"}
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}} actual {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}} actual {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1} actual {"target":"tide-chart-screen","frameDelta":1,"highlight":"tide-chart-screen","tweening":["false"],"pulse":["false"]}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1} actual {"target":"ui","frameDelta":1,"highlight":"ui","tweening":["false"],"pulse":["false"]}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"} actual {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":[1,1,1,1,1],"intervalsMs":[1599.3999999761581,1600.699999988079,1600.300000011921,1598.5],"tweening":["false","false","false","false","false","false","false"],"pulse":["false","false","false","false","false","false","false"]}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\"" actual ["false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false"]
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1600.199999988079,1600.1000000238419],"tolerance":0.2} actual [1599.3999999761581,1600.699999988079,1600.300000011921,1598.5]
+PASS scroll-zoom1-no-overflow: expected "<= 1px" actual 0
+PASS scroll-zoomed-overflows: expected "> 1px" actual 803
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"] actual ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3} actual {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)" actual [{"viewport":"desktop","step":0,"target":"recipient","point":{"x":626,"y":205},"caption":{"left":77,"top":397,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":1,"target":"pickup-app","point":{"x":654,"y":225},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":2,"target":"pickup-api","point":{"x":626,"y":284},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":3,"target":"booking-service","point":{"x":626,"y":334},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":4,"target":"locker-registry","point":{"x":626,"y":424},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"desktop","step":5,"target":"notifier","point":{"x":654,"y":354},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":6,"target":"push-gateway","point":{"x":626,"y":493},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"mobile","step":0,"target":"recipient","point":{"x":178,"y":189},"caption":{"left":29,"top":403.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":1,"target":"pickup-app","point":{"x":212,"y":210},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":2,"target":"pickup-api","point":{"x":178,"y":273},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":3,"target":"booking-service","point":{"x":173,"y":326},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":4,"target":"locker-registry","point":{"x":178,"y":420},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true},{"viewport":"mobile","step":5,"target":"notifier","point":{"x":212,"y":347},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":6,"target":"push-gateway","point":{"x":178,"y":494},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true}]
+PASS bp-fill-near-paper-light: expected "fill is closer to --bp-paper than --bp-line" actual {"toPaper":12.215136779721744,"toLine":65.55242980264804}
+PASS bp-edge-ink-light: expected {"scanPixels":">= 60","closestDeltaE":"<= 10"} actual {"scanPixels":60,"closestDeltaE":0}
+PASS bp-fill-near-paper-dark: expected "fill is closer to --bp-paper than --bp-line" actual {"toPaper":18.916937280935677,"toLine":50.51499698130196}
+PASS bp-edge-ink-dark: expected {"scanPixels":">= 60","closestDeltaE":"<= 10"} actual {"scanPixels":60,"closestDeltaE":0}
+PASS bp-kind-distinct: expected "deltaE >= 3" actual 15.079558282702157
+PASS bp-toggle-switches: expected "fill is closer to dark paper than light paper" actual {"toDarkPaper":18.916937280935677,"toLightPaper":73.07270431123831}
+PASS bp-os-dark-first-paint: expected {"backgroundDeltaE":"<= 3","fill":"closer to dark paper"} actual {"backgroundDeltaE":0,"fillToDarkPaper":18.916937280935677,"fillToLightPaper":73.07270431123831}
+PASS overlay-default-a-imploded-mobile: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"a","state":"imploded","viewport":"mobile","titleBlock":"shown","overlay":"shown","callouts":"none","hidden":"0","labelCount":0}
+PASS overlay-default-a-imploded-desktop: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"a","state":"imploded","viewport":"desktop","titleBlock":"shown","overlay":"shown","callouts":"none","hidden":"0","labelCount":0}
+PASS overlay-default-a-exploded-mobile: expected {"overlay":"shown","hidden":"0","callouts":"tags"} actual {"fixture":"a","state":"exploded","viewport":"mobile","titleBlock":"hidden","overlay":"shown","callouts":"tags","hidden":"0","labelCount":14}
+PASS overlay-default-a-exploded-desktop: expected {"overlay":"shown","hidden":"0","callouts":"columns"} actual {"fixture":"a","state":"exploded","viewport":"desktop","titleBlock":"hidden","overlay":"shown","callouts":"columns","hidden":"0","labelCount":14}
+PASS overlay-default-b-imploded-mobile: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"b","state":"imploded","viewport":"mobile","titleBlock":"shown","overlay":"shown","callouts":"none","hidden":"0","labelCount":0}
+PASS overlay-default-b-imploded-desktop: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"b","state":"imploded","viewport":"desktop","titleBlock":"shown","overlay":"shown","callouts":"none","hidden":"0","labelCount":0}
+PASS overlay-default-b-exploded-mobile: expected {"overlay":"shown","hidden":"0","callouts":"tags"} actual {"fixture":"b","state":"exploded","viewport":"mobile","titleBlock":"hidden","overlay":"shown","callouts":"tags","hidden":"0","labelCount":11}
+PASS overlay-default-b-exploded-desktop: expected {"overlay":"shown","hidden":"0","callouts":"columns"} actual {"fixture":"b","state":"exploded","viewport":"desktop","titleBlock":"hidden","overlay":"shown","callouts":"columns","hidden":"0","labelCount":11}
+PASS overlay-default-c-imploded-mobile: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"c","state":"imploded","viewport":"mobile","titleBlock":"shown","overlay":"shown","callouts":"none","hidden":"0","labelCount":0}
+PASS overlay-default-c-imploded-desktop: expected {"titleBlock":"shown","labelCount":0} actual {"fixture":"c","state":"imploded","viewport":"desktop","titleBlock":"shown","overlay":"shown","callouts":"none","hidden":"0","labelCount":0}
+PASS overlay-default-c-exploded-mobile: expected {"overlay":"shown","hidden":"0","callouts":"tags"} actual {"fixture":"c","state":"exploded","viewport":"mobile","titleBlock":"hidden","overlay":"shown","callouts":"tags","hidden":"0","labelCount":20}
+PASS overlay-default-c-exploded-desktop: expected {"overlay":"shown","hidden":"0","callouts":"columns"} actual {"fixture":"c","state":"exploded","viewport":"desktop","titleBlock":"hidden","overlay":"shown","callouts":"columns","hidden":"0","labelCount":20}
+PASS overlay-360-boxes: expected {"samples":8,"everyBox":"inside viewer, font-size >= 12px, no pairwise intersections","explodedCallouts":"tags, no tag/tag overlaps"} actual [{"fixture":"a","state":"imploded","theme":"light","callouts":"none","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":185,"top":433,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"a","state":"imploded","theme":"dark","callouts":"none","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":185,"top":433,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"a","state":"exploded","theme":"light","callouts":"tags","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"layer:ui","left":21,"top":189.9199981689453,"right":111,"bottom":210.9199981689453,"fontSize":12},{"key":"layer:state","left":21,"top":275.7200012207031,"right":119,"bottom":296.7200012207031,"fontSize":12},{"key":"layer:data","left":21,"top":361.5199890136719,"right":111,"bottom":382.5199890136719,"fontSize":12},{"key":"layer:platform","left":21,"top":477.82000732421875,"right":171,"bottom":498.82000732421875,"fontSize":12},{"key":"part:beachgoer","left":164.5,"top":142.55999755859375,"right":195.5,"bottom":163.55999755859375,"fontSize":12},{"key":"part:tide-chart-screen","left":221.77499389648438,"top":162.05999755859375,"right":252.77499389648438,"bottom":183.05999755859375,"fontSize":12},{"key":"part:forecast-details-panel","left":147.6125030517578,"top":208.80999755859375,"right":178.6125030517578,"bottom":229.80999755859375,"fontSize":12},{"key":"part:tide-view-model","left":164.5,"top":266.3599853515625,"right":195.5,"bottom":287.3599853515625,"fontSize":12},{"key":"part:tide-repository","left":164.5,"top":314.1600036621094,"right":195.5,"bottom":335.1600036621094,"fontSize":12},{"key":"part:live-tide-client","left":221.77499389648438,"top":333.6600036621094,"right":252.77499389648438,"bottom":354.6600036621094,"fontSize":12},{"key":"part:tide-cache","left":147.6125030517578,"top":380.4100036621094,"right":178.6125030517578,"bottom":401.4100036621094,"fontSize":12},{"key":"part:tide-feed","left":164.5,"top":437.9599914550781,"right":195.5,"bottom":458.9599914550781,"fontSize":12},{"key":"dimension:stack","left":21,"top":318.6199951171875,"right":89,"bottom":339.6199951171875,"fontSize":12},{"key":"dimension:footprint","left":107.09251403808594,"top":513.5623168945312,"right":153.09251403808594,"bottom":534.5623168945312,"fontSize":12}]},{"fixture":"a","state":"exploded","theme":"dark","callouts":"tags","viewer":{"left":17,"top":68,"right":343,"bottom":510},"boxes":[{"key":"layer:ui","left":21,"top":152.9199981689453,"right":111,"bottom":173.9199981689453,"fontSize":12},{"key":"layer:state","left":21,"top":238.72000122070312,"right":119,"bottom":259.7200012207031,"fontSize":12},{"key":"layer:data","left":21,"top":324.5199890136719,"right":111,"bottom":345.5199890136719,"fontSize":12},{"key":"layer:platform","left":21,"top":440.82000732421875,"right":171,"bottom":461.82000732421875,"fontSize":12},{"key":"part:beachgoer","left":164.5,"top":105.55999755859375,"right":195.5,"bottom":126.55999755859375,"fontSize":12},{"key":"part:tide-chart-screen","left":221.77499389648438,"top":125.05999755859375,"right":252.77499389648438,"bottom":146.05999755859375,"fontSize":12},{"key":"part:forecast-details-panel","left":147.6125030517578,"top":171.80999755859375,"right":178.6125030517578,"bottom":192.80999755859375,"fontSize":12},{"key":"part:tide-view-model","left":164.5,"top":229.36000061035156,"right":195.5,"bottom":250.36000061035156,"fontSize":12},{"key":"part:tide-repository","left":164.5,"top":277.1600036621094,"right":195.5,"bottom":298.1600036621094,"fontSize":12},{"key":"part:live-tide-client","left":221.77499389648438,"top":296.6600036621094,"right":252.77499389648438,"bottom":317.6600036621094,"fontSize":12},{"key":"part:tide-cache","left":147.6125030517578,"top":343.4100036621094,"right":178.6125030517578,"bottom":364.4100036621094,"fontSize":12},{"key":"part:tide-feed","left":164.5,"top":400.9599914550781,"right":195.5,"bottom":421.9599914550781,"fontSize":12},{"key":"dimension:stack","left":21,"top":281.6199951171875,"right":89,"bottom":302.6199951171875,"fontSize":12},{"key":"dimension:footprint","left":107.09251403808594,"top":476.56231689453125,"right":153.09251403808594,"bottom":497.56231689453125,"fontSize":12}]},{"fixture":"c","state":"imploded","theme":"light","callouts":"none","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":193,"top":416,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"c","state":"imploded","theme":"dark","callouts":"none","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"titleblock","left":193,"top":416,"right":335,"bottom":539,"fontSize":12}]},{"fixture":"c","state":"exploded","theme":"light","callouts":"tags","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"layer:client","left":22.43146324157715,"top":176.6497802734375,"right":90.43146324157715,"bottom":197.6497802734375,"fontSize":12},{"key":"layer:edge","left":37.43146514892578,"top":243.49234008789062,"right":90.43146514892578,"bottom":264.4923400878906,"fontSize":12},{"key":"layer:services","left":21,"top":310.33489990234375,"right":104,"bottom":331.33489990234375,"fontSize":12},{"key":"layer:storage","left":21,"top":377.1774597167969,"right":96,"bottom":398.1774597167969,"fontSize":12},{"key":"layer:external","left":21,"top":474.5199890136719,"right":163,"bottom":495.5199890136719,"fontSize":12},{"key":"part:recipient","left":151.34378051757812,"top":150.85787963867188,"right":182.34378051757812,"bottom":171.85787963867188,"fontSize":12},{"key":"part:pickup-app","left":201.15621948242188,"top":166.0493621826172,"right":232.15621948242188,"bottom":187.0493621826172,"fontSize":12},{"key":"part:pickup-api","left":151.34378051757812,"top":217.70042419433594,"right":182.34378051757812,"bottom":238.70042419433594,"fontSize":12},{"key":"part:session-gate","left":201.15621948242188,"top":232.89190673828125,"right":232.15621948242188,"bottom":253.89190673828125,"fontSize":12},{"key":"part:booking-service","left":127.84378051757812,"top":269.35150146484375,"right":158.84378051757812,"bottom":290.35150146484375,"fontSize":12},{"key":"part:notifier","left":201.15621948242188,"top":284.54296875,"right":232.15621948242188,"bottom":305.54296875,"fontSize":12},{"key":"part:retry-scheduler","left":227.46864318847656,"top":318.2344665527344,"right":258.4686279296875,"bottom":339.2344665527344,"fontSize":12},{"key":"part:slot-planner","left":114.68756866455078,"top":329.13873291015625,"right":145.68756103515625,"bottom":350.13873291015625,"fontSize":12},{"key":"part:audit-trail","left":200,"top":356.3302001953125,"right":231,"bottom":377.3302001953125,"fontSize":12},{"key":"part:locker-registry","left":127.84378051757812,"top":388.3855285644531,"right":158.84378051757812,"bottom":409.3855285644531,"fontSize":12},{"key":"part:dead-letter-store","left":201.15621948242188,"top":385.0770263671875,"right":232.15621948242188,"bottom":406.0770263671875,"fontSize":12},{"key":"part:push-gateway","left":151.34378051757812,"top":418.22808837890625,"right":182.34378051757812,"bottom":439.22808837890625,"fontSize":12},{"key":"part:locker-hardware","left":201.15621948242188,"top":433.4195861816406,"right":232.15621948242188,"bottom":454.4195861816406,"fontSize":12},{"key":"dimension:stack","left":52.431461334228516,"top":279.83489990234375,"right":120.43146133422852,"bottom":300.83489990234375,"fontSize":12},{"key":"dimension:footprint","left":116.79383850097656,"top":500.2569885253906,"right":162.79383850097656,"bottom":521.2569580078125,"fontSize":12}]},{"fixture":"c","state":"exploded","theme":"dark","callouts":"tags","viewer":{"left":17,"top":105,"right":343,"bottom":547},"boxes":[{"key":"layer:client","left":22.43146324157715,"top":176.6497802734375,"right":90.43146324157715,"bottom":197.6497802734375,"fontSize":12},{"key":"layer:edge","left":37.43146514892578,"top":243.49234008789062,"right":90.43146514892578,"bottom":264.4923400878906,"fontSize":12},{"key":"layer:services","left":21,"top":310.33489990234375,"right":104,"bottom":331.33489990234375,"fontSize":12},{"key":"layer:storage","left":21,"top":377.1774597167969,"right":96,"bottom":398.1774597167969,"fontSize":12},{"key":"layer:external","left":21,"top":474.5199890136719,"right":163,"bottom":495.5199890136719,"fontSize":12},{"key":"part:recipient","left":151.34378051757812,"top":150.85787963867188,"right":182.34378051757812,"bottom":171.85787963867188,"fontSize":12},{"key":"part:pickup-app","left":201.15621948242188,"top":166.0493621826172,"right":232.15621948242188,"bottom":187.0493621826172,"fontSize":12},{"key":"part:pickup-api","left":151.34378051757812,"top":217.70042419433594,"right":182.34378051757812,"bottom":238.70042419433594,"fontSize":12},{"key":"part:session-gate","left":201.15621948242188,"top":232.89190673828125,"right":232.15621948242188,"bottom":253.89190673828125,"fontSize":12},{"key":"part:booking-service","left":127.84378051757812,"top":269.35150146484375,"right":158.84378051757812,"bottom":290.35150146484375,"fontSize":12},{"key":"part:notifier","left":201.15621948242188,"top":284.54296875,"right":232.15621948242188,"bottom":305.54296875,"fontSize":12},{"key":"part:retry-scheduler","left":227.46864318847656,"top":318.2344665527344,"right":258.4686279296875,"bottom":339.2344665527344,"fontSize":12},{"key":"part:slot-planner","left":114.68756866455078,"top":329.13873291015625,"right":145.68756103515625,"bottom":350.13873291015625,"fontSize":12},{"key":"part:audit-trail","left":200,"top":356.3302001953125,"right":231,"bottom":377.3302001953125,"fontSize":12},{"key":"part:locker-registry","left":127.84378051757812,"top":388.3855285644531,"right":158.84378051757812,"bottom":409.3855285644531,"fontSize":12},{"key":"part:dead-letter-store","left":201.15621948242188,"top":385.0770263671875,"right":232.15621948242188,"bottom":406.0770263671875,"fontSize":12},{"key":"part:push-gateway","left":151.34378051757812,"top":418.22808837890625,"right":182.34378051757812,"bottom":439.22808837890625,"fontSize":12},{"key":"part:locker-hardware","left":201.15621948242188,"top":433.4195861816406,"right":232.15621948242188,"bottom":454.4195861816406,"fontSize":12},{"key":"dimension:stack","left":52.431461334228516,"top":279.83489990234375,"right":120.43146133422852,"bottom":300.83489990234375,"fontSize":12},{"key":"dimension:footprint","left":116.79383850097656,"top":500.2569885253906,"right":162.79383850097656,"bottom":521.2569580078125,"fontSize":12}]}]
+PASS overlay-selectable: expected "Selection API returns layer-label and title-row text; user-select is not none" actual {"userSelect":"text","titleUserSelect":"text","layerText":"1 Interface","selectedLayerText":"1 INTERFACE","titleRowText":"1 Interface","selectedTitleRowText":"1 Interface"}
+PASS overlay-colors-light: expected {"label":{"r":74,"g":80,"b":89},"ink":{"r":34,"g":38,"b":43},"steel":{"r":86,"g":103,"b":122}} actual {"layer":{"r":74,"g":80,"b":89},"part":{"r":34,"g":38,"b":43},"dimension":{"r":86,"g":103,"b":122},"title":{"r":34,"g":38,"b":43}}
+PASS overlay-colors-dark: expected {"label":{"r":167,"g":184,"b":203},"ink":{"r":230,"g":237,"b":245},"steel":{"r":143,"g":163,"b":184}} actual {"layer":{"r":167,"g":184,"b":203},"part":{"r":230,"g":237,"b":245},"dimension":{"r":143,"g":163,"b":184},"title":{"r":230,"g":237,"b":245}}
+PASS overlay-hit-through: expected {"hoverHighlight":"beachgoer","hoverLeaderCount":1,"hoverEmphasisKey":"part:beachgoer","afterLeaveHighlight":null,"afterLeaveLeaderCount":0,"afterLeaveEmphasisKey":null,"tapHighlight":"beachgoer","afterLabelTap":null} actual {"hoverTarget":"beachgoer","hoverHighlight":"beachgoer","hoverLeaderCount":1,"hoverEmphasisKey":"part:beachgoer","afterLeaveHighlight":null,"afterLeaveLeaderCount":0,"afterLeaveEmphasisKey":null,"tapTarget":"beachgoer","tapHighlight":"beachgoer","labelTarget":"layer:ui","afterLabelTap":null}
+PASS overlay-no-leaders-at-rest: expected {"callouts":"columns","leaders":0,"highlight":null} actual {"callouts":"columns","leaders":0,"highlight":null}
+PASS overlay-cls-zero: expected "0 layout-shift entries with a source inside the overlay" actual []
+PASS trace-order-a-live-update: expected ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client tide-feed"] actual ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client tide-feed"]
+PASS trace-order-a-offline-read: expected ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository tide-cache"] actual ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository tide-cache"]
+PASS trace-order-c-pickup-ready: expected ["recipient","recipient pickup-app","recipient pickup-app pickup-api","recipient pickup-app pickup-api booking-service","recipient pickup-app pickup-api booking-service locker-registry","recipient pickup-app pickup-api booking-service locker-registry notifier","recipient pickup-app pickup-api booking-service locker-registry notifier push-gateway"] actual ["recipient","recipient pickup-app","recipient pickup-app pickup-api","recipient pickup-app pickup-api booking-service","recipient pickup-app pickup-api booking-service locker-registry","recipient pickup-app pickup-api booking-service locker-registry notifier","recipient pickup-app pickup-api booking-service locker-registry notifier push-gateway"]
+PASS trace-order-c-push-failed: expected ["booking-service","booking-service notifier","booking-service notifier push-gateway","booking-service notifier push-gateway retry-scheduler","booking-service notifier push-gateway retry-scheduler dead-letter-store"] actual ["booking-service","booking-service notifier","booking-service notifier push-gateway","booking-service notifier push-gateway retry-scheduler","booking-service notifier push-gateway retry-scheduler dead-letter-store"]
+PASS trace-stop-clears: expected "every flow leaves data-xploder-trace empty after Stop" actual [{"fixture":"a","flowId":"live-update","stopTrace":""},{"fixture":"a","flowId":"offline-read","stopTrace":""},{"fixture":"c","flowId":"pickup-ready","stopTrace":""},{"fixture":"c","flowId":"push-failed","stopTrace":""}]
+PASS rm-trace-static: expected ">= 2 different playing steps with a trace and 0 overlay animations" actual [{"step":1,"trace":"beachgoer tide-chart-screen","animations":0},{"step":3,"trace":"beachgoer tide-chart-screen tide-view-model tide-repository","animations":0}]
+PASS default-gap-hitmap-a: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"] actual ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS default-gap-hitmap-c: expected ["recipient","pickup-app","pickup-api","session-gate","booking-service","notifier","retry-scheduler","slot-planner","audit-trail","locker-registry","dead-letter-store","push-gateway","locker-hardware"] actual ["audit-trail","booking-service","dead-letter-store","locker-hardware","locker-registry","notifier","pickup-api","pickup-app","push-gateway","recipient","retry-scheduler","session-gate","slot-planner"]
+PASS draw-calls-mid-tour: expected 2 actual 2
+FAIL overlay-no-blink: expected {"throttle":4,"rounds":4,"blinkFrames":0,"stuckHiddenAfterSettle":[]} actual {"throttle":4,"rounds":4,"framesSampled":1055,"blinkFrames":3,"stuckHiddenAfterSettle":[]}
+pass: false
+engine-probe.json: /tmp/s06-checks/t016c-probe/engine-probe.json
+[ELIFECYCLE] Command failed with exit code 6.
+
+PROBE EXIT CODE: 6 (budget violated)
+CHECK RESULT: 105 checks, 1 failed: overlay-no-blink (blinkFrames=3, stuckHiddenAfterSettle=[]).
+The callout-mode, leader, emphasis, clear-on-leave, and no-leaders-at-rest checks all passed.
+
+Diagnostic only (not a pass-seeking gate rerun): a four-round clean-surface reproduction recorded 0 offenders.
+Because the official probe run remains red, this does not clear the gate and was not used to change a rule.
+[
+  {
+    "round": 0,
+    "before": {
+      "state": "imploded",
+      "overlay": "shown",
+      "opacity": "0",
+      "labels": 0,
+      "title": 1
+    },
+    "want": "exploded",
+    "clickAt": 698.4000000357628,
+    "samples": 151,
+    "firstReached": 1117.5,
+    "offenders": []
+  },
+  {
+    "round": 1,
+    "before": {
+      "state": "exploded",
+      "overlay": "shown",
+      "opacity": "1",
+      "labels": 14,
+      "title": 0
+    },
+    "want": "imploded",
+    "clickAt": 3221.699999988079,
+    "samples": 150,
+    "firstReached": 744.1,
+    "offenders": []
+  },
+  {
+    "round": 2,
+    "before": {
+      "state": "imploded",
+      "overlay": "shown",
+      "opacity": "1",
+      "labels": 0,
+      "title": 1
+    },
+    "want": "exploded",
+    "clickAt": 5734.300000011921,
+    "samples": 300,
+    "firstReached": 1114.7,
+    "offenders": []
+  },
+  {
+    "round": 3,
+    "before": {
+      "state": "exploded",
+      "overlay": "shown",
+      "opacity": "1",
+      "labels": 14,
+      "title": 0
+    },
+    "want": "imploded",
+    "clickAt": 8254.400000035763,
+    "samples": 150,
+    "firstReached": 744.5,
+    "offenders": []
+  }
+]
+
+Every-check substitute (targeted probe gate remains red)
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t016c/apps/web
+
+
+ Test Files  5 passed (5)
+      Tests  53 passed | 1 skipped (54)
+   Start at  19:30:04
+   Duration  153ms (transform 42%, tests 34%, import 19%, worker 5%)
+
+
+NO T016c-OK: probe evidence is red. Matrix and FPS were not run.
+
+Frozen-surface guards
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK

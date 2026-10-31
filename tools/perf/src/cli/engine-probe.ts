@@ -95,6 +95,7 @@ interface BlinkSample {
   attr: string | null;
   opacity: number;
   textElements: number;
+  control: string | null;
 }
 
 interface BlinkWindow {
@@ -155,6 +156,7 @@ const BLINK_SETTLE_MS = 2500;
 const BLINK_OPACITY_THRESHOLD = 0.01;
 const BLINK_ROUNDS = 4;
 const BLINK_THROTTLE = 4;
+const BLINK_OFFENDER_LIMIT = 12;
 const SAMPLE_SCAN_PX = 60;
 const OVERLAY_360_WIDTH = 360;
 const OVERLAY_360_HEIGHT = 740;
@@ -1001,6 +1003,7 @@ async function readOverlayDefault(
         viewport: viewportName,
         titleBlock: viewer.dataset.xploderTitleblock ?? null,
         overlay: overlay.dataset.xploderOverlay ?? null,
+        callouts: overlay.dataset.xploderCallouts ?? null,
         hidden: overlay.dataset.xploderOverlayHidden ?? null,
         labelCount: document.querySelectorAll('[data-xploder-label]').length,
       };
@@ -1018,7 +1021,10 @@ async function readOverlay360(
   return page.evaluate(
     ({ fixture: fixtureId, state: target, theme: themeName, selector }) => {
       const viewer = document.querySelector(selector);
-      if (!(viewer instanceof HTMLElement)) throw new Error('viewer is missing');
+      const overlay = document.querySelector('[data-xploder-overlay]');
+      if (!(viewer instanceof HTMLElement) || !(overlay instanceof HTMLElement)) {
+        throw new Error('viewer or overlay is missing');
+      }
       const viewerRect = viewer.getBoundingClientRect();
       const boxes: OverlayBoxObservation[] = [
         ...document.querySelectorAll<HTMLElement>(
@@ -1043,6 +1049,7 @@ async function readOverlay360(
         fixture: fixtureId,
         state: target,
         theme: themeName,
+        callouts: overlay.dataset.xploderCallouts ?? null,
         viewer: {
           left: viewerRect.left,
           top: viewerRect.top,
@@ -2162,17 +2169,51 @@ async function exposedComponentPoint(
   throw new Error('overlay hit-through touch target was not found');
 }
 
+async function readOverlayCallouts(page: Page): Promise<string | null> {
+  return page.locator('[data-xploder-overlay]').getAttribute('data-xploder-callouts');
+}
+
+async function countLeaderStrokes(page: Page): Promise<number> {
+  return page.locator('[data-xploder-overlay] [data-xploder-stroke="leader"]').count();
+}
+
+async function readEmphasizedPartLabel(page: Page): Promise<string | null> {
+  return page.evaluate(() => {
+    const label = document.querySelector<HTMLElement>(
+      '[data-xploder-overlay] [data-xploder-label^="part:"][data-xploder-emphasis="true"]',
+    );
+
+    return label?.dataset.xploderLabel ?? null;
+  });
+}
+
 async function captureHitThrough(
   desktop: Page,
   mobile: Page,
   base: URL,
   pointsA: SweepResult['points'],
-): Promise<S6Observation['hitThrough']> {
+): Promise<{
+  hitThrough: S6Observation['hitThrough'];
+  leadersAtRest: S6Observation['leadersAtRest'];
+}> {
   await gotoFixture(desktop, fixtureHref(base, 'a', 'exploded'));
   await waitForReady(desktop, 'exploded');
   await setTheme(desktop, 'light');
   await waitForOverlay(desktop, 'exploded');
+  await clearPointer(desktop);
+  const leadersAtRest: S6Observation['leadersAtRest'] = {
+    callouts: await readOverlayCallouts(desktop),
+    leaders: await countLeaderStrokes(desktop),
+    highlight: await readHighlight(desktop),
+  };
   const hover = await hoverExposedComponent(desktop, pointsA);
+  const hoverLeaderCount = await countLeaderStrokes(desktop);
+  const hoverEmphasisKey = await readEmphasizedPartLabel(desktop);
+  await clearPointer(desktop);
+  await waitForFrames(desktop);
+  const afterLeaveHighlight = await readHighlight(desktop);
+  const afterLeaveLeaderCount = await countLeaderStrokes(desktop);
+  const afterLeaveEmphasisKey = await readEmphasizedPartLabel(desktop);
 
   await gotoFixture(mobile, fixtureHref(base, 'a', 'exploded'));
   await waitForReady(mobile, 'exploded');
@@ -2193,12 +2234,20 @@ async function captureHitThrough(
   const afterLabelTap = await readHighlight(mobile);
 
   return {
-    hoverTarget: hover.target,
-    hoverHighlight: hover.highlight,
-    tapTarget: tap.target,
-    tapHighlight,
-    labelTarget,
-    afterLabelTap,
+    hitThrough: {
+      hoverTarget: hover.target,
+      hoverHighlight: hover.highlight,
+      hoverLeaderCount,
+      hoverEmphasisKey,
+      afterLeaveHighlight,
+      afterLeaveLeaderCount,
+      afterLeaveEmphasisKey,
+      tapTarget: tap.target,
+      tapHighlight,
+      labelTarget,
+      afterLabelTap,
+    },
+    leadersAtRest,
   };
 }
 
@@ -2316,9 +2365,11 @@ async function captureBlink(surface: Surface, base: URL): Promise<S6Observation[
   let framesSampled = 0;
   let blinkFrames = 0;
   const stuckHiddenAfterSettle: S6Observation['blink']['stuckHiddenAfterSettle'] = [];
+  const offenders: NonNullable<S6Observation['blink']['offenders']>[number][] = [];
 
   for (let round = 0; round < BLINK_ROUNDS; round += 1) {
     const from = await readAttribute(page, 'data-xploder-state');
+    const fromControl = await page.locator('[data-engine-control="toggle"]').textContent();
     const want = from === 'imploded' ? 'exploded' : 'imploded';
     await page.evaluate(() => {
       const target = window as unknown as BlinkWindow;
@@ -2340,6 +2391,7 @@ async function captureBlink(surface: Surface, base: URL): Promise<S6Observation[
           textElements: overlay.querySelectorAll(
             '[data-xploder-label],[data-xploder-titleblock-box]',
           ).length,
+          control: document.querySelector('[data-engine-control="toggle"]')?.textContent ?? null,
         });
         requestAnimationFrame(tick);
       };
@@ -2363,12 +2415,22 @@ async function captureBlink(surface: Surface, base: URL): Promise<S6Observation[
       return (target.__engineProbeBlinkSamples ?? []).filter((sample) => sample.t >= clickAt);
     });
 
+    // Count from the first frame in which the click has been committed (the toggle's label
+    // flipped): before that the page still shows the previous, correct state.
+    let committed = false;
     let reached = false;
     for (const sample of samples) {
       framesSampled += 1;
+      if (sample.control !== fromControl) committed = true;
       if (sample.phase === want) reached = true;
-      if (!reached && sample.opacity > BLINK_OPACITY_THRESHOLD && sample.textElements > 0) {
+      if (
+        committed &&
+        !reached &&
+        sample.opacity > BLINK_OPACITY_THRESHOLD &&
+        sample.textElements > 0
+      ) {
         blinkFrames += 1;
+        if (offenders.length < BLINK_OFFENDER_LIMIT) offenders.push({ round, to: want, ...sample });
       }
     }
   }
@@ -2379,6 +2441,7 @@ async function captureBlink(surface: Surface, base: URL): Promise<S6Observation[
     framesSampled,
     blinkFrames,
     stuckHiddenAfterSettle,
+    offenders,
   };
 }
 
@@ -2432,7 +2495,12 @@ async function captureS6(
 
   setClsGroup(desktop, 's6-hit-through');
   setClsGroup(mobile, 's6-hit-through');
-  const hitThrough = await captureHitThrough(desktop, mobile, base, defaultGap.pointsA);
+  const { hitThrough, leadersAtRest } = await captureHitThrough(
+    desktop,
+    mobile,
+    base,
+    defaultGap.pointsA,
+  );
   await finishClsGroup(desktop);
   await finishClsGroup(mobile);
 
@@ -2470,6 +2538,7 @@ async function captureS6(
     selectable,
     colours,
     hitThrough,
+    leadersAtRest,
     cls: { total: totalLayoutShift(entries), entries },
     trace: { flows: traceFlows, reducedMotion: reducedTrace },
     defaultGap: defaultGap.observation,
