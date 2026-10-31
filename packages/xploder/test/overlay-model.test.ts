@@ -6,7 +6,6 @@ import { look } from '../src/look/tokens';
 import { motion, resolveMotion } from '../src/motion';
 import { emphasis } from '../src/motion/emphasis';
 import {
-  overlayLabels,
   overlayModel,
   overlayVisible,
   traceModel,
@@ -19,7 +18,6 @@ import {
   type OverlayViewport,
   type TraceModel,
 } from '../src/overlay/model';
-import { placeLabels } from '../src/overlay/place';
 import { labelBox } from '../src/overlay/parts';
 import { overlayFrame, type OverlayFrame, type Vec2 } from '../src/overlay/project';
 import { traceTiming } from '../src/overlay/timing';
@@ -64,7 +62,9 @@ describe('overlay visibility', () => {
   });
 });
 
-type ModelOverrides = Partial<Pick<OverlayModelInput, 'offsetY' | 'target' | 'tour' | 'focus'>>;
+type ModelOverrides = Partial<
+  Pick<OverlayModelInput, 'offsetY' | 'target' | 'tour' | 'focus' | 'highlight'>
+>;
 
 function shiftPoint([x, y]: Vec2, offsetY: number): Vec2 {
   return [x, y + offsetY];
@@ -112,12 +112,17 @@ function modelFor(viewport: OverlayViewport, overrides: ModelOverrides = {}): Ov
     target,
     tour: overrides.tour ?? { status: 'idle' },
     focus: overrides.focus ?? { layerId: null, suspended: false },
+    highlight: overrides.highlight,
     look,
   });
 }
 
-function parts(model: OverlayModel): readonly OverlayLabel[] {
+function partLabels(model: OverlayModel): readonly OverlayLabel[] {
   return model.labels.filter((label) => label.kind === 'part');
+}
+
+function tagLabels(model: OverlayModel): readonly OverlayLabel[] {
+  return model.labels.filter((label) => label.kind === 'tag');
 }
 
 function componentName(id: string): string {
@@ -265,7 +270,9 @@ describe('overlay fixture switch defenses', () => {
     });
 
     expect(
-      model.labels.filter((label) => label.kind === 'layer' || label.kind === 'part'),
+      model.labels.filter(
+        (label) => label.kind === 'layer' || label.kind === 'part' || label.kind === 'tag',
+      ),
     ).toStrictEqual([]);
     expect(
       model.labels.every(
@@ -301,12 +308,12 @@ describe('overlay fixture switch defenses', () => {
 });
 
 describe('overlay model labels', () => {
-  test('uses short part text with a screen-reader name below the wide threshold', () => {
-    const narrowParts = parts(modelFor(NARROW));
+  test('uses short on-part tags with a screen-reader name below the wide threshold', () => {
+    const narrowTags = tagLabels(modelFor(NARROW));
 
-    expect(narrowParts.length).toBeGreaterThan(0);
+    expect(narrowTags.length).toBeGreaterThan(0);
 
-    for (const label of narrowParts) {
+    for (const label of narrowTags) {
       const id = label.key.slice('part:'.length);
 
       expect(label.text).toMatch(/^\d+\.\d+$/);
@@ -314,10 +321,12 @@ describe('overlay model labels', () => {
     }
   });
 
-  test('uses long part text at the wide threshold', () => {
-    const wideParts = parts(modelFor(WIDE));
+  test('uses long part text in columns at the wide threshold', () => {
+    const model = modelFor(WIDE);
+    const wideParts = partLabels(model);
     const first = wideParts[0];
 
+    expect(model.calloutMode).toBe('columns');
     expect(wideParts.length).toBeGreaterThan(0);
     expect(first?.text).toBe('1.1 Beachgoer');
     expect(first?.srText).toBeUndefined();
@@ -331,20 +340,12 @@ describe('overlay model labels', () => {
     }
   });
 
-  test('reports the placement hidden count', () => {
+  test('reports placement hidden count when tags cannot all fit', () => {
     const viewport = { width: 180, height: 180 };
-    const frame = frameFor(viewport, 'exploded', 0);
-    const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
-    const placement = placeLabels(
-      labels,
-      frame.components.map((component) => component.hull),
-      viewport,
-      look,
-    );
     const model = modelFor(viewport);
 
-    expect(placement.hidden.length).toBeGreaterThan(0);
-    expect(model.hidden).toBe(placement.hidden.length);
+    expect(model.calloutMode).toBe('tags');
+    expect(model.hidden).toBeGreaterThan(0);
   });
 
   test('returns content-space labels and strokes after an offset round trip', () => {
@@ -370,8 +371,14 @@ describe('overlay model labels', () => {
 
       if (original === undefined) throw new Error(`Missing base stroke ${stroke.key}`);
 
-      expect(stroke.points[0]).toStrictEqual(shiftPoint(original.points[0], OFFSET_Y));
-      expect(stroke.points[1]).toStrictEqual(shiftPoint(original.points[1], OFFSET_Y));
+      for (let index = 0; index < stroke.points.length; index += 1) {
+        const point = stroke.points[index];
+        const originalPoint = original.points[index];
+
+        if (point === undefined || originalPoint === undefined) continue;
+
+        expect(point).toStrictEqual(shiftPoint(originalPoint, OFFSET_Y));
+      }
     }
   });
 
@@ -391,38 +398,30 @@ describe('overlay model labels', () => {
 });
 
 describe('overlay model strokes', () => {
-  test('includes both dimension groups and one leader for every placed leader', () => {
+  test('includes both dimension groups and no leaders at rest', () => {
     const viewport = WIDE;
-    const frame = frameFor(viewport, 'exploded', 0);
-    const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
-    const placement = placeLabels(
-      labels,
-      frame.components.map((component) => component.hull),
-      viewport,
-      look,
-    );
     const model = modelFor(viewport);
-    const leaders = placement.placements.flatMap((item) =>
-      item.leader === null ? [] : [{ key: item.key, leader: item.leader }],
-    );
     const leaderStrokes = model.strokes.filter((stroke) => stroke.kind === 'leader');
 
     expect(model.strokes.some((stroke) => stroke.kind === 'stack-rail')).toBe(true);
     expect(model.strokes.some((stroke) => stroke.kind === 'footprint-line')).toBe(true);
-    expect(leaders.length).toBeGreaterThan(0);
-    expect(leaderStrokes).toHaveLength(leaders.length);
+    expect(leaderStrokes).toStrictEqual([]);
+    expect(model.labels.some((label) => label.emphasis === true)).toBe(false);
+  });
 
-    leaders.forEach(({ key, leader }, index) => {
-      expect(leaderStrokes[index]?.key).toBe(`leader:${key}`);
-      expect(leaderStrokes[index]?.points).toStrictEqual([leader.from, leader.to]);
-    });
+  test('adds one accent elbow leader and one emphasis for the highlighted part', () => {
+    const model = modelFor(WIDE, { highlight: 'beachgoer' });
+    const leaders = model.strokes.filter((stroke) => stroke.kind === 'leader');
+    const target = model.labels.find((label) => label.key === 'part:beachgoer');
+    const anchor = frameFor(WIDE, 'exploded', 0).components.find(
+      (component) => component.id === 'beachgoer',
+    )?.anchor;
 
-    expect(
-      model.strokes
-        .filter((stroke) => stroke.kind !== 'leader')
-        .every((stroke) => stroke.role === look.annotation.dimensionRole),
-    ).toBe(true);
-    expect(leaderStrokes.every((stroke) => stroke.role === look.annotation.leaderRole)).toBe(true);
+    expect(leaders).toHaveLength(1);
+    expect(leaders[0]?.role).toBe('accent');
+    expect(leaders[0]?.points).toHaveLength(3);
+    expect(leaders[0]?.points[2]).toStrictEqual(anchor);
+    expect(model.labels.filter((label) => label.emphasis === true)).toStrictEqual([target]);
   });
 });
 
