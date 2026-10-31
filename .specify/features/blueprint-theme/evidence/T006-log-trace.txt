@@ -1,0 +1,178 @@
+S06/T006 — Trace route + overlay timing
+Run from: /private/tmp/s06-wt/t006 (repo root)
+Sandbox note: the full check below replaces `pnpm test` with
+`pnpm --filter xploder test && pnpm --filter web test` because the sandbox cannot bind
+127.0.0.1 for the tools/perf suites (EPERM), as directed by the task prompt.
+
+$ pnpm --filter xploder exec vitest run test/overlay-trace.test.ts test/overlay-timing.test.ts --reporter verbose
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t006/packages/xploder
+
+ ✓ test/overlay-timing.test.ts > overlay timing > converts seconds to milliseconds 1ms
+ ✓ test/overlay-timing.test.ts > overlay timing > derives fade and trace timings from the motion tokens 0ms
+ ✓ test/overlay-timing.test.ts > overlay timing > matches the product token values 0ms
+ ✓ test/overlay-timing.test.ts > overlay timing > zeroes every overlay timing under the static twin 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 0 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 4 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 5 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 4 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 3 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 4 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 5 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 6 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 4 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > octilinearHop > routes primarily horizontally with a 45-degree finish 0ms
+ ✓ test/overlay-trace.test.ts > octilinearHop > routes primarily vertically with a 45-degree finish 0ms
+ ✓ test/overlay-trace.test.ts > octilinearHop > drops zero-length segments 0ms
+
+ Test Files  2 passed (2)
+      Tests  39 passed (39)
+   Start at  10:39:51
+   Duration  163ms (transform 46%, import 43%, tests 8%, worker 3%)
+
+$ git diff --quiet bb6a514 -- .specify/slices .specify/KICKOFF-S06.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ test -z "$(git log --oneline bb6a514..HEAD -- .specify/slices .specify/KICKOFF-S06.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ pnpm typecheck && pnpm lint && pnpm --filter xploder test && pnpm --filter web test
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t006/packages/xploder
+
+(node:58565) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58560) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58564) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58567) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:58571) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:58575) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  34 passed (34)
+      Tests  300 passed (300)
+   Start at  10:40:04
+   Duration  3.20s (tests 59%, import 20%, transform 20%, worker 1%)
+
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t006/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  10:40:07
+   Duration  505ms (transform 55%, tests 19%, import 16%, worker 10%)
+
+T006-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  2 passed (2)
+      Tests  39 passed (39)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  34 passed (34)
+packages/xploder test:       Tests  300 passed (300)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T006-OK (orchestrator full re-run)
