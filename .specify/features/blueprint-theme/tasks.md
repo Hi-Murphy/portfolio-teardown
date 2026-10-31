@@ -31,6 +31,7 @@
 | T015 | ☑ 0 dropped / 5.05 s, 2 calls | 1 (Flash, sandbox off, alone) | evidence/T015-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 635b0c2 |
 | T016a | ☐ (final validation: crash) | | | |
 | T016b | ☐ (final validation: callout columns) | | | |
+| T016c | ☐ (evidence re-run) | | | |
 | T016 | ☑ PR #10 ready, 8/8 CI green; waiting for "merge" | ⚑ orchestrator | evidence/{T016-ci.txt,T016-log-gate.txt,T016-log-surface-diff.txt,AC-selfcheck.md} | c186765 (CI head) |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specify/features/blueprint-theme/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
@@ -448,6 +449,13 @@ New scope `s6` (CLI `--scope s6`; `all` = s4 + s5 + s6). Every S4/S5 check stays
 - **Design:** RFC §9.13.2 (columns on wide canvases when they fit; on-part number tags otherwise; leader + accent only for the highlighted part).
 - **Check:** pure tests for both modes and the mode choice; the dense sweep updated to the new contract (columns: no overlaps, no hull hits, inside; tags: inside, no tag overlaps another tag or another part's hull); full suite; orchestrator screenshots; the probe and matrix re-run (T013/T014 re-runs).
 - **Evidence:** `evidence/T016b-log-callouts.txt` + screenshots
+
+### T016c [US5] Evidence re-run after T016a/T016b (probe, matrix, FPS)
+
+- **Seam:** fixture export ↔ `engine:probe` (driver adapted to callout modes) ↔ `pnpm evidence` ↔ `fps:engine`.
+- **Probe adaptations (no pass rule loosened; exploded-overlay checks follow RFC §9.13.2):** `overlay-default-*` exploded additionally asserts `data-xploder-callouts` = `columns` at 1280×800 and `tags` at 390×844; `overlay-360-boxes` covers tags mode (tags inside, no tag/tag overlap); `overlay-hit-through` hovers a component → `data-xploder-highlight` = id, exactly one `[data-xploder-stroke="leader"]`, and the matching callout has `data-xploder-emphasis="true"`; leaving clears both; plus the touch tap/label-tap part as before. New check `overlay-no-leaders-at-rest`: exploded, no highlight → 0 leader strokes (columns mode).
+- **Check:** probe all checks pass; 16 matrix PNGs; FPS tour `droppedFrames = 0`, liveness, `drawCalls = 2`.
+- **Evidence:** `evidence/T016c-{engine-probe.json,log-probe.txt,log-matrix.txt,fps.json,log-fps.txt}`, `T016c-screenshot-*.png`
 
 ---
 
