@@ -3,12 +3,12 @@ import type { LookTokens } from '../look/tokens';
 import { labelBox } from './parts';
 import type { Vec2 } from './project';
 
-export const PLACEMENT_RADII = [8, 20, 36, 56] as const;
+export const PLACEMENT_RADII = [8, 20, 36, 56, 80, 104] as const;
 
 const VIEWPORT_INSET_PX = 4;
-// Look-ahead only runs when first-fit hides a label (4 of 120 matrix cases, all imploded);
-// the cap bounds the settle-time cost on phones. The fixtures pass at 500.
-const SEARCH_NODE_LIMIT = 2_000;
+// Look-ahead only runs when first-fit hides a label. Alternative stack anchors expand the
+// candidate set, so the cap is larger while still bounding settle-time cost on phones.
+const SEARCH_NODE_LIMIT = 3_000;
 
 export type LabelKind = 'layer' | 'part' | 'dimension';
 
@@ -18,6 +18,7 @@ export interface PlacementLabel {
   readonly key: string;
   readonly kind: LabelKind;
   readonly anchor: Vec2;
+  readonly anchors?: readonly Vec2[];
   readonly text: string;
   readonly shortText?: string;
   readonly layerIndex?: number;
@@ -297,31 +298,35 @@ function placementsForText(
 ): LabelPlacement[] {
   const placements: LabelPlacement[] = [];
 
-  for (const radius of PLACEMENT_RADII) {
-    for (const direction of PREFERENCES[label.kind]) {
-      const next = clampToViewport(candidate(label.anchor, box, radius, direction), viewport);
-      const inflated = inflate(next, gapPx);
+  const anchors = [label.anchor, ...(label.anchors ?? [])];
 
-      if (!insideViewport(next, viewport)) continue;
-      if (obstacles.some((hull) => rectOverlapsPolygon(inflated, hull))) continue;
-      if (placed.some((rect) => rectsOverlap(inflated, rect))) continue;
+  for (const anchor of anchors) {
+    for (const radius of PLACEMENT_RADII) {
+      for (const direction of PREFERENCES[label.kind]) {
+        const next = clampToViewport(candidate(anchor, box, radius, direction), viewport);
+        const inflated = inflate(next, gapPx);
 
-      placements.push({
-        key: label.key,
-        kind: label.kind,
-        anchor: label.anchor,
-        text,
-        x: next.x,
-        y: next.y,
-        w: next.w,
-        h: next.h,
-        direction: next.direction,
-        radius: next.radius,
-        leader:
-          next.radius > PLACEMENT_RADII[0]
-            ? { from: label.anchor, to: nearestPoint(next, label.anchor) }
-            : null,
-      });
+        if (!insideViewport(next, viewport)) continue;
+        if (obstacles.some((hull) => rectOverlapsPolygon(inflated, hull))) continue;
+        if (placed.some((rect) => rectsOverlap(inflated, rect))) continue;
+
+        placements.push({
+          key: label.key,
+          kind: label.kind,
+          anchor,
+          text,
+          x: next.x,
+          y: next.y,
+          w: next.w,
+          h: next.h,
+          direction: next.direction,
+          radius: next.radius,
+          leader:
+            next.radius > PLACEMENT_RADII[0]
+              ? { from: anchor, to: nearestPoint(next, anchor) }
+              : null,
+        });
+      }
     }
   }
 

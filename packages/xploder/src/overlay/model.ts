@@ -10,7 +10,7 @@ import { layerText, partShortText, partText } from './parts';
 import { placeLabels, type LabelKind, type PlacementLabel } from './place';
 import type { OverlayFrame, Vec2 } from './project';
 import { traceTiming } from './timing';
-import { placeTitleBlock, titleBlockBox, titleBlockLines } from './titleBlock';
+import { placeTitleBlockResponsive, titleBlockLines } from './titleBlock';
 import { traceRoute, type TraceHop } from './trace';
 
 export type OverlayState = 'imploded' | 'exploded';
@@ -96,6 +96,7 @@ export interface OverlayTitleBlock {
   readonly y: number;
   readonly w: number;
   readonly h: number;
+  readonly columns: number;
   readonly title: string;
   readonly meta: string;
   readonly rows: readonly OverlayTitleBlockRow[];
@@ -167,6 +168,8 @@ const EMPTY_TRACE: TraceModel = {
   dotPeriodMs: 0,
 };
 
+const STACK_LABEL_ANCHOR_TS = [0.35, 0.65, 0.2, 0.8, 0.1, 0.9, 0, 1] as const;
+
 function leftmost(corners: readonly Vec2[]): Vec2 {
   let result = corners[0];
 
@@ -179,6 +182,10 @@ function leftmost(corners: readonly Vec2[]): Vec2 {
   }
 
   return result;
+}
+
+function railPoint(from: Vec2, to: Vec2, t: number): Vec2 {
+  return [from[0] + (to[0] - from[0]) * t, from[1] + (to[1] - from[1]) * t];
 }
 
 export function overlayLabels(
@@ -230,12 +237,16 @@ export function overlayLabels(
 
   const stack = stackDimension(frame);
   const footprint = footprintDimension(frame, layout.footprint);
+  const stackAnchors = STACK_LABEL_ANCHOR_TS.map((t) =>
+    railPoint(stack.rail.from, stack.rail.to, t),
+  );
 
   labels.push(
     {
       key: 'dimension:stack',
       kind: 'dimension',
       anchor: stack.labelAnchor,
+      anchors: stackAnchors,
       text: stack.text,
     },
     {
@@ -314,11 +325,13 @@ export function overlayModel({
 
   if (target === 'imploded') {
     const lines = titleBlockLines(project, layout);
-    const placement = placeTitleBlock(titleBlockBox(lines, look), viewportFrame, viewport, look);
+    const layoutResult = placeTitleBlockResponsive(lines, viewportFrame, viewport, look);
 
-    if (placement === null) {
+    if (layoutResult === null) {
       return { labels: [], strokes: [], titleBlock: null, hidden: 0, shown: false };
     }
+
+    const { placement, columns } = layoutResult;
 
     return {
       labels: [],
@@ -328,6 +341,7 @@ export function overlayModel({
         y: placement.y + offsetY,
         w: placement.w,
         h: placement.h,
+        columns,
         title: lines.title,
         meta: lines.meta,
         rows: lines.rows.map((text, layerIndex) => ({
