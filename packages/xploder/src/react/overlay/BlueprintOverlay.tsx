@@ -140,6 +140,8 @@ function titleBlockStyle(
   palette: Palette,
   look: LookTokens,
 ): CSSProperties {
+  const columns = titleBlock.columns;
+
   return {
     position: 'absolute',
     boxSizing: 'border-box',
@@ -155,6 +157,14 @@ function titleBlockStyle(
     font: `${look.annotation.fontPx}px/${look.annotation.lineEm} var(--font-mono, ui-monospace, monospace)`,
     background: palette[look.titleBlock.fillRole],
     border: `1px solid ${palette[look.titleBlock.borderRole]}`,
+    ...(columns > 1
+      ? {
+          display: 'grid',
+          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          columnGap: look.annotation.padXPx * 2,
+          alignContent: 'start',
+        }
+      : {}),
   };
 }
 
@@ -317,10 +327,11 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     const hidden = model?.hidden ?? 0;
     const transition = opacityTransition(tokens);
     const titleBlock = model?.titleBlock ?? null;
+    const titleBlockShown = visible && titleBlock !== null;
 
     useLayoutEffect(() => {
-      onTitleBlockShown?.(shown);
-    }, [onTitleBlockShown, shown]);
+      onTitleBlockShown?.(titleBlockShown);
+    }, [onTitleBlockShown, titleBlockShown]);
 
     return (
       <div
@@ -382,11 +393,22 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
           {!visible || titleBlock === null ? null : (
             <div data-xploder-titleblock-box="" style={titleBlockStyle(titleBlock, palette, look)}>
               <div
-                style={{ color: palette[look.titleBlock.titleRole], textTransform: 'uppercase' }}
+                style={{
+                  color: palette[look.titleBlock.titleRole],
+                  textTransform: 'uppercase',
+                  gridColumn: titleBlock.columns > 1 ? '1 / -1' : undefined,
+                }}
               >
                 {titleBlock.title}
               </div>
-              <div style={{ color: palette[look.titleBlock.metaRole] }}>{titleBlock.meta}</div>
+              <div
+                style={{
+                  color: palette[look.titleBlock.metaRole],
+                  gridColumn: titleBlock.columns > 1 ? '1 / -1' : undefined,
+                }}
+              >
+                {titleBlock.meta}
+              </div>
               {titleBlock.rows.map((row) => (
                 <div
                   key={row.layerIndex}
