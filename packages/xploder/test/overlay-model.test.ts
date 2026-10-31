@@ -23,7 +23,7 @@ import { placeLabels } from '../src/overlay/place';
 import { labelBox } from '../src/overlay/parts';
 import { overlayFrame, type OverlayFrame, type Vec2 } from '../src/overlay/project';
 import { traceTiming } from '../src/overlay/timing';
-import { projectAJson, techRegistryJson } from './fixtures';
+import { projectAJson, projectBJson, projectCJson, techRegistryJson } from './fixtures';
 
 const registry = parseTechRegistry(techRegistryJson);
 const project = parseProject(projectAJson, { registry });
@@ -39,6 +39,7 @@ describe('overlay visibility', () => {
       settledTarget: 'exploded',
       target: 'exploded',
       phase: 'exploded',
+      layoutMatches: true,
     } as const;
 
     expect(overlayVisible(aligned)).toBe(true);
@@ -47,6 +48,7 @@ describe('overlay visibility', () => {
     expect(overlayVisible({ ...aligned, settledTarget: 'imploded' })).toBe(false);
     expect(overlayVisible({ ...aligned, phase: 'exploding' })).toBe(false);
     expect(overlayVisible({ ...aligned, phase: 'imploding' })).toBe(false);
+    expect(overlayVisible({ ...aligned, layoutMatches: false })).toBe(false);
   });
 
   test('hides when the target changed but the phase still matches the old state', () => {
@@ -56,6 +58,7 @@ describe('overlay visibility', () => {
         settledTarget: 'imploded',
         target: 'exploded',
         phase: 'imploded',
+        layoutMatches: true,
       }),
     ).toBe(false);
   });
@@ -234,6 +237,66 @@ describe('overlay model visibility', () => {
 
     expect(focused.every((row) => row.opacity === 1)).toBe(true);
     expect(dimmed.every((row) => row.opacity === emphasis.dim.level)).toBe(true);
+  });
+});
+
+describe('overlay fixture switch defenses', () => {
+  const projectB = parseProject(projectBJson, { registry });
+  const projectC = parseProject(projectCJson, { registry });
+  const layoutB = layoutProject(projectB);
+  const layoutC = layoutProject(projectC);
+
+  test('drops labels for a frame from another layout without throwing', () => {
+    const frame = overlayFrame(layoutC, 1, {
+      azimuth: VIEW.baseAzimuth,
+      zoom: fitZoom(layoutC.bounds.exploded, WIDE),
+      ...WIDE,
+    });
+    const model = overlayModel({
+      frame,
+      layout: layoutB,
+      project: projectB,
+      viewport: WIDE,
+      offsetY: 0,
+      target: 'exploded',
+      tour: { status: 'idle' },
+      focus: { layerId: null, suspended: false },
+      look,
+    });
+
+    expect(
+      model.labels.filter((label) => label.kind === 'layer' || label.kind === 'part'),
+    ).toStrictEqual([]);
+    expect(
+      model.labels.every(
+        (label) => label.layerIndex === null || label.layerIndex < projectB.layers.length,
+      ),
+    ).toBe(true);
+  });
+
+  test('skips trace vertices that are absent from the frame', () => {
+    const frame = overlayFrame(layoutC, 1, {
+      azimuth: VIEW.baseAzimuth,
+      zoom: fitZoom(layoutC.bounds.exploded, WIDE),
+      ...WIDE,
+    });
+    const flow = projectB.flows.find((candidate) => candidate.id === 'nightly-reconciliation');
+
+    if (flow === undefined) throw new Error('Missing nightly-reconciliation flow');
+
+    const trace = traceModel({
+      frame,
+      flow,
+      step: flow.path.length - 1,
+      status: 'paused',
+      offsetY: 0,
+      tokens: motion,
+      look,
+    });
+
+    expect(trace.vertices).toStrictEqual([]);
+    expect(trace.pads).toStrictEqual([]);
+    expect(trace.current).toBeNull();
   });
 });
 

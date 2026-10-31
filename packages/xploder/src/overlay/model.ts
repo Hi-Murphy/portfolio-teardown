@@ -21,13 +21,21 @@ export function overlayVisible({
   settledTarget,
   target,
   phase,
+  layoutMatches,
 }: {
   readonly moving: boolean;
   readonly settledTarget: 'imploded' | 'exploded' | null;
   readonly target: 'imploded' | 'exploded';
   readonly phase: Phase | null;
+  readonly layoutMatches: boolean;
 }): boolean {
-  return !moving && settledTarget !== null && settledTarget === target && phase === target;
+  return (
+    layoutMatches &&
+    !moving &&
+    settledTarget !== null &&
+    settledTarget === target &&
+    phase === target
+  );
 }
 
 export interface OverlayProject {
@@ -170,10 +178,10 @@ const EMPTY_TRACE: TraceModel = {
 
 const STACK_LABEL_ANCHOR_TS = [0.35, 0.65, 0.2, 0.8, 0.1, 0.9, 0, 1] as const;
 
-function leftmost(corners: readonly Vec2[]): Vec2 {
+function leftmost(corners: readonly Vec2[]): Vec2 | null {
   let result = corners[0];
 
-  if (result === undefined) throw new Error('A layer needs projected corners.');
+  if (result === undefined) return null;
 
   for (const corner of corners) {
     if (corner[0] < result[0] || (corner[0] === result[0] && corner[1] < result[1])) {
@@ -199,15 +207,17 @@ export function overlayLabels(
 
   const labels: PlacementLabel[] = [];
 
-  frame.layers.forEach((layerFrame, layerIndex) => {
+  frame.layers.forEach((layerFrame) => {
+    const layerIndex = project.layers.findIndex((layer) => layer.id === layerFrame.id);
     const layer = project.layers[layerIndex];
+    const anchor = leftmost(layerFrame.corners);
 
-    if (layer === undefined) throw new Error('Missing fixture layer.');
+    if (layer === undefined || anchor === null) return;
 
     labels.push({
       key: `layer:${layer.id}`,
       kind: 'layer',
-      anchor: leftmost(layerFrame.corners),
+      anchor,
       text: layerText(layerIndex, layer.name ?? layer.id),
       layerIndex,
     });
@@ -217,20 +227,26 @@ export function overlayLabels(
     const wide = viewport.width >= look.annotation.wideMinPx;
 
     frame.components.forEach((componentFrame) => {
-      const component = project.layers[componentFrame.layerIndex]?.components[componentFrame.slot];
+      const layerIndex = project.layers.findIndex((layer) => layer.id === componentFrame.layerId);
+      const layer = project.layers[layerIndex];
 
-      if (component === undefined) throw new Error('Missing fixture component.');
+      if (layer === undefined) return;
+
+      const slot = layer.components.findIndex((component) => component.id === componentFrame.id);
+      const component = layer.components[slot];
+
+      if (component === undefined) return;
 
       labels.push({
         key: `part:${component.id}`,
         kind: 'part',
         anchor: componentFrame.anchor,
         text: wide
-          ? partText(componentFrame.layerIndex, componentFrame.slot, component.name ?? component.id)
-          : partShortText(componentFrame.layerIndex, componentFrame.slot),
-        shortText: partShortText(componentFrame.layerIndex, componentFrame.slot),
-        layerIndex: componentFrame.layerIndex,
-        slot: componentFrame.slot,
+          ? partText(layerIndex, slot, component.name ?? component.id)
+          : partShortText(layerIndex, slot),
+        shortText: partShortText(layerIndex, slot),
+        layerIndex,
+        slot,
       });
     });
   }
@@ -483,8 +499,9 @@ export function traceVertices(
 export function traceModel(input: TraceModelInput): TraceModel {
   const timing = traceTiming(input.tokens);
   const flow = input.flow;
+  const requestedVertices = flow === undefined ? [] : traceVertices(input.status, flow, input.step);
 
-  if (flow === undefined || traceVertices(input.status, flow, input.step).length === 0) {
+  if (flow === undefined || requestedVertices.length === 0) {
     return { ...EMPTY_TRACE, dotPeriodMs: timing.dotPeriodMs };
   }
 
@@ -494,14 +511,18 @@ export function traceModel(input: TraceModelInput): TraceModel {
     anchors.set(component.id, component.anchor);
   }
 
-  const route = traceRoute(flow.path, input.step, anchors);
+  const vertices = requestedVertices.filter((vertex) => anchors.has(vertex));
 
-  const pads = route.vertices.map((vertex) => {
+  if (vertices.length === 0) {
+    return { ...EMPTY_TRACE, dotPeriodMs: timing.dotPeriodMs };
+  }
+
+  const route = traceRoute(vertices, vertices.length - 1, anchors);
+
+  const pads = route.vertices.flatMap((vertex) => {
     const anchor = anchors.get(vertex);
 
-    if (anchor === undefined) throw new Error(`Missing overlay anchor for "${vertex}".`);
-
-    return anchor;
+    return anchor === undefined ? [] : [anchor];
   });
   const current = pads[pads.length - 1] ?? null;
   const draw =
