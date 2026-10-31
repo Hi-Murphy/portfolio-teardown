@@ -314,6 +314,30 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specif
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: proceed).
 
+#### T012 amended check list (orchestrator, G3 start, RFC §9.10) — supersedes plan.md "Evidence CLIs" table
+
+New scope `s6` (CLI `--scope s6`; `all` = s4 + s5 + s6). Every S4/S5 check stays unchanged and required. During pixel sampling the overlay is hidden by an injected style (`[data-xploder-overlay]{visibility:hidden}`) so leaders don't cover the sampled slab; it is removed afterwards.
+
+| Check | Pass rule |
+|---|---|
+| `bp-fill-near-paper-light` / `-dark` | centre pixel of `tide-chart-screen` (A, exploded, desktop): ΔE to `--bp-paper` < ΔE to `--bp-line` |
+| `bp-edge-ink-light` / `-dark` | along a 60 px vertical scan down from that centre, the pixel closest to `--bp-line` is within ΔE 10 |
+| `bp-kind-distinct` | centre pixels of `tide-cache` (store) and `live-tide-client` (service): ΔE ≥ 3 (light) |
+| `bp-toggle-switches` | after clicking the theme toggle, the fill sample is closer to the dark `paper` than to the light `paper` |
+| `bp-os-dark-first-paint` | new context `colorScheme: 'dark'`, empty storage: the first screenshot after ready has the page background within ΔE 3 of the dark `paper` and the fill closer to the dark `paper` |
+| `overlay-default-<fixture>-<state>-<viewport>` | A/B/C × imploded/exploded × 390×844/1280×800: imploded → `data-xploder-titleblock="shown"` and 0 `[data-xploder-label]`; exploded → `data-xploder-overlay="shown"` and `data-xploder-overlay-hidden="0"` |
+| `overlay-360-boxes` | 360×740, A and C, exploded (labels) and imploded (title block): every box inside the viewer rect, no pairwise intersections, computed font-size ≥ 12 px; screenshots `screenshot-overlay-360-{light,dark}-{a,c}-{exploded,imploded}.png` |
+| `overlay-selectable` | Selection API round trip returns a layer label's text and a title-block row's text; `user-select ≠ none` |
+| `overlay-colors-light` / `-dark` | computed colours: layer label = `--bp-label`, part label = `--bp-ink`, dimension label = `--bp-steel`, title-block title = `--bp-ink` |
+| `overlay-hit-through` | mouse over the component next to a part balloon → highlight = that id; touch: tap a component (highlighted), then tap a layer label → highlight cleared |
+| `overlay-cls-zero` | zero `layout-shift` entries whose sources lie inside `[data-xploder-overlay]`, over load + the S6 groups (incl. toggles), both themes |
+| `trace-order-<fixture>-<flow>` | A `live-update`, `offline-read`; C `pickup-ready`, `push-failed`: paused + Step through every step k → `data-xploder-trace` = `path.slice(0, k + 1).join(' ')` |
+| `trace-stop-clears` | after Stop, `data-xploder-trace` = `""` |
+| `rm-trace-static` | `reducedMotion: 'reduce'`, tour playing: at two different steps the trace is present and `[data-xploder-overlay]`'s `getAnimations({ subtree: true })` is empty |
+| `default-gap-hitmap-a` / `-c` | the existing hit-map sweep, exploded at 45°, playground without `layoutOptions`: every component of A and of C is hit |
+| `draw-calls-mid-tour` | A, tour playing: draw calls = 2 |
+| `overlay-no-blink` | Pixel 7 emulation, CPU throttle 4×, 4 implode/explode toggles, rAF sampling from the click: 0 frames with overlay opacity > 0 and label/title-block elements before the phase reaches the target; the overlay is `shown` 2.5 s after each click |
+
 ### T013 [P] [US1] [US2] [US3] [US4] Probe evidence run (all S4/S5/S6 checks, incl. AC7 scroll)
 
 - **Seam:** fixture export ↔ `engine:probe` ↔ committed evidence.
