@@ -1,19 +1,18 @@
 import { describe, expect, test } from 'vitest';
 
 import { parseProject, parseTechRegistry, type Project } from '../src/index';
-import { fitZoom, layoutProject, VIEW, type ProjectLayout } from '../src/layout';
+import { fitZoom, layoutProject, VIEW } from '../src/layout';
 import { resolveViewerLayoutOptions } from '../src/look/product';
 import { look } from '../src/look/tokens';
-import { footprintDimension, stackDimension } from '../src/overlay/dimension';
+import { overlayLabels } from '../src/overlay/model';
 import {
   placeLabels,
   rectIntersectsPolygon,
   rectsIntersect,
   type LabelPlacement,
-  type PlacementLabel,
   type Rect,
 } from '../src/overlay/place';
-import { labelBox, layerText, partShortText, partText } from '../src/overlay/parts';
+import { labelBox } from '../src/overlay/parts';
 import { overlayFrame, type OverlayFrame, type Vec2 } from '../src/overlay/project';
 import { projectAJson, projectBJson, projectCJson, techRegistryJson } from './fixtures';
 
@@ -36,86 +35,6 @@ const STATES = [
   ['exploded', 1],
 ] as const;
 const VIEWPORT_INSET_PX = 4;
-
-function leftmost(corners: readonly Vec2[]): Vec2 {
-  let result = corners[0];
-
-  if (result === undefined) throw new Error('A layer needs projected corners.');
-
-  for (const corner of corners) {
-    if (corner[0] < result[0] || (corner[0] === result[0] && corner[1] < result[1])) {
-      result = corner;
-    }
-  }
-
-  return result;
-}
-
-function labelsFor(
-  frame: OverlayFrame,
-  layout: ProjectLayout,
-  project: Project,
-  viewport: { readonly width: number },
-  state: (typeof STATES)[number][0],
-): readonly PlacementLabel[] {
-  const labels: PlacementLabel[] = [];
-
-  frame.layers.forEach((layerFrame, layerIndex) => {
-    const layer = project.layers[layerIndex];
-
-    if (layer === undefined) throw new Error('Missing fixture layer.');
-
-    labels.push({
-      key: `layer:${layer.id}`,
-      kind: 'layer',
-      anchor: leftmost(layerFrame.corners),
-      text: layerText(layerIndex, layer.name),
-      layerIndex,
-    });
-  });
-
-  if (state === 'exploded') {
-    const wide = viewport.width >= look.annotation.wideMinPx;
-
-    frame.components.forEach((componentFrame) => {
-      const component = project.layers[componentFrame.layerIndex]?.components[componentFrame.slot];
-
-      if (component === undefined) throw new Error('Missing fixture component.');
-
-      labels.push({
-        key: `part:${component.id}`,
-        kind: 'part',
-        anchor: componentFrame.anchor,
-        text: wide
-          ? partText(componentFrame.layerIndex, componentFrame.slot, component.name)
-          : partShortText(componentFrame.layerIndex, componentFrame.slot),
-        shortText: partShortText(componentFrame.layerIndex, componentFrame.slot),
-        layerIndex: componentFrame.layerIndex,
-        slot: componentFrame.slot,
-      });
-    });
-  }
-
-  const stack = stackDimension(frame);
-  const footprint = footprintDimension(frame, layout.footprint);
-
-  labels.push(
-    {
-      key: 'dimension:stack',
-      kind: 'dimension',
-      anchor: stack.labelAnchor,
-      text: stack.text,
-    },
-    {
-      key: 'dimension:footprint',
-      kind: 'dimension',
-      anchor: footprint.labelAnchor,
-      text: footprint.text,
-    },
-  );
-
-  return labels;
-}
 
 function box(placement: Rect): Rect {
   return { x: placement.x, y: placement.y, w: placement.w, h: placement.h };
@@ -196,7 +115,7 @@ describe('overlay label placement matrix', () => {
               zoom,
               ...viewport,
             });
-            const labels = labelsFor(frame, layout, project, viewport, state);
+            const labels = overlayLabels(frame, layout, project, viewport, state);
             const result = placeLabels(
               labels,
               frame.components.map((component) => component.hull),
@@ -238,7 +157,7 @@ describe('overlay label placement matrix', () => {
       zoom: fitZoom(layout.bounds.exploded, viewport),
       ...viewport,
     });
-    const labels = labelsFor(frame, layout, project, viewport, 'exploded');
+    const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
     const obstacles = frame.components.map((component) => component.hull);
 
     expect(placeLabels(labels, obstacles, viewport, look)).toStrictEqual(
@@ -255,7 +174,7 @@ describe('overlay label placement matrix', () => {
       zoom: 3 * fitZoom(layout.bounds.exploded, viewport),
       ...viewport,
     });
-    const labels = labelsFor(frame, layout, project, viewport, 'exploded');
+    const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
     const result = placeLabels(
       labels,
       frame.components.map((component) => component.hull),

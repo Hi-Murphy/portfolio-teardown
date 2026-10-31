@@ -16,6 +16,7 @@ const ROLE_REFS = [
   look.annotation.leaderRole,
   look.annotation.balloonRole,
   look.annotation.balloonFillRole,
+  look.annotation.labelFillRole,
   look.trace.role,
   look.trace.casingRole,
 ] as const satisfies readonly RoleRef[];
