@@ -25,6 +25,7 @@
 | T011a | ☑ (G2 feedback: imploded title block) | 1 (Flash, sandbox on) + orchestrator browser step | evidence/T011a-{log-titleblock.txt,screenshot-*.png} | f365b6e |
 | T011b | ☑ (G2 feedback: blink 8 → 0 frames; no stuck state) | 1 (Flash, sandbox on) + orchestrator review fix (pending settle) | evidence/T011b-log-blink.txt | d8a3cfc |
 | T012 | ☐ | | | |
+| T014a | ☐ (found by T014) | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
@@ -352,6 +353,18 @@ New scope `s6` (CLI `--scope s6`; `all` = s4 + s5 + s6). Every S4/S5 check stays
 - **Evidence:** `evidence/T013-log-probe.txt`, `T013-engine-probe.json`, `T013-screenshot-{scroll-top,scroll-bottom,overlay-360-light,overlay-360-dark,default-gap-a,default-gap-c,trace-a,trace-c,rm-trace}.png` (scroll top/bottom = max zoom 3×, the AC5/AC7 reachability proof)
 - **WHAT MURPHY SHOULD TEST/VALIDATE:**
   1. The 360 px overlay shots (light + dark) and the max-zoom top/bottom shots (default: accept).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (default: proceed).
+
+### T014a [US2] Placement robust at every canvas size (found by T014, RFC §9.11)
+
+- **Seam:** `overlay/place.ts` + `overlay/model.ts` (stack-dimension anchors) ↔ readability contract.
+- **Finding:** T014's evidence desktop profile (1350×940 → canvas 1150×562) hid `dimension:stack` on fixture C (`data-xploder-overlay-hidden="1"`). T005's matrix tested five fixed sizes, but the canvas is sized by the page (60dvh × container), so real canvases fall between them. Dense sweep (canvas 300–1700 × 300–1000 step 25, A/B/C × 4 azimuths, exploded): **680 / 19 836 cases hid ≥ 1 label** (mostly `dimension:stack`; on short C canvases also parts). Orchestrator experiment: stack-label anchors along the rail (t = 0.5, 0.35, 0.65, 0.2, 0.8, 0.1, 0.9, 0, 1) → 39; plus radii `[8, 20, 36, 56, 80, 104]` → **0**.
+- **Fix:** (1) `PlacementLabel.anchors?: readonly Vec2[]` = alternative anchors tried in order (each × radii × directions) after the primary; `overlayLabels` gives `dimension:stack` the rail points above; the leader starts at the anchor actually used. (2) `PLACEMENT_RADII = [8, 20, 36, 56, 80, 104]`. (3) The readability contract becomes the dense sweep: canvas widths 360–1700 step 40 × heights 300–1000 step 40, A/B/C × 4 azimuths × exploded (labels) and imploded (title block) → 0 hidden, 0 overlaps, no hull hit, inside. The previous 5-size matrix stays as a printed sample. (4) Bug: `data-xploder-titleblock` must read `shown` only when the title block itself is rendered (it currently mirrors the whole overlay).
+- **Check:** `pnpm --filter xploder exec vitest run test/overlay-place.test.ts test/overlay-titleblock.test.ts test/overlay-model.test.ts` + `pnpm typecheck && pnpm lint && pnpm test`; then T014 is re-run.
+- **Evidence:** `evidence/T014a-log-placement-sweep.txt`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Nothing hands-on (default: agent log; the visual proof is the T014 matrix).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: proceed).
 
