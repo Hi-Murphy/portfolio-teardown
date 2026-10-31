@@ -8,6 +8,7 @@ import { emphasis } from '../src/motion/emphasis';
 import {
   overlayLabels,
   overlayModel,
+  overlayVisible,
   traceModel,
   traceVertices,
   type OverlayLabel,
@@ -30,6 +31,35 @@ const layout = layoutProject(project);
 const NARROW = { width: 390, height: 844 } as const;
 const WIDE = { width: 1280, height: 720 } as const;
 const OFFSET_Y = 37;
+
+describe('overlay visibility', () => {
+  test('shows only when every visible condition is aligned', () => {
+    const aligned = {
+      moving: false,
+      settledTarget: 'exploded',
+      target: 'exploded',
+      phase: 'exploded',
+    } as const;
+
+    expect(overlayVisible(aligned)).toBe(true);
+    expect(overlayVisible({ ...aligned, moving: true })).toBe(false);
+    expect(overlayVisible({ ...aligned, settledTarget: null })).toBe(false);
+    expect(overlayVisible({ ...aligned, settledTarget: 'imploded' })).toBe(false);
+    expect(overlayVisible({ ...aligned, phase: 'exploding' })).toBe(false);
+    expect(overlayVisible({ ...aligned, phase: 'imploding' })).toBe(false);
+  });
+
+  test('hides when the target changed but the phase still matches the old state', () => {
+    expect(
+      overlayVisible({
+        moving: false,
+        settledTarget: 'imploded',
+        target: 'exploded',
+        phase: 'imploded',
+      }),
+    ).toBe(false);
+  });
+});
 
 type ModelOverrides = Partial<Pick<OverlayModelInput, 'offsetY' | 'target' | 'tour' | 'focus'>>;
 

@@ -97,6 +97,7 @@ export function TeardownViewer({
   const overlayRef = useRef<BlueprintOverlayHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
+  const [phase, setPhase] = useState<Phase | null>(null);
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
   const pickBridgeRef = useRef<PickBridgeHandle>({
@@ -188,6 +189,8 @@ export function TeardownViewer({
 
   const onPhase = useCallback((phase: Phase) => {
     if (wrapperRef.current !== null) wrapperRef.current.dataset.xploderState = phase;
+
+    setPhase(phase);
   }, []);
 
   const onEmphasisPhase = useCallback((phase: EmphasisPhase) => {
@@ -344,6 +347,7 @@ export function TeardownViewer({
             palette={resolvedPalette}
             tokens={tokens}
             target={viewer.target}
+            phase={phase}
             tour={viewer.tour}
             focus={viewer.focus}
             look={look}

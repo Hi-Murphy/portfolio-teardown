@@ -9,11 +9,13 @@ import {
   type CSSProperties,
 } from 'react';
 
+import type { Phase } from '../../engine/explode';
 import type { ProjectLayout } from '../../layout';
 import type { LookTokens } from '../../look/tokens';
 import type { MotionTokens } from '../../motion';
 import {
   overlayModel,
+  overlayVisible,
   traceModel,
   type OverlayLabel,
   type OverlayModel,
@@ -32,6 +34,7 @@ export interface BlueprintOverlayProps {
   readonly palette: Palette;
   readonly tokens: MotionTokens;
   readonly target: TeardownTarget;
+  readonly phase: Phase | null;
   readonly tour: Pick<TeardownViewerHandle['tour'], 'flowId' | 'status' | 'step'>;
   readonly focus: TeardownViewerHandle['focus'];
   readonly look: LookTokens;
@@ -48,6 +51,7 @@ interface SettledFrame {
   readonly width: number;
   readonly height: number;
   readonly offsetY: number;
+  readonly target: TeardownTarget;
 }
 
 const ROOT_STYLE: CSSProperties = {
@@ -156,14 +160,24 @@ function titleBlockStyle(
 
 export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOverlayProps>(
   function BlueprintOverlay(
-    { project, layout, palette, tokens, target, tour, focus, look, onTitleBlockShown },
+    { project, layout, palette, tokens, target, phase, tour, focus, look, onTitleBlockShown },
     ref,
   ) {
     const rootRef = useRef<HTMLDivElement>(null);
     const groupRef = useRef<HTMLDivElement>(null);
     const fadeAnimationRef = useRef<Animation | null>(null);
+    const targetRef = useRef(target);
+    const phaseRef = useRef(phase);
     const [settled, setSettled] = useState<SettledFrame | null>(null);
     const [moving, setMoving] = useState(false);
+
+    useLayoutEffect(() => {
+      targetRef.current = target;
+    }, [target]);
+
+    useLayoutEffect(() => {
+      phaseRef.current = phase;
+    }, [phase]);
 
     const setScroll = useCallback((offsetY: number) => {
       const group = groupRef.current;
@@ -171,9 +185,28 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       if (group !== null) group.style.transform = `translateY(${-offsetY}px)`;
     }, []);
 
+    // A settled frame can arrive a frame before React commits the explode phase that
+    // produced it; keep it pending and apply it once phase and target agree.
+    const pendingRef = useRef<Omit<SettledFrame, 'target'> | null>(null);
+
+    const applyPending = useCallback(() => {
+      const pending = pendingRef.current;
+      const settledPhase = phaseRef.current;
+
+      if (pending === null) return;
+      if (settledPhase !== 'imploded' && settledPhase !== 'exploded') return;
+      if (settledPhase !== targetRef.current) return;
+
+      pendingRef.current = null;
+      setScroll(pending.offsetY);
+      setMoving(false);
+      setSettled({ ...pending, target: targetRef.current });
+    }, [setScroll]);
+
     const update = useCallback(
       (event: OverlayEvent) => {
         if (event.kind === 'moving') {
+          pendingRef.current = null;
           fadeAnimationRef.current?.cancel();
           fadeAnimationRef.current = null;
 
@@ -183,22 +216,32 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
           return;
         }
 
-        setScroll(event.offsetY);
-        setMoving(false);
-        setSettled({
+        pendingRef.current = {
           frame: event.frame,
           width: event.width,
           height: event.height,
           offsetY: event.offsetY,
-        });
+        };
+        applyPending();
       },
-      [setScroll],
+      [applyPending],
     );
+
+    useLayoutEffect(() => {
+      applyPending();
+    }, [applyPending, phase, target]);
 
     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
 
+    const visible = overlayVisible({
+      moving,
+      settledTarget: settled?.target ?? null,
+      target,
+      phase,
+    });
+
     const model = useMemo<OverlayModel | null>(() => {
-      if (settled === null) return null;
+      if (settled === null || !visible) return null;
 
       return overlayModel({
         frame: settled.frame,
@@ -206,15 +249,15 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
         project,
         viewport: { width: settled.width, height: settled.height },
         offsetY: settled.offsetY,
-        target,
+        target: settled.target,
         tour,
         focus,
         look,
       });
-    }, [focus, layout, look, project, settled, target, tour]);
+    }, [focus, layout, look, project, settled, tour, visible]);
 
     const trace = useMemo<TraceModel | null>(() => {
-      if (settled === null) return null;
+      if (settled === null || !visible) return null;
 
       const flow =
         tour.flowId === null
@@ -230,10 +273,19 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
         tokens,
         look,
       });
-    }, [look, project.flows, settled, tokens, tour.flowId, tour.status, tour.step]);
+    }, [look, project.flows, settled, tokens, tour.flowId, tour.status, tour.step, visible]);
 
     useLayoutEffect(() => {
-      if (settled === null) return;
+      if (visible) return;
+
+      fadeAnimationRef.current?.cancel();
+      fadeAnimationRef.current = null;
+
+      if (rootRef.current !== null) rootRef.current.style.opacity = '0';
+    }, [visible]);
+
+    useLayoutEffect(() => {
+      if (settled === null || !visible) return;
 
       const root = rootRef.current;
 
@@ -259,9 +311,9 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       root.style.opacity = '1';
 
       return () => animation.cancel();
-    }, [settled, tokens]);
+    }, [settled, tokens, visible]);
 
-    const shown = !moving && model?.shown === true;
+    const shown = visible && model?.shown === true;
     const hidden = model?.hidden ?? 0;
     const transition = opacityTransition(tokens);
     const titleBlock = model?.titleBlock ?? null;
@@ -285,7 +337,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
             viewBox={`0 0 ${settled?.width ?? 0} ${settled?.height ?? 0}`}
             style={SVG_STYLE}
           >
-            {(model?.strokes ?? []).map((stroke) => (
+            {(visible ? (model?.strokes ?? []) : []).map((stroke) => (
               <polyline
                 key={stroke.key}
                 data-xploder-stroke={stroke.kind}
@@ -300,17 +352,19 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
                 }}
               />
             ))}
-            <CircuitTrace
-              active={!moving && settled !== null && tour.status !== 'idle'}
-              step={tour.step}
-              status={tour.status}
-              model={trace}
-              palette={palette}
-              tokens={tokens}
-              look={look}
-            />
+            {visible ? (
+              <CircuitTrace
+                active={visible && settled !== null && tour.status !== 'idle'}
+                step={tour.step}
+                status={tour.status}
+                model={trace}
+                palette={palette}
+                tokens={tokens}
+                look={look}
+              />
+            ) : null}
           </svg>
-          {(model?.labels ?? []).map((label) => (
+          {(visible ? (model?.labels ?? []) : []).map((label) => (
             <span
               key={label.key}
               data-xploder-label={label.key}
@@ -325,7 +379,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
               )}
             </span>
           ))}
-          {titleBlock === null ? null : (
+          {!visible || titleBlock === null ? null : (
             <div data-xploder-titleblock-box="" style={titleBlockStyle(titleBlock, palette, look)}>
               <div
                 style={{ color: palette[look.titleBlock.titleRole], textTransform: 'uppercase' }}
