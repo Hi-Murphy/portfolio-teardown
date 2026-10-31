@@ -1,7 +1,13 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import type { Browser, BrowserContext, BrowserContextOptions, Page } from 'playwright';
+import {
+  devices,
+  type Browser,
+  type BrowserContext,
+  type BrowserContextOptions,
+  type Page,
+} from 'playwright';
 
 import { parseCli, parseUrl } from '../args.ts';
 import { chromiumVersion, launch } from '../browser.ts';
@@ -20,6 +26,10 @@ import {
   type HoverSampleObservation,
   type LayoutShiftObservation,
   type MotionObservation,
+  type Overlay360Observation,
+  type OverlayBoxObservation,
+  type OverlayColoursObservation,
+  type OverlayDefaultObservation,
   type PixelObservation,
   type PointObservation,
   type ProbeScope,
@@ -28,6 +38,7 @@ import {
   type ReducedObservation,
   type S4Observation,
   type S5Observation,
+  type S6Observation,
   type ScrollObservation,
   type SelectorObservation,
   type TouchObservation,
@@ -35,6 +46,7 @@ import {
   type TouchTraceEntry,
   type TourFlowObservation,
   type TourObservation,
+  type TraceFlowObservation,
   totalLayoutShift,
 } from '../engine-probe.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
@@ -42,7 +54,7 @@ import { run } from '../log.ts';
 import { assertReachable } from '../reach.ts';
 
 interface EngineProbeArgs {
-  values: { out?: string; help?: boolean; only?: string };
+  values: { out?: string; help?: boolean; scope?: string };
   positionals: string[];
 }
 
@@ -52,6 +64,7 @@ type EngineProbeReport = EngineProbeEvaluation & {
   url: string;
   chromium: string;
   s5?: S5Observation;
+  s6?: S6Observation;
 } & Partial<S4Observation>;
 
 type PhaseEntry = [state: string, timestamp: number];
@@ -74,6 +87,20 @@ interface ReducedWindow {
 interface TourStepWindow {
   __engineProbeTourSteps?: { step: number; t: number }[];
   __engineProbeTourObserver?: MutationObserver;
+}
+
+interface BlinkSample {
+  t: number;
+  phase: string | null;
+  attr: string | null;
+  opacity: number;
+  textElements: number;
+}
+
+interface BlinkWindow {
+  __engineProbeBlinkSamples?: BlinkSample[];
+  __engineProbeBlinkRun?: boolean;
+  __engineProbeBlinkClickAt?: number;
 }
 
 interface ClsWindow {
@@ -124,6 +151,13 @@ const CLS_LOAD_NOTE =
 
 const WAIT_TIMEOUT_MS = 15_000;
 const REDUCED_MOTION_WINDOW_MS = 1000;
+const BLINK_SETTLE_MS = 2500;
+const BLINK_OPACITY_THRESHOLD = 0.01;
+const BLINK_ROUNDS = 4;
+const BLINK_THROTTLE = 4;
+const SAMPLE_SCAN_PX = 60;
+const OVERLAY_360_WIDTH = 360;
+const OVERLAY_360_HEIGHT = 740;
 const VIEWER_SELECTOR = '[data-xploder-ready="true"]';
 const CAPTION_SELECTOR = '[data-xploder-caption]';
 const STAGE_SELECTOR = '[data-xploder-stage]';
@@ -147,7 +181,7 @@ an out-fixtures export (for example, http://127.0.0.1:4199/).
 
 Options:
   --out <dir>     output directory (default: .evidence/<timestamp>-engine-probe)
-  --only s4|s5    run only one probe block (default: both)
+  --scope <scope>  s4, s5, s6, or all (default: all)
   --help          show this help`;
 
 function exitCodeTable(): string {
@@ -192,6 +226,24 @@ function mobileOptions(): BrowserContextOptions {
 
 function reducedOptions(): BrowserContextOptions {
   return { ...desktopOptions(), reducedMotion: 'reduce' };
+}
+
+function narrowOptions(): BrowserContextOptions {
+  return {
+    viewport: { width: OVERLAY_360_WIDTH, height: OVERLAY_360_HEIGHT },
+    deviceScaleFactor: 1,
+    isMobile: true,
+    hasTouch: true,
+    colorScheme: 'light',
+  };
+}
+
+function osDarkOptions(): BrowserContextOptions {
+  return { ...desktopOptions(), colorScheme: 'dark' };
+}
+
+function pixelOptions(): BrowserContextOptions {
+  return { ...devices['Pixel 7'] };
 }
 
 function fixtureHref(
@@ -667,6 +719,7 @@ async function installClsCapture(
         ),
         parentTag: element.parentElement?.tagName.toLowerCase() ?? null,
         text: element.textContent?.trim().slice(0, 80) || null,
+        inOverlay: element.closest('[data-xploder-overlay]') !== null,
       };
     };
     const rect = (value: DOMRectReadOnly | undefined) =>
@@ -779,6 +832,274 @@ async function readCssColor(page: Page, variable: string): Promise<PixelObservat
     const [r = 0, g = 0, b = 0] = channels;
     return { r, g, b };
   }, variable);
+}
+
+function parseComputedColor(raw: string): PixelObservation {
+  const match = raw.match(/rgba?\(([^)]+)\)/);
+  if (match === null) throw new Error(`unsupported computed colour: ${raw}`);
+  const channels = (match[1] ?? '')
+    .split(/[ ,/]+/)
+    .filter(Boolean)
+    .map(Number);
+  const [r = 0, g = 0, b = 0] = channels;
+  return { r, g, b };
+}
+
+async function readElementColor(page: Page, selector: string): Promise<PixelObservation> {
+  const raw = await page
+    .locator(selector)
+    .first()
+    .evaluate((element) => {
+      return getComputedStyle(element).color;
+    });
+  return parseComputedColor(raw);
+}
+
+async function setTheme(page: Page, theme: 'light' | 'dark'): Promise<void> {
+  await page.waitForSelector('button[aria-label^="Switch to "]', { timeout: WAIT_TIMEOUT_MS });
+  const isDark = await page.evaluate(() => document.documentElement.classList.contains('dark'));
+
+  if (isDark !== (theme === 'dark')) {
+    await page
+      .getByRole('button', { name: isDark ? 'Switch to light theme' : 'Switch to dark theme' })
+      .click();
+    await page.waitForFunction(
+      (dark) => document.documentElement.classList.contains('dark') === dark,
+      theme === 'dark',
+      { timeout: WAIT_TIMEOUT_MS },
+    );
+  }
+
+  await waitForFrames(page);
+}
+
+async function withOverlayHidden<T>(page: Page, work: () => Promise<T>): Promise<T> {
+  const style = await page.addStyleTag({
+    content: '[data-xploder-overlay]{visibility:hidden}',
+  });
+
+  try {
+    return await work();
+  } finally {
+    await style.evaluate((element) => (element as HTMLElement).remove());
+  }
+}
+
+async function readPixelColumn(
+  page: Page,
+  point: PointObservation,
+  height: number,
+): Promise<PixelObservation[]> {
+  const screenshot = await page.screenshot({
+    clip: { x: Math.round(point.x), y: Math.round(point.y), width: 1, height },
+  });
+
+  return page.evaluate(
+    async ({ base64, pixels }) => {
+      const image = new Image();
+      image.src = `data:image/png;base64,${base64}`;
+      await image.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = pixels;
+      const context = canvas.getContext('2d');
+      if (context === null) throw new Error('2D canvas is unavailable');
+      context.drawImage(image, 0, 0);
+      const data = context.getImageData(0, 0, 1, pixels).data;
+      const result: { r: number; g: number; b: number }[] = [];
+
+      for (let index = 0; index < pixels; index += 1) {
+        const offset = index * 4;
+        result.push({ r: data[offset] ?? 0, g: data[offset + 1] ?? 0, b: data[offset + 2] ?? 0 });
+      }
+
+      return result;
+    },
+    { base64: screenshot.toString('base64'), pixels: height },
+  );
+}
+
+async function readScreenshotPixels(
+  page: Page,
+  screenshot: Buffer,
+  points: readonly PointObservation[],
+): Promise<PixelObservation[]> {
+  return page.evaluate(
+    async ({ base64, samples }) => {
+      const image = new Image();
+      image.src = `data:image/png;base64,${base64}`;
+      await image.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const context = canvas.getContext('2d');
+      if (context === null) throw new Error('2D canvas is unavailable');
+      context.drawImage(image, 0, 0);
+
+      return samples.map(({ x, y }) => {
+        const [r = 0, g = 0, b = 0] = context.getImageData(Math.round(x), Math.round(y), 1, 1).data;
+        return { r, g, b };
+      });
+    },
+    { base64: screenshot.toString('base64'), samples: points },
+  );
+}
+
+async function waitForOverlay(page: Page, state: 'imploded' | 'exploded'): Promise<void> {
+  await waitForSettledEmphasis(page);
+  await page.waitForFunction(
+    ({ selector, expected }) => {
+      const viewer = document.querySelector(selector);
+      const overlay = document.querySelector('[data-xploder-overlay]');
+      if (!(viewer instanceof HTMLElement) || !(overlay instanceof HTMLElement)) return false;
+
+      if (expected === 'imploded') {
+        return (
+          viewer.dataset.xploderTitleblock === 'shown' &&
+          document.querySelectorAll('[data-xploder-label]').length === 0
+        );
+      }
+
+      return (
+        overlay.dataset.xploderOverlay === 'shown' && overlay.dataset.xploderOverlayHidden === '0'
+      );
+    },
+    { selector: VIEWER_SELECTOR, expected: state },
+    { timeout: WAIT_TIMEOUT_MS },
+  );
+  await page.waitForFunction(
+    () => {
+      const overlay = document.querySelector('[data-xploder-overlay]');
+      return (
+        overlay instanceof HTMLElement &&
+        Number.parseFloat(getComputedStyle(overlay).opacity) >= 0.99
+      );
+    },
+    undefined,
+    { timeout: WAIT_TIMEOUT_MS },
+  );
+}
+
+async function readOverlayDefault(
+  page: Page,
+  fixture: 'a' | 'b' | 'c',
+  state: 'imploded' | 'exploded',
+  viewport: 'mobile' | 'desktop',
+): Promise<OverlayDefaultObservation> {
+  return page.evaluate(
+    ({ fixture: fixtureId, state: target, viewport: viewportName, selector }) => {
+      const viewer = document.querySelector(selector);
+      const overlay = document.querySelector('[data-xploder-overlay]');
+      if (!(viewer instanceof HTMLElement) || !(overlay instanceof HTMLElement)) {
+        throw new Error('viewer or overlay is missing');
+      }
+
+      return {
+        fixture: fixtureId,
+        state: target,
+        viewport: viewportName,
+        titleBlock: viewer.dataset.xploderTitleblock ?? null,
+        overlay: overlay.dataset.xploderOverlay ?? null,
+        hidden: overlay.dataset.xploderOverlayHidden ?? null,
+        labelCount: document.querySelectorAll('[data-xploder-label]').length,
+      };
+    },
+    { fixture, state, viewport, selector: VIEWER_SELECTOR },
+  );
+}
+
+async function readOverlay360(
+  page: Page,
+  fixture: 'a' | 'c',
+  state: 'imploded' | 'exploded',
+  theme: 'light' | 'dark',
+): Promise<Overlay360Observation> {
+  return page.evaluate(
+    ({ fixture: fixtureId, state: target, theme: themeName, selector }) => {
+      const viewer = document.querySelector(selector);
+      if (!(viewer instanceof HTMLElement)) throw new Error('viewer is missing');
+      const viewerRect = viewer.getBoundingClientRect();
+      const boxes: OverlayBoxObservation[] = [
+        ...document.querySelectorAll<HTMLElement>(
+          '[data-xploder-label],[data-xploder-titleblock-box]',
+        ),
+      ].map((element) => {
+        const rect = element.getBoundingClientRect();
+
+        return {
+          key:
+            element.dataset.xploderLabel ??
+            (element.hasAttribute('data-xploder-titleblock-box') ? 'titleblock' : ''),
+          left: rect.left,
+          top: rect.top,
+          right: rect.right,
+          bottom: rect.bottom,
+          fontSize: Number.parseFloat(getComputedStyle(element).fontSize),
+        };
+      });
+
+      return {
+        fixture: fixtureId,
+        state: target,
+        theme: themeName,
+        viewer: {
+          left: viewerRect.left,
+          top: viewerRect.top,
+          right: viewerRect.right,
+          bottom: viewerRect.bottom,
+        },
+        boxes,
+      };
+    },
+    { fixture, state, theme, selector: VIEWER_SELECTOR },
+  );
+}
+
+async function readSelection(
+  page: Page,
+  selector: string,
+): Promise<{ text: string; selected: string; userSelect: string }> {
+  return page
+    .locator(selector)
+    .first()
+    .evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+
+      return {
+        text: element.textContent?.trim() ?? '',
+        selected: selection?.toString().trim() ?? '',
+        userSelect: getComputedStyle(element).userSelect,
+      };
+    });
+}
+
+async function readOverlayColourExpectation(
+  page: Page,
+): Promise<OverlayColoursObservation['expected']> {
+  return {
+    label: await readCssColor(page, '--bp-label'),
+    ink: await readCssColor(page, '--bp-ink'),
+    steel: await readCssColor(page, '--bp-steel'),
+  };
+}
+
+async function readOverlayLabelColours(
+  page: Page,
+): Promise<Pick<OverlayColoursObservation, 'layer' | 'part' | 'dimension' | 'expected'>> {
+  return {
+    layer: await readElementColor(page, '[data-xploder-label^="layer:"]'),
+    part: await readElementColor(page, '[data-xploder-label^="part:"]'),
+    dimension: await readElementColor(page, '[data-xploder-label^="dimension:"]'),
+    expected: await readOverlayColourExpectation(page),
+  };
+}
+
+async function readOverlayTitleColour(page: Page): Promise<PixelObservation> {
+  return readElementColor(page, '[data-xploder-titleblock-box] > div:first-child');
 }
 
 async function captureHitMap(page: Page, base: URL, outDir: string): Promise<HitMapObservation> {
@@ -1581,6 +1902,581 @@ async function captureCaptionAnchor(
   return { samples: [...desktopSamples, ...mobileSamples] };
 }
 
+async function captureDefaultGap(
+  page: Page,
+  base: URL,
+  outDir: string,
+): Promise<{
+  observation: S6Observation['defaultGap'];
+  pointsA: SweepResult['points'];
+}> {
+  const ids: Record<'a' | 'c', string[]> = { a: [], c: [] };
+  let pointsA: SweepResult['points'] = {};
+
+  for (const fixture of ['a', 'c'] as const) {
+    await gotoFixture(page, fixtureHref(base, fixture, 'exploded'));
+    await waitForReady(page, 'exploded');
+    await waitForAzimuth(page, 45);
+    await setTheme(page, 'light');
+    await waitForSettledEmphasis(page);
+    await waitForOverlay(page, 'exploded');
+    const map = await sweepHitMap(page, DESKTOP_GRID);
+    await clearPointer(page);
+    ids[fixture] = Object.keys(map.points).sort();
+    if (fixture === 'a') pointsA = map.points;
+    await page.screenshot({ path: join(outDir, `screenshot-default-gap-${fixture}.png`) });
+  }
+
+  return { observation: { a: ids.a, c: ids.c }, pointsA };
+}
+
+async function capturePalette(
+  page: Page,
+  base: URL,
+  point: PointObservation,
+  pointsA: SweepResult['points'],
+): Promise<S6Observation['palette']> {
+  await gotoFixture(page, fixtureHref(base, 'a', 'exploded'));
+  await waitForReady(page, 'exploded');
+  await waitForAzimuth(page, 45);
+  await waitForSettledEmphasis(page);
+  await setTheme(page, 'light');
+
+  return withOverlayHidden(page, async () => {
+    const lightPaper = await readCssColor(page, '--bp-paper');
+    const lightLine = await readCssColor(page, '--bp-line');
+    const lightColumn = await readPixelColumn(page, point, SAMPLE_SCAN_PX + 1);
+    const store = await readPixel(page, centralPoint(pointsA['tide-cache']));
+    const service = await readPixel(page, centralPoint(pointsA['live-tide-client']));
+
+    await setTheme(page, 'dark');
+    const darkPaper = await readCssColor(page, '--bp-paper');
+    const darkLine = await readCssColor(page, '--bp-line');
+    const darkColumn = await readPixelColumn(page, point, SAMPLE_SCAN_PX + 1);
+
+    return {
+      light: {
+        fill: lightColumn[0] ?? lightPaper,
+        edgeScan: lightColumn.slice(1),
+        paper: lightPaper,
+        line: lightLine,
+      },
+      dark: {
+        fill: darkColumn[0] ?? darkPaper,
+        edgeScan: darkColumn.slice(1),
+        paper: darkPaper,
+        line: darkLine,
+      },
+      kinds: { store, service },
+      toggle: {
+        fill: darkColumn[0] ?? darkPaper,
+        lightPaper,
+        darkPaper,
+      },
+      osDarkFirstPaint: {
+        background: lightPaper,
+        fill: darkColumn[0] ?? darkPaper,
+        lightPaper,
+        darkPaper,
+      },
+    };
+  });
+}
+
+async function captureOsDarkFirstPaint(
+  page: Page,
+  base: URL,
+  point: PointObservation,
+  palette: S6Observation['palette'],
+  outDir: string,
+): Promise<S6Observation['palette']['osDarkFirstPaint']> {
+  await gotoFixture(page, fixtureHref(base, 'a', 'exploded'));
+  await waitForReady(page, 'exploded');
+
+  const screenshot = await withOverlayHidden(page, async () => {
+    const image = await page.screenshot({
+      path: join(outDir, 'screenshot-os-dark-first-paint.png'),
+    });
+    return image;
+  });
+  const [background = palette.toggle.darkPaper, fill = palette.toggle.darkPaper] =
+    await readScreenshotPixels(page, screenshot, [{ x: 1, y: 1 }, point]);
+
+  return {
+    background,
+    fill,
+    lightPaper: palette.toggle.lightPaper,
+    darkPaper: palette.toggle.darkPaper,
+  };
+}
+
+async function captureOverlayDefaults(
+  desktop: Page,
+  mobile: Page,
+  base: URL,
+): Promise<OverlayDefaultObservation[]> {
+  const samples: OverlayDefaultObservation[] = [];
+
+  for (const [viewport, page] of [
+    ['mobile', mobile],
+    ['desktop', desktop],
+  ] as const) {
+    for (const fixture of ['a', 'b', 'c'] as const) {
+      for (const state of ['imploded', 'exploded'] as const) {
+        await gotoFixture(
+          page,
+          fixtureHref(base, fixture, state === 'exploded' ? 'exploded' : undefined),
+        );
+        await waitForReady(page, state);
+        await setTheme(page, 'light');
+        await waitForOverlay(page, state);
+        samples.push(await readOverlayDefault(page, fixture, state, viewport));
+      }
+    }
+  }
+
+  return samples;
+}
+
+async function captureOverlay360(
+  page: Page,
+  base: URL,
+  outDir: string,
+): Promise<Overlay360Observation[]> {
+  const samples: Overlay360Observation[] = [];
+
+  for (const theme of ['light', 'dark'] as const) {
+    for (const fixture of ['a', 'c'] as const) {
+      for (const state of ['exploded', 'imploded'] as const) {
+        await gotoFixture(
+          page,
+          fixtureHref(base, fixture, state === 'exploded' ? 'exploded' : undefined),
+        );
+        await waitForReady(page, state);
+        await setTheme(page, theme);
+        await waitForOverlay(page, state);
+        samples.push(await readOverlay360(page, fixture, state, theme));
+        await page.screenshot({
+          path: join(outDir, `screenshot-overlay-360-${theme}-${fixture}-${state}.png`),
+        });
+      }
+    }
+  }
+
+  return samples;
+}
+
+async function captureSelectable(page: Page, base: URL): Promise<S6Observation['selectable']> {
+  await gotoFixture(page, fixtureHref(base, 'a', 'exploded'));
+  await waitForReady(page, 'exploded');
+  await setTheme(page, 'light');
+  await waitForOverlay(page, 'exploded');
+  const layer = await readSelection(page, '[data-xploder-label^="layer:"]');
+
+  await gotoFixture(page, fixtureHref(base, 'a'));
+  await waitForReady(page, 'imploded');
+  await waitForOverlay(page, 'imploded');
+  const title = await readSelection(page, '[data-xploder-titleblock-box] > div:nth-child(3)');
+
+  return {
+    userSelect: layer.userSelect,
+    titleUserSelect: title.userSelect,
+    layerText: layer.text,
+    selectedLayerText: layer.selected,
+    titleRowText: title.text,
+    selectedTitleRowText: title.selected,
+  };
+}
+
+async function captureColours(page: Page, base: URL): Promise<S6Observation['colours']> {
+  const result: Partial<S6Observation['colours']> = {};
+
+  for (const theme of ['light', 'dark'] as const) {
+    await gotoFixture(page, fixtureHref(base, 'a', 'exploded'));
+    await waitForReady(page, 'exploded');
+    await setTheme(page, theme);
+    await waitForOverlay(page, 'exploded');
+    const labels = await readOverlayLabelColours(page);
+
+    await gotoFixture(page, fixtureHref(base, 'a'));
+    await waitForReady(page, 'imploded');
+    await waitForOverlay(page, 'imploded');
+    const title = await readOverlayTitleColour(page);
+    result[theme] = { ...labels, title };
+  }
+
+  if (result.light === undefined || result.dark === undefined) {
+    throw new Error('overlay colours are incomplete');
+  }
+  return { light: result.light, dark: result.dark };
+}
+
+async function exposedPoint(
+  page: Page,
+  points: readonly PointObservation[],
+): Promise<PointObservation | null> {
+  return page.evaluate(
+    (candidates) => {
+      return (
+        candidates.find(({ x, y }) => {
+          const element = document.elementFromPoint(x, y);
+          return (
+            element === null ||
+            element.closest('[data-xploder-label],[data-xploder-titleblock-box]') === null
+          );
+        }) ?? null
+      );
+    },
+    points.slice(0, 60),
+  );
+}
+
+async function hoverExposedComponent(
+  page: Page,
+  points: SweepResult['points'],
+): Promise<{ target: string; highlight: string | null; point: PointObservation }> {
+  for (const [target, candidates] of Object.entries(points)) {
+    for (const point of candidates.slice(0, 12)) {
+      const exposed = await exposedPoint(page, [point]);
+      if (exposed === null) continue;
+      await page.mouse.move(exposed.x, exposed.y);
+      await waitForFrames(page);
+      const highlight = await readHighlight(page);
+      if (highlight === target) return { target, highlight, point: exposed };
+    }
+  }
+
+  throw new Error('overlay hit-through hover target was not found');
+}
+
+async function exposedComponentPoint(
+  page: Page,
+  points: SweepResult['points'],
+): Promise<{ target: string; point: PointObservation }> {
+  for (const [target, candidates] of Object.entries(points)) {
+    const point = await exposedPoint(page, candidates);
+    if (point !== null) return { target, point };
+  }
+
+  throw new Error('overlay hit-through touch target was not found');
+}
+
+async function captureHitThrough(
+  desktop: Page,
+  mobile: Page,
+  base: URL,
+  pointsA: SweepResult['points'],
+): Promise<S6Observation['hitThrough']> {
+  await gotoFixture(desktop, fixtureHref(base, 'a', 'exploded'));
+  await waitForReady(desktop, 'exploded');
+  await setTheme(desktop, 'light');
+  await waitForOverlay(desktop, 'exploded');
+  const hover = await hoverExposedComponent(desktop, pointsA);
+
+  await gotoFixture(mobile, fixtureHref(base, 'a', 'exploded'));
+  await waitForReady(mobile, 'exploded');
+  await setTheme(mobile, 'light');
+  await waitForOverlay(mobile, 'exploded');
+  const map = await sweepHitMap(mobile, MOBILE_GRID);
+  await clearPointer(mobile);
+  const tap = await exposedComponentPoint(mobile, map.points);
+  await tapAndWait(mobile, tap.point, tap.target);
+  const tapHighlight = await readHighlight(mobile);
+
+  const label = mobile.locator('[data-xploder-label^="layer:"]').first();
+  const labelTarget = (await label.getAttribute('data-xploder-label')) ?? 'layer:missing';
+  const labelBox = await label.boundingBox();
+  if (labelBox === null) throw new Error('layer label has no bounding box');
+  await mobile.touchscreen.tap(labelBox.x + labelBox.width / 2, labelBox.y + labelBox.height / 2);
+  await waitForFrames(mobile);
+  const afterLabelTap = await readHighlight(mobile);
+
+  return {
+    hoverTarget: hover.target,
+    hoverHighlight: hover.highlight,
+    tapTarget: tap.target,
+    tapHighlight,
+    labelTarget,
+    afterLabelTap,
+  };
+}
+
+async function captureTraceFlow(
+  page: Page,
+  base: URL,
+  fixture: 'a' | 'c',
+  flowId: string,
+  outDir: string,
+  screenshot: boolean,
+): Promise<TraceFlowObservation> {
+  await gotoFixture(page, fixtureHref(base, fixture, 'exploded', flowId, 'paused'));
+  await waitForTour(page, 'paused', flowId, 0);
+  const total = await tourTotal(page);
+  const traces: string[] = [];
+
+  for (let step = 0; step < total; step += 1) {
+    await waitForTour(page, 'paused', flowId, step);
+    traces.push(await readAttribute(page, 'data-xploder-trace'));
+
+    if (step < total - 1) {
+      await page.locator('[data-engine-control="tour-step"]').click();
+    }
+  }
+
+  if (screenshot) {
+    await page.screenshot({ path: join(outDir, `screenshot-trace-${fixture}.png`) });
+  }
+
+  await page.locator('[data-engine-control="tour-stop"]').click();
+  await page.waitForSelector(
+    `${VIEWER_SELECTOR}[data-xploder-tour="idle"][data-xploder-tour-step="-1"]`,
+    { timeout: WAIT_TIMEOUT_MS },
+  );
+
+  return {
+    fixture,
+    flowId,
+    traces,
+    stopTrace: await readAttribute(page, 'data-xploder-trace'),
+  };
+}
+
+async function captureTrace(
+  page: Page,
+  base: URL,
+  outDir: string,
+): Promise<S6Observation['trace']['flows']> {
+  return [
+    await captureTraceFlow(page, base, 'a', 'live-update', outDir, false),
+    await captureTraceFlow(page, base, 'a', 'offline-read', outDir, true),
+    await captureTraceFlow(page, base, 'c', 'pickup-ready', outDir, false),
+    await captureTraceFlow(page, base, 'c', 'push-failed', outDir, true),
+  ];
+}
+
+async function readReducedTraceSample(
+  page: Page,
+  step: number,
+): Promise<{ step: number; trace: string; animations: number }> {
+  return page.evaluate(
+    ({ selector, expectedStep }) => {
+      const viewer = document.querySelector(selector);
+      const overlay = document.querySelector('[data-xploder-overlay]');
+      if (!(viewer instanceof HTMLElement) || !(overlay instanceof HTMLElement)) {
+        throw new Error('viewer or overlay is missing');
+      }
+
+      return {
+        step: expectedStep,
+        trace: viewer.dataset.xploderTrace ?? '',
+        animations: overlay.getAnimations({ subtree: true }).length,
+      };
+    },
+    { selector: VIEWER_SELECTOR, expectedStep: step },
+  );
+}
+
+async function captureReducedTrace(
+  page: Page,
+  base: URL,
+  outDir: string,
+): Promise<S6Observation['trace']['reducedMotion']> {
+  await gotoFixture(page, fixtureHref(base, 'a', 'exploded', 'live-update', 'paused'));
+  await waitForTour(page, 'paused', 'live-update', 0);
+  await page.locator('[data-engine-control="tour-play"]').click();
+  await waitForTour(page, 'playing', 'live-update', 1);
+  const first = await readReducedTraceSample(page, 1);
+  await waitForTour(page, 'playing', 'live-update', 3);
+  const second = await readReducedTraceSample(page, 3);
+  await page.screenshot({ path: join(outDir, 'screenshot-rm-trace.png') });
+  await page.locator('[data-engine-control="tour-stop"]').click();
+
+  return { samples: [first, second] };
+}
+
+async function captureDrawCallsMidTour(page: Page, base: URL): Promise<number> {
+  await gotoFixture(page, fixtureHref(base, 'a', 'exploded', 'live-update'));
+  await waitForReady(page, 'exploded');
+  await page.locator('[data-engine-control="tour-play"]').click();
+  await waitForTour(page, 'playing', 'live-update', 1);
+  const drawCalls = (await readFixture(page)).drawCalls;
+  await page.locator('[data-engine-control="tour-stop"]').click();
+  return drawCalls;
+}
+
+async function captureBlink(surface: Surface, base: URL): Promise<S6Observation['blink']> {
+  const { page } = surface;
+  const cdp = await surface.context.newCDPSession(page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: BLINK_THROTTLE });
+  await gotoFixture(page, fixtureHref(base, 'a'));
+  await waitForReady(page, 'imploded');
+  await waitForOverlay(page, 'imploded');
+
+  let framesSampled = 0;
+  let blinkFrames = 0;
+  const stuckHiddenAfterSettle: S6Observation['blink']['stuckHiddenAfterSettle'] = [];
+
+  for (let round = 0; round < BLINK_ROUNDS; round += 1) {
+    const from = await readAttribute(page, 'data-xploder-state');
+    const want = from === 'imploded' ? 'exploded' : 'imploded';
+    await page.evaluate(() => {
+      const target = window as unknown as BlinkWindow;
+      target.__engineProbeBlinkSamples = [];
+      target.__engineProbeBlinkRun = true;
+      const overlay = document.querySelector('[data-xploder-overlay]');
+      const viewer = document.querySelector('[data-xploder-state]');
+      if (!(overlay instanceof HTMLElement) || !(viewer instanceof HTMLElement)) {
+        throw new Error('viewer or overlay is missing');
+      }
+
+      const tick = () => {
+        if (target.__engineProbeBlinkRun !== true) return;
+        target.__engineProbeBlinkSamples?.push({
+          t: performance.now(),
+          phase: viewer.getAttribute('data-xploder-state'),
+          attr: overlay.getAttribute('data-xploder-overlay'),
+          opacity: Number.parseFloat(getComputedStyle(overlay).opacity),
+          textElements: overlay.querySelectorAll(
+            '[data-xploder-label],[data-xploder-titleblock-box]',
+          ).length,
+        });
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    await page.evaluate(() => {
+      const target = window as unknown as BlinkWindow;
+      const button = document.querySelector('[data-engine-control="toggle"]');
+      if (!(button instanceof HTMLElement)) throw new Error('toggle button is missing');
+      target.__engineProbeBlinkClickAt = performance.now();
+      button.click();
+    });
+    await page.waitForTimeout(BLINK_SETTLE_MS);
+    const end = await page.locator('[data-xploder-overlay]').getAttribute('data-xploder-overlay');
+    if (end !== 'shown') stuckHiddenAfterSettle.push({ round, to: want, end });
+
+    const samples = await page.evaluate(() => {
+      const target = window as unknown as BlinkWindow;
+      target.__engineProbeBlinkRun = false;
+      const clickAt = target.__engineProbeBlinkClickAt ?? 0;
+      return (target.__engineProbeBlinkSamples ?? []).filter((sample) => sample.t >= clickAt);
+    });
+
+    let reached = false;
+    for (const sample of samples) {
+      framesSampled += 1;
+      if (sample.phase === want) reached = true;
+      if (!reached && sample.opacity > BLINK_OPACITY_THRESHOLD && sample.textElements > 0) {
+        blinkFrames += 1;
+      }
+    }
+  }
+
+  return {
+    throttle: BLINK_THROTTLE,
+    rounds: BLINK_ROUNDS,
+    framesSampled,
+    blinkFrames,
+    stuckHiddenAfterSettle,
+  };
+}
+
+async function captureS6(
+  desktop: Page,
+  mobile: Page,
+  reducedPage: Page,
+  narrow: Page,
+  osDarkPage: Page,
+  blinkSurface: Surface,
+  base: URL,
+  outDir: string,
+): Promise<S6Observation> {
+  setClsGroup(desktop, 's6-default-gap');
+  const defaultGap = await captureDefaultGap(desktop, base, outDir);
+  await finishClsGroup(desktop);
+
+  setClsGroup(desktop, 's6-palette-light');
+  const fillPoint = centralPoint(defaultGap.pointsA['tide-chart-screen']);
+  const palette = await capturePalette(desktop, base, fillPoint, defaultGap.pointsA);
+  await finishClsGroup(desktop);
+
+  setClsGroup(osDarkPage, 's6-os-dark-first-paint');
+  const osDarkFirstPaint = await captureOsDarkFirstPaint(
+    osDarkPage,
+    base,
+    fillPoint,
+    palette,
+    outDir,
+  );
+  await finishClsGroup(osDarkPage);
+  palette.osDarkFirstPaint = osDarkFirstPaint;
+
+  setClsGroup(desktop, 's6-overlay-default');
+  setClsGroup(mobile, 's6-overlay-default');
+  const overlayDefaults = await captureOverlayDefaults(desktop, mobile, base);
+  await finishClsGroup(desktop);
+  await finishClsGroup(mobile);
+
+  setClsGroup(narrow, 's6-overlay-360');
+  const overlay360 = await captureOverlay360(narrow, base, outDir);
+  await finishClsGroup(narrow);
+
+  setClsGroup(desktop, 's6-selectable');
+  const selectable = await captureSelectable(desktop, base);
+  await finishClsGroup(desktop);
+
+  setClsGroup(desktop, 's6-colours');
+  const colours = await captureColours(desktop, base);
+  await finishClsGroup(desktop);
+
+  setClsGroup(desktop, 's6-hit-through');
+  setClsGroup(mobile, 's6-hit-through');
+  const hitThrough = await captureHitThrough(desktop, mobile, base, defaultGap.pointsA);
+  await finishClsGroup(desktop);
+  await finishClsGroup(mobile);
+
+  setClsGroup(desktop, 's6-trace');
+  const traceFlows = await captureTrace(desktop, base, outDir);
+  await finishClsGroup(desktop);
+
+  setClsGroup(reducedPage, 's6-reduced-trace');
+  const reducedTrace = await captureReducedTrace(reducedPage, base, outDir);
+  await finishClsGroup(reducedPage);
+
+  setClsGroup(desktop, 's6-draw-calls');
+  const drawCallsMidTour = await captureDrawCallsMidTour(desktop, base);
+  await finishClsGroup(desktop);
+
+  setClsGroup(blinkSurface.page, 's6-no-blink');
+  const blink = await captureBlink(blinkSurface, base);
+  await finishClsGroup(blinkSurface.page);
+
+  const s6Pages = [desktop, mobile, reducedPage, narrow, osDarkPage, blinkSurface.page];
+  const entries = s6Pages.flatMap((page) => {
+    const capture = clsCaptures.get(page);
+    if (capture === undefined) return [];
+
+    return [
+      ...capture.entries.filter((entry) => entry.group.startsWith('s6-')),
+      ...capture.loadEntries,
+    ];
+  });
+
+  return {
+    palette,
+    overlayDefaults,
+    overlay360,
+    selectable,
+    colours,
+    hitThrough,
+    cls: { total: totalLayoutShift(entries), entries },
+    trace: { flows: traceFlows, reducedMotion: reducedTrace },
+    defaultGap: defaultGap.observation,
+    drawCallsMidTour,
+    blink,
+  };
+}
+
 async function openSurface(
   browser: Browser,
   options: BrowserContextOptions,
@@ -1667,7 +2563,7 @@ export async function main(argv: string[]): Promise<number> {
     options: {
       out: { type: 'string' },
       help: { type: 'boolean' },
-      only: { type: 'string' },
+      scope: { type: 'string' },
     },
     allowPositionals: true,
     requiredPositionals: helpRequested ? 0 : 1,
@@ -1683,11 +2579,17 @@ export async function main(argv: string[]): Promise<number> {
   if (!positionals[0]?.trim().endsWith('/')) {
     throw new CliError(EXIT.USAGE, 'base URL must end with /');
   }
-  if (values.only !== undefined && values.only !== 's4' && values.only !== 's5') {
-    throw new CliError(EXIT.USAGE, '--only must be s4 or s5');
+  if (
+    values.scope !== undefined &&
+    values.scope !== 's4' &&
+    values.scope !== 's5' &&
+    values.scope !== 's6' &&
+    values.scope !== 'all'
+  ) {
+    throw new CliError(EXIT.USAGE, '--scope must be s4, s5, s6, or all');
   }
 
-  const scope = (values.only ?? 'all') as ProbeScope;
+  const scope = (values.scope ?? 'all') as ProbeScope;
   const base = parseUrl(positionals[0]);
   await assertReachable(new URL('dev/engine', base));
 
@@ -1708,22 +2610,47 @@ export async function main(argv: string[]): Promise<number> {
     const surfaces: Surface[] = [desktop, reduced];
     let s4: S4Observation | undefined;
     let s5: S5Observation | undefined;
+    let s6: S6Observation | undefined;
     let mobile: Surface | undefined;
 
     try {
-      if (scope !== 's5') {
+      if (scope === 's4' || scope === 'all') {
         s4 = await captureS4(desktop.page, reduced.page, base, outDir);
       }
-      if (scope !== 's4') {
+      if (scope === 's5' || scope === 'all' || scope === 's6') {
         mobile = await openSurface(browser, mobileOptions(), 'mobile');
         surfaces.push(mobile);
+      }
+      if (scope === 's5' || scope === 'all') {
+        if (mobile === undefined) throw new Error('mobile surface is unavailable');
         s5 = await captureS5(desktop.page, mobile.page, reduced.page, base, outDir);
+      }
+      if (scope === 's6' || scope === 'all') {
+        if (mobile === undefined) throw new Error('mobile surface is unavailable');
+        const narrow = await openSurface(browser, narrowOptions(), 'mobile');
+        const osDark = await openSurface(browser, osDarkOptions(), 'desktop');
+        const blink = await openSurface(browser, pixelOptions(), 'mobile');
+        surfaces.push(narrow, osDark, blink);
+        s6 = await captureS6(
+          desktop.page,
+          mobile.page,
+          reduced.page,
+          narrow.page,
+          osDark.page,
+          blink,
+          base,
+          outDir,
+        );
       }
     } finally {
       await Promise.all(surfaces.map((surface) => surface.context.close()));
     }
 
-    const observation = { ...(s4 ?? {}), ...(s5 === undefined ? {} : { s5 }) };
+    const observation = {
+      ...(s4 ?? {}),
+      ...(s5 === undefined ? {} : { s5 }),
+      ...(s6 === undefined ? {} : { s6 }),
+    };
     const evaluation = evaluateProbe(observation, scope);
     report = {
       kind: 'engine-probe',

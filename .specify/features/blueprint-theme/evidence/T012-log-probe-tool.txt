@@ -1,0 +1,168 @@
+$ pnpm --filter perf-tools exec vitest run test/engine-probe.test.ts
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t012/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+   Start at  14:18:29
+   Duration  91ms (tests 63%, import 23%, transform 9%, worker 5%)
+
+
+$ pnpm engine:probe --help
+$ node tools/perf/src/cli/engine-probe.ts --help
+Usage: pnpm engine:probe <base-url> [options]
+
+Probes /dev/engine behaviour in Chromium. <base-url> must end in "/" and serve
+an out-fixtures export (for example, http://127.0.0.1:4199/).
+
+Options:
+  --out <dir>     output directory (default: .evidence/<timestamp>-engine-probe)
+  --scope <scope>  s4, s5, s6, or all (default: all)
+  --help          show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+HELP-OK
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t012/packages/xploder
+
+(node:21631) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:21633) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:21635) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:21639) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:21641) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:21643) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:21650) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:21654) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  44 passed (44)
+      Tests  380 passed (380)
+   Start at  14:18:36
+   Duration  3.93s (tests 62%, import 19%, transform 18%, worker 1%)
+
+    Isolate  44 workers spawned · ~92ms startup each (spawn + environment, per file)
+             at least ~356ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+$ pnpm --filter web test
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s06-wt/t012/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  52 passed | 2 skipped (54)
+   Start at  14:18:40
+   Duration  576ms (transform 42%, tests 31%, import 20%, worker 7%)
+
+
+$ guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+T012-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31)
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+BRIEF-HISTORY-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  74 passed (74)
+packages/xploder test:  Test Files  44 passed (44)
+packages/xploder test:       Tests  380 passed (380)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T012-OK (orchestrator full re-run)
