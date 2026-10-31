@@ -2,8 +2,10 @@ import type { RefObject } from 'react';
 
 import type { Phase } from '../../engine/explode';
 import type { RigState } from '../../engine/camera';
+import type { LookTokens } from '../../look/tokens';
 import type { ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
+import type { ComponentKind } from '../../schema/constants';
 import type { Palette } from '../../theme';
 import { CameraRig } from './CameraRig';
 import { useEmphasisDriver, type EmphasisPhase, type EmphasisState } from './Emphasis';
@@ -31,6 +33,8 @@ export interface SceneProps {
   readonly pickBridgeRef?: RefObject<PickBridgeHandle>;
   readonly scrollRef?: RefObject<HTMLDivElement | null>;
   readonly onScrollExtent?: (extent: number) => void;
+  readonly look?: LookTokens;
+  readonly kinds?: readonly ComponentKind[];
 }
 
 function defaultNow(): number {
@@ -55,6 +59,8 @@ export function Scene({
   pickBridgeRef,
   scrollRef,
   onScrollExtent,
+  look,
+  kinds,
 }: SceneProps) {
   const emphasisDriver = useEmphasisDriver({
     layout,
@@ -78,6 +84,8 @@ export function Scene({
         onSettled={onSettled}
         emphasis={emphasisDriver}
         progressRef={progressRef}
+        look={look}
+        kinds={kinds}
       />
       <CameraRig layout={layout} tokens={tokens} rig={rig} now={now} onAzimuth={onAzimuth} />
       {scrollRef === undefined ? null : (
