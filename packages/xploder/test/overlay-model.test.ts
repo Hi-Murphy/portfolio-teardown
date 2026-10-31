@@ -3,19 +3,25 @@ import { describe, expect, test } from 'vitest';
 import { parseProject, parseTechRegistry } from '../src/index';
 import { fitZoom, layoutProject, VIEW } from '../src/layout';
 import { look } from '../src/look/tokens';
+import { motion, resolveMotion } from '../src/motion';
 import { emphasis } from '../src/motion/emphasis';
 import {
   overlayLabels,
   overlayModel,
+  traceModel,
+  traceVertices,
   type OverlayLabel,
   type OverlayModel,
   type OverlayModelInput,
   type OverlayState,
+  type OverlayTourStatus,
   type OverlayViewport,
+  type TraceModel,
 } from '../src/overlay/model';
 import { placeLabels } from '../src/overlay/place';
 import { labelBox } from '../src/overlay/parts';
 import { overlayFrame, type OverlayFrame, type Vec2 } from '../src/overlay/project';
+import { traceTiming } from '../src/overlay/timing';
 import { projectAJson, techRegistryJson } from './fixtures';
 
 const registry = parseTechRegistry(techRegistryJson);
@@ -88,6 +94,27 @@ function componentName(id: string): string {
 
   if (component === undefined) throw new Error(`Missing component ${id}`);
   return component.name;
+}
+
+function traceFor(
+  status: OverlayTourStatus,
+  step: number,
+  options: { readonly offsetY?: number; readonly reduced?: boolean } = {},
+): TraceModel {
+  const offsetY = options.offsetY ?? OFFSET_Y;
+  const flow = project.flows.find((candidate) => candidate.id === 'live-update');
+
+  if (flow === undefined) throw new Error('Missing live-update flow');
+
+  return traceModel({
+    frame: frameFor(WIDE, 'exploded', offsetY),
+    flow,
+    step,
+    status,
+    offsetY,
+    tokens: resolveMotion(options.reduced ?? false),
+    look,
+  });
 }
 
 describe('overlay model visibility', () => {
@@ -255,5 +282,74 @@ describe('overlay model strokes', () => {
         .every((stroke) => stroke.role === look.annotation.dimensionRole),
     ).toBe(true);
     expect(leaderStrokes.every((stroke) => stroke.role === look.annotation.leaderRole)).toBe(true);
+  });
+});
+
+describe('overlay trace model', () => {
+  const flow = project.flows.find((candidate) => candidate.id === 'live-update');
+
+  if (flow === undefined) throw new Error('Missing live-update flow');
+
+  test('clears the trace while idle', () => {
+    const trace = traceFor('idle', 2);
+
+    expect(trace.vertices).toStrictEqual([]);
+    expect(trace.points).toStrictEqual([]);
+    expect(trace.hops).toStrictEqual([]);
+    expect(trace.pads).toStrictEqual([]);
+    expect(trace.current).toBeNull();
+    expect(trace.dot).toBe(false);
+    expect(trace.draw).toBeNull();
+    expect(trace.vertices.join(' ')).toBe('');
+  });
+
+  test('routes the path prefix through settled content-space anchors when paused', () => {
+    const trace = traceFor('paused', 2);
+    const frame = frameFor(WIDE, 'exploded', OFFSET_Y);
+    const anchors = new Map(
+      frame.components.map((component) => [component.id, component.anchor] as const),
+    );
+    const expectedPads = flow.path.slice(0, 3).map((id) => {
+      const anchor = anchors.get(id);
+
+      if (anchor === undefined) throw new Error(`Missing anchor ${id}`);
+      return anchor;
+    });
+
+    expect(trace.vertices).toStrictEqual(flow.path.slice(0, 3));
+    expect(trace.pads).toStrictEqual(expectedPads);
+    expect(trace.points[0]).toStrictEqual(expectedPads[0]);
+    expect(trace.points[trace.points.length - 1]).toStrictEqual(expectedPads[2]);
+    expect(trace.hops).toHaveLength(2);
+    expect(trace.current).toStrictEqual(expectedPads[2]);
+    expect(trace.dot).toBe(false);
+    expect(trace.draw).toStrictEqual({
+      ms: traceTiming(motion).drawMs,
+      delayMs: traceTiming(motion).delayMs,
+    });
+    expect(trace.dotPeriodMs).toBe(traceTiming(motion).dotPeriodMs);
+    expect(traceVertices('paused', flow, 2).join(' ')).toBe(
+      'beachgoer tide-chart-screen tide-view-model',
+    );
+  });
+
+  test('flags the signal dot only while playing', () => {
+    const playing = traceFor('playing', 2);
+    const paused = traceFor('paused', 2);
+    const ended = traceFor('ended', flow.path.length - 1);
+
+    expect(playing.dot).toBe(true);
+    expect(paused.dot).toBe(false);
+    expect(ended.dot).toBe(false);
+    expect(ended.vertices).toStrictEqual(flow.path);
+  });
+
+  test('uses the static twin under reduced motion', () => {
+    const trace = traceFor('playing', 2, { reduced: true });
+
+    expect(trace.draw).toBeNull();
+    expect(trace.dot).toBe(false);
+    expect(trace.dotPeriodMs).toBe(0);
+    expect(trace.vertices).toHaveLength(3);
   });
 });

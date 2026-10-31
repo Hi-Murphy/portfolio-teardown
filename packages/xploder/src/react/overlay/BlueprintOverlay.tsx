@@ -12,11 +12,18 @@ import {
 import type { ProjectLayout } from '../../layout';
 import type { LookTokens } from '../../look/tokens';
 import type { MotionTokens } from '../../motion';
-import { overlayModel, type OverlayLabel, type OverlayModel } from '../../overlay/model';
+import {
+  overlayModel,
+  traceModel,
+  type OverlayLabel,
+  type OverlayModel,
+  type TraceModel,
+} from '../../overlay/model';
 import { overlayTiming } from '../../overlay/timing';
 import type { Palette } from '../../theme';
 import type { OverlayEvent } from '../scene/OverlayProjector';
 import type { TeardownTarget, TeardownViewerHandle, ViewerProject } from '../useTeardownViewer';
+import { CircuitTrace } from './CircuitTrace';
 
 export interface BlueprintOverlayProps {
   readonly project: ViewerProject;
@@ -24,7 +31,7 @@ export interface BlueprintOverlayProps {
   readonly palette: Palette;
   readonly tokens: MotionTokens;
   readonly target: TeardownTarget;
-  readonly tour: Pick<TeardownViewerHandle['tour'], 'status'>;
+  readonly tour: Pick<TeardownViewerHandle['tour'], 'flowId' | 'status' | 'step'>;
   readonly focus: TeardownViewerHandle['focus'];
   readonly look: LookTokens;
 }
@@ -178,6 +185,25 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       });
     }, [focus, layout, look, project, settled, target, tour]);
 
+    const trace = useMemo<TraceModel | null>(() => {
+      if (settled === null) return null;
+
+      const flow =
+        tour.flowId === null
+          ? undefined
+          : project.flows?.find((candidate) => candidate.id === tour.flowId);
+
+      return traceModel({
+        frame: settled.frame,
+        flow,
+        step: tour.step,
+        status: tour.status,
+        offsetY: settled.offsetY,
+        tokens,
+        look,
+      });
+    }, [look, project.flows, settled, tokens, tour.flowId, tour.status, tour.step]);
+
     useLayoutEffect(() => {
       if (settled === null) return;
 
@@ -241,6 +267,15 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
                 }}
               />
             ))}
+            <CircuitTrace
+              active={!moving && settled !== null && tour.status !== 'idle'}
+              step={tour.step}
+              status={tour.status}
+              model={trace}
+              palette={palette}
+              tokens={tokens}
+              look={look}
+            />
           </svg>
           {(model?.labels ?? []).map((label) => (
             <span

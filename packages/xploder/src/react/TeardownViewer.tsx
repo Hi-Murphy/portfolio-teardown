@@ -17,6 +17,7 @@ import { resolveViewerLayoutOptions } from '../look/product';
 import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
+import { traceVertices } from '../overlay/model';
 import type { ComponentKind } from '../schema/constants';
 import type { Palette } from '../theme';
 import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
@@ -267,7 +268,24 @@ export function TeardownViewer({
     } else {
       element.dataset.xploderTourFlow = viewer.tour.flowId;
     }
-  }, [viewer.focus.layerId, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
+
+    const traceFlow =
+      viewer.tour.flowId === null
+        ? undefined
+        : project.flows?.find((flow) => flow.id === viewer.tour.flowId);
+
+    element.dataset.xploderTrace = traceVertices(
+      viewer.tour.status,
+      traceFlow,
+      viewer.tour.step,
+    ).join(' ');
+  }, [
+    project.flows,
+    viewer.focus.layerId,
+    viewer.tour.flowId,
+    viewer.tour.status,
+    viewer.tour.step,
+  ]);
 
   return (
     <div

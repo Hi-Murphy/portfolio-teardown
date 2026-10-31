@@ -1,5 +1,6 @@
 import type { ProjectLayout } from '../layout';
 import { look, type LookTokens } from '../look/tokens';
+import type { MotionTokens } from '../motion';
 import { emphasis } from '../motion/emphasis';
 import type { PaletteRole } from '../theme';
 
@@ -7,6 +8,8 @@ import { footprintDimension, stackDimension, type DimensionSegment } from './dim
 import { layerText, partShortText, partText } from './parts';
 import { placeLabels, type LabelKind, type PlacementLabel } from './place';
 import type { OverlayFrame, Vec2 } from './project';
+import { traceTiming } from './timing';
+import { traceRoute, type TraceHop } from './trace';
 
 export type OverlayState = 'imploded' | 'exploded';
 export type OverlayTourStatus = 'idle' | 'playing' | 'paused' | 'ended';
@@ -81,10 +84,51 @@ export interface OverlayModelInput {
   readonly look: LookTokens;
 }
 
+export interface TraceFlow {
+  readonly path: readonly string[];
+}
+
+export interface TraceDraw {
+  readonly ms: number;
+  readonly delayMs: number;
+}
+
+export interface TraceModel {
+  readonly vertices: readonly string[];
+  readonly points: readonly Vec2[];
+  readonly hops: readonly TraceHop[];
+  readonly pads: readonly Vec2[];
+  readonly current: Vec2 | null;
+  readonly dot: boolean;
+  readonly draw: TraceDraw | null;
+  readonly dotPeriodMs: number;
+}
+
+export interface TraceModelInput {
+  readonly frame: OverlayFrame;
+  readonly flow: TraceFlow | undefined;
+  readonly step: number;
+  readonly status: OverlayTourStatus;
+  readonly offsetY: number;
+  readonly tokens: MotionTokens;
+  readonly look: LookTokens;
+}
+
 interface LabelMeta {
   readonly layerIndex: number | null;
   readonly srText?: string;
 }
+
+const EMPTY_TRACE: TraceModel = {
+  vertices: [],
+  points: [],
+  hops: [],
+  pads: [],
+  current: null,
+  dot: false,
+  draw: null,
+  dotPeriodMs: 0,
+};
 
 function leftmost(corners: readonly Vec2[]): Vec2 {
   let result = corners[0];
@@ -341,5 +385,54 @@ export function overlayModel({
     strokes,
     hidden: result.hidden.length,
     shown: true,
+  };
+}
+
+export function traceVertices(
+  status: OverlayTourStatus,
+  flow: TraceFlow | undefined,
+  step: number,
+): readonly string[] {
+  return status === 'idle' || flow === undefined ? [] : flow.path.slice(0, step + 1);
+}
+
+export function traceModel(input: TraceModelInput): TraceModel {
+  const timing = traceTiming(input.tokens);
+  const flow = input.flow;
+
+  if (flow === undefined || traceVertices(input.status, flow, input.step).length === 0) {
+    return { ...EMPTY_TRACE, dotPeriodMs: timing.dotPeriodMs };
+  }
+
+  const anchors = new Map<string, Vec2>();
+
+  for (const component of input.frame.components) {
+    anchors.set(component.id, component.anchor);
+  }
+
+  const route = traceRoute(flow.path, input.step, anchors);
+
+  const pads = route.vertices.map((vertex) => {
+    const anchor = anchors.get(vertex);
+
+    if (anchor === undefined) throw new Error(`Missing overlay anchor for "${vertex}".`);
+
+    return anchor;
+  });
+  const current = pads[pads.length - 1] ?? null;
+  const draw =
+    timing.drawMs > 0 && route.hops.length > 0
+      ? { ms: timing.drawMs, delayMs: timing.delayMs }
+      : null;
+
+  return {
+    vertices: route.vertices,
+    points: route.points,
+    hops: route.hops,
+    pads,
+    current,
+    dot: input.status === 'playing' && timing.dotPeriodMs > 0 && route.hops.length > 0,
+    draw,
+    dotPeriodMs: timing.dotPeriodMs,
   };
 }
