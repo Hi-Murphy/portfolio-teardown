@@ -23,3 +23,5 @@ G3-OK
 
 ## CI follow-up (2026-10-31)
 PR #10 build job failed after the G3 push: 'keeps every label readable across the dense canvas sweep' timed out at vitest's default 30 s (43.6 s on the CI runner vs ~17 s locally). No assertion failed. Fix: explicit DENSE_SWEEP_TIMEOUT_MS = 180_000 on both dense-sweep tests (test-runner timeout, not a readability or perf threshold).
+Prettier then flagged the reformatted tests (my push skipped a failed lint exit); fixed in 378bb32.
+CI on 378bb32: all 8 checks pass — https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41194090126 · https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41194090122
