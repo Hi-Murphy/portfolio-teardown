@@ -154,129 +154,129 @@ describe('overlay label placement matrix', () => {
     },
   );
 
-  test('keeps every label readable across the dense canvas sweep', () => {
-    let cases = 0;
-    let failures = 0;
-    let fallbackLabels = 0;
-    let fallbackCases = 0;
-    let maxLeader = 0;
-    const examples: string[] = [];
+  test(
+    'keeps every label readable across the dense canvas sweep',
+    () => {
+      let cases = 0;
+      let failures = 0;
+      let fallbackLabels = 0;
+      let fallbackCases = 0;
+      let maxLeader = 0;
+      const examples: string[] = [];
 
-    function fail(context: string, detail: string): void {
-      failures += 1;
-      if (examples.length < 20) examples.push(`${context}: ${detail}`);
-    }
+      function fail(context: string, detail: string): void {
+        failures += 1;
+        if (examples.length < 20) examples.push(`${context}: ${detail}`);
+      }
 
-    for (const [fixture, project] of PROJECTS) {
-      const layout = layoutProject(project, resolveViewerLayoutOptions());
+      for (const [fixture, project] of PROJECTS) {
+        const layout = layoutProject(project, resolveViewerLayoutOptions());
 
-      for (let width = 360; width <= 1700; width += 40) {
-        for (let height = 300; height <= 1000; height += 40) {
-          const viewport = { width, height };
-          const zoom = fitZoom(layout.bounds.exploded, viewport);
+        for (let width = 360; width <= 1700; width += 40) {
+          for (let height = 300; height <= 1000; height += 40) {
+            const viewport = { width, height };
+            const zoom = fitZoom(layout.bounds.exploded, viewport);
 
-          for (const azimuth of AZIMUTHS) {
-            cases += 1;
+            for (const azimuth of AZIMUTHS) {
+              cases += 1;
 
-            const frame = overlayFrame(layout, 1, { azimuth, zoom, ...viewport });
-            const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
-            const result = placeLabels(
-              labels,
-              frame.components.map((component) => component.hull),
-              viewport,
-              look,
-            );
-            const azimuthDegrees = Math.round((azimuth * 180) / Math.PI);
-            const context = `${fixture} ${azimuthDegrees}deg ${width}x${height}`;
-
-            fallbackLabels += result.fellBack.length;
-            if (result.fellBack.length > 0) fallbackCases += 1;
-
-            if (
-              result.hidden.length > 0 ||
-              result.offscreen.length > 0 ||
-              result.placements.length !== labels.length
-            ) {
-              fail(
-                context,
-                `hidden=[${result.hidden.join(',')}] offscreen=[${result.offscreen.join(',')}]`,
+              const frame = overlayFrame(layout, 1, { azimuth, zoom, ...viewport });
+              const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
+              const result = placeLabels(
+                labels,
+                frame.components.map((component) => component.hull),
+                viewport,
+                look,
               );
-              continue;
-            }
+              const azimuthDegrees = Math.round((azimuth * 180) / Math.PI);
+              const context = `${fixture} ${azimuthDegrees}deg ${width}x${height}`;
 
-            maxLeader = Math.max(maxLeader, maximumLeaderLength(result.placements));
-
-            for (const placement of result.placements) {
-              const placementBox = box(placement);
+              fallbackLabels += result.fellBack.length;
+              if (result.fellBack.length > 0) fallbackCases += 1;
 
               if (
-                placement.x < VIEWPORT_INSET_PX ||
-                placement.y < VIEWPORT_INSET_PX ||
-                placement.x + placement.w > viewport.width - VIEWPORT_INSET_PX ||
-                placement.y + placement.h > viewport.height - VIEWPORT_INSET_PX
+                result.hidden.length > 0 ||
+                result.offscreen.length > 0 ||
+                result.placements.length !== labels.length
               ) {
-                fail(context, `${placement.key} outside viewport`);
+                fail(
+                  context,
+                  `hidden=[${result.hidden.join(',')}] offscreen=[${result.offscreen.join(',')}]`,
+                );
+                continue;
               }
 
-              if (
-                frame.components.some((component) =>
-                  rectIntersectsPolygon(placementBox, component.hull),
-                )
-              ) {
-                fail(context, `${placement.key} intersects a hull`);
+              maxLeader = Math.max(maxLeader, maximumLeaderLength(result.placements));
+
+              for (const placement of result.placements) {
+                const placementBox = box(placement);
+
+                if (
+                  placement.x < VIEWPORT_INSET_PX ||
+                  placement.y < VIEWPORT_INSET_PX ||
+                  placement.x + placement.w > viewport.width - VIEWPORT_INSET_PX ||
+                  placement.y + placement.h > viewport.height - VIEWPORT_INSET_PX
+                ) {
+                  fail(context, `${placement.key} outside viewport`);
+                }
+
+                if (
+                  frame.components.some((component) =>
+                    rectIntersectsPolygon(placementBox, component.hull),
+                  )
+                ) {
+                  fail(context, `${placement.key} intersects a hull`);
+                }
               }
-            }
 
-            for (let leftIndex = 0; leftIndex < result.placements.length; leftIndex += 1) {
-              const left = result.placements[leftIndex];
+              for (let leftIndex = 0; leftIndex < result.placements.length; leftIndex += 1) {
+                const left = result.placements[leftIndex];
 
-              if (left === undefined) continue;
+                if (left === undefined) continue;
 
-              for (
-                let rightIndex = leftIndex + 1;
-                rightIndex < result.placements.length;
-                rightIndex += 1
-              ) {
-                const right = result.placements[rightIndex];
+                for (
+                  let rightIndex = leftIndex + 1;
+                  rightIndex < result.placements.length;
+                  rightIndex += 1
+                ) {
+                  const right = result.placements[rightIndex];
 
-                if (right !== undefined && rectsIntersect(box(left), box(right))) {
-                  fail(context, `${left.key} overlaps ${right.key}`);
+                  if (right !== undefined && rectsIntersect(box(left), box(right))) {
+                    fail(context, `${left.key} overlaps ${right.key}`);
+                  }
                 }
               }
             }
           }
         }
       }
-    }
 
-    console.log(
-      `dense placement sweep: cases=${cases} failures=${failures} maxLeader=${maxLeader.toFixed(2)}px fallbackLabels=${fallbackLabels} fallbackCases=${fallbackCases}`,
-    );
-
-    expect(examples).toStrictEqual([]);
-    expect(failures).toBe(0);
-  }, 30_000);
-
-  test(
-    'is deterministic for identical input',
-    () => {
-      const project = PROJECTS[0][1];
-      const layout = layoutProject(project, resolveViewerLayoutOptions());
-      const viewport = VIEWPORTS[2];
-      const frame = overlayFrame(layout, 1, {
-        azimuth: VIEW.baseAzimuth,
-        zoom: fitZoom(layout.bounds.exploded, viewport),
-        ...viewport,
-      });
-      const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
-      const obstacles = frame.components.map((component) => component.hull);
-
-      expect(placeLabels(labels, obstacles, viewport, look)).toStrictEqual(
-        placeLabels(labels, obstacles, viewport, look),
+      console.log(
+        `dense placement sweep: cases=${cases} failures=${failures} maxLeader=${maxLeader.toFixed(2)}px fallbackLabels=${fallbackLabels} fallbackCases=${fallbackCases}`,
       );
+
+      expect(examples).toStrictEqual([]);
+      expect(failures).toBe(0);
     },
     DENSE_SWEEP_TIMEOUT_MS,
   );
+
+  test('is deterministic for identical input', () => {
+    const project = PROJECTS[0][1];
+    const layout = layoutProject(project, resolveViewerLayoutOptions());
+    const viewport = VIEWPORTS[2];
+    const frame = overlayFrame(layout, 1, {
+      azimuth: VIEW.baseAzimuth,
+      zoom: fitZoom(layout.bounds.exploded, viewport),
+      ...viewport,
+    });
+    const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
+    const obstacles = frame.components.map((component) => component.hull);
+
+    expect(placeLabels(labels, obstacles, viewport, look)).toStrictEqual(
+      placeLabels(labels, obstacles, viewport, look),
+    );
+  });
 
   test('reports off-screen anchors separately at 3x zoom and keeps placed boxes apart', () => {
     const project = PROJECTS[0][1];
