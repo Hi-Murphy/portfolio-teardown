@@ -1,0 +1,28 @@
+# S06 Blueprint Theme Applied — AC1–AC6 self-check
+
+**Branch:** `task/s06-blueprint-theme` · **PR:** #10 · **Date:** 2026-10-31 · **Brief:** `.specify/slices/slice-06-blueprint-theme.md` (frozen v1, unchanged: `T016-log-surface-diff.txt`)
+
+All paths are relative to `.specify/features/blueprint-theme/evidence/`. Each verdict is backed by a machine-made artifact (`.specify/EVIDENCE.md`).
+
+| AC | Criterion (verbatim) | Evidence | Verdict |
+|---|---|---|---|
+| AC1 | light default and dark alternate render the blueprint palette with toggle + OS preference/no-flash preserved; palette colors come only from tokens (hex exclusivity green). | Probe `T013-engine-probe.json`: `bp-fill-near-paper-light` (fill ΔE 12.2 to paper vs 65.6 to line), `bp-fill-near-paper-dark` (18.9 vs 50.5), `bp-edge-ink-light/-dark` (closest ΔE 0 to `line`), `bp-toggle-switches`, `bp-os-dark-first-paint` (background ΔE 0 to dark paper on the first screenshot, empty storage) · parity table for both palettes `T002-log-fills.txt` · hex scanner with every S6 file in its non-vacuity list + negative control `T011-log-scanners.txt` · screenshots `T014-screenshot-*-{light,dark}-*.png` · S1 theme script, toggle and `usePalette` untouched | ✅ |
+| AC2 | slabs have crisp blueprint edge/outline treatment and semantic category accents; no texture assets; 2 draw calls on fixture A remain. | Patched `MeshLambertMaterial` (constant-pixel UV edges, kind fills, no textures, no tone mapping): `T007-log-material.txt`, `T007a-log-material-fix.txt` (before/after screenshots) · `bp-kind-distinct` ΔE 15.1 (store vs service) · draw calls **2** at rest (`fixture-a-draw-calls`), **2** mid-tour (`draw-calls-mid-tour`), **2** in `T015-fps.json` | ✅ |
+| AC3 | layer labels, part numbers, and dimension/callout overlays are selectable HTML/SVG, readable at 360px+, and do not contribute CLS; screenshots prove light+dark readability. | Dense placement sweep (canvas 360–1700 × 300–1000, A/B/C × 4 azimuths): **0 hidden / 0 overlaps / 0 part hits**, exploded labels and imploded title block (`T014a-log-placement-sweep.txt`; round-1 gap of 680/19 836 cases fixed, RFC §9.11) · probe `overlay-360-boxes`, `overlay-selectable`, `overlay-colors-light/-dark`, `overlay-hit-through`, `overlay-default-*` (12 checks), `overlay-no-blink` (0 blink frames at 4× CPU throttle) · **CLS:** `overlay-cls-zero` = 0 entries, `cls-zero` total 0 · screenshots `T013-screenshot-overlay-360-{light,dark}-{a,c}-{exploded,imploded}.png`, `T014-screenshot-{mobile,desktop}-{light,dark}-{imploded,exploded}.png` | ✅ |
+| AC4 | tour circuit trace/pulse follows actual flow component order; reduced-motion produces an instant/static equivalent; motion exclusivity green. | `traceRoute` order = path prefix for every step of A×2, B, C×2 (`T006-log-trace.txt`) · probe `trace-order-a-live-update`, `-a-offline-read`, `-c-pickup-ready`, `-c-push-failed`, `trace-stop-clears` · `rm-trace-static` (0 animations, trace present) · motion scanner with S6 non-vacuity + negative control (`T011-log-scanners.txt`) · screenshots `T013-screenshot-trace-{a,c}.png`, `T013-screenshot-rm-trace.png`, `T014-screenshot-*-tour.png` | ✅ |
+| AC5 | product `explodedGap` is explicitly decided in RFC; default-angle evidence shows all required fixture A/C components reachable/visible; S5 zoom-scroll AC7 remains green (top+bottom max-zoom evidence). | RFC D9: **product default 2.0** at the viewer level (S4 `LAYOUT_DEFAULTS` 1.1 untouched); sweep `RFC-log-occlusion-gap-sweep.txt` · **named occlusions at the default 45°:** `tide-repository` 0% → **88%**, `booking-service` 0% → **66%**, `notifier` 0% → **88%**; every A/C component ≥ 66% at all four snaps (`T003-log-product-gap.txt`) · reachable: `default-gap-hitmap-a` (8/8), `default-gap-hitmap-c` (13/13) · AC7: `scroll-top-reaches-top-layer`, `scroll-bottom-reaches-bottom-layer`, `scroll-camera-still` at max zoom 3× · screenshots `T013-screenshot-default-gap-{a,c}.png`, `T013-screenshot-scroll-{top,bottom}.png` | ✅ |
+| AC6 | full CI green on PR (build/typecheck/lint/test, gitleaks, lighthouse, weight, fps calibration, fixture exclusion); S2/S4/S5 frozen-surface checks remain empty; zero CLS contribution from theme overlays. | `T016-ci.txt` (all 8 PR checks pass) · `T016-log-surface-diff.txt`: S2/S4 diff vs `53b2b2b` empty, S5 diff vs `f31600e` empty, brief and kickoff unchanged · the hash-manifest tests for both surfaces run in CI (`frozen-surface.test.ts`) · overlay CLS 0 (AC3 row) · gitleaks false positive handled with one fingerprint (`G2-log-gitleaks-false-positive.txt`) | ✅ |
+
+## Perf (dropped-frames doctrine)
+
+`T015-fps.json`, tour playing on fixture A: **0 dropped frames over 5.05 s**, liveness band true, 3 tour steps advanced, 2 draw calls. Raw fps 59.4, rAF 60.0, intervals p50 16.7 / p95 17.9 / max 19.4 ms are information only. No literal fps threshold appears in any check.
+
+## Execution record
+
+Ledger: `../tasks.md`. Every task was finished by tier 1 (DeepSeek Flash); tier 1.5 was dormant and skipped. Orchestrator review fixes: T005 search cap, T007a (tone mapping + StrictMode uniforms), T009 label background, T011b pending settle. G2 feedback added T011a (imploded title block) and T011b (blink fix). G3 findings added T014a (placement at every canvas size). No Flash task failed twice.
+
+## Needs Murphy's hands
+
+1. Final validation in Orca's browser via `pnpm dev` → `/dev/engine` (the route is excluded from previews and production): both palettes, callout readability, tour trace, title block when imploded.
+2. "merge" when satisfied.
+3. Carry-over noted, not in S6 scope: on a phone, S5's tour caption sits over the top layer (candidate for S8/S10).

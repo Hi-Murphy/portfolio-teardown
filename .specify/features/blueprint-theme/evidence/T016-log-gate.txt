@@ -1,0 +1,17 @@
+# T016 — final local gate (2026-10-31, HEAD 2fa5333)
+install --frozen-lockfile exit=0
+typecheck exit=0
+lint+format exit=0
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  75 passed (75)
+packages/xploder test:  Test Files  44 passed (44)
+packages/xploder test:       Tests  385 passed (385)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  53 passed | 1 skipped (54)
+test exit=0
+build exit=0
+✓ Compiled successfully in 349ms
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+○  (Static)  prerendered as static content
