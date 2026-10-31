@@ -29,9 +29,9 @@
 | T013 | ☑ 104/104 | 1 (Flash, sandbox off; driver-only fixes reviewed); 1st dispatch lost to an orchestrator cwd error (not an executor failure) | evidence/T013-{engine-probe.json,log-probe.txt,screenshot-*.png} | d0ffdc8 |
 | T014 | ☑ 16 shots (round 2) | 1 (Flash, sandbox off) | evidence/T014-{log-matrix.txt,screenshot-*.png,meta-*.json} | 4e68a4d |
 | T015 | ☑ 0 dropped / 5.05 s, 2 calls | 1 (Flash, sandbox off, alone) | evidence/T015-{fps.json,log-fps.txt,screenshot-desktop.png,meta.json} | 635b0c2 |
-| T016a | ☐ (final validation: crash) | | | |
-| T016b | ☐ (final validation: callout columns) | | | |
-| T016c | ☐ (evidence re-run) | | | |
+| T016a | ☑ (crash fixed; 0 errors / 72 switches) | 1 (Flash, sandbox on) + orchestrator browser before/after | evidence/T016a-log-switch.txt | acd7b16 |
+| T016b | ☑ (columns + tags; sweep 0 failures) | 1 (Flash, sandbox on) + orchestrator screenshots + 2 DOM observables | evidence/T016b-{log-callouts.txt,screenshot-*.png} | 14a9966 |
+| T016c | ☑ probe 105/105, 16 shots, FPS 0 dropped | 1 (Flash, sandbox off; stopped correctly on run1) + orchestrator blink-metric refinement + official runs | evidence/T016c-* | a298a42 |
 | T016 | ☑ PR #10 ready, 8/8 CI green; waiting for "merge" | ⚑ orchestrator | evidence/{T016-ci.txt,T016-log-gate.txt,T016-log-surface-diff.txt,AC-selfcheck.md} | c186765 (CI head) |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specify/features/blueprint-theme/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
@@ -340,7 +340,7 @@ New scope `s6` (CLI `--scope s6`; `all` = s4 + s5 + s6). Every S4/S5 check stays
 | `rm-trace-static` | `reducedMotion: 'reduce'`, tour playing: at two different steps the trace is present and `[data-xploder-overlay]`'s `getAnimations({ subtree: true })` is empty |
 | `default-gap-hitmap-a` / `-c` | the existing hit-map sweep, exploded at 45°, playground without `layoutOptions`: every component of A and of C is hit |
 | `draw-calls-mid-tour` | A, tour playing: draw calls = 2 |
-| `overlay-no-blink` | Pixel 7 emulation, CPU throttle 4×, 4 implode/explode toggles, rAF sampling from the click: 0 frames with overlay opacity > 0 and label/title-block elements before the phase reaches the target; the overlay is `shown` 2.5 s after each click |
+| `overlay-no-blink` | Pixel 7 emulation, CPU throttle 4×, 4 implode/explode toggles, rAF sampling from the frame in which the click is committed (toggle label flipped; refined in T016c, RFC §9.13.3): 0 frames with overlay opacity > 0 and label/title-block elements before the phase reaches the target; the overlay is `shown` 2.5 s after each click |
 
 ### T013 [P] [US1] [US2] [US3] [US4] Probe evidence run (all S4/S5/S6 checks, incl. AC7 scroll)
 
