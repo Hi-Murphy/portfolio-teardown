@@ -184,70 +184,76 @@ describe('imploded title block placement matrix', () => {
     },
   );
 
-  test('keeps every title block readable across the dense canvas sweep', () => {
-    let cases = 0;
-    let failures = 0;
-    const examples: string[] = [];
+  test(
+    'keeps every title block readable across the dense canvas sweep',
+    () => {
+      let cases = 0;
+      let failures = 0;
+      const examples: string[] = [];
 
-    function fail(context: string, detail: string): void {
-      failures += 1;
-      if (examples.length < 20) examples.push(`${context}: ${detail}`);
-    }
+      function fail(context: string, detail: string): void {
+        failures += 1;
+        if (examples.length < 20) examples.push(`${context}: ${detail}`);
+      }
 
-    for (const [fixture, project] of PROJECTS) {
-      const layout = layoutProject(project, resolveViewerLayoutOptions());
-      const lines = titleBlockLines(project, layout);
+      for (const [fixture, project] of PROJECTS) {
+        const layout = layoutProject(project, resolveViewerLayoutOptions());
+        const lines = titleBlockLines(project, layout);
 
-      for (let width = 360; width <= 1700; width += 40) {
-        for (let height = 300; height <= 1000; height += 40) {
-          const viewport = { width, height };
-          const zoom = fitZoom(layout.bounds.exploded, viewport);
+        for (let width = 360; width <= 1700; width += 40) {
+          for (let height = 300; height <= 1000; height += 40) {
+            const viewport = { width, height };
+            const zoom = fitZoom(layout.bounds.exploded, viewport);
 
-          for (const azimuth of AZIMUTHS) {
-            cases += 1;
+            for (const azimuth of AZIMUTHS) {
+              cases += 1;
 
-            const frame = overlayFrame(layout, 0, { azimuth, zoom, ...viewport });
-            const result = placeTitleBlockResponsive(lines, frame, viewport, look);
-            const azimuthDegrees = Math.round((azimuth * 180) / Math.PI);
-            const context = `${fixture} ${azimuthDegrees}deg ${width}x${height}`;
+              const frame = overlayFrame(layout, 0, { azimuth, zoom, ...viewport });
+              const result = placeTitleBlockResponsive(lines, frame, viewport, look);
+              const azimuthDegrees = Math.round((azimuth * 180) / Math.PI);
+              const context = `${fixture} ${azimuthDegrees}deg ${width}x${height}`;
 
-            if (result === null) {
-              fail(context, 'no corner');
-              continue;
-            }
+              if (result === null) {
+                fail(context, 'no corner');
+                continue;
+              }
 
-            const { placement, columns } = result;
-            const box = titleBlockBox(lines, look, columns);
+              const { placement, columns } = result;
+              const box = titleBlockBox(lines, look, columns);
 
-            if (
-              placement.x < look.titleBlock.insetPx ||
-              placement.y < look.titleBlock.insetPx ||
-              placement.x + placement.w > viewport.width - look.titleBlock.insetPx ||
-              placement.y + placement.h > viewport.height - look.titleBlock.insetPx
-            ) {
-              fail(context, 'outside viewport');
-            }
+              if (
+                placement.x < look.titleBlock.insetPx ||
+                placement.y < look.titleBlock.insetPx ||
+                placement.x + placement.w > viewport.width - look.titleBlock.insetPx ||
+                placement.y + placement.h > viewport.height - look.titleBlock.insetPx
+              ) {
+                fail(context, 'outside viewport');
+              }
 
-            if (placement.w !== box.w || placement.h !== box.h) {
-              fail(context, 'box size drift');
-            }
+              if (placement.w !== box.w || placement.h !== box.h) {
+                fail(context, 'box size drift');
+              }
 
-            if (
-              frame.components.some((component) => rectIntersectsPolygon(placement, component.hull))
-            ) {
-              fail(context, 'component hull intersection');
-            }
+              if (
+                frame.components.some((component) =>
+                  rectIntersectsPolygon(placement, component.hull),
+                )
+              ) {
+                fail(context, 'component hull intersection');
+              }
 
-            if (frame.layers.some((layer) => rectIntersectsPolygon(placement, layer.corners))) {
-              fail(context, 'layer hull intersection');
+              if (frame.layers.some((layer) => rectIntersectsPolygon(placement, layer.corners))) {
+                fail(context, 'layer hull intersection');
+              }
             }
           }
         }
       }
-    }
 
-    console.log(`dense title block sweep: cases=${cases} failures=${failures}`);
-    expect(examples).toStrictEqual([]);
-    expect(failures).toBe(0);
-  }, DENSE_SWEEP_TIMEOUT_MS);
+      console.log(`dense title block sweep: cases=${cases} failures=${failures}`);
+      expect(examples).toStrictEqual([]);
+      expect(failures).toBe(0);
+    },
+    DENSE_SWEEP_TIMEOUT_MS,
+  );
 });

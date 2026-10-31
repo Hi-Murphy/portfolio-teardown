@@ -257,22 +257,26 @@ describe('overlay label placement matrix', () => {
     expect(failures).toBe(0);
   }, 30_000);
 
-  test('is deterministic for identical input', () => {
-    const project = PROJECTS[0][1];
-    const layout = layoutProject(project, resolveViewerLayoutOptions());
-    const viewport = VIEWPORTS[2];
-    const frame = overlayFrame(layout, 1, {
-      azimuth: VIEW.baseAzimuth,
-      zoom: fitZoom(layout.bounds.exploded, viewport),
-      ...viewport,
-    });
-    const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
-    const obstacles = frame.components.map((component) => component.hull);
+  test(
+    'is deterministic for identical input',
+    () => {
+      const project = PROJECTS[0][1];
+      const layout = layoutProject(project, resolveViewerLayoutOptions());
+      const viewport = VIEWPORTS[2];
+      const frame = overlayFrame(layout, 1, {
+        azimuth: VIEW.baseAzimuth,
+        zoom: fitZoom(layout.bounds.exploded, viewport),
+        ...viewport,
+      });
+      const labels = overlayLabels(frame, layout, project, viewport, 'exploded');
+      const obstacles = frame.components.map((component) => component.hull);
 
-    expect(placeLabels(labels, obstacles, viewport, look)).toStrictEqual(
-      placeLabels(labels, obstacles, viewport, look),
-    );
-  }, DENSE_SWEEP_TIMEOUT_MS);
+      expect(placeLabels(labels, obstacles, viewport, look)).toStrictEqual(
+        placeLabels(labels, obstacles, viewport, look),
+      );
+    },
+    DENSE_SWEEP_TIMEOUT_MS,
+  );
 
   test('reports off-screen anchors separately at 3x zoom and keeps placed boxes apart', () => {
     const project = PROJECTS[0][1];
