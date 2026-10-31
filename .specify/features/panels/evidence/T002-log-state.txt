@@ -1,0 +1,276 @@
+$ pnpm --filter xploder exec vitest run test/panel-state.test.ts --reporter verbose 2>&1 | tee /tmp/s07-checks/t002.txt
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t002/packages/xploder
+
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(X) 1ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(X) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(X) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > openDetail for the current component is a no-op 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > closed returns false 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > detail returns true 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > caseStudy returns true 0ms
+ ✓ test/panel-state.test.ts > panel state sequence > opens, switches, closes on the same slab, and toggles the case study 0ms
+
+ Test Files  1 passed (1)
+      Tests  35 passed (35)
+   Start at  06:29:49
+   Duration  65ms (import 44%, tests 25%, transform 19%, worker 12%, environment 1%)
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t002/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:24731) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:24733) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t002/tools/perf
+tools/perf test: 
+packages/xploder test: (node:24735) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test:  ❯ test/serve.test.ts (5 tests | 5 skipped) 130ms
+tools/perf test:  ❯ test/reach.test.ts (3 tests | 3 skipped) 49ms
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:24753) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:24755) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:24758) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:24768) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:24779) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: Error: listen EPERM: operation not permitted 127.0.0.1
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/reach.test.ts:21:17
+tools/perf test:      19|
+tools/perf test:      20| afterAll(async () => {
+tools/perf test:      21|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      22|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      23| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/serve.test.ts:67:17
+tools/perf test:      65|
+tools/perf test:      66| afterAll(async () => {
+tools/perf test:      67|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      68|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      69| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+tools/perf test: 
+tools/perf test: 
+tools/perf test:  Test Files  2 failed | 10 passed (12)
+tools/perf test:       Tests  68 passed | 8 skipped (76)
+tools/perf test:    Start at  06:29:59
+tools/perf test:    Duration  1.54s (import 68%, transform 26%, tests 6%, worker 1%)
+tools/perf test: 
+tools/perf test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+packages/xploder test: Failed
+[ELIFECYCLE] Command failed with signal SIGKILL.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t002/tools/perf
+
+[ELIFECYCLE] Test failed. See above for more details.
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t002/packages/xploder
+
+(node:24856) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24854) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24858) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:24867) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24876) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24878) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24887) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24890) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  46 passed (46)
+      Tests  433 passed (433)
+   Start at  06:30:06
+   Duration  6.57s (tests 80%, import 14%, transform 5%, worker 1%)
+
+    Isolate  46 workers spawned · ~92ms startup each (spawn + environment, per file)
+             at least ~377ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+SANDBOX NOTE: The recursive pnpm test failed only in tools/perf because the sandbox forbids binding 127.0.0.1 (listen EPERM); that failure also SIGKILLed the concurrent xploder worker. The isolated xploder suite above passes 46 files / 433 tests, and the recursive log shows tools/perf 10 files / 68 tests passed with 8 skipped. This is the documented sandbox environment limit; the orchestrator will rerun the full gate outside the sandbox.
+
+--- Format & rules guards ---
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+$ echo T002-OK
+T002-OK
