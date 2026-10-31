@@ -1,0 +1,4 @@
+{ "task": "T009", "date": "2026-10-31", "target": "http://localhost:3000/dev/engine?fixture=a|c&state=exploded (pnpm --filter web dev, local)",
+  "tool": "Playwright Chromium (tools/perf dependency) via /tmp script; viewport 360x740 (mobile) and 1280x800 (desktop), deviceScaleFactor 1, colorScheme light|dark",
+  "note": "Executor sandbox could not bind port 3000 (listen EPERM); the orchestrator ran the screenshot step. Playground still passes explodedGap 2 until T011 removes the override.",
+  "exitCode": 0 }

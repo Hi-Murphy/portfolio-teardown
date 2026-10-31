@@ -19,9 +19,11 @@ import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
 import type { ComponentKind } from '../schema/constants';
 import type { Palette } from '../theme';
+import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
 import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
 import { Scene } from './scene/Scene';
 import type { EmphasisPhase, EmphasisState } from './scene/Emphasis';
+import type { OverlayEvent } from './scene/OverlayProjector';
 import type { PickBridgeHandle } from './scene/PickBridge';
 import type { ViewerStats } from './scene/Stats';
 import { usePointerPick } from './usePointerPick';
@@ -91,6 +93,7 @@ export function TeardownViewer({
 }: TeardownViewerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<BlueprintOverlayHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const publishedExtentRef = useRef(0);
@@ -138,6 +141,14 @@ export function TeardownViewer({
 
     publishedExtentRef.current = extent;
     setScrollExtentPx(extent);
+  }, []);
+
+  const onOverlay = useCallback((event: OverlayEvent) => {
+    overlayRef.current?.update(event);
+  }, []);
+
+  const onOverlayScroll = useCallback((offsetY: number) => {
+    overlayRef.current?.setScroll(offsetY);
   }, []);
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
@@ -297,8 +308,21 @@ export function TeardownViewer({
               onScrollExtent={onScrollExtent}
               look={look}
               kinds={kinds}
+              onOverlay={onOverlay}
+              onOverlayScroll={onOverlayScroll}
             />
           </Canvas>
+          <BlueprintOverlay
+            ref={overlayRef}
+            project={project}
+            layout={layout}
+            palette={resolvedPalette}
+            tokens={tokens}
+            target={viewer.target}
+            tour={viewer.tour}
+            focus={viewer.focus}
+            look={look}
+          />
         </div>
         <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
       </div>

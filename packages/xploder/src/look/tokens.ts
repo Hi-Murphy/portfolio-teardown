@@ -27,6 +27,7 @@ export interface LookTokens {
     readonly leaderRole: PaletteRole;
     readonly balloonRole: PaletteRole;
     readonly balloonFillRole: PaletteRole;
+    readonly labelFillRole: PaletteRole;
   };
   readonly trace: {
     readonly role: PaletteRole;
@@ -63,6 +64,7 @@ export const look = {
     leaderRole: 'lineMuted',
     balloonRole: 'line',
     balloonFillRole: 'surface',
+    labelFillRole: 'paper',
   },
   trace: { role: 'accent', casingRole: 'paper', strokePx: 2, casingPx: 2, padPx: 3 },
 } as const satisfies LookTokens;
