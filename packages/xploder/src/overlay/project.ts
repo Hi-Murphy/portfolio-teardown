@@ -68,7 +68,7 @@ function cross(origin: Vec2, left: Vec2, right: Vec2): number {
   );
 }
 
-function convexHull(points: readonly Vec2[]): readonly Vec2[] {
+export function convexHull(points: readonly Vec2[]): readonly Vec2[] {
   const sorted = [...points].sort((left, right) => left[0] - right[0] || left[1] - right[1]);
   const unique: Vec2[] = [];
 

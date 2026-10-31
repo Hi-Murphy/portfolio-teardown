@@ -125,7 +125,10 @@ describe('overlay label placement matrix', () => {
             const azimuthDegrees = Math.round((azimuth * 180) / Math.PI);
             const context = `${fixture} ${azimuthDegrees}deg ${state} ${viewport.width}x${viewport.height}`;
 
-            if (
+            if (state === 'imploded') {
+              expect(labels).toStrictEqual([]);
+              expect(result.placements).toStrictEqual([]);
+            } else if (
               result.hidden.length > 0 ||
               result.offscreen.length > 0 ||
               result.placements.length !== labels.length

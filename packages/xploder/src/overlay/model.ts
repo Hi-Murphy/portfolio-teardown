@@ -9,12 +9,17 @@ import { layerText, partShortText, partText } from './parts';
 import { placeLabels, type LabelKind, type PlacementLabel } from './place';
 import type { OverlayFrame, Vec2 } from './project';
 import { traceTiming } from './timing';
+import { placeTitleBlock, titleBlockBox, titleBlockLines } from './titleBlock';
 import { traceRoute, type TraceHop } from './trace';
 
 export type OverlayState = 'imploded' | 'exploded';
 export type OverlayTourStatus = 'idle' | 'playing' | 'paused' | 'ended';
 
 export interface OverlayProject {
+  readonly meta: {
+    readonly slug: string;
+    readonly name?: string;
+  };
   readonly layers: readonly {
     readonly id: string;
     readonly name?: string;
@@ -65,9 +70,26 @@ export interface OverlayStroke {
   readonly opacity: number;
 }
 
+export interface OverlayTitleBlockRow {
+  readonly layerIndex: number;
+  readonly text: string;
+  readonly opacity: number;
+}
+
+export interface OverlayTitleBlock {
+  readonly x: number;
+  readonly y: number;
+  readonly w: number;
+  readonly h: number;
+  readonly title: string;
+  readonly meta: string;
+  readonly rows: readonly OverlayTitleBlockRow[];
+}
+
 export interface OverlayModel {
   readonly labels: readonly OverlayLabel[];
   readonly strokes: readonly OverlayStroke[];
+  readonly titleBlock: OverlayTitleBlock | null;
   readonly hidden: number;
   readonly shown: boolean;
 }
@@ -151,6 +173,8 @@ export function overlayLabels(
   viewport: { readonly width: number },
   state: OverlayState,
 ): readonly PlacementLabel[] {
+  if (state === 'imploded') return [];
+
   const labels: PlacementLabel[] = [];
 
   frame.layers.forEach((layerFrame, layerIndex) => {
@@ -262,10 +286,46 @@ export function overlayModel({
   look,
 }: OverlayModelInput): OverlayModel {
   if (tour.status !== 'idle') {
-    return { labels: [], strokes: [], hidden: 0, shown: false };
+    return { labels: [], strokes: [], titleBlock: null, hidden: 0, shown: false };
   }
 
   const viewportFrame = shiftFrame(frame, -offsetY);
+  const focusActive = focus.layerId !== null && !focus.suspended;
+  const opacityForLayer = (layerIndex: number | null): number => {
+    if (!focusActive || layerIndex === null) return 1;
+
+    return project.layers[layerIndex]?.id === focus.layerId ? 1 : emphasis.dim.level;
+  };
+
+  if (target === 'imploded') {
+    const lines = titleBlockLines(project, layout);
+    const placement = placeTitleBlock(titleBlockBox(lines, look), viewportFrame, viewport, look);
+
+    if (placement === null) {
+      return { labels: [], strokes: [], titleBlock: null, hidden: 0, shown: false };
+    }
+
+    return {
+      labels: [],
+      strokes: [],
+      titleBlock: {
+        x: placement.x,
+        y: placement.y + offsetY,
+        w: placement.w,
+        h: placement.h,
+        title: lines.title,
+        meta: lines.meta,
+        rows: lines.rows.map((text, layerIndex) => ({
+          layerIndex,
+          text,
+          opacity: opacityForLayer(layerIndex),
+        })),
+      },
+      hidden: 0,
+      shown: true,
+    };
+  }
+
   const labels = overlayLabels(viewportFrame, layout, project, viewport, target);
   const wide = viewport.width >= look.annotation.wideMinPx;
   const meta = new Map<string, LabelMeta>();
@@ -290,12 +350,6 @@ export function overlayModel({
     viewport,
     look,
   );
-  const focusActive = focus.layerId !== null && !focus.suspended;
-  const opacityForLayer = (layerIndex: number | null): number => {
-    if (!focusActive || layerIndex === null) return 1;
-
-    return project.layers[layerIndex]?.id === focus.layerId ? 1 : emphasis.dim.level;
-  };
   const renderLabels = result.placements.map((placement): OverlayLabel => {
     const labelMeta = meta.get(placement.key);
 
@@ -383,6 +437,7 @@ export function overlayModel({
   return {
     labels: renderLabels,
     strokes,
+    titleBlock: null,
     hidden: result.hidden.length,
     shown: true,
   };

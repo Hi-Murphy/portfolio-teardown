@@ -39,6 +39,7 @@ const S06_SOURCE_FILES = [
   'overlay/trace.ts',
   'overlay/timing.ts',
   'overlay/model.ts',
+  'overlay/titleBlock.ts',
   'react/scene/blueprintMaterial.ts',
   'react/scene/OverlayProjector.tsx',
   'react/overlay/BlueprintOverlay.tsx',

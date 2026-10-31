@@ -17,6 +17,7 @@ import {
   traceModel,
   type OverlayLabel,
   type OverlayModel,
+  type OverlayTitleBlock,
   type TraceModel,
 } from '../../overlay/model';
 import { overlayTiming } from '../../overlay/timing';
@@ -34,6 +35,7 @@ export interface BlueprintOverlayProps {
   readonly tour: Pick<TeardownViewerHandle['tour'], 'flowId' | 'status' | 'step'>;
   readonly focus: TeardownViewerHandle['focus'];
   readonly look: LookTokens;
+  readonly onTitleBlockShown?: (shown: boolean) => void;
 }
 
 export interface BlueprintOverlayHandle {
@@ -129,8 +131,34 @@ function labelStyle(
   return style;
 }
 
+function titleBlockStyle(
+  titleBlock: OverlayTitleBlock,
+  palette: Palette,
+  look: LookTokens,
+): CSSProperties {
+  return {
+    position: 'absolute',
+    boxSizing: 'border-box',
+    width: titleBlock.w,
+    height: titleBlock.h,
+    padding: `${look.annotation.padYPx}px ${look.annotation.padXPx}px`,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    pointerEvents: 'auto',
+    userSelect: 'text',
+    transform: `translate(${titleBlock.x}px, ${titleBlock.y}px)`,
+    transformOrigin: 'top left',
+    font: `${look.annotation.fontPx}px/${look.annotation.lineEm} var(--font-mono, ui-monospace, monospace)`,
+    background: palette[look.titleBlock.fillRole],
+    border: `1px solid ${palette[look.titleBlock.borderRole]}`,
+  };
+}
+
 export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOverlayProps>(
-  function BlueprintOverlay({ project, layout, palette, tokens, target, tour, focus, look }, ref) {
+  function BlueprintOverlay(
+    { project, layout, palette, tokens, target, tour, focus, look, onTitleBlockShown },
+    ref,
+  ) {
     const rootRef = useRef<HTMLDivElement>(null);
     const groupRef = useRef<HTMLDivElement>(null);
     const fadeAnimationRef = useRef<Animation | null>(null);
@@ -236,6 +264,11 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     const shown = !moving && model?.shown === true;
     const hidden = model?.hidden ?? 0;
     const transition = opacityTransition(tokens);
+    const titleBlock = model?.titleBlock ?? null;
+
+    useLayoutEffect(() => {
+      onTitleBlockShown?.(shown);
+    }, [onTitleBlockShown, shown]);
 
     return (
       <div
@@ -292,6 +325,28 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
               )}
             </span>
           ))}
+          {titleBlock === null ? null : (
+            <div data-xploder-titleblock-box="" style={titleBlockStyle(titleBlock, palette, look)}>
+              <div
+                style={{ color: palette[look.titleBlock.titleRole], textTransform: 'uppercase' }}
+              >
+                {titleBlock.title}
+              </div>
+              <div style={{ color: palette[look.titleBlock.metaRole] }}>{titleBlock.meta}</div>
+              {titleBlock.rows.map((row) => (
+                <div
+                  key={row.layerIndex}
+                  style={{
+                    color: palette[look.titleBlock.rowRole],
+                    opacity: row.opacity,
+                    ...(transition === undefined ? {} : { transition }),
+                  }}
+                >
+                  {row.text}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     );

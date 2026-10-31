@@ -148,6 +148,12 @@ export function TeardownViewer({
     overlayRef.current?.update(event);
   }, []);
 
+  const onTitleBlockShown = useCallback((shown: boolean) => {
+    if (wrapperRef.current !== null) {
+      wrapperRef.current.dataset.xploderTitleblock = shown ? 'shown' : 'hidden';
+    }
+  }, []);
+
   const onOverlayScroll = useCallback((offsetY: number) => {
     overlayRef.current?.setScroll(offsetY);
   }, []);
@@ -297,6 +303,7 @@ export function TeardownViewer({
       onKeyDown={viewer.onKeyDown}
       style={WRAPPER_STYLE}
       className={className}
+      data-xploder-titleblock="hidden"
     >
       <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
         <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
@@ -340,6 +347,7 @@ export function TeardownViewer({
             tour={viewer.tour}
             focus={viewer.focus}
             look={look}
+            onTitleBlockShown={onTitleBlockShown}
           />
         </div>
         <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />

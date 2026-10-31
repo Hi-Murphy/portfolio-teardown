@@ -19,6 +19,11 @@ const ROLE_REFS = [
   look.annotation.labelFillRole,
   look.trace.role,
   look.trace.casingRole,
+  look.titleBlock.titleRole,
+  look.titleBlock.metaRole,
+  look.titleBlock.rowRole,
+  look.titleBlock.borderRole,
+  look.titleBlock.fillRole,
 ] as const satisfies readonly RoleRef[];
 const PX_VALUES = [
   ['edge.componentPx', look.edge.componentPx],
@@ -31,6 +36,7 @@ const PX_VALUES = [
   ['trace.strokePx', look.trace.strokePx],
   ['trace.casingPx', look.trace.casingPx],
   ['trace.padPx', look.trace.padPx],
+  ['titleBlock.insetPx', look.titleBlock.insetPx],
 ] as const;
 
 function resolveRole(palette: Palette, ref: RoleRef): string {

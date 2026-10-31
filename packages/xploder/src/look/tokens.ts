@@ -36,6 +36,14 @@ export interface LookTokens {
     readonly casingPx: number;
     readonly padPx: number;
   };
+  readonly titleBlock: {
+    readonly insetPx: number;
+    readonly titleRole: PaletteRole;
+    readonly metaRole: PaletteRole;
+    readonly rowRole: PaletteRole;
+    readonly borderRole: PaletteRole;
+    readonly fillRole: PaletteRole;
+  };
 }
 
 export const look = {
@@ -67,4 +75,12 @@ export const look = {
     labelFillRole: 'paper',
   },
   trace: { role: 'accent', casingRole: 'paper', strokePx: 2, casingPx: 2, padPx: 3 },
+  titleBlock: {
+    insetPx: 8,
+    titleRole: 'ink',
+    metaRole: 'steel',
+    rowRole: 'label',
+    borderRole: 'line',
+    fillRole: 'paper',
+  },
 } as const satisfies LookTokens;
