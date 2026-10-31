@@ -23,7 +23,7 @@
 | T010 | ☑ | 1 (Flash, sandbox on) + orchestrator browser step (sandbox EPERM) | evidence/T010-{log-trace.txt,screenshot-*.png,meta.json} | 748b96e |
 | T011 | ☑ + ⚑ pushed, draft PR | 1 (Flash, sandbox on); build + full check re-run by orchestrator | evidence/T011-log-scanners.txt, G2-log-combined.txt | 73da9a5 |
 | T011a | ☑ (G2 feedback: imploded title block) | 1 (Flash, sandbox on) + orchestrator browser step | evidence/T011a-{log-titleblock.txt,screenshot-*.png} | f365b6e |
-| T011b | ☐ (G2 feedback: blink) | | | |
+| T011b | ☑ (G2 feedback: blink 8 → 0 frames; no stuck state) | 1 (Flash, sandbox on) + orchestrator review fix (pending settle) | evidence/T011b-log-blink.txt | d8a3cfc |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
