@@ -61,3 +61,21 @@ All matched files use Prettier code style!
 
 
 T008-OK
+
+## Orchestrator re-run after merge into the slice branch (2026-10-31; Scene.tsx additive conflict with T007 resolved by keeping both prop sets)
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+$ pnpm -r --if-present typecheck
+TYPECHECK-OK
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+LINT-OK
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  73 passed (73)
+packages/xploder test:  Test Files  42 passed (42)
+packages/xploder test:       Tests  351 passed (351)
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T008-OK (orchestrator full re-run)
