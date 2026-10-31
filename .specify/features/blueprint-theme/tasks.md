@@ -22,6 +22,7 @@
 | T009 | ☑ (+ label background fix) | 1 (Flash, sandbox on) + orchestrator screenshot step (sandbox EPERM) and labelFillRole fix | evidence/T009-{log-overlay.txt,screenshot-*.png,meta.json} | 99a946b |
 | T010 | ☑ | 1 (Flash, sandbox on) + orchestrator browser step (sandbox EPERM) | evidence/T010-{log-trace.txt,screenshot-*.png,meta.json} | 748b96e |
 | T011 | ☑ + ⚑ pushed, draft PR | 1 (Flash, sandbox on); build + full check re-run by orchestrator | evidence/T011-log-scanners.txt, G2-log-combined.txt | 73da9a5 |
+| T011a | ☐ (G2 feedback) | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
@@ -268,6 +269,17 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S06.md` and `.specif
   4. Zoom in fully and scroll to the top and bottom (default: accept).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. G2 validation, or token tweaks named by value (default: proceed to G3 on "approved"; tuning happens once, here).
+
+### T011a [US2] Imploded title block (G2 feedback, RFC §9.8)
+
+- **Seam:** overlay model (imploded state) ↔ new title-block model ↔ `<BlueprintOverlay>`.
+- **Files:** `packages/xploder/src/overlay/titleBlock.ts` (pure: content lines, box from the R1 model, corner choice vs silhouettes); `src/overlay/model.ts` (imploded → no on-drawing labels or strokes; title block in the model); `src/look/tokens.ts` (`titleBlock: { insetPx: 8, titleRole: 'ink', metaRole: 'steel', rowRole: 'label', borderRole: 'line', fillRole: 'paper' }`); `src/react/overlay/BlueprintOverlay.tsx` (render it); `TeardownViewer.tsx` (`data-xploder-titleblock="shown|hidden"`); tests `overlay-titleblock.test.ts` + updated `overlay-place.test.ts`/`overlay-model.test.ts`.
+- **Check:** `pnpm --filter xploder exec vitest run test/overlay-titleblock.test.ts test/overlay-place.test.ts test/overlay-model.test.ts`. The matrix must show, for fixtures A/B/C × 4 azimuths × 5 viewports, imploded at default zoom: 0 on-drawing labels; title block inside the viewport, intersecting no layer/component silhouette, font ≥ 12 px. Exploded matrix unchanged. Then `pnpm typecheck && pnpm lint && pnpm test`, and orchestrator dev-server screenshots (imploded light/dark × 360/1280).
+- **Evidence:** `evidence/T011a-log-titleblock.txt`, `T011a-screenshot-{mobile,desktop}-{light,dark}-imploded.png`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Imploded shows only the stack plus the title block; exploded unchanged (default: accept in the G2 re-walkthrough).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (default: G2 re-validation after this task).
 
 ---
 
