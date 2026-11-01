@@ -411,3 +411,17 @@ Tier 1 = DeepSeek Flash 4.1 via `codex` (browser tasks run with the sandbox off,
 3. **Push + draft PR: granted at the end of G2.** Nothing is pushed before then.
 4. **Merge:** only on Murphy's "merge".
 5. Usage at this gate: **5h 0%** (Murphy).
+6. **Gate 1 → Stage 3 records:** G1 approved (2026-11-01, 5h 23%). G2 delivered T007–T010; draft PR #12.
+7. **G2 feedback (Murphy, 2026-11-01, 5h 52% → 60%): part indices when zoomed.**
+   1. **Bug (S6, found by Murphy):** when zoomed in, some components show no index. Cause (measured): S6 places labels only at settle and drops any label whose anchor is off-screen at that moment. Scroll then only translates the overlay (S6 D6 "scroll is not a relayout"), so parts scrolled into view keep no index (fixture C: 13/13 at 1×, 8/13 at 3×). S6 layer labels share the cause.
+   2. **Style:** Murphy dislikes the pill "tags" on the slabs. The options were A (isometric lettering on the top face), B (drafting part mark) and C (spotlight only), with a mockup. **Murphy chose A** ("it matches our isometric exploded view").
+   3. **Route 1 chosen:** the S6 files stay sealed, so AC6's "frozen-surface checks … remain empty" still holds. A new S7 module `src/lettering/` (pure) plus `react/lettering/PartLettering.tsx` draws the lettering from the live camera at settle. The viewer hides S6's part tags through the S6 public DOM contract (`[data-xploder-callouts="tags"] [data-xploder-label^="part:"]`). It crosses the brief non-goal "no annotation/callout changes", so **Murphy logs it as revision 1 of 2 in the vault**. No AC is reworded.
+   4. **Zoomed-out style (orchestrator recommendation, judged at the G2 walkthrough):** lettering is the single rule for part numbers whenever the stack is exploded and settled with no tour, at every zoom and width. The number is always shown; the name is added when the face is large enough. On a phone this replaces the pills. On desktop at default zoom the number is lettered on the face, and S6's callout columns stay as the margin parts list (item number on the part + parts list = drafting convention). Desktop zoomed falls back to tags in S6, so lettering takes over there.
+   5. **Rules:**
+      - **Lettering placement:** the text runs along the face edge that points most to the right on screen; the second axis keeps the text unmirrored.
+      - **Size:** S6 R1 monospace box model; number font 9–16 px, name ≥ 8 px, uppercase via CSS.
+      - **Occlusion:** a candidate position is valid only if its screen quad avoids every hull and plate of upper layers (convex SAT). Fallback order: number only → smaller font → a B-style mark off the front corner.
+      - **No culling:** every component is lettered, and the layer translates with scroll exactly like the S6 overlay, so an index can never be missing.
+      - **Matches S6 overlay states:** hidden while moving, during a tour, and when imploded; it fades on S6's overlay timing; it dims under layer focus; the highlighted part uses `callouts.emphasisRole`.
+      - **Input and selection:** the text is selectable and sits inside the stage, so S5/S7 picks still work, since they use coordinates.
+   6. **Layer labels** have the same culling bug. They are assessed after T010a (lettering on the plate rim if it fits ≥ 9 px), as T010b, and judged at G2.

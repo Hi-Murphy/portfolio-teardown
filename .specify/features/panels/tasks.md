@@ -32,6 +32,7 @@
 | T008 | ☑ (+ 3 review fixes: same-dispatch outside-click guard, re-open enter animation, program highlight; interaction smoke log) | 1 (Flash, sandbox off) + orchestrator review fixes + smoke | evidence/T008-{log-detail.txt,screenshot-*.png,meta-*.json} | d253281 |
 | T009 | ☑ (+ heading focus ring removed) | 1 (Flash, sandbox off) + orchestrator review fix | evidence/T009-{log-case-study.txt,screenshot-*.png,meta-*.json} | 69b2aa8 |
 | T010 | ☑ + ⚑ pushed, draft PR (scanner gained a bare CSS timing-shorthand rule) | 1 (Flash, sandbox on); build + negative controls re-run by orchestrator | evidence/T010-log-scanners.txt, G2-log-combined.txt | 7aa81c6 |
+| T010a | ☐ (G2 feedback: part lettering) | | | |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
@@ -329,6 +330,23 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S07.md` and `.specif
   1. G2 feedback or "approved" (default: proceed to G3 on "approved"; tuning feedback becomes T010a… within G2).
 
 ---
+
+### T010a [US1] [US2] Isometric part lettering (G2 feedback, RFC §9.7) — Route 1
+
+- **Seam:** S6 overlay events + live camera ↔ new pure `src/lettering/` ↔ new `react/lettering/PartLettering.tsx` inside the canvas viewport; S6 part tags hidden through the S6 DOM contract. **No sealed file changes** (S2/S4/S5/S6 diffs stay empty).
+- **Steps:**
+  - **T010a-1 (pure):** `src/lettering/{look,faces,place,model}.ts` + `test/lettering.test.ts`.
+    - The matrix covers fixtures A/B/C × 4 azimuths × exploded × canvases {328×444, 358×506, 768×614, 1216×480} × zoom ladder 1…3 × scroll offsets.
+    - Pass rules: **every component labelled** (lettered or marked; 0 missing); lettering block inside its face; not mirrored; no overlap with upper-layer hulls or plates; number ≥ 9 px. The fallback count is printed.
+  - **T010a-2 (DOM):** `PartLettering.tsx` + `TeardownViewer` wiring (projection at settle from the pick-bridge camera, scroll translate, tag hiding, states).
+    - Smoke: fixtures A/C × zoom 1×–3× × scroll top/middle/bottom × light/dark. Each component visible on screen has its number; screenshots.
+- **Check:** `pnpm --filter xploder exec vitest run test/lettering.test.ts` green; full check green; the five guard lines OK; smoke log + screenshots.
+- **Evidence:** `evidence/T010a-{log-lettering.txt,log-smoke.txt,screenshot-*.png}`
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Zoom in on A and C and scroll top to bottom: every part shows its number, plus its name when zoomed, lettered on the face (default: accept, or tuning notes).
+  2. Default zoom on phone and desktop: numbers on faces, and the desktop columns kept as the parts list (default: accept).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Revision 1 of 2 logged in the vault (default: Murphy logs it).
 
 ## Phase G3: Evidence (US1–US6) → STOP for Murphy after T014
 
