@@ -1,0 +1,462 @@
+# T012a face-name zoom rule — evidence log
+
+## Task check
++zsh:4> tee /tmp/s08-checks/t012a.txt
++zsh:4> pnpm --filter xploder exec vitest run test/lettering-face-names.test.ts --reporter verbose
+
+ RUN  v5.0.5 ./packages/xploder
+
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the 2x minimum at zoom 1 1ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the 2x minimum at zoom 1.25 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the 2x minimum at zoom 1.5625 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the 2x minimum at zoom 1.953 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 2 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 2.44140625 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 3 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name when one face can only fit its number 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 1 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 2 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 3 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > ignores mark lettering when deciding whether every face has a name 0ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  22:04:50
+   Duration  92ms (transform 61%, import 25%, tests 9%, worker 5%)
+
++zsh:5> pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
++zsh:5> pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
++zsh:5> pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:59098) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:59097) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: (node:59107) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:59119) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:59129) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:59131) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:59133) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  14 passed (14)
+tools/perf test:       Tests  88 passed (88)
+tools/perf test:    Start at  22:04:59
+tools/perf test:    Duration  1.32s (import 58%, transform 34%, tests 7%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:59145) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:59151) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  59 passed (59)
+packages/xploder test:       Tests  611 passed (611)
+packages/xploder test:    Start at  22:04:58
+packages/xploder test:    Duration  6.57s (tests 67%, import 16%, transform 16%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  59 workers spawned · ~85ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~472ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:59204) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:59199) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  7 passed | 1 skipped (8)
+apps/web test:       Tests  57 passed | 2 skipped (59)
+apps/web test:    Start at  22:05:06
+apps/web test:    Duration  849ms (environment 52%, transform 22%, import 13%, tests 12%, worker 1%)
+apps/web test: 
+apps/web test: Done
++zsh:5> echo T012a-UNIT-OK
++zsh:5> tee -a /tmp/s08-checks/t012a.txt
+T012a-UNIT-OK
++zsh:6> node /tmp/s08-checks/t012a-smoke.mjs
++zsh:6> tee -a /tmp/s08-checks/t012a.txt
+PASS a/desktop/z1: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS a/desktop/z1: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS a/desktop/z1: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS a/desktop/z1: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS a/desktop/z1: captured desktop screenshot: T012a-screenshot-desktop-1x.png
+PASS a/desktop/z1.25: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/desktop/z1.25: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/desktop/z1.25: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/desktop/z1.25: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/desktop/z1.5625: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/desktop/z1.5625: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/desktop/z1.5625: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/desktop/z1.5625: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/desktop/z1.953125: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/desktop/z1.953125: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/desktop/z1.953125: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/desktop/z1.953125: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/desktop/z2.44140625: zoom settled: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"2.44140625","column":"hidden"}
+PASS a/desktop/z2.44140625: face-lettered nodes present: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"2.44140625","column":"hidden"}
+PASS a/desktop/z2.44140625: face names are all-or-none: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"2.44140625","column":"hidden"}
+PASS a/desktop/z2.44140625: captured desktop screenshot: T012a-screenshot-desktop-2.44x.png
+PASS a/desktop/z3: zoom settled: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"3","column":"hidden"}
+PASS a/desktop/z3: face-lettered nodes present: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"3","column":"hidden"}
+PASS a/desktop/z3: face names are all-or-none: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"3","column":"hidden"}
+PASS a/desktop: page errors: 0
+PASS a/mobile/z1: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS a/mobile/z1: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS a/mobile/z1: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS a/mobile/z1: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS a/mobile/z1.25: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/mobile/z1.25: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/mobile/z1.25: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/mobile/z1.25: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS a/mobile/z1.5625: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/mobile/z1.5625: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/mobile/z1.5625: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/mobile/z1.5625: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS a/mobile/z1.953125: zoom settled: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/mobile/z1.953125: face-lettered nodes present: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/mobile/z1.953125: zero face name lines: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/mobile/z1.953125: zero named faces: {"faceNodes":8,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS a/mobile/z2.44140625: zoom settled: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"2.44140625","column":"hidden"}
+PASS a/mobile/z2.44140625: face-lettered nodes present: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"2.44140625","column":"hidden"}
+PASS a/mobile/z2.44140625: face names are all-or-none: {"faceNodes":8,"namedFaces":8,"nameLines":14,"zoom":"2.44140625","column":"hidden"}
+PASS a/mobile/z3: zoom settled: {"faceNodes":8,"namedFaces":8,"nameLines":13,"zoom":"3","column":"hidden"}
+PASS a/mobile/z3: face-lettered nodes present: {"faceNodes":8,"namedFaces":8,"nameLines":13,"zoom":"3","column":"hidden"}
+PASS a/mobile/z3: face names are all-or-none: {"faceNodes":8,"namedFaces":8,"nameLines":13,"zoom":"3","column":"hidden"}
+PASS a/mobile: page errors: 0
+PASS c/desktop/z1: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS c/desktop/z1: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS c/desktop/z1: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS c/desktop/z1: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"hidden"}
+PASS c/desktop/z1.25: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/desktop/z1.25: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/desktop/z1.25: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/desktop/z1.25: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/desktop/z1.5625: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/desktop/z1.5625: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/desktop/z1.5625: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/desktop/z1.5625: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/desktop/z1.953125: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/desktop/z1.953125: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/desktop/z1.953125: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/desktop/z1.953125: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/desktop/z2.44140625: zoom settled: {"faceNodes":13,"namedFaces":13,"nameLines":25,"zoom":"2.44140625","column":"hidden"}
+PASS c/desktop/z2.44140625: face-lettered nodes present: {"faceNodes":13,"namedFaces":13,"nameLines":25,"zoom":"2.44140625","column":"hidden"}
+PASS c/desktop/z2.44140625: face names are all-or-none: {"faceNodes":13,"namedFaces":13,"nameLines":25,"zoom":"2.44140625","column":"hidden"}
+PASS c/desktop/z3: zoom settled: {"faceNodes":13,"namedFaces":13,"nameLines":23,"zoom":"3","column":"hidden"}
+PASS c/desktop/z3: face-lettered nodes present: {"faceNodes":13,"namedFaces":13,"nameLines":23,"zoom":"3","column":"hidden"}
+PASS c/desktop/z3: face names are all-or-none: {"faceNodes":13,"namedFaces":13,"nameLines":23,"zoom":"3","column":"hidden"}
+PASS c/desktop: page errors: 0
+PASS c/mobile/z1: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS c/mobile/z1: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS c/mobile/z1: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS c/mobile/z1: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1","column":"shown"}
+PASS c/mobile/z1.25: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/mobile/z1.25: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/mobile/z1.25: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/mobile/z1.25: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.25","column":"hidden"}
+PASS c/mobile/z1.5625: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/mobile/z1.5625: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/mobile/z1.5625: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/mobile/z1.5625: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.5625","column":"hidden"}
+PASS c/mobile/z1.953125: zoom settled: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/mobile/z1.953125: face-lettered nodes present: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/mobile/z1.953125: zero face name lines: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/mobile/z1.953125: zero named faces: {"faceNodes":13,"namedFaces":0,"nameLines":0,"zoom":"1.953125","column":"hidden"}
+PASS c/mobile/z2.44140625: zoom settled: {"faceNodes":13,"namedFaces":13,"nameLines":25,"zoom":"2.44140625","column":"hidden"}
+PASS c/mobile/z2.44140625: face-lettered nodes present: {"faceNodes":13,"namedFaces":13,"nameLines":25,"zoom":"2.44140625","column":"hidden"}
+PASS c/mobile/z2.44140625: face names are all-or-none: {"faceNodes":13,"namedFaces":13,"nameLines":25,"zoom":"2.44140625","column":"hidden"}
+PASS c/mobile/z3: zoom settled: {"faceNodes":13,"namedFaces":13,"nameLines":23,"zoom":"3","column":"hidden"}
+PASS c/mobile/z3: face-lettered nodes present: {"faceNodes":13,"namedFaces":13,"nameLines":23,"zoom":"3","column":"hidden"}
+PASS c/mobile/z3: face names are all-or-none: {"faceNodes":13,"namedFaces":13,"nameLines":23,"zoom":"3","column":"hidden"}
+PASS c/mobile: page errors: 0
++zsh:6> echo T012a-OK
++zsh:6> tee -a /tmp/s08-checks/t012a.txt
+T012a-OK
+
+## Presentation snapshot comparison
+$ node tools/perf/src/cli/presentation-snapshot.ts --url http://localhost:3000 --out /tmp/s08-checks/t012a-pres.json
+captured a-exploded-idle/light/desktop: 12 nodes
+captured a-highlight-tide-repository/light/desktop: 12 nodes
+captured a-select-tide-repository/light/desktop: 45 nodes
+captured a-panel-case-study/light/desktop: 37 nodes
+captured b-select-reconciliation-ledger/light/desktop: 38 nodes
+captured c-exploded-idle/light/desktop: 17 nodes
+captured c-focus-client/light/desktop: 17 nodes
+captured a-exploded-idle/light/mobile: 64 nodes
+captured a-highlight-tide-repository/light/mobile: 64 nodes
+captured a-select-tide-repository/light/mobile: 97 nodes
+captured a-panel-case-study/light/mobile: 89 nodes
+captured b-select-reconciliation-ledger/light/mobile: 73 nodes
+captured c-exploded-idle/light/mobile: 98 nodes
+captured c-focus-client/light/mobile: 98 nodes
+captured a-exploded-idle/dark/desktop: 12 nodes
+captured a-highlight-tide-repository/dark/desktop: 12 nodes
+captured a-select-tide-repository/dark/desktop: 45 nodes
+captured a-panel-case-study/dark/desktop: 37 nodes
+captured b-select-reconciliation-ledger/dark/desktop: 38 nodes
+captured c-exploded-idle/dark/desktop: 17 nodes
+captured c-focus-client/dark/desktop: 17 nodes
+captured a-exploded-idle/dark/mobile: 64 nodes
+captured a-highlight-tide-repository/dark/mobile: 64 nodes
+captured a-select-tide-repository/dark/mobile: 97 nodes
+captured a-panel-case-study/dark/mobile: 89 nodes
+captured b-select-reconciliation-ledger/dark/mobile: 73 nodes
+captured c-exploded-idle/dark/mobile: 98 nodes
+captured c-focus-client/dark/mobile: 98 nodes
+presentation snapshot: 28 states, 1522 nodes
+$ node /tmp/s08-checks/t012a-presentation-diff.mjs
+T002 base: 32 difference(s)
+{"state":"a-highlight-tide-repository/light/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+{"state":"a-select-tide-repository/light/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+{"state":"b-select-reconciliation-ledger/light/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(5)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+{"state":"a-highlight-tide-repository/light/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+{"state":"a-select-tide-repository/light/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+{"state":"b-select-reconciliation-ledger/light/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(10)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+{"state":"a-highlight-tide-repository/dark/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+{"state":"a-select-tide-repository/dark/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+{"state":"b-select-reconciliation-ledger/dark/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(5)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+{"state":"a-highlight-tide-repository/dark/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+{"state":"a-select-tide-repository/dark/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+{"state":"b-select-reconciliation-ledger/dark/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(10)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+{"state":"a-select-tide-repository/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+{"state":"a-select-tide-repository/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+{"state":"b-select-reconciliation-ledger/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+pre-T012a T011 snapshot: 0 difference(s)
+NOTE: the fixed presentation matrix captures default zoom. T012a is unchanged there; the intended name-node difference is at 2.44x and is recorded by the smoke DOM counts and screenshots.
+
+## Tier-B diff vs base 5b22987
++zsh:13> echo '$ git diff 5b22987 -- packages/xploder/src/react/lettering/PartLettering.tsx'
+$ git diff 5b22987 -- packages/xploder/src/react/lettering/PartLettering.tsx
++zsh:14> git diff 5b22987 -- packages/xploder/src/react/lettering/PartLettering.tsx
+diff --git a/packages/xploder/src/react/lettering/PartLettering.tsx b/packages/xploder/src/react/lettering/PartLettering.tsx
+index c40e416..2bc1281 100644
+--- a/packages/xploder/src/react/lettering/PartLettering.tsx
++++ b/packages/xploder/src/react/lettering/PartLettering.tsx
+@@ -34,6 +34,7 @@ import type { OverlayFrame, Vec2 } from '../../overlay/project';
+ import { partShortText } from '../../overlay/parts';
+ import { overlayTiming } from '../../overlay/timing';
+ import type { Palette } from '../../theme';
++import { faceLetteringAllOrNone } from './faceNames';
+ import type { OverlayEvent } from '../scene/OverlayProjector';
+ import type { PickBridgeHandle } from '../scene/PickBridge';
+ import type { TeardownTarget, TourStatus, ViewerProject } from '../useTeardownViewer';
+@@ -71,6 +72,7 @@ export interface PartLetteringProps {
+   readonly focus: { readonly layerId: string | null; readonly suspended: boolean };
+   readonly highlight: string | null;
+   readonly wrapperRef: RefObject<HTMLDivElement | null>;
++  readonly zoomFactor?: number;
+ }
+ 
+ interface SettledLettering {
+@@ -217,6 +219,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+       focus,
+       highlight,
+       wrapperRef,
++      zoomFactor = 1,
+     },
+     ref,
+   ) {
+@@ -229,6 +232,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+     const layerIds = useMemo(() => layerIdsByComponent(layout), [layout]);
+     const scope = useId();
+     const layerIdsByLayerIndex = useMemo(() => layerIdsByIndex(layout), [layout]);
++    const zoomFactorRef = useRef(zoomFactor);
+     const [settled, setSettled] = useState<SettledLettering | null>(null);
+     const [moving, setMoving] = useState(false);
+ 
+@@ -305,12 +309,17 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                 look: LETTERING_LOOK,
+               })
+             : null;
+-        const faceNames = column === null ? names : new Map<string, string>();
+-        const items = letteringModel({
+-          layout,
+-          components,
+-          layers: event.frame.layers,
+-          names: faceNames,
++        const items = faceLetteringAllOrNone({
++          zoomFactor: zoomFactorRef.current,
++          columnActive: column !== null,
++          names,
++          build: (faceNames) =>
++            letteringModel({
++              layout,
++              components,
++              layers: event.frame.layers,
++              names: faceNames,
++            }),
+         });
+         const layersShown = mode === 'tags' || extentPx > 1e-9;
+         const layerLabels = layersShown
+@@ -346,6 +355,10 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+ 
+     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
+ 
++    useLayoutEffect(() => {
++      zoomFactorRef.current = zoomFactor;
++    }, [zoomFactor]);
++
+     const items = settled?.items ?? [];
+     const column = settled?.column ?? null;
+     const visible =
+@@ -421,9 +434,13 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+     };
+     const numberColor = (id: string): string =>
+       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
++    const faceNumberColor = (id: string): string =>
++      highlight === id ? palette.ink : palette[look.annotation.partRole];
++    const faceNameColor = (id: string): string =>
++      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+ 
+     return (
+-      <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
++      <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
+         {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
+         <div
+           ref={groupRef}
+@@ -581,7 +598,8 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                   userSelect: 'text',
+                   whiteSpace: 'nowrap',
+                   font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+-                  color,
++                  color: faceNumberColor(item.id),
++                  borderColor: numberColor(item.id),
+                   opacity,
+                   ...(transition === undefined ? {} : { transition }),
+                 }}
+@@ -595,7 +613,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                         style={{
+                           font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                           textTransform: 'uppercase',
+-                          color: palette[look.annotation.textRole] || palette.label,
++                          color: faceNameColor(item.id),
+                         }}
+                       >
+                         {line}
+
+## Format & rules guards
++zsh:4> git diff --quiet 5b22987 -- .specify/slices .specify/KICKOFF-S08.md
++zsh:4> echo FROZEN-OK
+FROZEN-OK
++zsh:5> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths
++zsh:5> git diff --quiet 53b2b2b -- packages/xploder/package.json packages/xploder/src/index.ts packages/xploder/src/parse.ts packages/xploder/src/errors.ts packages/xploder/src/schema packages/xploder/src/theme packages/xploder/src/motion/index.ts packages/xploder/src/motion/ease.ts packages/xploder/src/layout packages/xploder/src/engine packages/xploder/src/react/scene/CameraRig.tsx packages/xploder/src/react/scene/Lights.tsx packages/xploder/src/react/scene/Stats.tsx packages/xploder/src/react/env.ts packages/xploder/src/react/usePalette.ts packages/xploder/src/react/useReducedMotion.ts packages/xploder/test/fixtures/project-a-ui-app.json packages/xploder/test/fixtures/project-b-pipeline.json packages/xploder/test/fixtures/tech-registry.json packages/xploder/test/camera.test.ts packages/xploder/test/ease.test.ts packages/xploder/test/env.test.ts packages/xploder/test/explode.test.ts packages/xploder/test/exports.test.ts packages/xploder/test/fixtures.test.ts packages/xploder/test/generality.test.ts packages/xploder/test/geometry-free.test.ts packages/xploder/test/layout.test.ts packages/xploder/test/motion.test.ts packages/xploder/test/parse.test.ts packages/xploder/test/registry.test.ts packages/xploder/test/scene.test.tsx packages/xploder/test/schema.test.ts packages/xploder/test/smoke.test.ts packages/xploder/test/theme.test.ts packages/xploder/test/helpers.ts packages/xploder/test/__snapshots__/generality.test.ts.snap packages/xploder/test/__snapshots__/layout.test.ts.snap
++zsh:5> echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
++zsh:6> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths
++zsh:6> git diff --quiet f31600e -- packages/xploder/src/interaction packages/xploder/src/motion/emphasis.ts packages/xploder/src/react/scene/Emphasis.tsx packages/xploder/src/react/scene/PickBridge.tsx packages/xploder/src/react/scene/ViewScroll.tsx packages/xploder/src/react/overlay/TourCaption.tsx packages/xploder/src/react/usePointerPick.ts packages/xploder/src/react/useTourClock.ts packages/xploder/src/react/useTeardownViewer.ts packages/xploder/test/fixtures/project-c-lockerbay.json packages/xploder/test/pick.test.ts packages/xploder/test/pick-scene.test.tsx packages/xploder/test/pointer.test.ts packages/xploder/test/focus.test.ts packages/xploder/test/tour.test.ts packages/xploder/test/tour-clock.test.tsx packages/xploder/test/emphasis.test.ts packages/xploder/test/emphasis-scene.test.tsx packages/xploder/test/emphasis-tokens.test.ts packages/xploder/test/caption.test.ts packages/xploder/test/fixture-c.test.ts packages/xploder/test/scroll.test.ts packages/xploder/test/view-scroll.test.tsx packages/xploder/test/viewer-handle.test.tsx packages/xploder/test/__snapshots__/fixture-c.test.ts.snap
++zsh:6> echo SURFACE-S5-OK
+SURFACE-S5-OK
++zsh:7> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths
++zsh:7> git diff --quiet 0b2c678 -- packages/xploder/src/look packages/xploder/src/overlay packages/xploder/src/react/overlay/BlueprintOverlay.tsx packages/xploder/src/react/overlay/CircuitTrace.tsx packages/xploder/src/react/scene/OverlayProjector.tsx packages/xploder/src/react/scene/Scene.tsx packages/xploder/src/react/scene/Slabs.tsx packages/xploder/src/react/scene/blueprintMaterial.ts packages/xploder/test/blueprint-scene.test.tsx packages/xploder/test/overlay-projector.test.tsx packages/xploder/test/look-fills.test.ts packages/xploder/test/look-tokens.test.ts packages/xploder/test/overlay-columns.test.ts packages/xploder/test/overlay-dimension.test.ts packages/xploder/test/overlay-model.test.ts packages/xploder/test/overlay-parts.test.ts packages/xploder/test/overlay-place.test.ts packages/xploder/test/overlay-project.test.ts packages/xploder/test/overlay-timing.test.ts packages/xploder/test/overlay-titleblock.test.ts packages/xploder/test/overlay-trace.test.ts packages/xploder/test/product-gap.test.ts
++zsh:7> echo SURFACE-S6-OK
+SURFACE-S6-OK
++zsh:8> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s7.paths
++zsh:8> git diff --quiet 5b22987 -- packages/xploder/src/panel/ packages/xploder/src/lettering/ packages/xploder/src/react/panel/CaseStudyPanel.tsx packages/xploder/src/react/panel/executeTourCommand.ts packages/xploder/src/react/panel/pickAt.ts packages/xploder/src/react/panel/useSlabClick.ts packages/xploder/test/panel-content.test.ts packages/xploder/test/panel-motion.test.ts packages/xploder/test/panel-place.test.ts packages/xploder/test/panel-state.test.ts packages/xploder/test/panel-tour-click.test.ts packages/xploder/test/viewer-panels.test.tsx packages/xploder/test/lettering.test.ts packages/xploder/test/lettering-column.test.ts
++zsh:8> echo SURFACE-S7-OK
+SURFACE-S7-OK
++zsh:9> git diff --quiet 5b22987 -- tools/perf/src/panel-probe.ts tools/perf/src/engine-probe.ts tools/perf/src/cli/engine-probe.ts
++zsh:9> echo PROBES-OK
+PROBES-OK
++zsh:10> git log --oneline 5b22987..HEAD -- .specify/slices .specify/KICKOFF-S08.md
++zsh:10> test -z ''
++zsh:10> echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
