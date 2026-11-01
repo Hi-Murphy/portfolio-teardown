@@ -1,0 +1,16 @@
+# T017 — final gate. Local (orchestrator, unsandboxed, HEAD before push):
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+PROBES-OK
+BRIEF-HISTORY-OK
+INSTALL-OK
+TYPECHECK-OK
+LINT-OK
+TEST-OK
+tools/perf test:       Tests  108 passed (108)
+packages/xploder test:       Tests  609 passed (609)
+apps/web test:       Tests  59 passed (59)
+BUILD-OK
