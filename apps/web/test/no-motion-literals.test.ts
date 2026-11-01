@@ -83,6 +83,7 @@ const S08_SOURCE_FILES = [
   'a11y/look.ts',
   'a11y/navigator.ts',
   'a11y/reveal.ts',
+  'react/a11y/ComponentNavigator.tsx',
   'react/a11y/CanvasBoundary.tsx',
   'react/a11y/LiveRegion.tsx',
   'react/a11y/webgl.ts',
