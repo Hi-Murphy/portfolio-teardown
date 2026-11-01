@@ -1,3 +1,5 @@
+import { evaluateS7, type S7Observation } from './panel-probe.ts';
+
 export interface FixtureObservation {
   instances: { layers: number; components: number };
   drawCalls: number;
@@ -80,6 +82,7 @@ export interface LayoutShiftObservation {
       parentTag: string | null;
       text: string | null;
       inOverlay?: boolean;
+      inViewer?: boolean;
     } | null;
     previousRect: { x: number; y: number; width: number; height: number } | null;
     currentRect: { x: number; y: number; width: number; height: number } | null;
@@ -359,9 +362,10 @@ export interface S4Observation {
 export interface EngineProbeObservation extends S4Observation {
   s5?: S5Observation;
   s6?: S6Observation;
+  s7?: S7Observation;
 }
 
-export type ProbeScope = 's4' | 's5' | 's6' | 'all';
+export type ProbeScope = 's4' | 's5' | 's6' | 's7' | 'all';
 
 export interface EngineProbeCheck {
   name: string;
@@ -1486,6 +1490,11 @@ export function evaluateProbe(
   if (scope === 's6' || scope === 'all') {
     if (observation.s6 === undefined) throw new Error('S6 observation is incomplete');
     checks.push(...s6Checks(observation.s6));
+  }
+
+  if (scope === 's7' || (scope === 'all' && observation.s7 !== undefined)) {
+    if (observation.s7 === undefined) throw new Error('S7 observation is incomplete');
+    checks.push(...evaluateS7(observation.s7));
   }
 
   return { checks, pass: checks.every((check) => check.pass) };
