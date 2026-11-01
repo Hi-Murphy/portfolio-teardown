@@ -11,6 +11,7 @@ import {
 } from 'xploder/react';
 
 import { ThemeToggle } from '../../theme-toggle';
+import { EngineFallback } from './engine-fallback';
 
 type FixtureId = 'a' | 'b' | 'c';
 
@@ -144,11 +145,19 @@ export function EnginePlayground() {
           onSettled={onSettled}
           className="h-full w-full"
           aria-label={`${project.meta.name} architecture view`}
+          fallback={
+            <EngineFallback
+              projects={[projects.a, projects.b, projects.c]}
+              message="WebGL is unavailable for this architecture view."
+            />
+          }
         />
       </div>
       <section
+        id="engine-controls"
+        tabIndex={-1}
         aria-label="Engine playground controls"
-        className="flex flex-wrap items-center gap-2 rounded border border-line bg-surface p-3 sm:p-4"
+        className="flex flex-wrap items-center gap-2 rounded border border-line bg-surface p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:p-4"
       >
         <button
           type="button"
