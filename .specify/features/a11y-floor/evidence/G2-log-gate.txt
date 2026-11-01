@@ -1,0 +1,29 @@
+# G2 gate — integrated task/s08-a11y-floor at 7cdbd0f, 2026-11-01T13:24:58Z, orchestrator, unsandboxed
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+PROBES-OK
+BRIEF-HISTORY-OK
+XPLODER-PKG-AND-HOME-UNCHANGED
+Tier-B diff (files):
+ .../xploder/src/react/lettering/PartLettering.tsx  | 11 +++++---
+ packages/xploder/src/react/panel/DetailPanel.tsx   | 14 +++++++---
+ packages/xploder/src/react/panel/PanelLayer.tsx    | 28 ++++++++++++++++++++
+ packages/xploder/src/react/panel/TechChips.tsx     | 16 ++++++++++++
+ .../xploder/src/react/panel/useViewerPanels.ts     | 30 ++++++++++++++++++----
+ 5 files changed, 88 insertions(+), 11 deletions(-)
+TYPECHECK-OK
+LINT-OK
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+BUILD-OK
+pnpm test (1st run, piped through grep only): exit non-zero — ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL; the full output was not captured, so the failing test is unknown.
+Re-runs (full logs kept): 3 x exit 0 — tools/perf 88/88, xploder 599/599, apps/web 59 (passed incl. skips). Treated as one intermittent failure; watched in CI (G3).
+
+## S4–S7 regression: pnpm engine:probe http://127.0.0.1:4199/ (out-fixtures of 7cdbd0f) — exit 6
+PASS: 195 / 198
+FAIL panel-content-tide-repository: expected {"name":"Tide Repository","summary":"Chooses between a live reading and the saved forecast.","chipLabels":["Kotlin","Kotlin Coroutines","kotlinx.serialization"],"metrics":[{"label":"Saved window","value":"30 days"}],"links":[{"label":"Data notes","url":"https://example.com/tidewatch/data-notes","target":"_blank","rel":"noopener noreferrer"}],"headings":
+FAIL panel-content-reconciliation-ledger: expected {"name":"Reconciliation Ledger","summary":"The retained matched and unmatched results for a run.","chipLabels":["TypeScript","Node.js"],"metrics":[{"label":"Retention","value":"90 days"}],"links":[{"label":"Ledger format","url":"https://example.com/ledgerline/ledger-format","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metric
+FAIL chips-labels: expected "labels equal the registry labels" actual [{"id":"live-tide-client","labels":["Kotlin, language","OkHttp, network","WebSocket, network","Kotlin Coroutines, library"],"expectedLabels":["Kotlin","OkHttp","WebSocket","Kotlin Coroutines"]},{"id":"tide-repository","labels":["Kotlin, language","Kotlin Coroutines, library","kotlinx.serialization, library"],"expectedLabels":["K
+Cause (all 3): the S7 probe reads chip labels via textContent; T010 added the AC2-required visually hidden ', <category>' inside each chip. Visible labels are unchanged (T010 screenshot). Proposed correction C3 pending Murphy (G2 gate).

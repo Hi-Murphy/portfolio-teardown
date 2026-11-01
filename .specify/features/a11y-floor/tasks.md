@@ -32,12 +32,12 @@
 | T004 | ☑ (16 tests; S5 copy pinned to baseline strings) | 1 (Flash, sandbox on) | evidence/T004-log-announce.txt | ca62659 |
 | T005 | ☑ (before table: accent 3.05/3.34, label 4.24/3.01 FAIL; 4 R2 rows `test.fails` until T011) | 1 (Flash, sandbox on) | evidence/T005-log-contrast-token-before.txt | 48b1de3 |
 | T006 | ☑ (12 rows; 8 scanned sites covered; negative control fires) | 1 (Flash, sandbox on) | evidence/T006-log-motion-matrix.txt | 87b0cb3 |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
-| T009 | ☐ | | | |
-| T010 | ☐ | | | |
-| T011 | ☐ | | | |
-| T012 | ☐ | | | |
+| T007 | ☑ (live region at mount, same node step 1; WebGL gate + boundary; panel announcements landed here early) | 1 (Flash, sandbox on); jsdom added by orchestrator (no network); full check re-run unsandboxed | evidence/T007-log-live-region.txt | 5907c63 |
+| T008 | ☑ (navigator, ring, R1 redirect, pan keys; orchestrator CLS check: 0 navigator shifts) | 1 (Flash, sandbox off) + orchestrator review (C2 test-only internal imports) | evidence/T008-{log-navigator.txt,screenshot-ring-*.png,meta.json} | f7b15cf |
+| T009 | ☑ (open→heading, re-dock keeps focus, close→trigger) | 1 (Flash) ×2: attempt 1 ran out mid-task (debug logs + click-swallow hack from a wrong orchestrator smoke step); attempt 2 with corrected brief finished | evidence/T009-{log-focus.txt,log-tierb-diff.txt} | 660a1d9 |
+| T010 | ☑ (lettering + S6 overlay hidden from AT, chip categories, dialog description) | 1 (Flash, sandbox off) + orchestrator review fix (visible chip comma rejected; comma in hidden span) | evidence/T010-{log-aria-smoke.txt,log-tierb-diff.txt,screenshot-chips-light.png} | 764f859 |
+| T011 | ☑ (R2 ink; presentation diff 12 colour + 20 hidden-span, 0 disallowed; rendered pixels match token model) | 1 (Flash, sandbox off) | evidence/T011-{log-contrast-token-after.txt,log-presentation-diff.txt,screenshot-highlight-*.png} | 8227c87 |
+| T012 | ☑ (no-JS poster + list, no-WebGL message + list, skip link; smoke 44/44) | 1 (Flash, sandbox off) + orchestrator review fix (skip link overlay, viewer shift 0) | evidence/T012-{log-fallback.txt,screenshot-*.png,meta.json} | 63b11eb |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
@@ -45,6 +45,8 @@
 | T017 | ☐ | | | |
 
 **G1 gate (2026-11-01):** integrated `b81959d`, all 7 guards OK, typecheck/lint/test (595 + 4 expected-fail)/build green, unsandboxed → `evidence/G1-log-gate.txt`. Scanner-list merge conflicts were resolved by the orchestrator (union).
+
+**G2 gate (2026-11-01):** integrated `7cdbd0f`: guards OK, typecheck/lint/build green; `pnpm test` 1 intermittent failure (output not captured) then 3× green; S4–S7 `engine:probe` 195/198, 3 chip-label FAILs from the S7 probe reading `textContent` (C3 pending Murphy) → `evidence/G2-log-gate.txt`, `G2-engine-probe.json`.
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S08.md` and `.specify/features/a11y-floor/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 
