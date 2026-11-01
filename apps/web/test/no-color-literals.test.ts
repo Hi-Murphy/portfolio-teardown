@@ -68,6 +68,9 @@ const S07_SOURCE_FILES = [
   'lettering/layers.ts',
   'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S08_SOURCE_FILES = ['a11y/announce.ts'].map((path) =>
+  fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)),
+);
 
 const RULES = [
   ['hex-color', /(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g],
@@ -130,6 +133,7 @@ describe('color-literal scanner', () => {
     expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S06_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S07_SOURCE_FILES));
+    expect(sourceFiles).toEqual(expect.arrayContaining(S08_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 
