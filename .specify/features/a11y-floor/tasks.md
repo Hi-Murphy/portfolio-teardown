@@ -24,12 +24,12 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
-| T006 | ☐ | | | |
+| T001 | ☑ (24 files sealed; negative control red) | 1 (Flash, sandbox on); full check re-run by orchestrator outside the sandbox. 1st launch hung on stdin (runner bug, model never started; not counted) | evidence/T001-log-guard.txt | 48345c0 |
+| T002 | ☑ (28 states, 1502 nodes, determinism diff 0) | 1 (Flash, sandbox off) | evidence/T002-{presentation-base.json,log-presentation.txt} | e23373e |
+| T003 | ☑ (25 tests; S6 `partNumber` reused; reveal ↔ `offsetFor` round trip) | 1 (Flash, sandbox on) | evidence/T003-log-navigator.txt | f75ac46 |
+| T004 | ☑ (16 tests; S5 copy pinned to baseline strings) | 1 (Flash, sandbox on) | evidence/T004-log-announce.txt | ca62659 |
+| T005 | ☑ (before table: accent 3.05/3.34, label 4.24/3.01 FAIL; 4 R2 rows `test.fails` until T011) | 1 (Flash, sandbox on) | evidence/T005-log-contrast-token-before.txt | 48b1de3 |
+| T006 | ☑ (12 rows; 8 scanned sites covered; negative control fires) | 1 (Flash, sandbox on) | evidence/T006-log-motion-matrix.txt | 87b0cb3 |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
@@ -41,6 +41,8 @@
 | T015 | ☐ | | | |
 | T016 | ☐ | | | |
 | T017 | ☐ | | | |
+
+**G1 gate (2026-11-01):** integrated `b81959d`, all 7 guards OK, typecheck/lint/test (595 + 4 expected-fail)/build green, unsandboxed → `evidence/G1-log-gate.txt`. Scanner-list merge conflicts were resolved by the orchestrator (union).
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S08.md` and `.specify/features/a11y-floor/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 

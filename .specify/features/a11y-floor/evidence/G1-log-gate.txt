@@ -1,0 +1,19 @@
+# G1 gate — integrated task/s08-a11y-floor at b81959d, 2026-11-01T12:09:59Z, orchestrator, unsandboxed
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+PROBES-OK
+BRIEF-HISTORY-OK
+NO-REACT-OR-PKG-CHANGES-IN-G1
+TYPECHECK-OK
+LINT-OK
+tools/perf test:  Test Files  14 passed (14)
+tools/perf test:       Tests  88 passed (88)
+packages/xploder test:  Test Files  58 passed (58)
+packages/xploder test:       Tests  595 passed | 4 expected fail (599)
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  54 passed | 1 skipped (55)
+BUILD-OK
+ 20 files changed, 2452 insertions(+)
