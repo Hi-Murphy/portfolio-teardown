@@ -69,6 +69,11 @@ const S07_SOURCE_FILES = [
   'react/panel/useViewerPanels.ts',
   'react/panel/pickAt.ts',
   'react/panel/executeTourCommand.ts',
+  'lettering/look.ts',
+  'lettering/faces.ts',
+  'lettering/place.ts',
+  'lettering/model.ts',
+  'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 const BARE_TIMING_SHORTHAND =
   /(['"`])(?=[^'"`\n]*\b\d*\.?\d+m?s\b)(?=[^'"`\n]*\b(?:ease(?:-in-out|-in|-out)?|linear|cubic-bezier\(|steps\())[^'"`\n]*\1/g;
