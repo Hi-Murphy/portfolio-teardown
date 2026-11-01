@@ -20,6 +20,8 @@
 
 **Stage-2 correction C1 (RFC §9.8):** `packages/xploder/package.json` is S2-sealed, so the jsdom DOM tests live in `apps/web/test/xploder-dom/`, and `jsdom` is an `apps/web` devDependency.
 
+**Stage-3 correction C3 (G2 gate, Murphy default "apply"):** three S7 `panel-probe.ts` checks (`chips-labels`, `panel-content-*`) read chip labels with `textContent`, which now includes the AC2-required visually hidden `, <category>`. T013 (orchestrator) changes only the probe's chip-label extraction to read the visible label span, then reruns all 198 S4–S7 checks. The intent (visible chip labels = registry labels) is unchanged. `panel-probe.ts` leaves the PROBES-OK guard list, with this diff logged.
+
 **Stage-3 correction C2 (T008):** the DOM unit tests in `apps/web/test/xploder-dom/` may import xploder **internals by relative path** (e.g. `ComponentNavigator`, `PanelLayer`) to test them standalone, because WebGL (hence the mounted navigator) is unavailable in jsdom. This is test-only. `app/` code still never deep-imports `xploder/src` (enforced by `package-consumer.test.ts`), and no internal becomes a public `xploder/react` export just for tests.
 
 ## Ledger (resume point — update at every task boundary)
@@ -38,6 +40,7 @@
 | T010 | ☑ (lettering + S6 overlay hidden from AT, chip categories, dialog description) | 1 (Flash, sandbox off) + orchestrator review fix (visible chip comma rejected; comma in hidden span) | evidence/T010-{log-aria-smoke.txt,log-tierb-diff.txt,screenshot-chips-light.png} | 764f859 |
 | T011 | ☑ (R2 ink; presentation diff 12 colour + 20 hidden-span, 0 disallowed; rendered pixels match token model) | 1 (Flash, sandbox off) | evidence/T011-{log-contrast-token-after.txt,log-presentation-diff.txt,screenshot-highlight-*.png} | 8227c87 |
 | T012 | ☑ (no-JS poster + list, no-WebGL message + list, skip link; smoke 44/44) | 1 (Flash, sandbox off) + orchestrator review fix (skip link overlay, viewer shift 0) | evidence/T012-{log-fallback.txt,screenshot-*.png,meta.json} | 63b11eb |
+| T012a | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
@@ -375,6 +378,31 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S08.md` and `.specif
   1. At G2: look at the no-JS poster and the list in both themes (default: accept the SVG poster; it is the S10 seed).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: proceed).
+
+### T012a [US8] G2 feedback (Murphy): face part names only from zoom ≥ 2×, all-or-nothing
+
+- **Origin:** Murphy, G2 gate (2026-11-01). (1) At the default zoom and after one zoom-in, faces show only the index (`3.1`); names appear under the index only at **2× zoom and more**. (2) Bug: names appeared on only some faces. Rule: if one face shows its name, all do; if one hides it, all hide (governed by rule 1). Orchestrator reading of "2× zoom": `viewer.rig.zoomFactor ≥ 2`. The notches are 1, 1.25, 1.5625, 1.953, 2.441, 3, so names show at 2.44× and 3×. This is the one constant `FACE_NAMES_MIN_ZOOM = 2`.
+- **Seam:** `PartLettering` face-name selection ↔ viewer zoom.
+- **Files:**
+  - `packages/xploder/src/react/lettering/faceNames.ts` (new, pure): `FACE_NAMES_MIN_ZOOM = 2` and `faceLetteringAllOrNone({ zoomFactor, columnActive, names, build })`. It returns `build(emptyMap)` when `columnActive` (the S7 compact phone column keeps the names, as today) or when `zoomFactor < FACE_NAMES_MIN_ZOOM`. Otherwise it returns `build(names)` **if every item whose lettering is `kind: 'face'` carries its name** (`namePx !== null`). If any face item lacks it, it returns `build(emptyMap)`. Mark-kind items (the occlusion fallback) never carry a name and do not count.
+  - **Tier B** `PartLettering.tsx`: a new optional prop `zoomFactor?: number` (default 1), kept in a ref. The settled handler computes `items` through `faceLetteringAllOrNone` instead of the current `faceNames` line. Nothing else changes.
+  - `TeardownViewer.tsx`: pass `zoomFactor={viewer.rig.zoomFactor}` to `PartLettering`.
+  - `packages/xploder/test/lettering-face-names.test.ts`: below 2 → no face has a name; at ≥ 2 with roomy synthetic quads → every face has its name; at ≥ 2 with one face too small → no face has a name; with the column active → no face names at any zoom.
+- **Check:**
+  ```sh
+  set -euo pipefail
+  pnpm --filter xploder exec vitest run test/lettering-face-names.test.ts --reporter verbose 2>&1 | tee /tmp/s08-checks/t012a.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T012a-UNIT-OK
+  # dev smoke (localhost:3000): fixtures A and C, desktop 1280x800 and mobile 390x844, exploded, light:
+  # at zoom 1, 1.25, 1.5625, 1.953 → 0 face-lettering name lines; at 2.441 and 3 → either every face-lettered part has its name or none does
+  # (log the count per state); screenshots desktop A at 1.0x and 2.44x.
+  node /tmp/s08-checks/t012a-smoke.mjs 2>&1 | tee -a /tmp/s08-checks/t012a.txt && echo T012a-OK
+  ```
+- **Evidence:** `evidence/T012a-log-face-names.txt`, `T012a-screenshot-desktop-{1x,2.44x}.png` + `T012a-meta.json`; the presentation diff vs base is **not** expected to be empty for lettering name nodes (intended change, logged).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Zoom from default to max on A and C: numbers only up to 1.95×, then names under every number from 2.44× (default: accept the ≥ 2× reading).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. If "2× zoom" meant **two zoom-in clicks** (1.56×) rather than a 2× factor, say so; the constant changes, but at 1.56× most faces cannot fit a legible name, so all-or-nothing would keep names hidden there (default: zoom factor ≥ 2).
 
 **G2 gate:** the orchestrator runs all guards + `pnpm typecheck && pnpm lint && pnpm test && pnpm build`, then starts `pnpm dev` and opens `http://localhost:3000/dev/engine` in Orca's browser for Murphy's keyboard click-through (memory: visual checks in the Orca browser). STOP.
 
