@@ -210,3 +210,83 @@ layer-lettering C: face=38 plain=2
    Duration  109ms (import 55%, tests 26%, transform 17%, worker 2%)
 
 T010d-OK
+
+## Orchestrator review fixes (2026-11-01, fresh 5h window) + re-run outside the sandbox (authoritative)
+Fixes: (1) S6 layer labels are hidden per layer only where the plate lettering succeeded (scoped <style> per viewer); the custom plain fallback is removed, so S6's collision-free label is the fallback (fixed the overlap with '5 layers' on C services at phone 1x). (2) Plate lettering slides along the front edge (9 positions) to stay fully inside the canvas width (fixed the clipped 'T' at max zoom). Test: layer lettering on screen at every case.
+
+### Layer-label smoke (Playwright, A/C x 390x844/1280x800 x zoom steps 0..5 x scroll top/mid/bottom): each layer has exactly one visible label (plate lettering or S6)
+a 390x844 zoomstep=0 top: lettered=3 s6=1 of 4
+a 390x844 zoomstep=1 top: lettered=4 s6=0 of 4
+a 390x844 zoomstep=1 mid: lettered=4 s6=0 of 4
+a 390x844 zoomstep=1 bottom: lettered=4 s6=0 of 4
+a 390x844 zoomstep=2 top: lettered=4 s6=0 of 4
+a 390x844 zoomstep=2 mid: lettered=4 s6=0 of 4
+a 390x844 zoomstep=2 bottom: lettered=4 s6=0 of 4
+a 390x844 zoomstep=3 top: lettered=4 s6=0 of 4
+a 390x844 zoomstep=3 mid: lettered=4 s6=0 of 4
+a 390x844 zoomstep=3 bottom: lettered=4 s6=0 of 4
+a 390x844 zoomstep=4 top: lettered=4 s6=0 of 4
+a 390x844 zoomstep=4 mid: lettered=4 s6=0 of 4
+a 390x844 zoomstep=4 bottom: lettered=4 s6=0 of 4
+a 390x844 zoomstep=5 top: lettered=4 s6=0 of 4
+a 390x844 zoomstep=5 mid: lettered=4 s6=0 of 4
+a 390x844 zoomstep=5 bottom: lettered=4 s6=0 of 4
+c 390x844 zoomstep=0 top: lettered=4 s6=1 of 5
+c 390x844 zoomstep=1 top: lettered=5 s6=0 of 5
+c 390x844 zoomstep=1 mid: lettered=5 s6=0 of 5
+c 390x844 zoomstep=1 bottom: lettered=5 s6=0 of 5
+c 390x844 zoomstep=2 top: lettered=5 s6=0 of 5
+c 390x844 zoomstep=2 mid: lettered=5 s6=0 of 5
+c 390x844 zoomstep=2 bottom: lettered=5 s6=0 of 5
+c 390x844 zoomstep=3 top: lettered=5 s6=0 of 5
+c 390x844 zoomstep=3 mid: lettered=5 s6=0 of 5
+c 390x844 zoomstep=3 bottom: lettered=5 s6=0 of 5
+c 390x844 zoomstep=4 top: lettered=5 s6=0 of 5
+c 390x844 zoomstep=4 mid: lettered=5 s6=0 of 5
+c 390x844 zoomstep=4 bottom: lettered=5 s6=0 of 5
+c 390x844 zoomstep=5 top: lettered=5 s6=0 of 5
+c 390x844 zoomstep=5 mid: lettered=5 s6=0 of 5
+c 390x844 zoomstep=5 bottom: lettered=5 s6=0 of 5
+a 1280x800 zoomstep=0 top: lettered=0 s6=4 of 4
+a 1280x800 zoomstep=1 top: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=1 mid: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=1 bottom: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=2 top: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=2 mid: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=2 bottom: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=3 top: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=3 mid: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=3 bottom: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=4 top: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=4 mid: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=4 bottom: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=5 top: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=5 mid: lettered=4 s6=0 of 4
+a 1280x800 zoomstep=5 bottom: lettered=4 s6=0 of 4
+c 1280x800 zoomstep=0 top: lettered=0 s6=5 of 5
+c 1280x800 zoomstep=1 top: lettered=4 s6=1 of 5
+c 1280x800 zoomstep=1 mid: lettered=4 s6=1 of 5
+c 1280x800 zoomstep=1 bottom: lettered=4 s6=1 of 5
+c 1280x800 zoomstep=2 top: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=2 mid: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=2 bottom: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=3 top: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=3 mid: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=3 bottom: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=4 top: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=4 mid: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=4 bottom: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=5 top: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=5 mid: lettered=5 s6=0 of 5
+c 1280x800 zoomstep=5 bottom: lettered=5 s6=0 of 5
+states=64 failing=0
+typecheck-ok
+lint-ok
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:       Tests  545 passed (545)
+apps/web test:       Tests  53 passed | 2 skipped (55)
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+FROZEN-OK
+T010d-OK

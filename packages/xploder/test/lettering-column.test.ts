@@ -224,6 +224,7 @@ describe('zoomed layer lettering', () => {
             layerIndex: component.layerIndex,
             hull: component.hull,
           })),
+          canvasWidth: canvas.width,
         });
         const context = `${fixture} ${canvas.width}x${canvas.height} azimuth=${azimuth}`;
 
@@ -244,6 +245,11 @@ describe('zoomed layer lettering', () => {
           }
 
           faceLabels += 1;
+
+          for (const point of label.screen) {
+            expect(point[0], `${context} ${label.id} on screen`).toBeGreaterThanOrEqual(0);
+            expect(point[0], `${context} ${label.id} on screen`).toBeLessThanOrEqual(canvas.width);
+          }
 
           for (const component of frame.components) {
             if (component.layerIndex > label.layerIndex) continue;

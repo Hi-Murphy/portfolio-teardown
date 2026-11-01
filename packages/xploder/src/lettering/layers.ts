@@ -45,7 +45,17 @@ export type LayerLettering = FaceLayerLettering | PlainLayerLettering;
 export interface LayerLetteringInput {
   readonly layers: readonly LayerLetteringLayer[];
   readonly components: readonly LayerLetteringComponent[];
+  /** Canvas width in px: the lettering slides along the plate's front edge to stay fully on screen. */
+  readonly canvasWidth?: number;
   readonly look?: LetteringLook;
+}
+
+const EDGE_POSITIONS = 9;
+
+function insideWidth(screen: FaceQuad, canvasWidth: number | undefined): boolean {
+  if (canvasWidth === undefined) return true;
+
+  return screen.every((point) => point[0] >= 0 && point[0] <= canvasWidth);
 }
 
 function facePad(lu: number, lv: number, look: LetteringLook): number {
@@ -121,11 +131,24 @@ export function layerLetteringModel(input: LayerLetteringInput): readonly LayerL
 
       if (w > basis.lu - 2 * pad || h > basis.lv - 2 * pad) continue;
 
-      const x = pad;
       const y = basis.lv - pad - h;
-      const screen = screenQuad(basis.origin, basis.u, basis.v, x, y, w, h);
+      const travel = basis.lu - 2 * pad - w;
+      let x = pad;
+      let screen: FaceQuad | null = null;
 
-      if (occluders.some((hull) => convexPolygonsIntersect(screen, hull))) continue;
+      for (let step = 0; step < EDGE_POSITIONS; step += 1) {
+        const candidateX = pad + (travel * step) / (EDGE_POSITIONS - 1);
+        const candidate = screenQuad(basis.origin, basis.u, basis.v, candidateX, y, w, h);
+
+        if (!insideWidth(candidate, input.canvasWidth)) continue;
+        if (occluders.some((hull) => convexPolygonsIntersect(candidate, hull))) continue;
+
+        x = candidateX;
+        screen = candidate;
+        break;
+      }
+
+      if (screen === null) continue;
 
       return {
         kind: 'face' as const,

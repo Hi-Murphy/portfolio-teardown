@@ -3,6 +3,7 @@ import {
   useCallback,
   useImperativeHandle,
   useLayoutEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -39,9 +40,18 @@ import type { TeardownTarget, TourStatus, ViewerProject } from '../useTeardownVi
 
 export const LETTERING_TAG_HIDE_CSS =
   '[data-xploder-lettering-on] [data-xploder-callouts="tags"] [data-xploder-label^="part:"]{visibility:hidden}';
-export const LETTERING_LAYER_HIDE_CSS =
-  '[data-xploder-lettering-on][data-xploder-lettering-layers] [data-xploder-label^="layer:"]{visibility:hidden}';
-export const LETTERING_HIDE_CSS = `${LETTERING_TAG_HIDE_CSS}${LETTERING_LAYER_HIDE_CSS}`;
+export const LETTERING_HIDE_CSS = LETTERING_TAG_HIDE_CSS;
+
+// S6 layer labels are hidden per layer, only where the plate lettering succeeded, so S6's
+// collision-free label stays as the fallback for a layer whose plate has no room (G2 round 3).
+function layerHideCss(scope: string, layerIds: readonly string[]): string {
+  return layerIds
+    .map(
+      (id) =>
+        `[data-xploder-lettering-scope="${scope}"] [data-xploder-label="layer:${id.replace(/["\\]/g, '')}"]{visibility:hidden}`,
+    )
+    .join('');
+}
 
 export interface PartLetteringHandle {
   update(event: OverlayEvent): void;
@@ -217,6 +227,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     const vector = useMemo(() => new Vector3(), []);
     const names = useMemo(() => componentNames(project), [project]);
     const layerIds = useMemo(() => layerIdsByComponent(layout), [layout]);
+    const scope = useId();
     const layerIdsByLayerIndex = useMemo(() => layerIdsByIndex(layout), [layout]);
     const [settled, setSettled] = useState<SettledLettering | null>(null);
     const [moving, setMoving] = useState(false);
@@ -314,6 +325,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                 layerIndex: component.layerIndex,
                 hull: component.hull.map(arrayPoint),
               })),
+              canvasWidth: event.width,
             })
           : [];
 
@@ -345,6 +357,11 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     const columnShown = visible && column !== null;
     const layerLabelsShown = visible && settled?.layersShown === true;
     const markCount = items.filter((item) => item.lettering.kind === 'mark').length;
+    const layerFaceIds = layerLabelsShown
+      ? (settled?.layerLabels ?? [])
+          .filter((label) => label.kind === 'face')
+          .map((label) => label.id)
+      : [];
 
     useLayoutEffect(() => {
       const wrapper = wrapperRef.current;
@@ -356,12 +373,9 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       wrapper.dataset.xploderLetteringMarks = String(markCount);
       wrapper.dataset.xploderLetteringColumn = columnShown ? 'shown' : 'hidden';
 
-      if (settled?.layersShown === true) {
-        wrapper.dataset.xploderLetteringLayers = '';
-      } else {
-        delete wrapper.dataset.xploderLetteringLayers;
-      }
-    }, [columnShown, items.length, markCount, settled?.layersShown, visible, wrapperRef]);
+      wrapper.dataset.xploderLetteringScope = scope;
+      wrapper.dataset.xploderLetteringLayers = String(layerFaceIds.length);
+    }, [columnShown, items.length, layerFaceIds.length, markCount, scope, visible, wrapperRef]);
 
     useLayoutEffect(() => {
       const root = rootRef.current;
@@ -410,6 +424,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
 
     return (
       <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
+        {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
         <div
           ref={groupRef}
           style={{ ...GROUP_STYLE, transform: `translateY(${-offsetRef.current}px)` }}
@@ -626,22 +641,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                   );
                 }
 
-                return (
-                  <div
-                    key={`layer-label:${label.id}`}
-                    data-xploder-lettering-layer-label={label.id}
-                    data-xploder-lettering-layer-kind="plain"
-                    style={{
-                      ...common,
-                      left: label.x,
-                      top: label.y,
-                      width: label.w,
-                      height: label.h,
-                    }}
-                  >
-                    {label.text}
-                  </div>
-                );
+                return null;
               })
             : null}
         </div>
