@@ -41,15 +41,17 @@
 | T011 | ☑ (R2 ink; presentation diff 12 colour + 20 hidden-span, 0 disallowed; rendered pixels match token model) | 1 (Flash, sandbox off) | evidence/T011-{log-contrast-token-after.txt,log-presentation-diff.txt,screenshot-highlight-*.png} | 8227c87 |
 | T012 | ☑ (no-JS poster + list, no-WebGL message + list, skip link; smoke 44/44) | 1 (Flash, sandbox off) + orchestrator review fix (skip link overlay, viewer shift 0) | evidence/T012-{log-fallback.txt,screenshot-*.png,meta.json} | 63b11eb |
 | T012a | ☑ (names only ≥ 2×, all-or-nothing; smoke 24/24 states) | 1 (Flash, sandbox off) | evidence/T012a-{log-face-names.txt,screenshot-desktop-*.png,meta.json} | see merge |
-| T013 | ☐ | | | |
-| T014 | ☐ | | | |
-| T015 | ☐ | | | |
+| T013 | ☑ (11 states × 4 combos; local + CI serious 0 / critical 0) | 1 (Flash, sandbox off; codex exited 2 after the check printed T013-OK) + orchestrator review fix after CI run 1 (dim-ledger race: settle animations, ledger needs opacity < 1) | evidence/T013-log-axe-tool.txt, T015-ci.txt | 05c76e1 + ca1bf4a |
+| T014 | ☑ (8 groups PASS; drill 166 steps; contrast every non-exception glyph measured, pixel min 5.04) | 1 (Flash, sandbox off) + orchestrator review fixes (honest contrast rows, unmeasured recorded, 2.44× top/bottom sampling) | evidence/T014-log-probe-tool.txt | a2419f7 |
+| T015 | ☑ ⚑ draft PR #13; CI run 1 green → run 2 red on the broken commit (aria-hidden-focus ×32, exit 6) → run 3 green after revert | 1 (Flash: workflow file) + ⚑ orchestrator (push, PR, proof) | evidence/T015-{ci.txt,log-ci-job.txt} | 62cde32 / 42985ae / 1725d39 |
 | T016 | ☐ | | | |
 | T017 | ☐ | | | |
 
 **G1 gate (2026-11-01):** integrated `b81959d`, all 7 guards OK, typecheck/lint/test (595 + 4 expected-fail)/build green, unsandboxed → `evidence/G1-log-gate.txt`. Scanner-list merge conflicts were resolved by the orchestrator (union).
 
 **G2 gate (2026-11-01):** integrated `7cdbd0f`: guards OK, typecheck/lint/build green; `pnpm test` 1 intermittent failure (output not captured) then 3× green; S4–S7 `engine:probe` 195/198, 3 chip-label FAILs from the S7 probe reading `textContent` (C3 pending Murphy) → `evidence/G2-log-gate.txt`, `G2-engine-probe.json`.
+
+**G3 gate (2026-11-01):** draft PR #13; CI all green on run 4 (`ca1bf4a`), incl. `a11y: axe (engine fixture export)`; AC3 chain green → red → green recorded; S4–S7 `engine:probe` 198/198 after C3 → `evidence/T015-ci.txt`, `G3-log-probe-after-C3.txt`.
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S08.md` and `.specify/features/a11y-floor/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 

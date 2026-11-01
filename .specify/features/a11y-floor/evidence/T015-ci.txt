@@ -39,3 +39,6 @@ secrets (gitleaks)	pass	9s	https://github.com/Hi-Murphy/portfolio-teardown/actio
 
 ## Orchestrator review fix after run 1 (dim-ledger race)
 The green run-1 artifact showed 118 ledger entries, many with opacity 1 (focused layer label, dimension labels): dim tagging ran while the S6 overlay was still fading in. Fix: settleAnimations() before tagging (no running animation/transition for 2 frames) + axeVerdict ignores ledger entries with opacity >= 1 (+ unit test). Local re-scan: ledger 72, max opacity 0.3, state a-layer-focus only; serious 0, critical 0.
+
+## Run 4 (GREEN after the dim-ledger fix, head ca1bf4a): https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41324456496
+a11y artifact: {"serious":0,"critical":0,"ledger":72,"maxOpacity":0.3,"states":["a-layer-focus"]} — CI now equals the local scan.
