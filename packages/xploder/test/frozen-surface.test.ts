@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import manifestJson from './frozen-surface.manifest.json';
 import manifestS5Json from './frozen-surface.s5.manifest.json';
+import manifestS6Json from './frozen-surface.s6.manifest.json';
 
 interface FrozenSurfaceManifest {
   readonly base: string;
@@ -21,6 +22,12 @@ const REQUIRED_S5_FILES = [
   'src/react/scene/Emphasis.tsx',
   'src/react/scene/ViewScroll.tsx',
   'test/tour.test.ts',
+] as const;
+const REQUIRED_S6_FILES = [
+  'src/overlay/model.ts',
+  'src/look/tokens.ts',
+  'src/react/scene/OverlayProjector.tsx',
+  'test/overlay-place.test.ts',
 ] as const;
 
 type RawImportMeta = ImportMeta & {
@@ -139,6 +146,31 @@ describe('frozen S5 surface', () => {
     expect(entries.length).toBeGreaterThanOrEqual(25);
 
     for (const path of REQUIRED_S5_FILES) {
+      expect(manifest.files).toHaveProperty(path);
+    }
+
+    for (const [path, expected] of entries) {
+      const workingCopy = rawFiles[path];
+
+      if (workingCopy === undefined) throw new Error(`Missing working copy for ${path}`);
+
+      expect(await sha256(workingCopy), path).toBe(expected);
+    }
+  });
+});
+
+describe('frozen S6 surface', () => {
+  test('matches every hash recorded from the base commit', async () => {
+    const manifest = manifestS6Json as FrozenSurfaceManifest;
+    const entries = Object.entries(manifest.files);
+
+    expect(manifest.base).toBe('0b2c678');
+    expect(manifest.note).toBe(
+      'S06 seal (S07 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+    );
+    expect(entries.length).toBeGreaterThanOrEqual(25);
+
+    for (const path of REQUIRED_S6_FILES) {
       expect(manifest.files).toHaveProperty(path);
     }
 

@@ -1,0 +1,279 @@
+$ set -euo pipefail; pnpm --filter xploder exec vitest run test/panel-tour-click.test.ts --reporter verbose 2>&1 | tee /tmp/s07-checks/t004.txt
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t004/packages/xploder
+
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > fixture A exposes the expected live-update path 1ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + null 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the first occurrence before playback starts 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the next occurrence after the current step 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > wraps to the first occurrence when no later occurrence exists 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > returns null when the component is absent 0ms
+ ✓ test/panel-tour-click.test.ts > jumpSequence > stops, steps to the target, and resumes only when requested 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while playing lands on the target step and keeps playing 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while paused lands on the target step and stays paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping from ended returns to the first step, paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > pause then play resumes from the current step 0ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  06:30:30
+   Duration  126ms (import 55%, transform 36%, tests 5%, worker 3%)
+
+$ pnpm typecheck && pnpm lint && pnpm test && echo T004-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t004/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:25867) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25865) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t004/tools/perf
+tools/perf test: 
+packages/xploder test: (node:25869) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test:  ❯ test/serve.test.ts (5 tests | 5 skipped) 12ms
+tools/perf test:  ❯ test/reach.test.ts (3 tests | 3 skipped) 27ms
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:25901) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25899) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25903) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: Error: listen EPERM: operation not permitted 127.0.0.1
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/reach.test.ts:21:17
+tools/perf test:      19|
+tools/perf test:      20| afterAll(async () => {
+tools/perf test:      21|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      22|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      23| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/serve.test.ts:67:17
+tools/perf test:      65|
+tools/perf test:      66| afterAll(async () => {
+tools/perf test:      67|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      68|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      69| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+tools/perf test: 
+tools/perf test: 
+tools/perf test:  Test Files  2 failed | 10 passed (12)
+tools/perf test:       Tests  68 passed | 8 skipped (76)
+tools/perf test:    Start at  06:30:36
+tools/perf test:    Duration  1.47s (import 65%, transform 31%, tests 3%, worker 1%)
+tools/perf test: 
+tools/perf test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+packages/xploder test: Failed
+[ELIFECYCLE] Command failed with signal SIGKILL.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t004/tools/perf
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+--- Sandbox exception (tasks.md): tools/perf cannot bind 127.0.0.1; pnpm then terminated the concurrent xploder run with SIGKILL. ---
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t004/packages/xploder
+
+(node:26283) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26285) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26287) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:26309) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26307) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26314) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26329) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26338) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  46 passed (46)
+      Tests  420 passed (420)
+   Start at  06:30:44
+   Duration  10.56s (tests 70%, import 22%, transform 7%, worker 1%)
+
+$ echo T004-OK
+T004-OK
+
+--- Guard lines from tasks.md Format & rules ---
+$ set -euo pipefail
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:03Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-tour-click.test.ts --reporter verbose
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > fixture A exposes the expected live-update path 1ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + null 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the first occurrence before playback starts 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the next occurrence after the current step 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > wraps to the first occurrence when no later occurrence exists 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > returns null when the component is absent 0ms
+ ✓ test/panel-tour-click.test.ts > jumpSequence > stops, steps to the target, and resumes only when requested 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while playing lands on the target step and keeps playing 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while paused lands on the target step and stays paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping from ended returns to the first step, paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > pause then play resumes from the current step 0ms
+ Test Files  1 passed (1)
+      Tests  22 passed (22)

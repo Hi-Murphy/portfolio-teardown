@@ -1,0 +1,60 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository",
+  "finalUrl": "http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository",
+  "httpStatus": 200,
+  "startedAt": "2026-11-01T00:53:31.786Z",
+  "finishedAt": "2026-11-01T00:53:40.733Z",
+  "durationMs": 8947,
+  "argv": [
+    "http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository",
+    "--runs",
+    "1",
+    "--color-scheme",
+    "dark",
+    "--wait-for",
+    "[data-xploder-panel-ready=\"true\"]",
+    "--out",
+    "/tmp/s07-checks/t008-dark"
+  ],
+  "colorScheme": "dark",
+  "git": {
+    "sha": "6b8186adb82ee6ab6b90a47374814cd13d15601e",
+    "dirty": true
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 1169
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 1104
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 6469
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}

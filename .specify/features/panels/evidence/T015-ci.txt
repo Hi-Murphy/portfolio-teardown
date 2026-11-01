@@ -1,0 +1,10 @@
+# T015 — PR #12 checks at dfaa5dd (2026-11-01T06:16:38Z)
+$ gh pr checks 12
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/DqYR5VwfgSZwKXkXv6b3pcSVu3gP	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	47s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41280057766/job/124769974716	
+perf-gate: lighthouse (mobile)	pass	58s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41280057763/job/124769974530	
+perf-gate: weight (< 3 MB)	pass	1m10s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41280057763/job/124769974624	
+perf: fixture exclusion	pass	20s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41280057763/job/124769974653	
+perf: fps calibration	pass	48s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41280057763/job/124769974751	
+secrets (gitleaks)	pass	6s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41280057766/job/124769974571	

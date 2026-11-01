@@ -1,0 +1,36 @@
+# T015 — frozen-surface diffs vs their seal bases (expected: empty)
+$ git diff --stat --exit-code 53b2b2b -- <frozen-surface.paths>
+S2/S4-DIFF-EMPTY
+$ git diff --stat --exit-code f31600e -- <frozen-surface.s5.paths>
+S5-DIFF-EMPTY
+$ git diff --stat --exit-code 0b2c678 -- <frozen-surface.s6.paths>
+S6-DIFF-EMPTY
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md
+FROZEN-OK
+BRIEF-HISTORY-OK
+
+## S7 change footprint in xploder (all additive / new)
+ packages/xploder/src/lettering/column.ts           | 208 +++++++
+ packages/xploder/src/lettering/faces.ts            | 119 ++++
+ packages/xploder/src/lettering/layers.ts           | 175 ++++++
+ packages/xploder/src/lettering/look.ts             |  49 ++
+ packages/xploder/src/lettering/model.ts            |  59 ++
+ packages/xploder/src/lettering/place.ts            | 319 ++++++++++
+ packages/xploder/src/panel/content.ts              | 173 ++++++
+ packages/xploder/src/panel/look.ts                 |  40 ++
+ packages/xploder/src/panel/motion.ts               |  47 ++
+ packages/xploder/src/panel/place.ts                | 239 ++++++++
+ packages/xploder/src/panel/state.ts                |  53 ++
+ packages/xploder/src/panel/tourClick.ts            |  62 ++
+ packages/xploder/src/react/TeardownViewer.tsx      | 179 ++++++
+ packages/xploder/src/react/index.ts                |   3 +
+ .../xploder/src/react/lettering/PartLettering.tsx  | 651 +++++++++++++++++++++
+ .../xploder/src/react/panel/CaseStudyPanel.tsx     | 130 ++++
+ packages/xploder/src/react/panel/DetailPanel.tsx   | 145 +++++
+ packages/xploder/src/react/panel/PanelLayer.tsx    | 494 ++++++++++++++++
+ packages/xploder/src/react/panel/TechChips.tsx     |  62 ++
+ .../xploder/src/react/panel/executeTourCommand.ts  |  19 +
+ packages/xploder/src/react/panel/pickAt.ts         |  54 ++
+ packages/xploder/src/react/panel/useSlabClick.ts   |  46 ++
+ .../xploder/src/react/panel/useViewerPanels.ts     |  85 +++
+ 23 files changed, 3411 insertions(+)

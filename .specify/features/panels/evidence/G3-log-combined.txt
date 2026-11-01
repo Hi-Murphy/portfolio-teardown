@@ -1,0 +1,21 @@
+# G3 combined gate log — orchestrator, slice branch after T011–T014
+typecheck-ok
+All matched files use Prettier code style!
+tools/perf test:       Tests  85 passed (85)
+packages/xploder test:       Tests  545 passed (545)
+apps/web test:       Tests  54 passed | 1 skipped (55)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+BRIEF-HISTORY-OK
+
+## PR #12 CI at 5faf7fd (after the gitleaks false-positive fixes)
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/HNf5xtzdh99irN3VyLYWJrCPd2J5	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+build (typecheck, lint, test, build)	pass	1m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41279296733/job/124767733568	
+perf-gate: lighthouse (mobile)	pass	54s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41279296676/job/124767732928	
+perf-gate: weight (< 3 MB)	pass	1m5s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41279296676/job/124767732937	
+perf: fixture exclusion	pass	19s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41279296676/job/124767732753	
+perf: fps calibration	pass	1m9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41279296676/job/124767732948	
+secrets (gitleaks)	pass	15s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41279296733/job/124767733396	

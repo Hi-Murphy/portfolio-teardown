@@ -1,0 +1,388 @@
+T005 — Content view-models (detail, case study, chips)
+cwd: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t005
+check command:
+  set -euo pipefail; pnpm --filter xploder exec vitest run test/panel-content.test.ts --reporter verbose
+  pnpm typecheck && pnpm lint && pnpm test && echo T005-OK
+guard command: the five lines from tasks.md "Format & rules"
+
++zsh:5> tee /tmp/s07-checks/t005.txt
++zsh:5> pnpm --filter xploder exec vitest run test/panel-content.test.ts --reporter verbose
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t005/packages/xploder
+
+ ✓ test/panel-content.test.ts > detailModel > A/beachgoer equals the fixture and registry content 1ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-chart-screen equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/forecast-details-panel equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-view-model equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-repository equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/live-tide-client equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-cache equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-feed equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/partner-csv-drop equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/column-normalizer equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/ledger-validator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/reconciliation-ledger equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/settlement-operator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/recipient equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-app equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-api equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/session-gate equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/booking-service equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/notifier equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/retry-scheduler equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/slot-planner equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/audit-trail equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-registry equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/dead-letter-store equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/push-gateway equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-hardware equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > omits every empty optional section for beachgoer 0ms
+ ✓ test/panel-content.test.ts > detailModel > returns null for a missing component id 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > A keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > B keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > C keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > fixture C has no story metrics 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses raw labels without a registry and omits category metadata 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses registry labels, categories and colour references in tech order 0ms
+ ✓ test/panel-content.test.ts > chipModels > parsing with the registry rejects an unknown tech id 1ms
+
+ Test Files  1 passed (1)
+      Tests  35 passed (35)
+   Start at  06:30:42
+   Duration  135ms (import 65%, transform 25%, tests 6%, worker 3%)
+
++zsh:6> pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
++zsh:6> pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
++zsh:6> pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t005/packages/xploder
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t005/tools/perf
+tools/perf test: 
+packages/xploder test: (node:26596) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:26598) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:26600) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test:  ❯ test/serve.test.ts (5 tests | 5 skipped) 16ms
+tools/perf test:  ❯ test/reach.test.ts (3 tests | 3 skipped) 13ms
+packages/xploder test: (node:26623) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:26625) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:26627) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: Error: listen EPERM: operation not permitted 127.0.0.1
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/reach.test.ts:21:17
+tools/perf test:      19|
+tools/perf test:      20| afterAll(async () => {
+tools/perf test:      21|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      22|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      23| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/serve.test.ts:67:17
+tools/perf test:      65|
+tools/perf test:      66| afterAll(async () => {
+tools/perf test:      67|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      68|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      69| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+tools/perf test: 
+tools/perf test: 
+tools/perf test:  Test Files  2 failed | 10 passed (12)
+tools/perf test:       Tests  68 passed | 8 skipped (76)
+tools/perf test:    Start at  06:30:53
+tools/perf test:    Duration  1.62s (import 69%, transform 27%, tests 3%, worker 1%)
+tools/perf test: 
+tools/perf test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+packages/xploder test: Failed
+[ELIFECYCLE] Command failed with signal SIGKILL.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t005/tools/perf
+
+[ELIFECYCLE] Test failed. See above for more details.
++zsh:7> git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md
++zsh:7> echo FROZEN-OK
+FROZEN-OK
++zsh:8> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths
++zsh:8> git diff --quiet 53b2b2b -- packages/xploder/package.json packages/xploder/src/index.ts packages/xploder/src/parse.ts packages/xploder/src/errors.ts packages/xploder/src/schema packages/xploder/src/theme packages/xploder/src/motion/index.ts packages/xploder/src/motion/ease.ts packages/xploder/src/layout packages/xploder/src/engine packages/xploder/src/react/scene/CameraRig.tsx packages/xploder/src/react/scene/Lights.tsx packages/xploder/src/react/scene/Stats.tsx packages/xploder/src/react/env.ts packages/xploder/src/react/usePalette.ts packages/xploder/src/react/useReducedMotion.ts packages/xploder/test/fixtures/project-a-ui-app.json packages/xploder/test/fixtures/project-b-pipeline.json packages/xploder/test/fixtures/tech-registry.json packages/xploder/test/camera.test.ts packages/xploder/test/ease.test.ts packages/xploder/test/env.test.ts packages/xploder/test/explode.test.ts packages/xploder/test/exports.test.ts packages/xploder/test/fixtures.test.ts packages/xploder/test/generality.test.ts packages/xploder/test/geometry-free.test.ts packages/xploder/test/layout.test.ts packages/xploder/test/motion.test.ts packages/xploder/test/parse.test.ts packages/xploder/test/registry.test.ts packages/xploder/test/scene.test.tsx packages/xploder/test/schema.test.ts packages/xploder/test/smoke.test.ts packages/xploder/test/theme.test.ts packages/xploder/test/helpers.ts packages/xploder/test/__snapshots__/generality.test.ts.snap packages/xploder/test/__snapshots__/layout.test.ts.snap
++zsh:8> echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
++zsh:9> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths
++zsh:9> git diff --quiet f31600e -- packages/xploder/src/interaction packages/xploder/src/motion/emphasis.ts packages/xploder/src/react/scene/Emphasis.tsx packages/xploder/src/react/scene/PickBridge.tsx packages/xploder/src/react/scene/ViewScroll.tsx packages/xploder/src/react/overlay/TourCaption.tsx packages/xploder/src/react/usePointerPick.ts packages/xploder/src/react/useTourClock.ts packages/xploder/src/react/useTeardownViewer.ts packages/xploder/test/fixtures/project-c-lockerbay.json packages/xploder/test/pick.test.ts packages/xploder/test/pick-scene.test.tsx packages/xploder/test/pointer.test.ts packages/xploder/test/focus.test.ts packages/xploder/test/tour.test.ts packages/xploder/test/tour-clock.test.tsx packages/xploder/test/emphasis.test.ts packages/xploder/test/emphasis-scene.test.tsx packages/xploder/test/emphasis-tokens.test.ts packages/xploder/test/caption.test.ts packages/xploder/test/fixture-c.test.ts packages/xploder/test/scroll.test.ts packages/xploder/test/view-scroll.test.tsx packages/xploder/test/viewer-handle.test.tsx packages/xploder/test/__snapshots__/fixture-c.test.ts.snap
++zsh:9> echo SURFACE-S5-OK
+SURFACE-S5-OK
++zsh:10> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths
++zsh:10> git diff --quiet 0b2c678 -- packages/xploder/src/look packages/xploder/src/overlay packages/xploder/src/react/overlay/BlueprintOverlay.tsx packages/xploder/src/react/overlay/CircuitTrace.tsx packages/xploder/src/react/scene/OverlayProjector.tsx packages/xploder/src/react/scene/Scene.tsx packages/xploder/src/react/scene/Slabs.tsx packages/xploder/src/react/scene/blueprintMaterial.ts packages/xploder/test/blueprint-scene.test.tsx packages/xploder/test/overlay-projector.test.tsx packages/xploder/test/look-fills.test.ts packages/xploder/test/look-tokens.test.ts packages/xploder/test/overlay-columns.test.ts packages/xploder/test/overlay-dimension.test.ts packages/xploder/test/overlay-model.test.ts packages/xploder/test/overlay-parts.test.ts packages/xploder/test/overlay-place.test.ts packages/xploder/test/overlay-project.test.ts packages/xploder/test/overlay-timing.test.ts packages/xploder/test/overlay-titleblock.test.ts packages/xploder/test/overlay-trace.test.ts packages/xploder/test/product-gap.test.ts
++zsh:10> echo SURFACE-S6-OK
+SURFACE-S6-OK
++zsh:11> git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md
++zsh:11> test -z ''
++zsh:11> echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
++zsh:12> set +x
+
+--- isolated workspace result ---
+
+pnpm test first failed in tools/perf because the sandbox denies binding 127.0.0.1 (listen EPERM); pnpm then terminated the in-flight packages/xploder worker with SIGKILL. The library suite was rerun alone:
+
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t005/packages/xploder
+
+(node:26709) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26711) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26713) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:26719) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26721) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26726) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26755) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:26770) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  46 passed (46)
+      Tests  433 passed (433)
+   Start at  06:31:08
+   Duration  6.53s (tests 77%, import 15%, transform 8%, worker 1%)
+
+    Isolate  46 workers spawned · ~90ms startup each (spawn + environment, per file)
+             at least ~372ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+$ pnpm --filter perf-tools test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t005/tools/perf
+
+ ❯ test/reach.test.ts (3 tests | 3 skipped) 18ms
+ ❯ test/serve.test.ts (5 tests | 5 skipped) 22ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/reach.test.ts [ test/reach.test.ts ]
+ FAIL  test/serve.test.ts [ test/serve.test.ts ]
+Error: listen EPERM: operation not permitted 127.0.0.1
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/reach.test.ts [ test/reach.test.ts ]
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ test/reach.test.ts:21:17
+     19|
+     20| afterAll(async () => {
+     21|   await serving.close();
+       |                 ^
+     22|   await rm(dir, { recursive: true, force: true });
+     23| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/serve.test.ts [ test/serve.test.ts ]
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ test/serve.test.ts:67:17
+     65|
+     66| afterAll(async () => {
+     67|   await serving.close();
+       |                 ^
+     68|   await rm(dir, { recursive: true, force: true });
+     69| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  2 failed | 10 passed (12)
+      Tests  68 passed | 8 skipped (76)
+   Start at  06:31:09
+   Duration  1.10s (import 86%, transform 9%, tests 5%, worker 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t005/tools/perf
+
+
+T005-OK was not reached inside this sandbox because tools/perf cannot bind localhost. No T005 code failure was observed.
+
+--- guard lines (appended after all check output) ---
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+BRIEF-HISTORY-OK
+
+## Orchestrator re-run outside the sandbox (2026-10-31T23:38:03Z) on the slice branch after merging T002–T006 + integration fixes (authoritative)
+$ pnpm --filter xploder exec vitest run test/panel-content.test.ts --reporter verbose
+ ✓ test/panel-content.test.ts > detailModel > A/beachgoer equals the fixture and registry content 1ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-chart-screen equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/forecast-details-panel equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-view-model equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-repository equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/live-tide-client equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-cache equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-feed equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/partner-csv-drop equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/column-normalizer equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/ledger-validator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/reconciliation-ledger equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/settlement-operator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/recipient equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-app equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-api equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/session-gate equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/booking-service equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/notifier equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/retry-scheduler equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/slot-planner equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/audit-trail equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-registry equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/dead-letter-store equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/push-gateway equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-hardware equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > omits every empty optional section for beachgoer 0ms
+ ✓ test/panel-content.test.ts > detailModel > returns null for a missing component id 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > A keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > B keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > C keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > fixture C has no story metrics 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses raw labels without a registry and omits category metadata 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses registry labels, categories and colour references in tech order 0ms
+ ✓ test/panel-content.test.ts > chipModels > parsing with the registry rejects an unknown tech id 1ms
+ ✓ test/panel-content.test.ts > chipModels > a component without a name falls back to its id (ViewerProject allows no name) 0ms
+ Test Files  1 passed (1)
+      Tests  36 passed (36)

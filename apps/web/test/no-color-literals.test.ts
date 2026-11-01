@@ -45,6 +45,29 @@ const S06_SOURCE_FILES = [
   'react/overlay/BlueprintOverlay.tsx',
   'react/overlay/CircuitTrace.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S07_SOURCE_FILES = [
+  'panel/state.ts',
+  'panel/place.ts',
+  'panel/tourClick.ts',
+  'panel/content.ts',
+  'panel/look.ts',
+  'panel/motion.ts',
+  'react/panel/PanelLayer.tsx',
+  'react/panel/DetailPanel.tsx',
+  'react/panel/CaseStudyPanel.tsx',
+  'react/panel/TechChips.tsx',
+  'react/panel/useSlabClick.ts',
+  'react/panel/useViewerPanels.ts',
+  'react/panel/pickAt.ts',
+  'react/panel/executeTourCommand.ts',
+  'lettering/look.ts',
+  'lettering/faces.ts',
+  'lettering/place.ts',
+  'lettering/model.ts',
+  'lettering/column.ts',
+  'lettering/layers.ts',
+  'react/lettering/PartLettering.tsx',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 const RULES = [
   ['hex-color', /(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g],
@@ -106,6 +129,7 @@ describe('color-literal scanner', () => {
     expect(sourceFiles).toContain(SLABS);
     expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S06_SOURCE_FILES));
+    expect(sourceFiles).toEqual(expect.arrayContaining(S07_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 

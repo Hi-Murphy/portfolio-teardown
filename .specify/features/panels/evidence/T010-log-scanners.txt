@@ -1,0 +1,187 @@
+T010 — scanner upkeep + negative controls
+
+Worktree: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010
+Branch: task/s07-t010-scanners
+Base commit: 69b2aa8
+
+## Scanner suites
+$ pnpm --filter web exec vitest run test/no-color-literals.test.ts test/no-motion-literals.test.ts test/package-consumer.test.ts --reporter verbose
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/apps/web
+
+ ✓ test/package-consumer.test.ts > package-consumer scanner > apps/web/app imports xploder only through exported public subpaths 8ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > scanner root contains app sources 1ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > scanner root includes the engine playground 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { BoxGeometry } from 'three'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { Mesh } from 'three/src/objects/Mesh.js'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { Canvas } from '@react-three/fiber'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { createExplodeTimeline } from 'xploder/src/engine/explode'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: const engine = await import('xploder/src/index'); 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches an unexported xploder subpath 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches an engine identifier 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches a newly public engine identifier: const raycaster = new Raycaster(); 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches a newly public engine identifier: mesh.setColorAt(index, color); 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches a newly public engine identifier: const attribute = mesh.instanceColor; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > accepts the exported xploder entry points 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals 11ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner roots include engine sources 2ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner root includes the engine playground 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-number catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > css-color-fn catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > named-three-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: href='#main' 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: palette.line 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: var(--bp-line) 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: issue #12 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > apps/web contains no motion literals 9ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > xploder source outside motion/ contains no motion literals 4ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > source outside motion/ contains no bare CSS timing shorthands 2ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner roots include engine sources 2ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner root includes the engine playground 1ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-time catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-easing catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > gsap-ease catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > motion-key catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > tw-utility catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > timer catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: motion.durations.explode 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: transition-duration: var(--motion-duration-hover-lift) 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: className="ease-explode transition-colors" 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: <p>the 1990s</p> 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: { label: 'p95', value: '120 ms' } 0ms
+
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+   Start at  08:07:44
+   Duration  98ms (tests 46%, transform 30%, import 18%, worker 6%)
+
+negative controls: red as expected
+
+## Negative controls
+A writable temporary Git index was used for restoration because the sandbox cannot lock the worktree index. The planted lines were restored with `git checkout -- packages/xploder/src/panel/look.ts`; the final diff is clean.
+
++ set -euo pipefail
++ trap cleanup EXIT
++ printf '\nexport const NEG = '\''#123456'\'';\n'
++ pnpm --filter web exec vitest run test/no-color-literals.test.ts
++ tee /tmp/s07-checks/t010-neg-hex.txt
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/apps/web
+
+ ❯ test/no-color-literals.test.ts (11 tests | 1 failed) 15ms
+   ❯ color-literal scanner (11)
+     × apps/web and xploder source outside theme/ contain no color literals 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals
+AssertionError: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/packages/xploder/src/panel/look.ts:42 hex-color export const NEG = '#123456';: expected [ { …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "file": "/Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/packages/xploder/src/panel/look.ts",
++     "line": 42,
++     "rule": "hex-color",
++     "snippet": "export const NEG = '#123456';",
++   },
++ ]
+
+ ❯ expectNoHits test/no-color-literals.test.ts:98:34
+     96|
+     97| function expectNoHits(hits: readonly Hit[]): void {
+     98|   expect(hits, formatHits(hits)).toEqual([]);
+       |                                  ^
+     99| }
+    100|
+ ❯ test/no-color-literals.test.ts:115:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  08:09:11
+   Duration  80ms (tests 64%, import 21%, transform 9%, worker 6%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t010/apps/web
+
++ git checkout -- packages/xploder/src/panel/look.ts
++ printf '\nexport const NEG = '\''opacity 320ms ease'\'';\n'
++ pnpm --filter web exec vitest run test/no-motion-literals.test.ts
++ tee /tmp/s07-checks/t010-neg-motion.txt
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/apps/web
+
+ ❯ test/no-motion-literals.test.ts (16 tests | 1 failed) 20ms
+   ❯ motion-literal scanner (16)
+     × source outside motion/ contains no bare CSS timing shorthands 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/no-motion-literals.test.ts > motion-literal scanner > source outside motion/ contains no bare CSS timing shorthands
+AssertionError: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/packages/xploder/src/panel/look.ts:42 css-time export const NEG = 'opacity 320ms ease';: expected [ { …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "file": "/Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/packages/xploder/src/panel/look.ts",
++     "line": 42,
++     "rule": "css-time",
++     "snippet": "export const NEG = 'opacity 320ms ease';",
++   },
++ ]
+
+ ❯ expectNoHits test/no-motion-literals.test.ts:81:34
+     79|
+     80| function expectNoHits(hits: readonly Hit[]): void {
+     81|   expect(hits, formatHits(hits)).toEqual([]);
+       |                                  ^
+     82| }
+     83|
+ ❯ test/no-motion-literals.test.ts:129:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  08:09:11
+   Duration  110ms (tests 68%, import 18%, transform 8%, worker 5%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t010/apps/web
+
++ git checkout -- packages/xploder/src/panel/look.ts
++ trap - EXIT
++ echo 'negative controls: red as expected'
+negative controls: red as expected
+
+## Orchestrator re-run outside the sandbox (authoritative)
+Review: the motion scanner gained a bare-CSS-timing-shorthand rule (stricter; the T010 negative control 'opacity 320ms ease' was not caught by the S2 rules). No existing source hits it. Accepted.
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+neg hex: red as expected
+neg motion: red as expected
+look.ts-clean
+typecheck-ok
+lint-ok
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:       Tests  522 passed (522)
+apps/web test:       Tests  54 passed | 1 skipped (55)
+✓ Compiled successfully in 642ms
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 174ms
+T010-OK

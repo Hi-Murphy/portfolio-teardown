@@ -1,0 +1,255 @@
+# T010c lettering evidence
+$ pnpm --filter xploder exec vitest run test/lettering.test.ts --reporter verbose
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010c/packages/xploder
+
+stdout | test/lettering.test.ts > part lettering matrix > labels every A fixture component at every view and scroll offset
+lettering histogram A: face+name=672 face number-only=480 mark=0
+
+stdout | test/lettering.test.ts > part lettering matrix > labels every B fixture component at every view and scroll offset
+lettering histogram B: face+name=336 face number-only=384 mark=0
+
+stdout | test/lettering.test.ts > part lettering matrix > labels every C fixture component at every view and scroll offset
+lettering histogram C: face+name=816 face number-only=1038 mark=18
+
+ ✓ test/lettering.test.ts > part lettering matrix > labels every A fixture component at every view and scroll offset 44ms
+ ✓ test/lettering.test.ts > part lettering matrix > labels every B fixture component at every view and scroll offset 24ms
+ ✓ test/lettering.test.ts > part lettering matrix > labels every C fixture component at every view and scroll offset 67ms
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture A
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=A canvas=358x506 zoom=1.00 names=0/8 number-only=8 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.25 names=2/8 number-only=6 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.56 names=6/8 number-only=2 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.95 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=2.44 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=3.00 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.00 names=0/8 number-only=8 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.25 names=2/8 number-only=6 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.56 names=6/8 number-only=2 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.95 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=2.44 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=3.00 names=8/8 number-only=0 mark=0
+
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture B
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=B canvas=358x506 zoom=1.00 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.25 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.56 names=2/5 number-only=3 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.95 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=2.44 names=5/5 number-only=0 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=3.00 names=5/5 number-only=0 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.00 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.25 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.56 names=1/5 number-only=4 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.95 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=2.44 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=3.00 names=5/5 number-only=0 mark=0
+
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture C
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=C canvas=358x506 zoom=1.00 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.25 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.56 names=3/13 number-only=10 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.95 names=11/13 number-only=2 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=2.44 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=3.00 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.00 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.25 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.56 names=3/13 number-only=10 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.95 names=10/13 number-only=3 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=2.44 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=3.00 names=13/13 number-only=0 mark=0
+
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 0.7853981633974483 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 2.356194490192345 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 3.9269908169872414 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 5.497787143782138 0ms
+ ✓ test/lettering.test.ts > face direction > keeps every A face pointing down-right across components and rotations 1ms
+ ✓ test/lettering.test.ts > face direction > keeps every C face pointing down-right across components and rotations 1ms
+ ✓ test/lettering.test.ts > letterPart > puts the number and name on a face when both fit 0ms
+ ✓ test/lettering.test.ts > letterPart > wraps a long name at spaces when it cannot fit on one line 0ms
+ ✓ test/lettering.test.ts > letterPart > drops the name before the number on a tiny face 0ms
+ ✓ test/lettering.test.ts > letterPart > marks the front corner when every face position is occluded 3ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture A 3ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture B 1ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture C 2ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  10:28:53
+   Duration  243ms (tests 77%, import 17%, transform 5%, worker 1%)
+
+
+$ node /tmp/s07-checks/t010c-smoke.mjs /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010c
+# dev server: pnpm --filter web dev on localhost:3000; stopped afterwards with lsof -ti tcp:3000 | xargs kill
+fixture=c viewport=mobile rotation=0 zoom=1 zoom=1 count=13 face=13 named=0 mark=0 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=0 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=1 zoom=1 zoom=1 count=13 face=12 named=0 mark=1 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=1 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=2 zoom=1 zoom=1 count=13 face=13 named=0 mark=0 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=2 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=3 zoom=1 zoom=1 count=13 face=12 named=0 mark=1 u=0.866025,0.500000
+fixture=c viewport=mobile rotation=3 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=0 zoom=1 zoom=1 count=13 face=13 named=0 mark=0 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=0 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=1 zoom=1 zoom=1 count=13 face=12 named=0 mark=1 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=1 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=2 zoom=1 zoom=1 count=13 face=13 named=0 mark=0 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=2 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=3 zoom=1 zoom=1 count=13 face=12 named=0 mark=1 u=0.866025,0.500000
+fixture=c viewport=desktop rotation=3 zoom=max zoom=3 count=13 face=13 named=13 mark=0 u=0.866025,0.500000
+T010c-SMOKE-OK
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010c/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:66125) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:66124) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:66127) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:66129) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010c/tools/perf
+tools/perf test: 
+packages/xploder test: (node:66141) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:66158) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:66168) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:66181) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:66184) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  12 passed (12)
+tools/perf test:       Tests  76 passed (76)
+tools/perf test:    Start at  10:29:00
+tools/perf test:    Duration  1.23s (import 62%, transform 32%, tests 5%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: 
+packages/xploder test:  Test Files  52 passed (52)
+packages/xploder test:       Tests  538 passed (538)
+packages/xploder test:    Start at  10:29:00
+packages/xploder test:    Duration  6.47s (tests 71%, import 14%, transform 13%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  52 workers spawned · ~87ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~416ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010c/apps/web
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  53 passed | 2 skipped (55)
+apps/web test:    Start at  10:29:06
+apps/web test:    Duration  155ms (transform 47%, tests 31%, import 17%, worker 5%)
+apps/web test: 
+apps/web test: Done
+
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+# Screenshots
+3619ee3fc9cc7caa8994b1663e2f7439481390fbf2e5b044b8f8e2295c9a7520  .specify/features/panels/evidence/T010c-screenshot-c-desktop-zoom1-rotation0-dark.png
+9b17bb0b252db0c69c856d4e850a0f63d33dbd96d697e2fb6a768a923a32263b  .specify/features/panels/evidence/T010c-screenshot-c-desktop-zoom1-rotation2-dark.png
+8ec064e05d2664a4be6fc8379c19ed390b01fb1a31fea604b33c58f4fe83429e  .specify/features/panels/evidence/T010c-screenshot-c-mobile-max-rotation0-light.png
+941902a379d900bab4985eacb177d049da683038c6324b81dfe3f89308f3272f  .specify/features/panels/evidence/T010c-screenshot-c-mobile-max-rotation1-light.png
+
+$ echo T010c-OK
+T010c-OK
+
+## Orchestrator verification (outside the sandbox)
+typecheck-ok
+lint-ok
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:       Tests  538 passed (538)
+apps/web test:       Tests  53 passed | 2 skipped (55)
+SURFACE-S6-OK
+T010c-OK

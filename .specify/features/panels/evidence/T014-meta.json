@@ -1,0 +1,8 @@
+{
+  "chromium": "156.0.8078.4",
+  "target": "http://127.0.0.1:51826/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1",
+  "command": "pnpm fps:engine --scenario tour --out /tmp/s07-checks/t014",
+  "exitCode": 0,
+  "date": "2026-11-01T05:57:15Z",
+  "screenshot": "supplementary Playwright capture at tour step 3 from the same fixture export (fps:engine writes no screenshot)"
+}

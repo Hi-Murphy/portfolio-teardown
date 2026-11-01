@@ -1,5 +1,6 @@
-# False positive (S06, 2026-10-31): sha256 digest of the public test file test/emphasis-tokens.test.ts in the S5
-# frozen-surface hash manifest; the key name contains "tokens", which trips generic-api-key. Not a secret.
-ed99a15f67991f92bb37ab7379d21b68fcb1950c:packages/xploder/test/frozen-surface.s5.manifest.json:generic-api-key:23
-# Same false positive after the squash merge of PR #10 (history rewritten, new commit). Not a secret.
-0ce25edb991d00f7031a8d36eb304d3ab25a6e66:packages/xploder/test/frozen-surface.s5.manifest.json:generic-api-key:23
+# Manifest false positives are covered by the path allowlist in .gitleaks.toml.
+# False positive (S07, 2026-11-01): a TypeScript field declaration in the panel probe (branch commit 57683ee),
+# renamed to arrowIsolation in the next commit, so the squash commit on main does not contain it. Not a secret.
+# The previous wording of this comment quoted that declaration and tripped the same rule (commit 5c794aa).
+5c794aa39db45455151b56a3f127eb4e14f2c0fb:.gitleaksignore:generic-api-key:12
+57683eea31f67ce94479977b8739920be9e96cd4:tools/perf/src/panel-probe.ts:generic-api-key:281

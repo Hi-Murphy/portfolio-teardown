@@ -1,0 +1,32 @@
+# T015 — chips/panel/lettering hex-exclusivity grep (AC4) + scanners
+$ grep -rnE "#[0-9a-fA-F]{3,8}|rgba?\(|hsla?\(|0x[0-9a-fA-F]{6}" packages/xploder/src/{panel,lettering,react/panel,react/lettering}
+no matches (exit 1) — HEX-EXCLUSIVITY-OK
+
+ ✓ test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals 11ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner roots include engine sources 2ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner root includes the engine playground 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-number catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > css-color-fn catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > named-three-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: href='#main' 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: palette.line 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: var(--bp-line) 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: issue #12 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > apps/web contains no motion literals 8ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > xploder source outside motion/ contains no motion literals 4ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > source outside motion/ contains no bare CSS timing shorthands 3ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner roots include engine sources 2ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner root includes the engine playground 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-time catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-easing catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > gsap-ease catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > motion-key catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > tw-utility catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > timer catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: motion.durations.explode 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: transition-duration: var(--motion-duration-hover-lift) 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: className="ease-explode transition-colors" 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: <p>the 1990s</p> 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: { label: 'p95', value: '120 ms' } 0ms
+      Tests  27 passed (27)
