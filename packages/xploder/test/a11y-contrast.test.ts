@@ -201,7 +201,7 @@ describe('contrast inventory', () => {
 
   for (const theme of THEMES) {
     for (const id of R2_ROWS) {
-      test.fails(`${theme} ${id} uses the post-fix ink role`, () => {
+      test(`${theme} ${id} uses the post-fix ink role`, () => {
         expect(CONTRAST_SURFACES.find((surface) => surface.id === id)?.fg).toBe('ink');
         expect(postFixInkUses()).toBeGreaterThanOrEqual(2);
       });

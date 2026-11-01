@@ -1,0 +1,434 @@
+$ # Full T011 check output (contrast test, typecheck, lint, test, fixture build, presentation diff, guards)
+$ pnpm --filter xploder exec vitest run test/a11y-contrast.test.ts --reporter verbose 2>&1 | tee /tmp/s08-checks/t011-contrast-run.txt
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+stdout | test/a11y-contrast.test.ts > contrast inventory > prints both palettes and passes every non-exception row
+[light] surface inventory
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  panel-body                                       rest       body   ink                 surface                       14.58        4.5  PASS     
+  panel-label                                      rest       body   label               surface                        7.79        4.5  PASS     
+  panel-link                                       rest       body   accent              surface                        5.60        4.5  PASS     
+  panel-border                                     rest       ui     line                surface                        8.06        3.0  PASS     
+  chip-label                                       rest       body   ink                 surface                       14.58        4.5  PASS     
+  chip-border                                      rest       ui     lineMuted           surface                        3.43        3.0  PASS     
+  chip-tech-library-accent                         rest       ui     tech.library        surface                        5.24        3.0  PASS     
+  tech-library-on-paper                            rest       ui     tech.library        paper                          4.93        3.0  PASS     
+  caption-heading                                  rest       body   label               surface                        7.79        4.5  PASS     
+  caption-body                                     rest       body   ink                 surface                       14.58        4.5  PASS     
+  caption-border                                   rest       ui     line                surface                        8.06        3.0  PASS     
+  callout-label                                    rest       body   label               paper                          7.33        4.5  PASS     
+  balloon-label                                    rest       body   ink                 surface                       14.58        4.5  PASS     
+  balloon-border                                   rest       ui     line                surface                        8.06        3.0  PASS     
+  dimension-label                                  rest       body   steel               paper                          5.23        4.5  PASS     
+  leader-line                                      rest       ui     lineMuted           paper                          3.23        3.0  PASS     
+  title-title                                      rest       body   ink                 paper                         13.71        4.5  PASS     
+  title-meta                                       rest       body   steel               paper                          5.23        4.5  PASS     
+  title-row                                        rest       body   label               paper                          7.33        4.5  PASS     
+  title-border                                     rest       ui     line                paper                          7.58        3.0  PASS     
+  lettering-face-number-rest-module                rest       body   ink                 kindFill:module               10.88        4.5  PASS     
+  lettering-face-name-rest-module                  rest       body   label               kindFill:module                5.81        4.5  PASS     
+  lettering-face-number-rest-service               rest       body   ink                 kindFill:service              11.07        4.5  PASS     
+  lettering-face-name-rest-service                 rest       body   label               kindFill:service               5.91        4.5  PASS     
+  lettering-face-number-rest-store                 rest       body   ink                 kindFill:store                11.30        4.5  PASS     
+  lettering-face-name-rest-store                   rest       body   label               kindFill:store                 6.04        4.5  PASS     
+  lettering-face-number-rest-external              rest       body   ink                 kindFill:external             11.46        4.5  PASS     
+  lettering-face-name-rest-external                rest       body   label               kindFill:external              6.13        4.5  PASS     
+  lettering-face-number-rest-actor                 rest       body   ink                 kindFill:actor                11.36        4.5  PASS     
+  lettering-face-name-rest-actor                   rest       body   label               kindFill:actor                 6.07        4.5  PASS     
+  lettering-face-number-highlight                  highlight  body   ink                 highlightFill                  7.93        4.5  PASS     
+  lettering-face-name-highlight                    highlight  body   ink                 highlightFill                  7.93        4.5  PASS     
+  lettering-column-number                          rest       body   accent              paper                          5.27        4.5  PASS     
+  lettering-column-name                            rest       body   label               paper                          7.33        4.5  PASS     
+  lettering-column-number-highlight                highlight  body   accent              paper                          5.27        4.5  PASS     
+  lettering-column-name-highlight                  highlight  body   accent              paper                          5.27        4.5  PASS     
+  lettering-layer-face-label                       rest       body   label               layerFill                      7.05        4.5  PASS     
+  lettering-layer-plain-label                      rest       body   label               paper                          7.33        4.5  PASS     
+  focus-ring-paper                                 rest       ui     accent              paper                          5.27        3.0  PASS     
+  focus-ring-surface                               rest       ui     accent              surface                        5.60        3.0  PASS     
+  focus-ring-kind-fill                             rest       ui     accent              kindFill:module                4.18        3.0  PASS     
+  playground-button-text-on-paper                  rest       body   ink                 paper                         13.71        4.5  PASS     
+  playground-meta-on-paper                         rest       body   label               paper                          7.33        4.5  PASS     
+  playground-button-text-on-surface                rest       body   ink                 surface                       14.58        4.5  PASS     
+  playground-meta-on-surface                       rest       body   label               surface                        7.79        4.5  PASS     
+  playground-button-text-hover                     rest       body   ink                 {"over":"paper","mix":"ink","t":0.1}  11.33        4.5  PASS     
+  playground-meta-hover                            rest       body   label               {"over":"paper","mix":"ink","t":0.1}   6.05        4.5  PASS     
+  playground-button-selected-text                  rest       body   paper               ink                           13.71        4.5  PASS     
+  playground-button-border                         rest       ui     line                paper                          7.58        3.0  PASS     
+  panel-body-dim                                   dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  panel-label-dim                                  dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  panel-link-dim                                   dim        body   accent              surface                        1.64        4.5  FAIL     inactive-dim
+  chip-label-dim                                   dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  caption-heading-dim                              dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  caption-body-dim                                 dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  callout-label-dim                                dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  balloon-label-dim                                dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  dimension-label-dim                              dim        body   steel               paper                          1.50        4.5  FAIL     inactive-dim
+  title-title-dim                                  dim        body   ink                 paper                          1.84        4.5  FAIL     inactive-dim
+  title-meta-dim                                   dim        body   steel               paper                          1.50        4.5  FAIL     inactive-dim
+  title-row-dim                                    dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-module-dim            dim        body   ink                 kindFill:module                1.46        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-module-dim              dim        body   label               kindFill:module                1.28        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-service-dim           dim        body   ink                 kindFill:service               1.49        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-service-dim             dim        body   label               kindFill:service               1.30        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-store-dim             dim        body   ink                 kindFill:store                 1.52        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-store-dim               dim        body   label               kindFill:store                 1.32        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-external-dim          dim        body   ink                 kindFill:external              1.54        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-external-dim            dim        body   label               kindFill:external              1.34        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-actor-dim             dim        body   ink                 kindFill:actor                 1.53        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-actor-dim               dim        body   label               kindFill:actor                 1.33        4.5  FAIL     inactive-dim
+  lettering-face-number-highlight-dim              dim        body   ink                 highlightFill                  1.06        4.5  FAIL     inactive-dim
+  lettering-face-name-highlight-dim                dim        body   ink                 highlightFill                  1.06        4.5  FAIL     inactive-dim
+  lettering-column-number-dim                      dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-column-name-dim                        dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  lettering-column-number-highlight-dim            dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-column-name-highlight-dim              dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-layer-face-label-dim                   dim        body   label               layerFill                      1.55        4.5  FAIL     inactive-dim
+  lettering-layer-plain-label-dim                  dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  playground-button-text-on-paper-dim              dim        body   ink                 paper                          1.84        4.5  FAIL     inactive-dim
+  playground-meta-on-paper-dim                     dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  playground-button-text-on-surface-dim            dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  playground-meta-on-surface-dim                   dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  playground-button-text-hover-dim                 dim        body   ink                 {"over":"paper","mix":"ink","t":0.1}   1.52        4.5  FAIL     inactive-dim
+  playground-meta-hover-dim                        dim        body   label               {"over":"paper","mix":"ink","t":0.1}   1.33        4.5  FAIL     inactive-dim
+  playground-button-selected-text-dim              dim        body   paper               ink                           13.71        4.5  PASS     inactive-dim
+[light] R2 pre-fix evidence
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  lettering-face-number-highlight                  highlight  body   accent              highlightFill                  3.05        4.5  FAIL     
+  lettering-face-name-highlight                    highlight  body   label               highlightFill                  4.24        4.5  FAIL     
+[dark] surface inventory
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  panel-body                                       rest       body   ink                 surface                       13.06        4.5  PASS     
+  panel-label                                      rest       body   label               surface                        7.60        4.5  PASS     
+  panel-link                                       rest       body   accent              surface                        8.44        4.5  PASS     
+  panel-border                                     rest       ui     line                surface                        8.25        3.0  PASS     
+  chip-label                                       rest       body   ink                 surface                       13.06        4.5  PASS     
+  chip-border                                      rest       ui     lineMuted           surface                        3.33        3.0  PASS     
+  chip-tech-library-accent                         rest       ui     tech.library        surface                        8.50        3.0  PASS     
+  tech-library-on-paper                            rest       ui     tech.library        paper                          9.64        3.0  PASS     
+  caption-heading                                  rest       body   label               surface                        7.60        4.5  PASS     
+  caption-body                                     rest       body   ink                 surface                       13.06        4.5  PASS     
+  caption-border                                   rest       ui     line                surface                        8.25        3.0  PASS     
+  callout-label                                    rest       body   label               paper                          8.62        4.5  PASS     
+  balloon-label                                    rest       body   ink                 surface                       13.06        4.5  PASS     
+  balloon-border                                   rest       ui     line                surface                        8.25        3.0  PASS     
+  dimension-label                                  rest       body   steel               paper                          6.74        4.5  PASS     
+  leader-line                                      rest       ui     lineMuted           paper                          3.78        3.0  PASS     
+  title-title                                      rest       body   ink                 paper                         14.81        4.5  PASS     
+  title-meta                                       rest       body   steel               paper                          6.74        4.5  PASS     
+  title-row                                        rest       body   label               paper                          8.62        4.5  PASS     
+  title-border                                     rest       ui     line                paper                          9.36        3.0  PASS     
+  lettering-face-number-rest-module                rest       body   ink                 kindFill:module                8.76        4.5  PASS     
+  lettering-face-name-rest-module                  rest       body   label               kindFill:module                5.10        4.5  PASS     
+  lettering-face-number-rest-service               rest       body   ink                 kindFill:service               9.16        4.5  PASS     
+  lettering-face-name-rest-service                 rest       body   label               kindFill:service               5.33        4.5  PASS     
+  lettering-face-number-rest-store                 rest       body   ink                 kindFill:store                 9.02        4.5  PASS     
+  lettering-face-name-rest-store                   rest       body   label               kindFill:store                 5.25        4.5  PASS     
+  lettering-face-number-rest-external              rest       body   ink                 kindFill:external              9.51        4.5  PASS     
+  lettering-face-name-rest-external                rest       body   label               kindFill:external              5.54        4.5  PASS     
+  lettering-face-number-rest-actor                 rest       body   ink                 kindFill:actor                 8.65        4.5  PASS     
+  lettering-face-name-rest-actor                   rest       body   label               kindFill:actor                 5.04        4.5  PASS     
+  lettering-face-number-highlight                  highlight  body   ink                 highlightFill                  5.17        4.5  PASS     
+  lettering-face-name-highlight                    highlight  body   ink                 highlightFill                  5.17        4.5  PASS     
+  lettering-column-number                          rest       body   accent              paper                          9.57        4.5  PASS     
+  lettering-column-name                            rest       body   label               paper                          8.62        4.5  PASS     
+  lettering-column-number-highlight                highlight  body   accent              paper                          9.57        4.5  PASS     
+  lettering-column-name-highlight                  highlight  body   accent              paper                          9.57        4.5  PASS     
+  lettering-layer-face-label                       rest       body   label               layerFill                      6.86        4.5  PASS     
+  lettering-layer-plain-label                      rest       body   label               paper                          8.62        4.5  PASS     
+  focus-ring-paper                                 rest       ui     accent              paper                          9.57        3.0  PASS     
+  focus-ring-surface                               rest       ui     accent              surface                        8.44        3.0  PASS     
+  focus-ring-kind-fill                             rest       ui     accent              kindFill:module                5.66        3.0  PASS     
+  playground-button-text-on-paper                  rest       body   ink                 paper                         14.81        4.5  PASS     
+  playground-meta-on-paper                         rest       body   label               paper                          8.62        4.5  PASS     
+  playground-button-text-on-surface                rest       body   ink                 surface                       13.06        4.5  PASS     
+  playground-meta-on-surface                       rest       body   label               surface                        7.60        4.5  PASS     
+  playground-button-text-hover                     rest       body   ink                 {"over":"paper","mix":"ink","t":0.1}  11.48        4.5  PASS     
+  playground-meta-hover                            rest       body   label               {"over":"paper","mix":"ink","t":0.1}   6.69        4.5  PASS     
+  playground-button-selected-text                  rest       body   paper               ink                           14.81        4.5  PASS     
+  playground-button-border                         rest       ui     line                paper                          9.36        3.0  PASS     
+  panel-body-dim                                   dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  panel-label-dim                                  dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  panel-link-dim                                   dim        body   accent              surface                        1.77        4.5  FAIL     inactive-dim
+  chip-label-dim                                   dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  caption-heading-dim                              dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  caption-body-dim                                 dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  callout-label-dim                                dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  balloon-label-dim                                dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  dimension-label-dim                              dim        body   steel               paper                          1.73        4.5  FAIL     inactive-dim
+  title-title-dim                                  dim        body   ink                 paper                          2.46        4.5  FAIL     inactive-dim
+  title-meta-dim                                   dim        body   steel               paper                          1.73        4.5  FAIL     inactive-dim
+  title-row-dim                                    dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-module-dim            dim        body   ink                 kindFill:module                1.46        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-module-dim              dim        body   label               kindFill:module                1.13        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-service-dim           dim        body   ink                 kindFill:service               1.52        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-service-dim             dim        body   label               kindFill:service               1.18        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-store-dim             dim        body   ink                 kindFill:store                 1.50        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-store-dim               dim        body   label               kindFill:store                 1.17        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-external-dim          dim        body   ink                 kindFill:external              1.58        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-external-dim            dim        body   label               kindFill:external              1.23        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-actor-dim             dim        body   ink                 kindFill:actor                 1.44        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-actor-dim               dim        body   label               kindFill:actor                 1.12        4.5  FAIL     inactive-dim
+  lettering-face-number-highlight-dim              dim        body   ink                 highlightFill                  1.16        4.5  FAIL     inactive-dim
+  lettering-face-name-highlight-dim                dim        body   ink                 highlightFill                  1.16        4.5  FAIL     inactive-dim
+  lettering-column-number-dim                      dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-column-name-dim                        dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  lettering-column-number-highlight-dim            dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-column-name-highlight-dim              dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-layer-face-label-dim                   dim        body   label               layerFill                      1.52        4.5  FAIL     inactive-dim
+  lettering-layer-plain-label-dim                  dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  playground-button-text-on-paper-dim              dim        body   ink                 paper                          2.46        4.5  FAIL     inactive-dim
+  playground-meta-on-paper-dim                     dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  playground-button-text-on-surface-dim            dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  playground-meta-on-surface-dim                   dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  playground-button-text-hover-dim                 dim        body   ink                 {"over":"paper","mix":"ink","t":0.1}   1.91        4.5  FAIL     inactive-dim
+  playground-meta-hover-dim                        dim        body   label               {"over":"paper","mix":"ink","t":0.1}   1.48        4.5  FAIL     inactive-dim
+  playground-button-selected-text-dim              dim        body   paper               ink                           14.81        4.5  PASS     inactive-dim
+[dark] R2 pre-fix evidence
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  lettering-face-number-highlight                  highlight  body   accent              highlightFill                  3.34        4.5  FAIL     
+  lettering-face-name-highlight                    highlight  body   label               highlightFill                  3.01        4.5  FAIL     
+
+ ✓ test/a11y-contrast.test.ts > contrast inventory > covers the RFC D6 surfaces and every state 2ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > prints both palettes and passes every non-exception row 2ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > reproduces the RFC D6 ratios within 0.01 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > composites dimmed text with CSS opacity semantics 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > light lettering-face-number-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > light lettering-face-name-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > dark lettering-face-number-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > dark lettering-face-name-highlight uses the post-fix ink role 0ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  20:14:06
+   Duration  73ms (transform 40%, import 29%, tests 24%, worker 6%)
+
+$ pnpm typecheck && pnpm lint && pnpm test && pnpm build:fixtures && echo T011-UNIT-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+packages/xploder test: 
+tools/perf test:  RUN  v5.0.5 <repo>/tools/perf
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 <repo>/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:45517) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45525) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45527) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45528) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45530) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  14 passed (14)
+tools/perf test:       Tests  88 passed (88)
+tools/perf test:    Start at  20:14:12
+tools/perf test:    Duration  1.17s (import 84%, tests 10%, transform 4%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:45531) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45532) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45534) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:45538) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  58 passed (58)
+packages/xploder test:       Tests  599 passed (599)
+packages/xploder test:    Start at  20:14:12
+packages/xploder test:    Duration  6.39s (tests 75%, import 18%, transform 6%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  58 workers spawned · ~98ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~533ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 <repo>/apps/web
+apps/web test: 
+apps/web test: (node:45586) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:45585) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  8 passed (8)
+apps/web test:       Tests  58 passed | 1 skipped (59)
+apps/web test:    Start at  20:14:19
+apps/web test:    Duration  567ms (environment 53%, import 18%, tests 18%, transform 9%, worker 1%)
+apps/web test: 
+apps/web test: Done
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 90ms
+  Running TypeScript ...
+  Finished TypeScript in 676ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 183ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+T011-UNIT-OK
+$ (node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199 & echo $! > /tmp/s08-checks/serve.pid); until curl -sf -o /dev/null http://127.0.0.1:4199/dev/engine; do sleep 0.5; done
+http://127.0.0.1:4199/
+$ node tools/perf/src/cli/presentation-snapshot.ts --url http://127.0.0.1:4199 --out /tmp/s08-checks/t011-pres.json
+captured a-exploded-idle/light/desktop: 12 nodes
+captured a-highlight-tide-repository/light/desktop: 12 nodes
+captured a-select-tide-repository/light/desktop: 45 nodes
+captured a-panel-case-study/light/desktop: 37 nodes
+captured b-select-reconciliation-ledger/light/desktop: 38 nodes
+captured c-exploded-idle/light/desktop: 17 nodes
+captured c-focus-client/light/desktop: 17 nodes
+captured a-exploded-idle/light/mobile: 64 nodes
+captured a-highlight-tide-repository/light/mobile: 64 nodes
+captured a-select-tide-repository/light/mobile: 97 nodes
+captured a-panel-case-study/light/mobile: 89 nodes
+captured b-select-reconciliation-ledger/light/mobile: 73 nodes
+captured c-exploded-idle/light/mobile: 98 nodes
+captured c-focus-client/light/mobile: 98 nodes
+captured a-exploded-idle/dark/desktop: 12 nodes
+captured a-highlight-tide-repository/dark/desktop: 12 nodes
+captured a-select-tide-repository/dark/desktop: 45 nodes
+captured a-panel-case-study/dark/desktop: 37 nodes
+captured b-select-reconciliation-ledger/dark/desktop: 38 nodes
+captured c-exploded-idle/dark/desktop: 17 nodes
+captured c-focus-client/dark/desktop: 17 nodes
+captured a-exploded-idle/dark/mobile: 64 nodes
+captured a-highlight-tide-repository/dark/mobile: 64 nodes
+captured a-select-tide-repository/dark/mobile: 97 nodes
+captured a-panel-case-study/dark/mobile: 89 nodes
+captured b-select-reconciliation-ledger/dark/mobile: 73 nodes
+captured c-exploded-idle/dark/mobile: 98 nodes
+captured c-focus-client/dark/mobile: 98 nodes
+presentation snapshot: 28 states, 1522 nodes
+$ node /tmp/s08-checks/t011-diff.mjs .specify/features/a11y-floor/evidence/T002-presentation-base.json /tmp/s08-checks/t011-pres.json
+allowed (a) colour: {"state":"a-highlight-tide-repository/light/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+allowed (a) colour: {"state":"a-select-tide-repository/light/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+allowed (a) colour: {"state":"b-select-reconciliation-ledger/light/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(5)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+allowed (a) colour: {"state":"a-highlight-tide-repository/light/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+allowed (a) colour: {"state":"a-select-tide-repository/light/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+allowed (a) colour: {"state":"b-select-reconciliation-ledger/light/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(10)","kind":"changed","property":"styles.color","before":"rgb(10, 110, 135)","after":"rgb(34, 38, 43)"}
+allowed (a) colour: {"state":"a-highlight-tide-repository/dark/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+allowed (a) colour: {"state":"a-select-tide-repository/dark/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(6)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+allowed (a) colour: {"state":"b-select-reconciliation-ledger/dark/desktop","path":"lettering-layer/div:nth-child(1)/div:nth-child(5)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+allowed (a) colour: {"state":"a-highlight-tide-repository/dark/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+allowed (a) colour: {"state":"a-select-tide-repository/dark/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(14)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+allowed (a) colour: {"state":"b-select-reconciliation-ledger/dark/mobile","path":"lettering-layer/div:nth-child(2)/div:nth-child(10)","kind":"changed","property":"styles.color","before":"rgb(79, 208, 230)","after":"rgb(230, 237, 245)"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/light/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/light/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/dark/desktop","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"a-select-tide-repository/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3)","kind":"added"}
+allowed (b) hidden-span: {"state":"b-select-reconciliation-ledger/dark/mobile","path":"panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3)","kind":"added"}
+allowed: 12 (a) colour, 20 (b) hidden-span; disallowed: 0
+$ kill "$(cat /tmp/s08-checks/serve.pid)"
+$ # Format & rules guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+PROBES-OK
+BRIEF-HISTORY-OK
+T011-OK
