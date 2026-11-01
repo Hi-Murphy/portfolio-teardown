@@ -1,4 +1,4 @@
-# Slice 07 — Panels: Component Detail · Case Study · Tech Chips · FROZEN BRIEF v1
+# Slice 07 — Panels: Component Detail · Case Study · Tech Chips · FROZEN BRIEF v2
 
 **slice:** S07-panels · **project:** portfolio-teardown · **repo:** Hi-Murphy/portfolio-teardown · **milestone:** M1 · **author:** Merlin (project layer) · **orchestrator:** Opus 5.5 (orca) · **branch:** `task/s07-panels` · **depends on:** S6 ✅ (PR #10 + fix #11 → `0b2c6785`) · **revision counter:** 0 of 2
 
@@ -23,7 +23,7 @@ Give the teardown its **reading layer**: an HTML detail panel on component click
 7. **Evidence:** screenshots light+dark × (detail panel at 4 slab positions, case-study panel, chips, tour-jump state); zero-CLS measurement; interaction/keyboard log; tests for open/close and placement.
 
 ## Non-goals (hard)
-- No cross-project chip links or "also used in" (S14) · no annotation/callout changes (S6 frozen) · no full a11y drill / screen-reader pass (S8) · no site shell, landing, routes (S10) · no real project content (S9 — fixtures only) · no schema/API changes · no camera/layout/explode changes (S4/S5 frozen) · no pixel/papercraft theme.
+- No cross-project chip links or "also used in" (S14) · no annotation/callout changes (S6 frozen) — **OVERRIDDEN by revision 1, see Revision log** · no full a11y drill / screen-reader pass (S8) · no site shell, landing, routes (S10) · no real project content (S9 — fixtures only) · no schema/API changes · no camera/layout/explode changes (S4/S5 frozen) · no pixel/papercraft theme.
 
 ## Acceptance criteria (inviolable — no rewording, no relaxing)
 - **AC1:** detail panel opens on click/tap with complete schema-driven content (name, role, chips with registry labels, metrics, links); closes via same-slab tap, `Esc`, outside tap, close control; state-machine tests green; focus returns to the viewer.
@@ -32,6 +32,8 @@ Give the teardown its **reading layer**: an HTML detail panel on component click
 - **AC4:** tech chips render from the registry with token-derived category accents; hex exclusivity grep green; chips are display-only (no navigation yet).
 - **AC5:** tour-click behavior implemented exactly as decided in the RFC (recommended default: jump-to-step when in the active flow, else pause + panel); tests cover both branches; caption + highlight stay in sync after a jump.
 - **AC6:** zero CLS from panel/chip overlays (measured); panel motion tokens only; reduced-motion instant twin; full CI green (build/typecheck/lint/test, gitleaks, lighthouse, weight, fps calibration, fixture exclusion); frozen-surface checks for S2/S4/S5/S6 remain empty; 2 draw calls unchanged.
+- **AC7 (v2 — added by revision 1, reason `spec-gap`):** isometric part and layer lettering persists across zoom, vertical scroll, and all four 90° snaps (no label loss after scrolling while zoomed — the regression this revision fixes); phone 1× shows the compact right-side parts column; desktop 1× keeps S6 callout columns + face numbers; one text direction (bottom-right) in every rotation; lettering stays presentation-only (`aria-hidden` from S8) and changes no AC1–AC6 behavior; evidence: scroll/zoom/rotation matrix screenshots + a label-persistence test.
+
 
 ## Executor rules (binding)
 - Tasks sized for DeepSeek Flash 4.1: one integration seam + one executable check each. Every visual/interaction claim attaches machine-made evidence per `.specify/EVIDENCE.md`.
@@ -44,3 +46,7 @@ Give the teardown its **reading layer**: an HTML detail panel on component click
 
 ## Freeze protocol
 Frozen at commit; work only on `task/s07-panels`; integration via PR after Murphy's final validation. Scope/AC changes = revision, logged in vault (counter 0 of 2). Design decisions (placement algorithm, focus management, tour-jump mechanics, panel layout) live in `.specify/features/panels/rfc.md` — orchestrator-authored, Murphy-reviewed before spec/plan/tasks and again before execution. Viewport reachability remains mandatory wherever zoom is involved.
+
+
+## Revision log
+- **v2 · 2026-11-01 · AC7 added · reason `spec-gap`** — G2 feedback; **scope override of the non-goal "no annotation/callout changes," approved by Murphy at the gate.** Cause: S6's brief never required labels to survive zoom + scroll, so zoomed parts/layers lost their labels after scrolling (S6 defect surfaced in S7). Fix: isometric part/layer lettering on slab faces (number; name when it fits), one text direction (bottom-right) in every rotation; phone 1× compact right-side parts column (9px, names wrap/condense); desktop 1× keeps S6 callout columns + face numbers. Built as new S7 modules; **S6 files sealed** (S6 pill tags hidden via the public DOM contract); AC1–AC6 not reworded. Evidence: `features/panels/evidence/T010a–d-*`. Adopted by Murphy (G2, 2026-11-01); brief v2 written by Merlin (author, post-merge). **Revision count: 1 of 2.**
