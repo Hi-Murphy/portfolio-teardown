@@ -127,3 +127,33 @@ dark ai         on paper    7.54
 dark ai         on surface  6.65
 light ink@0.4 on paper 2.33
 dark ink@0.4 on paper 3.38
+
+## Stage 2 additions (2026-11-01): roles on the highlight fill, layer plate fill, shaded side faces
+# face shading modelled as sRGB darkening by look.faces (0 / 0.06 / 0.12); the real shader output is pixel-sampled in T016
+--- other roles on highlight fill
+light ink on hlfill 7.93
+light label on hlfill 4.24
+light line on hlfill 4.39
+light steel on hlfill 3.03
+dark ink on hlfill 5.17
+dark label on hlfill 3.01
+dark line on hlfill 3.27
+dark steel on hlfill 2.35
+--- layer plate fill (surface mixed 0.10 toward lineMuted), with face shade darkening 0 / 0.06 / 0.12
+light shade 0 ink 13.19 label 7.05 steel 5.03
+light shade 0.06 ink 11.60 label 6.20 steel 4.43
+light shade 0.12 ink 10.04 label 5.36 steel 3.83
+dark shade 0 ink 11.78 label 6.86 steel 5.36
+dark shade 0.06 ink 12.24 label 7.13 steel 5.57
+dark shade 0.12 ink 12.63 label 7.35 steel 5.75
+--- kind fills with side shading 0.12: label
+light module label 4.47 ink 8.37
+light service label 4.54 ink 8.49
+light store label 4.64 ink 8.69
+light external label 4.68 ink 8.76
+light actor label 4.64 ink 8.69
+dark module label 5.75 ink 9.88
+dark service label 5.95 ink 10.22
+dark store label 5.92 ink 10.18
+dark external label 6.15 ink 10.56
+dark actor label 5.68 ink 9.75
