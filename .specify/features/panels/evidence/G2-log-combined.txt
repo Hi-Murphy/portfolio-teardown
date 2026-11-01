@@ -1,3 +1,23 @@
+# G2 combined gate log — orchestrator, outside the sandbox, slice branch task/s07-panels after T007–T010 merges
+$ pnpm typecheck
+ok
+$ pnpm lint
+All matched files use Prettier code style!
+$ pnpm test
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:       Tests  522 passed (522)
+apps/web test:       Tests  53 passed | 2 skipped (55)
+$ pnpm build
+✓ Compiled successfully in 965ms
+✓ Generating static pages using 4 workers (3/3) in 177ms
+## Guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+BRIEF-HISTORY-OK
+
+## Executor (tier 1, sandbox) combined log from T010
 G2 combined — T010 full check, sandbox continuation, and guards
 
 Worktree: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010

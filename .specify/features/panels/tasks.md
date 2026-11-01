@@ -28,10 +28,10 @@
 | T004 | ☑ (local `PanelClickEvent` replaced by `PanelEvent` at integration) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T004-log-tour-click.txt | e642dd6 + G1 integration |
 | T005 | ☑ (+ `name` optional → falls back to id, 1 test) | 1 (Flash, sandbox on) + orchestrator integration fix | evidence/T005-log-content.txt | b2530bf + G1 integration |
 | T006 | ☑ (local `Dock` replaced by `place.ts` import) | 1 (Flash, sandbox on); full check re-run by orchestrator | evidence/T006-log-motion.txt | 0f252dc + G1 integration |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
-| T009 | ☐ | | | |
-| T010 | ☐ | | | |
+| T007 | ☑ (5 tests incl. real-handle jump/pause and pickAt = S5 picker on 20 rays) | 1 (Flash, sandbox on) + orchestrator (`executeTourCommand` accepts null) | evidence/T007-log-hooks.txt | 6b8186a |
+| T008 | ☑ (+ 3 review fixes: same-dispatch outside-click guard, re-open enter animation, program highlight; interaction smoke log) | 1 (Flash, sandbox off) + orchestrator review fixes + smoke | evidence/T008-{log-detail.txt,screenshot-*.png,meta-*.json} | d253281 |
+| T009 | ☑ (+ heading focus ring removed) | 1 (Flash, sandbox off) + orchestrator review fix | evidence/T009-{log-case-study.txt,screenshot-*.png,meta-*.json} | 69b2aa8 |
+| T010 | ☑ + ⚑ pushed, draft PR (scanner gained a bare CSS timing-shorthand rule) | 1 (Flash, sandbox on); build + negative controls re-run by orchestrator | evidence/T010-log-scanners.txt, G2-log-combined.txt | 7aa81c6 |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
