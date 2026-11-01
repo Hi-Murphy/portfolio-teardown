@@ -120,7 +120,7 @@ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test
 git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
 git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
 git diff --quiet 5b22987 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s7.paths) && echo SURFACE-S7-OK   # from T001 on
-git diff --quiet 5b22987 -- tools/perf/src/panel-probe.ts tools/perf/src/engine-probe.ts tools/perf/src/cli/engine-probe.ts && echo PROBES-OK
+git diff --quiet 5b22987 -- tools/perf/src/engine-probe.ts tools/perf/src/cli/engine-probe.ts && echo PROBES-OK   # panel-probe.ts: C3 chip-label edit only (logged)
 test -z "$(git log --oneline 5b22987..HEAD -- .specify/slices .specify/KICKOFF-S08.md)" && echo BRIEF-HISTORY-OK
 ```
 

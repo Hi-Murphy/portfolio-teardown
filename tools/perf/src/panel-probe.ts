@@ -1425,8 +1425,9 @@ async function readContent(page: Page): Promise<S7ContentActual> {
     const paragraphs = [...surface.querySelectorAll('p')]
       .map((paragraph) => text(paragraph))
       .filter(Boolean);
+    // S08 C3: a chip also holds visually hidden ", <category>" text (AC2); read the visible label.
     const chipLabels = [...surface.querySelectorAll('[data-xploder-chip]')].map((chip) =>
-      text(chip),
+      text(chip.querySelector(':scope > span:not([aria-hidden="true"])') ?? chip),
     );
     const metrics = [...surface.querySelectorAll('dl > div')].map((row) => ({
       label: text(row.querySelector('dt')),
@@ -1470,7 +1471,11 @@ async function readChips(page: Page): Promise<S7ChipRead> {
 
     const chips = [...list.querySelectorAll('[data-xploder-chip]')].map((chip) => ({
       id: chip.getAttribute('data-xploder-chip') ?? '',
-      label: chip.textContent?.trim() ?? '',
+      // S08 C3: the visible label span, not the visually hidden category text.
+      label:
+        (
+          chip.querySelector(':scope > span:not([aria-hidden="true"])') ?? chip
+        ).textContent?.trim() ?? '',
       background: getComputedStyle(chip.querySelector('span[aria-hidden="true"]') ?? chip)
         .backgroundColor,
     }));
