@@ -20,6 +20,8 @@
 
 **Stage-2 correction C1 (RFC §9.8):** `packages/xploder/package.json` is S2-sealed, so the jsdom DOM tests live in `apps/web/test/xploder-dom/`, and `jsdom` is an `apps/web` devDependency.
 
+**Stage-3 correction C2 (T008):** the DOM unit tests in `apps/web/test/xploder-dom/` may import xploder **internals by relative path** (e.g. `ComponentNavigator`, `PanelLayer`) to test them standalone, because WebGL (hence the mounted navigator) is unavailable in jsdom. This is test-only. `app/` code still never deep-imports `xploder/src` (enforced by `package-consumer.test.ts`), and no internal becomes a public `xploder/react` export just for tests.
+
 ## Ledger (resume point — update at every task boundary)
 
 | Task | Status | Tier | Evidence | Merge SHA |
