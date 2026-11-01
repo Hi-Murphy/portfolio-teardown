@@ -1,0 +1,127 @@
+# T014 — FPS during a live tour + draw calls + CLS numbers
+
+date: 2026-11-01T05:57:15Z
+target: http://127.0.0.1:51826/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1
+chromium: 156.0.8078.4
+worktree: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t014
+
+The FPS CLI writes no screenshot. T014-screenshot-desktop.png was captured
+sequentially after the FPS window from the same fixture export and tour scenario.
+
+## Check (set -euo pipefail)
+
+$ pnpm fps:engine --scenario tour --out /tmp/s07-checks/t014 2>&1 | tee /tmp/s07-checks/t014.txt
+$ node tools/perf/src/cli/fps-engine.ts --scenario tour --out /tmp/s07-checks/t014
+building fixture export...
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1103ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1690ms
+  Running TypeScript ...
+  Finished TypeScript in 1366ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5)
+  Generating static pages using 6 workers (2/5)
+  Generating static pages using 6 workers (3/5)
+✓ Generating static pages using 6 workers (5/5) in 183ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+fixture: http://127.0.0.1:51826/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1
+scenario: tour
+fps: 59.37 (300 frames / 5053 ms)
+droppedFrames: 0
+tourStepsAdvanced: 3
+drawCalls: 2
+liveness: true
+verdict: pass (dropped-frames)
+fps.json: /tmp/s07-checks/t014/fps.json
+
+$ node -e "const r=require('/tmp/s07-checks/t014/fps.json');const ok=r.verdict.pass===true&&r.droppedFrames===0&&r.verdict.liveness===true&&r.windowMs>=5000&&r.tourStepsAdvanced>=3&&r.drawCalls===2;console.log(JSON.stringify({droppedFrames:r.droppedFrames,liveness:r.verdict.liveness,windowMs:r.windowMs,tourStepsAdvanced:r.tourStepsAdvanced,drawCalls:r.drawCalls,info:{fps:r.fps,rafFps:r.rafFps,intervalsMs:r.intervalsMs}}));if(!ok)process.exit(6)"
+{"droppedFrames":0,"liveness":true,"windowMs":5052.888,"tourStepsAdvanced":3,"drawCalls":2,"info":{"fps":59.37198687166626,"rafFps":60.0028094960968,"intervalsMs":{"p50":16.665,"p95":18.209,"max":18.697}}}
+
+$ node -e "const r=require('/tmp/s07-checks/t012/engine-probe.json');for(const n of ['panel-cls-strict','panel-stage-invariant','panel-draw-calls'])console.log(n,JSON.stringify(r.checks.find(c=>c.name===n)))" | tee -a /tmp/s07-checks/t014.txt
+panel-cls-strict {"name":"panel-cls-strict","pass":true,"expected":"0 layout-shift entries with a source inside the viewer wrapper","actual":{"pageTotal":0,"inside":[],"outsideCount":0,"outsideEntries":[]}}
+panel-stage-invariant {"name":"panel-stage-invariant","pass":true,"expected":"stage rect and scrollHeight identical before/after every open/close","actual":{"samples":119,"failures":[]}}
+panel-draw-calls {"name":"panel-draw-calls","pass":true,"expected":{"panel":2,"tour":2},"actual":{"panel":2,"tour":2}}
+
+$ echo T014-OK
+T014-OK
+
+check exit code: 0
+
+## Lint
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+lint exit code: 0
+
+## Guards
+
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+T014-OK
+
+## Screenshot capture
+
+$ node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199
+$ Playwright desktop context (1350x940, DPR 1), same tour scenario
+screenshot: 127.0.0.1:4199 · chromium 156.0.8078.4 · step 3
+
+## Final verification after evidence files
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+lint exit code: 0
+
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+T014-OK
