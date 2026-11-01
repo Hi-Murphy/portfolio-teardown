@@ -273,6 +273,9 @@ importers:
 
   tools/perf:
     dependencies:
+      axe-core:
+        specifier: 4.14.0
+        version: 4.14.0
       lighthouse:
         specifier: ^13.6.0
         version: 13.6.0(supports-color@7.2.0)

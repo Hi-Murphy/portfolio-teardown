@@ -1,0 +1,28 @@
+{
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "tags": ["wcag2aa", "wcag143"],
+      "nodes": [
+        {
+          "target": ["#dimmed-copy"],
+          "impact": "serious",
+          "html": "<span id=\"dimmed-copy\">Inactive layer</span>",
+          "failureSummary": "Fix any of the following: Element has insufficient color contrast.",
+          "any": [
+            {
+              "id": "color-contrast",
+              "message": "Element has insufficient color contrast of 2.51.",
+              "data": {
+                "contrastRatio": 2.51
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "incomplete": []
+}
