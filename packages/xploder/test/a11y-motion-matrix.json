@@ -1,0 +1,152 @@
+[
+  {
+    "id": "explode-implode",
+    "slice": "S4",
+    "site": {
+      "file": "packages/xploder/src/react/scene/Slabs.tsx",
+      "symbol": "Slabs useFrame / createExplodeTimeline"
+    },
+    "trigger": "Explore or implode changes the stage target",
+    "tokens": [
+      "durations.explode",
+      "durations.implode",
+      "staggers.explodeLayer",
+      "staggers.explodeComponent",
+      "staggers.implodeLayer"
+    ],
+    "twin": "Durations and staggers are zero, so every slab moves to its target in one frame",
+    "browserCheck": "Run explore and implode; sample document animations and frame delta"
+  },
+  {
+    "id": "camera-turn",
+    "slice": "S4",
+    "site": {
+      "file": "packages/xploder/src/engine/camera.ts",
+      "symbol": "createTurnTween"
+    },
+    "trigger": "Turn commands or drag change the camera azimuth",
+    "tokens": ["durations.implode"],
+    "twin": "The turn duration is zero and the camera reaches the target immediately",
+    "browserCheck": "Turn the camera; sample document animations and frame delta"
+  },
+  {
+    "id": "camera-zoom",
+    "slice": "S4",
+    "site": {
+      "file": "packages/xploder/src/react/scene/CameraRig.tsx",
+      "symbol": "useFrame / CameraRig"
+    },
+    "trigger": "Zoom in, zoom out or reset changes the rig zoom",
+    "tokens": ["none"],
+    "twin": "Zoom is applied immediately by the layout effect",
+    "browserCheck": "Run each zoom command; sample document animations and frame delta"
+  },
+  {
+    "id": "hover-and-dim",
+    "slice": "S5",
+    "site": {
+      "file": "packages/xploder/src/react/scene/Emphasis.tsx",
+      "symbol": "useEmphasisDriver"
+    },
+    "trigger": "Pointer highlight, layer focus or dim state changes",
+    "tokens": ["durations.hoverLift", "durations.hoverSettle", "distances.hoverLift"],
+    "twin": "Hover, settle and dim durations are zero and the lift distance is zero",
+    "browserCheck": "Focus and hover components; sample document animations and tween state"
+  },
+  {
+    "id": "tour-pulse-and-beat",
+    "slice": "S5",
+    "site": {
+      "file": "packages/xploder/src/interaction/emphasis.ts",
+      "symbol": "createChannels / pulseAt"
+    },
+    "trigger": "A tour step starts or a tour beat advances",
+    "tokens": ["durations.tourPulse", "durations.tourBeat"],
+    "twin": "The pulse is zero and tour auto-advance is off",
+    "browserCheck": "Start and step the tour; sample document animations and advance state"
+  },
+  {
+    "id": "tour-caption-fade",
+    "slice": "S5",
+    "site": {
+      "file": "packages/xploder/src/react/overlay/TourCaption.tsx",
+      "symbol": "TourCaption useLayoutEffect / element.animate"
+    },
+    "trigger": "The tour flow or step changes",
+    "tokens": ["durations.tourPulse", "staggers.tourStep"],
+    "twin": "The caption animation is skipped when its duration is zero",
+    "browserCheck": "Advance the tour; sample document animations after the caption update"
+  },
+  {
+    "id": "circuit-trace",
+    "slice": "S6",
+    "site": {
+      "file": "packages/xploder/src/react/overlay/CircuitTrace.tsx",
+      "symbol": "CircuitTrace / hop.animate / requestAnimationFrame"
+    },
+    "trigger": "The active overlay trace changes",
+    "tokens": ["durations.tourPulse", "staggers.tourStep"],
+    "twin": "The trace is drawn at its static endpoint without a travelling dot",
+    "browserCheck": "Open and advance overlay traces; sample document animations and frame delta"
+  },
+  {
+    "id": "overlay-and-title-fade",
+    "slice": "S6",
+    "site": {
+      "file": "packages/xploder/src/react/overlay/BlueprintOverlay.tsx",
+      "symbol": "BlueprintOverlay / opacityTransition / root.animate"
+    },
+    "trigger": "The overlay becomes visible or a highlighted label changes",
+    "tokens": ["durations.hoverSettle"],
+    "twin": "The fade duration and CSS transition are both zero",
+    "browserCheck": "Show the overlay and change labels; sample document animations"
+  },
+  {
+    "id": "panel-enter-exit",
+    "slice": "S7",
+    "site": {
+      "file": "packages/xploder/src/react/panel/PanelLayer.tsx",
+      "symbol": "PanelLayer / panelMotion / element.animate"
+    },
+    "trigger": "A component or case-study panel opens, changes or closes",
+    "tokens": ["durations.panelEnter", "durations.panelExit", "distances.panelOffset"],
+    "twin": "panelMotion returns null, placing the panel without an animation",
+    "browserCheck": "Open, replace and close panels; sample document animations"
+  },
+  {
+    "id": "lettering-and-column-fade",
+    "slice": "S7",
+    "site": {
+      "file": "packages/xploder/src/react/lettering/PartLettering.tsx",
+      "symbol": "PartLettering / opacityTransition / root.animate"
+    },
+    "trigger": "The settled lettering surface becomes visible or its offset changes",
+    "tokens": ["durations.hoverSettle"],
+    "twin": "The fade duration and CSS transition are both zero",
+    "browserCheck": "Reveal lettering and scroll its column; sample document animations"
+  },
+  {
+    "id": "tailwind-default-transition",
+    "slice": "S2",
+    "site": {
+      "file": "apps/web/app/globals.css",
+      "symbol": "--default-transition-duration"
+    },
+    "trigger": "Any Tailwind utility using the default transition runs",
+    "tokens": ["durations.hoverLift"],
+    "twin": "The default transition duration is zero through the reduced-motion CSS variables",
+    "browserCheck": "Trigger a default transition; sample document animations"
+  },
+  {
+    "id": "focus-ring-and-reveal",
+    "slice": "S8",
+    "site": {
+      "file": "packages/xploder/src/react/TeardownViewer.tsx",
+      "symbol": "stage focus and reveal scroll"
+    },
+    "trigger": "A navigator proxy receives focus and reveals its component",
+    "tokens": ["none"],
+    "twin": "The focus ring and reveal scroll are instant by construction",
+    "browserCheck": "Tab through the navigator; sample document animations and frame delta"
+  }
+]
