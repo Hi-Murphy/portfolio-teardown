@@ -11,3 +11,14 @@ perf-gate: weight (< 3 MB)	pass	1m18s	https://github.com/Hi-Murphy/portfolio-tea
 perf: fixture exclusion	pass	22s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350792	
 perf: fps calibration	pass	1m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350684	
 secrets (gitleaks)	pass	9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784732/job/124899350984	
+
+## Run 2 (RED, deliberately broken commit 42985ae: aria-hidden on the playground controls section, R6)
+perf workflow run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323995117
+a11y job log excerpt:
+axe light/desktop: 11 states | serious 8 critical 0 moderate 0 minor 0 | incomplete 203 ledger 22
+axe light/mobile: 11 states | serious 8 critical 0 moderate 0 minor 0 | incomplete 329 ledger 37
+axe dark/desktop: 11 states | serious 8 critical 0 moderate 0 minor 0 | incomplete 203 ledger 22
+axe dark/mobile: 11 states | serious 8 critical 0 moderate 0 minor 0 | incomplete 329 ledger 37
+axe total: serious 32 critical 0 moderate 0 minor 0 | incomplete 1064 ledger 118 | failing aria-hidden-focus
+[ELIFECYCLE] Command failed with exit code 6.
+##[error]Process completed with exit code 6.
