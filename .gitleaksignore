@@ -3,3 +3,9 @@
 ed99a15f67991f92bb37ab7379d21b68fcb1950c:packages/xploder/test/frozen-surface.s5.manifest.json:generic-api-key:23
 # Same false positive after the squash merge of PR #10 (history rewritten, new commit). Not a secret.
 0ce25edb991d00f7031a8d36eb304d3ab25a6e66:packages/xploder/test/frozen-surface.s5.manifest.json:generic-api-key:23
+# False positives (S07, 2026-11-01): sha256 digests of the public files src/look/tokens.ts (line 7) and
+# test/look-tokens.test.ts (line 25) in the S6 frozen-surface hash manifest; key names contain "tokens",
+# which trips generic-api-key. Not secrets. NOTE: a squash merge rewrites the commit, so main needs the
+# squash-commit fingerprints too (or a path allowlist for the hash manifests — pending Murphy's decision).
+b12badbdd33ed6e56b8096c717a5247c5d61cf56:packages/xploder/test/frozen-surface.s6.manifest.json:generic-api-key:7
+b12badbdd33ed6e56b8096c717a5247c5d61cf56:packages/xploder/test/frozen-surface.s6.manifest.json:generic-api-key:25
