@@ -6,7 +6,11 @@ const EnginePlayground = dynamic(
   () => import('./engine-playground').then((module) => module.EnginePlayground),
   {
     ssr: false,
-    loading: () => <p className="text-sm text-muted">Loading engine…</p>,
+    loading: () => (
+      <p data-engine-loading="" className="text-sm text-muted">
+        Loading engine…
+      </p>
+    ),
   },
 );
 
