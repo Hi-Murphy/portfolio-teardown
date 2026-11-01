@@ -70,6 +70,7 @@ const S07_SOURCE_FILES = [
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 const S08_SOURCE_FILES = [
   'a11y/announce.ts',
+  'a11y/contrast.ts',
   'a11y/look.ts',
   'a11y/navigator.ts',
   'a11y/reveal.ts',
