@@ -77,9 +77,12 @@ const S07_SOURCE_FILES = [
   'lettering/layers.ts',
   'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
-const S08_SOURCE_FILES = ['a11y/look.ts', 'a11y/navigator.ts', 'a11y/reveal.ts'].map((path) =>
-  fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)),
-);
+const S08_SOURCE_FILES = [
+  'a11y/announce.ts',
+  'a11y/look.ts',
+  'a11y/navigator.ts',
+  'a11y/reveal.ts',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 const BARE_TIMING_SHORTHAND =
   /(['"`])(?=[^'"`\n]*\b\d*\.?\d+m?s\b)(?=[^'"`\n]*\b(?:ease(?:-in-out|-in|-out)?|linear|cubic-bezier\(|steps\())[^'"`\n]*\1/g;
 

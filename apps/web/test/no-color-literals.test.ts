@@ -68,9 +68,12 @@ const S07_SOURCE_FILES = [
   'lettering/layers.ts',
   'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
-const S08_SOURCE_FILES = ['a11y/look.ts', 'a11y/navigator.ts', 'a11y/reveal.ts'].map((path) =>
-  fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)),
-);
+const S08_SOURCE_FILES = [
+  'a11y/announce.ts',
+  'a11y/look.ts',
+  'a11y/navigator.ts',
+  'a11y/reveal.ts',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 const RULES = [
   ['hex-color', /(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g],
