@@ -35,7 +35,7 @@
 | T010a | ☑ (G2 feedback: part lettering; smoke 72/72 states all parts lettered, 0 visible S6 pills) | 1 (Flash: -1 sandbox on, -2 sandbox off) + orchestrator re-run + scanner lists | evidence/T010a-{log-lettering.txt,log-smoke.txt,screenshot-*.png} | see merge |
 | T010c | ☑ (G2 feedback 2: one text direction in all rotations — smoke 16/16 states u=(0.866, 0.5); names wrap) | 1 (Flash, sandbox off) + orchestrator verification | evidence/T010c-{log-lettering.txt,screenshot-*.png} | see merge |
 | T010d+T010b | ☑ (G2 feedback 3: phone 1× compact right parts column; layers lettered on the plates; S6 layer label kept per layer as fallback; smoke 64/64 states one visible label per layer) | 1 (Flash, sandbox off) + orchestrator review fixes (per-layer hide, on-screen sliding) | evidence/T010d-{log.txt,log-phone-margin-measure.txt,screenshot-*.png} | see merge |
-| T011 | ☐ | | | |
+| T011 | ☑ (dry run 92/92 S7 checks; never-covers 48 entries) | 1 (Flash, sandbox off) | evidence/T011-log-probe-tool.txt | see merge |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
