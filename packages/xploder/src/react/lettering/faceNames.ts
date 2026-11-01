@@ -1,6 +1,7 @@
+import { ZOOM_BOUNDS } from '../../engine/camera';
 import type { ComponentLettering } from '../../lettering/model';
 
-export const FACE_NAMES_MIN_ZOOM = 2;
+export const FACE_NAMES_MIN_ZOOM = ZOOM_BOUNDS.min * ZOOM_BOUNDS.step ** 2; // second zoom-in click
 
 const EMPTY_NAMES: ReadonlyMap<string, string> = new Map();
 
