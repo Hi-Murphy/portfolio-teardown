@@ -38,7 +38,7 @@
 | T011 | ☑ (dry run 92/92 S7 checks; never-covers 48 entries) | 1 (Flash, sandbox off) | evidence/T011-log-probe-tool.txt | see merge |
 | T012 | ☑ 198/198 (S4–S7; never-covers 48; CLS strict 0) | 1 (Flash) ×2: exit 3 infra, exit 4 S5 wait timeout (environmental, diagnosed) → ⚑ orchestrator ran it (exit 0) | evidence/T012-{engine-probe.json,log-probe.txt,log-interaction.txt,screenshot-*.png} | see merge |
 | T013 | ☑ 20 shots; docks left→right, right→left, top→bottom, bottom→top asserted | 1 (Flash, sandbox off); 1st dispatch lost to an orchestrator error (server pointed at a removed worktree) | evidence/T013-{log-matrix.txt,meta.json,screenshot-*.png} | see merge |
-| T014 | ☐ | | | |
+| T014 | ☑ 0 dropped / 5.05 s, liveness, 3 steps, 2 draw calls; CLS strict 0 | 1 (Flash, sandbox off, alone) | evidence/T014-{fps.json,log-fps.txt,meta.json,screenshot-desktop.png} | see merge |
 | T015 | ☐ | | | |
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S07.md` and `.specify/features/panels/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_

@@ -1,0 +1,11 @@
+# G3 combined gate log — orchestrator, slice branch after T011–T014
+typecheck-ok
+All matched files use Prettier code style!
+tools/perf test:       Tests  85 passed (85)
+packages/xploder test:       Tests  545 passed (545)
+apps/web test:       Tests  54 passed | 1 skipped (55)
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+BRIEF-HISTORY-OK
