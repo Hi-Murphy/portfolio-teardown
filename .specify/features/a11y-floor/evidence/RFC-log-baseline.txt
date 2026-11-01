@@ -1,0 +1,167 @@
+# RFC baseline — a11y state of /dev/engine at base 5b22987 (before any S08 change)
+# command: pnpm build:fixtures && node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199; throwaway Playwright script (Chromium via tools/perf playwright 1.64.1) + axe-core 4.14.0 (axe.run(document), default rules)
+# target: http://127.0.0.1:4199/dev/engine ; date 2026-11-01 ; node v24.19.0
+
+## axe (fixture A, ?state=exploded, idle) — violations / incomplete per combo + Tab walk (first 40 stops)
+{
+ "axe": {
+  "light-desktop": {
+   "v": [],
+   "inc": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 22
+    }
+   ]
+  },
+  "light-mobile": {
+   "v": [],
+   "inc": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 37
+    }
+   ]
+  },
+  "dark-desktop": {
+   "v": [],
+   "inc": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 22
+    }
+   ]
+  },
+  "dark-mobile": {
+   "v": [],
+   "inc": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 37
+    }
+   ]
+  }
+ },
+ "tab": {
+  "desktop": [
+   "div[role=group] \"Tidewatch architecture view\"",
+   "button \"Fixture A\"",
+   "button \"Fixture B\"",
+   "button \"Fixture C\"",
+   "button \"Implode\"",
+   "button \"Rotate left\"",
+   "button \"Rotate right\"",
+   "button \"Zoom in\"",
+   "button \"Case study\"",
+   "button \"Switch to dark theme\"",
+   "button \"Interface\"",
+   "button \"View state\"",
+   "button \"Tide data\"",
+   "button \"External boundary\"",
+   "button \"Live update\"",
+   "button \"Saved forecast\"",
+   "button \"Play\"",
+   "button \"Step\"",
+   "button \"Stop\"",
+   "BODY"
+  ],
+  "mobile": [
+   "div[role=group] \"Tidewatch architecture view\"",
+   "button \"Fixture A\"",
+   "button \"Fixture B\"",
+   "button \"Fixture C\"",
+   "button \"Implode\"",
+   "button \"Rotate left\"",
+   "button \"Rotate right\"",
+   "button \"Zoom in\"",
+   "button \"Case study\"",
+   "button \"Switch to dark theme\"",
+   "button \"Interface\"",
+   "button \"View state\"",
+   "button \"Tide data\"",
+   "button \"External boundary\"",
+   "button \"Live update\"",
+   "button \"Saved forecast\"",
+   "button \"Play\"",
+   "button \"Step\"",
+   "button \"Stop\"",
+   "BODY"
+  ]
+ }
+}
+
+## axe violations per state (light, desktop 1280x800) + ARIA snapshot of the viewer group (Playwright locator.ariaSnapshot, first 30 lines)
+== detail [] liveRegions= 0
+- group "Tidewatch architecture view":
+  - text: 1 Interface 2 View state 3 Tide data 4 External boundary 1.1 Beachgoer 1.2 Tide Chart Screen 1.3 Forecast Details Panel 2.1 Tide View Model 3.1 Tide Repository 3.2 Live Tide Client 3.3 Tide Cache 4.1 Tide Feed 4 layers 2 × 2 1.1 1.2 1.3 2.1 3.1 3.2 3.3 4.1
+  - dialog "Tide Repository":
+    - heading "Tide Repository" [level=2]
+    - button "Close details": ×
+    - paragraph: module · shipped
+    - paragraph: Chooses between a live reading and the saved forecast.
+    - paragraph: Keeps the live reading and the phone's stored forecast in step so the chart always has something useful to show.
+    - heading "Tech" [level=3]
+    - list "Tech":
+      - listitem: Kotlin
+      - listitem: Kotlin Coroutines
+      - listitem: kotlinx.serialization
+    - heading "Metrics" [level=3]
+    - term: Saved window
+    - definition: 30 days
+    - heading "Links" [level=3]
+    - list:
+      - listitem:
+        - link "Data notes (opens in a new tab)":
+          - /url: https://example.com/tidewatch/data-notes
+== caseStudy [] liveRegions= 0
+- group "Tidewatch architecture view":
+  - text: 1 Interface 2 View state 3 Tide data 4 External boundary 1.1 Beachgoer 1.2 Tide Chart Screen 1.3 Forecast Details Panel 2.1 Tide View Model 3.1 Tide Repository 3.2 Live Tide Client 3.3 Tide Cache 4.1 Tide Feed 4 layers 2 × 2 1.1 1.2 1.3 2.1 3.1 3.2 3.3 4.1
+  - dialog "Tidewatch":
+    - heading "Tidewatch" [level=2]
+    - button "Close case study": ×
+    - paragraph: The next tide, at a glance.
+    - paragraph: Tide charts that stay useful away from the signal.
+    - heading "Problem" [level=3]
+    - paragraph: Coastal walks often start beyond reliable mobile coverage, where a chart that only works online is no help.
+    - heading "Approach" [level=3]
+    - paragraph: Keep a recent tide window on the phone, refresh it when a live feed is available, and present both paths in one clear chart.
+    - heading "Outcome" [level=3]
+    - paragraph: A small Android app that switches between fresh readings and a saved forecast without interrupting the view.
+    - heading "Metrics" [level=3]
+    - term: Saved forecast
+    - definition: 30 days
+    - term: Live refresh
+    - definition: every 5 min
+== tour [] liveRegions= 1
+- group "Tidewatch architecture view":
+  - text: 1.1 1.2 1.3 2.1 3.1 3.2 3.3 4.1 Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart.
+  - paragraph: Live update · Step 1 of 6
+  - paragraph: Beachgoer
+  - paragraph: A person checking the next high tide.
+  - paragraph: A new tide reading travels from the public feed to the chart.
+== fixtureB [] liveRegions= 0
+- group "Ledgerline architecture view":
+  - text: 1 Ingest 2 Normalize 3 Validate 4 Report 1.1 Partner CSV Drop 2.1 Column Normalizer 3.1 Ledger Validator 4.1 Reconciliation Ledger 4.2 Settlement Operator 4 layers 2 × 1 1.1 2.1 3.1 4.1 4.2
+  - dialog "Reconciliation Ledger":
+    - heading "Reconciliation Ledger" [level=2]
+    - button "Close details": ×
+    - paragraph: store · shipped
+    - paragraph: The retained matched and unmatched results for a run.
+    - paragraph: Stores each run with its source batch identifier so a later comparison can trace every result back to the partner export.
+    - heading "Tech" [level=3]
+    - list "Tech":
+      - listitem: TypeScript
+      - listitem: Node.js
+    - heading "Metrics" [level=3]
+    - term: Retention
+    - definition: 90 days
+    - heading "Links" [level=3]
+    - list:
+      - listitem:
+        - link "Ledger format (opens in a new tab)":
+          - /url: https://example.com/ledgerline/ledger-format
+after wrapper at max zoom: STAGE

@@ -1,0 +1,129 @@
+# RFC contrast pre-measurement (token level, WCAG 2.x relative luminance) — base 5b22987
+# source values: packages/xploder/src/theme/blueprint.ts; fills per src/look/tokens.ts (fill.base=surface, wash 0.18, highlightWash 0.4) and motion/emphasis.ts (dim.level 0.3 toward paper); sRGB-space mixes as in look/fills.ts mixSrgb
+# command: node contrast.mjs (throwaway, not committed); Stage 3 replaces it with a committed Node test + in-browser measurement
+
+## role pairs on paper/surface/grid below 4.5:1
+light paper      on surface  1.06
+light paper      on grid     1.19
+light surface    on paper    1.06
+light surface    on grid     1.26
+light grid       on paper    1.19
+light grid       on surface  1.26
+light lineMuted  on paper    3.23
+light lineMuted  on surface  3.43
+light lineMuted  on grid     2.71
+light accent     on grid     4.43
+light steel      on grid     4.40
+light library    on grid     4.15
+light storage    on grid     4.35
+light network    on grid     4.43
+dark paper      on surface  1.13
+dark paper      on grid     1.37
+dark surface    on paper    1.13
+dark surface    on grid     1.21
+dark grid       on paper    1.37
+dark grid       on surface  1.21
+dark lineMuted  on paper    3.78
+dark lineMuted  on surface  3.33
+dark lineMuted  on grid     2.75
+light ink@0.4 on paper 2.33
+dark ink@0.4 on paper 3.38
+
+--- dim 0.3
+light ink @0.3 on paper 1.83
+light label @0.3 on paper 1.61
+light steel @0.3 on paper 1.50
+light accent @0.3 on paper 1.55
+dark ink @0.3 on paper 2.46
+dark label @0.3 on paper 1.91
+dark steel @0.3 on paper 1.73
+dark accent @0.3 on paper 2.02
+--- disabled 0.4 (playground buttons)
+light ink@0.4 on paper 2.33
+dark ink@0.4 on paper 3.38
+--- lettering on top faces (surface mixed 0.18 toward kind colour)
+light module   ink 10.88 label 5.81 accent(hl num) on hlfill 3.05 ink on hlfill 7.93
+light service  ink 11.07 label 5.91 accent(hl num) on hlfill 3.05 ink on hlfill 7.93
+light store    ink 11.30 label 6.04 accent(hl num) on hlfill 3.05 ink on hlfill 7.93
+light external ink 11.46 label 6.13 accent(hl num) on hlfill 3.05 ink on hlfill 7.93
+light actor    ink 11.36 label 6.07 accent(hl num) on hlfill 3.05 ink on hlfill 7.93
+dark module   ink 8.76 label 5.10 accent(hl num) on hlfill 3.34 ink on hlfill 5.17
+dark service  ink 9.16 label 5.33 accent(hl num) on hlfill 3.34 ink on hlfill 5.17
+dark store    ink 9.02 label 5.25 accent(hl num) on hlfill 3.34 ink on hlfill 5.17
+dark external ink 9.51 label 5.54 accent(hl num) on hlfill 3.34 ink on hlfill 5.17
+dark actor    ink 8.65 label 5.04 accent(hl num) on hlfill 3.34 ink on hlfill 5.17
+--- non-text: accent ring on paper/surface; lineMuted chip border on surface
+light accent/paper 5.27 accent/surface 5.60 line/paper 7.58
+dark accent/paper 9.57 accent/surface 8.44 line/paper 9.36
+--- accent search
+light accent #074959 step 0.34 on hlfill 4.51 on paper 8.99
+dark no solution along this axis; best 4.20
+dark no solution along this axis; best 4.24
+
+## full table: every role on paper / surface
+light paper      on surface  1.06
+light surface    on paper    1.06
+light grid       on paper    1.19
+light grid       on surface  1.26
+light line       on paper    7.58
+light line       on surface  8.06
+light lineMuted  on paper    3.23
+light lineMuted  on surface  3.43
+light ink        on paper    13.71
+light ink        on surface  14.58
+light label      on paper    7.33
+light label      on surface  7.79
+light accent     on paper    5.27
+light accent     on surface  5.60
+light steel      on paper    5.23
+light steel      on surface  5.56
+light language   on paper    5.74
+light language   on surface  6.10
+light platform   on paper    6.10
+light platform   on surface  6.48
+light framework  on paper    6.30
+light framework  on surface  6.70
+light library    on paper    4.93
+light library    on surface  5.24
+light storage    on paper    5.18
+light storage    on surface  5.51
+light network    on paper    5.27
+light network    on surface  5.60
+light tooling    on paper    5.45
+light tooling    on surface  5.79
+light ai         on paper    5.37
+light ai         on surface  5.70
+dark paper      on surface  1.13
+dark surface    on paper    1.13
+dark grid       on paper    1.37
+dark grid       on surface  1.21
+dark line       on paper    9.36
+dark line       on surface  8.25
+dark lineMuted  on paper    3.78
+dark lineMuted  on surface  3.33
+dark ink        on paper    14.81
+dark ink        on surface  13.06
+dark label      on paper    8.62
+dark label      on surface  7.60
+dark accent     on paper    9.57
+dark accent     on surface  8.44
+dark steel      on paper    6.74
+dark steel      on surface  5.94
+dark language   on paper    7.93
+dark language   on surface  6.99
+dark platform   on paper    8.33
+dark platform   on surface  7.35
+dark framework  on paper    8.17
+dark framework  on surface  7.21
+dark library    on paper    9.64
+dark library    on surface  8.50
+dark storage    on paper    9.23
+dark storage    on surface  8.14
+dark network    on paper    10.01
+dark network    on surface  8.83
+dark tooling    on paper    10.40
+dark tooling    on surface  9.17
+dark ai         on paper    7.54
+dark ai         on surface  6.65
+light ink@0.4 on paper 2.33
+dark ink@0.4 on paper 3.38
