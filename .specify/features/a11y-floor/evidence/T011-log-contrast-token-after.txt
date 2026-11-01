@@ -1,0 +1,210 @@
+$ pnpm --filter xploder exec vitest run test/a11y-contrast.test.ts --reporter verbose 2>&1 | tee /tmp/s08-checks/t011-contrast-run.txt
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+stdout | test/a11y-contrast.test.ts > contrast inventory > prints both palettes and passes every non-exception row
+[light] surface inventory
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  panel-body                                       rest       body   ink                 surface                       14.58        4.5  PASS     
+  panel-label                                      rest       body   label               surface                        7.79        4.5  PASS     
+  panel-link                                       rest       body   accent              surface                        5.60        4.5  PASS     
+  panel-border                                     rest       ui     line                surface                        8.06        3.0  PASS     
+  chip-label                                       rest       body   ink                 surface                       14.58        4.5  PASS     
+  chip-border                                      rest       ui     lineMuted           surface                        3.43        3.0  PASS     
+  chip-tech-library-accent                         rest       ui     tech.library        surface                        5.24        3.0  PASS     
+  tech-library-on-paper                            rest       ui     tech.library        paper                          4.93        3.0  PASS     
+  caption-heading                                  rest       body   label               surface                        7.79        4.5  PASS     
+  caption-body                                     rest       body   ink                 surface                       14.58        4.5  PASS     
+  caption-border                                   rest       ui     line                surface                        8.06        3.0  PASS     
+  callout-label                                    rest       body   label               paper                          7.33        4.5  PASS     
+  balloon-label                                    rest       body   ink                 surface                       14.58        4.5  PASS     
+  balloon-border                                   rest       ui     line                surface                        8.06        3.0  PASS     
+  dimension-label                                  rest       body   steel               paper                          5.23        4.5  PASS     
+  leader-line                                      rest       ui     lineMuted           paper                          3.23        3.0  PASS     
+  title-title                                      rest       body   ink                 paper                         13.71        4.5  PASS     
+  title-meta                                       rest       body   steel               paper                          5.23        4.5  PASS     
+  title-row                                        rest       body   label               paper                          7.33        4.5  PASS     
+  title-border                                     rest       ui     line                paper                          7.58        3.0  PASS     
+  lettering-face-number-rest-module                rest       body   ink                 kindFill:module               10.88        4.5  PASS     
+  lettering-face-name-rest-module                  rest       body   label               kindFill:module                5.81        4.5  PASS     
+  lettering-face-number-rest-service               rest       body   ink                 kindFill:service              11.07        4.5  PASS     
+  lettering-face-name-rest-service                 rest       body   label               kindFill:service               5.91        4.5  PASS     
+  lettering-face-number-rest-store                 rest       body   ink                 kindFill:store                11.30        4.5  PASS     
+  lettering-face-name-rest-store                   rest       body   label               kindFill:store                 6.04        4.5  PASS     
+  lettering-face-number-rest-external              rest       body   ink                 kindFill:external             11.46        4.5  PASS     
+  lettering-face-name-rest-external                rest       body   label               kindFill:external              6.13        4.5  PASS     
+  lettering-face-number-rest-actor                 rest       body   ink                 kindFill:actor                11.36        4.5  PASS     
+  lettering-face-name-rest-actor                   rest       body   label               kindFill:actor                 6.07        4.5  PASS     
+  lettering-face-number-highlight                  highlight  body   ink                 highlightFill                  7.93        4.5  PASS     
+  lettering-face-name-highlight                    highlight  body   ink                 highlightFill                  7.93        4.5  PASS     
+  lettering-column-number                          rest       body   accent              paper                          5.27        4.5  PASS     
+  lettering-column-name                            rest       body   label               paper                          7.33        4.5  PASS     
+  lettering-column-number-highlight                highlight  body   accent              paper                          5.27        4.5  PASS     
+  lettering-column-name-highlight                  highlight  body   accent              paper                          5.27        4.5  PASS     
+  lettering-layer-face-label                       rest       body   label               layerFill                      7.05        4.5  PASS     
+  lettering-layer-plain-label                      rest       body   label               paper                          7.33        4.5  PASS     
+  focus-ring-paper                                 rest       ui     accent              paper                          5.27        3.0  PASS     
+  focus-ring-surface                               rest       ui     accent              surface                        5.60        3.0  PASS     
+  focus-ring-kind-fill                             rest       ui     accent              kindFill:module                4.18        3.0  PASS     
+  playground-button-text-on-paper                  rest       body   ink                 paper                         13.71        4.5  PASS     
+  playground-meta-on-paper                         rest       body   label               paper                          7.33        4.5  PASS     
+  playground-button-text-on-surface                rest       body   ink                 surface                       14.58        4.5  PASS     
+  playground-meta-on-surface                       rest       body   label               surface                        7.79        4.5  PASS     
+  playground-button-text-hover                     rest       body   ink                 {"over":"paper","mix":"ink","t":0.1}  11.33        4.5  PASS     
+  playground-meta-hover                            rest       body   label               {"over":"paper","mix":"ink","t":0.1}   6.05        4.5  PASS     
+  playground-button-selected-text                  rest       body   paper               ink                           13.71        4.5  PASS     
+  playground-button-border                         rest       ui     line                paper                          7.58        3.0  PASS     
+  panel-body-dim                                   dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  panel-label-dim                                  dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  panel-link-dim                                   dim        body   accent              surface                        1.64        4.5  FAIL     inactive-dim
+  chip-label-dim                                   dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  caption-heading-dim                              dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  caption-body-dim                                 dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  callout-label-dim                                dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  balloon-label-dim                                dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  dimension-label-dim                              dim        body   steel               paper                          1.50        4.5  FAIL     inactive-dim
+  title-title-dim                                  dim        body   ink                 paper                          1.84        4.5  FAIL     inactive-dim
+  title-meta-dim                                   dim        body   steel               paper                          1.50        4.5  FAIL     inactive-dim
+  title-row-dim                                    dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-module-dim            dim        body   ink                 kindFill:module                1.46        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-module-dim              dim        body   label               kindFill:module                1.28        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-service-dim           dim        body   ink                 kindFill:service               1.49        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-service-dim             dim        body   label               kindFill:service               1.30        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-store-dim             dim        body   ink                 kindFill:store                 1.52        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-store-dim               dim        body   label               kindFill:store                 1.32        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-external-dim          dim        body   ink                 kindFill:external              1.54        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-external-dim            dim        body   label               kindFill:external              1.34        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-actor-dim             dim        body   ink                 kindFill:actor                 1.53        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-actor-dim               dim        body   label               kindFill:actor                 1.33        4.5  FAIL     inactive-dim
+  lettering-face-number-highlight-dim              dim        body   ink                 highlightFill                  1.06        4.5  FAIL     inactive-dim
+  lettering-face-name-highlight-dim                dim        body   ink                 highlightFill                  1.06        4.5  FAIL     inactive-dim
+  lettering-column-number-dim                      dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-column-name-dim                        dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  lettering-column-number-highlight-dim            dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-column-name-highlight-dim              dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-layer-face-label-dim                   dim        body   label               layerFill                      1.55        4.5  FAIL     inactive-dim
+  lettering-layer-plain-label-dim                  dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  playground-button-text-on-paper-dim              dim        body   ink                 paper                          1.84        4.5  FAIL     inactive-dim
+  playground-meta-on-paper-dim                     dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  playground-button-text-on-surface-dim            dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  playground-meta-on-surface-dim                   dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  playground-button-text-hover-dim                 dim        body   ink                 {"over":"paper","mix":"ink","t":0.1}   1.52        4.5  FAIL     inactive-dim
+  playground-meta-hover-dim                        dim        body   label               {"over":"paper","mix":"ink","t":0.1}   1.33        4.5  FAIL     inactive-dim
+  playground-button-selected-text-dim              dim        body   paper               ink                           13.71        4.5  PASS     inactive-dim
+[light] R2 pre-fix evidence
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  lettering-face-number-highlight                  highlight  body   accent              highlightFill                  3.05        4.5  FAIL     
+  lettering-face-name-highlight                    highlight  body   label               highlightFill                  4.24        4.5  FAIL     
+[dark] surface inventory
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  panel-body                                       rest       body   ink                 surface                       13.06        4.5  PASS     
+  panel-label                                      rest       body   label               surface                        7.60        4.5  PASS     
+  panel-link                                       rest       body   accent              surface                        8.44        4.5  PASS     
+  panel-border                                     rest       ui     line                surface                        8.25        3.0  PASS     
+  chip-label                                       rest       body   ink                 surface                       13.06        4.5  PASS     
+  chip-border                                      rest       ui     lineMuted           surface                        3.33        3.0  PASS     
+  chip-tech-library-accent                         rest       ui     tech.library        surface                        8.50        3.0  PASS     
+  tech-library-on-paper                            rest       ui     tech.library        paper                          9.64        3.0  PASS     
+  caption-heading                                  rest       body   label               surface                        7.60        4.5  PASS     
+  caption-body                                     rest       body   ink                 surface                       13.06        4.5  PASS     
+  caption-border                                   rest       ui     line                surface                        8.25        3.0  PASS     
+  callout-label                                    rest       body   label               paper                          8.62        4.5  PASS     
+  balloon-label                                    rest       body   ink                 surface                       13.06        4.5  PASS     
+  balloon-border                                   rest       ui     line                surface                        8.25        3.0  PASS     
+  dimension-label                                  rest       body   steel               paper                          6.74        4.5  PASS     
+  leader-line                                      rest       ui     lineMuted           paper                          3.78        3.0  PASS     
+  title-title                                      rest       body   ink                 paper                         14.81        4.5  PASS     
+  title-meta                                       rest       body   steel               paper                          6.74        4.5  PASS     
+  title-row                                        rest       body   label               paper                          8.62        4.5  PASS     
+  title-border                                     rest       ui     line                paper                          9.36        3.0  PASS     
+  lettering-face-number-rest-module                rest       body   ink                 kindFill:module                8.76        4.5  PASS     
+  lettering-face-name-rest-module                  rest       body   label               kindFill:module                5.10        4.5  PASS     
+  lettering-face-number-rest-service               rest       body   ink                 kindFill:service               9.16        4.5  PASS     
+  lettering-face-name-rest-service                 rest       body   label               kindFill:service               5.33        4.5  PASS     
+  lettering-face-number-rest-store                 rest       body   ink                 kindFill:store                 9.02        4.5  PASS     
+  lettering-face-name-rest-store                   rest       body   label               kindFill:store                 5.25        4.5  PASS     
+  lettering-face-number-rest-external              rest       body   ink                 kindFill:external              9.51        4.5  PASS     
+  lettering-face-name-rest-external                rest       body   label               kindFill:external              5.54        4.5  PASS     
+  lettering-face-number-rest-actor                 rest       body   ink                 kindFill:actor                 8.65        4.5  PASS     
+  lettering-face-name-rest-actor                   rest       body   label               kindFill:actor                 5.04        4.5  PASS     
+  lettering-face-number-highlight                  highlight  body   ink                 highlightFill                  5.17        4.5  PASS     
+  lettering-face-name-highlight                    highlight  body   ink                 highlightFill                  5.17        4.5  PASS     
+  lettering-column-number                          rest       body   accent              paper                          9.57        4.5  PASS     
+  lettering-column-name                            rest       body   label               paper                          8.62        4.5  PASS     
+  lettering-column-number-highlight                highlight  body   accent              paper                          9.57        4.5  PASS     
+  lettering-column-name-highlight                  highlight  body   accent              paper                          9.57        4.5  PASS     
+  lettering-layer-face-label                       rest       body   label               layerFill                      6.86        4.5  PASS     
+  lettering-layer-plain-label                      rest       body   label               paper                          8.62        4.5  PASS     
+  focus-ring-paper                                 rest       ui     accent              paper                          9.57        3.0  PASS     
+  focus-ring-surface                               rest       ui     accent              surface                        8.44        3.0  PASS     
+  focus-ring-kind-fill                             rest       ui     accent              kindFill:module                5.66        3.0  PASS     
+  playground-button-text-on-paper                  rest       body   ink                 paper                         14.81        4.5  PASS     
+  playground-meta-on-paper                         rest       body   label               paper                          8.62        4.5  PASS     
+  playground-button-text-on-surface                rest       body   ink                 surface                       13.06        4.5  PASS     
+  playground-meta-on-surface                       rest       body   label               surface                        7.60        4.5  PASS     
+  playground-button-text-hover                     rest       body   ink                 {"over":"paper","mix":"ink","t":0.1}  11.48        4.5  PASS     
+  playground-meta-hover                            rest       body   label               {"over":"paper","mix":"ink","t":0.1}   6.69        4.5  PASS     
+  playground-button-selected-text                  rest       body   paper               ink                           14.81        4.5  PASS     
+  playground-button-border                         rest       ui     line                paper                          9.36        3.0  PASS     
+  panel-body-dim                                   dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  panel-label-dim                                  dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  panel-link-dim                                   dim        body   accent              surface                        1.77        4.5  FAIL     inactive-dim
+  chip-label-dim                                   dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  caption-heading-dim                              dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  caption-body-dim                                 dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  callout-label-dim                                dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  balloon-label-dim                                dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  dimension-label-dim                              dim        body   steel               paper                          1.73        4.5  FAIL     inactive-dim
+  title-title-dim                                  dim        body   ink                 paper                          2.46        4.5  FAIL     inactive-dim
+  title-meta-dim                                   dim        body   steel               paper                          1.73        4.5  FAIL     inactive-dim
+  title-row-dim                                    dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-module-dim            dim        body   ink                 kindFill:module                1.46        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-module-dim              dim        body   label               kindFill:module                1.13        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-service-dim           dim        body   ink                 kindFill:service               1.52        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-service-dim             dim        body   label               kindFill:service               1.18        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-store-dim             dim        body   ink                 kindFill:store                 1.50        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-store-dim               dim        body   label               kindFill:store                 1.17        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-external-dim          dim        body   ink                 kindFill:external              1.58        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-external-dim            dim        body   label               kindFill:external              1.23        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-actor-dim             dim        body   ink                 kindFill:actor                 1.44        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-actor-dim               dim        body   label               kindFill:actor                 1.12        4.5  FAIL     inactive-dim
+  lettering-face-number-highlight-dim              dim        body   ink                 highlightFill                  1.16        4.5  FAIL     inactive-dim
+  lettering-face-name-highlight-dim                dim        body   ink                 highlightFill                  1.16        4.5  FAIL     inactive-dim
+  lettering-column-number-dim                      dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-column-name-dim                        dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  lettering-column-number-highlight-dim            dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-column-name-highlight-dim              dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-layer-face-label-dim                   dim        body   label               layerFill                      1.52        4.5  FAIL     inactive-dim
+  lettering-layer-plain-label-dim                  dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  playground-button-text-on-paper-dim              dim        body   ink                 paper                          2.46        4.5  FAIL     inactive-dim
+  playground-meta-on-paper-dim                     dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  playground-button-text-on-surface-dim            dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  playground-meta-on-surface-dim                   dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  playground-button-text-hover-dim                 dim        body   ink                 {"over":"paper","mix":"ink","t":0.1}   1.91        4.5  FAIL     inactive-dim
+  playground-meta-hover-dim                        dim        body   label               {"over":"paper","mix":"ink","t":0.1}   1.48        4.5  FAIL     inactive-dim
+  playground-button-selected-text-dim              dim        body   paper               ink                           14.81        4.5  PASS     inactive-dim
+[dark] R2 pre-fix evidence
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  lettering-face-number-highlight                  highlight  body   accent              highlightFill                  3.34        4.5  FAIL     
+  lettering-face-name-highlight                    highlight  body   label               highlightFill                  3.01        4.5  FAIL     
+
+ ✓ test/a11y-contrast.test.ts > contrast inventory > covers the RFC D6 surfaces and every state 2ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > prints both palettes and passes every non-exception row 2ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > reproduces the RFC D6 ratios within 0.01 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > composites dimmed text with CSS opacity semantics 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > light lettering-face-number-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > light lettering-face-name-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > dark lettering-face-number-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > dark lettering-face-name-highlight uses the post-fix ink role 0ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  20:14:06
+   Duration  73ms (transform 40%, import 29%, tests 24%, worker 6%)
+
+
+## Orchestrator cross-check: token model vs rendered pixels (2026-11-01T13:16:54Z)
+Sampled from T011-screenshot-highlight-dark.png (background = modal pixel of the face region):
+  highlighted face 3.1 bg rgb(42,105,130): ink #E6EDF5 -> 5.17 (token model 5.17); old accent #4FD0E6 -> 3.34 (token model 3.34)
+  resting face bg rgb(56,63,72): label #A7B8CB -> 5.25
+Per-glyph measurement (text hidden vs shown) is T016's browser contrast group.

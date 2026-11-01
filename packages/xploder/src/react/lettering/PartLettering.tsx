@@ -421,6 +421,10 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     };
     const numberColor = (id: string): string =>
       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
+    const faceNumberColor = (id: string): string =>
+      highlight === id ? palette.ink : palette[look.annotation.partRole];
+    const faceNameColor = (id: string): string =>
+      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
 
     return (
       <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
@@ -581,7 +585,8 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                   userSelect: 'text',
                   whiteSpace: 'nowrap',
                   font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                  color,
+                  color: faceNumberColor(item.id),
+                  borderColor: numberColor(item.id),
                   opacity,
                   ...(transition === undefined ? {} : { transition }),
                 }}
@@ -595,7 +600,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                         style={{
                           font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
                           textTransform: 'uppercase',
-                          color: palette[look.annotation.textRole] || palette.label,
+                          color: faceNameColor(item.id),
                         }}
                       >
                         {line}

@@ -1,0 +1,39 @@
+$ git diff 5b22987 -- packages/xploder/src/react/lettering/PartLettering.tsx
+diff --git a/packages/xploder/src/react/lettering/PartLettering.tsx b/packages/xploder/src/react/lettering/PartLettering.tsx
+index c40e416..3b6dd65 100644
+--- a/packages/xploder/src/react/lettering/PartLettering.tsx
++++ b/packages/xploder/src/react/lettering/PartLettering.tsx
+@@ -421,9 +421,13 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+     };
+     const numberColor = (id: string): string =>
+       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
++    const faceNumberColor = (id: string): string =>
++      highlight === id ? palette.ink : palette[look.annotation.partRole];
++    const faceNameColor = (id: string): string =>
++      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+ 
+     return (
+-      <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
++      <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
+         {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
+         <div
+           ref={groupRef}
+@@ -581,7 +585,8 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                   userSelect: 'text',
+                   whiteSpace: 'nowrap',
+                   font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+-                  color,
++                  color: faceNumberColor(item.id),
++                  borderColor: numberColor(item.id),
+                   opacity,
+                   ...(transition === undefined ? {} : { transition }),
+                 }}
+@@ -595,7 +600,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                         style={{
+                           font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                           textTransform: 'uppercase',
+-                          color: palette[look.annotation.textRole] || palette.label,
++                          color: faceNameColor(item.id),
+                         }}
+                       >
+                         {line}
