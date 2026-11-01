@@ -1,0 +1,358 @@
+Portfolio Teardown — S07/T011 evidence
+Task: engine:probe --scope s7 (panel probe group)
+Date: 2026-11-01
+Worktree: portfolio-teardown/s07-t011
+
+Check commands (run from the worktree root under set -euo pipefail):
+$ mkdir -p /tmp/s07-checks .specify/features/panels/evidence
+$ pnpm --filter perf-tools exec vitest run test/panel-probe.test.ts --reporter verbose 2>&1 | tee /tmp/s07-checks/t011.txt
+$ pnpm engine:probe --help | grep -q 's7' && echo HELP-OK | tee -a /tmp/s07-checks/t011.txt
+$ pnpm typecheck && pnpm lint && pnpm test && echo T011-OK
+
+--- CHECK OUTPUT ---
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t011/tools/perf
+
+ ✓ test/panel-probe.test.ts > S7 evaluators > checks point containment including rect edges 1ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > finds the top, bottom, left and right centroids 0ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > fails the never-covers verdict when a hit point overlaps the surface 0ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > attributes layout shifts inside and outside the wrapper 0ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > passes the complete synthetic observation 1ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > fails specifically when a hit point overlaps the panel 0ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > allows wrapper focus when a canvas tap closes the case study 0ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > fails panel-cls-strict when a layout shift entry is inside the viewer 0ms
+ ✓ test/panel-probe.test.ts > S7 evaluators > fails panel-stage-invariant when the stage reflows 0ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  12:24:23
+   Duration  68ms (import 46%, tests 26%, transform 17%, worker 10%)
+
+$ node tools/perf/src/cli/engine-probe.ts --help
+HELP-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t011/tools/perf
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t011/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:80598) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:80599) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:80602) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:80608) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:80613) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  13 passed (13)
+tools/perf test:       Tests  85 passed (85)
+tools/perf test:    Start at  12:24:29
+tools/perf test:    Duration  1.17s (import 86%, tests 7%, transform 6%, worker 1%)
+tools/perf test: 
+packages/xploder test: (node:80615) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: Done
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:80617) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:80627) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:80630) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  53 passed (53)
+packages/xploder test:       Tests  545 passed (545)
+packages/xploder test:    Start at  12:24:29
+packages/xploder test:    Duration  6.35s (tests 70%, import 19%, transform 11%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  53 workers spawned · ~97ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~474ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t011/apps/web
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  5 passed (5)
+apps/web test:       Tests  54 passed | 1 skipped (55)
+apps/web test:    Start at  12:24:36
+apps/web test:    Duration  163ms (tests 38%, transform 37%, import 20%, worker 5%)
+apps/web test: 
+apps/web test: Done
+T011-OK
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+--- BROWSER DRY RUN ---
+Local fixture server: 127.0.0.1:4199 (out-fixtures)
+$ pnpm engine:probe http://127.0.0.1:4199/ --scope s7 --out /tmp/s07-checks/t011-dry
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4199/ --scope s7 --out /tmp/s07-checks/t011-dry
+PASS s7-slab-finder-a: expected {"desktop":{"top":"beachgoer","bottom":"tide-feed","left":"tide-cache","right":"live-tide-client"},"mobile":{"top":"beachgoer","bottom":"tide-feed","left":"forecast-details-panel","right":"live-tide-client"}} actual {"desktop":{"top":"beachgoer","bottom":"tide-feed","left":"tide-cache","right":"live-tide-client"},"mobile":{"top":"beachgoer","bottom":"tide-feed","left":"forecast-details-panel","right":"live-tide-client"}}
+PASS panel-never-covers-top-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-top-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":56,"rectOutsideCount":56,"elementOutsideCount":56,"surfaceFound":true}
+PASS panel-never-covers-top-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"live-tide-client","pass":true,"pointCount":7,"rectOutsideCount":7,"elementOutsideCount":7,"surfaceFound":true}
+PASS panel-never-covers-top-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-top-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":56,"rectOutsideCount":56,"elementOutsideCount":56,"surfaceFound":true}
+PASS panel-never-covers-top-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"live-tide-client","pass":true,"pointCount":7,"rectOutsideCount":7,"elementOutsideCount":7,"surfaceFound":true}
+PASS panel-never-covers-top-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-top-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-top-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-top-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-top-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-top-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-bottom-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-feed","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-bottom-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-view-model","pass":true,"pointCount":27,"rectOutsideCount":27,"elementOutsideCount":27,"surfaceFound":true}
+PASS panel-never-covers-bottom-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-feed","pass":true,"pointCount":54,"rectOutsideCount":54,"elementOutsideCount":54,"surfaceFound":true}
+PASS panel-never-covers-bottom-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-feed","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-bottom-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-view-model","pass":true,"pointCount":27,"rectOutsideCount":27,"elementOutsideCount":27,"surfaceFound":true}
+PASS panel-never-covers-bottom-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-feed","pass":true,"pointCount":54,"rectOutsideCount":54,"elementOutsideCount":54,"surfaceFound":true}
+PASS panel-never-covers-bottom-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-bottom-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-bottom-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-bottom-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-bottom-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-bottom-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":6,"rectOutsideCount":6,"elementOutsideCount":6,"surfaceFound":true}
+PASS panel-never-covers-left-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-cache","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-left-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":22,"rectOutsideCount":22,"elementOutsideCount":22,"surfaceFound":true}
+PASS panel-never-covers-left-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-cache","pass":true,"pointCount":11,"rectOutsideCount":11,"elementOutsideCount":11,"surfaceFound":true}
+PASS panel-never-covers-left-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-cache","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-left-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":22,"rectOutsideCount":22,"elementOutsideCount":22,"surfaceFound":true}
+PASS panel-never-covers-left-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-cache","pass":true,"pointCount":11,"rectOutsideCount":11,"elementOutsideCount":11,"surfaceFound":true}
+PASS panel-never-covers-left-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":2,"rectOutsideCount":2,"elementOutsideCount":2,"surfaceFound":true}
+PASS panel-never-covers-left-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-left-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-left-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":2,"rectOutsideCount":2,"elementOutsideCount":2,"surfaceFound":true}
+PASS panel-never-covers-left-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-left-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-right-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"live-tide-client","pass":true,"pointCount":2,"rectOutsideCount":2,"elementOutsideCount":2,"surfaceFound":true}
+PASS panel-never-covers-right-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-chart-screen","pass":true,"pointCount":20,"rectOutsideCount":20,"elementOutsideCount":20,"surfaceFound":true}
+PASS panel-never-covers-right-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"live-tide-client","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-right-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"live-tide-client","pass":true,"pointCount":2,"rectOutsideCount":2,"elementOutsideCount":2,"surfaceFound":true}
+PASS panel-never-covers-right-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-chart-screen","pass":true,"pointCount":20,"rectOutsideCount":20,"elementOutsideCount":20,"surfaceFound":true}
+PASS panel-never-covers-right-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"live-tide-client","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-right-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-chart-screen","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-right-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-right-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-right-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"tide-chart-screen","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-never-covers-right-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"beachgoer","pass":true,"pointCount":1,"rectOutsideCount":1,"elementOutsideCount":1,"surfaceFound":true}
+PASS panel-never-covers-right-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true} actual {"slabId":"forecast-details-panel","pass":true,"pointCount":3,"rectOutsideCount":3,"elementOutsideCount":3,"surfaceFound":true}
+PASS panel-open-mouse: expected {"kind":"detail","highlight":"tide-chart-screen"} actual {"target":"tide-chart-screen","kind":"detail","highlight":"tide-chart-screen","title":"Tide Chart Screen"}
+PASS panel-open-touch: expected {"kind":"detail","highlight":"tide-chart-screen"} actual {"target":"tide-chart-screen","kind":"detail","highlight":"tide-chart-screen","title":"Tide Chart Screen"}
+PASS panel-content-tide-repository: expected {"name":"Tide Repository","summary":"Chooses between a live reading and the saved forecast.","chipLabels":["Kotlin","Kotlin Coroutines","kotlinx.serialization"],"metrics":[{"label":"Saved window","value":"30 days"}],"links":[{"label":"Data notes","url":"https://example.com/tidewatch/data-notes","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metrics","Links"]} actual {"name":"Tide Repository","paragraphs":["module · shipped","Chooses between a live reading and the saved forecast.","Keeps the live reading and the phone's stored forecast in step so the chart always has something useful to show."],"chipLabels":["Kotlin","Kotlin Coroutines","kotlinx.serialization"],"metrics":[{"label":"Saved window","value":"30 days"}],"links":[{"label":"Data notes","url":"https://example.com/tidewatch/data-notes","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metrics","Links"]}
+PASS panel-content-reconciliation-ledger: expected {"name":"Reconciliation Ledger","summary":"The retained matched and unmatched results for a run.","chipLabels":["TypeScript","Node.js"],"metrics":[{"label":"Retention","value":"90 days"}],"links":[{"label":"Ledger format","url":"https://example.com/ledgerline/ledger-format","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metrics","Links"]} actual {"name":"Reconciliation Ledger","paragraphs":["store · shipped","The retained matched and unmatched results for a run.","Stores each run with its source batch identifier so a later comparison can trace every result back to the partner export."],"chipLabels":["TypeScript","Node.js"],"metrics":[{"label":"Retention","value":"90 days"}],"links":[{"label":"Ledger format","url":"https://example.com/ledgerline/ledger-format","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metrics","Links"]}
+PASS panel-content-beachgoer: expected {"name":"Beachgoer","summary":"A person checking the next high tide.","chipLabels":[],"metrics":[],"links":[],"headings":[]} actual {"name":"Beachgoer","paragraphs":["actor · shipped","A person checking the next high tide.","Chooses a nearby beach, opens its chart, and reads the tide curve."],"chipLabels":[],"metrics":[],"links":[],"headings":[]}
+PASS panel-close-same-slab: expected {"panelAfter":"closed"} actual {"route":"same-slab","panelAfter":"closed","focus":{"wrapper":true,"control":null,"opener":false}}
+PASS panel-focus-return-same-slab: expected {"wrapper":true} actual {"wrapper":true,"control":null,"opener":false}
+PASS panel-close-escape: expected {"panelAfter":"closed"} actual {"route":"escape","panelAfter":"closed","focus":{"wrapper":true,"control":null,"opener":false}}
+PASS panel-focus-return-escape: expected {"wrapper":true} actual {"wrapper":true,"control":null,"opener":false}
+PASS panel-close-outside-blank: expected {"panelAfter":"closed"} actual {"route":"outside-blank","panelAfter":"closed","focus":{"wrapper":true,"control":null,"opener":false}}
+PASS panel-focus-return-outside-blank: expected {"wrapper":true} actual {"wrapper":true,"control":null,"opener":false}
+PASS panel-close-outside-control: expected {"panelAfter":"closed"} actual {"route":"outside-control","panelAfter":"closed","focus":{"wrapper":false,"control":"fixture-a","opener":false}}
+PASS panel-focus-return-outside-control: expected {"control":"fixture-a"} actual {"wrapper":false,"control":"fixture-a","opener":false}
+PASS panel-close-close-control: expected {"panelAfter":"closed"} actual {"route":"close-control","panelAfter":"closed","focus":{"wrapper":true,"control":null,"opener":false}}
+PASS panel-focus-return-close-control: expected {"wrapper":true} actual {"wrapper":true,"control":null,"opener":false}
+PASS panel-close-empty-canvas: expected {"panelAfter":"closed"} actual {"route":"empty-canvas","panelAfter":"closed","focus":{"wrapper":true,"control":null,"opener":false}}
+PASS panel-focus-return-empty-canvas: expected {"wrapper":true} actual {"wrapper":true,"control":null,"opener":false}
+PASS panel-keys-isolated: expected {"closeFocused":true,"azimuthUnchanged":true} actual {"before":45,"after":45,"closeFocused":true}
+PASS case-study-sections-a: expected {"heading":"Tidewatch","headings":["Problem","Approach","Outcome","Metrics"],"metrics":[{"label":"Saved forecast","value":"30 days"},{"label":"Live refresh","value":"every 5 min"}]} actual {"heading":"Tidewatch","headings":["Problem","Approach","Outcome","Metrics"],"metrics":[{"label":"Saved forecast","value":"30 days"},{"label":"Live refresh","value":"every 5 min"}]}
+PASS case-study-sections-b: expected {"heading":"Ledgerline","headings":["Problem","Approach","Outcome","Metrics"],"metrics":[{"label":"Runs retained","value":"90 days"},{"label":"Batch limit","value":"50,000 rows"}]} actual {"heading":"Ledgerline","headings":["Problem","Approach","Outcome","Metrics"],"metrics":[{"label":"Runs retained","value":"90 days"},{"label":"Batch limit","value":"50,000 rows"}]}
+PASS case-study-sections-c: expected {"heading":"Lockerbay","headings":["Problem","Approach","Outcome"],"metrics":[]} actual {"heading":"Lockerbay","headings":["Problem","Approach","Outcome"],"metrics":[]}
+PASS case-study-scroll: expected {"scrollHeightGreaterThanClientHeight":true,"scrollTopChanged":true,"windowScrollYUnchanged":true} actual {"scrollHeight":528,"clientHeight":351,"scrollTopBefore":0,"scrollTopAfter":177,"windowYBefore":0,"windowYAfter":0}
+PASS case-study-close-close-control: expected {"panelAfter":"closed","focus":"opener"} actual {"route":"close-control","panelAfter":"closed","focus":{"wrapper":false,"opener":true}}
+PASS case-study-close-escape: expected {"panelAfter":"closed","focus":"opener"} actual {"route":"escape","panelAfter":"closed","focus":{"wrapper":false,"opener":true}}
+PASS case-study-close-toggle: expected {"panelAfter":"closed","focus":"opener"} actual {"route":"toggle","panelAfter":"closed","focus":{"wrapper":false,"opener":true}}
+PASS case-study-close-canvas-tap: expected {"panelAfter":"closed","focus":"opener or wrapper"} actual {"route":"canvas-tap","panelAfter":"closed","focus":{"wrapper":true,"opener":false}}
+PASS case-study-palette-light: expected {"background":{"r":252,"g":250,"b":244},"text":{"r":34,"g":38,"b":43}} actual {"background":{"r":252,"g":250,"b":244},"text":{"r":34,"g":38,"b":43}}
+PASS case-study-palette-dark: expected {"background":{"r":17,"g":37,"b":64},"text":{"r":230,"g":237,"b":245}} actual {"background":{"r":17,"g":37,"b":64},"text":{"r":230,"g":237,"b":245}}
+PASS chips-labels: expected "labels equal the registry labels" actual [{"id":"live-tide-client","labels":["Kotlin","OkHttp","WebSocket","Kotlin Coroutines"],"expectedLabels":["Kotlin","OkHttp","WebSocket","Kotlin Coroutines"]},{"id":"tide-repository","labels":["Kotlin","Kotlin Coroutines","kotlinx.serialization"],"expectedLabels":["Kotlin","Kotlin Coroutines","kotlinx.serialization"]}]
+PASS chips-swatch-light: expected "swatch colour equals the live --bp-tech-<category> value" actual [{"chipId":"kotlin","category":"language","actual":{"r":31,"g":95,"b":173},"expected":{"r":31,"g":95,"b":173}},{"chipId":"okhttp","category":"network","actual":{"r":10,"g":110,"b":135},"expected":{"r":10,"g":110,"b":135}},{"chipId":"websocket","category":"network","actual":{"r":10,"g":110,"b":135},"expected":{"r":10,"g":110,"b":135}},{"chipId":"coroutines","category":"library","actual":{"r":15,"g":118,"b":110},"expected":{"r":15,"g":118,"b":110}}]
+PASS chips-swatch-dark: expected "swatch colour equals the live --bp-tech-<category> value" actual [{"chipId":"kotlin","category":"language","actual":{"r":127,"g":178,"b":240},"expected":{"r":127,"g":178,"b":240}},{"chipId":"okhttp","category":"network","actual":{"r":94,"g":211,"b":238},"expected":{"r":94,"g":211,"b":238}},{"chipId":"websocket","category":"network","actual":{"r":94,"g":211,"b":238},"expected":{"r":94,"g":211,"b":238}},{"chipId":"coroutines","category":"library","actual":{"r":95,"g":211,"b":194},"expected":{"r":95,"g":211,"b":194}}]
+PASS chips-display-only: expected {"chipCount":"> 0","focusable":0,"linkRoles":0} actual {"chipCount":11,"focusable":0,"linkRoles":0}
+PASS tour-jump-playing: expected {"after":{"step":3,"status":"playing","caption":"Step 4 of 6 · Tide Repository"},"beat":{"step":4,"status":"playing","caption":"Step 5 of 6 · Live Tide Client"}} actual {"before":{"step":2,"status":"playing","captionText":"Live update · Step 3 of 6 Tide View Model Combines the selected beach with the latest tide series.","trace":["beachgoer","tide-chart-screen","tide-view-model"],"panel":"closed","panelTitle":null},"after":{"step":3,"status":"playing","captionText":"Live update · Step 4 of 6 Tide Repository Chooses between a live reading and the saved forecast.","trace":["beachgoer","tide-chart-screen","tide-view-model","tide-repository"],"panel":"closed","panelTitle":null},"beat":{"step":4,"status":"playing","captionText":"Live update · Step 5 of 6 Live Tide Client Keeps the current tide reading in step.","trace":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client"],"panel":"closed","panelTitle":null}}
+PASS tour-jump-paused: expected {"step":4,"status":"paused","caption":"Step 5 of 6 · Live Tide Client"} actual {"before":{"step":1,"status":"paused","captionText":"Live update · Step 2 of 6 Tide Chart Screen The main chart and its live-or-saved state.","trace":["beachgoer","tide-chart-screen"],"panel":"closed","panelTitle":null},"after":{"step":4,"status":"paused","captionText":"Live update · Step 5 of 6 Live Tide Client Keeps the current tide reading in step.","trace":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client"],"panel":"closed","panelTitle":null}}
+PASS tour-notinflow-pause: expected {"status":"paused","step":1,"panel":"detail","panelTitle":"Forecast Details Panel"} actual {"before":{"step":1,"status":"playing","captionText":"Live update · Step 2 of 6 Tide Chart Screen The main chart and its live-or-saved state.","trace":["beachgoer","tide-chart-screen"],"panel":"closed","panelTitle":null},"stepAtClick":1,"after":{"step":1,"status":"paused","captionText":"Live update · Step 2 of 6 Tide Chart Screen The main chart and its live-or-saved state.","trace":["beachgoer","tide-chart-screen"],"panel":"detail","panelTitle":"Forecast Details Panel"}}
+PASS tour-resume-same-step: expected {"status":"playing","step":1} actual {"paused":{"step":1,"status":"paused","captionText":"Live update · Step 2 of 6 Tide Chart Screen The main chart and its live-or-saved state.","trace":["beachgoer","tide-chart-screen"],"panel":"detail","panelTitle":"Forecast Details Panel"},"afterPlay":{"step":1,"status":"playing","captionText":"Live update · Step 2 of 6 Tide Chart Screen The main chart and its live-or-saved state.","trace":["beachgoer","tide-chart-screen"],"panel":"closed","panelTitle":"Forecast Details Panel"}}
+PASS tour-escape-layering: expected {"afterFirst":{"panel":"closed","status":"paused"},"afterSecond":{"status":"idle"}} actual {"afterFirst":{"step":1,"status":"paused","captionText":"Live update · Step 2 of 6 Tide Chart Screen The main chart and its live-or-saved state.","trace":["beachgoer","tide-chart-screen"],"panel":"closed","panelTitle":"Forecast Details Panel"},"afterSecond":{"step":-1,"status":"idle","captionText":"","trace":[],"panel":"closed","panelTitle":"Forecast Details Panel"}}
+PASS tour-jump-no-caption-gap: expected {"frames":"> 10","framesWithoutCaption":0} actual {"frames":26,"framesWithoutCaption":0}
+PASS panel-cls-strict: expected "0 layout-shift entries with a source inside the viewer wrapper" actual {"pageTotal":0,"inside":[],"outsideCount":0,"outsideEntries":[]}
+PASS panel-stage-invariant: expected "stage rect and scrollHeight identical before/after every open/close" actual {"samples":119,"failures":[]}
+PASS panel-hidden-while-moving: expected "every frame is hidden or disjoint from the slab hit points" actual {"frames":37,"violations":[],"settled":{"surfaceFound":true,"hidden":false,"pointCount":2,"pointsInside":0}}
+PASS rm-panel-instant: expected {"surfaceFound":true,"animations":0,"opacity":1} actual {"surfaceFound":true,"animations":0,"opacity":1}
+PASS panel-draw-calls: expected {"panel":2,"tour":2} actual {"panel":2,"tour":2}
+PASS panel-max-zoom-reach: expected {"zoom":3,"topLayer":["beachgoer","forecast-details-panel","tide-chart-screen"],"bottomLayer":["tide-feed"]} actual {"zoom":3,"top":{"id":"beachgoer","hovered":true,"outside":true},"bottom":{"id":"tide-feed","hovered":true,"outside":true}}
+pass: true
+engine-probe.json: /tmp/s07-checks/t011-dry/engine-probe.json
+
+--- DRY-RUN CHECK SUMMARY ---
+PASS s7-slab-finder-a
+PASS panel-never-covers-top-exploded-light-1
+PASS panel-never-covers-top-exploded-light-max-top
+PASS panel-never-covers-top-exploded-light-max-bottom
+PASS panel-never-covers-top-exploded-dark-1
+PASS panel-never-covers-top-exploded-dark-max-top
+PASS panel-never-covers-top-exploded-dark-max-bottom
+PASS panel-never-covers-top-imploded-light-1
+PASS panel-never-covers-top-imploded-light-max-top
+PASS panel-never-covers-top-imploded-light-max-bottom
+PASS panel-never-covers-top-imploded-dark-1
+PASS panel-never-covers-top-imploded-dark-max-top
+PASS panel-never-covers-top-imploded-dark-max-bottom
+PASS panel-never-covers-bottom-exploded-light-1
+PASS panel-never-covers-bottom-exploded-light-max-top
+PASS panel-never-covers-bottom-exploded-light-max-bottom
+PASS panel-never-covers-bottom-exploded-dark-1
+PASS panel-never-covers-bottom-exploded-dark-max-top
+PASS panel-never-covers-bottom-exploded-dark-max-bottom
+PASS panel-never-covers-bottom-imploded-light-1
+PASS panel-never-covers-bottom-imploded-light-max-top
+PASS panel-never-covers-bottom-imploded-light-max-bottom
+PASS panel-never-covers-bottom-imploded-dark-1
+PASS panel-never-covers-bottom-imploded-dark-max-top
+PASS panel-never-covers-bottom-imploded-dark-max-bottom
+PASS panel-never-covers-left-exploded-light-1
+PASS panel-never-covers-left-exploded-light-max-top
+PASS panel-never-covers-left-exploded-light-max-bottom
+PASS panel-never-covers-left-exploded-dark-1
+PASS panel-never-covers-left-exploded-dark-max-top
+PASS panel-never-covers-left-exploded-dark-max-bottom
+PASS panel-never-covers-left-imploded-light-1
+PASS panel-never-covers-left-imploded-light-max-top
+PASS panel-never-covers-left-imploded-light-max-bottom
+PASS panel-never-covers-left-imploded-dark-1
+PASS panel-never-covers-left-imploded-dark-max-top
+PASS panel-never-covers-left-imploded-dark-max-bottom
+PASS panel-never-covers-right-exploded-light-1
+PASS panel-never-covers-right-exploded-light-max-top
+PASS panel-never-covers-right-exploded-light-max-bottom
+PASS panel-never-covers-right-exploded-dark-1
+PASS panel-never-covers-right-exploded-dark-max-top
+PASS panel-never-covers-right-exploded-dark-max-bottom
+PASS panel-never-covers-right-imploded-light-1
+PASS panel-never-covers-right-imploded-light-max-top
+PASS panel-never-covers-right-imploded-light-max-bottom
+PASS panel-never-covers-right-imploded-dark-1
+PASS panel-never-covers-right-imploded-dark-max-top
+PASS panel-never-covers-right-imploded-dark-max-bottom
+PASS panel-open-mouse
+PASS panel-open-touch
+PASS panel-content-tide-repository
+PASS panel-content-reconciliation-ledger
+PASS panel-content-beachgoer
+PASS panel-close-same-slab
+PASS panel-focus-return-same-slab
+PASS panel-close-escape
+PASS panel-focus-return-escape
+PASS panel-close-outside-blank
+PASS panel-focus-return-outside-blank
+PASS panel-close-outside-control
+PASS panel-focus-return-outside-control
+PASS panel-close-close-control
+PASS panel-focus-return-close-control
+PASS panel-close-empty-canvas
+PASS panel-focus-return-empty-canvas
+PASS panel-keys-isolated
+PASS case-study-sections-a
+PASS case-study-sections-b
+PASS case-study-sections-c
+PASS case-study-scroll
+PASS case-study-close-close-control
+PASS case-study-close-escape
+PASS case-study-close-toggle
+PASS case-study-close-canvas-tap
+PASS case-study-palette-light
+PASS case-study-palette-dark
+PASS chips-labels
+PASS chips-swatch-light
+PASS chips-swatch-dark
+PASS chips-display-only
+PASS tour-jump-playing
+PASS tour-jump-paused
+PASS tour-notinflow-pause
+PASS tour-resume-same-step
+PASS tour-escape-layering
+PASS tour-jump-no-caption-gap
+PASS panel-cls-strict
+PASS panel-stage-invariant
+PASS panel-hidden-while-moving
+PASS rm-panel-instant
+PASS panel-draw-calls
+PASS panel-max-zoom-reach
+dry-run: 93/93 checks passed

@@ -51,6 +51,7 @@ import {
 } from '../engine-probe.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
 import { run } from '../log.ts';
+import { captureS7, loadS7Fixtures, type S7Observation } from '../panel-probe.ts';
 import { assertReachable } from '../reach.ts';
 
 interface EngineProbeArgs {
@@ -65,6 +66,7 @@ type EngineProbeReport = EngineProbeEvaluation & {
   chromium: string;
   s5?: S5Observation;
   s6?: S6Observation;
+  s7?: S7Observation;
 } & Partial<S4Observation>;
 
 type PhaseEntry = [state: string, timestamp: number];
@@ -184,7 +186,7 @@ an out-fixtures export (for example, http://127.0.0.1:4199/).
 
 Options:
   --out <dir>     output directory (default: .evidence/<timestamp>-engine-probe)
-  --scope <scope>  s4, s5, s6, or all (default: all)
+  --scope <scope>  s4, s5, s6, s7, or all (default: all)
   --help          show this help`;
 
 function exitCodeTable(): string {
@@ -723,6 +725,7 @@ async function installClsCapture(
         parentTag: element.parentElement?.tagName.toLowerCase() ?? null,
         text: element.textContent?.trim().slice(0, 80) || null,
         inOverlay: element.closest('[data-xploder-overlay]') !== null,
+        inViewer: element.closest('[data-xploder-ready]') !== null,
       };
     };
     const rect = (value: DOMRectReadOnly | undefined) =>
@@ -797,6 +800,13 @@ function collectClsLoad(pages: readonly Page[]): ClsLoadObservation {
     entries,
     note: CLS_LOAD_NOTE,
   };
+}
+
+function collectS7Cls(pages: readonly Page[]): ClsObservation {
+  const entries = pages.flatMap(
+    (page) => clsCaptures.get(page)?.entries.filter((entry) => entry.group.startsWith('s7-')) ?? [],
+  );
+  return { total: totalLayoutShift(entries), entries };
 }
 
 async function readPixel(page: Page, point: PointObservation): Promise<PixelObservation> {
@@ -2654,9 +2664,10 @@ export async function main(argv: string[]): Promise<number> {
     values.scope !== 's4' &&
     values.scope !== 's5' &&
     values.scope !== 's6' &&
+    values.scope !== 's7' &&
     values.scope !== 'all'
   ) {
-    throw new CliError(EXIT.USAGE, '--scope must be s4, s5, s6, or all');
+    throw new CliError(EXIT.USAGE, '--scope must be s4, s5, s6, s7, or all');
   }
 
   const scope = (values.scope ?? 'all') as ProbeScope;
@@ -2681,13 +2692,14 @@ export async function main(argv: string[]): Promise<number> {
     let s4: S4Observation | undefined;
     let s5: S5Observation | undefined;
     let s6: S6Observation | undefined;
+    let s7: S7Observation | undefined;
     let mobile: Surface | undefined;
 
     try {
       if (scope === 's4' || scope === 'all') {
         s4 = await captureS4(desktop.page, reduced.page, base, outDir);
       }
-      if (scope === 's5' || scope === 'all' || scope === 's6') {
+      if (scope === 's5' || scope === 's6' || scope === 's7' || scope === 'all') {
         mobile = await openSurface(browser, mobileOptions(), 'mobile');
         surfaces.push(mobile);
       }
@@ -2712,6 +2724,21 @@ export async function main(argv: string[]): Promise<number> {
           outDir,
         );
       }
+      if (scope === 's7' || scope === 'all') {
+        if (mobile === undefined) throw new Error('mobile surface is unavailable');
+        const fixtures = await loadS7Fixtures();
+        s7 = await captureS7({
+          desktop: desktop.page,
+          mobile: mobile.page,
+          reduced: reduced.page,
+          base,
+          outDir,
+          fixtures,
+          setClsGroup,
+          finishClsGroup,
+          collectCls: collectS7Cls,
+        });
+      }
     } finally {
       await Promise.all(surfaces.map((surface) => surface.context.close()));
     }
@@ -2720,6 +2747,7 @@ export async function main(argv: string[]): Promise<number> {
       ...(s4 ?? {}),
       ...(s5 === undefined ? {} : { s5 }),
       ...(s6 === undefined ? {} : { s6 }),
+      ...(s7 === undefined ? {} : { s7 }),
     };
     const evaluation = evaluateProbe(observation, scope);
     report = {
