@@ -156,7 +156,7 @@ describe('package-consumer scanner', () => {
   test('accepts the exported xploder entry points', () => {
     expectNoHits(
       scanText(
-        "import { parseProject } from 'xploder';\nimport { motion } from 'xploder/motion';\nimport { TeardownViewer } from 'xploder/react';",
+        "import { parseProject } from 'xploder';\nimport { motion } from 'xploder/motion';\nimport { TeardownViewer, useViewerPanels } from 'xploder/react';",
         'good-sample.tsx',
       ),
     );
