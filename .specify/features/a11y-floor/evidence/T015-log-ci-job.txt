@@ -1,0 +1,498 @@
+$ git diff -- .github/workflows/perf.yml
+diff --git a/.github/workflows/perf.yml b/.github/workflows/perf.yml
+index 72e5a4e..3505f20 100644
+--- a/.github/workflows/perf.yml
++++ b/.github/workflows/perf.yml
+@@ -127,6 +127,36 @@ jobs:
+           path: .evidence/ci/
+           retention-days: 14
+ 
++  a11y:
++    name: 'a11y: axe (engine fixture export)'
++    runs-on: ubuntu-latest
++    timeout-minutes: 25
++    steps:
++      - uses: actions/checkout@v7
++      - uses: pnpm/action-setup@v6
++      - uses: actions/setup-node@v7
++        with:
++          node-version-file: .nvmrc
++          cache: pnpm
++      - run: pnpm install --frozen-lockfile
++      - name: Cache Playwright browsers
++        uses: actions/cache@v6
++        with:
++          path: ~/.cache/ms-playwright
++          key: ms-playwright-${{ runner.os }}-1.64.1
++      - name: Install Playwright Chromium
++        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
++      - run: pnpm build:fixtures
++      - run: pnpm a11y:axe --serve out-fixtures --out .evidence/ci/axe
++      - run: pnpm a11y:probe --serve out-fixtures --ci --out .evidence/ci/a11y
++      - name: Upload a11y evidence
++        if: always()
++        uses: actions/upload-artifact@v7
++        with:
++          name: a11y
++          path: .evidence/ci/
++          retention-days: 14
++
+   fixture-exclusion:
+     name: 'perf: fixture exclusion'
+     runs-on: ubuntu-latest
+
+$ ruby -e 'require "yaml"; YAML.load_file(ARGV[0]); puts "YAML-PARSE-OK"' .github/workflows/perf.yml
+YAML-PARSE-OK
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1338ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1837ms
+  Running TypeScript ...
+  Finished TypeScript in 1476ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 193ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+
+$ pnpm a11y:axe --serve out-fixtures --out .evidence/ci/axe
+$ node tools/perf/src/cli/a11y-axe.ts --serve out-fixtures --out .evidence/ci/axe
+axe light/desktop: 11 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 209 ledger 13
+axe light/mobile: 11 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 340 ledger 23
+axe dark/desktop: 11 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 209 ledger 13
+axe dark/mobile: 11 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 340 ledger 23
+axe total: serious 0 critical 0 moderate 0 minor 0 | incomplete 1098 ledger 72
+
+$ pnpm a11y:probe --serve out-fixtures --ci --out .evidence/ci/a11y
+$ node tools/perf/src/cli/a11y-probe.ts --serve out-fixtures --ci --out .evidence/ci/a11y
+drill-a Tab skip role=link name="Skip to engine controls" panel=closed PASS
+drill-a Tab viewer role=group name="Tidewatch architecture view" panel=closed PASS
+drill-a Tab proxy:beachgoer role=button name="Beachgoer" panel=closed PASS
+drill-a Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-a Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-a Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-a Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-a Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-a Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-a Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-a Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-a Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-a Tab control:focus-ui role=button name="Interface" panel=closed PASS
+drill-a Tab control:focus-state role=button name="View state" panel=closed PASS
+drill-a Tab control:focus-data role=button name="Tide data" panel=closed PASS
+drill-a Tab control:focus-platform role=button name="External boundary" panel=closed PASS
+drill-a Tab control:flow-live-update role=button name="Live update" panel=closed PASS
+drill-a Tab control:flow-offline-read role=button name="Saved forecast" panel=closed PASS
+drill-a Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-a Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-a Tab control:tour-stop role=button name="Stop" panel=closed PASS
+drill-a Shift+Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-a Shift+Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-a Shift+Tab control:flow-offline-read role=button name="Saved forecast" panel=closed PASS
+drill-a Shift+Tab control:flow-live-update role=button name="Live update" panel=closed PASS
+drill-a Shift+Tab control:focus-platform role=button name="External boundary" panel=closed PASS
+drill-a Shift+Tab control:focus-data role=button name="Tide data" panel=closed PASS
+drill-a Shift+Tab control:focus-state role=button name="View state" panel=closed PASS
+drill-a Shift+Tab control:focus-ui role=button name="Interface" panel=closed PASS
+drill-a Shift+Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-a Shift+Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-a Shift+Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-a Shift+Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-a Shift+Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-a Shift+Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-a Shift+Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-a Shift+Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-a Shift+Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-a Shift+Tab proxy:beachgoer role=button name="Beachgoer" panel=closed PASS
+drill-a Shift+Tab viewer role=group name="Tidewatch architecture view" panel=closed PASS
+drill-a Shift+Tab skip role=link name="Skip to engine controls" panel=closed PASS
+Components stop: button "Beachgoer" PASS
+ArrowDown 1/8: button "Beachgoer" highlight=beachgoer ring=true PASS
+open beachgoer: dialog="dialog" name="Beachgoer" heading-focused=true PASS
+Escape beachgoer: active=button "Beachgoer" PASS
+ArrowDown 2/8: button "Tide Chart Screen" highlight=tide-chart-screen ring=true PASS
+open tide-chart-screen: dialog="dialog" name="Tide Chart Screen" heading-focused=true PASS
+Escape tide-chart-screen: active=button "Tide Chart Screen" PASS
+ArrowDown 3/8: button "Forecast Details Panel" highlight=forecast-details-panel ring=true PASS
+open forecast-details-panel: dialog="dialog" name="Forecast Details Panel" heading-focused=true PASS
+Escape forecast-details-panel: active=button "Forecast Details Panel" PASS
+ArrowDown 4/8: button "Tide View Model" highlight=tide-view-model ring=true PASS
+open tide-view-model: dialog="dialog" name="Tide View Model" heading-focused=true PASS
+Escape tide-view-model: active=button "Tide View Model" PASS
+ArrowDown 5/8: button "Tide Repository" highlight=tide-repository ring=true PASS
+open tide-repository: dialog="dialog" name="Tide Repository" heading-focused=true PASS
+Escape tide-repository: active=button "Tide Repository" PASS
+ArrowDown 6/8: button "Live Tide Client" highlight=live-tide-client ring=true PASS
+open live-tide-client: dialog="dialog" name="Live Tide Client" heading-focused=true PASS
+Escape live-tide-client: active=button "Live Tide Client" PASS
+ArrowDown 7/8: button "Tide Cache" highlight=tide-cache ring=true PASS
+open tide-cache: dialog="dialog" name="Tide Cache" heading-focused=true PASS
+Escape tide-cache: active=button "Tide Cache" PASS
+ArrowDown 8/8: button "Tide Feed" highlight=tide-feed ring=true PASS
+open tide-feed: dialog="dialog" name="Tide Feed" heading-focused=true PASS
+Escape tide-feed: active=button "Tide Feed" PASS
+wrap=proxy:beachgoer End=proxy:tide-feed Home=proxy:beachgoer PASS
+Space beachgoer: heading-focused=true returned=proxy:beachgoer PASS
+proxy ArrowLeft=45->315 +=1->1.25 PASS
+pointer tide-repository: heading-focused=true Escape-active=group "Tidewatch architecture view" PASS
+drill-b Tab skip role=link name="Skip to engine controls" panel=closed PASS
+drill-b Tab viewer role=group name="Ledgerline architecture view" panel=closed PASS
+drill-b Tab proxy:partner-csv-drop role=button name="Partner CSV Drop" panel=closed PASS
+drill-b Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-b Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-b Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-b Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-b Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-b Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-b Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-b Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-b Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-b Tab control:focus-ingest role=button name="Ingest" panel=closed PASS
+drill-b Tab control:focus-normalize role=button name="Normalize" panel=closed PASS
+drill-b Tab control:focus-validate role=button name="Validate" panel=closed PASS
+drill-b Tab control:focus-report role=button name="Report" panel=closed PASS
+drill-b Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-b Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-b Tab control:tour-stop role=button name="Stop" panel=closed PASS
+drill-b Shift+Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-b Shift+Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-b Shift+Tab control:focus-report role=button name="Report" panel=closed PASS
+drill-b Shift+Tab control:focus-validate role=button name="Validate" panel=closed PASS
+drill-b Shift+Tab control:focus-normalize role=button name="Normalize" panel=closed PASS
+drill-b Shift+Tab control:focus-ingest role=button name="Ingest" panel=closed PASS
+drill-b Shift+Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-b Shift+Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-b Shift+Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-b Shift+Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-b Shift+Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-b Shift+Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-b Shift+Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-b Shift+Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-b Shift+Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-b Shift+Tab proxy:partner-csv-drop role=button name="Partner CSV Drop" panel=closed PASS
+drill-b Shift+Tab viewer role=group name="Ledgerline architecture view" panel=closed PASS
+drill-b Shift+Tab skip role=link name="Skip to engine controls" panel=closed PASS
+Components stop: button "Partner CSV Drop" PASS
+ArrowDown 1/5: button "Partner CSV Drop" highlight=partner-csv-drop ring=true PASS
+open partner-csv-drop: dialog="dialog" name="Partner CSV Drop" heading-focused=true PASS
+Escape partner-csv-drop: active=button "Partner CSV Drop" PASS
+ArrowDown 2/5: button "Column Normalizer" highlight=column-normalizer ring=true PASS
+open column-normalizer: dialog="dialog" name="Column Normalizer" heading-focused=true PASS
+Escape column-normalizer: active=button "Column Normalizer" PASS
+ArrowDown 3/5: button "Ledger Validator" highlight=ledger-validator ring=true PASS
+open ledger-validator: dialog="dialog" name="Ledger Validator" heading-focused=true PASS
+Escape ledger-validator: active=button "Ledger Validator" PASS
+ArrowDown 4/5: button "Reconciliation Ledger" highlight=reconciliation-ledger ring=true PASS
+open reconciliation-ledger: dialog="dialog" name="Reconciliation Ledger" heading-focused=true PASS
+Escape reconciliation-ledger: active=button "Reconciliation Ledger" PASS
+ArrowDown 5/5: button "Settlement Operator" highlight=settlement-operator ring=true PASS
+open settlement-operator: dialog="dialog" name="Settlement Operator" heading-focused=true PASS
+Escape settlement-operator: active=button "Settlement Operator" PASS
+wrap=proxy:partner-csv-drop End=proxy:settlement-operator Home=proxy:partner-csv-drop PASS
+Space partner-csv-drop: heading-focused=true returned=proxy:partner-csv-drop PASS
+proxy ArrowLeft=45->315 +=1->1.25 PASS
+pointer partner-csv-drop: heading-focused=true Escape-active=group "Ledgerline architecture view" PASS
+tour jump: status=playing focus=proxy:tide-repository copy="Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+tour pause: status=paused heading=true returned=proxy:forecast-details-panel copy="Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+PASS drill-a-tab-order: expected ["skip","viewer","proxy:beachgoer","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ui","control:focus-state","control:focus-data","control:focus-platform","control:flow-live-update","control:flow-offline-read","control:tour-play","control:tour-step","control:tour-stop"] actual ["skip","viewer","proxy:beachgoer","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ui","control:focus-state","control:focus-data","control:focus-platform","control:flow-live-update","control:flow-offline-read","control:tour-play","control:tour-step","control:tour-stop"]
+PASS drill-a-shift-tab-order: expected ["control:tour-step","control:tour-play","control:flow-offline-read","control:flow-live-update","control:focus-platform","control:focus-data","control:focus-state","control:focus-ui","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:beachgoer","viewer","skip"] actual ["control:tour-step","control:tour-play","control:flow-offline-read","control:flow-live-update","control:focus-platform","control:focus-data","control:focus-state","control:focus-ui","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:beachgoer","viewer","skip"]
+PASS drill-a-no-trap: expected null actual null
+PASS tidewatch-components-stop: expected "proxy:beachgoer" actual "proxy:beachgoer"
+PASS tidewatch-beachgoer-focus: expected {"key":"proxy:beachgoer","highlight":"beachgoer","ring":true} actual {"key":"proxy:beachgoer","highlight":"beachgoer","ring":true}
+PASS tidewatch-tide-chart-screen-focus: expected {"key":"proxy:tide-chart-screen","highlight":"tide-chart-screen","ring":true} actual {"key":"proxy:tide-chart-screen","highlight":"tide-chart-screen","ring":true}
+PASS tidewatch-forecast-details-panel-focus: expected {"key":"proxy:forecast-details-panel","highlight":"forecast-details-panel","ring":true} actual {"key":"proxy:forecast-details-panel","highlight":"forecast-details-panel","ring":true}
+PASS tidewatch-tide-view-model-focus: expected {"key":"proxy:tide-view-model","highlight":"tide-view-model","ring":true} actual {"key":"proxy:tide-view-model","highlight":"tide-view-model","ring":true}
+PASS tidewatch-tide-repository-focus: expected {"key":"proxy:tide-repository","highlight":"tide-repository","ring":true} actual {"key":"proxy:tide-repository","highlight":"tide-repository","ring":true}
+PASS tidewatch-live-tide-client-focus: expected {"key":"proxy:live-tide-client","highlight":"live-tide-client","ring":true} actual {"key":"proxy:live-tide-client","highlight":"live-tide-client","ring":true}
+PASS tidewatch-tide-cache-focus: expected {"key":"proxy:tide-cache","highlight":"tide-cache","ring":true} actual {"key":"proxy:tide-cache","highlight":"tide-cache","ring":true}
+PASS tidewatch-tide-feed-focus: expected {"key":"proxy:tide-feed","highlight":"tide-feed","ring":true} actual {"key":"proxy:tide-feed","highlight":"tide-feed","ring":true}
+PASS tidewatch-every-component-opens: expected "every component opens a named dialog and focuses its h2" actual true
+PASS tidewatch-every-component-closes-to-proxy: expected "every Escape returns focus to its proxy" actual true
+PASS tidewatch-move-keys-wrap-home-end: expected ["beachgoer","tide-feed","beachgoer"] actual ["proxy:beachgoer","proxy:tide-feed","proxy:beachgoer"]
+PASS tidewatch-space-opens: expected true actual {"spaceHeadingFocused":true,"returned":"proxy:beachgoer"}
+PASS tidewatch-proxy-rotate-zoom-bubble: expected true actual {"rotatePass":true,"zoomPass":true}
+PASS pointer-open-focus-wrapper-close: expected true actual {"headingFocused":true,"returned":"viewer"}
+PASS drill-b-tab-order: expected ["skip","viewer","proxy:partner-csv-drop","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ingest","control:focus-normalize","control:focus-validate","control:focus-report","control:tour-play","control:tour-step","control:tour-stop"] actual ["skip","viewer","proxy:partner-csv-drop","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ingest","control:focus-normalize","control:focus-validate","control:focus-report","control:tour-play","control:tour-step","control:tour-stop"]
+PASS drill-b-shift-tab-order: expected ["control:tour-step","control:tour-play","control:focus-report","control:focus-validate","control:focus-normalize","control:focus-ingest","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:partner-csv-drop","viewer","skip"] actual ["control:tour-step","control:tour-play","control:focus-report","control:focus-validate","control:focus-normalize","control:focus-ingest","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:partner-csv-drop","viewer","skip"]
+PASS drill-b-no-trap: expected null actual null
+PASS ledgerline-components-stop: expected "proxy:partner-csv-drop" actual "proxy:partner-csv-drop"
+PASS ledgerline-partner-csv-drop-focus: expected {"key":"proxy:partner-csv-drop","highlight":"partner-csv-drop","ring":true} actual {"key":"proxy:partner-csv-drop","highlight":"partner-csv-drop","ring":true}
+PASS ledgerline-column-normalizer-focus: expected {"key":"proxy:column-normalizer","highlight":"column-normalizer","ring":true} actual {"key":"proxy:column-normalizer","highlight":"column-normalizer","ring":true}
+PASS ledgerline-ledger-validator-focus: expected {"key":"proxy:ledger-validator","highlight":"ledger-validator","ring":true} actual {"key":"proxy:ledger-validator","highlight":"ledger-validator","ring":true}
+PASS ledgerline-reconciliation-ledger-focus: expected {"key":"proxy:reconciliation-ledger","highlight":"reconciliation-ledger","ring":true} actual {"key":"proxy:reconciliation-ledger","highlight":"reconciliation-ledger","ring":true}
+PASS ledgerline-settlement-operator-focus: expected {"key":"proxy:settlement-operator","highlight":"settlement-operator","ring":true} actual {"key":"proxy:settlement-operator","highlight":"settlement-operator","ring":true}
+PASS ledgerline-every-component-opens: expected "every component opens a named dialog and focuses its h2" actual true
+PASS ledgerline-every-component-closes-to-proxy: expected "every Escape returns focus to its proxy" actual true
+PASS ledgerline-move-keys-wrap-home-end: expected ["partner-csv-drop","settlement-operator","partner-csv-drop"] actual ["proxy:partner-csv-drop","proxy:settlement-operator","proxy:partner-csv-drop"]
+PASS ledgerline-space-opens: expected true actual {"spaceHeadingFocused":true,"returned":"proxy:partner-csv-drop"}
+PASS ledgerline-proxy-rotate-zoom-bubble: expected true actual {"rotatePass":true,"zoomPass":true}
+PASS pointer-open-focus-wrapper-close: expected true actual {"headingFocused":true,"returned":"viewer"}
+PASS tour-in-flow-jump: expected {"status":"playing","focus":"proxy:tide-repository","copy":"Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast."} actual {"status":"playing","focus":"proxy:tide-repository","copy":"Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast."}
+PASS tour-not-in-flow-pause: expected {"status":"paused","heading":true,"returned":"proxy:forecast-details-panel","copy":"Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events."} actual {"status":"paused","heading":true,"returned":"proxy:forecast-details-panel","copy":"Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events."}
+drill: PASS (35 checks)
+aria chips: Kotlin, language | Kotlin Coroutines, library | kotlinx.serialization, library snapshot=["- listitem: Kotlin , language","- listitem: Kotlin Coroutines , library","- listitem: kotlinx.serialization , library"]
+aria idle: 23 snapshot lines, 347 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria idle | - group "Tidewatch architecture view":
+aria idle |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria idle |   - group "Components":
+aria idle |     - list "Interface":
+aria idle |       - listitem:
+aria idle |         - button "Beachgoer"
+aria idle |       - listitem:
+aria idle |         - button "Tide Chart Screen"
+aria idle |       - listitem:
+aria idle |         - button "Forecast Details Panel"
+aria idle |     - list "View state":
+aria idle |       - listitem:
+aria idle |         - button "Tide View Model"
+aria idle |     - list "Tide data":
+aria idle |       - listitem:
+aria idle |         - button "Tide Repository"
+aria idle |       - listitem:
+aria idle |         - button "Live Tide Client"
+aria idle |       - listitem:
+aria idle |         - button "Tide Cache"
+aria idle |     - list "External boundary":
+aria idle |       - listitem:
+aria idle |         - button "Tide Feed"
+aria component-focused: 23 snapshot lines, 347 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria component-focused | - group "Tidewatch architecture view":
+aria component-focused |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria component-focused |   - group "Components":
+aria component-focused |     - list "Interface":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Beachgoer"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Chart Screen"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Forecast Details Panel"
+aria component-focused |     - list "View state":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide View Model"
+aria component-focused |     - list "Tide data":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Repository"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Live Tide Client"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Cache"
+aria component-focused |     - list "External boundary":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Feed"
+aria detail: 43 snapshot lines, 429 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria detail | - group "Tidewatch architecture view":
+aria detail |   - text: Tide Repository, module. Chooses between a live reading and the saved forecast.
+aria detail |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria detail |   - group "Components":
+aria detail |     - list "Interface":
+aria detail |       - listitem:
+aria detail |         - button "Beachgoer"
+aria detail |       - listitem:
+aria detail |         - button "Tide Chart Screen"
+aria detail |       - listitem:
+aria detail |         - button "Forecast Details Panel"
+aria detail |     - list "View state":
+aria detail |       - listitem:
+aria detail |         - button "Tide View Model"
+aria detail |     - list "Tide data":
+aria detail |       - listitem:
+aria detail |         - button "Tide Repository" [expanded]
+aria detail |       - listitem:
+aria detail |         - button "Live Tide Client"
+aria detail |       - listitem:
+aria detail |         - button "Tide Cache"
+aria detail |     - list "External boundary":
+aria detail |       - listitem:
+aria detail |         - button "Tide Feed"
+aria detail |   - dialog "Tide Repository":
+aria detail |     - heading "Tide Repository" [level=2]
+aria detail |     - button "Close details": ×
+aria detail |     - paragraph: module · shipped
+aria detail |     - paragraph: Chooses between a live reading and the saved forecast.
+aria detail |     - paragraph: Keeps the live reading and the phone's stored forecast in step so the chart always has something useful to show.
+aria detail |     - heading "Tech" [level=3]
+aria detail |     - list "Tech":
+aria detail |       - listitem: Kotlin , language
+aria detail |       - listitem: Kotlin Coroutines , library
+aria detail |       - listitem: kotlinx.serialization , library
+aria detail |     - heading "Metrics" [level=3]
+aria detail |     - term: Saved window
+aria detail |     - definition: 30 days
+aria detail |     - heading "Links" [level=3]
+aria detail |     - list:
+aria detail |       - listitem:
+aria detail |         - link "Data notes (opens in a new tab)":
+aria detail |           - /url: https://example.com/tidewatch/data-notes
+aria case-study: 40 snapshot lines, 408 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria case-study | - group "Tidewatch architecture view":
+aria case-study |   - text: "Case study: Tidewatch."
+aria case-study |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria case-study |   - group "Components":
+aria case-study |     - list "Interface":
+aria case-study |       - listitem:
+aria case-study |         - button "Beachgoer"
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Chart Screen"
+aria case-study |       - listitem:
+aria case-study |         - button "Forecast Details Panel"
+aria case-study |     - list "View state":
+aria case-study |       - listitem:
+aria case-study |         - button "Tide View Model"
+aria case-study |     - list "Tide data":
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Repository"
+aria case-study |       - listitem:
+aria case-study |         - button "Live Tide Client"
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Cache"
+aria case-study |     - list "External boundary":
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Feed"
+aria case-study |   - dialog "Tidewatch":
+aria case-study |     - heading "Tidewatch" [level=2]
+aria case-study |     - button "Close case study": ×
+aria case-study |     - paragraph: The next tide, at a glance.
+aria case-study |     - paragraph: Tide charts that stay useful away from the signal.
+aria case-study |     - heading "Problem" [level=3]
+aria case-study |     - paragraph: Coastal walks often start beyond reliable mobile coverage, where a chart that only works online is no help.
+aria case-study |     - heading "Approach" [level=3]
+aria case-study |     - paragraph: Keep a recent tide window on the phone, refresh it when a live feed is available, and present both paths in one clear chart.
+aria case-study |     - heading "Outcome" [level=3]
+aria case-study |     - paragraph: A small Android app that switches between fresh readings and a saved forecast without interrupting the view.
+aria case-study |     - heading "Metrics" [level=3]
+aria case-study |     - term: Saved forecast
+aria case-study |     - definition: 30 days
+aria case-study |     - term: Live refresh
+aria case-study |     - definition: every 5 min
+aria tour-step1: 28 snapshot lines, 365 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria tour-step1 | - group "Tidewatch architecture view":
+aria tour-step1 |   - text: Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart.
+aria tour-step1 |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria tour-step1 |   - group "Components":
+aria tour-step1 |     - list "Interface":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Beachgoer"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Chart Screen"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Forecast Details Panel"
+aria tour-step1 |     - list "View state":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide View Model"
+aria tour-step1 |     - list "Tide data":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Repository"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Live Tide Client"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Cache"
+aria tour-step1 |     - list "External boundary":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Feed"
+aria tour-step1 |   - paragraph: Live update · Step 1 of 6
+aria tour-step1 |   - paragraph: Beachgoer
+aria tour-step1 |   - paragraph: A person checking the next high tide.
+aria tour-step1 |   - paragraph: A new tide reading travels from the public feed to the chart.
+aria jump: 27 snapshot lines, 362 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria jump | - group "Tidewatch architecture view":
+aria jump |   - text: Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast.
+aria jump |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria jump |   - group "Components":
+aria jump |     - list "Interface":
+aria jump |       - listitem:
+aria jump |         - button "Beachgoer"
+aria jump |       - listitem:
+aria jump |         - button "Tide Chart Screen"
+aria jump |       - listitem:
+aria jump |         - button "Forecast Details Panel"
+aria jump |     - list "View state":
+aria jump |       - listitem:
+aria jump |         - button "Tide View Model"
+aria jump |     - list "Tide data":
+aria jump |       - listitem:
+aria jump |         - button "Tide Repository"
+aria jump |       - listitem:
+aria jump |         - button "Live Tide Client"
+aria jump |       - listitem:
+aria jump |         - button "Tide Cache"
+aria jump |     - list "External boundary":
+aria jump |       - listitem:
+aria jump |         - button "Tide Feed"
+aria jump |   - paragraph: Live update · Step 4 of 6
+aria jump |   - paragraph: Tide Repository
+aria jump |   - paragraph: Chooses between a live reading and the saved forecast.
+PASS aria-one-polite-live-region-idle: expected {"count":1,"text":""} actual [{"politeness":"polite","text":""}]
+PASS aria-detail-dialog-name-description: expected {"name":"Tide Repository","descriptionIncludes":["module · shipped","Chooses between a live reading and the saved forecast."]} actual {"name":"Tide Repository","description":"module · shipped Chooses between a live reading and the saved forecast."}
+PASS aria-chip-label-category-sequence: expected ["Kotlin, language","Kotlin Coroutines, library","kotlinx.serialization, library"] actual ["Kotlin, language","Kotlin Coroutines, library","kotlinx.serialization, library"]
+PASS aria-lettering-overlay-ignored: expected "lettering and overlay omitted from AX" actual [{"state":"idle","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"component-focused","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"detail","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"case-study","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"tour-step1","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"jump","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]}]
+PASS aria-part-numbers-outside-allowed-roots: expected [] actual []
+aria: PASS (5 checks)
+announce detail-open: "Tide Repository, module. Chooses between a live reading and the saved forecast." PASS
+announce detail-close: "Tide Repository details closed." PASS
+announce case-study-open: "Case study: Tidewatch." PASS
+announce case-study-close: "Case study closed." PASS
+announce tour-step1: "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart." PASS
+announce tour-jump: "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+announce tour-paused-open: "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+PASS announce-empty-at-mount: expected "" actual ""
+PASS announce-detail-open: expected "Tide Repository, module. Chooses between a live reading and the saved forecast." actual "Tide Repository, module. Chooses between a live reading and the saved forecast."
+PASS announce-detail-close: expected "Tide Repository details closed." actual "Tide Repository details closed."
+PASS announce-case-study-open: expected "Case study: Tidewatch." actual "Case study: Tidewatch."
+PASS announce-case-study-close: expected "Case study closed." actual "Case study closed."
+PASS announce-tour-step1: expected "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart." actual "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart."
+PASS announce-tour-jump: expected "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." actual "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast."
+PASS announce-tour-paused-open: expected "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." actual "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events."
+announce: PASS (8 checks)
+drill: PASS
+aria: PASS
+announce: PASS
+a11y-probe: PASS
+artifacts: ./.evidence/ci/a11y
+
+T015-LOCAL-OK
+
+$ git diff --quiet 5b22987 -- .specify/slices .specify/KICKOFF-S08.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ git diff --quiet 5b22987 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s7.paths) && echo SURFACE-S7-OK
+SURFACE-S7-OK
+$ git diff --quiet 5b22987 -- tools/perf/src/engine-probe.ts tools/perf/src/cli/engine-probe.ts && echo PROBES-OK
+PROBES-OK
+$ test -z "$(git log --oneline 5b22987..HEAD -- .specify/slices .specify/KICKOFF-S08.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+T015-LOCAL-OK
