@@ -1,0 +1,19 @@
+{
+  "violations": [
+    {
+      "id": "button-name",
+      "impact": "serious",
+      "help": "Buttons must have discernible text",
+      "tags": ["wcag2a", "wcag412"],
+      "nodes": [
+        {
+          "target": ["#unlabelled-control"],
+          "impact": "serious",
+          "html": "<button id=\"unlabelled-control\"></button>",
+          "failureSummary": "Fix any of the following: Element does not have inner text."
+        }
+      ]
+    }
+  ],
+  "incomplete": []
+}
