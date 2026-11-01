@@ -108,11 +108,13 @@ export function EnginePlayground() {
     const flowId = query.get('flow');
     const tour = query.get('tour');
     const select = query.get('select');
+    const panel = query.get('panel');
 
     if (highlightId !== null) viewer.actions.highlight(highlightId);
     if (focusId !== null) viewer.actions.toggleFocus(focusId);
     if (flowId !== null) viewer.actions.selectFlow(flowId);
     if (select !== null) panels.actions.openDetail(select);
+    if (panel === 'case-study') panels.actions.openCaseStudy();
 
     if (tour === 'play') {
       viewer.actions.play();
@@ -226,6 +228,16 @@ export function EnginePlayground() {
         >
           Zoom in
         </button>
+        <button
+          type="button"
+          data-engine-control="case-study"
+          aria-expanded={panels.state.kind === 'caseStudy'}
+          aria-controls={panels.ids.caseStudy}
+          className={`${BUTTON_BASE} ${panels.state.kind === 'caseStudy' ? BUTTON_SELECTED : BUTTON_IDLE}`}
+          onClick={panels.actions.toggleCaseStudy}
+        >
+          Case study
+        </button>
         <div className="ml-auto">
           <ThemeToggle />
         </div>
@@ -309,6 +321,14 @@ export function EnginePlayground() {
           </dt>
           <dd data-engine-target={viewer.target} className="mt-1 font-mono text-fg">
             {viewer.target}
+          </dd>
+        </div>
+        <div>
+          <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted">
+            Panel
+          </dt>
+          <dd data-engine-panel={panels.state.kind} className="mt-1 font-mono text-fg">
+            {panels.state.kind}
           </dd>
         </div>
         <div>

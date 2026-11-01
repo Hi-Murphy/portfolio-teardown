@@ -1,0 +1,94 @@
++/tmp/s07-checks/run-t009-check.sh:4> pnpm typecheck
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
++/tmp/s07-checks/run-t009-check.sh:4> pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
++/tmp/s07-checks/run-t009-check.sh:4> pnpm test
++/tmp/s07-checks/run-t009-check.sh:4> tail -8
++/tmp/s07-checks/run-t009-check.sh:4> tee /tmp/s07-checks/t009.txt
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+apps/web test:    Start at  08:03:27
+apps/web test:    Duration  103ms (tests 53%, import 27%, transform 12%, worker 9%)
+apps/web test: 
+apps/web test: Done
++/tmp/s07-checks/run-t009-check.sh:5> pnpm --filter web dev
++/tmp/s07-checks/run-t009-check.sh:5> echo 45189
++/tmp/s07-checks/run-t009-check.sh:7> trap cleanup EXIT
++/tmp/s07-checks/run-t009-check.sh:8> curl -sf -o /dev/null http://localhost:3000/dev/engine
++/tmp/s07-checks/run-t009-check.sh:8> sleep 0.5
++/tmp/s07-checks/run-t009-check.sh:8> curl -sf -o /dev/null http://localhost:3000/dev/engine
++/tmp/s07-checks/run-t009-check.sh:9> s=light
++/tmp/s07-checks/run-t009-check.sh:9> pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded&panel=case-study' --runs 1 --color-scheme light --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t009-light
+$ node tools/perf/src/cli/evidence.ts 'http://localhost:3000/dev/engine?fixture=a&state=exploded&panel=case-study' --runs 1 --color-scheme light --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t009-light
+warning: --out is not git-ignored: /tmp/s07-checks/t009-light
+ok screenshot-mobile (1155 ms)
+ok screenshot-desktop (1110 ms)
+ok lighthouse (6532 ms)
+evidence: /tmp/s07-checks/t009-light
++/tmp/s07-checks/run-t009-check.sh:9> s=dark
++/tmp/s07-checks/run-t009-check.sh:9> pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded&panel=case-study' --runs 1 --color-scheme dark --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t009-dark
+$ node tools/perf/src/cli/evidence.ts 'http://localhost:3000/dev/engine?fixture=a&state=exploded&panel=case-study' --runs 1 --color-scheme dark --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t009-dark
+warning: --out is not git-ignored: /tmp/s07-checks/t009-dark
+ok screenshot-mobile (1158 ms)
+ok screenshot-desktop (1109 ms)
+ok lighthouse (6537 ms)
+evidence: /tmp/s07-checks/t009-dark
++/tmp/s07-checks/run-t009-check.sh:10> cat /tmp/s07-checks/dev.pid
++/tmp/s07-checks/run-t009-check.sh:10> kill 45189
++/tmp/s07-checks/run-t009-check.sh:11> trap - EXIT
++/tmp/s07-checks/run-t009-check.sh:12> echo T009-OK
+T009-OK
++/tmp/s07-checks/run-t009-check.sh:13> git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md
++/tmp/s07-checks/run-t009-check.sh:13> echo FROZEN-OK
+FROZEN-OK
++/tmp/s07-checks/run-t009-check.sh:14> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths
++/tmp/s07-checks/run-t009-check.sh:14> git diff --quiet 53b2b2b -- packages/xploder/package.json packages/xploder/src/index.ts packages/xploder/src/parse.ts packages/xploder/src/errors.ts packages/xploder/src/schema packages/xploder/src/theme packages/xploder/src/motion/index.ts packages/xploder/src/motion/ease.ts packages/xploder/src/layout packages/xploder/src/engine packages/xploder/src/react/scene/CameraRig.tsx packages/xploder/src/react/scene/Lights.tsx packages/xploder/src/react/scene/Stats.tsx packages/xploder/src/react/env.ts packages/xploder/src/react/usePalette.ts packages/xploder/src/react/useReducedMotion.ts packages/xploder/test/fixtures/project-a-ui-app.json packages/xploder/test/fixtures/project-b-pipeline.json packages/xploder/test/fixtures/tech-registry.json packages/xploder/test/camera.test.ts packages/xploder/test/ease.test.ts packages/xploder/test/env.test.ts packages/xploder/test/explode.test.ts packages/xploder/test/exports.test.ts packages/xploder/test/fixtures.test.ts packages/xploder/test/generality.test.ts packages/xploder/test/geometry-free.test.ts packages/xploder/test/layout.test.ts packages/xploder/test/motion.test.ts packages/xploder/test/parse.test.ts packages/xploder/test/registry.test.ts packages/xploder/test/scene.test.tsx packages/xploder/test/schema.test.ts packages/xploder/test/smoke.test.ts packages/xploder/test/theme.test.ts packages/xploder/test/helpers.ts packages/xploder/test/__snapshots__/generality.test.ts.snap packages/xploder/test/__snapshots__/layout.test.ts.snap
++/tmp/s07-checks/run-t009-check.sh:14> echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
++/tmp/s07-checks/run-t009-check.sh:15> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths
++/tmp/s07-checks/run-t009-check.sh:15> git diff --quiet f31600e -- packages/xploder/src/interaction packages/xploder/src/motion/emphasis.ts packages/xploder/src/react/scene/Emphasis.tsx packages/xploder/src/react/scene/PickBridge.tsx packages/xploder/src/react/scene/ViewScroll.tsx packages/xploder/src/react/overlay/TourCaption.tsx packages/xploder/src/react/usePointerPick.ts packages/xploder/src/react/useTourClock.ts packages/xploder/src/react/useTeardownViewer.ts packages/xploder/test/fixtures/project-c-lockerbay.json packages/xploder/test/pick.test.ts packages/xploder/test/pick-scene.test.tsx packages/xploder/test/pointer.test.ts packages/xploder/test/focus.test.ts packages/xploder/test/tour.test.ts packages/xploder/test/tour-clock.test.tsx packages/xploder/test/emphasis.test.ts packages/xploder/test/emphasis-scene.test.tsx packages/xploder/test/emphasis-tokens.test.ts packages/xploder/test/caption.test.ts packages/xploder/test/fixture-c.test.ts packages/xploder/test/scroll.test.ts packages/xploder/test/view-scroll.test.tsx packages/xploder/test/viewer-handle.test.tsx packages/xploder/test/__snapshots__/fixture-c.test.ts.snap
++/tmp/s07-checks/run-t009-check.sh:15> echo SURFACE-S5-OK
+SURFACE-S5-OK
++/tmp/s07-checks/run-t009-check.sh:16> sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths
++/tmp/s07-checks/run-t009-check.sh:16> git diff --quiet 0b2c678 -- packages/xploder/src/look packages/xploder/src/overlay packages/xploder/src/react/overlay/BlueprintOverlay.tsx packages/xploder/src/react/overlay/CircuitTrace.tsx packages/xploder/src/react/scene/OverlayProjector.tsx packages/xploder/src/react/scene/Scene.tsx packages/xploder/src/react/scene/Slabs.tsx packages/xploder/src/react/scene/blueprintMaterial.ts packages/xploder/test/blueprint-scene.test.tsx packages/xploder/test/overlay-projector.test.tsx packages/xploder/test/look-fills.test.ts packages/xploder/test/look-tokens.test.ts packages/xploder/test/overlay-columns.test.ts packages/xploder/test/overlay-dimension.test.ts packages/xploder/test/overlay-model.test.ts packages/xploder/test/overlay-parts.test.ts packages/xploder/test/overlay-place.test.ts packages/xploder/test/overlay-project.test.ts packages/xploder/test/overlay-timing.test.ts packages/xploder/test/overlay-titleblock.test.ts packages/xploder/test/overlay-trace.test.ts packages/xploder/test/product-gap.test.ts
++/tmp/s07-checks/run-t009-check.sh:16> echo SURFACE-S6-OK
+SURFACE-S6-OK
++/tmp/s07-checks/run-t009-check.sh:17> git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md
++/tmp/s07-checks/run-t009-check.sh:17> test -z ''
++/tmp/s07-checks/run-t009-check.sh:17> echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+## Browser interaction smoke (sandbox off)
+$ node /tmp/s07-checks/smoke-t009.mjs "$PWD"
+opened {"state":"case-study","surfaceId":"case-study-_r_0_","headingId":"case-study-_r_0_-heading","distinctIds":true,"surfaceIdCount":1,"labelledBy":"case-study-_r_0_-heading","heading":"Tidewatch","headingFocused":true,"headingTabIndex":"-1","triggerExpanded":"true","triggerControls":"case-study-_r_0_","statsPanel":"caseStudy","sections":["Problem","Approach","Outcome","Metrics"],"metrics":["30 days","every 5 min"],"scrollable":true}
+closed {"state":"closed","triggerExpanded":"false","statsPanel":"closed"}
+button-open {"state":"case-study","headingFocused":true,"triggerExpanded":"true"}
+escape-close {"state":"closed","focusControl":"case-study"}
+
+## Orchestrator review + re-run outside the sandbox (authoritative)
+Review fix: case-study heading (programmatic focus target, tabIndex -1) gets outline none. PanelLayer.tsx edit accepted (mount point for CaseStudyPanel; the task's Files list omitted it).
+typecheck-ok
+lint-ok
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:       Tests  522 passed (522)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T009-OK
