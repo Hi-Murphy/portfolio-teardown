@@ -33,6 +33,7 @@
 | T009 | ☑ (+ heading focus ring removed) | 1 (Flash, sandbox off) + orchestrator review fix | evidence/T009-{log-case-study.txt,screenshot-*.png,meta-*.json} | 69b2aa8 |
 | T010 | ☑ + ⚑ pushed, draft PR (scanner gained a bare CSS timing-shorthand rule) | 1 (Flash, sandbox on); build + negative controls re-run by orchestrator | evidence/T010-log-scanners.txt, G2-log-combined.txt | 7aa81c6 |
 | T010a | ☑ (G2 feedback: part lettering; smoke 72/72 states all parts lettered, 0 visible S6 pills) | 1 (Flash: -1 sandbox on, -2 sandbox off) + orchestrator re-run + scanner lists | evidence/T010a-{log-lettering.txt,log-smoke.txt,screenshot-*.png} | see merge |
+| T010c | ☑ (G2 feedback 2: one text direction in all rotations — smoke 16/16 states u=(0.866, 0.5); names wrap) | 1 (Flash, sandbox off) + orchestrator verification | evidence/T010c-{log-lettering.txt,screenshot-*.png} | see merge |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |

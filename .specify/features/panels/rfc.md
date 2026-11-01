@@ -425,3 +425,6 @@ Tier 1 = DeepSeek Flash 4.1 via `codex` (browser tasks run with the sandbox off,
       - **Matches S6 overlay states:** hidden while moving, during a tour, and when imploded; it fades on S6's overlay timing; it dims under layer focus; the highlighted part uses `callouts.emphasisRole`.
       - **Input and selection:** the text is selectable and sits inside the stage, so S5/S7 picks still work, since they use coordinates.
    6. **Layer labels** have the same culling bug. They are assessed after T010a (lettering on the plate rim if it fits ≥ 9 px), as T010b, and judged at G2.
+8. **G2 feedback round 2 (Murphy, 2026-11-01, 5h 71%):**
+   1. "All isometric labels should face the same direction, bottom-right or bottom-left, also when rotating." → T010c: the lettering baseline is always the face axis running toward the bottom-right (`LETTERING_LOOK.baseline = 'down-right'`; `'down-left'` is available as a one-line switch). Smoke: 16/16 rotation × zoom × width states share u = (0.866, 0.5).
+   2. "On phone, in all modes, use the zoomed-in desktop style (number + name on the face)." → names now wrap at spaces (up to 3 lines). **Measured constraint:** at phone 1× a top face is 28–36 px across, so no name fits on a face at a legible ≥ 8 px. Names appear on every part from zoom ≈ 1.95× (A) and 2.44× (C). The options for zoomed-out phones went back to Murphy.
