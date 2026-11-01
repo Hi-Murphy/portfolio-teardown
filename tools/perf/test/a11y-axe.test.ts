@@ -82,4 +82,12 @@ describe('a11y axe verdict', () => {
       expect((error as CliError).code).toBe(EXIT.USAGE);
     }
   });
+  test('a ledger entry at full opacity does not hide a contrast violation (R3 race guard)', async () => {
+    const verdict = axeVerdict(await fixture('dim-contrast'), {
+      dimLedger: [{ selector: '#dimmed-copy', layer: 'data', opacity: 1 }],
+    });
+
+    expect(verdict.exitCode).toBe(EXIT.BUDGET);
+    expect(verdict.ledger).toEqual([]);
+  });
 });

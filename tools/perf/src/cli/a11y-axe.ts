@@ -10,6 +10,7 @@ import {
   parseAxeSelection,
   readDimLedger,
   runAxe,
+  settleAnimations,
   tagDimmedElements,
   type AxeRuleResult,
   type DimLedgerSource,
@@ -324,6 +325,7 @@ async function captureState(
   if (state.componentFocused === true) await focusFirstComponent(page);
   await waitForFrames(page, FRAME_COUNT);
 
+  await settleAnimations(page);
   const tagged = await tagDimmedElements(page);
   const results = await runAxe(page);
   const dimLedger = await readDimLedger(page, results, componentLayers);

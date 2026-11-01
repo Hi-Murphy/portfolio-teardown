@@ -250,8 +250,11 @@ function effectiveImpact(result: AxeRuleResult, nodeResult: AxeNodeResult): AxeI
 }
 
 export function axeVerdict(results: AxeScanResults, options: AxeVerdictOptions = {}): AxeVerdict {
+  // Only nodes that are really composited below full opacity may be ledgered (RFC R3).
   const dimmed = new Map(
-    (options.dimLedger ?? []).map((entry) => [entry.selector, entry] as const),
+    (options.dimLedger ?? [])
+      .filter((entry) => entry.opacity < 1)
+      .map((entry) => [entry.selector, entry] as const),
   );
   const counts: AxeVerdictCounts = {
     serious: 0,
@@ -343,6 +346,23 @@ export async function runAxe(page: Page, options: RunAxeOptions = {}): Promise<A
   );
 
   return trimResults(result);
+}
+
+/** Wait until no animation or transition is running (two consecutive frames), so opacity is final. */
+export async function settleAnimations(page: Page): Promise<void> {
+  await page.waitForFunction(
+    () =>
+      new Promise<boolean>((resolve) => {
+        const idle = () =>
+          document.getAnimations().every((animation) => animation.playState !== 'running');
+        requestAnimationFrame(() => {
+          const first = idle();
+          requestAnimationFrame(() => resolve(first && idle()));
+        });
+      }),
+    undefined,
+    { polling: 100 },
+  );
 }
 
 export async function tagDimmedElements(page: Page): Promise<number> {
