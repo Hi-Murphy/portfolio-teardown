@@ -13,6 +13,7 @@ export interface FaceLettering {
   readonly matrix: readonly [number, number, number, number, number, number];
   readonly numberPx: number;
   readonly namePx: number | null;
+  readonly nameLines: readonly string[];
   readonly box: LetteringBox;
   readonly screen: FaceQuad;
 }
@@ -22,6 +23,8 @@ export interface MarkLettering {
   readonly x: number;
   readonly y: number;
   readonly numberPx: number;
+  readonly matrix: readonly [number, number, number, number, number, number];
+  readonly box: LetteringBox;
   readonly anchor: Vec2;
 }
 
@@ -51,6 +54,37 @@ function textWidth(text: string, fontPx: number, look: LetteringLook): number {
 
 function lineHeight(fontPx: number, look: LetteringLook): number {
   return Math.ceil(look.lineEm * fontPx);
+}
+
+function wrappedName(
+  name: string,
+  fontPx: number,
+  availableWidth: number,
+  look: LetteringLook,
+): readonly string[] | null {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let line = '';
+
+  for (const word of words) {
+    if (textWidth(word, fontPx, look) > availableWidth) return null;
+
+    const candidate = line === '' ? word : `${line} ${word}`;
+
+    if (textWidth(candidate, fontPx, look) <= availableWidth) {
+      line = candidate;
+      continue;
+    }
+
+    if (lines.length >= look.nameMaxLines) return null;
+
+    lines.push(line);
+    line = word;
+  }
+
+  if (line !== '') lines.push(line);
+
+  return lines.length === 0 || lines.length > look.nameMaxLines ? null : lines;
 }
 
 function facePad(lu: number, lv: number, look: LetteringLook): number {
@@ -165,7 +199,7 @@ function faceLettering(
   occluders: readonly (readonly Vec2[])[],
   look: LetteringLook,
 ): FaceLettering | null {
-  const basis = faceBasis(quad);
+  const basis = faceBasis(quad, look.baseline);
   const pad = facePad(basis.lu, basis.lv, look);
   const availableWidth = basis.lu - 2 * pad;
   const availableHeight = basis.lv - 2 * pad;
@@ -173,16 +207,16 @@ function faceLettering(
   const attempt = (
     numberPx: number,
     namePx: number | null,
-    nameText: string | null,
+    nameLines: readonly string[],
   ): FaceLettering | null => {
     const numberLine = lineHeight(numberPx, look);
-    const nameLine = namePx === null || nameText === null ? 0 : lineHeight(namePx, look);
+    const nameLine = namePx === null ? 0 : lineHeight(namePx, look);
     const box: LetteringBox = {
       w: Math.max(
         textWidth(number, numberPx, look),
-        namePx === null || nameText === null ? 0 : textWidth(nameText, namePx, look),
+        ...nameLines.map((text) => textWidth(text, namePx ?? 0, look)),
       ),
-      h: numberLine + nameLine,
+      h: numberLine + nameLine * nameLines.length,
     };
 
     if (box.w > availableWidth || box.h > availableHeight) return null;
@@ -204,6 +238,7 @@ function faceLettering(
         ],
         numberPx,
         namePx,
+        nameLines,
         box,
         screen,
       };
@@ -213,16 +248,21 @@ function faceLettering(
   };
 
   for (let numberPx = Math.floor(look.numberMaxPx); numberPx >= look.numberMinPx; numberPx -= 1) {
-    if (name !== null) {
+    if (name !== null && name.trim() !== '') {
       const namePx = Math.max(look.nameMinPx, Math.round(look.nameRatio * numberPx));
-      const placed = attempt(numberPx, namePx, name);
+      const oneLine = attempt(numberPx, namePx, [name]);
+
+      if (oneLine !== null) return oneLine;
+
+      const lines = wrappedName(name, namePx, availableWidth, look);
+      const placed = lines === null ? null : attempt(numberPx, namePx, lines);
 
       if (placed !== null) return placed;
     }
   }
 
   for (let numberPx = Math.floor(look.numberMaxPx); numberPx >= look.numberMinPx; numberPx -= 1) {
-    const placed = attempt(numberPx, null, null);
+    const placed = attempt(numberPx, null, []);
 
     if (placed !== null) return placed;
   }
@@ -236,6 +276,7 @@ function markLettering(
   occluders: readonly (readonly Vec2[])[],
   look: LetteringLook,
 ): MarkLettering {
+  const basis = faceBasis(quad, look.baseline);
   const anchor = quad.reduce((front, corner) => (corner[1] > front[1] ? corner : front));
   const numberPx = look.numberMinPx;
   const box: LetteringBox = { w: textWidth(number, numberPx, look), h: lineHeight(numberPx, look) };
@@ -259,7 +300,15 @@ function markLettering(
   });
   const [x, y] = selected ?? fallback;
 
-  return { kind: 'mark', x, y, numberPx, anchor };
+  return {
+    kind: 'mark',
+    x,
+    y,
+    numberPx,
+    matrix: [basis.u[0], basis.u[1], basis.v[0], basis.v[1], x, y],
+    box,
+    anchor,
+  };
 }
 
 export function letterPart(input: LetterPartInput): Lettering {
