@@ -24,7 +24,7 @@ import type { ComponentKind } from '../schema/constants';
 import type { TechRegistry } from '../schema/tech';
 import type { Palette } from '../theme';
 import {
-  LETTERING_TAG_HIDE_CSS,
+  LETTERING_HIDE_CSS,
   PartLettering,
   type PartLetteringHandle,
 } from './lettering/PartLettering';
@@ -460,7 +460,7 @@ export function TeardownViewer({
       data-xploder-titleblock="hidden"
       data-xploder-lettering-on=""
     >
-      <style>{LETTERING_TAG_HIDE_CSS}</style>
+      <style>{LETTERING_HIDE_CSS}</style>
       <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
         <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
           <Canvas
