@@ -220,7 +220,7 @@ Non-goals stay hard:
   - `[data-xploder-focus-ring]` (an SVG polygon, present only while a proxy is focus-visible and a frame is settled);
   - `[data-xploder-live]` (always-mounted polite region);
   - `[data-xploder-fallback]` (no-WebGL);
-  - `data-xploder-webgl="ok|unavailable"` on the wrapper.
+  - `data-xploder-webgl="available|unavailable"` on the wrapper.
 - **Frozen manifests:** S2/S4 (`53b2b2b`), S5 (`f31600e`), S6 (`0b2c678`) unchanged; **S7 `frozen-surface.s7.manifest.json` (base `5b22987`, new in T001)**.
 - **Evidence artifacts:**
   - `RFC-log-*`;
