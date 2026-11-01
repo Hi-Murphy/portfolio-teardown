@@ -1,0 +1,163 @@
+diff --git a/packages/xploder/src/react/panel/DetailPanel.tsx b/packages/xploder/src/react/panel/DetailPanel.tsx
+index 3bed631..c5e9310 100644
+--- a/packages/xploder/src/react/panel/DetailPanel.tsx
++++ b/packages/xploder/src/react/panel/DetailPanel.tsx
+@@ -1,4 +1,4 @@
+-import type { CSSProperties } from 'react';
++import type { CSSProperties, RefObject } from 'react';
+ 
+ import { PANEL_SECTION_TITLES, type DetailModel } from '../../panel/content';
+ import { PANEL_LOOK } from '../../panel/look';
+@@ -9,6 +9,7 @@ export interface DetailPanelProps {
+   readonly model: DetailModel;
+   readonly palette: Palette;
+   readonly headingId: string;
++  readonly headingRef?: RefObject<HTMLHeadingElement | null>;
+   readonly onClose: () => void;
+ }
+ 
+@@ -41,7 +42,7 @@ function sectionStyle(palette: Palette): CSSProperties {
+   };
+ }
+ 
+-export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelProps) {
++export function DetailPanel({ model, palette, headingId, headingRef, onClose }: DetailPanelProps) {
+   return (
+     <div>
+       <div
+@@ -53,7 +54,9 @@ export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelP
+         }}
+       >
+         <h2
++          ref={headingRef}
+           id={headingId}
++          tabIndex={-1}
+           style={{
+             color: palette.ink,
+             fontSize: `${PANEL_LOOK.typography.headingRem}rem`,
+diff --git a/packages/xploder/src/react/panel/PanelLayer.tsx b/packages/xploder/src/react/panel/PanelLayer.tsx
+index f1b08a5..9d50f84 100644
+--- a/packages/xploder/src/react/panel/PanelLayer.tsx
++++ b/packages/xploder/src/react/panel/PanelLayer.tsx
+@@ -25,6 +25,7 @@ import type { PanelState } from '../../panel/state';
+ import type { MotionTokens } from '../../motion';
+ import type { TechRegistry } from '../../schema/tech';
+ import type { Palette } from '../../theme';
++import { usePanelFocus } from '../a11y/usePanelFocus';
+ import type { OverlayEvent } from '../scene/OverlayProjector';
+ import { CaseStudyPanel } from './CaseStudyPanel';
+ import { DetailPanel } from './DetailPanel';
+@@ -163,6 +164,8 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+   ref,
+ ) {
+   const layerRef = useRef<HTMLDivElement>(null);
++  const surfaceElementRef = useRef<HTMLElement>(null);
++  const detailHeadingRef = useRef<HTMLHeadingElement>(null);
+   const motionRef = useRef<HTMLDivElement>(null);
+   const settledRef = useRef<SettledEvent | null>(null);
+   const offsetRef = useRef(0);
+@@ -437,6 +440,24 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+     [project, surface?.kind],
+   );
+   const caseStudyHeadingId = `${headingIds.caseStudy}-heading`;
++  const focusSurfaceKey =
++    surface !== null &&
++    ((state.kind === 'detail' && surface.kind === 'detail' && surface.id === state.componentId) ||
++      (state.kind === 'caseStudy' && surface.kind === 'caseStudy'))
++      ? surface.key
++      : null;
++  const focusVisible =
++    focusSurfaceKey !== null &&
++    !moving &&
++    surface?.phase === 'enter' &&
++    (surface?.placement.size ?? 0) >= 1;
++  usePanelFocus({
++    surfaceRef: surfaceElementRef,
++    surfaceKey: focusSurfaceKey,
++    headingRef: detailHeadingRef,
++    visible: focusVisible,
++    kind: surface?.kind ?? null,
++  });
+ 
+   if (settled === null) return null;
+ 
+@@ -456,6 +477,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+     <div ref={layerRef} data-xploder-panel-layer="" style={layerStyle}>
+       {surface === null ? null : (
+         <section
++          ref={surfaceElementRef}
+           key={surface.key}
+           role="dialog"
+           aria-modal="false"
+@@ -475,6 +497,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+                 model={model}
+                 palette={palette}
+                 headingId={headingIds.detail}
++                headingRef={detailHeadingRef}
+                 onClose={() => onCloseRef.current('closeControl')}
+               />
+             ) : null}
+diff --git a/packages/xploder/src/react/panel/useViewerPanels.ts b/packages/xploder/src/react/panel/useViewerPanels.ts
+index f05a82b..d35ab94 100644
+--- a/packages/xploder/src/react/panel/useViewerPanels.ts
++++ b/packages/xploder/src/react/panel/useViewerPanels.ts
+@@ -23,11 +23,13 @@ export interface ViewerPanelsHandle {
+ interface PanelsMetadata {
+   readonly dispatch: Dispatch<PanelEvent>;
+   opener: Element | null;
++  recordOpener: (element?: Element | null) => void;
+ }
+ 
+ export interface ViewerPanelsMetadata {
+   readonly dispatch: Dispatch<PanelEvent>;
+   readonly opener: Element | null;
++  readonly recordOpener: (element: Element | null) => void;
+ }
+ 
+ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
+@@ -35,6 +37,7 @@ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
+ const EMPTY_METADATA: ViewerPanelsMetadata = {
+   dispatch: () => undefined,
+   opener: null,
++  recordOpener: () => undefined,
+ };
+ 
+ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetadata {
+@@ -44,15 +47,32 @@ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetada
+ export function useViewerPanels(): ViewerPanelsHandle {
+   const [state, dispatch] = useReducer(panelReducer, CLOSED);
+   const reactId = useId();
+-  const metadata = useRef<PanelsMetadata>({ dispatch, opener: null }).current;
++  const metadata = useRef<PanelsMetadata>({
++    dispatch,
++    opener: null,
++    recordOpener: () => undefined,
++  }).current;
++
++  const recordOpener = useCallback(
++    (element?: Element | null) => {
++      metadata.opener =
++        element === undefined
++          ? typeof document === 'undefined'
++            ? null
++            : document.activeElement
++          : element;
++    },
++    [metadata],
++  );
+ 
+-  const recordOpener = useCallback(() => {
+-    metadata.opener = typeof document === 'undefined' ? null : document.activeElement;
+-  }, [metadata]);
++  metadata.recordOpener = recordOpener;
+ 
+   const actions = useMemo<ViewerPanelsActions>(
+     () => ({
+-      openDetail: (id) => dispatch({ type: 'openDetail', id }),
++      openDetail: (id) => {
++        recordOpener();
++        dispatch({ type: 'openDetail', id });
++      },
+       toggleCaseStudy: () => {
+         recordOpener();
+         dispatch({ type: 'toggleCaseStudy' });

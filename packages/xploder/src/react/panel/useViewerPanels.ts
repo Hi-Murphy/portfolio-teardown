@@ -23,11 +23,13 @@ export interface ViewerPanelsHandle {
 interface PanelsMetadata {
   readonly dispatch: Dispatch<PanelEvent>;
   opener: Element | null;
+  recordOpener: (element?: Element | null) => void;
 }
 
 export interface ViewerPanelsMetadata {
   readonly dispatch: Dispatch<PanelEvent>;
   readonly opener: Element | null;
+  readonly recordOpener: (element: Element | null) => void;
 }
 
 const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
@@ -35,6 +37,7 @@ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
 const EMPTY_METADATA: ViewerPanelsMetadata = {
   dispatch: () => undefined,
   opener: null,
+  recordOpener: () => undefined,
 };
 
 export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetadata {
@@ -44,15 +47,32 @@ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetada
 export function useViewerPanels(): ViewerPanelsHandle {
   const [state, dispatch] = useReducer(panelReducer, CLOSED);
   const reactId = useId();
-  const metadata = useRef<PanelsMetadata>({ dispatch, opener: null }).current;
+  const metadata = useRef<PanelsMetadata>({
+    dispatch,
+    opener: null,
+    recordOpener: () => undefined,
+  }).current;
 
-  const recordOpener = useCallback(() => {
-    metadata.opener = typeof document === 'undefined' ? null : document.activeElement;
-  }, [metadata]);
+  const recordOpener = useCallback(
+    (element?: Element | null) => {
+      metadata.opener =
+        element === undefined
+          ? typeof document === 'undefined'
+            ? null
+            : document.activeElement
+          : element;
+    },
+    [metadata],
+  );
+
+  metadata.recordOpener = recordOpener;
 
   const actions = useMemo<ViewerPanelsActions>(
     () => ({
-      openDetail: (id) => dispatch({ type: 'openDetail', id }),
+      openDetail: (id) => {
+        recordOpener();
+        dispatch({ type: 'openDetail', id });
+      },
       toggleCaseStudy: () => {
         recordOpener();
         dispatch({ type: 'toggleCaseStudy' });

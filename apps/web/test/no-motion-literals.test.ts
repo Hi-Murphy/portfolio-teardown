@@ -86,6 +86,7 @@ const S08_SOURCE_FILES = [
   'react/a11y/ComponentNavigator.tsx',
   'react/a11y/CanvasBoundary.tsx',
   'react/a11y/LiveRegion.tsx',
+  'react/a11y/usePanelFocus.ts',
   'react/a11y/webgl.ts',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 const BARE_TIMING_SHORTHAND =
