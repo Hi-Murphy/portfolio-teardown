@@ -1,0 +1,497 @@
+{
+  "command": "node /tmp/s08-checks/t012a-smoke.mjs",
+  "exitCode": 0,
+  "url": "http://localhost:3000",
+  "fixtureUrl": "http://localhost:3000/dev/engine?fixture={a|c}&state=exploded",
+  "browser": "Chromium 156.0.8078.4",
+  "theme": "light",
+  "faceNamesMinZoom": 2,
+  "zoomLadder": [
+    1,
+    1.25,
+    1.5625,
+    1.953125,
+    2.44140625,
+    3
+  ],
+  "viewports": {
+    "desktop": "1280x800",
+    "mobile": "390x844"
+  },
+  "screenshots": [
+    "evidence/T012a-screenshot-desktop-1x.png",
+    "evidence/T012a-screenshot-desktop-2.44x.png"
+  ],
+  "checks": [
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1: captured desktop screenshot",
+      "detail": "T012a-screenshot-desktop-1x.png"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.25: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.25: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.25: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.25: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.5625: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.5625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.5625: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.5625: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.953125: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.953125: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.953125: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z1.953125: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z2.44140625: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z2.44140625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z2.44140625: face names are all-or-none",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z2.44140625: captured desktop screenshot",
+      "detail": "T012a-screenshot-desktop-2.44x.png"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z3: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z3: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop/z3: face names are all-or-none",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/desktop: page errors",
+      "detail": "0"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.25: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.25: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.25: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.25: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.5625: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.5625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.5625: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.5625: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.953125: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.953125: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.953125: zero face name lines",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z1.953125: zero named faces",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z2.44140625: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z2.44140625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z2.44140625: face names are all-or-none",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":14,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z3: zoom settled",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":13,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z3: face-lettered nodes present",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":13,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile/z3: face names are all-or-none",
+      "detail": "{\"faceNodes\":8,\"namedFaces\":8,\"nameLines\":13,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "a/mobile: page errors",
+      "detail": "0"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.25: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.25: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.25: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.25: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.5625: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.5625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.5625: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.5625: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.953125: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.953125: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.953125: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z1.953125: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z2.44140625: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":25,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z2.44140625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":25,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z2.44140625: face names are all-or-none",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":25,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z3: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":23,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z3: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":23,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop/z3: face names are all-or-none",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":23,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/desktop: page errors",
+      "detail": "0"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1\",\"column\":\"shown\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.25: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.25: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.25: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.25: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.25\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.5625: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.5625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.5625: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.5625: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.5625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.953125: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.953125: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.953125: zero face name lines",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z1.953125: zero named faces",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":0,\"nameLines\":0,\"zoom\":\"1.953125\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z2.44140625: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":25,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z2.44140625: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":25,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z2.44140625: face names are all-or-none",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":25,\"zoom\":\"2.44140625\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z3: zoom settled",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":23,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z3: face-lettered nodes present",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":23,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile/z3: face names are all-or-none",
+      "detail": "{\"faceNodes\":13,\"namedFaces\":13,\"nameLines\":23,\"zoom\":\"3\",\"column\":\"hidden\"}"
+    },
+    {
+      "status": "PASS",
+      "label": "c/mobile: page errors",
+      "detail": "0"
+    }
+  ]
+}

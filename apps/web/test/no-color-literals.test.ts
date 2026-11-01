@@ -79,6 +79,7 @@ const S08_SOURCE_FILES = [
   'react/a11y/LiveRegion.tsx',
   'react/a11y/usePanelFocus.ts',
   'react/a11y/webgl.ts',
+  'react/lettering/faceNames.ts',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 
 const RULES = [

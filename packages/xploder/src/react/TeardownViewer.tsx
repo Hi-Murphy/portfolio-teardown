@@ -733,6 +733,7 @@ export function TeardownViewer({
                 focus={viewer.focus}
                 highlight={viewer.highlight}
                 wrapperRef={wrapperRef}
+                zoomFactor={viewer.rig.zoomFactor}
               />
             </div>
             <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
