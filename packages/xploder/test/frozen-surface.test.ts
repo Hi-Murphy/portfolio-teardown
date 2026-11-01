@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest';
 import manifestJson from './frozen-surface.manifest.json';
 import manifestS5Json from './frozen-surface.s5.manifest.json';
 import manifestS6Json from './frozen-surface.s6.manifest.json';
+import manifestS7Json from './frozen-surface.s7.manifest.json';
 
 interface FrozenSurfaceManifest {
   readonly base: string;
@@ -28,6 +29,20 @@ const REQUIRED_S6_FILES = [
   'src/look/tokens.ts',
   'src/react/scene/OverlayProjector.tsx',
   'test/overlay-place.test.ts',
+] as const;
+const REQUIRED_S7_FILES = [
+  'src/panel/state.ts',
+  'src/panel/place.ts',
+  'src/lettering/model.ts',
+  'src/react/panel/useSlabClick.ts',
+  'test/panel-place.test.ts',
+] as const;
+const TIER_B_S7_FILES = [
+  'src/react/panel/PanelLayer.tsx',
+  'src/react/panel/DetailPanel.tsx',
+  'src/react/panel/TechChips.tsx',
+  'src/react/panel/useViewerPanels.ts',
+  'src/react/lettering/PartLettering.tsx',
 ] as const;
 
 type RawImportMeta = ImportMeta & {
@@ -172,6 +187,35 @@ describe('frozen S6 surface', () => {
 
     for (const path of REQUIRED_S6_FILES) {
       expect(manifest.files).toHaveProperty(path);
+    }
+
+    for (const [path, expected] of entries) {
+      const workingCopy = rawFiles[path];
+
+      if (workingCopy === undefined) throw new Error(`Missing working copy for ${path}`);
+
+      expect(await sha256(workingCopy), path).toBe(expected);
+    }
+  });
+});
+
+describe('frozen S7 surface', () => {
+  test('matches every hash recorded from the base commit', async () => {
+    const manifest = manifestS7Json as FrozenSurfaceManifest;
+    const entries = Object.entries(manifest.files);
+
+    expect(manifest.base).toBe('5b22987');
+    expect(manifest.note).toBe(
+      'S07 seal, Tier A (S08 RFC D1). Tier B files are edited for a11y only and guarded by the presentation snapshot. A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+    );
+    expect(entries.length).toBeGreaterThanOrEqual(20);
+
+    for (const path of REQUIRED_S7_FILES) {
+      expect(manifest.files).toHaveProperty(path);
+    }
+
+    for (const path of TIER_B_S7_FILES) {
+      expect(manifest.files).not.toHaveProperty(path);
     }
 
     for (const [path, expected] of entries) {
