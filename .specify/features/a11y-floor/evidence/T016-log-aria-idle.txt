@@ -1,0 +1,27 @@
+state: idle
+source: aria.log.txt (Chromium accessibility snapshot)
+aria idle: 23 snapshot lines, 347 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria idle | - group "Tidewatch architecture view":
+aria idle |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria idle |   - group "Components":
+aria idle |     - list "Interface":
+aria idle |       - listitem:
+aria idle |         - button "Beachgoer"
+aria idle |       - listitem:
+aria idle |         - button "Tide Chart Screen"
+aria idle |       - listitem:
+aria idle |         - button "Forecast Details Panel"
+aria idle |     - list "View state":
+aria idle |       - listitem:
+aria idle |         - button "Tide View Model"
+aria idle |     - list "Tide data":
+aria idle |       - listitem:
+aria idle |         - button "Tide Repository"
+aria idle |       - listitem:
+aria idle |         - button "Live Tide Client"
+aria idle |       - listitem:
+aria idle |         - button "Tide Cache"
+aria idle |     - list "External boundary":
+aria idle |       - listitem:
+aria idle |         - button "Tide Feed"
+summary: PASS

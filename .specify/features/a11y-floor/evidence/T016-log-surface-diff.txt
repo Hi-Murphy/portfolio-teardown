@@ -1,0 +1,384 @@
+# T016 surface diff
+# base: 5b22987; branch HEAD captured below
+465174ca6f7869d03e688ef2e488d2ad338affc5
+
+## Guards
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+PROBES-OK
+BRIEF-HISTORY-OK
+
+## git diff --stat per seal base
+### S2/S4: 53b2b2b
+### S5: f31600e
+### S6: 0b2c678
+### S7: 5b22987
+### S8 slice brief: 5b22987
+### S4-S7 engine probe: 5b22987
+
+## Tier-B diff (5b22987)
+diff --git a/packages/xploder/src/react/lettering/PartLettering.tsx b/packages/xploder/src/react/lettering/PartLettering.tsx
+index c40e416..2bc1281 100644
+--- a/packages/xploder/src/react/lettering/PartLettering.tsx
++++ b/packages/xploder/src/react/lettering/PartLettering.tsx
+@@ -34,6 +34,7 @@ import type { OverlayFrame, Vec2 } from '../../overlay/project';
+ import { partShortText } from '../../overlay/parts';
+ import { overlayTiming } from '../../overlay/timing';
+ import type { Palette } from '../../theme';
++import { faceLetteringAllOrNone } from './faceNames';
+ import type { OverlayEvent } from '../scene/OverlayProjector';
+ import type { PickBridgeHandle } from '../scene/PickBridge';
+ import type { TeardownTarget, TourStatus, ViewerProject } from '../useTeardownViewer';
+@@ -71,6 +72,7 @@ export interface PartLetteringProps {
+   readonly focus: { readonly layerId: string | null; readonly suspended: boolean };
+   readonly highlight: string | null;
+   readonly wrapperRef: RefObject<HTMLDivElement | null>;
++  readonly zoomFactor?: number;
+ }
+ 
+ interface SettledLettering {
+@@ -217,6 +219,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+       focus,
+       highlight,
+       wrapperRef,
++      zoomFactor = 1,
+     },
+     ref,
+   ) {
+@@ -229,6 +232,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+     const layerIds = useMemo(() => layerIdsByComponent(layout), [layout]);
+     const scope = useId();
+     const layerIdsByLayerIndex = useMemo(() => layerIdsByIndex(layout), [layout]);
++    const zoomFactorRef = useRef(zoomFactor);
+     const [settled, setSettled] = useState<SettledLettering | null>(null);
+     const [moving, setMoving] = useState(false);
+ 
+@@ -305,12 +309,17 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                 look: LETTERING_LOOK,
+               })
+             : null;
+-        const faceNames = column === null ? names : new Map<string, string>();
+-        const items = letteringModel({
+-          layout,
+-          components,
+-          layers: event.frame.layers,
+-          names: faceNames,
++        const items = faceLetteringAllOrNone({
++          zoomFactor: zoomFactorRef.current,
++          columnActive: column !== null,
++          names,
++          build: (faceNames) =>
++            letteringModel({
++              layout,
++              components,
++              layers: event.frame.layers,
++              names: faceNames,
++            }),
+         });
+         const layersShown = mode === 'tags' || extentPx > 1e-9;
+         const layerLabels = layersShown
+@@ -346,6 +355,10 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+ 
+     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
+ 
++    useLayoutEffect(() => {
++      zoomFactorRef.current = zoomFactor;
++    }, [zoomFactor]);
++
+     const items = settled?.items ?? [];
+     const column = settled?.column ?? null;
+     const visible =
+@@ -421,9 +434,13 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+     };
+     const numberColor = (id: string): string =>
+       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
++    const faceNumberColor = (id: string): string =>
++      highlight === id ? palette.ink : palette[look.annotation.partRole];
++    const faceNameColor = (id: string): string =>
++      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+ 
+     return (
+-      <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
++      <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
+         {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
+         <div
+           ref={groupRef}
+@@ -581,7 +598,8 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                   userSelect: 'text',
+                   whiteSpace: 'nowrap',
+                   font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+-                  color,
++                  color: faceNumberColor(item.id),
++                  borderColor: numberColor(item.id),
+                   opacity,
+                   ...(transition === undefined ? {} : { transition }),
+                 }}
+@@ -595,7 +613,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+                         style={{
+                           font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                           textTransform: 'uppercase',
+-                          color: palette[look.annotation.textRole] || palette.label,
++                          color: faceNameColor(item.id),
+                         }}
+                       >
+                         {line}
+diff --git a/packages/xploder/src/react/panel/DetailPanel.tsx b/packages/xploder/src/react/panel/DetailPanel.tsx
+index 3bed631..a037b87 100644
+--- a/packages/xploder/src/react/panel/DetailPanel.tsx
++++ b/packages/xploder/src/react/panel/DetailPanel.tsx
+@@ -1,4 +1,4 @@
+-import type { CSSProperties } from 'react';
++import type { CSSProperties, RefObject } from 'react';
+ 
+ import { PANEL_SECTION_TITLES, type DetailModel } from '../../panel/content';
+ import { PANEL_LOOK } from '../../panel/look';
+@@ -9,6 +9,7 @@ export interface DetailPanelProps {
+   readonly model: DetailModel;
+   readonly palette: Palette;
+   readonly headingId: string;
++  readonly headingRef?: RefObject<HTMLHeadingElement | null>;
+   readonly onClose: () => void;
+ }
+ 
+@@ -41,7 +42,7 @@ function sectionStyle(palette: Palette): CSSProperties {
+   };
+ }
+ 
+-export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelProps) {
++export function DetailPanel({ model, palette, headingId, headingRef, onClose }: DetailPanelProps) {
+   return (
+     <div>
+       <div
+@@ -53,7 +54,9 @@ export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelP
+         }}
+       >
+         <h2
++          ref={headingRef}
+           id={headingId}
++          tabIndex={-1}
+           style={{
+             color: palette.ink,
+             fontSize: `${PANEL_LOOK.typography.headingRem}rem`,
+@@ -84,6 +87,7 @@ export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelP
+       </div>
+ 
+       <p
++        id={`${headingId}-meta`}
+         style={{
+           color: palette.label,
+           fontFamily: 'var(--font-mono, ui-monospace, monospace)',
+@@ -94,7 +98,11 @@ export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelP
+         {model.meta.kind} · {model.meta.status}
+       </p>
+ 
+-      {model.summary === undefined ? null : <p style={bodyStyle(palette)}>{model.summary}</p>}
++      {model.summary === undefined ? null : (
++        <p id={`${headingId}-summary`} style={bodyStyle(palette)}>
++          {model.summary}
++        </p>
++      )}
+       {model.description === undefined ? null : (
+         <p style={bodyStyle(palette)}>{model.description}</p>
+       )}
+diff --git a/packages/xploder/src/react/panel/PanelLayer.tsx b/packages/xploder/src/react/panel/PanelLayer.tsx
+index f1b08a5..6458e6d 100644
+--- a/packages/xploder/src/react/panel/PanelLayer.tsx
++++ b/packages/xploder/src/react/panel/PanelLayer.tsx
+@@ -25,6 +25,7 @@ import type { PanelState } from '../../panel/state';
+ import type { MotionTokens } from '../../motion';
+ import type { TechRegistry } from '../../schema/tech';
+ import type { Palette } from '../../theme';
++import { usePanelFocus } from '../a11y/usePanelFocus';
+ import type { OverlayEvent } from '../scene/OverlayProjector';
+ import { CaseStudyPanel } from './CaseStudyPanel';
+ import { DetailPanel } from './DetailPanel';
+@@ -163,6 +164,8 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+   ref,
+ ) {
+   const layerRef = useRef<HTMLDivElement>(null);
++  const surfaceElementRef = useRef<HTMLElement>(null);
++  const detailHeadingRef = useRef<HTMLHeadingElement>(null);
+   const motionRef = useRef<HTMLDivElement>(null);
+   const settledRef = useRef<SettledEvent | null>(null);
+   const offsetRef = useRef(0);
+@@ -437,6 +440,24 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+     [project, surface?.kind],
+   );
+   const caseStudyHeadingId = `${headingIds.caseStudy}-heading`;
++  const focusSurfaceKey =
++    surface !== null &&
++    ((state.kind === 'detail' && surface.kind === 'detail' && surface.id === state.componentId) ||
++      (state.kind === 'caseStudy' && surface.kind === 'caseStudy'))
++      ? surface.key
++      : null;
++  const focusVisible =
++    focusSurfaceKey !== null &&
++    !moving &&
++    surface?.phase === 'enter' &&
++    (surface?.placement.size ?? 0) >= 1;
++  usePanelFocus({
++    surfaceRef: surfaceElementRef,
++    surfaceKey: focusSurfaceKey,
++    headingRef: detailHeadingRef,
++    visible: focusVisible,
++    kind: surface?.kind ?? null,
++  });
+ 
+   if (settled === null) return null;
+ 
+@@ -456,10 +477,16 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+     <div ref={layerRef} data-xploder-panel-layer="" style={layerStyle}>
+       {surface === null ? null : (
+         <section
++          ref={surfaceElementRef}
+           key={surface.key}
+           role="dialog"
+           aria-modal="false"
+           aria-labelledby={surface.kind === 'detail' ? headingIds.detail : caseStudyHeadingId}
++          aria-describedby={
++            surface.kind === 'detail' && model !== null
++              ? `${headingIds.detail}-meta${model.summary === undefined ? '' : ` ${headingIds.detail}-summary`}`
++              : undefined
++          }
+           id={surface.kind === 'caseStudy' ? headingIds.caseStudy : undefined}
+           data-xploder-panel-surface=""
+           data-xploder-panel-dock={surface.placement.dock}
+@@ -475,6 +502,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+                 model={model}
+                 palette={palette}
+                 headingId={headingIds.detail}
++                headingRef={detailHeadingRef}
+                 onClose={() => onCloseRef.current('closeControl')}
+               />
+             ) : null}
+diff --git a/packages/xploder/src/react/panel/TechChips.tsx b/packages/xploder/src/react/panel/TechChips.tsx
+index 6a47d1b..0fd285a 100644
+--- a/packages/xploder/src/react/panel/TechChips.tsx
++++ b/packages/xploder/src/react/panel/TechChips.tsx
+@@ -18,6 +18,19 @@ const LIST_STYLE: CSSProperties = {
+   margin: 0,
+ };
+ 
++const VISUALLY_HIDDEN_STYLE: CSSProperties = {
++  position: 'absolute',
++  width: '1px',
++  height: '1px',
++  overflow: 'hidden',
++  clip: 'rect(0 0 0 0)',
++  clipPath: 'inset(50%)',
++  whiteSpace: 'nowrap',
++  margin: '-1px',
++  padding: 0,
++  border: 0,
++};
++
+ function chipStyle(accent: string | null, palette: Palette): CSSProperties {
+   return {
+     display: 'inline-flex',
+@@ -54,6 +67,9 @@ export function TechChips({ chips, palette }: TechChipsProps) {
+               />
+             )}
+             <span>{chip.label}</span>
++            {chip.category === undefined ? null : (
++              <span style={VISUALLY_HIDDEN_STYLE}>, {chip.category}</span>
++            )}
+           </li>
+         );
+       })}
+diff --git a/packages/xploder/src/react/panel/useViewerPanels.ts b/packages/xploder/src/react/panel/useViewerPanels.ts
+index f05a82b..d35ab94 100644
+--- a/packages/xploder/src/react/panel/useViewerPanels.ts
++++ b/packages/xploder/src/react/panel/useViewerPanels.ts
+@@ -23,11 +23,13 @@ export interface ViewerPanelsHandle {
+ interface PanelsMetadata {
+   readonly dispatch: Dispatch<PanelEvent>;
+   opener: Element | null;
++  recordOpener: (element?: Element | null) => void;
+ }
+ 
+ export interface ViewerPanelsMetadata {
+   readonly dispatch: Dispatch<PanelEvent>;
+   readonly opener: Element | null;
++  readonly recordOpener: (element: Element | null) => void;
+ }
+ 
+ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
+@@ -35,6 +37,7 @@ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
+ const EMPTY_METADATA: ViewerPanelsMetadata = {
+   dispatch: () => undefined,
+   opener: null,
++  recordOpener: () => undefined,
+ };
+ 
+ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetadata {
+@@ -44,15 +47,32 @@ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetada
+ export function useViewerPanels(): ViewerPanelsHandle {
+   const [state, dispatch] = useReducer(panelReducer, CLOSED);
+   const reactId = useId();
+-  const metadata = useRef<PanelsMetadata>({ dispatch, opener: null }).current;
++  const metadata = useRef<PanelsMetadata>({
++    dispatch,
++    opener: null,
++    recordOpener: () => undefined,
++  }).current;
++
++  const recordOpener = useCallback(
++    (element?: Element | null) => {
++      metadata.opener =
++        element === undefined
++          ? typeof document === 'undefined'
++            ? null
++            : document.activeElement
++          : element;
++    },
++    [metadata],
++  );
+ 
+-  const recordOpener = useCallback(() => {
+-    metadata.opener = typeof document === 'undefined' ? null : document.activeElement;
+-  }, [metadata]);
++  metadata.recordOpener = recordOpener;
+ 
+   const actions = useMemo<ViewerPanelsActions>(
+     () => ({
+-      openDetail: (id) => dispatch({ type: 'openDetail', id }),
++      openDetail: (id) => {
++        recordOpener();
++        dispatch({ type: 'openDetail', id });
++      },
+       toggleCaseStudy: () => {
+         recordOpener();
+         dispatch({ type: 'toggleCaseStudy' });
+
+## C3 panel-probe.ts diff (5b22987)
+diff --git a/tools/perf/src/panel-probe.ts b/tools/perf/src/panel-probe.ts
+index 32bc76a..ee856a0 100644
+--- a/tools/perf/src/panel-probe.ts
++++ b/tools/perf/src/panel-probe.ts
+@@ -1425,8 +1425,9 @@ async function readContent(page: Page): Promise<S7ContentActual> {
+     const paragraphs = [...surface.querySelectorAll('p')]
+       .map((paragraph) => text(paragraph))
+       .filter(Boolean);
++    // S08 C3: a chip also holds visually hidden ", <category>" text (AC2); read the visible label.
+     const chipLabels = [...surface.querySelectorAll('[data-xploder-chip]')].map((chip) =>
+-      text(chip),
++      text(chip.querySelector(':scope > span:not([aria-hidden="true"])') ?? chip),
+     );
+     const metrics = [...surface.querySelectorAll('dl > div')].map((row) => ({
+       label: text(row.querySelector('dt')),
+@@ -1470,7 +1471,11 @@ async function readChips(page: Page): Promise<S7ChipRead> {
+ 
+     const chips = [...list.querySelectorAll('[data-xploder-chip]')].map((chip) => ({
+       id: chip.getAttribute('data-xploder-chip') ?? '',
+-      label: chip.textContent?.trim() ?? '',
++      // S08 C3: the visible label span, not the visually hidden category text.
++      label:
++        (
++          chip.querySelector(':scope > span:not([aria-hidden="true"])') ?? chip
++        ).textContent?.trim() ?? '',
+       background: getComputedStyle(chip.querySelector('span[aria-hidden="true"]') ?? chip)
+         .backgroundColor,
+     }));

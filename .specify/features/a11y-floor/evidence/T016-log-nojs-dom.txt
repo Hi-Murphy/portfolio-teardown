@@ -1,0 +1,26 @@
+source: /tmp/s08-checks/t016/probe/fallbacks.json
+note: the probe emits structural assertions and screenshots, not a raw DOM dump; this is the emitted fallback structure.
+screenshots: T016-screenshot-nojs-mobile-light.png, T016-screenshot-nojs-mobile-dark.png
+no-js-light: {
+  "posterRole": "img",
+  "posterName": "Tidewatch architecture: 4 layers, 8 components",
+  "posterWidth": 358,
+  "links": [
+    "Tidewatch",
+    "Ledgerline",
+    "Lockerbay"
+  ],
+  "loadingDisplay": "none"
+}
+no-js-dark: {
+  "posterRole": "img",
+  "posterName": "Tidewatch architecture: 4 layers, 8 components",
+  "posterWidth": 358,
+  "links": [
+    "Tidewatch",
+    "Ledgerline",
+    "Lockerbay"
+  ],
+  "loadingDisplay": "none"
+}
+summary: PASS

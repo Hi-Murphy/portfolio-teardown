@@ -1,0 +1,119 @@
+{
+  "task": "T016",
+  "head": "465174ca6f7869d03e688ef2e488d2ad338affc5",
+  "commands": [
+    {
+      "command": "pnpm build:fixtures",
+      "exitCode": 0,
+      "target": "out-fixtures"
+    },
+    {
+      "command": "pnpm a11y:axe --serve out-fixtures --out /tmp/s08-checks/t016/axe",
+      "exitCode": 0,
+      "target": "http://127.0.0.1:<in-process>/"
+    },
+    {
+      "command": "pnpm a11y:probe --serve out-fixtures --out /tmp/s08-checks/t016/probe",
+      "exitCode": 0,
+      "target": "http://127.0.0.1:<in-process>/"
+    },
+    {
+      "command": "node tools/perf/src/cli/serve.ts --dir out-fixtures --port 4199",
+      "exitCode": null,
+      "status": "started for engine:probe and stopped with its pid after the probe",
+      "target": "http://127.0.0.1:4199/"
+    },
+    {
+      "command": "pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s08-checks/t016/engine",
+      "exitCode": 0,
+      "target": "http://127.0.0.1:4199/"
+    },
+    {
+      "command": "pnpm fps:engine --scenario tour --no-build --out /tmp/s08-checks/t016/fps",
+      "exitCode": 0,
+      "target": "http://127.0.0.1:<in-process>/"
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "target": "local workspace"
+    },
+    {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "target": "local workspace"
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0,
+      "target": "local workspace"
+    },
+    {
+      "command": "T016 Check block (evidence presence, axe, fps)",
+      "exitCode": 0,
+      "target": "local evidence files"
+    }
+  ],
+  "guards": [
+    {
+      "name": "FROZEN-OK",
+      "exitCode": 0
+    },
+    {
+      "name": "SURFACE-S2S4-OK",
+      "exitCode": 0
+    },
+    {
+      "name": "SURFACE-S5-OK",
+      "exitCode": 0
+    },
+    {
+      "name": "SURFACE-S6-OK",
+      "exitCode": 0
+    },
+    {
+      "name": "SURFACE-S7-OK",
+      "exitCode": 0
+    },
+    {
+      "name": "PROBES-OK",
+      "exitCode": 0
+    },
+    {
+      "name": "BRIEF-HISTORY-OK",
+      "exitCode": 0
+    }
+  ],
+  "artifacts": {
+    "axeSummary": "T016-axe-summary.json",
+    "axeCells": [
+      "T016-axe-light-desktop.json",
+      "T016-axe-light-mobile.json",
+      "T016-axe-dark-desktop.json",
+      "T016-axe-dark-mobile.json"
+    ],
+    "probe": "T016-a11y-probe.json + group logs and screenshots",
+    "contrastTable": "T016-log-contrast-table.md",
+    "engineProbe": {
+      "url": "http://127.0.0.1:4199/",
+      "checks": 198,
+      "pass": true
+    },
+    "fps": {
+      "droppedFrames": 0,
+      "drawCalls": 2,
+      "liveness": true,
+      "pass": true
+    },
+    "verificationLog": "T016-log-check.txt"
+  },
+  "versions": {
+    "chromium": "156.0.8078.4",
+    "axeCore": "4.14.0",
+    "node": "v24.19.0"
+  },
+  "localTargets": [
+    "http://127.0.0.1:4199/",
+    "http://127.0.0.1:<in-process>/"
+  ]
+}

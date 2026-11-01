@@ -1,0 +1,31 @@
+state: jump
+source: aria.log.txt (Chromium accessibility snapshot)
+aria jump: 27 snapshot lines, 362 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria jump | - group "Tidewatch architecture view":
+aria jump |   - text: Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast.
+aria jump |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria jump |   - group "Components":
+aria jump |     - list "Interface":
+aria jump |       - listitem:
+aria jump |         - button "Beachgoer"
+aria jump |       - listitem:
+aria jump |         - button "Tide Chart Screen"
+aria jump |       - listitem:
+aria jump |         - button "Forecast Details Panel"
+aria jump |     - list "View state":
+aria jump |       - listitem:
+aria jump |         - button "Tide View Model"
+aria jump |     - list "Tide data":
+aria jump |       - listitem:
+aria jump |         - button "Tide Repository"
+aria jump |       - listitem:
+aria jump |         - button "Live Tide Client"
+aria jump |       - listitem:
+aria jump |         - button "Tide Cache"
+aria jump |     - list "External boundary":
+aria jump |       - listitem:
+aria jump |         - button "Tide Feed"
+aria jump |   - paragraph: Live update · Step 4 of 6
+aria jump |   - paragraph: Tide Repository
+aria jump |   - paragraph: Chooses between a live reading and the saved forecast.
+summary: PASS
