@@ -41,6 +41,7 @@
 | T011 | ☑ (R2 ink; presentation diff 12 colour + 20 hidden-span, 0 disallowed; rendered pixels match token model) | 1 (Flash, sandbox off) | evidence/T011-{log-contrast-token-after.txt,log-presentation-diff.txt,screenshot-highlight-*.png} | 8227c87 |
 | T012 | ☑ (no-JS poster + list, no-WebGL message + list, skip link; smoke 44/44) | 1 (Flash, sandbox off) + orchestrator review fix (skip link overlay, viewer shift 0) | evidence/T012-{log-fallback.txt,screenshot-*.png,meta.json} | 63b11eb |
 | T012a | ☑ (names only ≥ 2×, all-or-nothing; smoke 24/24 states) | 1 (Flash, sandbox off) | evidence/T012a-{log-face-names.txt,screenshot-desktop-*.png,meta.json} | see merge |
+| T012b | ☐ | | | |
 | T013 | ☑ (11 states × 4 combos; local + CI serious 0 / critical 0) | 1 (Flash, sandbox off; codex exited 2 after the check printed T013-OK) + orchestrator review fix after CI run 1 (dim-ledger race: settle animations, ledger needs opacity < 1) | evidence/T013-log-axe-tool.txt, T015-ci.txt | 05c76e1 + ca1bf4a |
 | T014 | ☑ (8 groups PASS; drill 166 steps; contrast every non-exception glyph measured, pixel min 5.04) | 1 (Flash, sandbox off) + orchestrator review fixes (honest contrast rows, unmeasured recorded, 2.44× top/bottom sampling) | evidence/T014-log-probe-tool.txt | a2419f7 |
 | T015 | ☑ ⚑ draft PR #13; CI run 1 green → run 2 red on the broken commit (aria-hidden-focus ×32, exit 6) → run 3 green after revert | 1 (Flash: workflow file) + ⚑ orchestrator (push, PR, proof) | evidence/T015-{ci.txt,log-ci-job.txt} | 62cde32 / 42985ae / 1725d39 |
@@ -405,6 +406,15 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S08.md` and `.specif
   1. Zoom from default to max on A and C: numbers only up to 1.95×, then names under every number from 2.44× (default: accept the ≥ 2× reading).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. If "2× zoom" meant **two zoom-in clicks** (1.56×) rather than a 2× factor, say so; the constant changes, but at 1.56× most faces cannot fit a legible name, so all-or-nothing would keep names hidden there (default: zoom factor ≥ 2).
+
+### T012b [US8] G3 clarification (Murphy): the name threshold is the second zoom-in click
+
+- **Origin:** Murphy, G3 gate (2026-11-02): "2× zoom" meant **two zoom-in clicks**, so `zoomFactor ≥ 1.5625` (`ZOOM_BOUNDS.min × ZOOM_BOUNDS.step²`). All-or-nothing (T012a rule 2) stays.
+- **Measured consequence** (`evidence/T012b-log-fit-measure.txt`): at two clicks, faces that fit a legible name (`LETTERING_LOOK.nameMinPx` = 8, S7-sealed) are 6/8 for A, 1–2/5 for B and 3/13 for C. So all-or-nothing keeps names hidden at two clicks. They first appear at 3 clicks (A), 4 (C) and 5 (B; desktop B is 4/5 at 2.44×). Reported to Murphy at the G4 gate, with alternatives.
+- **Files:** `packages/xploder/src/react/lettering/faceNames.ts`: `FACE_NAMES_MIN_ZOOM = ZOOM_BOUNDS.min * ZOOM_BOUNDS.step ** 2` (import `ZOOM_BOUNDS` read-only from `../../engine/camera`; comment "second zoom-in click"). `test/lettering-face-names.test.ts`: thresholds updated (1.25 → none; 1.5625 with roomy quads → all; 1.5625 with one small face → none).
+- **Check:** `pnpm --filter xploder exec vitest run test/lettering-face-names.test.ts` + `pnpm typecheck && pnpm lint && pnpm test`; a dev smoke over A/B/C × desktop at clicks 0–5 logs the named/face counts, which must be 0 or all per state; `evidence/T012b-log-face-names.txt`; ends `T012b-OK`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Zoom A in click by click: index only for clicks 0–2, names on every face from click 3 (default: accept the literal rules).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Whether to keep it literal or pick an alternative from the G4 report (default: literal).
 
 **G2 gate:** the orchestrator runs all guards + `pnpm typecheck && pnpm lint && pnpm test && pnpm build`, then starts `pnpm dev` and opens `http://localhost:3000/dev/engine` in Orca's browser for Murphy's keyboard click-through (memory: visual checks in the Orca browser). STOP.
 
