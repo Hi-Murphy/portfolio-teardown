@@ -40,7 +40,7 @@
 | T010 | ☑ (lettering + S6 overlay hidden from AT, chip categories, dialog description) | 1 (Flash, sandbox off) + orchestrator review fix (visible chip comma rejected; comma in hidden span) | evidence/T010-{log-aria-smoke.txt,log-tierb-diff.txt,screenshot-chips-light.png} | 764f859 |
 | T011 | ☑ (R2 ink; presentation diff 12 colour + 20 hidden-span, 0 disallowed; rendered pixels match token model) | 1 (Flash, sandbox off) | evidence/T011-{log-contrast-token-after.txt,log-presentation-diff.txt,screenshot-highlight-*.png} | 8227c87 |
 | T012 | ☑ (no-JS poster + list, no-WebGL message + list, skip link; smoke 44/44) | 1 (Flash, sandbox off) + orchestrator review fix (skip link overlay, viewer shift 0) | evidence/T012-{log-fallback.txt,screenshot-*.png,meta.json} | 63b11eb |
-| T012a | ☐ | | | |
+| T012a | ☑ (names only ≥ 2×, all-or-nothing; smoke 24/24 states) | 1 (Flash, sandbox off) | evidence/T012a-{log-face-names.txt,screenshot-desktop-*.png,meta.json} | see merge |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
