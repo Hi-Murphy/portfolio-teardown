@@ -55,8 +55,8 @@ function faceNameCount(items: readonly ComponentLettering[]): number {
 }
 
 describe('face lettering names', () => {
-  test.each([1, 1.25, 1.5625, 1.953])(
-    'hides every face name below the 2x minimum at zoom %s',
+  test.each([1, 1.25])(
+    'hides every face name below the second zoom-in click at zoom %s',
     (zoomFactor) => {
       const items = faceLetteringAllOrNone({
         zoomFactor,
@@ -86,7 +86,7 @@ describe('face lettering names', () => {
 
   test('hides every face name when one face can only fit its number', () => {
     const items = faceLetteringAllOrNone({
-      zoomFactor: 2,
+      zoomFactor: FACE_NAMES_MIN_ZOOM,
       columnActive: false,
       names: NAMES,
       build: (names) => buildLettering(LAYOUT, [ROOMY_FACE, NUMBER_ONLY_FACE], names),
