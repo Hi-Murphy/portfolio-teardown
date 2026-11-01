@@ -41,7 +41,7 @@
 | T011 | ☑ (R2 ink; presentation diff 12 colour + 20 hidden-span, 0 disallowed; rendered pixels match token model) | 1 (Flash, sandbox off) | evidence/T011-{log-contrast-token-after.txt,log-presentation-diff.txt,screenshot-highlight-*.png} | 8227c87 |
 | T012 | ☑ (no-JS poster + list, no-WebGL message + list, skip link; smoke 44/44) | 1 (Flash, sandbox off) + orchestrator review fix (skip link overlay, viewer shift 0) | evidence/T012-{log-fallback.txt,screenshot-*.png,meta.json} | 63b11eb |
 | T012a | ☑ (names only ≥ 2×, all-or-nothing; smoke 24/24 states) | 1 (Flash, sandbox off) | evidence/T012a-{log-face-names.txt,screenshot-desktop-*.png,meta.json} | see merge |
-| T012b | ☐ | | | |
+| T012b | ☑ (threshold = 2nd click 1.5625; all-or-nothing → names at click 3 A, 4 C, 5 B) | 1 (Flash, sandbox off) | evidence/T012b-{log-face-names.txt,log-fit-measure.txt} | see merge |
 | T013 | ☑ (11 states × 4 combos; local + CI serious 0 / critical 0) | 1 (Flash, sandbox off; codex exited 2 after the check printed T013-OK) + orchestrator review fix after CI run 1 (dim-ledger race: settle animations, ledger needs opacity < 1) | evidence/T013-log-axe-tool.txt, T015-ci.txt | 05c76e1 + ca1bf4a |
 | T014 | ☑ (8 groups PASS; drill 166 steps; contrast every non-exception glyph measured, pixel min 5.04) | 1 (Flash, sandbox off) + orchestrator review fixes (honest contrast rows, unmeasured recorded, 2.44× top/bottom sampling) | evidence/T014-log-probe-tool.txt | a2419f7 |
 | T015 | ☑ ⚑ draft PR #13; CI run 1 green → run 2 red on the broken commit (aria-hidden-focus ×32, exit 6) → run 3 green after revert | 1 (Flash: workflow file) + ⚑ orchestrator (push, PR, proof) | evidence/T015-{ci.txt,log-ci-job.txt} | 62cde32 / 42985ae / 1725d39 |
