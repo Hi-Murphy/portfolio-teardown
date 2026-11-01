@@ -1,0 +1,226 @@
+# T012 — probe evidence run (all scopes S4/S5/S6/S7; S7 includes the reduced-motion context)
+target: http://127.0.0.1:4199/ (local fixture export, pnpm build:fixtures + serve) · chromium: 156.0.8078.4
+
+## Attempt history (EVIDENCE.md §6 honesty)
+1. tier 1 (Flash, sandbox off): exit 3 — fixture server not yet reachable (infrastructure).
+2. tier 1 permitted infra retry: exit 4 — S5 group captureTourTiming timed out (15 s) waiting for [data-xploder-tour=playing][step=1]; no engine-probe.json written. Flash stopped as instructed.
+3. orchestrator diagnosis: the same S5 sequence in isolation (paused@0 → Play) advances 0→1→2 on the 1.6 s beat (log below) — no product regression; the timeout was environmental (the machine was also running the fixture build).
+4. orchestrator run (tier escalation per D13, reported): exit 0.
+
+## Diagnostic (isolated S5 tour cadence)
+before paused step=0 flow=live-update panel=closed
+0 playing step=0 flow=live-update panel=closed
+1 playing step=0 flow=live-update panel=closed
+2 playing step=0 flow=live-update panel=closed
+3 playing step=1 flow=live-update panel=closed
+4 playing step=1 flow=live-update panel=closed
+5 playing step=1 flow=live-update panel=closed
+6 playing step=2 flow=live-update panel=closed
+7 playing step=2 flow=live-update panel=closed
+
+## Run 4
+$ pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s07-checks/t012
+PASS fixture-a-instances: expected {"layers":4,"components":8}
+PASS fixture-a-draw-calls: expected 2
+PASS fixture-b-instances: expected {"layers":4,"components":5}
+PASS fixture-b-draw-calls: expected 2
+PASS fixture-c-instances: expected {"layers":5,"components":13}
+PASS fixture-c-draw-calls: expected 2
+PASS camera-default-azimuth: expected 45
+PASS camera-after-button-right: expected 135
+PASS camera-after-arrow-right: expected 225
+PASS camera-zoom-after-20-in: expected 3
+PASS camera-zoom-after-20-out: expected 1
+PASS camera-zoom-after-reset: expected 1
+PASS camera-zoom-out-disabled-at-default: expected true
+PASS camera-zoom-reset-disabled-at-default: expected true
+PASS camera-zoom-in-disabled-at-max: expected true
+PASS motion-explode-phases: expected ["exploding","exploded"]
+PASS motion-implode-phases: expected ["imploding","imploded"]
+PASS reduced-motion-initial-state: expected "exploded"
+PASS reduced-motion-toggle-phases: expected ["imploded"]
+PASS reduced-motion-toggle-frames: expected "<= 2"
+PASS reduced-motion-toggle-back-phases: expected ["exploded"]
+PASS reduced-motion-toggle-back-frames: expected "<= 2"
+PASS hitmap-exploded-all-components-hit: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS hitmap-imploded-top-layer-hit: expected ["beachgoer","forecast-details-panel","tide-chart-screen"]
+PASS hover-highlight-exploded: expected "tide-chart-screen"
+PASS hover-highlight-imploded: expected "tide-chart-screen"
+PASS hover-cursor-pointer: expected {"exploded":"pointer","imploded":"pointer"}
+PASS hover-pixel-toward-accent: expected "distance to accent decreases in both states"
+PASS hover-leave-clears: expected {"exploded":true,"imploded":true}
+PASS tap-highlight-exploded: expected "beachgoer"
+PASS tap-highlight-imploded: expected "beachgoer"
+PASS tap-second-clears: expected {"exploded":null,"imploded":null}
+PASS tap-other-switches: expected {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"}
+PASS tap-empty-clears: expected {"exploded":null,"imploded":null}
+PASS tap-outside-clears: expected {"exploded":null,"imploded":null}
+PASS trace-pointertype-touch: expected "pointerdown, pointerup and click all with pointerType=touch"
+PASS cls-zero: expected 0
+PASS focus-toggle-sets: expected "ui"
+PASS focus-pixel-toward-paper: expected "distance to paper decreases"
+PASS focus-esc-releases: expected null
+PASS focus-toggle-releases: expected null
+PASS focus-survives-explode: expected {"state":"exploded","layer":"ui"}
+PASS focus-survives-rotate: expected {"azimuth":135,"layer":"ui"}
+PASS tour-order-a-live-update: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"]
+PASS tour-order-a-offline-read: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"]
+PASS tour-order-c-pickup-ready: expected ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"]
+PASS tour-order-c-push-failed: expected ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"]
+PASS tour-pause-holds: expected 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0"
+PASS tour-stop-clears: expected "every flow stops idle with no caption"
+PASS tour-camera-still: expected "azimuth and zoom unchanged during each flow"
+PASS tour-focus-suspended-restored: expected {"during":true,"after":true,"layerAfter":"ui"}
+PASS selector-a-visible: expected "at least one visible flow selector button"
+PASS selector-b-hidden: expected {"flowButtons":0,"visible":false}
+PASS selector-c-two-flows: expected {"flowButtons":2,"visible":true}
+PASS caption-selectable: expected "user-select text and selection round-trip"
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\""
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1599.7000000476837,1601],"tolerance":0.2}
+PASS scroll-zoom1-no-overflow: expected "<= 1px"
+PASS scroll-zoomed-overflows: expected "> 1px"
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)"
+PASS bp-fill-near-paper-light: expected "fill is closer to --bp-paper than --bp-line"
+PASS bp-edge-ink-light: expected {"scanPixels":">= 60","closestDeltaE":"<= 10"}
+PASS bp-fill-near-paper-dark: expected "fill is closer to --bp-paper than --bp-line"
+PASS bp-edge-ink-dark: expected {"scanPixels":">= 60","closestDeltaE":"<= 10"}
+PASS bp-kind-distinct: expected "deltaE >= 3"
+PASS bp-toggle-switches: expected "fill is closer to dark paper than light paper"
+PASS bp-os-dark-first-paint: expected {"backgroundDeltaE":"<= 3","fill":"closer to dark paper"}
+PASS overlay-default-a-imploded-mobile: expected {"titleBlock":"shown","labelCount":0}
+PASS overlay-default-a-imploded-desktop: expected {"titleBlock":"shown","labelCount":0}
+PASS overlay-default-a-exploded-mobile: expected {"overlay":"shown","hidden":"0","callouts":"tags"}
+PASS overlay-default-a-exploded-desktop: expected {"overlay":"shown","hidden":"0","callouts":"columns"}
+PASS overlay-default-b-imploded-mobile: expected {"titleBlock":"shown","labelCount":0}
+PASS overlay-default-b-imploded-desktop: expected {"titleBlock":"shown","labelCount":0}
+PASS overlay-default-b-exploded-mobile: expected {"overlay":"shown","hidden":"0","callouts":"tags"}
+PASS overlay-default-b-exploded-desktop: expected {"overlay":"shown","hidden":"0","callouts":"columns"}
+PASS overlay-default-c-imploded-mobile: expected {"titleBlock":"shown","labelCount":0}
+PASS overlay-default-c-imploded-desktop: expected {"titleBlock":"shown","labelCount":0}
+PASS overlay-default-c-exploded-mobile: expected {"overlay":"shown","hidden":"0","callouts":"tags"}
+PASS overlay-default-c-exploded-desktop: expected {"overlay":"shown","hidden":"0","callouts":"columns"}
+PASS overlay-360-boxes: expected {"samples":8,"everyBox":"inside viewer, font-size >= 12px, no pairwise intersections","explodedCallouts":"tags, no tag/tag overlaps"}
+PASS overlay-selectable: expected "Selection API returns layer-label and title-row text; user-select is not none"
+PASS overlay-colors-light: expected {"label":{"r":74,"g":80,"b":89},"ink":{"r":34,"g":38,"b":43},"steel":{"r":86,"g":103,"b":122}}
+PASS overlay-colors-dark: expected {"label":{"r":167,"g":184,"b":203},"ink":{"r":230,"g":237,"b":245},"steel":{"r":143,"g":163,"b":184}}
+PASS overlay-hit-through: expected {"hoverHighlight":"beachgoer","hoverLeaderCount":1,"hoverEmphasisKey":"part:beachgoer","afterLeaveHighlight":null,"afterLeaveLeaderCount":0,"afterLeaveEmphasisKey":null,"tapHighlight":"beachgoer","afterLabelTap":null}
+PASS overlay-no-leaders-at-rest: expected {"callouts":"columns","leaders":0,"highlight":null}
+PASS overlay-cls-zero: expected "0 layout-shift entries with a source inside the overlay"
+PASS trace-order-a-live-update: expected ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client","beachgoer tide-chart-screen tide-view-model tide-repository live-tide-client tide-feed"]
+PASS trace-order-a-offline-read: expected ["beachgoer","beachgoer tide-chart-screen","beachgoer tide-chart-screen tide-view-model","beachgoer tide-chart-screen tide-view-model tide-repository","beachgoer tide-chart-screen tide-view-model tide-repository tide-cache"]
+PASS trace-order-c-pickup-ready: expected ["recipient","recipient pickup-app","recipient pickup-app pickup-api","recipient pickup-app pickup-api booking-service","recipient pickup-app pickup-api booking-service locker-registry","recipient pickup-app pickup-api booking-service locker-registry notifier","recipient pickup-app pickup-api booking-service locker-registry notifier push-gateway"]
+PASS trace-order-c-push-failed: expected ["booking-service","booking-service notifier","booking-service notifier push-gateway","booking-service notifier push-gateway retry-scheduler","booking-service notifier push-gateway retry-scheduler dead-letter-store"]
+PASS trace-stop-clears: expected "every flow leaves data-xploder-trace empty after Stop"
+PASS rm-trace-static: expected ">= 2 different playing steps with a trace and 0 overlay animations"
+PASS default-gap-hitmap-a: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS default-gap-hitmap-c: expected ["recipient","pickup-app","pickup-api","session-gate","booking-service","notifier","retry-scheduler","slot-planner","audit-trail","locker-registry","dead-letter-store","push-gateway","locker-hardware"]
+PASS draw-calls-mid-tour: expected 2
+PASS overlay-no-blink: expected {"throttle":4,"rounds":4,"blinkFrames":0,"stuckHiddenAfterSettle":[]}
+PASS s7-slab-finder-a: expected {"desktop":{"top":"beachgoer","bottom":"tide-feed","left":"tide-cache","right":"live-tide-client"},"mobile":{"top":"beachgoer","bottom":"tide-feed","left":"forecast-details-panel","right":"live-tide-client"}}
+PASS panel-never-covers-top-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-top-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-bottom-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-left-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-exploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-exploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-exploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-exploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-exploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-exploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-imploded-light-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-imploded-light-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-imploded-light-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-imploded-dark-1: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-imploded-dark-max-top: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-never-covers-right-imploded-dark-max-bottom: expected {"pointCount":"> 0","allPointsOutsideRect":true,"allElementFromPointOutsideSurface":true}
+PASS panel-open-mouse: expected {"kind":"detail","highlight":"tide-chart-screen"}
+PASS panel-open-touch: expected {"kind":"detail","highlight":"tide-chart-screen"}
+PASS panel-content-tide-repository: expected {"name":"Tide Repository","summary":"Chooses between a live reading and the saved forecast.","chipLabels":["Kotlin","Kotlin Coroutines","kotlinx.serialization"],"metrics":[{"label":"Saved window","value":"30 days"}],"links":[{"label":"Data notes","url":"https://example.com/tidewatch/data-notes","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metrics","Links"]}
+PASS panel-content-reconciliation-ledger: expected {"name":"Reconciliation Ledger","summary":"The retained matched and unmatched results for a run.","chipLabels":["TypeScript","Node.js"],"metrics":[{"label":"Retention","value":"90 days"}],"links":[{"label":"Ledger format","url":"https://example.com/ledgerline/ledger-format","target":"_blank","rel":"noopener noreferrer"}],"headings":["Tech","Metrics","Links"]}
+PASS panel-content-beachgoer: expected {"name":"Beachgoer","summary":"A person checking the next high tide.","chipLabels":[],"metrics":[],"links":[],"headings":[]}
+PASS panel-close-same-slab: expected {"panelAfter":"closed"}
+PASS panel-focus-return-same-slab: expected {"wrapper":true}
+PASS panel-close-escape: expected {"panelAfter":"closed"}
+PASS panel-focus-return-escape: expected {"wrapper":true}
+PASS panel-close-outside-blank: expected {"panelAfter":"closed"}
+PASS panel-focus-return-outside-blank: expected {"wrapper":true}
+PASS panel-close-outside-control: expected {"panelAfter":"closed"}
+PASS panel-focus-return-outside-control: expected {"control":"fixture-a"}
+PASS panel-close-close-control: expected {"panelAfter":"closed"}
+PASS panel-focus-return-close-control: expected {"wrapper":true}
+PASS panel-close-empty-canvas: expected {"panelAfter":"closed"}
+PASS panel-focus-return-empty-canvas: expected {"wrapper":true}
+PASS panel-keys-isolated: expected {"closeFocused":true,"azimuthUnchanged":true}
+PASS case-study-sections-a: expected {"heading":"Tidewatch","headings":["Problem","Approach","Outcome","Metrics"],"metrics":[{"label":"Saved forecast","value":"30 days"},{"label":"Live refresh","value":"every 5 min"}]}
+PASS case-study-sections-b: expected {"heading":"Ledgerline","headings":["Problem","Approach","Outcome","Metrics"],"metrics":[{"label":"Runs retained","value":"90 days"},{"label":"Batch limit","value":"50,000 rows"}]}
+PASS case-study-sections-c: expected {"heading":"Lockerbay","headings":["Problem","Approach","Outcome"],"metrics":[]}
+PASS case-study-scroll: expected {"scrollHeightGreaterThanClientHeight":true,"scrollTopChanged":true,"windowScrollYUnchanged":true}
+PASS case-study-close-close-control: expected {"panelAfter":"closed","focus":"opener"}
+PASS case-study-close-escape: expected {"panelAfter":"closed","focus":"opener"}
+PASS case-study-close-toggle: expected {"panelAfter":"closed","focus":"opener"}
+PASS case-study-close-canvas-tap: expected {"panelAfter":"closed","focus":"opener or wrapper"}
+PASS case-study-palette-light: expected {"background":{"r":252,"g":250,"b":244},"text":{"r":34,"g":38,"b":43}}
+PASS case-study-palette-dark: expected {"background":{"r":17,"g":37,"b":64},"text":{"r":230,"g":237,"b":245}}
+PASS chips-labels: expected "labels equal the registry labels"
+PASS chips-swatch-light: expected "swatch colour equals the live --bp-tech-<category> value"
+PASS chips-swatch-dark: expected "swatch colour equals the live --bp-tech-<category> value"
+PASS chips-display-only: expected {"chipCount":"> 0","focusable":0,"linkRoles":0}
+PASS tour-jump-playing: expected {"after":{"step":3,"status":"playing","caption":"Step 4 of 6 · Tide Repository"},"beat":{"step":4,"status":"playing","caption":"Step 5 of 6 · Live Tide Client"}}
+PASS tour-jump-paused: expected {"step":4,"status":"paused","caption":"Step 5 of 6 · Live Tide Client"}
+PASS tour-notinflow-pause: expected {"status":"paused","step":1,"panel":"detail","panelTitle":"Forecast Details Panel"}
+PASS tour-resume-same-step: expected {"status":"playing","step":1}
+PASS tour-escape-layering: expected {"afterFirst":{"panel":"closed","status":"paused"},"afterSecond":{"status":"idle"}}
+PASS tour-jump-no-caption-gap: expected {"frames":"> 10","framesWithoutCaption":0}
+PASS panel-cls-strict: expected "0 layout-shift entries with a source inside the viewer wrapper"
+PASS panel-stage-invariant: expected "stage rect and scrollHeight identical before/after every open/close"
+PASS panel-hidden-while-moving: expected "every frame is hidden or disjoint from the slab hit points"
+PASS rm-panel-instant: expected {"surfaceFound":true,"animations":0,"opacity":1}
+PASS panel-draw-calls: expected {"panel":2,"tour":2}
+PASS panel-max-zoom-reach: expected {"zoom":3,"topLayer":["beachgoer","forecast-details-panel","tide-chart-screen"],"bottomLayer":["tide-feed"]}
+pass: true
+engine-probe.json: /tmp/s07-checks/t012/engine-probe.json
+pnpm engine:probe http://127.0.0.1:4199/ --out /tmp/s07-checks/t012  330.34s user 23.59s system 63% cpu 9:15.81 total
+198 checks 0 failed
+never-covers 48
+T012-CHECK-OK
