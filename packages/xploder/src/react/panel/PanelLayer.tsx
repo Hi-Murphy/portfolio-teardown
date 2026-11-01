@@ -11,7 +11,7 @@ import {
   type RefObject,
 } from 'react';
 
-import { detailModel, type PanelProjectInput } from '../../panel/content';
+import { caseStudyModel, detailModel, type PanelProjectInput } from '../../panel/content';
 import { PANEL_LOOK } from '../../panel/look';
 import { panelMotion } from '../../panel/motion';
 import {
@@ -26,6 +26,7 @@ import type { MotionTokens } from '../../motion';
 import type { TechRegistry } from '../../schema/tech';
 import type { Palette } from '../../theme';
 import type { OverlayEvent } from '../scene/OverlayProjector';
+import { CaseStudyPanel } from './CaseStudyPanel';
 import { DetailPanel } from './DetailPanel';
 
 export interface PanelLayerHandle {
@@ -431,6 +432,11 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
     () => (surface?.kind === 'detail' ? detailModel(project, surface.id, registry) : null),
     [project, registry, surface?.id, surface?.kind],
   );
+  const caseStudy = useMemo(
+    () => (surface?.kind === 'caseStudy' ? caseStudyModel(project) : null),
+    [project, surface?.kind],
+  );
+  const caseStudyHeadingId = `${headingIds.caseStudy}-heading`;
 
   if (settled === null) return null;
 
@@ -453,7 +459,8 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
           key={surface.key}
           role="dialog"
           aria-modal="false"
-          aria-labelledby={surface.kind === 'detail' ? headingIds.detail : headingIds.caseStudy}
+          aria-labelledby={surface.kind === 'detail' ? headingIds.detail : caseStudyHeadingId}
+          id={surface.kind === 'caseStudy' ? headingIds.caseStudy : undefined}
           data-xploder-panel-surface=""
           data-xploder-panel-dock={surface.placement.dock}
           data-xploder-panel-exiting={surface.phase === 'exit' ? '' : undefined}
@@ -468,6 +475,14 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
                 model={model}
                 palette={palette}
                 headingId={headingIds.detail}
+                onClose={() => onCloseRef.current('closeControl')}
+              />
+            ) : null}
+            {surface.kind === 'caseStudy' && caseStudy !== null ? (
+              <CaseStudyPanel
+                model={caseStudy}
+                palette={palette}
+                headingId={caseStudyHeadingId}
                 onClose={() => onCloseRef.current('closeControl')}
               />
             ) : null}
