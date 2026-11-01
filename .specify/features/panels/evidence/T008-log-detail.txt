@@ -1,0 +1,100 @@
++/tmp/s07-checks/run-t008-check.sh:4> pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
++/tmp/s07-checks/run-t008-check.sh:4> pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
++/tmp/s07-checks/run-t008-check.sh:4> pnpm test
++/tmp/s07-checks/run-t008-check.sh:4> tail -8
++/tmp/s07-checks/run-t008-check.sh:4> tee /tmp/s07-checks/t008.txt
+apps/web test: 
+apps/web test: 
+apps/web test:  Test Files  4 passed | 1 skipped (5)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+apps/web test:    Start at  07:53:17
+apps/web test:    Duration  95ms (tests 53%, import 27%, worker 11%, transform 9%)
+apps/web test: 
+apps/web test: Done
++/tmp/s07-checks/run-t008-check.sh:5> echo 42290
++/tmp/s07-checks/run-t008-check.sh:5> pnpm --filter web dev
++/tmp/s07-checks/run-t008-check.sh:7> trap cleanup EXIT
++/tmp/s07-checks/run-t008-check.sh:8> curl -sf -o /dev/null http://localhost:3000/dev/engine
++/tmp/s07-checks/run-t008-check.sh:8> sleep 0.5
++/tmp/s07-checks/run-t008-check.sh:8> curl -sf -o /dev/null http://localhost:3000/dev/engine
++/tmp/s07-checks/run-t008-check.sh:9> s=light
++/tmp/s07-checks/run-t008-check.sh:9> pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository' --runs 1 --color-scheme light --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t008-light
+$ node tools/perf/src/cli/evidence.ts 'http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository' --runs 1 --color-scheme light --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t008-light
+warning: --out is not git-ignored: /tmp/s07-checks/t008-light
+ok screenshot-mobile (1325 ms)
+ok screenshot-desktop (1095 ms)
+ok lighthouse (6510 ms)
+evidence: /tmp/s07-checks/t008-light
++/tmp/s07-checks/run-t008-check.sh:9> s=dark
++/tmp/s07-checks/run-t008-check.sh:9> pnpm evidence 'http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository' --runs 1 --color-scheme dark --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t008-dark
+$ node tools/perf/src/cli/evidence.ts 'http://localhost:3000/dev/engine?fixture=a&state=exploded&select=tide-repository' --runs 1 --color-scheme dark --wait-for '[data-xploder-panel-ready="true"]' --out /tmp/s07-checks/t008-dark
+warning: --out is not git-ignored: /tmp/s07-checks/t008-dark
+ok screenshot-mobile (1169 ms)
+ok screenshot-desktop (1104 ms)
+ok lighthouse (6469 ms)
+evidence: /tmp/s07-checks/t008-dark
++/tmp/s07-checks/run-t008-check.sh:10> cat /tmp/s07-checks/dev.pid
++/tmp/s07-checks/run-t008-check.sh:10> kill 42290
++/tmp/s07-checks/run-t008-check.sh:11> trap - EXIT
++/tmp/s07-checks/run-t008-check.sh:12> echo T008-OK
+T008-OK
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+## Orchestrator review fixes + re-run outside the sandbox (authoritative)
+Fixes: (1) outside-click/Escape listeners ignore events created before they were attached (the Case study opening click could otherwise close it in the same dispatch); (2) re-opening the same component replays panelEnter; (3) entering a detail always re-asserts a program highlight (a mouse hover highlight was cleared when the pointer left the stage for the panel).
+
+### Interaction smoke (Playwright, pnpm dev, fixture A exploded, 1280x800; hit map by hover)
+hit ids 8
+open: detail right ready true hl tide-repository
+heading: Tide Repository chips: [ 'Kotlin', 'Kotlin Coroutines', 'kotlinx.serialization' ]
+slab points under panel: 0 / 5
+hl after mouse leaves: tide-repository
+same-slab: closed focus wrapper true
+escape: closed focus wrapper true
+outside-blank: closed focus wrapper true
+close-control: closed focus wrapper true
+outside-control: closed focus on control zoom-in
+tour before: playing 0
+jump: playing step 3 panel closed caption Live update · Step 4 of 6
+
+Tide Repository
+
+Chooses between a live reading and the saved forecast.
+not-in-flow: paused step 3 panel detail
+esc1: closed paused
+esc2: closed idle
+
+typecheck-ok
+lint-ok
+tools/perf test:       Tests  76 passed (76)
+packages/xploder test:       Tests  522 passed (522)
+apps/web test:       Tests  52 passed | 2 skipped (54)
+T008-OK

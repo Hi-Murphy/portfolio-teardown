@@ -12,3 +12,6 @@ export type { ZoomAvailability } from '../engine/camera';
 export { useBlueprintPalette } from './usePalette';
 export { usePrefersReducedMotion } from './useReducedMotion';
 export type { ViewerStats } from './scene/Stats';
+export { useViewerPanels } from './panel/useViewerPanels';
+export type { ViewerPanelsHandle } from './panel/useViewerPanels';
+export type { PanelState } from '../panel/state';
