@@ -157,6 +157,7 @@ export function EnginePlayground() {
         id="engine-controls"
         tabIndex={-1}
         aria-label="Engine playground controls"
+        aria-hidden="true"
         className="flex flex-wrap items-center gap-2 rounded border border-line bg-surface p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:p-4"
       >
         <button
