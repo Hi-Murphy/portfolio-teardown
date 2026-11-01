@@ -14,3 +14,15 @@ tools/perf test:       Tests  108 passed (108)
 packages/xploder test:       Tests  609 passed (609)
 apps/web test:       Tests  59 passed (59)
 BUILD-OK
+
+## CI on the PR head 4f82f9b
+perf run: {"headSha":"4f82f9b14c4396f11537348f793f2b23c442c78c","url":"https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259710"}
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/7S2FRGFZoT23g8t6vdd6DyZqcn2E	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	2m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259710/job/125014945725	
+build (typecheck, lint, test, build)	pass	1m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259774/job/125014945953	
+perf-gate: lighthouse (mobile)	pass	54s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259710/job/125014945681	
+perf-gate: weight (< 3 MB)	pass	1m12s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259710/job/125014945717	
+perf: fixture exclusion	pass	20s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259710/job/125014945704	
+perf: fps calibration	pass	1m16s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259710/job/125014945556	
+secrets (gitleaks)	pass	8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41362259774/job/125014945737	
