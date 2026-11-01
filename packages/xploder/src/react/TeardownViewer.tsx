@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 
+import { announce, type AnnounceEvent } from '../a11y/announce';
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
@@ -23,13 +24,16 @@ import { resolveSlabClick } from '../panel/tourClick';
 import type { ComponentKind } from '../schema/constants';
 import type { TechRegistry } from '../schema/tech';
 import type { Palette } from '../theme';
+import { CanvasBoundary } from './a11y/CanvasBoundary';
+import { LiveRegion, type LiveRegionHandle } from './a11y/LiveRegion';
+import { hasWebgl } from './a11y/webgl';
 import {
   LETTERING_HIDE_CSS,
   PartLettering,
   type PartLetteringHandle,
 } from './lettering/PartLettering';
 import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
-import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
+import { TourCaption } from './overlay/TourCaption';
 import { executeTourCommand } from './panel/executeTourCommand';
 import { PanelLayer, type PanelLayerHandle } from './panel/PanelLayer';
 import {
@@ -114,12 +118,14 @@ export function TeardownViewer({
 }: TeardownViewerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const liveRegionRef = useRef<LiveRegionHandle>(null);
   const overlayRef = useRef<BlueprintOverlayHandle>(null);
   const letteringRef = useRef<PartLetteringHandle>(null);
   const panelLayerRef = useRef<PanelLayerHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
+  const [webgl] = useState(() => hasWebgl());
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
   const pickBridgeRef = useRef<PickBridgeHandle>({
@@ -136,6 +142,13 @@ export function TeardownViewer({
   const previousPanelStateRef = useRef<PanelState>(panelsHandle.state);
   const previousPanelKindRef = useRef(panelsHandle.state.kind);
   const previousSlugRef = useRef(project.meta.slug);
+  const previousTourRef = useRef<{
+    readonly flowId: string | null;
+    readonly step: number;
+  } | null>(null);
+  const pendingTourJumpRef = useRef(false);
+  const pendingTourPauseRef = useRef(false);
+  const previousAnnouncementPanelRef = useRef<PanelState>(panelsHandle.state);
   const themePalette = useBlueprintPalette();
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
@@ -204,6 +217,9 @@ export function TeardownViewer({
         },
         flows: project.flows ?? [],
       });
+
+      if (decision.tour?.type === 'jump') pendingTourJumpRef.current = true;
+      if (decision.tour?.type === 'pause') pendingTourPauseRef.current = true;
 
       executeTourCommand(viewer.actions, decision.tour);
 
@@ -447,6 +463,61 @@ export function TeardownViewer({
       panelsHandle.state.kind === 'caseStudy' ? 'case-study' : panelsHandle.state.kind;
   }, [panelsHandle.state.kind]);
 
+  useLayoutEffect(() => {
+    const previous = previousAnnouncementPanelRef.current;
+    const current = panelsHandle.state;
+    const paused = pendingTourPauseRef.current;
+
+    previousAnnouncementPanelRef.current = current;
+    pendingTourPauseRef.current = false;
+
+    let event: AnnounceEvent | null = null;
+
+    if (
+      current.kind === 'detail' &&
+      (previous.kind !== 'detail' || previous.componentId !== current.componentId)
+    ) {
+      event = paused
+        ? { type: 'tourPausedOpen', componentId: current.componentId }
+        : { type: 'detailOpen', componentId: current.componentId };
+    } else if (current.kind === 'caseStudy' && previous.kind !== 'caseStudy') {
+      event = { type: 'caseStudyOpen' };
+    } else if (current.kind === 'closed' && previous.kind === 'detail') {
+      event = { type: 'detailClose', componentId: previous.componentId };
+    } else if (current.kind === 'closed' && previous.kind === 'caseStudy') {
+      event = { type: 'caseStudyClose' };
+    }
+
+    if (event !== null) liveRegionRef.current?.say(announce(event, project));
+  }, [panelsHandle.state, project]);
+
+  useLayoutEffect(() => {
+    const previous = previousTourRef.current;
+    const current = {
+      flowId: viewer.tour.flowId,
+      step: viewer.tour.step,
+    } as const;
+
+    previousTourRef.current = current;
+
+    if (previous === null) return;
+
+    const jump = pendingTourJumpRef.current;
+    const changed = previous.flowId !== current.flowId || previous.step !== current.step;
+
+    if (!changed && !jump) return;
+
+    pendingTourJumpRef.current = false;
+
+    if (viewer.tour.status === 'idle' || current.flowId === null) return;
+
+    const type = jump ? 'tourJump' : 'tourStep';
+
+    liveRegionRef.current?.say(announce({ type, flowId: current.flowId, position }, project));
+  }, [position, project, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
+
+  const webglFallback = fallback ?? <p>WebGL is unavailable for this architecture view.</p>;
+
   return (
     <div
       ref={wrapperRef}
@@ -459,89 +530,90 @@ export function TeardownViewer({
       className={className}
       data-xploder-titleblock="hidden"
       data-xploder-lettering-on=""
+      data-xploder-webgl={webgl ? 'available' : 'unavailable'}
     >
       <style>{LETTERING_HIDE_CSS}</style>
-      <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
-        <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
-          <Canvas
-            orthographic
-            frameloop="demand"
-            dpr={[1, 2]}
-            gl={{ antialias: true, alpha: true }}
-            style={CANVAS_STYLE}
-            fallback={fallback ?? <p>WebGL is unavailable for this architecture view.</p>}
-          >
-            <Scene
+      <LiveRegion ref={liveRegionRef} />
+      {webgl ? (
+        <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
+          <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
+            <CanvasBoundary fallback={webglFallback}>
+              <Canvas
+                orthographic
+                frameloop="demand"
+                dpr={[1, 2]}
+                gl={{ antialias: true, alpha: true }}
+                style={CANVAS_STYLE}
+                fallback={webglFallback}
+              >
+                <Scene
+                  layout={layout}
+                  palette={resolvedPalette}
+                  tokens={tokens}
+                  target={viewer.target}
+                  rig={viewer.rig}
+                  slug={project.meta.slug}
+                  onPhase={onPhase}
+                  onSettled={onSettled}
+                  onStats={onStatsChange}
+                  emphasis={emphasis}
+                  onEmphasisPhase={onEmphasisPhase}
+                  progressRef={progressRef}
+                  pickBridgeRef={pickBridgeRef}
+                  scrollRef={stageRef}
+                  onScrollExtent={onScrollExtent}
+                  look={look}
+                  kinds={kinds}
+                  onOverlay={onOverlay}
+                  onOverlayScroll={onOverlayScroll}
+                />
+              </Canvas>
+            </CanvasBoundary>
+            <BlueprintOverlay
+              ref={overlayRef}
+              project={project}
               layout={layout}
               palette={resolvedPalette}
               tokens={tokens}
               target={viewer.target}
-              rig={viewer.rig}
-              slug={project.meta.slug}
-              onPhase={onPhase}
-              onSettled={onSettled}
-              onStats={onStatsChange}
-              emphasis={emphasis}
-              onEmphasisPhase={onEmphasisPhase}
-              progressRef={progressRef}
-              pickBridgeRef={pickBridgeRef}
-              scrollRef={stageRef}
-              onScrollExtent={onScrollExtent}
+              phase={phase}
+              tour={viewer.tour}
+              focus={viewer.focus}
+              highlight={viewer.highlight}
               look={look}
-              kinds={kinds}
-              onOverlay={onOverlay}
-              onOverlayScroll={onOverlayScroll}
+              onTitleBlockShown={onTitleBlockShown}
             />
-          </Canvas>
-          <BlueprintOverlay
-            ref={overlayRef}
-            project={project}
-            layout={layout}
-            palette={resolvedPalette}
-            tokens={tokens}
-            target={viewer.target}
-            phase={phase}
-            tour={viewer.tour}
-            focus={viewer.focus}
-            highlight={viewer.highlight}
-            look={look}
-            onTitleBlockShown={onTitleBlockShown}
-          />
-          <PartLettering
-            ref={letteringRef}
-            layout={layout}
-            project={project}
-            palette={resolvedPalette}
-            tokens={tokens}
-            look={look}
-            bridgeRef={pickBridgeRef}
-            target={viewer.target}
-            phase={phase}
-            tourStatus={viewer.tour.status}
-            focus={viewer.focus}
-            highlight={viewer.highlight}
-            wrapperRef={wrapperRef}
-          />
+            <PartLettering
+              ref={letteringRef}
+              layout={layout}
+              project={project}
+              palette={resolvedPalette}
+              tokens={tokens}
+              look={look}
+              bridgeRef={pickBridgeRef}
+              target={viewer.target}
+              phase={phase}
+              tourStatus={viewer.tour.status}
+              focus={viewer.focus}
+              highlight={viewer.highlight}
+              wrapperRef={wrapperRef}
+            />
+          </div>
+          <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
         </div>
-        <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
-      </div>
+      ) : (
+        webglFallback
+      )}
       {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
-        <>
-          <TourCaptionLiveRegion
-            project={project}
-            flowId={viewer.tour.flowId}
-            position={position}
-          />
-          <TourCaption
-            key={`${captionSide}:${viewer.tour.flowId}:${position.step}`}
-            project={project}
-            flowId={viewer.tour.flowId}
-            position={position}
-            anchor={captionSide}
-            palette={resolvedPalette}
-            tokens={tokens}
-          />
-        </>
+        <TourCaption
+          key={`${captionSide}:${viewer.tour.flowId}:${position.step}`}
+          project={project}
+          flowId={viewer.tour.flowId}
+          position={position}
+          anchor={captionSide}
+          palette={resolvedPalette}
+          tokens={tokens}
+        />
       )}
       <PanelLayer
         ref={panelLayerRef}
