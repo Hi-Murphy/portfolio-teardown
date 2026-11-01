@@ -1,0 +1,44 @@
+state: case-study
+source: aria.log.txt (Chromium accessibility snapshot)
+aria case-study: 40 snapshot lines, 408 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria case-study | - group "Tidewatch architecture view":
+aria case-study |   - text: "Case study: Tidewatch."
+aria case-study |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria case-study |   - group "Components":
+aria case-study |     - list "Interface":
+aria case-study |       - listitem:
+aria case-study |         - button "Beachgoer"
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Chart Screen"
+aria case-study |       - listitem:
+aria case-study |         - button "Forecast Details Panel"
+aria case-study |     - list "View state":
+aria case-study |       - listitem:
+aria case-study |         - button "Tide View Model"
+aria case-study |     - list "Tide data":
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Repository"
+aria case-study |       - listitem:
+aria case-study |         - button "Live Tide Client"
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Cache"
+aria case-study |     - list "External boundary":
+aria case-study |       - listitem:
+aria case-study |         - button "Tide Feed"
+aria case-study |   - dialog "Tidewatch":
+aria case-study |     - heading "Tidewatch" [level=2]
+aria case-study |     - button "Close case study": ×
+aria case-study |     - paragraph: The next tide, at a glance.
+aria case-study |     - paragraph: Tide charts that stay useful away from the signal.
+aria case-study |     - heading "Problem" [level=3]
+aria case-study |     - paragraph: Coastal walks often start beyond reliable mobile coverage, where a chart that only works online is no help.
+aria case-study |     - heading "Approach" [level=3]
+aria case-study |     - paragraph: Keep a recent tide window on the phone, refresh it when a live feed is available, and present both paths in one clear chart.
+aria case-study |     - heading "Outcome" [level=3]
+aria case-study |     - paragraph: A small Android app that switches between fresh readings and a saved forecast without interrupting the view.
+aria case-study |     - heading "Metrics" [level=3]
+aria case-study |     - term: Saved forecast
+aria case-study |     - definition: 30 days
+aria case-study |     - term: Live refresh
+aria case-study |     - definition: every 5 min
+summary: PASS

@@ -1,0 +1,27 @@
+group: reduced-motion
+result: PASS
+reduced-motion explode-implode: animations max=0 tweening=false frame-delta=1 samples=61 PASS
+reduced-motion camera-turn: animations max=0 tweening=false frame-delta=1 samples=61 PASS
+reduced-motion camera-zoom: animations max=0 tweening=false frame-delta=1 samples=62 PASS
+reduced-motion hover-and-dim: animations max=0 tweening=false frame-delta=0 samples=61 PASS
+reduced-motion tour-pulse-and-beat: animations max=0 tweening=false frame-delta=1 samples=61 PASS
+reduced-motion tour-caption-fade: animations max=0 tweening=false frame-delta=1 samples=61 PASS
+reduced-motion circuit-trace: animations max=0 tweening=false frame-delta=1 samples=61 PASS
+reduced-motion overlay-and-title-fade: animations max=0 tweening=false frame-delta=0 samples=61 PASS
+reduced-motion panel-enter-exit: animations max=0 tweening=false frame-delta=0 samples=61 PASS
+reduced-motion lettering-and-column-fade: animations max=0 tweening=false frame-delta=0 samples=61 PASS
+reduced-motion tailwind-default-transition: animations max=0 tweening=false frame-delta=0 samples=61 PASS
+reduced-motion focus-ring-and-reveal: animations max=0 tweening=false frame-delta=0 samples=61 PASS
+PASS reduced-motion-explode-implode: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":2} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":1,"samples":61}
+PASS reduced-motion-camera-turn: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":2} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":1,"samples":61}
+PASS reduced-motion-camera-zoom: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":2} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":1,"samples":62}
+PASS reduced-motion-hover-and-dim: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":2} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":0,"samples":61}
+PASS reduced-motion-tour-pulse-and-beat: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":2} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":1,"samples":61}
+PASS reduced-motion-tour-caption-fade: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":null} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":1,"samples":61}
+PASS reduced-motion-circuit-trace: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":2} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":1,"samples":61}
+PASS reduced-motion-overlay-and-title-fade: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":null} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":0,"samples":61}
+PASS reduced-motion-panel-enter-exit: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":null} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":0,"samples":61}
+PASS reduced-motion-lettering-and-column-fade: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":null} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":0,"samples":61}
+PASS reduced-motion-tailwind-default-transition: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":null} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":0,"samples":61}
+PASS reduced-motion-focus-ring-and-reveal: expected {"maxAnimations":0,"tweening":false,"frameDeltaMax":null} actual {"pass":true,"maxAnimations":0,"tweeningSeen":false,"frameDelta":0,"samples":61}
+summary: PASS (12 checks)

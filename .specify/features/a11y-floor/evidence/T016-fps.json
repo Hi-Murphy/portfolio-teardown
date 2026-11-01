@@ -1,0 +1,28 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:62631/dev/engine?fixture=a&state=exploded&flow=live-update&tour=play&loop=1",
+  "scenario": "tour",
+  "fps": 59.43773095273334,
+  "frames": 300,
+  "droppedFrames": 0,
+  "windowMs": 5047.299,
+  "intervalsMs": {
+    "p50": 16.652,
+    "p95": 17.197,
+    "max": 17.325
+  },
+  "rafFps": 60.002809496096816,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 9514,
+  "pidSource": "draw-frame-frequency-fallback",
+  "tourStepsAdvanced": 4,
+  "drawCalls": 2,
+  "verdict": {
+    "rule": "dropped-frames",
+    "droppedFrames0": true,
+    "liveness": true,
+    "pass": true
+  }
+}

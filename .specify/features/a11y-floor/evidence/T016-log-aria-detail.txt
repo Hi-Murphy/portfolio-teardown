@@ -1,0 +1,47 @@
+state: detail
+source: aria.log.txt (Chromium accessibility snapshot)
+aria detail: 43 snapshot lines, 429 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria detail | - group "Tidewatch architecture view":
+aria detail |   - text: Tide Repository, module. Chooses between a live reading and the saved forecast.
+aria detail |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria detail |   - group "Components":
+aria detail |     - list "Interface":
+aria detail |       - listitem:
+aria detail |         - button "Beachgoer"
+aria detail |       - listitem:
+aria detail |         - button "Tide Chart Screen"
+aria detail |       - listitem:
+aria detail |         - button "Forecast Details Panel"
+aria detail |     - list "View state":
+aria detail |       - listitem:
+aria detail |         - button "Tide View Model"
+aria detail |     - list "Tide data":
+aria detail |       - listitem:
+aria detail |         - button "Tide Repository" [expanded]
+aria detail |       - listitem:
+aria detail |         - button "Live Tide Client"
+aria detail |       - listitem:
+aria detail |         - button "Tide Cache"
+aria detail |     - list "External boundary":
+aria detail |       - listitem:
+aria detail |         - button "Tide Feed"
+aria detail |   - dialog "Tide Repository":
+aria detail |     - heading "Tide Repository" [level=2]
+aria detail |     - button "Close details": ×
+aria detail |     - paragraph: module · shipped
+aria detail |     - paragraph: Chooses between a live reading and the saved forecast.
+aria detail |     - paragraph: Keeps the live reading and the phone's stored forecast in step so the chart always has something useful to show.
+aria detail |     - heading "Tech" [level=3]
+aria detail |     - list "Tech":
+aria detail |       - listitem: Kotlin , language
+aria detail |       - listitem: Kotlin Coroutines , library
+aria detail |       - listitem: kotlinx.serialization , library
+aria detail |     - heading "Metrics" [level=3]
+aria detail |     - term: Saved window
+aria detail |     - definition: 30 days
+aria detail |     - heading "Links" [level=3]
+aria detail |     - list:
+aria detail |       - listitem:
+aria detail |         - link "Data notes (opens in a new tab)":
+aria detail |           - /url: https://example.com/tidewatch/data-notes
+summary: PASS

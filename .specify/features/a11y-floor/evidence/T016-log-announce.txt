@@ -1,0 +1,18 @@
+group: announce
+result: PASS
+announce detail-open: "Tide Repository, module. Chooses between a live reading and the saved forecast." PASS
+announce detail-close: "Tide Repository details closed." PASS
+announce case-study-open: "Case study: Tidewatch." PASS
+announce case-study-close: "Case study closed." PASS
+announce tour-step1: "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart." PASS
+announce tour-jump: "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+announce tour-paused-open: "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+PASS announce-empty-at-mount: expected "" actual ""
+PASS announce-detail-open: expected "Tide Repository, module. Chooses between a live reading and the saved forecast." actual "Tide Repository, module. Chooses between a live reading and the saved forecast."
+PASS announce-detail-close: expected "Tide Repository details closed." actual "Tide Repository details closed."
+PASS announce-case-study-open: expected "Case study: Tidewatch." actual "Case study: Tidewatch."
+PASS announce-case-study-close: expected "Case study closed." actual "Case study closed."
+PASS announce-tour-step1: expected "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart." actual "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart."
+PASS announce-tour-jump: expected "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." actual "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast."
+PASS announce-tour-paused-open: expected "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." actual "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events."
+summary: PASS (8 checks)

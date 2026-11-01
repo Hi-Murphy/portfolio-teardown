@@ -1,0 +1,67 @@
+group: drill (fixture B)
+result: PASS
+drill-b Tab skip role=link name="Skip to engine controls" panel=closed PASS
+drill-b Tab viewer role=group name="Ledgerline architecture view" panel=closed PASS
+drill-b Tab proxy:partner-csv-drop role=button name="Partner CSV Drop" panel=closed PASS
+drill-b Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-b Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-b Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-b Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-b Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-b Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-b Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-b Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-b Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-b Tab control:focus-ingest role=button name="Ingest" panel=closed PASS
+drill-b Tab control:focus-normalize role=button name="Normalize" panel=closed PASS
+drill-b Tab control:focus-validate role=button name="Validate" panel=closed PASS
+drill-b Tab control:focus-report role=button name="Report" panel=closed PASS
+drill-b Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-b Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-b Tab control:tour-stop role=button name="Stop" panel=closed PASS
+drill-b Shift+Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-b Shift+Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-b Shift+Tab control:focus-report role=button name="Report" panel=closed PASS
+drill-b Shift+Tab control:focus-validate role=button name="Validate" panel=closed PASS
+drill-b Shift+Tab control:focus-normalize role=button name="Normalize" panel=closed PASS
+drill-b Shift+Tab control:focus-ingest role=button name="Ingest" panel=closed PASS
+drill-b Shift+Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-b Shift+Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-b Shift+Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-b Shift+Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-b Shift+Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-b Shift+Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-b Shift+Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-b Shift+Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-b Shift+Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-b Shift+Tab proxy:partner-csv-drop role=button name="Partner CSV Drop" panel=closed PASS
+drill-b Shift+Tab viewer role=group name="Ledgerline architecture view" panel=closed PASS
+drill-b Shift+Tab skip role=link name="Skip to engine controls" panel=closed PASS
+Components stop: button "Partner CSV Drop" PASS
+ArrowDown 1/5: button "Partner CSV Drop" highlight=partner-csv-drop ring=true PASS
+open partner-csv-drop: dialog="dialog" name="Partner CSV Drop" heading-focused=true PASS
+Escape partner-csv-drop: active=button "Partner CSV Drop" PASS
+ArrowDown 2/5: button "Column Normalizer" highlight=column-normalizer ring=true PASS
+open column-normalizer: dialog="dialog" name="Column Normalizer" heading-focused=true PASS
+Escape column-normalizer: active=button "Column Normalizer" PASS
+ArrowDown 3/5: button "Ledger Validator" highlight=ledger-validator ring=true PASS
+open ledger-validator: dialog="dialog" name="Ledger Validator" heading-focused=true PASS
+Escape ledger-validator: active=button "Ledger Validator" PASS
+ArrowDown 4/5: button "Reconciliation Ledger" highlight=reconciliation-ledger ring=true PASS
+open reconciliation-ledger: dialog="dialog" name="Reconciliation Ledger" heading-focused=true PASS
+Escape reconciliation-ledger: active=button "Reconciliation Ledger" PASS
+ArrowDown 5/5: button "Settlement Operator" highlight=settlement-operator ring=true PASS
+open settlement-operator: dialog="dialog" name="Settlement Operator" heading-focused=true PASS
+Escape settlement-operator: active=button "Settlement Operator" PASS
+wrap=proxy:partner-csv-drop End=proxy:settlement-operator Home=proxy:partner-csv-drop PASS
+Space partner-csv-drop: heading-focused=true returned=proxy:partner-csv-drop PASS
+proxy ArrowLeft=45->315 +=1->1.25 PASS
+pointer partner-csv-drop: heading-focused=true Escape-active=group "Ledgerline architecture view" PASS
+tour jump: status=playing focus=proxy:tide-repository copy="Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+tour pause: status=paused heading=true returned=proxy:forecast-details-panel copy="Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+PASS drill-b-tab-order: expected ["skip","viewer","proxy:partner-csv-drop","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ingest","control:focus-normalize","control:focus-validate","control:focus-report","control:tour-play","control:tour-step","control:tour-stop"] actual ["skip","viewer","proxy:partner-csv-drop","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ingest","control:focus-normalize","control:focus-validate","control:focus-report","control:tour-play","control:tour-step","control:tour-stop"]
+PASS drill-b-shift-tab-order: expected ["control:tour-step","control:tour-play","control:focus-report","control:focus-validate","control:focus-normalize","control:focus-ingest","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:partner-csv-drop","viewer","skip"] actual ["control:tour-step","control:tour-play","control:focus-report","control:focus-validate","control:focus-normalize","control:focus-ingest","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:partner-csv-drop","viewer","skip"]
+PASS drill-b-no-trap: expected null actual null
+[shared] tour jump: status=playing focus=proxy:tide-repository copy="Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+[shared] tour pause: status=paused heading=true returned=proxy:forecast-details-panel copy="Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+summary: PASS
