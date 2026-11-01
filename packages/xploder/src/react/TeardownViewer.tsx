@@ -23,6 +23,11 @@ import { resolveSlabClick } from '../panel/tourClick';
 import type { ComponentKind } from '../schema/constants';
 import type { TechRegistry } from '../schema/tech';
 import type { Palette } from '../theme';
+import {
+  LETTERING_TAG_HIDE_CSS,
+  PartLettering,
+  type PartLetteringHandle,
+} from './lettering/PartLettering';
 import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
 import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
 import { executeTourCommand } from './panel/executeTourCommand';
@@ -110,6 +115,7 @@ export function TeardownViewer({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<BlueprintOverlayHandle>(null);
+  const letteringRef = useRef<PartLetteringHandle>(null);
   const panelLayerRef = useRef<PanelLayerHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
@@ -169,6 +175,7 @@ export function TeardownViewer({
 
   const onOverlay = useCallback((event: OverlayEvent) => {
     overlayRef.current?.update(event);
+    letteringRef.current?.update(event);
     panelLayerRef.current?.update(event);
   }, []);
 
@@ -180,6 +187,7 @@ export function TeardownViewer({
 
   const onOverlayScroll = useCallback((offsetY: number) => {
     overlayRef.current?.setScroll(offsetY);
+    letteringRef.current?.setScroll(offsetY);
     panelLayerRef.current?.setScroll(offsetY);
   }, []);
 
@@ -450,7 +458,9 @@ export function TeardownViewer({
       style={WRAPPER_STYLE}
       className={className}
       data-xploder-titleblock="hidden"
+      data-xploder-lettering-on=""
     >
+      <style>{LETTERING_TAG_HIDE_CSS}</style>
       <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
         <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
           <Canvas
@@ -496,6 +506,21 @@ export function TeardownViewer({
             highlight={viewer.highlight}
             look={look}
             onTitleBlockShown={onTitleBlockShown}
+          />
+          <PartLettering
+            ref={letteringRef}
+            layout={layout}
+            project={project}
+            palette={resolvedPalette}
+            tokens={tokens}
+            look={look}
+            bridgeRef={pickBridgeRef}
+            target={viewer.target}
+            phase={phase}
+            tourStatus={viewer.tour.status}
+            focus={viewer.focus}
+            highlight={viewer.highlight}
+            wrapperRef={wrapperRef}
           />
         </div>
         <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
