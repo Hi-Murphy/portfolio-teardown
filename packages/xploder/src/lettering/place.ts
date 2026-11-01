@@ -48,11 +48,11 @@ function characterCount(text: string): number {
   return Array.from(text).length;
 }
 
-function textWidth(text: string, fontPx: number, look: LetteringLook): number {
+export function textWidth(text: string, fontPx: number, look: LetteringLook): number {
   return Math.ceil(characterCount(text) * look.charEm * fontPx);
 }
 
-function lineHeight(fontPx: number, look: LetteringLook): number {
+export function lineHeight(fontPx: number, look: LetteringLook): number {
   return Math.ceil(look.lineEm * fontPx);
 }
 
@@ -124,7 +124,7 @@ function projection(points: readonly Vec2[], axis: Vec2): readonly [number, numb
   return [min, max];
 }
 
-function convexPolygonsIntersect(left: readonly Vec2[], right: readonly Vec2[]): boolean {
+export function convexPolygonsIntersect(left: readonly Vec2[], right: readonly Vec2[]): boolean {
   if (left.length === 0 || right.length === 0) return false;
 
   for (const polygon of [left, right]) {

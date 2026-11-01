@@ -12,13 +12,25 @@ import {
 import { Vector3 } from 'three';
 
 import type { Phase } from '../../engine/explode';
-import type { ProjectLayout } from '../../layout';
+import { VIEW, type ProjectLayout } from '../../layout';
+import {
+  compactColumn,
+  compactColumnAtRest,
+  compactColumnTextScale,
+  type CompactColumn,
+  type CompactColumnLayer,
+} from '../../lettering/column';
 import { topFaceQuad } from '../../lettering/faces';
+import { layerLetteringModel, type LayerLettering } from '../../lettering/layers';
 import { LETTERING_LOOK } from '../../lettering/look';
 import { letteringModel, type ComponentLettering } from '../../lettering/model';
 import type { LookTokens } from '../../look/tokens';
 import { emphasis } from '../../motion/emphasis';
 import type { MotionTokens } from '../../motion';
+import { scrollExtent } from '../../interaction/scroll';
+import { calloutMode } from '../../overlay/columns';
+import type { OverlayFrame, Vec2 } from '../../overlay/project';
+import { partShortText } from '../../overlay/parts';
 import { overlayTiming } from '../../overlay/timing';
 import type { Palette } from '../../theme';
 import type { OverlayEvent } from '../scene/OverlayProjector';
@@ -27,6 +39,9 @@ import type { TeardownTarget, TourStatus, ViewerProject } from '../useTeardownVi
 
 export const LETTERING_TAG_HIDE_CSS =
   '[data-xploder-lettering-on] [data-xploder-callouts="tags"] [data-xploder-label^="part:"]{visibility:hidden}';
+export const LETTERING_LAYER_HIDE_CSS =
+  '[data-xploder-lettering-on][data-xploder-lettering-layers] [data-xploder-label^="layer:"]{visibility:hidden}';
+export const LETTERING_HIDE_CSS = `${LETTERING_TAG_HIDE_CSS}${LETTERING_LAYER_HIDE_CSS}`;
 
 export interface PartLetteringHandle {
   update(event: OverlayEvent): void;
@@ -50,6 +65,9 @@ export interface PartLetteringProps {
 
 interface SettledLettering {
   readonly items: readonly ComponentLettering[];
+  readonly column: CompactColumn | null;
+  readonly layerLabels: readonly LayerLettering[];
+  readonly layersShown: boolean;
   readonly width: number;
   readonly height: number;
 }
@@ -99,6 +117,81 @@ function layerIdsByComponent(layout: ProjectLayout): ReadonlyMap<string, string>
   return new Map(layout.components.map((component) => [component.id, component.layerId]));
 }
 
+function layerIdsByIndex(layout: ProjectLayout): ReadonlyMap<number, string> {
+  return new Map(layout.layers.map((layer) => [layer.index, layer.id]));
+}
+
+function drawingMaxX(frame: OverlayFrame): number {
+  let max = -Infinity;
+
+  for (const layer of frame.layers) {
+    for (const corner of layer.corners) max = Math.max(max, corner[0]);
+  }
+
+  for (const component of frame.components) {
+    for (const point of component.hull) max = Math.max(max, point[0]);
+  }
+
+  return max;
+}
+
+function frameExtent(frame: OverlayFrame, height: number): number {
+  let top = Infinity;
+  let bottom = -Infinity;
+
+  for (const layer of frame.layers) {
+    for (const point of layer.corners) {
+      top = Math.min(top, point[1]);
+      bottom = Math.max(bottom, point[1]);
+    }
+  }
+
+  for (const component of frame.components) {
+    for (const point of component.hull) {
+      top = Math.min(top, point[1]);
+      bottom = Math.max(bottom, point[1]);
+    }
+  }
+
+  if (!Number.isFinite(top) || !Number.isFinite(bottom)) return Number.POSITIVE_INFINITY;
+
+  return scrollExtent(top, bottom, height, VIEW.fitMargin * height);
+}
+
+function stageExtent(wrapper: HTMLDivElement | null): number | null {
+  const stage = wrapper?.querySelector('[data-xploder-stage]');
+  const value = stage?.getAttribute('data-xploder-scroll-extent');
+
+  if (value === null || value === undefined || value.trim() === '') return null;
+
+  const parsed = Number(value);
+
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function columnLayers(
+  frame: OverlayFrame,
+  layout: ProjectLayout,
+  names: ReadonlyMap<string, string>,
+): readonly CompactColumnLayer[] {
+  return frame.layers.map((layer) => ({
+    index: layer.index,
+    corners: layer.corners,
+    partLabels: layout.components
+      .filter((component) => component.layerIndex === layer.index)
+      .sort((left, right) => left.slot - right.slot)
+      .map((component) => ({
+        id: component.id,
+        number: partShortText(layer.index, component.slot),
+        name: names.get(component.id) ?? component.id,
+      })),
+  }));
+}
+
+function arrayPoint(point: Vec2): Vec2 {
+  return [point[0], point[1]];
+}
+
 export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>(
   function PartLettering(
     {
@@ -124,6 +217,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     const vector = useMemo(() => new Vector3(), []);
     const names = useMemo(() => componentNames(project), [project]);
     const layerIds = useMemo(() => layerIdsByComponent(layout), [layout]);
+    const layerIdsByLayerIndex = useMemo(() => layerIdsByIndex(layout), [layout]);
     const [settled, setSettled] = useState<SettledLettering | null>(null);
     const [moving, setMoving] = useState(false);
 
@@ -181,30 +275,75 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
             hull: frameComponent.hull,
           };
         });
+        const columnLayersValue = columnLayers(event.frame, layout, names);
+        const maxX = drawingMaxX(event.frame);
+        const extentPx = stageExtent(wrapperRef.current) ?? frameExtent(event.frame, event.height);
+        const mode = calloutMode(
+          event.frame,
+          layout,
+          project,
+          { width: event.width, height: event.height },
+          look,
+        );
+        const column =
+          mode === 'tags' && compactColumnAtRest({ offsetY: event.offsetY, extentPx })
+            ? compactColumn({
+                canvas: { width: event.width, height: event.height },
+                layers: columnLayersValue,
+                drawingMaxX: maxX,
+                look: LETTERING_LOOK,
+              })
+            : null;
+        const faceNames = column === null ? names : new Map<string, string>();
         const items = letteringModel({
           layout,
           components,
           layers: event.frame.layers,
-          names,
+          names: faceNames,
         });
+        const layersShown = mode === 'tags' || extentPx > 1e-9;
+        const layerLabels = layersShown
+          ? layerLetteringModel({
+              layers: event.frame.layers.map((layer) => ({
+                id: layer.id,
+                index: layer.index,
+                name: project.layers[layer.index]?.name ?? layer.id,
+                corners: layer.corners,
+              })),
+              components: event.frame.components.map((component) => ({
+                layerIndex: component.layerIndex,
+                hull: component.hull.map(arrayPoint),
+              })),
+            })
+          : [];
 
         offsetRef.current = event.offsetY;
         setScroll(event.offsetY);
         setMoving(false);
-        setSettled({ items, width: event.width, height: event.height });
+        setSettled({
+          items,
+          column,
+          layerLabels,
+          layersShown,
+          width: event.width,
+          height: event.height,
+        });
       },
-      [bridgeRef, layout, names, setScroll, vector],
+      [bridgeRef, layout, look, names, project, setScroll, vector, wrapperRef],
     );
 
     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
 
     const items = settled?.items ?? [];
+    const column = settled?.column ?? null;
     const visible =
       target === 'exploded' &&
       phase === 'exploded' &&
       tourStatus === 'idle' &&
       !moving &&
       items.length > 0;
+    const columnShown = visible && column !== null;
+    const layerLabelsShown = visible && settled?.layersShown === true;
     const markCount = items.filter((item) => item.lettering.kind === 'mark').length;
 
     useLayoutEffect(() => {
@@ -215,7 +354,14 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       wrapper.dataset.xploderLettering = visible ? 'shown' : 'hidden';
       wrapper.dataset.xploderLetteringCount = String(items.length);
       wrapper.dataset.xploderLetteringMarks = String(markCount);
-    }, [items.length, markCount, visible, wrapperRef]);
+      wrapper.dataset.xploderLetteringColumn = columnShown ? 'shown' : 'hidden';
+
+      if (settled?.layersShown === true) {
+        wrapper.dataset.xploderLetteringLayers = '';
+      } else {
+        delete wrapper.dataset.xploderLetteringLayers;
+      }
+    }, [columnShown, items.length, markCount, settled?.layersShown, visible, wrapperRef]);
 
     useLayoutEffect(() => {
       const root = rootRef.current;
@@ -252,6 +398,13 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       focus.layerId !== null && !focus.suspended && layerIds.get(id) !== focus.layerId
         ? emphasis.dim.level
         : 1;
+    const layerOpacityByIndex = (index: number): number => {
+      const layerId = layerIdsByLayerIndex.get(index);
+
+      return focus.layerId !== null && !focus.suspended && layerId !== focus.layerId
+        ? emphasis.dim.level
+        : 1;
+    };
     const numberColor = (id: string): string =>
       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
 
@@ -294,6 +447,75 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
               );
             })}
           </svg>
+          {columnShown
+            ? column.rows.map((row) => {
+                const opacity = layerOpacityByIndex(row.layerIndex);
+                const emphasized = highlight === row.id;
+                const nameColor = emphasized ? palette[look.callouts.emphasisRole] : palette.label;
+                const firstLine = row.lines[0] ?? row.number;
+                const firstRemainder = firstLine.startsWith(row.number)
+                  ? firstLine.slice(row.number.length)
+                  : firstLine;
+                const rowWidth =
+                  settled?.width === undefined
+                    ? 0
+                    : Math.max(0, settled.width - LETTERING_LOOK.columnInsetPx - column.x);
+                const scale = compactColumnTextScale(row.lines, rowWidth, LETTERING_LOOK);
+
+                return (
+                  <div
+                    key={row.id}
+                    data-xploder-column-row={row.id}
+                    data-xploder-column-layer={row.layerIndex}
+                    style={{
+                      position: 'absolute',
+                      left: column.x,
+                      top: row.y,
+                      width: settled?.width === undefined ? undefined : rowWidth,
+                      height: row.h,
+                      pointerEvents: 'auto',
+                      userSelect: 'text',
+                      whiteSpace: 'pre',
+                      font: `${LETTERING_LOOK.compactColumnPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                      opacity,
+                      ...(transition === undefined ? {} : { transition }),
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: scale <= 0 ? rowWidth : rowWidth / scale,
+                        transform: `scaleX(${scale})`,
+                        transformOrigin: '0 0',
+                      }}
+                    >
+                      <div>
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            color: emphasized
+                              ? palette[look.callouts.emphasisRole]
+                              : palette[look.annotation.partRole],
+                          }}
+                        >
+                          {row.number}
+                        </span>
+                        <span style={{ color: nameColor, textTransform: 'uppercase' }}>
+                          {firstRemainder}
+                        </span>
+                      </div>
+                      {row.lines.slice(1).map((line, index) => (
+                        <div
+                          key={`${row.id}-line-${index}`}
+                          style={{ color: nameColor, textTransform: 'uppercase' }}
+                        >
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            : null}
           {items.map((item) => {
             const lettering = item.lettering;
             const opacity = layerOpacity(item.id);
@@ -367,6 +589,61 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
               </div>
             );
           })}
+          {layerLabelsShown
+            ? (settled?.layerLabels ?? []).map((label) => {
+                const opacity = layerOpacityByIndex(label.layerIndex);
+                const common = {
+                  position: 'absolute' as const,
+                  overflow: 'hidden',
+                  pointerEvents: 'auto' as const,
+                  userSelect: 'text' as const,
+                  whiteSpace: 'nowrap' as const,
+                  font: `${label.fontPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                  color: palette[look.annotation.textRole],
+                  textTransform: 'uppercase' as const,
+                  opacity,
+                  ...(transition === undefined ? {} : { transition }),
+                };
+
+                if (label.kind === 'face') {
+                  return (
+                    <div
+                      key={`layer-label:${label.id}`}
+                      data-xploder-lettering-layer-label={label.id}
+                      data-xploder-lettering-layer-kind="face"
+                      style={{
+                        ...common,
+                        left: 0,
+                        top: 0,
+                        width: label.w,
+                        height: label.h,
+                        transformOrigin: '0 0',
+                        transform: `matrix(${label.matrix.join(',')})`,
+                      }}
+                    >
+                      {label.text}
+                    </div>
+                  );
+                }
+
+                return (
+                  <div
+                    key={`layer-label:${label.id}`}
+                    data-xploder-lettering-layer-label={label.id}
+                    data-xploder-lettering-layer-kind="plain"
+                    style={{
+                      ...common,
+                      left: label.x,
+                      top: label.y,
+                      width: label.w,
+                      height: label.h,
+                    }}
+                  >
+                    {label.text}
+                  </div>
+                );
+              })
+            : null}
         </div>
       </div>
     );

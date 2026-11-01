@@ -73,6 +73,8 @@ const S07_SOURCE_FILES = [
   'lettering/faces.ts',
   'lettering/place.ts',
   'lettering/model.ts',
+  'lettering/column.ts',
+  'lettering/layers.ts',
   'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
 const BARE_TIMING_SHORTHAND =
