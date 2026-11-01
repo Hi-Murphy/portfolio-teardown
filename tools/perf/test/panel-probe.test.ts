@@ -146,7 +146,7 @@ function passingObservation(): S7Observation {
           ? { wrapper: false, control: 'fixture-a' }
           : { wrapper: true, control: null },
     })),
-    keysIsolated: { before: 45, after: 45, closeFocused: true },
+    arrowIsolation: { before: 45, after: 45, closeFocused: true },
     caseStudies: [
       {
         fixture: 'a',

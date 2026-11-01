@@ -123,7 +123,7 @@ export interface S7CloseSample {
   readonly focus: S7CloseFocus;
 }
 
-export interface S7KeysIsolatedObservation {
+export interface S7ArrowIsolationObservation {
   readonly before: number;
   readonly after: number;
   readonly closeFocused: boolean;
@@ -278,7 +278,7 @@ export interface S7Observation {
   };
   readonly content: S7ContentSample[];
   readonly closes: S7CloseSample[];
-  readonly keysIsolated: S7KeysIsolatedObservation;
+  readonly arrowIsolation: S7ArrowIsolationObservation;
   readonly caseStudies: S7CaseStudySample[];
   readonly caseStudyScroll: S7CaseStudyScrollObservation;
   readonly caseStudyCloses: S7CaseStudyCloseSample[];
@@ -656,11 +656,11 @@ export function evaluateS7(observation: S7Observation): EngineProbeCheck[] {
   checks.push(
     check(
       'panel-keys-isolated',
-      observation.keysIsolated.closeFocused &&
-        Number.isFinite(observation.keysIsolated.before) &&
-        observation.keysIsolated.before === observation.keysIsolated.after,
+      observation.arrowIsolation.closeFocused &&
+        Number.isFinite(observation.arrowIsolation.before) &&
+        observation.arrowIsolation.before === observation.arrowIsolation.after,
       { closeFocused: true, azimuthUnchanged: true },
-      observation.keysIsolated,
+      observation.arrowIsolation,
     ),
   );
 
@@ -2588,7 +2588,7 @@ async function captureMaxZoom(deps: S7CaptureDeps): Promise<S7MaxZoomObservation
   });
 }
 
-async function captureKeysIsolated(deps: S7CaptureDeps): Promise<S7KeysIsolatedObservation> {
+async function captureKeysIsolated(deps: S7CaptureDeps): Promise<S7ArrowIsolationObservation> {
   const { desktop, base } = deps;
 
   return withClsGroup(deps, desktop, 's7-keys-isolated', async () => {
@@ -2618,7 +2618,7 @@ export async function captureS7(deps: S7CaptureDeps): Promise<S7Observation> {
   const { samples: neverCovers, fixtures } = await captureNeverCovers(deps, stageSamples);
   const { mouse, touch, content, drawCallsPanel } = await captureOpenAndContent(deps, stageSamples);
   const closes = await captureCloses(deps, stageSamples);
-  const keysIsolated = await captureKeysIsolated(deps);
+  const arrowIsolation = await captureKeysIsolated(deps);
   const { caseStudies, caseStudyScroll, caseStudyCloses, caseStudyPalettes } =
     await captureCaseStudies(deps, stageSamples);
   const chips = await captureChips(deps);
@@ -2634,7 +2634,7 @@ export async function captureS7(deps: S7CaptureDeps): Promise<S7Observation> {
     open: { mouse, touch },
     content,
     closes,
-    keysIsolated,
+    arrowIsolation,
     caseStudies,
     caseStudyScroll,
     caseStudyCloses,

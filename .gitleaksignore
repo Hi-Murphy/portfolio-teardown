@@ -9,3 +9,7 @@ ed99a15f67991f92bb37ab7379d21b68fcb1950c:packages/xploder/test/frozen-surface.s5
 # squash-commit fingerprints too (or a path allowlist for the hash manifests — pending Murphy's decision).
 b12badbdd33ed6e56b8096c717a5247c5d61cf56:packages/xploder/test/frozen-surface.s6.manifest.json:generic-api-key:7
 b12badbdd33ed6e56b8096c717a5247c5d61cf56:packages/xploder/test/frozen-surface.s6.manifest.json:generic-api-key:25
+# False positive (S07, 2026-11-01): TypeScript field `keysIsolated: S7KeysIsolatedObservation` in the panel
+# probe (branch commit 57683ee); the field was renamed to arrowIsolation in the next commit, so the squash
+# commit on main does not contain it. Not a secret.
+57683eea31f67ce94479977b8739920be9e96cd4:tools/perf/src/panel-probe.ts:generic-api-key:281
