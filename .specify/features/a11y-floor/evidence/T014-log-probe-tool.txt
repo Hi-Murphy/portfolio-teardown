@@ -1,0 +1,272 @@
+
+$ pnpm --filter perf-tools exec vitest run test/a11y-probe.test.ts --reporter verbose
+
+ RUN  v5.0.5 tools/perf
+
+ ✓ test/a11y-probe.test.ts > evaluateTabWalk > passes an expected forward and backward order 1ms
+ ✓ test/a11y-probe.test.ts > evaluateTabWalk > fails a repeated cycle that never reaches the last control 0ms
+ ✓ test/a11y-probe.test.ts > evaluateTabWalk > fails when the forward order differs from the expected order 0ms
+ ✓ test/a11y-probe.test.ts > evaluateTabWalk > fails when Shift+Tab does not retrace the forward walk 0ms
+ ✓ test/a11y-probe.test.ts > evaluateAxPartNumberNodes > fails a part number outside the allowed roots 0ms
+ ✓ test/a11y-probe.test.ts > evaluateAxPartNumberNodes > passes part numbers inside an allowed root 0ms
+ ✓ test/a11y-probe.test.ts > evaluatePixelContrast > reports the worst and median background pixels 0ms
+ ✓ test/a11y-probe.test.ts > evaluatePixelContrast > passes a patch that clears AA 0ms
+ ✓ test/a11y-probe.test.ts > evaluatePixelContrast > fails an empty patch 0ms
+ ✓ test/a11y-probe.test.ts > evaluateReducedMotion > passes all-zero animation samples and a still 3D scene 0ms
+ ✓ test/a11y-probe.test.ts > evaluateReducedMotion > fails when any sampled frame has a running animation 0ms
+ ✓ test/a11y-probe.test.ts > evaluateReducedMotion > fails when tweening or more than two 3D frames are observed 0ms
+ ✓ test/a11y-probe.test.ts > evaluatePresentationDiff > allows the highlighted-face ink change and the hidden chip span 0ms
+ ✓ test/a11y-probe.test.ts > evaluatePresentationDiff > fails a presentation change outside the allowlist 0ms
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  22:48:30
+   Duration  250ms (import 80%, transform 18%, tests 2%, worker 1%)
+
+
+$ pnpm a11y:probe --help
+$ node tools/perf/src/cli/a11y-probe.ts --help
+Usage: pnpm a11y:probe <url> | --serve <dir> [options]
+
+Runs the S08 accessibility probe against a fixture export. <url> must be an
+http(s) URL that serves out-fixtures (for example, http://127.0.0.1:4199/).
+
+Options:
+  --serve <dir>    serve a static fixture export on a free local port
+  --group <name>   run drill, aria, announce, contrast, reduced-motion,
+                   fallbacks, presentation or metrics; repeat for several
+  --ci             run only drill, aria and announce
+  --out <dir>      output directory (default: .evidence/a11y-probe)
+  --help           show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+
+$ pnpm build:fixtures
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 85ms
+  Running TypeScript ...
+  Finished TypeScript in 659ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 193ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+└ ○ /fixtures/fps-calibration
+
+
+○  (Static)  prerendered as static content
+
+
+$ pnpm a11y:probe --serve out-fixtures --ci --out /tmp/s08-checks/probe 2>&1 | tail -30
+aria jump |   - paragraph: Live update · Step 4 of 6
+aria jump |   - paragraph: Tide Repository
+aria jump |   - paragraph: Chooses between a live reading and the saved forecast.
+PASS aria-one-polite-live-region-idle: expected {"count":1,"text":""} actual [{"politeness":"polite","text":""}]
+PASS aria-detail-dialog-name-description: expected {"name":"Tide Repository","descriptionIncludes":["module · shipped","Chooses between a live reading and the saved forecast."]} actual {"name":"Tide Repository","description":"module · shipped Chooses between a live reading and the saved forecast."}
+PASS aria-chip-label-category-sequence: expected ["Kotlin, language","Kotlin Coroutines, library","kotlinx.serialization, library"] actual ["Kotlin, language","Kotlin Coroutines, library","kotlinx.serialization, library"]
+PASS aria-lettering-overlay-ignored: expected "lettering and overlay omitted from AX" actual [{"state":"idle","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"component-focused","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"detail","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"case-study","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"tour-step1","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]},{"state":"jump","roots":["[data-xploder-lettering-layer]:omitted","[data-xploder-callouts]:omitted"]}]
+PASS aria-part-numbers-outside-allowed-roots: expected [] actual []
+aria: PASS (5 checks)
+announce detail-open: "Tide Repository, module. Chooses between a live reading and the saved forecast." PASS
+announce detail-close: "Tide Repository details closed." PASS
+announce case-study-open: "Case study: Tidewatch." PASS
+announce case-study-close: "Case study closed." PASS
+announce tour-step1: "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart." PASS
+announce tour-jump: "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+announce tour-paused-open: "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+PASS announce-empty-at-mount: expected "" actual ""
+PASS announce-detail-open: expected "Tide Repository, module. Chooses between a live reading and the saved forecast." actual "Tide Repository, module. Chooses between a live reading and the saved forecast."
+PASS announce-detail-close: expected "Tide Repository details closed." actual "Tide Repository details closed."
+PASS announce-case-study-open: expected "Case study: Tidewatch." actual "Case study: Tidewatch."
+PASS announce-case-study-close: expected "Case study closed." actual "Case study closed."
+PASS announce-tour-step1: expected "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart." actual "Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart."
+PASS announce-tour-jump: expected "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." actual "Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast."
+PASS announce-tour-paused-open: expected "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." actual "Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events."
+announce: PASS (8 checks)
+drill: PASS
+aria: PASS
+announce: PASS
+a11y-probe: PASS
+artifacts: /tmp/s08-checks/probe
+
+$ pnpm typecheck
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+
+$ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+
+$ pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:69206) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:69207) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:69211) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  15 passed (15)
+tools/perf test:       Tests  102 passed (102)
+tools/perf test:    Start at  22:49:06
+tools/perf test:    Duration  892ms (import 77%, transform 16%, tests 7%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:69214) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:69219) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:69221) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:69223) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:69235) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:69242) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  59 passed (59)
+packages/xploder test:       Tests  611 passed (611)
+packages/xploder test:    Start at  22:49:06
+packages/xploder test:    Duration  6.26s (tests 65%, transform 18%, import 16%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  59 workers spawned · ~97ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~537ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 apps/web
+apps/web test: 
+apps/web test: (node:69279) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:69284) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  8 passed (8)
+apps/web test:       Tests  58 passed | 1 skipped (59)
+apps/web test:    Start at  22:49:13
+apps/web test:    Duration  868ms (environment 54%, transform 20%, import 13%, tests 12%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T014-OK
+
+== Guards: tasks.md Format & rules ==
+
+$ git diff --quiet 5b22987 -- .specify/slices .specify/KICKOFF-S08.md && echo FROZEN-OK
+FROZEN-OK
+
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+
+$ git diff --quiet 5b22987 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s7.paths) && echo SURFACE-S7-OK
+SURFACE-S7-OK
+
+$ git diff --quiet 5b22987 -- tools/perf/src/engine-probe.ts tools/perf/src/cli/engine-probe.ts && echo PROBES-OK
+PROBES-OK
+
+$ test -z "$(git log --oneline 5b22987..HEAD -- .specify/slices .specify/KICKOFF-S08.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+== End T014 ==
+
+## Orchestrator review fixes (2026-11-01T15:52:52Z)
+1. contrast rows: 'pass' is now the plain ratio verdict; exception rows keep failing ratios and carry exception=inactive-dim (layer focus, RFC R3) or disabled-control (WCAG inactive UI) — before, exception rows were written as pass:true.
+2. pixel rows with 0 glyph samples are recorded as unmeasured (were silently dropped).
+3. highlight-2.44x is also sampled at the stage top and bottom; an off-canvas glyph is 'coveredElsewhere' when measured at another scroll position.
+Re-run (pnpm a11y:probe --serve out-fixtures --group contrast): exit 0; 718 rows; measured non-exception rows all pass (pixel min 5.04); exceptions 16 inactive-dim + 8 disabled-control; unmeasured 10 (all inactive-dim lettering under layer focus); 78 off-canvas rows covered at other scroll positions.
