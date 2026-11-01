@@ -18,10 +18,21 @@ import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
 import { resolveMotion } from '../motion';
 import { traceVertices } from '../overlay/model';
+import { panelReducer, type PanelState } from '../panel/state';
+import { resolveSlabClick } from '../panel/tourClick';
 import type { ComponentKind } from '../schema/constants';
+import type { TechRegistry } from '../schema/tech';
 import type { Palette } from '../theme';
 import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
 import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
+import { executeTourCommand } from './panel/executeTourCommand';
+import { PanelLayer, type PanelLayerHandle } from './panel/PanelLayer';
+import {
+  panelsMetadataOf,
+  useViewerPanels,
+  type ViewerPanelsHandle,
+} from './panel/useViewerPanels';
+import { useSlabClick } from './panel/useSlabClick';
 import { Scene } from './scene/Scene';
 import type { EmphasisPhase, EmphasisState } from './scene/Emphasis';
 import type { OverlayEvent } from './scene/OverlayProjector';
@@ -47,6 +58,8 @@ export interface TeardownViewerProps {
   layoutOptions?: Partial<LayoutOptions>;
   onStats?: (stats: ViewerStats) => void;
   onSettled?: (state: 'imploded' | 'exploded') => void;
+  panels?: ViewerPanelsHandle;
+  registry?: TechRegistry;
   className?: string;
   'aria-label'?: string;
   fallback?: ReactNode;
@@ -88,6 +101,8 @@ export function TeardownViewer({
   layoutOptions,
   onStats,
   onSettled,
+  panels,
+  registry,
   className,
   'aria-label': ariaLabel,
   fallback,
@@ -95,6 +110,7 @@ export function TeardownViewer({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<BlueprintOverlayHandle>(null);
+  const panelLayerRef = useRef<PanelLayerHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
@@ -108,6 +124,12 @@ export function TeardownViewer({
   const readyRef = useRef(false);
   const warnedProjectRef = useRef(false);
   const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
+  const internalPanels = useViewerPanels();
+  const panelsHandle = panels ?? internalPanels;
+  const { dispatch } = panelsMetadataOf(panelsHandle);
+  const previousPanelStateRef = useRef<PanelState>(panelsHandle.state);
+  const previousPanelKindRef = useRef(panelsHandle.state.kind);
+  const previousSlugRef = useRef(project.meta.slug);
   const themePalette = useBlueprintPalette();
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
@@ -147,6 +169,7 @@ export function TeardownViewer({
 
   const onOverlay = useCallback((event: OverlayEvent) => {
     overlayRef.current?.update(event);
+    panelLayerRef.current?.update(event);
   }, []);
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
@@ -157,9 +180,78 @@ export function TeardownViewer({
 
   const onOverlayScroll = useCallback((offsetY: number) => {
     overlayRef.current?.setScroll(offsetY);
+    panelLayerRef.current?.setScroll(offsetY);
   }, []);
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
+
+  const onSlabClick = useCallback(
+    (hit: string | null) => {
+      const decision = resolveSlabClick({
+        hit,
+        tour: {
+          status: viewer.tour.status,
+          flowId: viewer.tour.flowId,
+          step: viewer.tour.step,
+        },
+        flows: project.flows ?? [],
+      });
+
+      executeTourCommand(viewer.actions, decision.tour);
+
+      if (decision.panelEvent !== null) {
+        const next = panelReducer(panelsHandle.state, decision.panelEvent);
+
+        dispatch(decision.panelEvent);
+
+        if (
+          panelsHandle.state.kind !== 'closed' &&
+          next.kind === 'closed' &&
+          decision.tour?.type !== 'jump'
+        ) {
+          wrapperRef.current?.focus({ preventScroll: true });
+        }
+      }
+    },
+    [
+      dispatch,
+      panelsHandle.state,
+      project.flows,
+      viewer.actions,
+      viewer.tour.flowId,
+      viewer.tour.status,
+      viewer.tour.step,
+    ],
+  );
+
+  useSlabClick(stageRef, pickBridgeRef, layout, onSlabClick);
+
+  const onPanelClose = useCallback(
+    (reason: 'escape' | 'outside' | 'closeControl') => {
+      const closing = panelsHandle.state;
+      const opener = panelsMetadataOf(panelsHandle).opener;
+      const wrapper = wrapperRef.current;
+
+      dispatch({ type: reason });
+
+      if (closing.kind === 'caseStudy' && opener instanceof HTMLElement && opener.isConnected) {
+        opener.focus({ preventScroll: true });
+      } else if (reason !== 'outside') {
+        wrapper?.focus({ preventScroll: true });
+      } else {
+        const active = document.activeElement;
+
+        if (
+          active === null ||
+          active === document.body ||
+          (wrapper !== null && wrapper.contains(active))
+        ) {
+          wrapper?.focus({ preventScroll: true });
+        }
+      }
+    },
+    [dispatch, panelsHandle],
+  );
 
   useEffect(() => {
     if (warnedProjectRef.current) return;
@@ -296,6 +388,57 @@ export function TeardownViewer({
     viewer.tour.step,
   ]);
 
+  useLayoutEffect(() => {
+    const previous = previousPanelStateRef.current;
+    const current = panelsHandle.state;
+
+    if (
+      previous.kind === 'detail' &&
+      (current.kind !== 'detail' || current.componentId !== previous.componentId) &&
+      viewer.highlight === previous.componentId
+    ) {
+      viewer.actions.highlight(null);
+    }
+
+    // Always re-assert as a program highlight (RFC D4): a mouse hover highlight would be
+    // cleared when the pointer leaves the stage for the panel.
+    if (
+      current.kind === 'detail' &&
+      (previous.kind !== 'detail' || previous.componentId !== current.componentId)
+    ) {
+      viewer.actions.highlight(current.componentId);
+    }
+
+    previousPanelStateRef.current = current;
+  }, [panelsHandle.state, viewer.actions, viewer.highlight]);
+
+  useLayoutEffect(() => {
+    if (previousSlugRef.current === project.meta.slug) return;
+
+    previousSlugRef.current = project.meta.slug;
+    dispatch({ type: 'reset' });
+  }, [dispatch, project.meta.slug]);
+
+  useLayoutEffect(() => {
+    const previous = previousPanelKindRef.current;
+    const current = panelsHandle.state.kind;
+
+    previousPanelKindRef.current = current;
+
+    if (previous !== 'caseStudy' && current === 'caseStudy' && viewer.tour.status === 'playing') {
+      viewer.actions.pause();
+    }
+  }, [panelsHandle.state.kind, viewer.actions, viewer.tour.status]);
+
+  useLayoutEffect(() => {
+    const element = wrapperRef.current;
+
+    if (element === null) return;
+
+    element.dataset.xploderPanel =
+      panelsHandle.state.kind === 'caseStudy' ? 'case-study' : panelsHandle.state.kind;
+  }, [panelsHandle.state.kind]);
+
   return (
     <div
       ref={wrapperRef}
@@ -375,6 +518,17 @@ export function TeardownViewer({
           />
         </>
       )}
+      <PanelLayer
+        ref={panelLayerRef}
+        state={panelsHandle.state}
+        project={project}
+        registry={registry}
+        palette={resolvedPalette}
+        tokens={tokens}
+        wrapperRef={wrapperRef}
+        headingIds={{ detail: panelsHandle.ids.detail, caseStudy: panelsHandle.ids.caseStudy }}
+        onClose={onPanelClose}
+      />
     </div>
   );
 }

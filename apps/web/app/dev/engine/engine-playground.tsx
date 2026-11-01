@@ -3,7 +3,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { parseProject, parseTechRegistry } from 'xploder';
 import { projectAJson, projectBJson, projectCJson, techRegistryJson } from 'xploder/fixtures';
-import { TeardownViewer, useTeardownViewer, type ViewerStats } from 'xploder/react';
+import {
+  TeardownViewer,
+  useTeardownViewer,
+  useViewerPanels,
+  type ViewerStats,
+} from 'xploder/react';
 
 import { ThemeToggle } from '../../theme-toggle';
 
@@ -48,6 +53,7 @@ export function EnginePlayground() {
   );
   const project = projects[fixture];
   const viewer = useTeardownViewer({ initial: initialTarget, project });
+  const panels = useViewerPanels();
   const drawCallsRef = useRef<HTMLElement>(null);
   const trianglesRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLElement>(null);
@@ -101,10 +107,12 @@ export function EnginePlayground() {
     const focusId = query.get('focus');
     const flowId = query.get('flow');
     const tour = query.get('tour');
+    const select = query.get('select');
 
     if (highlightId !== null) viewer.actions.highlight(highlightId);
     if (focusId !== null) viewer.actions.toggleFocus(focusId);
     if (flowId !== null) viewer.actions.selectFlow(flowId);
+    if (select !== null) panels.actions.openDetail(select);
 
     if (tour === 'play') {
       viewer.actions.play();
@@ -114,7 +122,7 @@ export function EnginePlayground() {
 
       for (let index = 0; index <= lastStep; index += 1) viewer.actions.step();
     }
-  }, [query, viewer.actions]);
+  }, [panels.actions, query, viewer.actions]);
 
   useEffect(() => {
     if (loop && viewer.tour.status === 'ended') viewer.actions.play();
@@ -128,6 +136,8 @@ export function EnginePlayground() {
         <TeardownViewer
           project={project}
           viewer={viewer}
+          panels={panels}
+          registry={registry}
           onStats={onStats}
           onSettled={onSettled}
           className="h-full w-full"
