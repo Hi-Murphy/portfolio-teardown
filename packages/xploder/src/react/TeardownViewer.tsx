@@ -2,15 +2,18 @@ import { Canvas } from '@react-three/fiber';
 import {
   useCallback,
   useEffect,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react';
 
 import { announce, type AnnounceEvent } from '../a11y/announce';
+import { PAN_PAGE_FRACTION, PAN_STEP_PX } from '../a11y/look';
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
@@ -25,6 +28,7 @@ import type { ComponentKind } from '../schema/constants';
 import type { TechRegistry } from '../schema/tech';
 import type { Palette } from '../theme';
 import { CanvasBoundary } from './a11y/CanvasBoundary';
+import { ComponentNavigator, type ComponentNavigatorHandle } from './a11y/ComponentNavigator';
 import { LiveRegion, type LiveRegionHandle } from './a11y/LiveRegion';
 import { hasWebgl } from './a11y/webgl';
 import {
@@ -100,6 +104,19 @@ const CANVAS_VIEWPORT_STYLE: CSSProperties = {
   width: '100%',
 };
 
+const VISUALLY_HIDDEN_STYLE: CSSProperties = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  whiteSpace: 'nowrap',
+  margin: '-1px',
+  padding: 0,
+  border: 0,
+};
+
 const PROJECT_MISMATCH_WARNING =
   'TeardownViewer: pass the same project object to useTeardownViewer({ project }) and <TeardownViewer project>.';
 
@@ -119,6 +136,8 @@ export function TeardownViewer({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const liveRegionRef = useRef<LiveRegionHandle>(null);
+  const navigatorRef = useRef<ComponentNavigatorHandle>(null);
+  const proxyOpenerRef = useRef<HTMLButtonElement | null>(null);
   const overlayRef = useRef<BlueprintOverlayHandle>(null);
   const letteringRef = useRef<PartLetteringHandle>(null);
   const panelLayerRef = useRef<PanelLayerHandle>(null);
@@ -126,6 +145,7 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
+  const keysHelpId = useId();
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
   const pickBridgeRef = useRef<PickBridgeHandle>({
@@ -190,6 +210,7 @@ export function TeardownViewer({
     overlayRef.current?.update(event);
     letteringRef.current?.update(event);
     panelLayerRef.current?.update(event);
+    navigatorRef.current?.update(event);
   }, []);
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
@@ -202,6 +223,7 @@ export function TeardownViewer({
     overlayRef.current?.setScroll(offsetY);
     letteringRef.current?.setScroll(offsetY);
     panelLayerRef.current?.setScroll(offsetY);
+    navigatorRef.current?.setScroll(offsetY);
   }, []);
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
@@ -246,6 +268,57 @@ export function TeardownViewer({
       viewer.tour.status,
       viewer.tour.step,
     ],
+  );
+
+  const onNavigatorActivate = useCallback(
+    (id: string, proxy: HTMLButtonElement) => {
+      proxyOpenerRef.current = proxy;
+      onSlabClick(id);
+    },
+    [onSlabClick],
+  );
+
+  const onWrapperKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      viewer.onKeyDown(event);
+
+      if (event.defaultPrevented || event.target !== event.currentTarget) return;
+
+      const stage = stageRef.current;
+
+      if (stage === null || stage.scrollHeight <= stage.clientHeight) return;
+
+      const maximum = stage.scrollHeight - stage.clientHeight;
+      let next: number | null = null;
+
+      switch (event.key) {
+        case 'ArrowUp':
+          next = stage.scrollTop - PAN_STEP_PX;
+          break;
+        case 'ArrowDown':
+          next = stage.scrollTop + PAN_STEP_PX;
+          break;
+        case 'PageUp':
+          next = stage.scrollTop - stage.clientHeight * PAN_PAGE_FRACTION;
+          break;
+        case 'PageDown':
+          next = stage.scrollTop + stage.clientHeight * PAN_PAGE_FRACTION;
+          break;
+        case 'Home':
+          next = 0;
+          break;
+        case 'End':
+          next = maximum;
+          break;
+      }
+
+      if (next === null) return;
+
+      event.preventDefault();
+      stage.scrollTop = Math.min(maximum, Math.max(0, next));
+      stage.dispatchEvent(new Event('scroll'));
+    },
+    [viewer],
   );
 
   useSlabClick(stageRef, pickBridgeRef, layout, onSlabClick);
@@ -517,6 +590,7 @@ export function TeardownViewer({
   }, [position, project, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
 
   const webglFallback = fallback ?? <p>WebGL is unavailable for this architecture view.</p>;
+  const detailOpenId = panelsHandle.state.kind === 'detail' ? panelsHandle.state.componentId : null;
 
   return (
     <div
@@ -524,8 +598,9 @@ export function TeardownViewer({
       tabIndex={0}
       role="group"
       aria-label={ariaLabel ?? `${project.meta.slug} architecture view`}
-      aria-keyshortcuts="ArrowLeft ArrowRight + - 0"
-      onKeyDown={viewer.onKeyDown}
+      aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown PageUp PageDown Home End + - 0"
+      aria-describedby={keysHelpId}
+      onKeyDown={onWrapperKeyDown}
       style={WRAPPER_STYLE}
       className={className}
       data-xploder-titleblock="hidden"
@@ -534,73 +609,100 @@ export function TeardownViewer({
     >
       <style>{LETTERING_HIDE_CSS}</style>
       <LiveRegion ref={liveRegionRef} />
+      <p id={keysHelpId} style={VISUALLY_HIDDEN_STYLE}>
+        Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up,
+        Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+      </p>
       {webgl ? (
-        <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
-          <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
-            <CanvasBoundary fallback={webglFallback}>
-              <Canvas
-                orthographic
-                frameloop="demand"
-                dpr={[1, 2]}
-                gl={{ antialias: true, alpha: true }}
-                style={CANVAS_STYLE}
-                fallback={webglFallback}
-              >
-                <Scene
-                  layout={layout}
-                  palette={resolvedPalette}
-                  tokens={tokens}
-                  target={viewer.target}
-                  rig={viewer.rig}
-                  slug={project.meta.slug}
-                  onPhase={onPhase}
-                  onSettled={onSettled}
-                  onStats={onStatsChange}
-                  emphasis={emphasis}
-                  onEmphasisPhase={onEmphasisPhase}
-                  progressRef={progressRef}
-                  pickBridgeRef={pickBridgeRef}
-                  scrollRef={stageRef}
-                  onScrollExtent={onScrollExtent}
-                  look={look}
-                  kinds={kinds}
-                  onOverlay={onOverlay}
-                  onOverlayScroll={onOverlayScroll}
-                />
-              </Canvas>
-            </CanvasBoundary>
-            <BlueprintOverlay
-              ref={overlayRef}
-              project={project}
-              layout={layout}
-              palette={resolvedPalette}
-              tokens={tokens}
-              target={viewer.target}
-              phase={phase}
-              tour={viewer.tour}
-              focus={viewer.focus}
-              highlight={viewer.highlight}
-              look={look}
-              onTitleBlockShown={onTitleBlockShown}
-            />
-            <PartLettering
-              ref={letteringRef}
-              layout={layout}
-              project={project}
-              palette={resolvedPalette}
-              tokens={tokens}
-              look={look}
-              bridgeRef={pickBridgeRef}
-              target={viewer.target}
-              phase={phase}
-              tourStatus={viewer.tour.status}
-              focus={viewer.focus}
-              highlight={viewer.highlight}
-              wrapperRef={wrapperRef}
-            />
+        <>
+          <div
+            ref={stageRef}
+            data-xploder-stage=""
+            style={STAGE_STYLE}
+            tabIndex={-1}
+            onFocus={(event) => {
+              if (event.target === event.currentTarget) {
+                wrapperRef.current?.focus({ preventScroll: true });
+              }
+            }}
+          >
+            <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
+              <CanvasBoundary fallback={webglFallback}>
+                <Canvas
+                  orthographic
+                  frameloop="demand"
+                  dpr={[1, 2]}
+                  gl={{ antialias: true, alpha: true }}
+                  style={CANVAS_STYLE}
+                  fallback={webglFallback}
+                >
+                  <Scene
+                    layout={layout}
+                    palette={resolvedPalette}
+                    tokens={tokens}
+                    target={viewer.target}
+                    rig={viewer.rig}
+                    slug={project.meta.slug}
+                    onPhase={onPhase}
+                    onSettled={onSettled}
+                    onStats={onStatsChange}
+                    emphasis={emphasis}
+                    onEmphasisPhase={onEmphasisPhase}
+                    progressRef={progressRef}
+                    pickBridgeRef={pickBridgeRef}
+                    scrollRef={stageRef}
+                    onScrollExtent={onScrollExtent}
+                    look={look}
+                    kinds={kinds}
+                    onOverlay={onOverlay}
+                    onOverlayScroll={onOverlayScroll}
+                  />
+                </Canvas>
+              </CanvasBoundary>
+              <BlueprintOverlay
+                ref={overlayRef}
+                project={project}
+                layout={layout}
+                palette={resolvedPalette}
+                tokens={tokens}
+                target={viewer.target}
+                phase={phase}
+                tour={viewer.tour}
+                focus={viewer.focus}
+                highlight={viewer.highlight}
+                look={look}
+                onTitleBlockShown={onTitleBlockShown}
+              />
+              <PartLettering
+                ref={letteringRef}
+                layout={layout}
+                project={project}
+                palette={resolvedPalette}
+                tokens={tokens}
+                look={look}
+                bridgeRef={pickBridgeRef}
+                target={viewer.target}
+                phase={phase}
+                tourStatus={viewer.tour.status}
+                focus={viewer.focus}
+                highlight={viewer.highlight}
+                wrapperRef={wrapperRef}
+              />
+            </div>
+            <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
           </div>
-          <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
-        </div>
+          <ComponentNavigator
+            ref={navigatorRef}
+            project={project}
+            palette={resolvedPalette}
+            stageRef={stageRef}
+            highlight={viewer.highlight}
+            detailOpenId={detailOpenId}
+            detailId={panelsHandle.ids.detail}
+            onHighlight={viewer.actions.highlight}
+            onActivate={onNavigatorActivate}
+          />
+        </>
       ) : (
         webglFallback
       )}
