@@ -158,7 +158,7 @@ export function TeardownViewer({
   const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
   const internalPanels = useViewerPanels();
   const panelsHandle = panels ?? internalPanels;
-  const { dispatch } = panelsMetadataOf(panelsHandle);
+  const { dispatch, recordOpener } = panelsMetadataOf(panelsHandle);
   const previousPanelStateRef = useRef<PanelState>(panelsHandle.state);
   const previousPanelKindRef = useRef(panelsHandle.state.kind);
   const previousSlugRef = useRef(project.meta.slug);
@@ -228,8 +228,25 @@ export function TeardownViewer({
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
 
+  const focusProxyOpener = useCallback((opener: Element | null): boolean => {
+    const recorded = opener ?? proxyOpenerRef.current;
+    const proxy =
+      recorded instanceof HTMLElement &&
+      recorded.isConnected &&
+      recorded.matches('[data-xploder-proxy]')
+        ? recorded
+        : null;
+
+    proxyOpenerRef.current = null;
+
+    if (proxy === null) return false;
+
+    proxy.focus({ preventScroll: true });
+    return true;
+  }, []);
+
   const onSlabClick = useCallback(
-    (hit: string | null) => {
+    (hit: string | null, opener: HTMLButtonElement | null = null) => {
       const decision = resolveSlabClick({
         hit,
         tour: {
@@ -247,6 +264,20 @@ export function TeardownViewer({
 
       if (decision.panelEvent !== null) {
         const next = panelReducer(panelsHandle.state, decision.panelEvent);
+        const openedDetail =
+          next.kind === 'detail' &&
+          (panelsHandle.state.kind !== 'detail' ||
+            panelsHandle.state.componentId !== next.componentId);
+
+        if (openedDetail) {
+          if (opener === null) {
+            proxyOpenerRef.current = null;
+            recordOpener(wrapperRef.current);
+          } else {
+            proxyOpenerRef.current = opener;
+            recordOpener(opener);
+          }
+        }
 
         dispatch(decision.panelEvent);
 
@@ -255,13 +286,17 @@ export function TeardownViewer({
           next.kind === 'closed' &&
           decision.tour?.type !== 'jump'
         ) {
-          wrapperRef.current?.focus({ preventScroll: true });
+          if (!focusProxyOpener(panelsMetadataOf(panelsHandle).opener)) {
+            wrapperRef.current?.focus({ preventScroll: true });
+          }
         }
       }
     },
     [
       dispatch,
-      panelsHandle.state,
+      focusProxyOpener,
+      panelsHandle,
+      recordOpener,
       project.flows,
       viewer.actions,
       viewer.tour.flowId,
@@ -272,8 +307,7 @@ export function TeardownViewer({
 
   const onNavigatorActivate = useCallback(
     (id: string, proxy: HTMLButtonElement) => {
-      proxyOpenerRef.current = proxy;
-      onSlabClick(id);
+      onSlabClick(id, proxy);
     },
     [onSlabClick],
   );
@@ -331,6 +365,10 @@ export function TeardownViewer({
 
       dispatch({ type: reason });
 
+      if (focusProxyOpener(opener)) {
+        return;
+      }
+
       if (closing.kind === 'caseStudy' && opener instanceof HTMLElement && opener.isConnected) {
         opener.focus({ preventScroll: true });
       } else if (reason !== 'outside') {
@@ -347,7 +385,7 @@ export function TeardownViewer({
         }
       }
     },
-    [dispatch, panelsHandle],
+    [dispatch, focusProxyOpener, panelsHandle],
   );
 
   useEffect(() => {

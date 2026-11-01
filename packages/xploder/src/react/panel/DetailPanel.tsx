@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, RefObject } from 'react';
 
 import { PANEL_SECTION_TITLES, type DetailModel } from '../../panel/content';
 import { PANEL_LOOK } from '../../panel/look';
@@ -9,6 +9,7 @@ export interface DetailPanelProps {
   readonly model: DetailModel;
   readonly palette: Palette;
   readonly headingId: string;
+  readonly headingRef?: RefObject<HTMLHeadingElement | null>;
   readonly onClose: () => void;
 }
 
@@ -41,7 +42,7 @@ function sectionStyle(palette: Palette): CSSProperties {
   };
 }
 
-export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelProps) {
+export function DetailPanel({ model, palette, headingId, headingRef, onClose }: DetailPanelProps) {
   return (
     <div>
       <div
@@ -53,7 +54,9 @@ export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelP
         }}
       >
         <h2
+          ref={headingRef}
           id={headingId}
+          tabIndex={-1}
           style={{
             color: palette.ink,
             fontSize: `${PANEL_LOOK.typography.headingRem}rem`,

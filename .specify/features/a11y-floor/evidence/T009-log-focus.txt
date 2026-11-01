@@ -1,0 +1,359 @@
+$ pnpm --filter web exec vitest run test/xploder-dom/a11y-panel-focus.dom.test.tsx --reporter verbose 2>&1 | tee /tmp/s08-checks/t009.txt
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:40451) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 52ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 7ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  19:58:21
+   Duration  464ms (environment 55%, import 20%, tests 15%, transform 9%)
+
+$ git diff 5b22987 -- packages/xploder/src/react/panel/{PanelLayer.tsx,DetailPanel.tsx,useViewerPanels.ts} | tee /tmp/s08-checks/t009-tierb.diff
+diff --git a/packages/xploder/src/react/panel/DetailPanel.tsx b/packages/xploder/src/react/panel/DetailPanel.tsx
+index 3bed631..c5e9310 100644
+--- a/packages/xploder/src/react/panel/DetailPanel.tsx
++++ b/packages/xploder/src/react/panel/DetailPanel.tsx
+@@ -1,4 +1,4 @@
+-import type { CSSProperties } from 'react';
++import type { CSSProperties, RefObject } from 'react';
+ 
+ import { PANEL_SECTION_TITLES, type DetailModel } from '../../panel/content';
+ import { PANEL_LOOK } from '../../panel/look';
+@@ -9,6 +9,7 @@ export interface DetailPanelProps {
+   readonly model: DetailModel;
+   readonly palette: Palette;
+   readonly headingId: string;
++  readonly headingRef?: RefObject<HTMLHeadingElement | null>;
+   readonly onClose: () => void;
+ }
+ 
+@@ -41,7 +42,7 @@ function sectionStyle(palette: Palette): CSSProperties {
+   };
+ }
+ 
+-export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelProps) {
++export function DetailPanel({ model, palette, headingId, headingRef, onClose }: DetailPanelProps) {
+   return (
+     <div>
+       <div
+@@ -53,7 +54,9 @@ export function DetailPanel({ model, palette, headingId, onClose }: DetailPanelP
+         }}
+       >
+         <h2
++          ref={headingRef}
+           id={headingId}
++          tabIndex={-1}
+           style={{
+             color: palette.ink,
+             fontSize: `${PANEL_LOOK.typography.headingRem}rem`,
+diff --git a/packages/xploder/src/react/panel/PanelLayer.tsx b/packages/xploder/src/react/panel/PanelLayer.tsx
+index f1b08a5..9d50f84 100644
+--- a/packages/xploder/src/react/panel/PanelLayer.tsx
++++ b/packages/xploder/src/react/panel/PanelLayer.tsx
+@@ -25,6 +25,7 @@ import type { PanelState } from '../../panel/state';
+ import type { MotionTokens } from '../../motion';
+ import type { TechRegistry } from '../../schema/tech';
+ import type { Palette } from '../../theme';
++import { usePanelFocus } from '../a11y/usePanelFocus';
+ import type { OverlayEvent } from '../scene/OverlayProjector';
+ import { CaseStudyPanel } from './CaseStudyPanel';
+ import { DetailPanel } from './DetailPanel';
+@@ -163,6 +164,8 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+   ref,
+ ) {
+   const layerRef = useRef<HTMLDivElement>(null);
++  const surfaceElementRef = useRef<HTMLElement>(null);
++  const detailHeadingRef = useRef<HTMLHeadingElement>(null);
+   const motionRef = useRef<HTMLDivElement>(null);
+   const settledRef = useRef<SettledEvent | null>(null);
+   const offsetRef = useRef(0);
+@@ -437,6 +440,24 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+     [project, surface?.kind],
+   );
+   const caseStudyHeadingId = `${headingIds.caseStudy}-heading`;
++  const focusSurfaceKey =
++    surface !== null &&
++    ((state.kind === 'detail' && surface.kind === 'detail' && surface.id === state.componentId) ||
++      (state.kind === 'caseStudy' && surface.kind === 'caseStudy'))
++      ? surface.key
++      : null;
++  const focusVisible =
++    focusSurfaceKey !== null &&
++    !moving &&
++    surface?.phase === 'enter' &&
++    (surface?.placement.size ?? 0) >= 1;
++  usePanelFocus({
++    surfaceRef: surfaceElementRef,
++    surfaceKey: focusSurfaceKey,
++    headingRef: detailHeadingRef,
++    visible: focusVisible,
++    kind: surface?.kind ?? null,
++  });
+ 
+   if (settled === null) return null;
+ 
+@@ -456,6 +477,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+     <div ref={layerRef} data-xploder-panel-layer="" style={layerStyle}>
+       {surface === null ? null : (
+         <section
++          ref={surfaceElementRef}
+           key={surface.key}
+           role="dialog"
+           aria-modal="false"
+@@ -475,6 +497,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
+                 model={model}
+                 palette={palette}
+                 headingId={headingIds.detail}
++                headingRef={detailHeadingRef}
+                 onClose={() => onCloseRef.current('closeControl')}
+               />
+             ) : null}
+diff --git a/packages/xploder/src/react/panel/useViewerPanels.ts b/packages/xploder/src/react/panel/useViewerPanels.ts
+index f05a82b..d35ab94 100644
+--- a/packages/xploder/src/react/panel/useViewerPanels.ts
++++ b/packages/xploder/src/react/panel/useViewerPanels.ts
+@@ -23,11 +23,13 @@ export interface ViewerPanelsHandle {
+ interface PanelsMetadata {
+   readonly dispatch: Dispatch<PanelEvent>;
+   opener: Element | null;
++  recordOpener: (element?: Element | null) => void;
+ }
+ 
+ export interface ViewerPanelsMetadata {
+   readonly dispatch: Dispatch<PanelEvent>;
+   readonly opener: Element | null;
++  readonly recordOpener: (element: Element | null) => void;
+ }
+ 
+ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
+@@ -35,6 +37,7 @@ const PANELS_METADATA = new WeakMap<ViewerPanelsHandle, PanelsMetadata>();
+ const EMPTY_METADATA: ViewerPanelsMetadata = {
+   dispatch: () => undefined,
+   opener: null,
++  recordOpener: () => undefined,
+ };
+ 
+ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetadata {
+@@ -44,15 +47,32 @@ export function panelsMetadataOf(handle: ViewerPanelsHandle): ViewerPanelsMetada
+ export function useViewerPanels(): ViewerPanelsHandle {
+   const [state, dispatch] = useReducer(panelReducer, CLOSED);
+   const reactId = useId();
+-  const metadata = useRef<PanelsMetadata>({ dispatch, opener: null }).current;
++  const metadata = useRef<PanelsMetadata>({
++    dispatch,
++    opener: null,
++    recordOpener: () => undefined,
++  }).current;
++
++  const recordOpener = useCallback(
++    (element?: Element | null) => {
++      metadata.opener =
++        element === undefined
++          ? typeof document === 'undefined'
++            ? null
++            : document.activeElement
++          : element;
++    },
++    [metadata],
++  );
+ 
+-  const recordOpener = useCallback(() => {
+-    metadata.opener = typeof document === 'undefined' ? null : document.activeElement;
+-  }, [metadata]);
++  metadata.recordOpener = recordOpener;
+ 
+   const actions = useMemo<ViewerPanelsActions>(
+     () => ({
+-      openDetail: (id) => dispatch({ type: 'openDetail', id }),
++      openDetail: (id) => {
++        recordOpener();
++        dispatch({ type: 'openDetail', id });
++      },
+       toggleCaseStudy: () => {
+         recordOpener();
+         dispatch({ type: 'toggleCaseStudy' });
+$ pnpm typecheck && pnpm lint && pnpm test && echo T009-UNIT-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 <repo>/packages/xploder
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 <repo>/tools/perf
+tools/perf test: 
+packages/xploder test: (node:40670) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40676) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40678) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40679) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40683) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40682) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  14 passed (14)
+tools/perf test:       Tests  88 passed (88)
+tools/perf test:    Start at  19:58:28
+tools/perf test:    Duration  1.24s (import 84%, tests 9%, transform 6%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:40686) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40687) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:40692) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  58 passed (58)
+packages/xploder test:       Tests  595 passed | 4 expected fail (599)
+packages/xploder test:    Start at  19:58:28
+packages/xploder test:    Duration  6.33s (tests 76%, import 17%, transform 5%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  58 workers spawned · ~95ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~519ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 <repo>/apps/web
+apps/web test: 
+apps/web test: (node:40736) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:40737) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  7 passed | 1 skipped (8)
+apps/web test:       Tests  57 passed | 2 skipped (59)
+apps/web test:    Start at  19:58:35
+apps/web test:    Duration  552ms (environment 53%, import 19%, tests 19%, transform 8%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T009-UNIT-OK
+$ node /tmp/s08-checks/t009-smoke.mjs 2>&1 | tee -a /tmp/s08-checks/t009.txt && echo T009-SMOKE-OK
+PASS mouse click focuses the detail h2
+PASS mouse-opened h2 is not :focus-visible
+PASS Escape after pointer open returns focus to the wrapper
+PASS keyboard proxy Enter focuses the detail h2
+PASS Escape after keyboard open returns focus to the proxy
+PASS zoom control reaches max (3.00×)
+PASS Tab enters the Components navigator
+PASS keyboard selects recipient
+PASS focus remains inside recipient after the full scroll sweep
+NO-DOCK-FLIP component=recipient dock=bottom scrollTop=919/919
+PASS keyboard selects pickup-app
+PASS focus remains inside pickup-app after the full scroll sweep
+NO-DOCK-FLIP component=pickup-app dock=bottom scrollTop=919/919
+PASS keyboard selects locker-hardware
+PASS focus remains inside locker-hardware after the full scroll sweep
+NO-DOCK-FLIP component=locker-hardware dock=top scrollTop=919/919
+PASS keyboard selects push-gateway
+PASS focus is inside push-gateway after its dock-driven remount
+PASS dock change remounts the push-gateway panel surface
+DOCK-FLIP component=push-gateway dock=top->bottom scrollTop=919/919
+{
+  "fixtureA": "http://localhost:3000/dev/engine?fixture=a&state=exploded",
+  "fixtureC": "http://localhost:3000/dev/engine?fixture=c&state=exploded&select=recipient",
+  "checks": [
+    "mouse click focuses the detail h2",
+    "mouse-opened h2 is not :focus-visible",
+    "Escape after pointer open returns focus to the wrapper",
+    "keyboard proxy Enter focuses the detail h2",
+    "Escape after keyboard open returns focus to the proxy",
+    "zoom control reaches max (3.00×)",
+    "Tab enters the Components navigator",
+    "keyboard selects recipient",
+    "focus remains inside recipient after the full scroll sweep",
+    "keyboard selects pickup-app",
+    "focus remains inside pickup-app after the full scroll sweep",
+    "keyboard selects locker-hardware",
+    "focus remains inside locker-hardware after the full scroll sweep",
+    "keyboard selects push-gateway",
+    "focus is inside push-gateway after its dock-driven remount",
+    "dock change remounts the push-gateway panel surface"
+  ]
+}
+T009-SMOKE-OK
+$ guard lines from tasks.md Format & rules
+FROZEN-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+PROBES-OK
+BRIEF-HISTORY-OK
+T009-OK
