@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { describe, expect, test } from 'vitest';
@@ -10,7 +10,7 @@ import {
   type Hit,
   type MotionLiteralRule,
 } from './motion-literal-scanner';
-import { collectSourceFiles } from './source-scan';
+import { collectSourceFiles, lineOf, snippetAt } from './source-scan';
 
 const WEB_ROOT = fileURLToPath(new URL('..', import.meta.url));
 const XPLODER_SOURCE_ROOT = fileURLToPath(
@@ -54,6 +54,24 @@ const S06_SOURCE_FILES = [
   'react/overlay/BlueprintOverlay.tsx',
   'react/overlay/CircuitTrace.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S07_SOURCE_FILES = [
+  'panel/state.ts',
+  'panel/place.ts',
+  'panel/tourClick.ts',
+  'panel/content.ts',
+  'panel/look.ts',
+  'panel/motion.ts',
+  'react/panel/PanelLayer.tsx',
+  'react/panel/DetailPanel.tsx',
+  'react/panel/CaseStudyPanel.tsx',
+  'react/panel/TechChips.tsx',
+  'react/panel/useSlabClick.ts',
+  'react/panel/useViewerPanels.ts',
+  'react/panel/pickAt.ts',
+  'react/panel/executeTourCommand.ts',
+].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const BARE_TIMING_SHORTHAND =
+  /(['"`])(?=[^'"`\n]*\b\d*\.?\d+m?s\b)(?=[^'"`\n]*\b(?:ease(?:-in-out|-in|-out)?|linear|cubic-bezier\(|steps\())[^'"`\n]*\1/g;
 
 function formatHits(hits: readonly Hit[]): string {
   return hits.map((hit) => `${hit.file}:${hit.line} ${hit.rule} ${hit.snippet}`).join('\n');
@@ -61,6 +79,27 @@ function formatHits(hits: readonly Hit[]): string {
 
 function expectNoHits(hits: readonly Hit[]): void {
   expect(hits, formatHits(hits)).toEqual([]);
+}
+
+function scanBareTimingShorthand(files: readonly string[]): Hit[] {
+  const hits: Hit[] = [];
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+
+    for (const match of text.matchAll(BARE_TIMING_SHORTHAND)) {
+      if (match.index === undefined) continue;
+
+      hits.push({
+        file,
+        line: lineOf(text, match.index),
+        rule: 'css-time',
+        snippet: snippetAt(text, match.index),
+      });
+    }
+  }
+
+  return hits;
 }
 
 const BAD_SAMPLES = {
@@ -81,6 +120,15 @@ describe('motion-literal scanner', () => {
     expectNoHits(scanDir(XPLODER_SOURCE_ROOT, { exclude: ['motion/'] }));
   });
 
+  test('source outside motion/ contains no bare CSS timing shorthands', () => {
+    const hits = [
+      ...scanBareTimingShorthand(collectSourceFiles(WEB_ROOT)),
+      ...scanBareTimingShorthand(collectSourceFiles(XPLODER_SOURCE_ROOT, { exclude: ['motion/'] })),
+    ];
+
+    expectNoHits(hits);
+  });
+
   test('scanner roots include engine sources', () => {
     const sourceFiles = collectSourceFiles(XPLODER_SOURCE_ROOT, { exclude: ['motion/'] });
 
@@ -88,6 +136,7 @@ describe('motion-literal scanner', () => {
     expect(sourceFiles).toContain(SLABS);
     expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S06_SOURCE_FILES));
+    expect(sourceFiles).toEqual(expect.arrayContaining(S07_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 

@@ -1,0 +1,429 @@
+G2 combined — T010 full check, sandbox continuation, and guards
+
+Worktree: /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010
+Branch: task/s07-t010-scanners
+Base commit: 69b2aa8
+
+## T010 check block (traced)
+$ set -euo pipefail; pnpm --filter web exec vitest ...; negative controls; pnpm typecheck && pnpm lint && pnpm test && pnpm build && echo T010-OK
++ set -euo pipefail
++ pnpm --filter web exec vitest run test/no-color-literals.test.ts test/no-motion-literals.test.ts test/package-consumer.test.ts --reporter verbose
++ tee /tmp/s07-checks/t010.txt
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/apps/web
+
+ ✓ test/package-consumer.test.ts > package-consumer scanner > apps/web/app imports xploder only through exported public subpaths 8ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > scanner root contains app sources 1ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > scanner root includes the engine playground 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { BoxGeometry } from 'three'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { Mesh } from 'three/src/objects/Mesh.js'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { Canvas } from '@react-three/fiber'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: import { createExplodeTimeline } from 'xploder/src/engine/explode'; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches forbidden import: const engine = await import('xploder/src/index'); 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches an unexported xploder subpath 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches an engine identifier 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches a newly public engine identifier: const raycaster = new Raycaster(); 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches a newly public engine identifier: mesh.setColorAt(index, color); 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > catches a newly public engine identifier: const attribute = mesh.instanceColor; 0ms
+ ✓ test/package-consumer.test.ts > package-consumer scanner > accepts the exported xploder entry points 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals 11ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner roots include engine sources 2ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner root includes the engine playground 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-number catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > css-color-fn catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > named-three-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: href='#main' 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: palette.line 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: var(--bp-line) 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: issue #12 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > apps/web contains no motion literals 9ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > xploder source outside motion/ contains no motion literals 4ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > source outside motion/ contains no bare CSS timing shorthands 2ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner roots include engine sources 2ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner root includes the engine playground 1ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-time catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-easing catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > gsap-ease catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > motion-key catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > tw-utility catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > timer catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: motion.durations.explode 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: transition-duration: var(--motion-duration-hover-lift) 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: className="ease-explode transition-colors" 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: <p>the 1990s</p> 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: { label: 'p95', value: '120 ms' } 0ms
+
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+   Start at  08:07:44
+   Duration  98ms (tests 46%, transform 30%, import 18%, worker 6%)
+
++ printf '\nexport const NEG = '\''#123456'\'';\n'
++ pnpm --filter web exec vitest run test/no-color-literals.test.ts
++ git checkout -- packages/xploder/src/panel/look.ts
++ printf '\nexport const NEG = '\''opacity 320ms ease'\'';\n'
++ pnpm --filter web exec vitest run test/no-motion-literals.test.ts
++ git checkout -- packages/xploder/src/panel/look.ts
++ echo 'negative controls: red as expected'
++ tee -a /tmp/s07-checks/t010.txt
+negative controls: red as expected
++ pnpm typecheck
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
++ pnpm lint
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
++ pnpm test
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/packages/xploder
+packages/xploder test: 
+tools/perf test:  ❯ test/serve.test.ts (5 tests | 5 skipped) 16ms
+packages/xploder test: (node:47310) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test:  ❯ test/reach.test.ts (3 tests | 3 skipped) 20ms
+packages/xploder test: (node:47309) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:47312) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: Error: listen EPERM: operation not permitted 127.0.0.1
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/reach.test.ts:21:17
+tools/perf test:      19|
+tools/perf test:      20| afterAll(async () => {
+tools/perf test:      21|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      22|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      23| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/serve.test.ts:67:17
+tools/perf test: 
+tools/perf test:      65|
+tools/perf test:      66| afterAll(async () => {
+tools/perf test:      67|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      68|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      69| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+tools/perf test: 
+tools/perf test:  Test Files  2 failed | 10 passed (12)
+tools/perf test:       Tests  68 passed | 8 skipped (76)
+tools/perf test:    Start at  08:07:51
+tools/perf test:    Duration  953ms (import 65%, transform 28%, tests 6%, worker 1%)
+tools/perf test: 
+tools/perf test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+packages/xploder test: Failed
+[ELIFECYCLE] Command failed with signal SIGKILL.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t010/tools/perf
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+## Sandbox continuation
+
+The exact `pnpm test` step failed in `tools/perf` because the sandbox rejects local server binds (`listen EPERM: operation not permitted 127.0.0.1`); the parallel xploder run was SIGKILLed. The isolated runs below distinguish environment failures from code failures.
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/packages/xploder
+
+(node:47358) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47356) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47355) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47361) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47366) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47371) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+(node:47373) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47383) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:47386) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  51 passed (51)
+      Tests  522 passed (522)
+   Start at  08:07:57
+   Duration  5.95s (tests 74%, import 16%, transform 9%, worker 1%)
+
+    Isolate  51 workers spawned · ~87ms startup each (spawn + environment, per file)
+             at least ~404ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+$ pnpm --filter web test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  53 passed | 2 skipped (55)
+   Start at  08:08:08
+   Duration  110ms (tests 40%, transform 31%, import 23%, worker 7%)
+
+
+$ pnpm --filter perf-tools test
+$ vitest run
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/tools/perf
+
+ ❯ test/reach.test.ts (3 tests | 3 skipped) 9ms
+ ❯ test/serve.test.ts (5 tests | 5 skipped) 13ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/reach.test.ts [ test/reach.test.ts ]
+ FAIL  test/serve.test.ts [ test/serve.test.ts ]
+Error: listen EPERM: operation not permitted 127.0.0.1
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/reach.test.ts [ test/reach.test.ts ]
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ test/reach.test.ts:21:17
+     19|
+     20| afterAll(async () => {
+     21|   await serving.close();
+       |                 ^
+     22|   await rm(dir, { recursive: true, force: true });
+     23| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/serve.test.ts [ test/serve.test.ts ]
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ test/serve.test.ts:67:17
+     65|
+     66| afterAll(async () => {
+     67|   await serving.close();
+       |                 ^
+     68|   await rm(dir, { recursive: true, force: true });
+     69| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  2 failed | 10 passed (12)
+      Tests  68 passed | 8 skipped (76)
+   Start at  08:08:16
+   Duration  483ms (import 86%, tests 8%, transform 4%, worker 2%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t010/tools/perf
+
+
+$ pnpm --filter perf-tools exec vitest run --exclude test/serve.test.ts --exclude test/reach.test.ts
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s07-t010/tools/perf
+
+
+ Test Files  10 passed (10)
+      Tests  68 passed (68)
+   Start at  08:09:03
+   Duration  472ms (import 88%, tests 6%, transform 5%, worker 1%)
+
+
+$ pnpm build
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 13ms
+
+  Creating an optimized production build ...
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to /var/folders/s9/c70kgf_d4x37q6csrthg2tt00000gn/T/next-panic-2169672d69b1d77a093ad1e308c729c1.log.
+
+To help make Turbopack better, report this error by clicking here: https://bugs.nextjs.org/search?category=turbopack-error-report&title=Turbopack%20Error%3A%20Failed%20to%20write%20app%20endpoint%20%2Fpage&body=Turbopack%20version%3A%20%6029bbeab0%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0AFailed%20to%20write%20app%20endpoint%20%2Fpage%0A%0ACaused%20by%3A%0A-%20%5Bproject%5D%2Fapps%2Fweb%2Fapp%2Fglobals.css%20%5Bapp-client%5D%20%28css%29%0A-%20creating%20new%20process%0A-%20binding%20to%20a%20port%0A-%20Operation%20not%20permitted%20%28os%20error%201%29%0A%0ADebug%20info%3A%0A-%20Execution%20of%20get_all_written_entrypoints_with_issues_operation%20failed%0A-%20Execution%20of%20EntrypointsOperation%3A%3Anew%20failed%0A-%20Execution%20of%20all_entrypoints_write_to_disk_operation%20failed%0A-%20Execution%20of%20output_assets_operation%20failed%0A-%20Execution%20of%20%3CAppEndpoint%20as%20Endpoint%3E%3A%3Aoutput%20failed%0A-%20Failed%20to%20write%20app%20endpoint%20%2Fpage%0A-%20Execution%20of%20AppEndpoint%3A%3Aoutput%20failed%0A-%20Execution%20of%20whole_app_module_graph_operation%20failed%0A-%20Execution%20of%20%2AProject%3A%3Aget_all_additional_entries%20failed%0A-%20Execution%20of%20ModuleGraph%3A%3Afrom_graphs%20failed%0A-%20Execution%20of%20ModuleGraph%3A%3Afrom_graphs_inner%20failed%0A-%20Execution%20of%20SingleModuleGraph%3A%3Anew_with_entries%20failed%0A-%20%5Bproject%5D%2Fapps%2Fweb%2Fapp%2Fglobals.css%20%5Bapp-client%5D%20%28css%29%0A-%20Execution%20of%20primary_chunkable_referenced_modules%20failed%0A-%20Execution%20of%20%3CCssModule%20as%20Module%3E%3A%3Areferences%20failed%0A-%20Execution%20of%20parse_css%20failed%0A-%20Execution%20of%20%3CPostCssTransformedAsset%20as%20Asset%3E%3A%3Acontent%20failed%0A-%20Execution%20of%20PostCssTransformedAsset%3A%3Aprocess%20failed%0A-%20Execution%20of%20evaluate_webpack_loader%20failed%0A-%20creating%20new%20process%0A-%20binding%20to%20a%20port%0A-%20Operation%20not%20permitted%20%28os%20error%201%29%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+
+> Build error occurred
+Error [TurbopackInternalError]: Failed to write app endpoint /page
+
+Caused by:
+- [project]/apps/web/app/globals.css [app-client] (css)
+- creating new process
+- binding to a port
+- Operation not permitted (os error 1)
+
+Debug info:
+- Execution of get_all_written_entrypoints_with_issues_operation failed
+- Execution of EntrypointsOperation::new failed
+- Execution of all_entrypoints_write_to_disk_operation failed
+- Execution of output_assets_operation failed
+- Execution of <AppEndpoint as Endpoint>::output failed
+- Failed to write app endpoint /page
+- Execution of AppEndpoint::output failed
+- Execution of whole_app_module_graph_operation failed
+- Execution of *Project::get_all_additional_entries failed
+- Execution of ModuleGraph::from_graphs failed
+- Execution of ModuleGraph::from_graphs_inner failed
+- Execution of SingleModuleGraph::new_with_entries failed
+- [project]/apps/web/app/globals.css [app-client] (css)
+- Execution of primary_chunkable_referenced_modules failed
+- Execution of <CssModule as Module>::references failed
+- Execution of parse_css failed
+- Execution of <PostCssTransformedAsset as Asset>::content failed
+- Execution of PostCssTransformedAsset::process failed
+- Execution of evaluate_webpack_loader failed
+- creating new process
+- binding to a port
+- Operation not permitted (os error 1)
+    at <unknown> (TurbopackInternalError: Failed to write app endpoint /page) {
+  location: undefined
+}
+[ELIFECYCLE] Command failed with exit code 1.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s07-t010/apps/web
+
+[ELIFECYCLE] Command failed with exit code 1.
+
+The exact Turbopack build is blocked by the same sandbox EPERM. The webpack production build verifies compilation and static generation without changing the checked source:
+
+$ pnpm --filter web exec next build --webpack
+▲ Next.js 16.4.3 (webpack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1730ms
+  Running TypeScript ...
+  Finished TypeScript in 1121ms ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 204ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+
+## Guards
+
+$ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md && echo FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+$ test -z "$(git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md)" && echo BRIEF-HISTORY-OK
++ set -euo pipefail
++ git diff --quiet 3f06c8f -- .specify/slices .specify/KICKOFF-S07.md
++ echo FROZEN-OK
+FROZEN-OK
+++ sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths
++ git diff --quiet 53b2b2b -- packages/xploder/package.json packages/xploder/src/index.ts packages/xploder/src/parse.ts packages/xploder/src/errors.ts packages/xploder/src/schema packages/xploder/src/theme packages/xploder/src/motion/index.ts packages/xploder/src/motion/ease.ts packages/xploder/src/layout packages/xploder/src/engine packages/xploder/src/react/scene/CameraRig.tsx packages/xploder/src/react/scene/Lights.tsx packages/xploder/src/react/scene/Stats.tsx packages/xploder/src/react/env.ts packages/xploder/src/react/usePalette.ts packages/xploder/src/react/useReducedMotion.ts packages/xploder/test/fixtures/project-a-ui-app.json packages/xploder/test/fixtures/project-b-pipeline.json packages/xploder/test/fixtures/tech-registry.json packages/xploder/test/camera.test.ts packages/xploder/test/ease.test.ts packages/xploder/test/env.test.ts packages/xploder/test/explode.test.ts packages/xploder/test/exports.test.ts packages/xploder/test/fixtures.test.ts packages/xploder/test/generality.test.ts packages/xploder/test/geometry-free.test.ts packages/xploder/test/layout.test.ts packages/xploder/test/motion.test.ts packages/xploder/test/parse.test.ts packages/xploder/test/registry.test.ts packages/xploder/test/scene.test.tsx packages/xploder/test/schema.test.ts packages/xploder/test/smoke.test.ts packages/xploder/test/theme.test.ts packages/xploder/test/helpers.ts packages/xploder/test/__snapshots__/generality.test.ts.snap packages/xploder/test/__snapshots__/layout.test.ts.snap
++ echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+++ sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths
++ git diff --quiet f31600e -- packages/xploder/src/interaction packages/xploder/src/motion/emphasis.ts packages/xploder/src/react/scene/Emphasis.tsx packages/xploder/src/react/scene/PickBridge.tsx packages/xploder/src/react/scene/ViewScroll.tsx packages/xploder/src/react/overlay/TourCaption.tsx packages/xploder/src/react/usePointerPick.ts packages/xploder/src/react/useTourClock.ts packages/xploder/src/react/useTeardownViewer.ts packages/xploder/test/fixtures/project-c-lockerbay.json packages/xploder/test/pick.test.ts packages/xploder/test/pick-scene.test.tsx packages/xploder/test/pointer.test.ts packages/xploder/test/focus.test.ts packages/xploder/test/tour.test.ts packages/xploder/test/tour-clock.test.tsx packages/xploder/test/emphasis.test.ts packages/xploder/test/emphasis-scene.test.tsx packages/xploder/test/emphasis-tokens.test.ts packages/xploder/test/caption.test.ts packages/xploder/test/fixture-c.test.ts packages/xploder/test/scroll.test.ts packages/xploder/test/view-scroll.test.tsx packages/xploder/test/viewer-handle.test.tsx packages/xploder/test/__snapshots__/fixture-c.test.ts.snap
++ echo SURFACE-S5-OK
+SURFACE-S5-OK
+++ sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths
++ git diff --quiet 0b2c678 -- packages/xploder/src/look packages/xploder/src/overlay packages/xploder/src/react/overlay/BlueprintOverlay.tsx packages/xploder/src/react/overlay/CircuitTrace.tsx packages/xploder/src/react/scene/OverlayProjector.tsx packages/xploder/src/react/scene/Scene.tsx packages/xploder/src/react/scene/Slabs.tsx packages/xploder/src/react/scene/blueprintMaterial.ts packages/xploder/test/blueprint-scene.test.tsx packages/xploder/test/overlay-projector.test.tsx packages/xploder/test/look-fills.test.ts packages/xploder/test/look-tokens.test.ts packages/xploder/test/overlay-columns.test.ts packages/xploder/test/overlay-dimension.test.ts packages/xploder/test/overlay-model.test.ts packages/xploder/test/overlay-parts.test.ts packages/xploder/test/overlay-place.test.ts packages/xploder/test/overlay-project.test.ts packages/xploder/test/overlay-timing.test.ts packages/xploder/test/overlay-titleblock.test.ts packages/xploder/test/overlay-trace.test.ts packages/xploder/test/product-gap.test.ts
++ echo SURFACE-S6-OK
+SURFACE-S6-OK
+++ git log --oneline 3f06c8f..HEAD -- .specify/slices .specify/KICKOFF-S07.md
++ test -z ''
++ echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+The orchestrator must rerun the exact `pnpm test` and `pnpm build` outside the sandbox; all unblocked checks and guards above are green.
+T010-OK
