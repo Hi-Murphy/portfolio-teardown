@@ -273,14 +273,18 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
 
               if (lettering.kind !== 'mark') return null;
 
+              const [a, b, c, d, e, f] = lettering.matrix;
+              const centerX = e + (lettering.box.w * a) / 2 + (lettering.box.h * c) / 2;
+              const centerY = f + (lettering.box.w * b) / 2 + (lettering.box.h * d) / 2;
+
               return (
                 <line
                   key={item.id}
                   data-xploder-lettering-leader={item.id}
                   x1={lettering.anchor[0]}
                   y1={lettering.anchor[1]}
-                  x2={lettering.x}
-                  y2={lettering.y + (lettering.numberPx * LETTERING_LOOK.lineEm) / 2}
+                  x2={centerX}
+                  y2={centerY}
                   stroke={palette.steel}
                   strokeWidth={1}
                   vectorEffect="non-scaling-stroke"
@@ -305,8 +309,10 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                     position: 'absolute',
                     left: 0,
                     top: 0,
+                    width: lettering.box.w,
+                    height: lettering.box.h,
                     transformOrigin: '0 0',
-                    transform: `translate(${lettering.x}px, ${lettering.y}px)`,
+                    transform: `matrix(${lettering.matrix.join(',')})`,
                     pointerEvents: 'auto',
                     userSelect: 'text',
                     whiteSpace: 'nowrap',
@@ -344,17 +350,20 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                 }}
               >
                 {item.number}
-                {lettering.namePx === null ? null : (
-                  <div
-                    style={{
-                      font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                      textTransform: 'uppercase',
-                      color: palette[look.annotation.textRole] || palette.label,
-                    }}
-                  >
-                    {names.get(item.id)}
-                  </div>
-                )}
+                {lettering.namePx === null
+                  ? null
+                  : lettering.nameLines.map((line, index) => (
+                      <div
+                        key={`${item.id}-name-${index}`}
+                        style={{
+                          font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                          textTransform: 'uppercase',
+                          color: palette[look.annotation.textRole] || palette.label,
+                        }}
+                      >
+                        {line}
+                      </div>
+                    ))}
               </div>
             );
           })}

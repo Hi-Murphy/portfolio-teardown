@@ -27,6 +27,8 @@ const CANVASES = [
 ] as const;
 const AZIMUTHS = [0, 1, 2, 3].map((index) => VIEW.baseAzimuth + index * VIEW.snap);
 const ZOOM_FACTORS = [1, 1.5625, 3] as const;
+const NAME_TABLE_CANVASES = [CANVASES[1], CANVASES[3]] as const;
+const ZOOM_LADDER = [1, 1.25, 1.5625, 1.953125, 2.44140625, 3] as const;
 
 interface Histogram {
   faceName: number;
@@ -212,6 +214,10 @@ function countLettering(histogram: Histogram, lettering: Lettering): void {
   }
 }
 
+function nameWidth(text: string, fontPx: number): number {
+  return Math.ceil(Array.from(text).length * LETTERING_LOOK.charEm * fontPx);
+}
+
 describe('part lettering matrix', () => {
   test.each(PROJECTS)(
     'labels every %s fixture component at every view and scroll offset',
@@ -333,8 +339,68 @@ describe('face basis', () => {
     const determinant = basis.u[0] * basis.v[1] - basis.u[1] * basis.v[0];
 
     expect(basis.u[0]).toBeGreaterThan(0);
+    expect(basis.u[1]).toBeGreaterThan(0);
     expect(determinant).toBeGreaterThan(0);
   });
+});
+
+describe('face direction', () => {
+  test.each([PROJECTS[0], PROJECTS[2]])(
+    'keeps every %s face pointing down-right across components and rotations',
+    (fixture, project) => {
+      const layout = layoutProject(project, resolveViewerLayoutOptions());
+      const names = namesFor(project);
+      let reference: readonly [number, number] | undefined;
+
+      for (const azimuth of AZIMUTHS) {
+        const canvas = { width: 1216, height: 480 } as const;
+        const view = viewFor(canvas, 1, azimuth, layout);
+        const frame = overlayFrame(layout, 1, view);
+        const components = frame.components.map((componentFrame) => {
+          const component = layout.components.find(
+            (candidate) => candidate.id === componentFrame.id,
+          );
+
+          if (component === undefined) throw new Error(`Missing ${componentFrame.id}`);
+
+          return {
+            id: componentFrame.id,
+            layerIndex: componentFrame.layerIndex,
+            slot: component.slot,
+            quad: topFaceQuad(component, 1, (point) => projectPoint(point, view)),
+            hull: componentFrame.hull,
+          };
+        });
+        const lettering = letteringModel({
+          layout,
+          components,
+          layers: frame.layers,
+          names,
+        });
+
+        expect(lettering).toHaveLength(frame.components.length);
+
+        for (const item of lettering) {
+          if (item.lettering.kind !== 'face') continue;
+
+          const label = `${fixture} a${azimuth} ${item.id}`;
+          const [a, b] = item.lettering.matrix;
+
+          expect(a, `${label} u.x`).toBeGreaterThan(0);
+          expect(b, `${label} u.y`).toBeGreaterThan(0);
+
+          if (reference === undefined) {
+            reference = [a, b];
+          } else {
+            expect(Math.abs(a - reference[0]), `${label} u.x differs`).toBeLessThanOrEqual(1e-6);
+            expect(Math.abs(b - reference[1]), `${label} u.y differs`).toBeLessThanOrEqual(1e-6);
+          }
+        }
+      }
+
+      expect(reference, `${fixture} has no face lettering`).toBeDefined();
+    },
+  );
 });
 
 describe('letterPart', () => {
@@ -360,8 +426,34 @@ describe('letterPart', () => {
 
     expect(lettering.numberPx).toBe(LETTERING_LOOK.numberMaxPx);
     expect(lettering.namePx).toBeGreaterThanOrEqual(LETTERING_LOOK.nameMinPx);
+    expect(lettering.nameLines).toEqual(['Parser']);
     expect(lettering.box.w).toBeGreaterThan(0);
     expect(lettering.box.h).toBeGreaterThan(0);
+  });
+
+  test('wraps a long name at spaces when it cannot fit on one line', () => {
+    const name = 'DEAD LETTER STORE';
+    const lettering = letterPart({ quad: square, number: '1.1', name, occluders: [] });
+
+    expect(lettering.kind).toBe('face');
+
+    if (lettering.kind !== 'face' || lettering.namePx === null) return;
+
+    const pad = Math.max(LETTERING_LOOK.padMinPx, LETTERING_LOOK.padFrac * Math.min(120, 120));
+    const availableWidth = 120 - 2 * pad;
+
+    expect(nameWidth(name, lettering.namePx)).toBeGreaterThan(availableWidth);
+    expect(lettering.nameLines.length).toBeGreaterThanOrEqual(2);
+    expect(lettering.nameLines.length).toBeLessThanOrEqual(LETTERING_LOOK.nameMaxLines);
+
+    for (const line of lettering.nameLines) {
+      expect(nameWidth(line, lettering.namePx)).toBeLessThanOrEqual(availableWidth);
+    }
+
+    expect(lettering.box.h).toBe(
+      Math.ceil(LETTERING_LOOK.lineEm * lettering.numberPx) +
+        lettering.nameLines.length * Math.ceil(LETTERING_LOOK.lineEm * lettering.namePx),
+    );
   });
 
   test('drops the name before the number on a tiny face', () => {
@@ -372,6 +464,7 @@ describe('letterPart', () => {
     if (lettering.kind !== 'face') return;
 
     expect(lettering.namePx).toBeNull();
+    expect(lettering.nameLines).toEqual([]);
     expect(lettering.numberPx).toBeGreaterThanOrEqual(LETTERING_LOOK.numberMinPx);
   });
 
@@ -395,5 +488,59 @@ describe('letterPart', () => {
 
     expect(lettering.numberPx).toBe(LETTERING_LOOK.numberMinPx);
     expect(lettering.anchor[1]).toBe(120);
+  });
+});
+
+describe('names on phone', () => {
+  test.each(PROJECTS)('prints the lettering mix for fixture %s', (fixture, project) => {
+    const layout = layoutProject(project, resolveViewerLayoutOptions());
+    const names = namesFor(project);
+
+    console.log('names-on-phone fixture canvas zoom names number-only mark');
+
+    for (const canvas of NAME_TABLE_CANVASES) {
+      for (const zoomFactor of ZOOM_LADDER) {
+        const view = viewFor(canvas, zoomFactor, VIEW.baseAzimuth, layout);
+        const frame = overlayFrame(layout, 1, view);
+        const components = frame.components.map((componentFrame) => {
+          const component = layout.components.find(
+            (candidate) => candidate.id === componentFrame.id,
+          );
+
+          if (component === undefined) throw new Error(`Missing ${componentFrame.id}`);
+
+          return {
+            id: componentFrame.id,
+            layerIndex: componentFrame.layerIndex,
+            slot: component.slot,
+            quad: topFaceQuad(component, 1, (point) => projectPoint(point, view)),
+            hull: componentFrame.hull,
+          };
+        });
+        const lettering = letteringModel({
+          layout,
+          components,
+          layers: frame.layers,
+          names,
+        });
+        const histogram = emptyHistogram();
+
+        for (const item of lettering) countLettering(histogram, item.lettering);
+
+        console.log(
+          `names-on-phone fixture=${fixture} canvas=${canvas.width}x${canvas.height} zoom=${zoomFactor.toFixed(2)} names=${histogram.faceName}/${lettering.length} number-only=${histogram.faceNumber} mark=${histogram.mark}`,
+        );
+
+        expect(histogram.faceName + histogram.faceNumber + histogram.mark).toBe(lettering.length);
+
+        if (
+          canvas === NAME_TABLE_CANVASES[0] &&
+          zoomFactor >= 2.44140625 &&
+          (fixture === 'A' || fixture === 'C')
+        ) {
+          expect(histogram.faceName, `${fixture} ${zoomFactor}x names`).toBe(lettering.length);
+        }
+      }
+    }
   });
 });

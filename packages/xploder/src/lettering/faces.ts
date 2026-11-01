@@ -1,6 +1,8 @@
 import type { ComponentSlab, Vec3 } from '../layout';
 import type { Vec2 } from '../overlay/project';
 
+import type { LetteringBaseline } from './look';
+
 export interface FaceBasis {
   readonly origin: Vec2;
   readonly u: Vec2;
@@ -62,48 +64,37 @@ export function topFaceQuad(
   ];
 }
 
-export function faceBasis(quad: FaceQuad): FaceBasis {
-  const [first, second, third, fourth] = quad;
-  const xEdge = subtract(second, first);
-  const zEdge = subtract(fourth, first);
-  const candidates: readonly EdgeCandidate[] = [
-    {
-      u: xEdge,
-      lu: Math.hypot(xEdge[0], xEdge[1]),
-      v: zEdge,
-      lv: Math.hypot(zEdge[0], zEdge[1]),
-      origin: first,
-      flippedOrigin: fourth,
-    },
-    {
-      u: negate(xEdge),
-      lu: Math.hypot(xEdge[0], xEdge[1]),
-      v: zEdge,
-      lv: Math.hypot(zEdge[0], zEdge[1]),
-      origin: second,
-      flippedOrigin: third,
-    },
-    {
-      u: zEdge,
-      lu: Math.hypot(zEdge[0], zEdge[1]),
-      v: xEdge,
-      lv: Math.hypot(xEdge[0], xEdge[1]),
-      origin: first,
-      flippedOrigin: second,
-    },
-    {
-      u: negate(zEdge),
-      lu: Math.hypot(zEdge[0], zEdge[1]),
-      v: xEdge,
-      lv: Math.hypot(xEdge[0], xEdge[1]),
-      origin: fourth,
-      flippedOrigin: third,
-    },
-  ];
-  let selected = candidates[0];
+export function faceBasis(quad: FaceQuad, baseline: LetteringBaseline = 'down-right'): FaceBasis {
+  const candidates = quad.map((origin, index): EdgeCandidate => {
+    const next = quad[(index + 1) % quad.length];
+    const previous = quad[(index + quad.length - 1) % quad.length];
 
-  for (const candidate of candidates) {
-    if (selected === undefined || candidate.u[0] > selected.u[0]) selected = candidate;
+    if (next === undefined || previous === undefined) {
+      throw new RangeError('Cannot build a basis for a degenerate face');
+    }
+
+    const u = subtract(next, origin);
+    const v = subtract(previous, origin);
+
+    return {
+      u,
+      lu: Math.hypot(u[0], u[1]),
+      v,
+      lv: Math.hypot(v[0], v[1]),
+      origin,
+      flippedOrigin: next,
+    };
+  });
+  const wantsDownRight = baseline === 'down-right';
+  let selected = candidates.find(
+    (candidate) => candidate.u[0] > 0 && (wantsDownRight ? candidate.u[1] > 0 : candidate.u[1] < 0),
+  );
+
+  if (selected === undefined) {
+    for (const candidate of candidates) {
+      if (candidate.u[0] <= 0 || Math.abs(candidate.u[1]) >= 1e-9) continue;
+      if (selected === undefined || candidate.u[0] > selected.u[0]) selected = candidate;
+    }
   }
 
   if (selected === undefined || selected.lu === 0 || selected.lv === 0) {
@@ -112,7 +103,11 @@ export function faceBasis(quad: FaceQuad): FaceBasis {
 
   const u = unit(selected.u, selected.lu);
   const naturalV = unit(selected.v, selected.lv);
-  const flipped = cross(u, naturalV) < 0;
+  const flipped = wantsDownRight ? naturalV[1] < 0 : cross(u, naturalV) < 0;
+
+  if (wantsDownRight && naturalV[1] === 0) {
+    throw new RangeError('Cannot orient a face against the baseline');
+  }
 
   return {
     origin: flipped ? selected.flippedOrigin : selected.origin,
