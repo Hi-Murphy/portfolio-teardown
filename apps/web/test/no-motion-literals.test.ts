@@ -77,6 +77,9 @@ const S07_SOURCE_FILES = [
   'lettering/layers.ts',
   'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S08_SOURCE_FILES = ['a11y/contrast.ts'].map((path) =>
+  fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)),
+);
 const BARE_TIMING_SHORTHAND =
   /(['"`])(?=[^'"`\n]*\b\d*\.?\d+m?s\b)(?=[^'"`\n]*\b(?:ease(?:-in-out|-in|-out)?|linear|cubic-bezier\(|steps\())[^'"`\n]*\1/g;
 
@@ -144,6 +147,7 @@ describe('motion-literal scanner', () => {
     expect(sourceFiles).toEqual(expect.arrayContaining(S05_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S06_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S07_SOURCE_FILES));
+    expect(sourceFiles).toEqual(expect.arrayContaining(S08_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
   });
 
