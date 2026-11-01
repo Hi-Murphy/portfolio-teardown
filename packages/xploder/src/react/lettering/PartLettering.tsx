@@ -423,7 +423,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
 
     return (
-      <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
+      <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
         {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
         <div
           ref={groupRef}

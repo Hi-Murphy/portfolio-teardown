@@ -18,6 +18,19 @@ const LIST_STYLE: CSSProperties = {
   margin: 0,
 };
 
+const VISUALLY_HIDDEN_STYLE: CSSProperties = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  whiteSpace: 'nowrap',
+  margin: '-1px',
+  padding: 0,
+  border: 0,
+};
+
 function chipStyle(accent: string | null, palette: Palette): CSSProperties {
   return {
     display: 'inline-flex',
@@ -54,6 +67,9 @@ export function TechChips({ chips, palette }: TechChipsProps) {
               />
             )}
             <span>{chip.label}</span>
+            {chip.category === undefined ? null : (
+              <span style={VISUALLY_HIDDEN_STYLE}>, {chip.category}</span>
+            )}
           </li>
         );
       })}
