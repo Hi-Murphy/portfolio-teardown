@@ -198,6 +198,10 @@ export function TeardownViewer({
     targetLayerIndex === null || targetLayerIndex < 0 ? null : targetLayerIndex,
     project.layers.length,
   );
+  const componentCount = project.layers.reduce(
+    (count, layer) => count + layer.components.length,
+    0,
+  );
 
   const onScrollExtent = useCallback((extent: number) => {
     if (extent === publishedExtentRef.current) return;
@@ -648,8 +652,10 @@ export function TeardownViewer({
       <style>{LETTERING_HIDE_CSS}</style>
       <LiveRegion ref={liveRegionRef} />
       <p id={keysHelpId} style={VISUALLY_HIDDEN_STYLE}>
-        Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up,
-        Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+        {project.layers.length} {project.layers.length === 1 ? 'layer' : 'layers'}, {componentCount}{' '}
+        {componentCount === 1 ? 'component' : 'components'}. Use Left and Right Arrow to rotate,
+        plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the
+        drawing. Press Tab to move to Components.
       </p>
       {webgl ? (
         <>
@@ -697,20 +703,22 @@ export function TeardownViewer({
                   />
                 </Canvas>
               </CanvasBoundary>
-              <BlueprintOverlay
-                ref={overlayRef}
-                project={project}
-                layout={layout}
-                palette={resolvedPalette}
-                tokens={tokens}
-                target={viewer.target}
-                phase={phase}
-                tour={viewer.tour}
-                focus={viewer.focus}
-                highlight={viewer.highlight}
-                look={look}
-                onTitleBlockShown={onTitleBlockShown}
-              />
+              <div aria-hidden="true">
+                <BlueprintOverlay
+                  ref={overlayRef}
+                  project={project}
+                  layout={layout}
+                  palette={resolvedPalette}
+                  tokens={tokens}
+                  target={viewer.target}
+                  phase={phase}
+                  tour={viewer.tour}
+                  focus={viewer.focus}
+                  highlight={viewer.highlight}
+                  look={look}
+                  onTitleBlockShown={onTitleBlockShown}
+                />
+              </div>
               <PartLettering
                 ref={letteringRef}
                 layout={layout}

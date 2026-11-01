@@ -87,6 +87,7 @@ export function DetailPanel({ model, palette, headingId, headingRef, onClose }: 
       </div>
 
       <p
+        id={`${headingId}-meta`}
         style={{
           color: palette.label,
           fontFamily: 'var(--font-mono, ui-monospace, monospace)',
@@ -97,7 +98,11 @@ export function DetailPanel({ model, palette, headingId, headingRef, onClose }: 
         {model.meta.kind} · {model.meta.status}
       </p>
 
-      {model.summary === undefined ? null : <p style={bodyStyle(palette)}>{model.summary}</p>}
+      {model.summary === undefined ? null : (
+        <p id={`${headingId}-summary`} style={bodyStyle(palette)}>
+          {model.summary}
+        </p>
+      )}
       {model.description === undefined ? null : (
         <p style={bodyStyle(palette)}>{model.description}</p>
       )}

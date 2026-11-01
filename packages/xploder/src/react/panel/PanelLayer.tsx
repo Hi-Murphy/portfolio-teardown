@@ -482,6 +482,11 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
           role="dialog"
           aria-modal="false"
           aria-labelledby={surface.kind === 'detail' ? headingIds.detail : caseStudyHeadingId}
+          aria-describedby={
+            surface.kind === 'detail' && model !== null
+              ? `${headingIds.detail}-meta${model.summary === undefined ? '' : ` ${headingIds.detail}-summary`}`
+              : undefined
+          }
           id={surface.kind === 'caseStudy' ? headingIds.caseStudy : undefined}
           data-xploder-panel-surface=""
           data-xploder-panel-dock={surface.placement.dock}
