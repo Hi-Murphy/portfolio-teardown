@@ -37,7 +37,7 @@
 | T010d+T010b | ☑ (G2 feedback 3: phone 1× compact right parts column; layers lettered on the plates; S6 layer label kept per layer as fallback; smoke 64/64 states one visible label per layer) | 1 (Flash, sandbox off) + orchestrator review fixes (per-layer hide, on-screen sliding) | evidence/T010d-{log.txt,log-phone-margin-measure.txt,screenshot-*.png} | see merge |
 | T011 | ☑ (dry run 92/92 S7 checks; never-covers 48 entries) | 1 (Flash, sandbox off) | evidence/T011-log-probe-tool.txt | see merge |
 | T012 | ☑ 198/198 (S4–S7; never-covers 48; CLS strict 0) | 1 (Flash) ×2: exit 3 infra, exit 4 S5 wait timeout (environmental, diagnosed) → ⚑ orchestrator ran it (exit 0) | evidence/T012-{engine-probe.json,log-probe.txt,log-interaction.txt,screenshot-*.png} | see merge |
-| T013 | ☐ | | | |
+| T013 | ☑ 20 shots; docks left→right, right→left, top→bottom, bottom→top asserted | 1 (Flash, sandbox off); 1st dispatch lost to an orchestrator error (server pointed at a removed worktree) | evidence/T013-{log-matrix.txt,meta.json,screenshot-*.png} | see merge |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
 
