@@ -1,0 +1,13 @@
+# T015 — CI a11y job + regression proof (PR #13)
+
+## Run 1 (green) — head 62cde32
+perf workflow run: {"databaseId":41323784727,"headSha":"62cde326cc7086eebf2c0e17b64785b0a224998c","url":"https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727"}
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/X5hZ7uyQadWEYMVK41BEK9fPtkNT	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	2m5s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350694	
+build (typecheck, lint, test, build)	pass	50s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784732/job/124899350584	
+perf-gate: lighthouse (mobile)	pass	1m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350559	
+perf-gate: weight (< 3 MB)	pass	1m18s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350839	
+perf: fixture exclusion	pass	22s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350792	
+perf: fps calibration	pass	1m8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784727/job/124899350684	
+secrets (gitleaks)	pass	9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41323784732/job/124899350984	
