@@ -1,0 +1,633 @@
+{
+  "kind": "T012g-smoke",
+  "version": 1,
+  "target": "export",
+  "baseUrl": "http://127.0.0.1:4310/",
+  "projectUrl": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 900
+    }
+  },
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "expectedLayers": [
+    {
+      "id": "inspection-ui",
+      "name": "Inspection UI",
+      "partCount": 4,
+      "description": "Compose screens launched from the notification."
+    },
+    {
+      "id": "delivery",
+      "name": "Delivery & lifecycle",
+      "partCount": 4,
+      "description": "What keeps inspection alive outside the foreground."
+    },
+    {
+      "id": "capture",
+      "name": "Capture",
+      "partCount": 3,
+      "description": "Where frames are intercepted and tagged."
+    },
+    {
+      "id": "persistence",
+      "name": "Persistence",
+      "partCount": 2,
+      "description": "Sessions and frames at rest."
+    },
+    {
+      "id": "host",
+      "name": "Sample host",
+      "partCount": 3,
+      "description": "The smallest possible integration, kept deliberately thin."
+    }
+  ],
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-layers-focus-mobile-light.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-flows-playing-mobile-light.png",
+      "state": "flows-playing"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-layers-focus-desktop-light.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-flows-playing-desktop-light.png",
+      "state": "flows-playing"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-layers-focus-mobile-dark.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-flows-playing-mobile-dark.png",
+      "state": "flows-playing"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-layers-focus-desktop-dark.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012g-screenshot-flows-playing-desktop-dark.png",
+      "state": "flows-playing"
+    }
+  ],
+  "checks": [
+    {
+      "label": "reload regression: direct load: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "reload regression: direct load: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "reload regression: direct load: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "reload regression: direct load: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "reload regression: direct load: Flows transport is portalled after switching modes",
+      "ok": true
+    },
+    {
+      "label": "reload regression 1: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "reload regression 1: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "reload regression 1: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "reload regression 1: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "reload regression 1: Flows transport is portalled after switching modes",
+      "ok": true
+    },
+    {
+      "label": "reload regression 2: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "reload regression 2: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "reload regression 2: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "reload regression 2: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "reload regression 2: Flows transport is portalled after switching modes",
+      "ok": true
+    },
+    {
+      "label": "reload regression 3: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "reload regression 3: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "reload regression 3: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "reload regression 3: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "reload regression 3: Flows transport is portalled after switching modes",
+      "ok": true
+    },
+    {
+      "label": "reload regression 4: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "reload regression 4: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "reload regression 4: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "reload regression 4: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "reload regression 4: Flows transport is portalled after switching modes",
+      "ok": true
+    },
+    {
+      "label": "reload regression 5: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "reload regression 5: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "reload regression 5: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "reload regression 5: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "reload regression 5: Flows transport is portalled after switching modes",
+      "ok": true
+    },
+    {
+      "label": "reload regression: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "mobile: hydration comparison: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "mobile: hydration comparison: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "mobile: hydration comparison: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "mobile: hydration comparison: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "mobile: the card rect is identical before and after hydration",
+      "ok": true,
+      "detail": "{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536} -> {\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536}"
+    },
+    {
+      "label": "mobile: direct load: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "mobile: direct load: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "mobile: direct load: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "mobile: direct load: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "mobile: Layers is the default tab and panel",
+      "ok": true,
+      "detail": "{\"selectedTab\":\"layers\",\"panelMode\":\"layers\"}"
+    },
+    {
+      "label": "mobile: the tour starts idle",
+      "ok": true,
+      "detail": "idle"
+    },
+    {
+      "label": "mobile: the tablist uses a roving tabindex",
+      "ok": true,
+      "detail": "[\"0\",\"-1\"]"
+    },
+    {
+      "label": "mobile: the selected tab points at its tabpanel",
+      "ok": true,
+      "detail": "{\"controls\":\"explore-panel-layers\",\"panel\":\"explore-panel-layers\",\"labelledBy\":\"explore-tab-layers\",\"panels\":2,\"visiblePanels\":1}"
+    },
+    {
+      "label": "mobile: layer chips match \"<n> <name> · <count> parts\"",
+      "ok": true,
+      "detail": "[{\"id\":\"inspection-ui\",\"text\":\"1 Inspection UI · 4 parts\",\"pressed\":\"false\",\"expected\":\"1 Inspection UI · 4 parts\"},{\"id\":\"delivery\",\"text\":\"2 Delivery & lifecycle · 4 parts\",\"pressed\":\"false\",\"expected\":\"2 Delivery & lifecycle · 4 parts\"},{\"id\":\"capture\",\"text\":\"3 Capture · 3 parts\",\"pressed\":\"false\",\"expected\":\"3 Capture · 3 parts\"},{\"id\":\"persistence\",\"text\":\"4 Persistence · 2 parts\",\"pressed\":\"false\",\"expected\":\"4 Persistence · 2 parts\"},{\"id\":\"host\",\"text\":\"5 Sample host · 3 parts\",\"pressed\":\"false\",\"expected\":\"5 Sample host · 3 parts\"}]"
+    },
+    {
+      "label": "mobile: the unfocused Layers hint is shown",
+      "ok": true,
+      "detail": "Pick a layer to isolate it."
+    },
+    {
+      "label": "mobile: no Exit tour control exists",
+      "ok": true
+    },
+    {
+      "label": "mobile: Layers has no horizontal page overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":360,\"scrollWidth\":360}"
+    },
+    {
+      "label": "mobile: clicking layer chip 2 focuses that layer",
+      "ok": true,
+      "detail": "delivery/true"
+    },
+    {
+      "label": "mobile: the focused layer description is shown",
+      "ok": true,
+      "detail": "What keeps inspection alive outside the foreground."
+    },
+    {
+      "label": "mobile: clicking the focused chip again releases focus",
+      "ok": true,
+      "detail": "null/false"
+    },
+    {
+      "label": "mobile: releasing focus restores the Layers hint",
+      "ok": true,
+      "detail": "Pick a layer to isolate it."
+    },
+    {
+      "label": "mobile: ArrowRight automatically activates Flows and keeps focus on its tab",
+      "ok": true,
+      "detail": "{\"selected\":\"flows\",\"panel\":\"flows\",\"active\":\"flows\",\"tour\":\"idle\"}"
+    },
+    {
+      "label": "mobile: switching from Layers to Flows releases focus",
+      "ok": true,
+      "detail": "released"
+    },
+    {
+      "label": "mobile: Flows shows the route chooser and transport",
+      "ok": true,
+      "detail": "options=2"
+    },
+    {
+      "label": "mobile: Flows has no horizontal page overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":360,\"scrollWidth\":360}"
+    },
+    {
+      "label": "mobile: the primary transport is icon-only and labelled Start tour",
+      "ok": true,
+      "detail": "{\"text\":\"\",\"ariaLabel\":\"Start tour\",\"title\":\"Start tour\",\"pressed\":\"false\"}"
+    },
+    {
+      "label": "mobile: playing shows an icon-only Pause tour pressed control",
+      "ok": true,
+      "detail": "{\"text\":\"\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"pressed\":\"true\",\"tour\":\"playing\"}"
+    },
+    {
+      "label": "mobile: playing Flows fits the reserved card",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":534,\"scrollHeight\":534}"
+    },
+    {
+      "label": "mobile: Home switches back to Layers, stops the tour, and restores all callouts",
+      "ok": true,
+      "detail": "{\"selected\":\"layers\",\"tour\":\"idle\",\"overlay\":\"shown\",\"labels\":16}"
+    },
+    {
+      "label": "mobile: End and ArrowLeft switch tabs with automatic activation",
+      "ok": true,
+      "detail": "flows -> layers"
+    },
+    {
+      "label": "mobile: the reserved card rect is identical across both modes",
+      "ok": true,
+      "detail": "{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536} -> {\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536}"
+    },
+    {
+      "label": "mobile: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop: hydration comparison: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "desktop: hydration comparison: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "desktop: hydration comparison: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "desktop: hydration comparison: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "desktop: the card rect is identical before and after hydration",
+      "ok": true,
+      "detail": "{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448} -> {\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448}"
+    },
+    {
+      "label": "desktop: direct load: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "desktop: direct load: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "desktop: direct load: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "desktop: direct load: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "desktop: Layers is the default tab and panel",
+      "ok": true,
+      "detail": "{\"selectedTab\":\"layers\",\"panelMode\":\"layers\"}"
+    },
+    {
+      "label": "desktop: the tour starts idle",
+      "ok": true,
+      "detail": "idle"
+    },
+    {
+      "label": "desktop: the tablist uses a roving tabindex",
+      "ok": true,
+      "detail": "[\"0\",\"-1\"]"
+    },
+    {
+      "label": "desktop: the selected tab points at its tabpanel",
+      "ok": true,
+      "detail": "{\"controls\":\"explore-panel-layers\",\"panel\":\"explore-panel-layers\",\"labelledBy\":\"explore-tab-layers\",\"panels\":2,\"visiblePanels\":1}"
+    },
+    {
+      "label": "desktop: layer chips match \"<n> <name> · <count> parts\"",
+      "ok": true,
+      "detail": "[{\"id\":\"inspection-ui\",\"text\":\"1 Inspection UI · 4 parts\",\"pressed\":\"false\",\"expected\":\"1 Inspection UI · 4 parts\"},{\"id\":\"delivery\",\"text\":\"2 Delivery & lifecycle · 4 parts\",\"pressed\":\"false\",\"expected\":\"2 Delivery & lifecycle · 4 parts\"},{\"id\":\"capture\",\"text\":\"3 Capture · 3 parts\",\"pressed\":\"false\",\"expected\":\"3 Capture · 3 parts\"},{\"id\":\"persistence\",\"text\":\"4 Persistence · 2 parts\",\"pressed\":\"false\",\"expected\":\"4 Persistence · 2 parts\"},{\"id\":\"host\",\"text\":\"5 Sample host · 3 parts\",\"pressed\":\"false\",\"expected\":\"5 Sample host · 3 parts\"}]"
+    },
+    {
+      "label": "desktop: the unfocused Layers hint is shown",
+      "ok": true,
+      "detail": "Pick a layer to isolate it."
+    },
+    {
+      "label": "desktop: no Exit tour control exists",
+      "ok": true
+    },
+    {
+      "label": "desktop: Layers has no horizontal page overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1280,\"scrollWidth\":1280}"
+    },
+    {
+      "label": "desktop: clicking layer chip 2 focuses that layer",
+      "ok": true,
+      "detail": "delivery/true"
+    },
+    {
+      "label": "desktop: the focused layer description is shown",
+      "ok": true,
+      "detail": "What keeps inspection alive outside the foreground."
+    },
+    {
+      "label": "desktop: clicking the focused chip again releases focus",
+      "ok": true,
+      "detail": "null/false"
+    },
+    {
+      "label": "desktop: releasing focus restores the Layers hint",
+      "ok": true,
+      "detail": "Pick a layer to isolate it."
+    },
+    {
+      "label": "desktop: ArrowRight automatically activates Flows and keeps focus on its tab",
+      "ok": true,
+      "detail": "{\"selected\":\"flows\",\"panel\":\"flows\",\"active\":\"flows\",\"tour\":\"idle\"}"
+    },
+    {
+      "label": "desktop: switching from Layers to Flows releases focus",
+      "ok": true,
+      "detail": "released"
+    },
+    {
+      "label": "desktop: Flows shows the route chooser and transport",
+      "ok": true,
+      "detail": "options=2"
+    },
+    {
+      "label": "desktop: Flows has no horizontal page overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1280,\"scrollWidth\":1280}"
+    },
+    {
+      "label": "desktop: the primary transport is icon-only and labelled Start tour",
+      "ok": true,
+      "detail": "{\"text\":\"\",\"ariaLabel\":\"Start tour\",\"title\":\"Start tour\",\"pressed\":\"false\"}"
+    },
+    {
+      "label": "desktop: playing shows an icon-only Pause tour pressed control",
+      "ok": true,
+      "detail": "{\"text\":\"\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"pressed\":\"true\",\"tour\":\"playing\"}"
+    },
+    {
+      "label": "desktop: playing Flows fits the reserved card",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":446,\"scrollHeight\":446}"
+    },
+    {
+      "label": "desktop: Home switches back to Layers, stops the tour, and restores all callouts",
+      "ok": true,
+      "detail": "{\"selected\":\"layers\",\"tour\":\"idle\",\"overlay\":\"shown\",\"labels\":16}"
+    },
+    {
+      "label": "desktop: End and ArrowLeft switch tabs with automatic activation",
+      "ok": true,
+      "detail": "flows -> layers"
+    },
+    {
+      "label": "desktop: the reserved card rect is identical across both modes",
+      "ok": true,
+      "detail": "{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448} -> {\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448}"
+    },
+    {
+      "label": "desktop: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "mobile/light: screenshot setup: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "mobile/light: screenshot setup: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "mobile/light: screenshot setup: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: screenshot setup: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: screenshots keep the card rect stable",
+      "ok": true,
+      "detail": "{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536} -> {\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536}"
+    },
+    {
+      "label": "desktop/light: screenshot setup: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "desktop/light: screenshot setup: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "desktop/light: screenshot setup: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: screenshot setup: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: screenshots keep the card rect stable",
+      "ok": true,
+      "detail": "{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448} -> {\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448}"
+    },
+    {
+      "label": "mobile/dark: screenshot setup: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "mobile/dark: screenshot setup: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "mobile/dark: screenshot setup: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: screenshot setup: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: screenshots keep the card rect stable",
+      "ok": true,
+      "detail": "{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536} -> {\"x\":20,\"y\":1095.5,\"width\":320,\"height\":536}"
+    },
+    {
+      "label": "desktop/dark: screenshot setup: dock has at least 6 buttons",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "label": "desktop/dark: screenshot setup: Explore card has 5 layer chips",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "desktop/dark: screenshot setup: Explore tablist is present",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: screenshot setup: the Explore card is portalled into its reserved slot",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: screenshots keep the card rect stable",
+      "ok": true,
+      "detail": "{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448} -> {\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":448}"
+    }
+  ],
+  "passed": true
+}

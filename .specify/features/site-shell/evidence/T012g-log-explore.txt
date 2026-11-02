@@ -1,0 +1,395 @@
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 237ms
+  Running TypeScript ...
+  Finished TypeScript in 910ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 226ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+PASS export reload regression: direct load: dock has at least 6 buttons (7)
+PASS export reload regression: direct load: Explore card has 5 layer chips (5)
+PASS export reload regression: direct load: Explore tablist is present
+PASS export reload regression: direct load: the Explore card is portalled into its reserved slot
+PASS export reload regression: direct load: Flows transport is portalled after switching modes
+PASS export reload regression 1: dock has at least 6 buttons (7)
+PASS export reload regression 1: Explore card has 5 layer chips (5)
+PASS export reload regression 1: Explore tablist is present
+PASS export reload regression 1: the Explore card is portalled into its reserved slot
+PASS export reload regression 1: Flows transport is portalled after switching modes
+PASS export reload regression 2: dock has at least 6 buttons (7)
+PASS export reload regression 2: Explore card has 5 layer chips (5)
+PASS export reload regression 2: Explore tablist is present
+PASS export reload regression 2: the Explore card is portalled into its reserved slot
+PASS export reload regression 2: Flows transport is portalled after switching modes
+PASS export reload regression 3: dock has at least 6 buttons (7)
+PASS export reload regression 3: Explore card has 5 layer chips (5)
+PASS export reload regression 3: Explore tablist is present
+PASS export reload regression 3: the Explore card is portalled into its reserved slot
+PASS export reload regression 3: Flows transport is portalled after switching modes
+PASS export reload regression 4: dock has at least 6 buttons (7)
+PASS export reload regression 4: Explore card has 5 layer chips (5)
+PASS export reload regression 4: Explore tablist is present
+PASS export reload regression 4: the Explore card is portalled into its reserved slot
+PASS export reload regression 4: Flows transport is portalled after switching modes
+PASS export reload regression 5: dock has at least 6 buttons (7)
+PASS export reload regression 5: Explore card has 5 layer chips (5)
+PASS export reload regression 5: Explore tablist is present
+PASS export reload regression 5: the Explore card is portalled into its reserved slot
+PASS export reload regression 5: Flows transport is portalled after switching modes
+PASS export reload regression: no page errors ()
+PASS export mobile: hydration comparison: dock has at least 6 buttons (7)
+PASS export mobile: hydration comparison: Explore card has 5 layer chips (5)
+PASS export mobile: hydration comparison: Explore tablist is present
+PASS export mobile: hydration comparison: the Explore card is portalled into its reserved slot
+PASS export mobile: the card rect is identical before and after hydration ({"x":20,"y":1095.5,"width":320,"height":536} -> {"x":20,"y":1095.5,"width":320,"height":536})
+PASS export mobile: direct load: dock has at least 6 buttons (7)
+PASS export mobile: direct load: Explore card has 5 layer chips (5)
+PASS export mobile: direct load: Explore tablist is present
+PASS export mobile: direct load: the Explore card is portalled into its reserved slot
+PASS export mobile: Layers is the default tab and panel ({"selectedTab":"layers","panelMode":"layers"})
+PASS export mobile: the tour starts idle (idle)
+PASS export mobile: the tablist uses a roving tabindex (["0","-1"])
+PASS export mobile: the selected tab points at its tabpanel ({"controls":"explore-panel-layers","panel":"explore-panel-layers","labelledBy":"explore-tab-layers","panels":2,"visiblePanels":1})
+PASS export mobile: layer chips match "<n> <name> · <count> parts" ([{"id":"inspection-ui","text":"1 Inspection UI · 4 parts","pressed":"false","expected":"1 Inspection UI · 4 parts"},{"id":"delivery","text":"2 Delivery & lifecycle · 4 parts","pressed":"false","expected":"2 Delivery & lifecycle · 4 parts"},{"id":"capture","text":"3 Capture · 3 parts","pressed":"false","expected":"3 Capture · 3 parts"},{"id":"persistence","text":"4 Persistence · 2 parts","pressed":"false","expected":"4 Persistence · 2 parts"},{"id":"host","text":"5 Sample host · 3 parts","pressed":"false","expected":"5 Sample host · 3 parts"}])
+PASS export mobile: the unfocused Layers hint is shown (Pick a layer to isolate it.)
+PASS export mobile: no Exit tour control exists
+PASS export mobile: Layers has no horizontal page overflow ({"clientWidth":360,"scrollWidth":360})
+PASS export mobile: clicking layer chip 2 focuses that layer (delivery/true)
+PASS export mobile: the focused layer description is shown (What keeps inspection alive outside the foreground.)
+PASS export mobile: clicking the focused chip again releases focus (null/false)
+PASS export mobile: releasing focus restores the Layers hint (Pick a layer to isolate it.)
+PASS export mobile: ArrowRight automatically activates Flows and keeps focus on its tab ({"selected":"flows","panel":"flows","active":"flows","tour":"idle"})
+PASS export mobile: switching from Layers to Flows releases focus (released)
+PASS export mobile: Flows shows the route chooser and transport (options=2)
+PASS export mobile: Flows has no horizontal page overflow ({"clientWidth":360,"scrollWidth":360})
+PASS export mobile: the primary transport is icon-only and labelled Start tour ({"text":"","ariaLabel":"Start tour","title":"Start tour","pressed":"false"})
+PASS export mobile: playing shows an icon-only Pause tour pressed control ({"text":"","ariaLabel":"Pause tour","title":"Pause tour","pressed":"true","tour":"playing"})
+PASS export mobile: playing Flows fits the reserved card ({"clientWidth":318,"scrollWidth":318,"clientHeight":534,"scrollHeight":534})
+PASS export mobile: Home switches back to Layers, stops the tour, and restores all callouts ({"selected":"layers","tour":"idle","overlay":"shown","labels":16})
+PASS export mobile: End and ArrowLeft switch tabs with automatic activation (flows -> layers)
+PASS export mobile: the reserved card rect is identical across both modes ({"x":20,"y":1095.5,"width":320,"height":536} -> {"x":20,"y":1095.5,"width":320,"height":536})
+PASS export mobile: no page errors ()
+PASS export desktop: hydration comparison: dock has at least 6 buttons (7)
+PASS export desktop: hydration comparison: Explore card has 5 layer chips (5)
+PASS export desktop: hydration comparison: Explore tablist is present
+PASS export desktop: hydration comparison: the Explore card is portalled into its reserved slot
+PASS export desktop: the card rect is identical before and after hydration ({"x":96,"y":1100.25,"width":1088,"height":448} -> {"x":96,"y":1100.25,"width":1088,"height":448})
+PASS export desktop: direct load: dock has at least 6 buttons (7)
+PASS export desktop: direct load: Explore card has 5 layer chips (5)
+PASS export desktop: direct load: Explore tablist is present
+PASS export desktop: direct load: the Explore card is portalled into its reserved slot
+PASS export desktop: Layers is the default tab and panel ({"selectedTab":"layers","panelMode":"layers"})
+PASS export desktop: the tour starts idle (idle)
+PASS export desktop: the tablist uses a roving tabindex (["0","-1"])
+PASS export desktop: the selected tab points at its tabpanel ({"controls":"explore-panel-layers","panel":"explore-panel-layers","labelledBy":"explore-tab-layers","panels":2,"visiblePanels":1})
+PASS export desktop: layer chips match "<n> <name> · <count> parts" ([{"id":"inspection-ui","text":"1 Inspection UI · 4 parts","pressed":"false","expected":"1 Inspection UI · 4 parts"},{"id":"delivery","text":"2 Delivery & lifecycle · 4 parts","pressed":"false","expected":"2 Delivery & lifecycle · 4 parts"},{"id":"capture","text":"3 Capture · 3 parts","pressed":"false","expected":"3 Capture · 3 parts"},{"id":"persistence","text":"4 Persistence · 2 parts","pressed":"false","expected":"4 Persistence · 2 parts"},{"id":"host","text":"5 Sample host · 3 parts","pressed":"false","expected":"5 Sample host · 3 parts"}])
+PASS export desktop: the unfocused Layers hint is shown (Pick a layer to isolate it.)
+PASS export desktop: no Exit tour control exists
+PASS export desktop: Layers has no horizontal page overflow ({"clientWidth":1280,"scrollWidth":1280})
+PASS export desktop: clicking layer chip 2 focuses that layer (delivery/true)
+PASS export desktop: the focused layer description is shown (What keeps inspection alive outside the foreground.)
+PASS export desktop: clicking the focused chip again releases focus (null/false)
+PASS export desktop: releasing focus restores the Layers hint (Pick a layer to isolate it.)
+PASS export desktop: ArrowRight automatically activates Flows and keeps focus on its tab ({"selected":"flows","panel":"flows","active":"flows","tour":"idle"})
+PASS export desktop: switching from Layers to Flows releases focus (released)
+PASS export desktop: Flows shows the route chooser and transport (options=2)
+PASS export desktop: Flows has no horizontal page overflow ({"clientWidth":1280,"scrollWidth":1280})
+PASS export desktop: the primary transport is icon-only and labelled Start tour ({"text":"","ariaLabel":"Start tour","title":"Start tour","pressed":"false"})
+PASS export desktop: playing shows an icon-only Pause tour pressed control ({"text":"","ariaLabel":"Pause tour","title":"Pause tour","pressed":"true","tour":"playing"})
+PASS export desktop: playing Flows fits the reserved card ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":446,"scrollHeight":446})
+PASS export desktop: Home switches back to Layers, stops the tour, and restores all callouts ({"selected":"layers","tour":"idle","overlay":"shown","labels":16})
+PASS export desktop: End and ArrowLeft switch tabs with automatic activation (flows -> layers)
+PASS export desktop: the reserved card rect is identical across both modes ({"x":96,"y":1100.25,"width":1088,"height":448} -> {"x":96,"y":1100.25,"width":1088,"height":448})
+PASS export desktop: no page errors ()
+PASS export mobile/light: screenshot setup: dock has at least 6 buttons (7)
+PASS export mobile/light: screenshot setup: Explore card has 5 layer chips (5)
+PASS export mobile/light: screenshot setup: Explore tablist is present
+PASS export mobile/light: screenshot setup: the Explore card is portalled into its reserved slot
+PASS export mobile/light: screenshots keep the card rect stable ({"x":20,"y":1095.5,"width":320,"height":536} -> {"x":20,"y":1095.5,"width":320,"height":536})
+PASS export desktop/light: screenshot setup: dock has at least 6 buttons (7)
+PASS export desktop/light: screenshot setup: Explore card has 5 layer chips (5)
+PASS export desktop/light: screenshot setup: Explore tablist is present
+PASS export desktop/light: screenshot setup: the Explore card is portalled into its reserved slot
+PASS export desktop/light: screenshots keep the card rect stable ({"x":96,"y":1100.25,"width":1088,"height":448} -> {"x":96,"y":1100.25,"width":1088,"height":448})
+PASS export mobile/dark: screenshot setup: dock has at least 6 buttons (7)
+PASS export mobile/dark: screenshot setup: Explore card has 5 layer chips (5)
+PASS export mobile/dark: screenshot setup: Explore tablist is present
+PASS export mobile/dark: screenshot setup: the Explore card is portalled into its reserved slot
+PASS export mobile/dark: screenshots keep the card rect stable ({"x":20,"y":1095.5,"width":320,"height":536} -> {"x":20,"y":1095.5,"width":320,"height":536})
+PASS export desktop/dark: screenshot setup: dock has at least 6 buttons (7)
+PASS export desktop/dark: screenshot setup: Explore card has 5 layer chips (5)
+PASS export desktop/dark: screenshot setup: Explore tablist is present
+PASS export desktop/dark: screenshot setup: the Explore card is portalled into its reserved slot
+PASS export desktop/dark: screenshots keep the card rect stable ({"x":96,"y":1100.25,"width":1088,"height":448} -> {"x":96,"y":1100.25,"width":1088,"height":448})
+
+T012g export smoke assertions passed
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+site-probe: PASS
+artifacts: /private/tmp/s10-wt/T012g/.evidence/site-probe
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T012g/tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T012g/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:92070) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:92072) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:92073) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:92074) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  111 passed (111)
+tools/perf test:    Start at  13:39:13
+tools/perf test:    Duration  1.28s (import 86%, tests 7%, transform 6%, worker 1%)
+tools/perf test: 
+packages/xploder test: (node:92076) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: Done
+packages/xploder test: (node:92077) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:92078) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:92080) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:92085) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  60 passed (60)
+packages/xploder test:       Tests  617 passed (617)
+packages/xploder test:    Start at  13:39:13
+packages/xploder test:    Duration  6.54s (tests 77%, import 17%, transform 5%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  60 workers spawned · ~94ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~532ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T012g/apps/web
+apps/web test: 
+apps/web test: (node:92139) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:92138) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  18 passed (18)
+apps/web test:       Tests  110 passed | 1 skipped (111)
+apps/web test:    Start at  13:39:19
+apps/web test:    Duration  749ms (environment 39%, tests 30%, import 22%, transform 8%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T012g-OK
+PASS --screenshots reload regression: direct load: dock has at least 6 buttons (7)
+PASS --screenshots reload regression: direct load: Explore card has 5 layer chips (5)
+PASS --screenshots reload regression: direct load: Explore tablist is present
+PASS --screenshots reload regression: direct load: the Explore card is portalled into its reserved slot
+PASS --screenshots reload regression: direct load: Flows transport is portalled after switching modes
+PASS --screenshots reload regression 1: dock has at least 6 buttons (7)
+PASS --screenshots reload regression 1: Explore card has 5 layer chips (5)
+PASS --screenshots reload regression 1: Explore tablist is present
+PASS --screenshots reload regression 1: the Explore card is portalled into its reserved slot
+PASS --screenshots reload regression 1: Flows transport is portalled after switching modes
+PASS --screenshots reload regression 2: dock has at least 6 buttons (7)
+PASS --screenshots reload regression 2: Explore card has 5 layer chips (5)
+PASS --screenshots reload regression 2: Explore tablist is present
+PASS --screenshots reload regression 2: the Explore card is portalled into its reserved slot
+PASS --screenshots reload regression 2: Flows transport is portalled after switching modes
+PASS --screenshots reload regression 3: dock has at least 6 buttons (7)
+PASS --screenshots reload regression 3: Explore card has 5 layer chips (5)
+PASS --screenshots reload regression 3: Explore tablist is present
+PASS --screenshots reload regression 3: the Explore card is portalled into its reserved slot
+PASS --screenshots reload regression 3: Flows transport is portalled after switching modes
+PASS --screenshots reload regression 4: dock has at least 6 buttons (7)
+PASS --screenshots reload regression 4: Explore card has 5 layer chips (5)
+PASS --screenshots reload regression 4: Explore tablist is present
+PASS --screenshots reload regression 4: the Explore card is portalled into its reserved slot
+PASS --screenshots reload regression 4: Flows transport is portalled after switching modes
+PASS --screenshots reload regression 5: dock has at least 6 buttons (7)
+PASS --screenshots reload regression 5: Explore card has 5 layer chips (5)
+PASS --screenshots reload regression 5: Explore tablist is present
+PASS --screenshots reload regression 5: the Explore card is portalled into its reserved slot
+PASS --screenshots reload regression 5: Flows transport is portalled after switching modes
+PASS --screenshots reload regression: no page errors ()
+PASS --screenshots mobile: hydration comparison: dock has at least 6 buttons (7)
+PASS --screenshots mobile: hydration comparison: Explore card has 5 layer chips (5)
+PASS --screenshots mobile: hydration comparison: Explore tablist is present
+PASS --screenshots mobile: hydration comparison: the Explore card is portalled into its reserved slot
+PASS --screenshots mobile: the card rect is identical before and after hydration ({"x":20,"y":1095.5,"width":320,"height":536} -> {"x":20,"y":1095.5,"width":320,"height":536})
+PASS --screenshots mobile: direct load: dock has at least 6 buttons (7)
+PASS --screenshots mobile: direct load: Explore card has 5 layer chips (5)
+PASS --screenshots mobile: direct load: Explore tablist is present
+PASS --screenshots mobile: direct load: the Explore card is portalled into its reserved slot
+PASS --screenshots mobile: Layers is the default tab and panel ({"selectedTab":"layers","panelMode":"layers"})
+PASS --screenshots mobile: the tour starts idle (idle)
+PASS --screenshots mobile: the tablist uses a roving tabindex (["0","-1"])
+PASS --screenshots mobile: the selected tab points at its tabpanel ({"controls":"explore-panel-layers","panel":"explore-panel-layers","labelledBy":"explore-tab-layers","panels":2,"visiblePanels":1})
+PASS --screenshots mobile: layer chips match "<n> <name> · <count> parts" ([{"id":"inspection-ui","text":"1 Inspection UI · 4 parts","pressed":"false","expected":"1 Inspection UI · 4 parts"},{"id":"delivery","text":"2 Delivery & lifecycle · 4 parts","pressed":"false","expected":"2 Delivery & lifecycle · 4 parts"},{"id":"capture","text":"3 Capture · 3 parts","pressed":"false","expected":"3 Capture · 3 parts"},{"id":"persistence","text":"4 Persistence · 2 parts","pressed":"false","expected":"4 Persistence · 2 parts"},{"id":"host","text":"5 Sample host · 3 parts","pressed":"false","expected":"5 Sample host · 3 parts"}])
+PASS --screenshots mobile: the unfocused Layers hint is shown (Pick a layer to isolate it.)
+PASS --screenshots mobile: no Exit tour control exists
+PASS --screenshots mobile: Layers has no horizontal page overflow ({"clientWidth":360,"scrollWidth":360})
+PASS --screenshots mobile: clicking layer chip 2 focuses that layer (delivery/true)
+PASS --screenshots mobile: the focused layer description is shown (What keeps inspection alive outside the foreground.)
+PASS --screenshots mobile: clicking the focused chip again releases focus (null/false)
+PASS --screenshots mobile: releasing focus restores the Layers hint (Pick a layer to isolate it.)
+PASS --screenshots mobile: ArrowRight automatically activates Flows and keeps focus on its tab ({"selected":"flows","panel":"flows","active":"flows","tour":"idle"})
+PASS --screenshots mobile: switching from Layers to Flows releases focus (released)
+PASS --screenshots mobile: Flows shows the route chooser and transport (options=2)
+PASS --screenshots mobile: Flows has no horizontal page overflow ({"clientWidth":360,"scrollWidth":360})
+PASS --screenshots mobile: the primary transport is icon-only and labelled Start tour ({"text":"","ariaLabel":"Start tour","title":"Start tour","pressed":"false"})
+PASS --screenshots mobile: playing shows an icon-only Pause tour pressed control ({"text":"","ariaLabel":"Pause tour","title":"Pause tour","pressed":"true","tour":"playing"})
+PASS --screenshots mobile: playing Flows fits the reserved card ({"clientWidth":318,"scrollWidth":318,"clientHeight":534,"scrollHeight":534})
+PASS --screenshots mobile: Home switches back to Layers, stops the tour, and restores all callouts ({"selected":"layers","tour":"idle","overlay":"shown","labels":16})
+PASS --screenshots mobile: End and ArrowLeft switch tabs with automatic activation (flows -> layers)
+PASS --screenshots mobile: the reserved card rect is identical across both modes ({"x":20,"y":1095.5,"width":320,"height":536} -> {"x":20,"y":1095.5,"width":320,"height":536})
+PASS --screenshots mobile: no page errors ()
+PASS --screenshots desktop: hydration comparison: dock has at least 6 buttons (7)
+PASS --screenshots desktop: hydration comparison: Explore card has 5 layer chips (5)
+PASS --screenshots desktop: hydration comparison: Explore tablist is present
+PASS --screenshots desktop: hydration comparison: the Explore card is portalled into its reserved slot
+PASS --screenshots desktop: the card rect is identical before and after hydration ({"x":96,"y":1100.25,"width":1088,"height":448} -> {"x":96,"y":1100.25,"width":1088,"height":448})
+PASS --screenshots desktop: direct load: dock has at least 6 buttons (7)
+PASS --screenshots desktop: direct load: Explore card has 5 layer chips (5)
+PASS --screenshots desktop: direct load: Explore tablist is present
+PASS --screenshots desktop: direct load: the Explore card is portalled into its reserved slot
+PASS --screenshots desktop: Layers is the default tab and panel ({"selectedTab":"layers","panelMode":"layers"})
+PASS --screenshots desktop: the tour starts idle (idle)
+PASS --screenshots desktop: the tablist uses a roving tabindex (["0","-1"])
+PASS --screenshots desktop: the selected tab points at its tabpanel ({"controls":"explore-panel-layers","panel":"explore-panel-layers","labelledBy":"explore-tab-layers","panels":2,"visiblePanels":1})
+PASS --screenshots desktop: layer chips match "<n> <name> · <count> parts" ([{"id":"inspection-ui","text":"1 Inspection UI · 4 parts","pressed":"false","expected":"1 Inspection UI · 4 parts"},{"id":"delivery","text":"2 Delivery & lifecycle · 4 parts","pressed":"false","expected":"2 Delivery & lifecycle · 4 parts"},{"id":"capture","text":"3 Capture · 3 parts","pressed":"false","expected":"3 Capture · 3 parts"},{"id":"persistence","text":"4 Persistence · 2 parts","pressed":"false","expected":"4 Persistence · 2 parts"},{"id":"host","text":"5 Sample host · 3 parts","pressed":"false","expected":"5 Sample host · 3 parts"}])
+PASS --screenshots desktop: the unfocused Layers hint is shown (Pick a layer to isolate it.)
+PASS --screenshots desktop: no Exit tour control exists
+PASS --screenshots desktop: Layers has no horizontal page overflow ({"clientWidth":1280,"scrollWidth":1280})
+PASS --screenshots desktop: clicking layer chip 2 focuses that layer (delivery/true)
+PASS --screenshots desktop: the focused layer description is shown (What keeps inspection alive outside the foreground.)
+PASS --screenshots desktop: clicking the focused chip again releases focus (null/false)
+PASS --screenshots desktop: releasing focus restores the Layers hint (Pick a layer to isolate it.)
+PASS --screenshots desktop: ArrowRight automatically activates Flows and keeps focus on its tab ({"selected":"flows","panel":"flows","active":"flows","tour":"idle"})
+PASS --screenshots desktop: switching from Layers to Flows releases focus (released)
+PASS --screenshots desktop: Flows shows the route chooser and transport (options=2)
+PASS --screenshots desktop: Flows has no horizontal page overflow ({"clientWidth":1280,"scrollWidth":1280})
+PASS --screenshots desktop: the primary transport is icon-only and labelled Start tour ({"text":"","ariaLabel":"Start tour","title":"Start tour","pressed":"false"})
+PASS --screenshots desktop: playing shows an icon-only Pause tour pressed control ({"text":"","ariaLabel":"Pause tour","title":"Pause tour","pressed":"true","tour":"playing"})
+PASS --screenshots desktop: playing Flows fits the reserved card ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":446,"scrollHeight":446})
+PASS --screenshots desktop: Home switches back to Layers, stops the tour, and restores all callouts ({"selected":"layers","tour":"idle","overlay":"shown","labels":16})
+PASS --screenshots desktop: End and ArrowLeft switch tabs with automatic activation (flows -> layers)
+PASS --screenshots desktop: the reserved card rect is identical across both modes ({"x":96,"y":1100.25,"width":1088,"height":448} -> {"x":96,"y":1100.25,"width":1088,"height":448})
+PASS --screenshots desktop: no page errors ()
+
+T012g --screenshots smoke assertions passed
+
+== Orchestrator review fixes (2026-11-02): solid 24px play/pause glyphs on the primary button (outline set was faint on accent); Layers mode lists the focused layer parts (name + summary from the module) to use the reserved space; tour-model test updated. Re-run: tests 111/617/110, build green, smoke 115 PASS (correct invocation: <base> export --screenshots).

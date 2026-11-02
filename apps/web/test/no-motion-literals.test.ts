@@ -101,6 +101,8 @@ const S10_SOURCE_FILES = [
   'components/workbench/workbench-dock.tsx',
   'components/workbench/workbench-loader.tsx',
   'components/workbench/workbench.tsx',
+  'components/workbench/explore-panel.tsx',
+  'components/workbench/layers-panel.tsx',
   'components/workbench/tour-model.ts',
   'components/workbench/tour-panel.tsx',
   'content/poster.ts',

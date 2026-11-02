@@ -2,14 +2,46 @@
 
 import { useEffect, useRef } from 'react';
 
-import { NextIcon, PauseIcon, PlayIcon, PreviousIcon, RestartIcon } from './workbench-dock';
+import { NextIcon, PreviousIcon, RestartIcon } from './workbench-dock';
+
+// Solid, larger glyphs for the icon-only primary button (the outline set reads too faint on accent).
+function PrimaryPlayGlyph() {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="currentColor"
+    >
+      <path d="M8 5.5v13a1 1 0 0 0 1.53.85l10.2-6.5a1 1 0 0 0 0-1.7L9.53 4.65A1 1 0 0 0 8 5.5Z" />
+    </svg>
+  );
+}
+
+function PrimaryPauseGlyph() {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="currentColor"
+    >
+      <rect x="6.5" y="5" width="4" height="14" rx="1" />
+      <rect x="13.5" y="5" width="4" height="14" rx="1" />
+    </svg>
+  );
+}
 import { findTourFlow, tourStepAt, type TourFlow, type TourModelStatus } from './tour-model';
 
 const FLOW_CHOOSER =
-  'grid grid-cols-1 gap-1.5 rounded border border-line/40 bg-bg/60 p-1.5 sm:grid-cols-2';
-const FLOW_HEADER = 'min-w-0 rounded border border-line/40 bg-bg/60 px-2 py-1.5';
+  'grid grid-cols-1 gap-2 rounded border border-line/40 bg-bg/60 p-2 sm:grid-cols-2';
+const FLOW_HEADER = 'min-w-0 rounded border border-line/40 bg-bg/60 p-3 sm:p-4';
 const FLOW_BUTTON =
-  'min-w-0 rounded border px-2 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+  'min-w-0 rounded border p-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:p-4';
 const FLOW_BUTTON_SELECTED =
   'border-accent bg-accent/10 text-fg active:border-accent active:bg-accent/20';
 const FLOW_BUTTON_IDLE =
@@ -18,29 +50,11 @@ const TRANSPORT_BUTTON =
   'inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const TRANSPORT_ICON = `${TRANSPORT_BUTTON} w-11`;
 const TRANSPORT_PRIMARY =
-  'inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm';
+  'inline-flex h-14 w-16 shrink-0 items-center justify-center rounded border border-accent bg-accent text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const CHIP =
   'inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-3 font-mono text-[0.6875rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const CHIP_SELECTED = 'border-accent bg-accent text-bg';
 const CHIP_IDLE = 'border-line/60 bg-bg text-fg hover:border-accent hover:text-accent';
-
-function ExitTourIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-      className="h-4 w-4 shrink-0"
-    >
-      <path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9" />
-    </svg>
-  );
-}
 
 function FlowText({ flow }: { readonly flow: TourFlow }) {
   return (
@@ -79,7 +93,6 @@ export interface TourPanelProps {
   readonly onPrevious: () => void;
   readonly onNext: () => void;
   readonly onRestart: () => void;
-  readonly onExit: () => void;
   readonly onJump: (stepIndex: number) => void;
   readonly onHighlight: (componentId: string | null) => void;
 }
@@ -94,7 +107,6 @@ export function TourPanel({
   onPrevious,
   onNext,
   onRestart,
-  onExit,
   onJump,
   onHighlight,
 }: TourPanelProps) {
@@ -103,7 +115,6 @@ export function TourPanel({
   const total = flow?.steps.length ?? 0;
   const currentChipRef = useRef<HTMLButtonElement>(null);
   const playing = status === 'playing';
-  const playbackLabel = playing ? 'Pause' : status === 'paused' ? 'Resume' : 'Start';
   const playbackAria =
     status === 'playing' ? 'Pause tour' : status === 'paused' ? 'Resume tour' : 'Start tour';
   const position = current === undefined ? 0 : current.index + 1;
@@ -113,17 +124,13 @@ export function TourPanel({
   }, [current?.id, step]);
 
   return (
-    <div data-site-tour-panel="" className="flex h-full min-w-0 flex-col gap-1 p-2">
-      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">
-        Guided tour
-      </p>
-
+    <div data-site-tour-panel="" className="flex h-full min-w-0 flex-col gap-4">
       {flows.length === 1 && flows[0] !== undefined ? (
-        <div data-site-tour-flow-header="" className={FLOW_HEADER}>
+        <div data-site-tour-flow-header="" className={`${FLOW_HEADER} shrink-0`}>
           <FlowText flow={flows[0]} />
         </div>
       ) : (
-        <div role="group" aria-label="Tour flow" className={FLOW_CHOOSER}>
+        <div role="group" aria-label="Tour flow" className={`${FLOW_CHOOSER} shrink-0`}>
           {flows.map((candidate) => (
             <button
               key={candidate.id}
@@ -144,11 +151,11 @@ export function TourPanel({
 
       <div
         data-site-tour-transport-region=""
-        className="flex h-[4.75rem] shrink-0 flex-col items-center justify-start gap-0.5"
+        className="flex shrink-0 flex-col items-center justify-start"
       >
         <div
           data-site-tour-transport=""
-          className="flex w-fit max-w-full items-center justify-center gap-0.5 sm:gap-2"
+          className="flex w-fit max-w-full items-center justify-center gap-3"
         >
           <button
             type="button"
@@ -182,8 +189,7 @@ export function TourPanel({
             className={TRANSPORT_PRIMARY}
             onClick={onTogglePlayback}
           >
-            {playing ? <PauseIcon /> : <PlayIcon />}
-            <span>{playbackLabel}</span>
+            {playing ? <PrimaryPauseGlyph /> : <PrimaryPlayGlyph />}
           </button>
           <button
             type="button"
@@ -196,31 +202,18 @@ export function TourPanel({
           >
             <NextIcon />
           </button>
-          {status === 'idle' ? null : (
-            <button
-              type="button"
-              data-site-control="tour-exit"
-              aria-label="Exit tour"
-              title="Exit tour"
-              className={`${TRANSPORT_BUTTON} gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs`}
-              onClick={onExit}
-            >
-              <ExitTourIcon />
-              <span>Exit tour</span>
-            </button>
-          )}
         </div>
         <p
           data-site-tour-position=""
           aria-live="polite"
-          className="h-4 shrink-0 font-mono text-[0.6875rem] leading-4 text-muted"
+          className="mt-1 h-4 shrink-0 font-mono text-[0.6875rem] leading-4 text-muted"
         >
           {`Step ${position} of ${total}`}
         </p>
       </div>
 
-      <div className="h-11 min-w-0 overflow-x-auto overflow-y-hidden">
-        <ol role="list" aria-label="Tour steps" className="flex h-11 w-max items-center gap-1.5">
+      <div className="h-11 min-w-0 shrink-0 overflow-x-auto overflow-y-hidden">
+        <ol role="list" aria-label="Tour steps" className="flex h-11 w-max items-center gap-2.5">
           {(flow?.steps ?? []).map((candidate) => {
             const selected = current?.index === candidate.index;
 
@@ -249,7 +242,7 @@ export function TourPanel({
         </ol>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-hidden rounded border border-line/30 bg-bg/60 px-2.5 py-1">
+      <div className="min-h-0 shrink-0 overflow-hidden rounded border border-line/30 bg-bg/60 p-3">
         <p className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-muted">Now</p>
         <p
           data-site-tour-now=""

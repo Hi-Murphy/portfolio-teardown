@@ -8,8 +8,8 @@ import { SITE_REGISTRY } from '../../content/tech-registry';
 import { LIVE_CLASS } from '../hero/hero-classes';
 import { ProjectOutline } from '../project-outline';
 import { LiveViewer, useLiveViewer, useViewerPanels } from '../viewer/live-viewer';
-import { buildTourFlows, jumpSequence } from './tour-model';
-import { TourPanel } from './tour-panel';
+import { ExplorePanel } from './explore-panel';
+import { buildLayerModels, buildTourFlows, jumpSequence } from './tour-model';
 import { WorkbenchDock } from './workbench-dock';
 
 interface PortalTargets {
@@ -27,6 +27,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
   const viewer = useLiveViewer({ initial: 'exploded', project });
   const panels = useViewerPanels();
   const tourFlows = useMemo(() => buildTourFlows(project), [project]);
+  const layers = useMemo(() => buildLayerModels(project), [project]);
   const rootRef = useRef<HTMLDivElement>(null);
   const [liveState, setLiveState] = useState<'loading' | 'revealed'>('loading');
   const [portalTargets, setPortalTargets] = useState<PortalTargets | null>(null);
@@ -148,7 +149,12 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
             portalTargets.dock,
           )}
           {createPortal(
-            <TourPanel
+            <ExplorePanel
+              layers={layers}
+              focusedLayerId={viewer.focus.layerId}
+              onToggleLayer={viewer.actions.toggleFocus}
+              onEnterLayers={viewer.actions.stop}
+              onEnterFlows={viewer.actions.releaseFocus}
               flows={tourFlows}
               flowId={viewer.tour.flowId}
               status={viewer.tour.status}
@@ -158,7 +164,6 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
               onPrevious={previousStep}
               onNext={nextStep}
               onRestart={restartTour}
-              onExit={viewer.actions.stop}
               onJump={jumpToStep}
               onHighlight={viewer.actions.highlight}
             />,

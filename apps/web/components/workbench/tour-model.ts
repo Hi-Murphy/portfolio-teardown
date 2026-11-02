@@ -8,11 +8,26 @@ export interface TourModelProject {
     readonly path: readonly string[];
   }[];
   readonly layers: readonly {
+    readonly id: string;
+    readonly name?: string;
+    readonly description?: string;
     readonly components: readonly {
       readonly id: string;
       readonly name?: string;
       readonly summary?: string;
     }[];
+  }[];
+}
+
+export interface LayerModel {
+  readonly id: string;
+  readonly name: string;
+  readonly partCount: number;
+  readonly description: string;
+  readonly parts: readonly {
+    readonly id: string;
+    readonly name: string;
+    readonly summary: string;
   }[];
 }
 
@@ -31,6 +46,20 @@ export interface TourFlow {
 }
 
 export type TourJumpAction = 'stop' | 'step' | 'play';
+
+export function buildLayerModels(project: TourModelProject): readonly LayerModel[] {
+  return project.layers.map((layer) => ({
+    id: layer.id,
+    name: layer.name ?? layer.id,
+    partCount: layer.components.length,
+    description: layer.description ?? '',
+    parts: layer.components.map((component) => ({
+      id: component.id,
+      name: component.name ?? component.id,
+      summary: component.summary ?? '',
+    })),
+  }));
+}
 
 export function buildTourFlows(project: TourModelProject): readonly TourFlow[] {
   const components = new Map(
