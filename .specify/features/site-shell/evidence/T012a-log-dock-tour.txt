@@ -268,3 +268,5 @@ apps/web test:    Duration  730ms (environment 38%, tests 28%, import 23%, trans
 apps/web test: 
 apps/web test: Done
 T012a-OK
+
+== Orchestrator review (2026-11-02): Case study button shows its text label >= sm (icon-only was ambiguous). Integrated re-run on 3f93411: T012a smoke all PASS (incl. pause-on-implode), T012b smoke all PASS, site:probe cls PASS (12 cells), tests 111/610/106, guards 10 OK. Screenshots regenerated from the integrated build.
