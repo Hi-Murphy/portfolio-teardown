@@ -1,0 +1,928 @@
+{
+  "kind": "T012b-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4320",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": [
+    360,
+    412,
+    1280
+  ],
+  "screenshots": [
+    ".specify/features/site-shell/evidence/T012b-screenshot-header-mobile-light.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-footer-mobile-light.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-header-desktop-light.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-footer-desktop-light.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-header-mobile-dark.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-footer-mobile-dark.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-header-desktop-dark.png",
+    ".specify/features/site-shell/evidence/T012b-screenshot-footer-desktop-dark.png"
+  ],
+  "checks": [
+    {
+      "label": "export: home responds 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "label": "resume: /resume.pdf is not served",
+      "ok": true,
+      "detail": "404"
+    },
+    {
+      "label": "resume: no /resume.pdf link in rendered chrome",
+      "ok": true
+    },
+    {
+      "label": "resume: no visible Résumé label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 360: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 360: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 360: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Projects aria-current on /",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "label": "nav 360: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "nav 360: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 360: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 360: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "resume: no /resume.pdf link in rendered chrome",
+      "ok": true
+    },
+    {
+      "label": "resume: no visible Résumé label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 1280: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 1280: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 1280: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Projects aria-current on /",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "label": "nav 1280: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "nav 1280: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 1280: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 1280: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "resume: no /resume.pdf link in rendered chrome",
+      "ok": true
+    },
+    {
+      "label": "resume: no visible Résumé label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 360: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 360: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 360: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Projects aria-current on /projects",
+      "ok": true,
+      "detail": "page"
+    },
+    {
+      "label": "nav 360: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": "/projects"
+    },
+    {
+      "label": "nav 360: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 360: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 360: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "resume: no /resume.pdf link in rendered chrome",
+      "ok": true
+    },
+    {
+      "label": "resume: no visible Résumé label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 1280: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 1280: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 1280: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Projects aria-current on /projects",
+      "ok": true,
+      "detail": "page"
+    },
+    {
+      "label": "nav 1280: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": "/projects"
+    },
+    {
+      "label": "nav 1280: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 1280: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 1280: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "resume: no /resume.pdf link in rendered chrome",
+      "ok": true
+    },
+    {
+      "label": "resume: no visible Résumé label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 360: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 360: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 360: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Projects aria-current on /projects/websocket-inspector",
+      "ok": true,
+      "detail": "page"
+    },
+    {
+      "label": "nav 360: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": "/projects"
+    },
+    {
+      "label": "nav 360: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 360: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 360: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "resume: no /resume.pdf link in rendered chrome",
+      "ok": true
+    },
+    {
+      "label": "resume: no visible Résumé label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 1280: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 1280: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 1280: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Projects aria-current on /projects/websocket-inspector",
+      "ok": true,
+      "detail": "page"
+    },
+    {
+      "label": "nav 1280: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": "/projects"
+    },
+    {
+      "label": "nav 1280: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 1280: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 1280: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "nav 360: primary nav exists",
+      "ok": true
+    },
+    {
+      "label": "nav 360: document has no horizontal overflow",
+      "ok": true,
+      "detail": "360 <= 360"
+    },
+    {
+      "label": "nav 360: nav itself has no horizontal overflow",
+      "ok": true,
+      "detail": "348 <= 348"
+    },
+    {
+      "label": "nav 360: is one 44px line",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "label": "nav 360: every control is vertically centered on the line",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 360: every target is at least 36x44",
+      "ok": true,
+      "detail": "THTimur Haryo:36x44, Projects:62.265625x44, About:47.828125x44, Contact:60.484375x44, GitHub:36x44, LinkedIn:36x44, Switch to dark theme:44x44"
+    },
+    {
+      "label": "nav 360: siteName is sr-only",
+      "ok": true,
+      "detail": "1x1"
+    },
+    {
+      "label": "nav 360: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 360: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 360: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 360: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 360: Projects aria-current on /",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "label": "nav 360: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "nav 360: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 360: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 360: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 360: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "nav 412: primary nav exists",
+      "ok": true
+    },
+    {
+      "label": "nav 412: document has no horizontal overflow",
+      "ok": true,
+      "detail": "412 <= 412"
+    },
+    {
+      "label": "nav 412: nav itself has no horizontal overflow",
+      "ok": true,
+      "detail": "400 <= 400"
+    },
+    {
+      "label": "nav 412: is one 44px line",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "label": "nav 412: every control is vertically centered on the line",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 412: every target is at least 36x44",
+      "ok": true,
+      "detail": "THTimur Haryo:36x44, Projects:62.265625x44, About:47.828125x44, Contact:60.484375x44, GitHub:36x44, LinkedIn:36x44, Switch to dark theme:44x44"
+    },
+    {
+      "label": "nav 412: siteName is sr-only",
+      "ok": true,
+      "detail": "1x1"
+    },
+    {
+      "label": "nav 412: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 412: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 412: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 412: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 412: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 412: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 412: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 412: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 412: Projects aria-current on /",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "label": "nav 412: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "nav 412: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 412: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 412: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 412: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 412: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: primary nav exists",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: document has no horizontal overflow",
+      "ok": true,
+      "detail": "1280 <= 1280"
+    },
+    {
+      "label": "nav 1280: nav itself has no horizontal overflow",
+      "ok": true,
+      "detail": "1104 <= 1104"
+    },
+    {
+      "label": "nav 1280: is one 44px line",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "label": "nav 1280: every control is vertically centered on the line",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 1280: every target is at least 36x44",
+      "ok": true,
+      "detail": "THTimur Haryo:123.375x44, Projects:70.265625x44, About:55.828125x44, Contact:68.484375x44, GitHub:36x44, LinkedIn:36x44, Switch to dark theme:44x44"
+    },
+    {
+      "label": "nav 1280: siteName is visible",
+      "ok": true,
+      "detail": "79.375x20"
+    },
+    {
+      "label": "nav 1280: six links",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "label": "nav 1280: link order is brand, Projects, About, Contact, GitHub, LinkedIn",
+      "ok": true,
+      "detail": "/, /projects, /#about, /#contact, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "nav 1280: monogram is derived from meta.siteName",
+      "ok": true,
+      "detail": "THTimur Haryo"
+    },
+    {
+      "label": "nav 1280: Projects label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: About label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Contact label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: LinkedIn icon link has an aria-label",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: Projects aria-current on /",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "label": "nav 1280: only Projects carries aria-current when applicable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "nav 1280: GitHub uses the official 16x16 octicon at 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: GitHub icon is vertically centered in its 44px target",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "nav 1280: LinkedIn icon is decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "nav 1280: 1px hairline divider with aria-hidden",
+      "ok": true,
+      "detail": "{\"className\":\"mx-1 h-5 w-px shrink-0 bg-line/30\",\"width\":1,\"height\":20}"
+    },
+    {
+      "label": "nav 1280: ThemeToggle is present",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: id=contact is present",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: identity, role/location and footer.line copy",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: three contact links",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: mailto, GitHub and LinkedIn hrefs",
+      "ok": true,
+      "detail": "mailto:vibing.murphy@gmail.com, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "footer 1280: contact link labels",
+      "ok": true,
+      "detail": "vibing.murphy@gmail.com, GitHub, LinkedIn"
+    },
+    {
+      "label": "footer 1280: every contact row is 44px tall",
+      "ok": true,
+      "detail": "44, 44, 44"
+    },
+    {
+      "label": "footer 1280: mail, GitHub and LinkedIn icons are decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: Contact micro-label is mono uppercase",
+      "ok": true,
+      "detail": "{\"text\":\"Contact\",\"fontFamily\":\"ui-monospace, SFMono-Regular, Menlo, Consolas, monospace\",\"textTransform\":\"uppercase\"}"
+    },
+    {
+      "label": "footer 1280: two-column layout",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "label": "footer 1280: build-year copyright",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: Back to top link targets #main",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: monogram mark",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: top border",
+      "ok": true
+    },
+    {
+      "label": "footer 1280: bottom bar divider",
+      "ok": true
+    },
+    {
+      "label": "footer 360: id=contact is present",
+      "ok": true
+    },
+    {
+      "label": "footer 360: identity, role/location and footer.line copy",
+      "ok": true
+    },
+    {
+      "label": "footer 360: three contact links",
+      "ok": true
+    },
+    {
+      "label": "footer 360: mailto, GitHub and LinkedIn hrefs",
+      "ok": true,
+      "detail": "mailto:vibing.murphy@gmail.com, https://github.com/TimurHaryo, https://id.linkedin.com/in/timurharyo"
+    },
+    {
+      "label": "footer 360: contact link labels",
+      "ok": true,
+      "detail": "vibing.murphy@gmail.com, GitHub, LinkedIn"
+    },
+    {
+      "label": "footer 360: every contact row is 44px tall",
+      "ok": true,
+      "detail": "44, 44, 44"
+    },
+    {
+      "label": "footer 360: mail, GitHub and LinkedIn icons are decorative and 18px",
+      "ok": true
+    },
+    {
+      "label": "footer 360: Contact micro-label is mono uppercase",
+      "ok": true,
+      "detail": "{\"text\":\"Contact\",\"fontFamily\":\"ui-monospace, SFMono-Regular, Menlo, Consolas, monospace\",\"textTransform\":\"uppercase\"}"
+    },
+    {
+      "label": "footer 360: single-column layout",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "label": "footer 360: build-year copyright",
+      "ok": true
+    },
+    {
+      "label": "footer 360: Back to top link targets #main",
+      "ok": true
+    },
+    {
+      "label": "footer 360: monogram mark",
+      "ok": true
+    },
+    {
+      "label": "footer 360: top border",
+      "ok": true
+    },
+    {
+      "label": "footer 360: bottom bar divider",
+      "ok": true
+    },
+    {
+      "label": "screenshot mobile/light: header and footer written",
+      "ok": true
+    },
+    {
+      "label": "screenshot desktop/light: header and footer written",
+      "ok": true
+    },
+    {
+      "label": "screenshot mobile/dark: header and footer written",
+      "ok": true
+    },
+    {
+      "label": "screenshot desktop/dark: header and footer written",
+      "ok": true
+    }
+  ],
+  "passed": true
+}

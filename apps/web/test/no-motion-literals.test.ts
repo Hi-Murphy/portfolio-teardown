@@ -87,6 +87,8 @@ const S10_SOURCE_FILES = [
   'components/hero/hero-classes.ts',
   'components/hero/hero-live.tsx',
   'components/hero/hero-stage.tsx',
+  'components/icons.tsx',
+  'components/nav-projects-link.tsx',
   'components/project-card.tsx',
   'components/project-outline.tsx',
   'components/site-footer.tsx',
