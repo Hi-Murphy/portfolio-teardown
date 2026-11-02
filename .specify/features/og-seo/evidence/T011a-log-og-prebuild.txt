@@ -1,0 +1,72 @@
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1117ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.1s
+  Running TypeScript ...
+  Finished TypeScript in 1874ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 267ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+apps/web/out/_next/static/chunks/turbopack-3-ry682tkyiqk.js
+NO-ASYNC-RUNTIME
+self.__SSG_MANIFEST=new Set(["\u002Fprojects\u002F[slug]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
+$ node tools/perf/src/cli/bundle-manifest.ts --diff .specify/features/og-seo/evidence/T001-log-bundle-before.json /tmp/s11-checks/bundle-t011a.json
+TOTAL-JS 1771865 -> 1771865 (0)
+ADDED-JS _next/static/chunks/1fzq_fvhhdbjt.js bytes=13822
+REMOVED-JS _next/static/chunks/2tvgabxz8mzxw.js bytes=13822
+ADDED-SCRIPT / /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT / /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /404 /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /404 /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /_not-found /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /_not-found /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /projects /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /projects /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /projects/websocket-inspector /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /projects/websocket-inspector /_next/static/chunks/2tvgabxz8mzxw.js
+DIFF-FAIL
+[ELIFECYCLE] Command failed with exit code 6.
+56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669  og/home.png
+53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22  og/projects.png
+74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3  og/projects/websocket-inspector.png
+e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b  apple-touch-icon.png
+seo-probe: PASS
+artifacts: /tmp/s11-checks/seo-t011a
+   Start at  06:17:21
+   Duration  77ms (tests 41%, transform 35%, import 17%, worker 6%)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
+T011a-OK
