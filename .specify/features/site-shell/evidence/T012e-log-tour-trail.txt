@@ -1,0 +1,1810 @@
+
+===== xploder tests (excluding the documented S6 seal test) =====
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T012e/packages/xploder
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every A title block clear of the drawing across azimuths and viewports
+A 45deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 135deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 225deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 315deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 45deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 135deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 225deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 315deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 45deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 135deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 225deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 315deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 45deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 135deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 225deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 315deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 45deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+A 135deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+A 225deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+A 315deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every B title block clear of the drawing across azimuths and viewports
+B 45deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 135deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 225deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 315deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 45deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 135deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 225deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 315deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 45deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 135deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 225deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 315deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 45deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 135deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 225deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 315deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 45deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+B 135deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+B 225deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+B 315deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every C title block clear of the drawing across azimuths and viewports
+C 45deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 135deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 225deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 315deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 45deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 135deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 225deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 315deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 45deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 135deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 225deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 315deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 45deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 135deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 225deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 315deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 45deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+C 135deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+C 225deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+C 315deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+
+stdout | test/panel-place.test.ts > AC2 placement matrix > keeps every A fixture panel disjoint and inside the canvas
+stage histogram A: stage1=436 stage2=76 stage3=0 stage4=0
+
+stdout | test/panel-place.test.ts > AC2 placement matrix > keeps every B fixture panel disjoint and inside the canvas
+stage histogram B: stage1=436 stage2=76 stage3=0 stage4=0
+
+stdout | test/panel-place.test.ts > AC2 placement matrix > keeps every C fixture panel disjoint and inside the canvas
+stage histogram C: stage1=418 stage2=94 stage3=0 stage4=0
+
+ ✓ test/camera.test.ts > cameraReducer > exposes the exact action union 1ms
+ ✓ test/camera.test.ts > cameraReducer > starts at 45 degrees with fit zoom 0ms
+ ✓ test/camera.test.ts > cameraReducer > keeps azimuth snapped and zoom bounded through 10,000 random actions 90ms
+ ✓ test/camera.test.ts > cameraReducer > clamps repeated zoom actions and resets to fit 0ms
+ ✓ test/camera.test.ts > cameraReducer > rotates in signed turns without changing zoom 0ms
+ ✓ test/camera.test.ts > zoomAvailability > disables zoom out and reset at the default fit view, enables zoom in 0ms
+ ✓ test/camera.test.ts > zoomAvailability > disables zoom in at the maximum 0ms
+ ✓ test/camera.test.ts > zoomAvailability > enables a zoom control exactly when pressing it changes the zoom 54ms
+ ✓ test/camera.test.ts > keyToAction > maps ArrowLeft to rotateLeft 0ms
+ ✓ test/camera.test.ts > keyToAction > maps ArrowRight to rotateRight 0ms
+ ✓ test/camera.test.ts > keyToAction > maps + to zoomIn 0ms
+ ✓ test/camera.test.ts > keyToAction > maps = to zoomIn 0ms
+ ✓ test/camera.test.ts > keyToAction > maps - to zoomOut 0ms
+ ✓ test/camera.test.ts > keyToAction > maps _ to zoomOut 0ms
+ ✓ test/camera.test.ts > keyToAction > maps 0 to zoomReset 0ms
+ ✓ test/camera.test.ts > keyToAction > ignores "ArrowUp" 0ms
+ ✓ test/camera.test.ts > keyToAction > ignores "a" 0ms
+ ✓ test/camera.test.ts > keyToAction > ignores "Enter" 0ms
+ ✓ test/camera.test.ts > keyToAction > ignores " " 0ms
+ ✓ test/camera.test.ts > createTurnTween > turns from 45 to 135 degrees, settles exactly at the token duration 1ms
+ ✓ test/camera.test.ts > createTurnTween > retargets from the displayed angle without a jump 1ms
+ ✓ test/camera.test.ts > createTurnTween > cuts to the target with the static twin 0ms
+stdout | test/panel-place.test.ts > AC2 placement matrix > keeps synthetic 1x1 panels disjoint and inside at every stage
+stage histogram synthetic 1x1: stage1=96 stage2=224 stage3=160 stage4=32
+
+stdout | test/panel-place.test.ts > AC2 placement matrix > keeps synthetic 2x1 panels disjoint and inside at every stage
+stage histogram synthetic 2x1: stage1=224 stage2=192 stage3=96 stage4=0
+
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps every A fixture panel disjoint and inside the canvas 39ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps every B fixture panel disjoint and inside the canvas 19ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps every C fixture panel disjoint and inside the canvas 18ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps synthetic 1x1 panels disjoint and inside at every stage 19ms
+ ✓ test/panel-place.test.ts > AC2 placement matrix > keeps synthetic 2x1 panels disjoint and inside at every stage 12ms
+ ✓ test/panel-place.test.ts > placement hysteresis > changes the A dock only after the current size no longer fits 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis > changes the B dock only after the current size no longer fits 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis > changes the C dock only after the current size no longer fits 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis does not keep a cramped size > a stage-3/4 current size is re-placed once a readable dock fits again 0ms
+ ✓ test/panel-place.test.ts > placement hysteresis does not keep a cramped size > a readable current size is still kept while it fits 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > keeps the R2 gap clear of the S5 hover lift 2ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 328 x 444 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 358 x 506 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 768 x 614 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > uses the RFC D3 case-study size on 1216 x 480 0ms
+ ✓ test/panel-place.test.ts > panel sizing and visible rects > computes and clips the visible slab rect after scrolling 1ms
+stdout | test/lettering.test.ts > part lettering matrix > labels every A fixture component at every view and scroll offset
+lettering histogram A: face+name=672 face number-only=480 mark=0
+
+ ✓ test/lettering.test.ts > part lettering matrix > labels every A fixture component at every view and scroll offset 120ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports
+A 45deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 135deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 225deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 315deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 45deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 135deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 45deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports 147ms
+stdout | test/lettering.test.ts > part lettering matrix > labels every B fixture component at every view and scroll offset
+lettering histogram B: face+name=336 face number-only=384 mark=0
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports
+B 45deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+
+ ✓ test/layout.test.ts > layoutProject > is deterministic for repeated calls and a structured clone 4ms
+ ✓ test/layout.test.ts > layoutProject > matches the fixture A golden layout 3ms
+ ✓ test/layout.test.ts > layoutProject > matches the fixture B golden layout 1ms
+ ✓ test/layout.test.ts > layoutProject > ignores names, descriptions, techs, flows, and story 1ms
+ ✓ test/layout.test.ts > layoutProject > accepts a deep-frozen project and returns a deep-frozen layout 1ms
+ ✓ test/layout.test.ts > layoutProject > sweeps layer and component counts within the placement contract 216ms
+ ✓ test/layout.test.ts > layoutProject > derives the shared footprint from the busiest layer 1ms
+ ✓ test/layout.test.ts > fitZoom > fits fixture A at all azimuths and is tight 1ms
+ ✓ test/layout.test.ts > fitZoom > fits fixture B at all azimuths and is tight 0ms
+ ✓ test/layout.test.ts > fitZoom > fits 12 x 16 sweep case at all azimuths and is tight 1ms
+ ✓ test/layout.test.ts > fixture A layer order is top to bottom in data order 0ms
+(node:81536) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports
+C 45deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=36.00px
+C 225deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 315deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 135deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 225deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 315deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 45deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 225deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 225deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=147.08px
+C 225deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports 37ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports 103ms
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every title block readable across the dense canvas sweep
+dense title block sweep: cases=7344 failures=0
+
+ ✓ test/overlay-titleblock.test.ts > title block content and box > derives fixture A title, footprint and numbered layer rows 1ms
+ ✓ test/overlay-titleblock.test.ts > title block content and box > falls back to the slug when meta.name is absent 0ms
+ ✓ test/overlay-titleblock.test.ts > title block content and box > sizes the box from the widest R1 line and the total line height 0ms
+ ✓ test/overlay-titleblock.test.ts > title block corner placement > falls back to bottom-left when a component blocks bottom-right 0ms
+ ✓ test/overlay-titleblock.test.ts > title block corner placement > treats a layer top-corner silhouette as an obstacle 0ms
+ ✓ test/overlay-titleblock.test.ts > title block corner placement > uses the inset from the viewer edges for the preferred corner 0ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every A title block clear of the drawing across azimuths and viewports 8ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every B title block clear of the drawing across azimuths and viewports 9ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every C title block clear of the drawing across azimuths and viewports 3ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every title block readable across the dense canvas sweep 273ms
+stdout | test/overlay-columns.test.ts > callout tags > uses phone tags for fixture A without tag overlaps or foreign hull hits
+A 360x640: mode=tags tags=8 hidden=0
+A 390x844: mode=tags tags=8 hidden=0
+
+stdout | test/lettering.test.ts > part lettering matrix > labels every C fixture component at every view and scroll offset
+lettering histogram C: face+name=816 face number-only=1038 mark=18
+
+ ✓ test/lettering.test.ts > part lettering matrix > labels every B fixture component at every view and scroll offset 48ms
+ ✓ test/lettering.test.ts > part lettering matrix > labels every C fixture component at every view and scroll offset 151ms
+stdout | test/overlay-columns.test.ts > callout tags > uses phone tags for fixture C without tag overlaps or foreign hull hits
+C 360x640: mode=tags tags=13 hidden=0
+C 390x844: mode=tags tags=13 hidden=0
+
+ ✓ test/focus.test.ts > focusReducer > toggles focus on and off 1ms
+ ✓ test/focus.test.ts > focusReducer > switches directly to another layer 0ms
+ ✓ test/focus.test.ts > focusReducer > ignores unknown layers 0ms
+ ✓ test/focus.test.ts > focusReducer > releases and resets focus 0ms
+ ✓ test/focus.test.ts > escapeTarget > idle tour with focus null 0ms
+ ✓ test/focus.test.ts > escapeTarget > idle tour with focus edge 0ms
+ ✓ test/focus.test.ts > escapeTarget > playing tour with focus null 0ms
+ ✓ test/focus.test.ts > escapeTarget > playing tour with focus edge 0ms
+ ✓ test/focus.test.ts > escapeTarget > paused tour with focus null 0ms
+ ✓ test/focus.test.ts > escapeTarget > paused tour with focus edge 0ms
+ ✓ test/focus.test.ts > escapeTarget > ended tour with focus null 0ms
+ ✓ test/focus.test.ts > escapeTarget > ended tour with focus edge 0ms
+ ✓ test/focus.test.ts > focus independence > matches the focus-only reference model through 2,000 x 50 mixed actions 397ms
+ ✓ test/overlay-columns.test.ts > callout columns > keeps every fixture A part and layer callout in aligned clear columns 29ms
+ ✓ test/overlay-columns.test.ts > callout columns > keeps every fixture C part and layer callout in aligned clear columns 10ms
+ ✓ test/overlay-columns.test.ts > callout columns > draws one accent leader from the highlighted A callout to the part anchor 2ms
+ ✓ test/overlay-columns.test.ts > callout columns > draws one accent leader from the highlighted C callout to the part anchor 3ms
+ ✓ test/overlay-columns.test.ts > callout tags > uses phone tags for fixture A without tag overlaps or foreign hull hits 13ms
+ ✓ test/overlay-columns.test.ts > callout tags > uses phone tags for fixture C without tag overlaps or foreign hull hits 18ms
+ ✓ test/overlay-columns.test.ts > callout tags > marks only the highlighted tag without adding a leader 2ms
+ ✓ test/overlay-columns.test.ts > callout tags > falls back to tags on a wide canvas when the columns do not fit 0ms
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture A
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=A canvas=358x506 zoom=1.00 names=0/8 number-only=8 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.25 names=2/8 number-only=6 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.56 names=6/8 number-only=2 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.95 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=2.44 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=3.00 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.00 names=0/8 number-only=8 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.25 names=2/8 number-only=6 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.56 names=6/8 number-only=2 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.95 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=2.44 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=3.00 names=8/8 number-only=0 mark=0
+
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture B
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=B canvas=358x506 zoom=1.00 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.25 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.56 names=2/5 number-only=3 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.95 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=2.44 names=5/5 number-only=0 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=3.00 names=5/5 number-only=0 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.00 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.25 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.56 names=1/5 number-only=4 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.95 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=2.44 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=3.00 names=5/5 number-only=0 mark=0
+
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture C
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=C canvas=358x506 zoom=1.00 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.25 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.56 names=3/13 number-only=10 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.95 names=11/13 number-only=2 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=2.44 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=3.00 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.00 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.25 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.56 names=3/13 number-only=10 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.95 names=10/13 number-only=3 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=2.44 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=3.00 names=13/13 number-only=0 mark=0
+
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 0.7853981633974483 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 2.356194490192345 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 3.9269908169872414 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 5.497787143782138 0ms
+ ✓ test/lettering.test.ts > face direction > keeps every A face pointing down-right across components and rotations 1ms
+ ✓ test/lettering.test.ts > face direction > keeps every C face pointing down-right across components and rotations 3ms
+ ✓ test/lettering.test.ts > letterPart > puts the number and name on a face when both fit 1ms
+ ✓ test/lettering.test.ts > letterPart > wraps a long name at spaces when it cannot fit on one line 0ms
+ ✓ test/lettering.test.ts > letterPart > drops the name before the number on a tiny face 0ms
+ ✓ test/lettering.test.ts > letterPart > marks the front corner when every face position is occluded 7ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture A 7ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture B 1ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture C 5ms
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while imploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+(node:81539) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while exploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stdout | test/product-gap.test.ts > product gap occlusion > fixture A keeps every component at least half visible
+Fixture A at 45 degrees: beachgoer 100% · tide-chart-screen 100% · forecast-details-panel 100% · tide-view-model 100% · tide-repository 88% · live-tide-client 100% · tide-cache 100% · tide-feed 100%
+Fixture A at 45 degrees: minimum 88% (tide-repository)
+Fixture A at 135 degrees: minimum 100% (beachgoer)
+Fixture A at 225 degrees: minimum 100% (beachgoer)
+Fixture A at 315 degrees: minimum 88% (live-tide-client)
+
+ ✓ test/product-gap.test.ts > product layout defaults > uses an exploded gap of 2 without changing the layout primitive 2ms
+ ✓ test/product-gap.test.ts > product gap occlusion > fixture A keeps every component at least half visible 451ms
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while imploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while exploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while imploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while exploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while imploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while exploded
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > renders fixture A with two instanced meshes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > emits moving once and then exactly one settled after a turn
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > reports a view-offset change without emitting moving
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while imploded 43ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while exploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while imploded 4ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while exploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while imploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while exploded 8ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while imploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while exploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > emits moving once and then exactly one settled after a turn 8ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reports a view-offset change without emitting moving 10ms
+stderr | test/overlay-projector.test.tsx > OverlayProjector > keeps a settled frame in content space under a view offset
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > renders fixture B with two instanced meshes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/overlay-projector.test.tsx > OverlayProjector > reuses projection buffers across frames after warm-up
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > keeps a settled frame in content space under a view offset 7ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reuses projection buffers across frames after warm-up 5ms
+stderr | test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > uses the light palette material colors
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > uses the dark palette material colors
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+(node:81541) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/scene.test.tsx > Scene > renders fixture A with two instanced meshes 30ms
+ ✓ test/scene.test.tsx > Scene > renders fixture B with two instanced meshes 5ms
+ ✓ test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts 7ms
+ ✓ test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth 5ms
+ ✓ test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock 7ms
+ ✓ test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion 8ms
+ ✓ test/scene.test.tsx > Scene > uses the light palette material colors 2ms
+ ✓ test/scene.test.tsx > Scene > uses the dark palette material colors 3ms
+(node:81543) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/emphasis-scene.test.tsx > emphasis scene > mounts neutral instance colours in the light palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+(node:81540) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/blueprint-scene.test.tsx > blueprint scene > patches both Lambert materials in the light palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/emphasis-scene.test.tsx > emphasis scene > mounts neutral instance colours in the dark palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/emphasis-scene.test.tsx > emphasis scene > highlights a component and lifts it in the light palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/blueprint-scene.test.tsx > blueprint scene > patches both Lambert materials in the dark palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/blueprint-scene.test.tsx > blueprint scene > the shader reads the uniform objects Slabs writes, untone-mapped
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/emphasis-scene.test.tsx > emphasis scene > highlights a component and lifts it in the dark palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/overlay-model.test.ts > overlay visibility > shows only when every visible condition is aligned 2ms
+ ✓ test/overlay-model.test.ts > overlay visibility > hides when the target changed but the phase still matches the old state 0ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 17ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > replaces every on-drawing annotation with a title block when imploded 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps exploded annotations free of a title block 4ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 3ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims title block rows outside the focused layer 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > drops labels for a frame from another layout without throwing 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > skips trace vertices that are absent from the frame 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short on-part tags with a screen-reader name below the wide threshold 4ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text in columns at the wide threshold 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 5ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports placement hidden count when tags cannot all fit 3ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 4ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns the title block in content space after an offset round trip 1ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and no leaders at rest 1ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > adds one accent elbow leader and one emphasis for the highlighted part 2ms
+ ✓ test/overlay-model.test.ts > overlay trace model > clears the trace while idle 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > routes the path prefix through settled content-space anchors when paused 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > flags the signal dot only while playing 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > uses the static twin under reduced motion 0ms
+stderr | test/emphasis-scene.test.tsx > emphasis scene > dims every layer outside focus and keeps it through explode and rotation in the light palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/blueprint-scene.test.tsx > blueprint scene > mounts linear instance fills in the light palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/emphasis-scene.test.tsx > emphasis scene > dims every layer outside focus and keeps it through explode and rotation in the dark palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/blueprint-scene.test.tsx > blueprint scene > mounts linear instance fills in the dark palette
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/blueprint-scene.test.tsx > blueprint scene > rewrites instanceFill when the palette changes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/emphasis-scene.test.tsx > emphasis scene > mounts neutral instance colours in the light palette 29ms
+ ✓ test/emphasis-scene.test.tsx > emphasis scene > mounts neutral instance colours in the dark palette 3ms
+ ✓ test/emphasis-scene.test.tsx > emphasis scene > highlights a component and lifts it in the light palette 7ms
+ ✓ test/emphasis-scene.test.tsx > emphasis scene > highlights a component and lifts it in the dark palette 5ms
+ ✓ test/emphasis-scene.test.tsx > emphasis scene > dims every layer outside focus and keeps it through explode and rotation in the light palette 8ms
+ ✓ test/emphasis-scene.test.tsx > emphasis scene > dims every layer outside focus and keeps it through explode and rotation in the dark palette 9ms
+stderr | test/viewer-panels.test.tsx > useViewerPanels > opens details, toggles the case study twice, and closes through the public actions
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/blueprint-scene.test.tsx > blueprint scene > leaves the S5 scene path untouched without look
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > patches both Lambert materials in the light palette 23ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > patches both Lambert materials in the dark palette 2ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > the shader reads the uniform objects Slabs writes, untone-mapped 12ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > mounts linear instance fills in the light palette 3ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > mounts linear instance fills in the dark palette 3ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > rewrites instanceFill when the palette changes 5ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > leaves the S5 scene path untouched without look 6ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > wires the product layout default through TeardownViewer 0ms
+stderr | test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while playing jumps there and keeps playing
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while paused jumps there and stays paused
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking outside the flow pauses, opens the detail, and Play resumes the same step
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-panels.test.tsx > pickAt > matches the S5 picker on 20 seeded rays through the real camera
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/viewer-panels.test.tsx > useViewerPanels > opens details, toggles the case study twice, and closes through the public actions 17ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while playing jumps there and keeps playing 5ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while paused jumps there and stays paused 4ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking outside the flow pauses, opens the detail, and Play resumes the same step 3ms
+ ✓ test/viewer-panels.test.tsx > pickAt > matches the S5 picker on 20 seeded rays through the real camera 15ms
+(node:81544) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > play auto-explodes and starts the first flow
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > plays, pauses, resumes, and stops
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > keeps focus stored but suspended during the tour, then restores it on stop
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > Escape stops the tour first, then releases focus, and ignores prevented events
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > a slug change resets highlight, focus, and tour
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > selectFlow stops a playing tour and selects the new flow in idle
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > ignores unknown component, layer, and flow ids
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/ease.test.ts > cubic-bezier easing > parses both token curves and whitespace variants 4ms
+ ✓ test/ease.test.ts > cubic-bezier easing > rejects non-cubic-bezier easing tokens 0ms
+ ✓ test/ease.test.ts > cubic-bezier easing > returns exact endpoints for every motion curve 0ms
+ ✓ test/ease.test.ts > cubic-bezier easing > matches a dense-bisection reference for the explode curve 4ms
+ ✓ test/ease.test.ts > cubic-bezier easing > is monotone across the explode curve 47ms
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > advances at the base tourBeat under the reduced-motion twin
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > play auto-explodes and starts the first flow 16ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > plays, pauses, resumes, and stops 5ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > keeps focus stored but suspended during the tour, then restores it on stop 6ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > Escape stops the tour first, then releases focus, and ignores prevented events 4ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > a slug change resets highlight, focus, and tour 4ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > selectFlow stops a playing tour and selects the new flow in idle 3ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > ignores unknown component, layer, and flow ids 4ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > advances at the base tourBeat under the reduced-motion twin 5ms
+ ✓ test/exports.test.ts > exports every public entry point 1ms
+ ✓ test/exports.test.ts > keeps the S2 root API unchanged 37ms
+stdout | test/lettering-column.test.ts > compact phone part column > fits every A component label at zoom 1 on both phone canvases
+compact-column A: wrapped=64 two-line=64
+
+stdout | test/lettering-column.test.ts > compact phone part column > fits every B component label at zoom 1 on both phone canvases
+compact-column B: wrapped=40 two-line=40
+
+stdout | test/lettering-column.test.ts > compact phone part column > fits every C component label at zoom 1 on both phone canvases
+compact-column C: wrapped=92 two-line=92
+
+stdout | test/lettering-column.test.ts > zoomed layer lettering > labels every A layer without touching upper hulls
+layer-lettering A: face=32 plain=0
+
+stdout | test/lettering-column.test.ts > zoomed layer lettering > labels every B layer without touching upper hulls
+layer-lettering B: face=32 plain=0
+
+stdout | test/lettering-column.test.ts > zoomed layer lettering > labels every C layer without touching upper hulls
+layer-lettering C: face=38 plain=2
+
+ ✓ test/lettering-column.test.ts > compact phone part column > fits every A component label at zoom 1 on both phone canvases 16ms
+ ✓ test/lettering-column.test.ts > compact phone part column > fits every B component label at zoom 1 on both phone canvases 2ms
+ ✓ test/lettering-column.test.ts > compact phone part column > fits every C component label at zoom 1 on both phone canvases 10ms
+ ✓ test/lettering-column.test.ts > compact phone part column > is hidden by the offset/extent rule at the first zoom notch 1ms
+ ✓ test/lettering-column.test.ts > zoomed layer lettering > labels every A layer without touching upper hulls 6ms
+ ✓ test/lettering-column.test.ts > zoomed layer lettering > labels every B layer without touching upper hulls 3ms
+ ✓ test/lettering-column.test.ts > zoomed layer lettering > labels every C layer without touching upper hulls 4ms
+(node:81547) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 0
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 1
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 2
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 3
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 0
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 1
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+(node:81549) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stdout | test/look-fills.test.ts > look fills > prints and enforces the light/dark parity table
+[light]
+  text contrast on paper
+    ink       13.71 : 1
+    label      7.33 : 1
+    steel      5.23 : 1
+  stroke contrast on paper
+    lineMuted   3.23 : 1
+    accent     5.27 : 1
+  line edge vs kind fill contrast
+    module     6.01 : 1
+    service    6.12 : 1
+    store      6.27 : 1
+    external   6.32 : 1
+    actor      6.28 : 1
+  highlight fill vs kind fill (CIE76 ΔE)
+    module     15.6
+    service    21.6
+    store      25.4
+    external   18.6
+    actor      22.3
+  smallest kind ΔE 4.9 (module/external)
+[dark]
+  text contrast on paper
+    ink       14.81 : 1
+    label      8.62 : 1
+    steel      6.74 : 1
+  stroke contrast on paper
+    lineMuted   3.78 : 1
+    accent     9.57 : 1
+  line edge vs kind fill contrast
+    module     5.56 : 1
+    service    5.81 : 1
+    store      5.74 : 1
+    external   6.04 : 1
+    actor      5.49 : 1
+  highlight fill vs kind fill (CIE76 ΔE)
+    module     18.7
+    service    24.4
+    store      23.4
+    external   21.1
+    actor      20.5
+  smallest kind ΔE 3.6 (module/external)
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 2
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 3
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/view-scroll.test.tsx > view scroll > the real camera pick still agrees with the pure model under an offset
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 0 18ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 1 2ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 2 2ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: imploded, rig step 3 2ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 0 4ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 1 9ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 2 5ms
+ ✓ test/pick-scene.test.tsx > pick scene > the real camera and pure model agree for every component: exploded, rig step 3 5ms
+ ✓ test/look-fills.test.ts > look fills > mixes sRGB endpoints and the paper/line midpoint in sRGB before decoding 2ms
+ ✓ test/look-fills.test.ts > look fills > derives every kind, layer and highlight fill through the sRGB wash 0ms
+ ✓ test/look-fills.test.ts > look fills > prints and enforces the light/dark parity table 1ms
+ ✓ test/look-fills.test.ts > look fills > round-trips the S5 emphasis composition for both bases and palettes 14ms
+ ✓ test/look-fills.test.ts > look fills > maps a neutral ratio to exactly zero emphasis 1ms
+stderr | test/view-scroll.test.tsx > view scroll > clears the view offset at zoom 1 and keeps two instanced meshes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/view-scroll.test.tsx > view scroll > a projected screen point moves by exactly the view offset 4ms
+ ✓ test/view-scroll.test.tsx > view scroll > the real camera pick still agrees with the pure model under an offset 23ms
+ ✓ test/view-scroll.test.tsx > view scroll > clears the view offset at zoom 1 and keeps two instanced meshes 21ms
+(node:81552) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > uses fixture A in a columns viewport as the trail precondition 21ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > shows one label and one leader for the first step 4ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > builds the visited labels and leaders in path order through step 3 2ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > keeps the trail while the tour is paused 2ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > returns an empty model for an unknown flow 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > returns an empty model outside the columns mode 4ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > leaves the idle base model unchanged 2ms
+stderr | test/tour-clock.test.tsx > useTourClock > advances through every beat when the clock lags the timer
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/tour-clock.test.tsx > useTourClock > advances through every beat when the clock lags the timer 24ms
+ ✓ test/generality.test.ts > exports the v1 project schema fingerprint 4ms
+ ✓ test/generality.test.ts > fixture B parses as a pipeline with the unchanged registry-backed schema 1ms
+ ✓ test/generality.test.ts > fixture B preserves pipeline layer order through its flow path 0ms
+stdout | test/a11y-contrast.test.ts > contrast inventory > prints both palettes and passes every non-exception row
+[light] surface inventory
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  panel-body                                       rest       body   ink                 surface                       14.58        4.5  PASS     
+  panel-label                                      rest       body   label               surface                        7.79        4.5  PASS     
+  panel-link                                       rest       body   accent              surface                        5.60        4.5  PASS     
+  panel-border                                     rest       ui     line                surface                        8.06        3.0  PASS     
+  chip-label                                       rest       body   ink                 surface                       14.58        4.5  PASS     
+  chip-border                                      rest       ui     lineMuted           surface                        3.43        3.0  PASS     
+  chip-tech-library-accent                         rest       ui     tech.library        surface                        5.24        3.0  PASS     
+  tech-library-on-paper                            rest       ui     tech.library        paper                          4.93        3.0  PASS     
+  caption-heading                                  rest       body   label               surface                        7.79        4.5  PASS     
+  caption-body                                     rest       body   ink                 surface                       14.58        4.5  PASS     
+  caption-border                                   rest       ui     line                surface                        8.06        3.0  PASS     
+  callout-label                                    rest       body   label               paper                          7.33        4.5  PASS     
+  balloon-label                                    rest       body   ink                 surface                       14.58        4.5  PASS     
+  balloon-border                                   rest       ui     line                surface                        8.06        3.0  PASS     
+  dimension-label                                  rest       body   steel               paper                          5.23        4.5  PASS     
+  leader-line                                      rest       ui     lineMuted           paper                          3.23        3.0  PASS     
+  title-title                                      rest       body   ink                 paper                         13.71        4.5  PASS     
+  title-meta                                       rest       body   steel               paper                          5.23        4.5  PASS     
+  title-row                                        rest       body   label               paper                          7.33        4.5  PASS     
+  title-border                                     rest       ui     line                paper                          7.58        3.0  PASS     
+  lettering-face-number-rest-module                rest       body   ink                 kindFill:module               10.88        4.5  PASS     
+  lettering-face-name-rest-module                  rest       body   label               kindFill:module                5.81        4.5  PASS     
+  lettering-face-number-rest-service               rest       body   ink                 kindFill:service              11.07        4.5  PASS     
+  lettering-face-name-rest-service                 rest       body   label               kindFill:service               5.91        4.5  PASS     
+  lettering-face-number-rest-store                 rest       body   ink                 kindFill:store                11.30        4.5  PASS     
+  lettering-face-name-rest-store                   rest       body   label               kindFill:store                 6.04        4.5  PASS     
+  lettering-face-number-rest-external              rest       body   ink                 kindFill:external             11.46        4.5  PASS     
+  lettering-face-name-rest-external                rest       body   label               kindFill:external              6.13        4.5  PASS     
+  lettering-face-number-rest-actor                 rest       body   ink                 kindFill:actor                11.36        4.5  PASS     
+  lettering-face-name-rest-actor                   rest       body   label               kindFill:actor                 6.07        4.5  PASS     
+  lettering-face-number-highlight                  highlight  body   ink                 highlightFill                  7.93        4.5  PASS     
+  lettering-face-name-highlight                    highlight  body   ink                 highlightFill                  7.93        4.5  PASS     
+  lettering-column-number                          rest       body   accent              paper                          5.27        4.5  PASS     
+  lettering-column-name                            rest       body   label               paper                          7.33        4.5  PASS     
+  lettering-column-number-highlight                highlight  body   accent              paper                          5.27        4.5  PASS     
+  lettering-column-name-highlight                  highlight  body   accent              paper                          5.27        4.5  PASS     
+  lettering-layer-face-label                       rest       body   label               layerFill                      7.05        4.5  PASS     
+  lettering-layer-plain-label                      rest       body   label               paper                          7.33        4.5  PASS     
+  focus-ring-paper                                 rest       ui     accent              paper                          5.27        3.0  PASS     
+  focus-ring-surface                               rest       ui     accent              surface                        5.60        3.0  PASS     
+  focus-ring-kind-fill                             rest       ui     accent              kindFill:module                4.18        3.0  PASS     
+  playground-button-text-on-paper                  rest       body   ink                 paper                         13.71        4.5  PASS     
+  playground-meta-on-paper                         rest       body   label               paper                          7.33        4.5  PASS     
+  playground-button-text-on-surface                rest       body   ink                 surface                       14.58        4.5  PASS     
+  playground-meta-on-surface                       rest       body   label               surface                        7.79        4.5  PASS     
+  playground-button-text-hover                     rest       body   ink                 {"over":"paper","mix":"ink","t":0.1}  11.33        4.5  PASS     
+  playground-meta-hover                            rest       body   label               {"over":"paper","mix":"ink","t":0.1}   6.05        4.5  PASS     
+  playground-button-selected-text                  rest       body   paper               ink                           13.71        4.5  PASS     
+  playground-button-border                         rest       ui     line                paper                          7.58        3.0  PASS     
+  panel-body-dim                                   dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  panel-label-dim                                  dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  panel-link-dim                                   dim        body   accent              surface                        1.64        4.5  FAIL     inactive-dim
+  chip-label-dim                                   dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  caption-heading-dim                              dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  caption-body-dim                                 dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  callout-label-dim                                dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  balloon-label-dim                                dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  dimension-label-dim                              dim        body   steel               paper                          1.50        4.5  FAIL     inactive-dim
+  title-title-dim                                  dim        body   ink                 paper                          1.84        4.5  FAIL     inactive-dim
+  title-meta-dim                                   dim        body   steel               paper                          1.50        4.5  FAIL     inactive-dim
+  title-row-dim                                    dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-module-dim            dim        body   ink                 kindFill:module                1.46        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-module-dim              dim        body   label               kindFill:module                1.28        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-service-dim           dim        body   ink                 kindFill:service               1.49        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-service-dim             dim        body   label               kindFill:service               1.30        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-store-dim             dim        body   ink                 kindFill:store                 1.52        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-store-dim               dim        body   label               kindFill:store                 1.32        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-external-dim          dim        body   ink                 kindFill:external              1.54        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-external-dim            dim        body   label               kindFill:external              1.34        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-actor-dim             dim        body   ink                 kindFill:actor                 1.53        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-actor-dim               dim        body   label               kindFill:actor                 1.33        4.5  FAIL     inactive-dim
+  lettering-face-number-highlight-dim              dim        body   ink                 highlightFill                  1.06        4.5  FAIL     inactive-dim
+  lettering-face-name-highlight-dim                dim        body   ink                 highlightFill                  1.06        4.5  FAIL     inactive-dim
+  lettering-column-number-dim                      dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-column-name-dim                        dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  lettering-column-number-highlight-dim            dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-column-name-highlight-dim              dim        body   accent              paper                          1.54        4.5  FAIL     inactive-dim
+  lettering-layer-face-label-dim                   dim        body   label               layerFill                      1.55        4.5  FAIL     inactive-dim
+  lettering-layer-plain-label-dim                  dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  playground-button-text-on-paper-dim              dim        body   ink                 paper                          1.84        4.5  FAIL     inactive-dim
+  playground-meta-on-paper-dim                     dim        body   label               paper                          1.61        4.5  FAIL     inactive-dim
+  playground-button-text-on-surface-dim            dim        body   ink                 surface                        1.96        4.5  FAIL     inactive-dim
+  playground-meta-on-surface-dim                   dim        body   label               surface                        1.71        4.5  FAIL     inactive-dim
+  playground-button-text-hover-dim                 dim        body   ink                 {"over":"paper","mix":"ink","t":0.1}   1.52        4.5  FAIL     inactive-dim
+  playground-meta-hover-dim                        dim        body   label               {"over":"paper","mix":"ink","t":0.1}   1.33        4.5  FAIL     inactive-dim
+  playground-button-selected-text-dim              dim        body   paper               ink                           13.71        4.5  PASS     inactive-dim
+[light] R2 pre-fix evidence
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  lettering-face-number-highlight                  highlight  body   accent              highlightFill                  3.05        4.5  FAIL     
+  lettering-face-name-highlight                    highlight  body   label               highlightFill                  4.24        4.5  FAIL     
+[dark] surface inventory
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  panel-body                                       rest       body   ink                 surface                       13.06        4.5  PASS     
+  panel-label                                      rest       body   label               surface                        7.60        4.5  PASS     
+  panel-link                                       rest       body   accent              surface                        8.44        4.5  PASS     
+  panel-border                                     rest       ui     line                surface                        8.25        3.0  PASS     
+  chip-label                                       rest       body   ink                 surface                       13.06        4.5  PASS     
+  chip-border                                      rest       ui     lineMuted           surface                        3.33        3.0  PASS     
+  chip-tech-library-accent                         rest       ui     tech.library        surface                        8.50        3.0  PASS     
+  tech-library-on-paper                            rest       ui     tech.library        paper                          9.64        3.0  PASS     
+  caption-heading                                  rest       body   label               surface                        7.60        4.5  PASS     
+  caption-body                                     rest       body   ink                 surface                       13.06        4.5  PASS     
+  caption-border                                   rest       ui     line                surface                        8.25        3.0  PASS     
+  callout-label                                    rest       body   label               paper                          8.62        4.5  PASS     
+  balloon-label                                    rest       body   ink                 surface                       13.06        4.5  PASS     
+  balloon-border                                   rest       ui     line                surface                        8.25        3.0  PASS     
+  dimension-label                                  rest       body   steel               paper                          6.74        4.5  PASS     
+  leader-line                                      rest       ui     lineMuted           paper                          3.78        3.0  PASS     
+  title-title                                      rest       body   ink                 paper                         14.81        4.5  PASS     
+  title-meta                                       rest       body   steel               paper                          6.74        4.5  PASS     
+  title-row                                        rest       body   label               paper                          8.62        4.5  PASS     
+  title-border                                     rest       ui     line                paper                          9.36        3.0  PASS     
+  lettering-face-number-rest-module                rest       body   ink                 kindFill:module                8.76        4.5  PASS     
+  lettering-face-name-rest-module                  rest       body   label               kindFill:module                5.10        4.5  PASS     
+  lettering-face-number-rest-service               rest       body   ink                 kindFill:service               9.16        4.5  PASS     
+  lettering-face-name-rest-service                 rest       body   label               kindFill:service               5.33        4.5  PASS     
+  lettering-face-number-rest-store                 rest       body   ink                 kindFill:store                 9.02        4.5  PASS     
+  lettering-face-name-rest-store                   rest       body   label               kindFill:store                 5.25        4.5  PASS     
+  lettering-face-number-rest-external              rest       body   ink                 kindFill:external              9.51        4.5  PASS     
+  lettering-face-name-rest-external                rest       body   label               kindFill:external              5.54        4.5  PASS     
+  lettering-face-number-rest-actor                 rest       body   ink                 kindFill:actor                 8.65        4.5  PASS     
+  lettering-face-name-rest-actor                   rest       body   label               kindFill:actor                 5.04        4.5  PASS     
+  lettering-face-number-highlight                  highlight  body   ink                 highlightFill                  5.17        4.5  PASS     
+  lettering-face-name-highlight                    highlight  body   ink                 highlightFill                  5.17        4.5  PASS     
+  lettering-column-number                          rest       body   accent              paper                          9.57        4.5  PASS     
+  lettering-column-name                            rest       body   label               paper                          8.62        4.5  PASS     
+  lettering-column-number-highlight                highlight  body   accent              paper                          9.57        4.5  PASS     
+  lettering-column-name-highlight                  highlight  body   accent              paper                          9.57        4.5  PASS     
+  lettering-layer-face-label                       rest       body   label               layerFill                      6.86        4.5  PASS     
+  lettering-layer-plain-label                      rest       body   label               paper                          8.62        4.5  PASS     
+  focus-ring-paper                                 rest       ui     accent              paper                          9.57        3.0  PASS     
+  focus-ring-surface                               rest       ui     accent              surface                        8.44        3.0  PASS     
+  focus-ring-kind-fill                             rest       ui     accent              kindFill:module                5.66        3.0  PASS     
+  playground-button-text-on-paper                  rest       body   ink                 paper                         14.81        4.5  PASS     
+  playground-meta-on-paper                         rest       body   label               paper                          8.62        4.5  PASS     
+  playground-button-text-on-surface                rest       body   ink                 surface                       13.06        4.5  PASS     
+  playground-meta-on-surface                       rest       body   label               surface                        7.60        4.5  PASS     
+  playground-button-text-hover                     rest       body   ink                 {"over":"paper","mix":"ink","t":0.1}  11.48        4.5  PASS     
+  playground-meta-hover                            rest       body   label               {"over":"paper","mix":"ink","t":0.1}   6.69        4.5  PASS     
+  playground-button-selected-text                  rest       body   paper               ink                           14.81        4.5  PASS     
+  playground-button-border                         rest       ui     line                paper                          9.36        3.0  PASS     
+  panel-body-dim                                   dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  panel-label-dim                                  dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  panel-link-dim                                   dim        body   accent              surface                        1.77        4.5  FAIL     inactive-dim
+  chip-label-dim                                   dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  caption-heading-dim                              dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  caption-body-dim                                 dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  callout-label-dim                                dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  balloon-label-dim                                dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  dimension-label-dim                              dim        body   steel               paper                          1.73        4.5  FAIL     inactive-dim
+  title-title-dim                                  dim        body   ink                 paper                          2.46        4.5  FAIL     inactive-dim
+  title-meta-dim                                   dim        body   steel               paper                          1.73        4.5  FAIL     inactive-dim
+  title-row-dim                                    dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-module-dim            dim        body   ink                 kindFill:module                1.46        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-module-dim              dim        body   label               kindFill:module                1.13        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-service-dim           dim        body   ink                 kindFill:service               1.52        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-service-dim             dim        body   label               kindFill:service               1.18        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-store-dim             dim        body   ink                 kindFill:store                 1.50        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-store-dim               dim        body   label               kindFill:store                 1.17        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-external-dim          dim        body   ink                 kindFill:external              1.58        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-external-dim            dim        body   label               kindFill:external              1.23        4.5  FAIL     inactive-dim
+  lettering-face-number-rest-actor-dim             dim        body   ink                 kindFill:actor                 1.44        4.5  FAIL     inactive-dim
+  lettering-face-name-rest-actor-dim               dim        body   label               kindFill:actor                 1.12        4.5  FAIL     inactive-dim
+  lettering-face-number-highlight-dim              dim        body   ink                 highlightFill                  1.16        4.5  FAIL     inactive-dim
+  lettering-face-name-highlight-dim                dim        body   ink                 highlightFill                  1.16        4.5  FAIL     inactive-dim
+  lettering-column-number-dim                      dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-column-name-dim                        dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  lettering-column-number-highlight-dim            dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-column-name-highlight-dim              dim        body   accent              paper                          2.01        4.5  FAIL     inactive-dim
+  lettering-layer-face-label-dim                   dim        body   label               layerFill                      1.52        4.5  FAIL     inactive-dim
+  lettering-layer-plain-label-dim                  dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  playground-button-text-on-paper-dim              dim        body   ink                 paper                          2.46        4.5  FAIL     inactive-dim
+  playground-meta-on-paper-dim                     dim        body   label               paper                          1.91        4.5  FAIL     inactive-dim
+  playground-button-text-on-surface-dim            dim        body   ink                 surface                        2.17        4.5  FAIL     inactive-dim
+  playground-meta-on-surface-dim                   dim        body   label               surface                        1.69        4.5  FAIL     inactive-dim
+  playground-button-text-hover-dim                 dim        body   ink                 {"over":"paper","mix":"ink","t":0.1}   1.91        4.5  FAIL     inactive-dim
+  playground-meta-hover-dim                        dim        body   label               {"over":"paper","mix":"ink","t":0.1}   1.48        4.5  FAIL     inactive-dim
+  playground-button-selected-text-dim              dim        body   paper               ink                           14.81        4.5  PASS     inactive-dim
+[dark] R2 pre-fix evidence
+  id                                              state      size   fg                  background                   ratio    threshold  verdict  exception
+  lettering-face-number-highlight                  highlight  body   accent              highlightFill                  3.34        4.5  FAIL     
+  lettering-face-name-highlight                    highlight  body   label               highlightFill                  3.01        4.5  FAIL     
+
+ ✓ test/a11y-contrast.test.ts > contrast inventory > covers the RFC D6 surfaces and every state 5ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > prints both palettes and passes every non-exception row 6ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > reproduces the RFC D6 ratios within 0.01 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > composites dimmed text with CSS opacity semantics 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > light lettering-face-number-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > light lettering-face-name-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > dark lettering-face-number-highlight uses the post-fix ink role 0ms
+ ✓ test/a11y-contrast.test.ts > contrast inventory > dark lettering-face-name-highlight uses the post-fix ink role 0ms
+ ✓ test/parse.test.ts > project parsing > NEGATIVE: an unknown tech id is rejected with the seed registry 5ms
+ ✓ test/parse.test.ts > project parsing > accepts the same tech id when no registry is passed 2ms
+ ✓ test/parse.test.ts > project parsing > parseProject throws a ProjectValidationError with the zod cause and issues 1ms
+ ✓ test/parse.test.ts > project parsing > safeParseProject returns a failure without throwing 1ms
+ ✓ test/parse.test.ts > project parsing > defineProject includes the source and issue path in its message 0ms
+ ✓ test/parse.test.ts > project parsing > error classes keep readable names after minification 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > has no banned property name in the input JSON Schema 4ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > closes every object node with additionalProperties: false 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > has no untyped schema nodes 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: flags strict objects containing geometry names 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: flags an open object 0ms
+ ✓ test/geometry-free.test.ts > geometry-free project schema > NEGATIVE: rejects x on a component at runtime 3ms
+ ✓ test/schema.test.ts > project schema > parses a minimal project and applies every documented default 5ms
+ ✓ test/schema.test.ts > project schema > NEGATIVE: missing meta.name is rejected at meta.name 1ms
+ ✓ test/schema.test.ts > project schema > rejects a project without schemaVersion 0ms
+ ✓ test/schema.test.ts > project schema > rejects schemaVersion 2 0ms
+ ✓ test/schema.test.ts > project schema > rejects an empty layers array 0ms
+ ✓ test/schema.test.ts > project schema > rejects a duplicate component id across layers 0ms
+ ✓ test/schema.test.ts > project schema > rejects a flow path with one entry 0ms
+ ✓ test/schema.test.ts > project schema > rejects a flow path naming a missing component 0ms
+ ✓ test/schema.test.ts > project schema > rejects an unknown key on a layer 0ms
+ ✓ test/schema.test.ts > project schema > defaults a flow id to flow-1 0ms
+ ✓ test/explode.test.ts > createExplodeTimeline > orders layer slabs first and reaches each target at its computed end 3ms
+ ✓ test/explode.test.ts > createExplodeTimeline > staggers layers from zero and components by slot during explode 0ms
+ ✓ test/explode.test.ts > createExplodeTimeline > reverses the layer order during implode without component slot stagger 0ms
+ ✓ test/explode.test.ts > createExplodeTimeline > transitions phases as each direction settles 1ms
+ ✓ test/explode.test.ts > createExplodeTimeline > preserves position at a 40% interruption and reverses without a jump 6ms
+ ✓ test/explode.test.ts > createExplodeTimeline > settles on the last target after 50 random toggles in two seconds 1ms
+ ✓ test/explode.test.ts > createExplodeTimeline > cuts to the target with the static twin tokens 0ms
+ ✓ test/explode.test.ts > createExplodeTimeline > scales settle time and mid-curve samples with duration and stagger tokens 1ms
+stdout | test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > contains 12 complete RFC D9 rows with existing source sites
+Motion matrix rows:
+explode-implode	S4	packages/xploder/src/react/scene/Slabs.tsx#Slabs useFrame / createExplodeTimeline	durations.explode,durations.implode,staggers.explodeLayer,staggers.explodeComponent,staggers.implodeLayer
+camera-turn	S4	packages/xploder/src/engine/camera.ts#createTurnTween	durations.implode
+camera-zoom	S4	packages/xploder/src/react/scene/CameraRig.tsx#useFrame / CameraRig	none
+hover-and-dim	S5	packages/xploder/src/react/scene/Emphasis.tsx#useEmphasisDriver	durations.hoverLift,durations.hoverSettle,distances.hoverLift
+tour-pulse-and-beat	S5	packages/xploder/src/interaction/emphasis.ts#createChannels / pulseAt	durations.tourPulse,durations.tourBeat
+tour-caption-fade	S5	packages/xploder/src/react/overlay/TourCaption.tsx#TourCaption useLayoutEffect / element.animate	durations.tourPulse,staggers.tourStep
+circuit-trace	S6	packages/xploder/src/react/overlay/CircuitTrace.tsx#CircuitTrace / hop.animate / requestAnimationFrame	durations.tourPulse,staggers.tourStep
+overlay-and-title-fade	S6	packages/xploder/src/react/overlay/BlueprintOverlay.tsx#BlueprintOverlay / opacityTransition / root.animate	durations.hoverSettle
+panel-enter-exit	S7	packages/xploder/src/react/panel/PanelLayer.tsx#PanelLayer / panelMotion / element.animate	durations.panelEnter,durations.panelExit,distances.panelOffset
+lettering-and-column-fade	S7	packages/xploder/src/react/lettering/PartLettering.tsx#PartLettering / opacityTransition / root.animate	durations.hoverSettle
+tailwind-default-transition	S2	apps/web/app/globals.css#--default-transition-duration	durations.hoverLift
+focus-ring-and-reveal	S8	packages/xploder/src/react/TeardownViewer.tsx#stage focus and reveal scroll	none
+
+stdout | test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > every scanned animation site appears in the matrix
+Scanned animation sites (8):
+packages/xploder/src/engine/camera.ts	tween-factory
+packages/xploder/src/react/lettering/PartLettering.tsx	web-animate
+packages/xploder/src/react/overlay/BlueprintOverlay.tsx	transition-property,web-animate
+packages/xploder/src/react/overlay/CircuitTrace.tsx	web-animate,request-animation-frame
+packages/xploder/src/react/overlay/TourCaption.tsx	web-animate
+packages/xploder/src/react/panel/PanelLayer.tsx	web-animate
+packages/xploder/src/react/scene/CameraRig.tsx	tween-factory,use-frame
+packages/xploder/src/react/scene/Slabs.tsx	use-frame
+
+stdout | test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > negative control: an unlisted synthetic .animate( is reported as missing
+Negative control: src/react/__unlisted__.tsx:1:web-animate
+Negative control missing rows: src/react/__unlisted__.tsx
+
+ ✓ test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > contains 12 complete RFC D9 rows with existing source sites 4ms
+ ✓ test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > every row token is a motion key and resolves to zero under reduced motion 0ms
+ ✓ test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > every scanned animation site appears in the matrix 9ms
+ ✓ test/a11y-motion-matrix.test.ts > reduced-motion coverage matrix > negative control: an unlisted synthetic .animate( is reported as missing 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/beachgoer equals the fixture and registry content 1ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-chart-screen equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/forecast-details-panel equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-view-model equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-repository equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/live-tide-client equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-cache equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > A/tide-feed equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/partner-csv-drop equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/column-normalizer equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/ledger-validator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/reconciliation-ledger equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > B/settlement-operator equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/recipient equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-app equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/pickup-api equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/session-gate equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/booking-service equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/notifier equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/retry-scheduler equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/slot-planner equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/audit-trail equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-registry equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/dead-letter-store equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/push-gateway equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > C/locker-hardware equals the fixture and registry content 0ms
+ ✓ test/panel-content.test.ts > detailModel > omits every empty optional section for beachgoer 0ms
+ ✓ test/panel-content.test.ts > detailModel > returns null for a missing component id 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > A keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > B keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > C keeps the story order and project metrics 0ms
+ ✓ test/panel-content.test.ts > caseStudyModel > fixture C has no story metrics 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses raw labels without a registry and omits category metadata 0ms
+ ✓ test/panel-content.test.ts > chipModels > uses registry labels, categories and colour references in tech order 0ms
+ ✓ test/panel-content.test.ts > chipModels > parsing with the registry rejects an unknown tech id 2ms
+ ✓ test/panel-content.test.ts > chipModels > a component without a name falls back to its id (ViewerProject allows no name) 0ms
+stdout | test/product-gap.test.ts > product gap occlusion > fixture C keeps every component at least half visible
+Fixture C at 45 degrees: recipient 100% · pickup-app 100% · pickup-api 100% · session-gate 100% · booking-service 66% · notifier 88% · retry-scheduler 100% · slot-planner 100% · audit-trail 100% · locker-registry 100% · dead-letter-store 100% · push-gateway 100% · locker-hardware 100%
+Fixture C at 45 degrees: minimum 66% (booking-service)
+Fixture C at 135 degrees: minimum 68% (slot-planner)
+Fixture C at 225 degrees: minimum 68% (audit-trail)
+Fixture C at 315 degrees: minimum 66% (retry-scheduler)
+
+ ✓ test/product-gap.test.ts > product gap occlusion > fixture C keeps every component at least half visible 745ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(X) 1ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > closed + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(X) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > detail A + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(X) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(same) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + slab(null) 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + outside 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + escape 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + closeControl 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + toggleCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + openCaseStudy 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + openDetail 0ms
+ ✓ test/panel-state.test.ts > panelReducer > caseStudy + reset 0ms
+ ✓ test/panel-state.test.ts > panelReducer > openDetail for the current component is a no-op 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > closed returns false 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > detail returns true 0ms
+ ✓ test/panel-state.test.ts > consumesEscape > caseStudy returns true 0ms
+ ✓ test/panel-state.test.ts > panel state sequence > opens, switches, closes on the same slab, and toggles the case study 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 0 follows the path prefix with octilinear hops 3ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 1 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 2 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 3 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 4 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > step 5 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A live-update) > throws when a visited id has no anchor 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 2 follows the path prefix with octilinear hops 3ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 3 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > step 4 follows the path prefix with octilinear hops 1ms
+ ✓ test/overlay-trace.test.ts > traceRoute (A offline-read) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (B nightly-reconciliation) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 0 follows the path prefix with octilinear hops 2ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 4 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 5 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > step 6 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C pickup-ready) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 0 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 1 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 2 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 3 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > step 4 follows the path prefix with octilinear hops 0ms
+ ✓ test/overlay-trace.test.ts > traceRoute (C push-failed) > throws when a visited id has no anchor 0ms
+ ✓ test/overlay-trace.test.ts > octilinearHop > routes primarily horizontally with a 45-degree finish 0ms
+ ✓ test/overlay-trace.test.ts > octilinearHop > routes primarily vertically with a 45-degree finish 0ms
+ ✓ test/overlay-trace.test.ts > octilinearHop > drops zero-length segments 0ms
+ ✓ test/emphasis.test.ts > emphasis channels > uses distance-scaled rise and fall durations with the supplied easing 1ms
+ ✓ test/emphasis.test.ts > emphasis channels > retargets from the current value and uses the fall duration toward zero 0ms
+ ✓ test/emphasis.test.ts > emphasis channels > settles at the target immediately with the static timing 0ms
+ ✓ test/emphasis.test.ts > emphasis targets > isolates hover, tour and layer dim channels 0ms
+ ✓ test/emphasis.test.ts > emphasis targets > suspends focus during a tour and ignores unknown ids 0ms
+ ✓ test/emphasis.test.ts > emphasis weights > hover reveals a dimmed component and pulses the tour tint 0ms
+ ✓ test/emphasis.test.ts > tour pulse > yoyos from one to the floor and back over two pulse durations 1ms
+ ✓ test/emphasis.test.ts > tour pulse > is one under the static twin 0ms
+ ✓ test/emphasis.test.ts > liftWorld > converts CSS pixels into world units at the camera zoom and elevation 0ms
+ ✓ test/tour.test.ts > tour step order > live-update follows its flow path beat by beat 3ms
+ ✓ test/tour.test.ts > tour step order > offline-read follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > nightly-reconciliation follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > pickup-ready follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > push-failed follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour clock > keeps elapsed time across pause and resume 0ms
+ ✓ test/tour.test.ts > tour clock > folds elapsed beats exactly once when an action and a tick share a timestamp 0ms
+ ✓ test/tour.test.ts > tour clock > reports the next boundary only while playing 0ms
+ ✓ test/tour.test.ts > tour lifecycle > steps from idle, past the end, and restarts from ended 0ms
+ ✓ test/tour.test.ts > tour lifecycle > stops to idle and switches only to known flows 0ms
+ ✓ test/tour.test.ts > tour lifecycle > has no active flow when the project has no flows 0ms
+ ✓ test/tour.test.ts > reduced motion cadence > uses the injected base beat when the resolved static twin has a zero beat 0ms
+ ✓ test/tour.test.ts > showFlowSelector > shows the selector only when there is a choice 0ms
+ ✓ test/tour.test.ts > reset > selects the first flow and returns to idle 0ms
+ ✓ test/tour.test.ts > review fixes (orchestrator) > stepping past the last step from paused ends with stepStartedAt = the step action time 0ms
+ ✓ test/tour.test.ts > review fixes (orchestrator) > selecting the already selected flow keeps a playing tour playing 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the second zoom-in click at zoom 1 2ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the second zoom-in click at zoom 1.25 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 1.5625 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 2.44140625 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 3 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name when one face can only fit its number 1ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 1 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 1.5625 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 3 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > ignores mark lettering when deciding whether every face has a name 0ms
+ ✓ test/a11y-navigator.test.ts > navigator order > orders fixture A in item-number order 2ms
+ ✓ test/a11y-navigator.test.ts > navigator order > orders fixture B in item-number order 0ms
+ ✓ test/a11y-navigator.test.ts > navigator order > orders fixture C in item-number order 1ms
+ ✓ test/a11y-navigator.test.ts > navigator order > fixture A numbers every item exactly as the S6 parts model 1ms
+ ✓ test/a11y-navigator.test.ts > navigator order > fixture B numbers every item exactly as the S6 parts model 0ms
+ ✓ test/a11y-navigator.test.ts > navigator order > fixture C numbers every item exactly as the S6 parts model 0ms
+ ✓ test/a11y-navigator.test.ts > navigator order > carries the data needed by the navigator DOM 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > moves down and up with wrapping 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > moves to the first and last item 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > activates on Enter and Space 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "ArrowLeft" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "ArrowRight" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "+" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "-" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "0" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "Escape" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "Tab" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > leaves "a" to bubble 0ms
+ ✓ test/a11y-navigator.test.ts > navigator key map > returns null when there are no items 0ms
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+ ✓ test/theme.test.ts > blueprint palette > defines every role, category and RFC D8 value in both themes 2ms
+ ✓ test/theme.test.ts > blueprint palette > meets WCAG contrast thresholds on paper and surface 2ms
+ ✓ test/theme.test.ts > blueprint palette > emits the three theme blocks and blueprint variables as CSS 0ms
+ ✓ test/theme.test.ts > blueprint palette > resolves tech and accent colour references against a chosen palette 0ms
+ ✓ test/theme.test.ts > blueprint palette > keeps motion and theme import graphs free of zod 1ms
+ ✓ test/overlay-dimension.test.ts > overlay dimensions > places the stack rail left of every layer corner with one ordered tick per layer 2ms
+ ✓ test/overlay-dimension.test.ts > overlay dimensions > places the footprint dimension 12 px outward from the bottom-left edge 0ms
+ ✓ test/overlay-dimension.test.ts > overlay dimensions > derives both dimension texts from fixture C 0ms
+ ✓ test/scroll.test.ts > scroll math > content height contributes only after the viewport and fitted margins 1ms
+ ✓ test/scroll.test.ts > scroll math > fixture A has no scroll extent at zoom 1 at any azimuth 1ms
+ ✓ test/scroll.test.ts > scroll math > fixture B has no scroll extent at zoom 1 at any azimuth 0ms
+ ✓ test/scroll.test.ts > scroll math > fixture C has no scroll extent at zoom 1 at any azimuth 0ms
+ ✓ test/scroll.test.ts > scroll math > fixture A gains scroll extent when zoomed 0ms
+ ✓ test/scroll.test.ts > scroll math > fixture B gains scroll extent when zoomed 0ms
+ ✓ test/scroll.test.ts > scroll math > fixture C gains scroll extent when zoomed 0ms
+ ✓ test/scroll.test.ts > scroll math > offsetFor centres at zero and moves with native scroll 0ms
+ ✓ test/scroll.test.ts > scroll math > rescaleScroll keeps the content point at the viewport centre 0ms
+ ✓ test/overlay-project.test.ts > overlay projection > maps the world origin to the viewport centre 2ms
+ ✓ test/overlay-project.test.ts > overlay projection > uses the S4 camera basis for every world axis 0ms
+ ✓ test/overlay-project.test.ts > overlay projection > projects a known corner value by hand 1ms
+ ✓ test/overlay-project.test.ts > overlay projection > builds a convex hull that contains every projected component corner 3ms
+ ✓ test/overlay-project.test.ts > overlay projection > keeps content-space y independent of a scroll offset 2ms
+ ✓ test/overlay-project.test.ts > overlay projection > accepts the timeline progress array in layer-then-component order 1ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > parses as a locker-booking project with the seed registry 2ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > lays out the busiest layer on a three by two grid 1ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > is deterministic for repeated calls and a structured clone 1ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > matches the fixture C golden layout 2ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > keeps every flow path on known component ids 0ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > uses all five kinds and the wip and planned statuses 0ms
+ ✓ test/fixture-c.test.ts > fixture C: Lockerbay > gives every component a one-sentence caption 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=false prefersDark=false resolves light 2ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=false prefersDark=true resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=true prefersDark=false resolves light 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=false light=true prefersDark=true resolves light 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=false prefersDark=false resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=false prefersDark=true resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=true prefersDark=false resolves dark 0ms
+ ✓ test/env.test.ts > resolveThemeMode > dark=true light=true prefersDark=true resolves dark 0ms
+ ✓ test/env.test.ts > subscribeTheme > calls initially, follows theme changes, and removes its listeners 2ms
+ ✓ test/env.test.ts > subscribeReducedMotion > calls initially, follows changes, and removes its listener 1ms
+ ✓ test/pointer.test.ts > pointerReducer > starts cleared 2ms
+ ✓ test/pointer.test.ts > pointerReducer > move onto a component from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move over empty space from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > leave from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap empty space from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap the highlighted component from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap another component from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > outside tap from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > set a programmatic highlight from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > clear the programmatic highlight from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > reset from none 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move onto a component from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move over empty space from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > leave from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap empty space from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap the highlighted component from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap another component from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > outside tap from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > set a programmatic highlight from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > clear the programmatic highlight from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > reset from mouse 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move onto a component from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move over empty space from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > leave from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap empty space from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap the highlighted component from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap another component from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > outside tap from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > set a programmatic highlight from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > clear the programmatic highlight from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > reset from touch 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move onto a component from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > move over empty space from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > leave from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap empty space from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap the highlighted component from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > tap another component from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > outside tap from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > set a programmatic highlight from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > clear the programmatic highlight from program 1ms
+ ✓ test/pointer.test.ts > pointerReducer > reset from program 0ms
+ ✓ test/pointer.test.ts > pointerReducer > keeps a programmatic highlight when the mouse moves over empty space 0ms
+ ✓ test/pointer.test.ts > pointerReducer > keeps a mouse highlight when the pointer moves outside the viewer 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > fixture A exposes the expected live-update path 2ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-repository 1ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + null 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the first occurrence before playback starts 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the next occurrence after the current step 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > wraps to the first occurrence when no later occurrence exists 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > returns null when the component is absent 0ms
+ ✓ test/panel-tour-click.test.ts > jumpSequence > stops, steps to the target, and resumes only when requested 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while playing lands on the target step and keeps playing 1ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while paused lands on the target step and stays paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping from ended returns to the first step, paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > pause then play resumes from the current step 0ms
+ ✓ test/look-tokens.test.ts > look tokens > resolves every role ref to a hex colour in both palettes 1ms
+ ✓ test/look-tokens.test.ts > look tokens > keeps fills, faces and layer washes in their ordered ranges 0ms
+ ✓ test/look-tokens.test.ts > look tokens > keeps every pixel measurement positive and annotation text readable 0ms
+ ✓ test/look-tokens.test.ts > look tokens > does not use the accent highlight role for any component kind 0ms
+ ✓ test/caption.test.ts > captionAnchor > anchors away from the target layer 2ms
+ ✓ test/caption.test.ts > captionAnchor > anchors at the top when there is no target 0ms
+ ✓ test/a11y-reveal.test.ts > revealScrollTop > reveals a hull above the visible band 2ms
+ ✓ test/a11y-reveal.test.ts > revealScrollTop > reveals a hull below the visible band 0ms
+ ✓ test/a11y-reveal.test.ts > revealScrollTop > does nothing when the hull is inside the visible band 0ms
+ ✓ test/a11y-reveal.test.ts > revealScrollTop > aligns the top of a hull taller than the canvas 0ms
+ ✓ test/a11y-reveal.test.ts > revealScrollTop > clamps at zero 0ms
+ ✓ test/a11y-reveal.test.ts > revealScrollTop > clamps at the scroll extent 0ms
+ ✓ test/overlay-parts.test.ts > overlay part numbering and labels > numbers fixture A by layer and slot 1ms
+ ✓ test/overlay-parts.test.ts > overlay part numbering and labels > numbers fixture C layer 3 slot 5 as 3.5 0ms
+ ✓ test/overlay-parts.test.ts > overlay part numbering and labels > formats 1-based layer numbers and layer text 0ms
+ ✓ test/overlay-parts.test.ts > overlay part numbering and labels > sizes the known label with the R1 monospace box model 0ms
+ ✓ test/registry.test.ts > tech registry > parses the seed registry and defaults okhttp to its category color 3ms
+ ✓ test/registry.test.ts > tech registry > rejects a duplicate id at the duplicate entry 1ms
+ ✓ test/registry.test.ts > tech registry > rejects an unknown category 1ms
+ ✓ test/registry.test.ts > tech registry > rejects a hex color 0ms
+ ✓ test/registry.test.ts > tech registry > defineTechRegistry throws a registry validation error with the path 1ms
+ ✓ test/panel-motion.test.ts > panel motion > left enter starts offset toward its edge and settles 2ms
+ ✓ test/panel-motion.test.ts > panel motion > left exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > right enter starts offset toward its edge and settles 0ms
+ ✓ test/panel-motion.test.ts > panel motion > right exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > top enter starts offset toward its edge and settles 0ms
+ ✓ test/panel-motion.test.ts > panel motion > top exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > bottom enter starts offset toward its edge and settles 0ms
+ ✓ test/panel-motion.test.ts > panel motion > bottom exit reverses the enter keyframes 0ms
+ ✓ test/panel-motion.test.ts > panel motion > the reduced-motion twin returns no animation for either phase 0ms
+ ✓ test/panel-motion.test.ts > panel motion > the source has no duration or easing literals beyond the milliseconds constant 1ms
+ ✓ test/motion.test.ts > xploder motion tokens > matches the RFC D9 seed table 3ms
+ ✓ test/motion.test.ts > xploder motion tokens > resolveMotion returns the static twin only when reduced motion is requested 1ms
+ ✓ test/motion.test.ts > xploder motion tokens > motionCss emits the contract units and reduced-motion static twin 1ms
+ ✓ test/emphasis-tokens.test.ts > emphasis tokens > matches the RFC 9.1 values 1ms
+ ✓ test/emphasis-tokens.test.ts > emphasis tokens > uses palette roles present in both themes 0ms
+ ✓ test/emphasis-tokens.test.ts > emphasis tokens > keeps dim and pulse levels inside the open unit interval 0ms
+ ✓ test/emphasis-tokens.test.ts > emphasis tokens > keeps every line multiplier channel nonzero in both themes 0ms
+stdout | test/a11y-announce.test.ts > announce > prints the fixture A message table
+Fixture A announcement table
+tourStep step 1: Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart.
+tourStep step 2: Live update · Step 2 of 6. Tide Chart Screen. The main chart and its live-or-saved state.
+tourStep step 3: Live update · Step 3 of 6. Tide View Model. Combines the selected beach with the latest tide series.
+tourStep step 4: Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast.
+tourStep step 5: Live update · Step 5 of 6. Live Tide Client. Keeps the current tide reading in step.
+tourStep step 6: Live update · Step 6 of 6. Tide Feed. A public feed of coastal tide readings.
+tourJump: Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast.
+tourPausedOpen: Tour paused. Tide Repository, module. Chooses between a live reading and the saved forecast.
+detailOpen: Tide Repository, module. Chooses between a live reading and the saved forecast.
+detailOpen switch: Live Tide Client, service. Keeps the current tide reading in step.
+detailClose: Tide Repository details closed.
+caseStudyOpen: Case study: Tidewatch.
+caseStudyClose: Case study closed.
+detailOpen without summary: Bare, service.
+
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > parses as a UI-centric project with the seed registry 2ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > uses at least six distinct registry tech ids 0ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > exercises component links, kinds, statuses, metrics, and story metrics 1ms
+ ✓ test/fixtures.test.ts > fixture A: Tidewatch > includes a live update flow of at least four hops 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 1 1ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 2 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 3 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 4 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 5 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 6 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourJump 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourPausedOpen 0ms
+ ✓ test/a11y-announce.test.ts > announce > detailOpen 0ms
+ ✓ test/a11y-announce.test.ts > announce > detailOpen switch 0ms
+ ✓ test/a11y-announce.test.ts > announce > detailClose 0ms
+ ✓ test/a11y-announce.test.ts > announce > caseStudyOpen 0ms
+ ✓ test/a11y-announce.test.ts > announce > caseStudyClose 0ms
+ ✓ test/a11y-announce.test.ts > announce > prints the fixture A message table 0ms
+ ✓ test/a11y-announce.test.ts > announce > keeps detail-open announcements enabled by default 0ms
+ ✓ test/a11y-announce.test.ts > announce > omits the summary when a component has none 0ms
+ ✓ test/overlay-timing.test.ts > overlay timing > converts seconds to milliseconds 1ms
+ ✓ test/overlay-timing.test.ts > overlay timing > derives fade and trace timings from the motion tokens 0ms
+ ✓ test/overlay-timing.test.ts > overlay timing > matches the product token values 0ms
+ ✓ test/overlay-timing.test.ts > overlay timing > zeroes every overlay timing under the static twin 0ms
+ ✓ test/smoke.test.ts > exports the package version 1ms
+ ✓ test/pick.test.ts > rayBoxDistance > hits from the x axis 1ms
+ ✓ test/pick.test.ts > rayBoxDistance > hits from the y axis 0ms
+ ✓ test/pick.test.ts > rayBoxDistance > hits from the z axis 0ms
+ ✓ test/pick.test.ts > rayBoxDistance > misses a box outside the ray lane 0ms
+ ✓ test/pick.test.ts > rayBoxDistance > returns zero when the ray origin is inside the box 0ms
+ ✓ test/pick.test.ts > rayBoxDistance > returns null when the ray points away from the box 0ms
+ ✓ test/pick.test.ts > rayBoxDistance > returns null for a parallel ray outside a slab 0ms
+ ✓ test/pick.test.ts > pick > fixture A: top-layer component centre rays pick themselves 1ms
+ ✓ test/pick.test.ts > pick > fixture B: top-layer component centre rays pick themselves 0ms
+ ✓ test/pick.test.ts > pick > fixture A imploded: lower layers are occluded and never pick themselves 1ms
+ ✓ test/pick.test.ts > pick > fixture B imploded: lower layers are occluded and never pick themselves 0ms
+ ✓ test/pick.test.ts > pick > matches an independent marching reference for both states and all azimuths 3480ms
+stdout | test/pick.test.ts > pick > prints the exploded visibility table for evidence
+
+Exploded visibility table (grid rays per component, step 0.05 world units)
+
+fixture A:
+  azimuth 0.785398:
+    beachgoer: 194
+    tide-chart-screen: 194
+    forecast-details-panel: 195
+    tide-view-model: 70
+    tide-repository: 0
+    live-tide-client: 149
+    tide-cache: 157
+    tide-feed: 72
+  azimuth 2.356194:
+    beachgoer: 194
+    tide-chart-screen: 196
+    forecast-details-panel: 195
+    tide-view-model: 70
+    tide-repository: 149
+    live-tide-client: 182
+    tide-cache: 42
+    tide-feed: 72
+  azimuth 3.926991:
+    beachgoer: 196
+    tide-chart-screen: 194
+    forecast-details-panel: 195
+    tide-view-model: 70
+    tide-repository: 182
+    live-tide-client: 149
+    tide-cache: 42
+    tide-feed: 72
+  azimuth 5.497787:
+    beachgoer: 194
+    tide-chart-screen: 194
+    forecast-details-panel: 195
+    tide-view-model: 70
+    tide-repository: 149
+    live-tide-client: 0
+    tide-cache: 157
+    tide-feed: 72
+
+fixture B:
+  azimuth 0.785398:
+    partner-csv-drop: 194
+    column-normalizer: 156
+    ledger-validator: 156
+    reconciliation-ledger: 151
+    settlement-operator: 185
+  azimuth 2.356194:
+    partner-csv-drop: 194
+    column-normalizer: 156
+    ledger-validator: 156
+    reconciliation-ledger: 151
+    settlement-operator: 185
+  azimuth 3.926991:
+    partner-csv-drop: 194
+    column-normalizer: 156
+    ledger-validator: 156
+    reconciliation-ledger: 185
+    settlement-operator: 151
+  azimuth 5.497787:
+    partner-csv-drop: 194
+    column-normalizer: 156
+    ledger-validator: 156
+    reconciliation-ledger: 185
+    settlement-operator: 151
+
+ ✓ test/pick.test.ts > pick > prints the exploded visibility table for evidence 47ms
+ ✓ test/pick.test.ts > pick > returns the nearest component when two lie along the same ray 0ms
+ ✓ test/pick.test.ts > pick > returns null when the nearest hit is only a layer slab 0ms
+ ✓ test/pick.test.ts > pick > uses lerped component centres during the explode timeline 0ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every callout readable across the dense canvas sweep
+dense callout sweep: cases=7344 failures=0 columns=4040 tags=3304 tagsPlaced=28568
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every callout readable across the dense canvas sweep 5424ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart
+zoomed 3x 360x640: placed=4 hidden=0 fellBack=0 offscreen=10 maxLeader=80.00px
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > is deterministic for identical input 2ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart 1ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > detects separated, touching, overlapping and contained rectangles 0ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > uses polygon edges as SAT axes 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > pins the placement radii 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > uses each type first preferred direction at the smallest radius 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > prefers a radius-zero tag centred on its anchor 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > orders layer, part and dimension labels regardless of input order 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > retries a part with its short text before hiding it 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > reports an off-screen anchor without counting it as hidden 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > tries alternative anchors after the primary 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > uses the primary anchor for the off-screen decision 0ms
+
+ Test Files  59 passed (59)
+      Tests  611 passed (611)
+   Start at  13:03:53
+   Duration  5.90s (tests 78%, import 17%, transform 3%, worker 1%)
+
+    Isolate  59 workers spawned · ~85ms startup each (spawn + environment, per file)
+             at least ~473ms faster with isolate: false — reuses workers across files instead of one per file
+
+PASS xploder non-seal tests
+
+===== S6 negative control (expected red: model hash differs from old seal) =====
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T012e/packages/xploder
+
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit 3ms
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > the hash helper detects a one-byte change 0ms
+ ✓ test/frozen-surface.test.ts > frozen S5 surface > matches every hash recorded from the base commit 1ms
+ × test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit 3ms
+   → src/overlay/model.ts: expected '63427b9eed60ea9fc07eae2b55214be66bc37…' to be '3efd1c695d7ed57c632e7ea9ae65c735f3841…' // Object.is equality
+ ✓ test/frozen-surface.test.ts > frozen S7 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S8 surface > matches every hash recorded from the base commit 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit
+AssertionError: src/overlay/model.ts: expected '63427b9eed60ea9fc07eae2b55214be66bc37…' to be '3efd1c695d7ed57c632e7ea9ae65c735f3841…' // Object.is equality
+
+Expected: "3efd1c695d7ed57c632e7ea9ae65c735f3841e8e2d229a242d32d24b9820f023"
+Received: "63427b9eed60ea9fc07eae2b55214be66bc37bbeb736d3a6cff4f1e767d77117"
+
+ ❯ test/frozen-surface.test.ts:205:47
+    203|       if (workingCopy === undefined) throw new Error(`Missing working …
+    204|
+    205|       expect(await sha256(workingCopy), path).toBe(expected);
+       |                                               ^
+    206|     }
+    207|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  13:03:59
+   Duration  149ms (transform 62%, import 26%, tests 10%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s10-wt/T012e/packages/xploder
+
+PASS S6 negative control is red only for the expected model.ts hash
+
+===== remaining workspace tests =====
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T012e/apps/web
+
+(node:81619) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81621) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  18 passed (18)
+      Tests  105 passed | 1 skipped (106)
+   Start at  13:03:59
+   Duration  685ms (environment 37%, tests 29%, import 24%, transform 8%, worker 2%)
+
+PASS web tests
+$ vitest run
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T012e/tools/perf
+
+
+ Test Files  17 passed (17)
+      Tests  111 passed (111)
+   Start at  13:04:00
+   Duration  623ms (import 86%, tests 9%, transform 3%, worker 2%)
+
+PASS perf-tools tests
+
+===== typecheck =====
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+PASS workspace typecheck
+
+===== lint and Prettier =====
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+PASS workspace lint/format
+
+===== full root test command (expected to stop at the S6 seal) =====
+packages/xploder test: (node:81853) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: Done
+packages/xploder test: (node:81854) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:81858) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+packages/xploder test: 
+packages/xploder test:  FAIL  test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit
+packages/xploder test: AssertionError: src/overlay/model.ts: expected '63427b9eed60ea9fc07eae2b55214be66bc37…' to be '3efd1c695d7ed57c632e7ea9ae65c735f3841…' // Object.is equality
+packages/xploder test: 
+packages/xploder test: Expected: "3efd1c695d7ed57c632e7ea9ae65c735f3841e8e2d229a242d32d24b9820f023"
+packages/xploder test: Received: "63427b9eed60ea9fc07eae2b55214be66bc37bbeb736d3a6cff4f1e767d77117"
+packages/xploder test: 
+packages/xploder test:  ❯ test/frozen-surface.test.ts:205:47
+packages/xploder test:     203|       if (workingCopy === undefined) throw new Error(`Missing working …
+packages/xploder test:     204|
+packages/xploder test:     205|       expect(await sha256(workingCopy), path).toBe(expected);
+packages/xploder test:        |                                               ^
+packages/xploder test:     206|     }
+packages/xploder test:     207|   });
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+packages/xploder test: 
+packages/xploder test: 
+packages/xploder test:  Test Files  1 failed | 59 passed (60)
+packages/xploder test:       Tests  1 failed | 616 passed (617)
+packages/xploder test:    Start at  13:04:07
+packages/xploder test:    Duration  6.62s (tests 77%, import 17%, transform 5%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  60 workers spawned · ~94ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~533ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /private/tmp/s10-wt/T012e/packages/xploder
+
+[ELIFECYCLE] Test failed. See above for more details.
+PASS full root test failed only at the documented S6 seal
+
+===== browser smoke (builds export, serves only its own 4320 process) =====
+T012e smoke 2026-11-02T06:04:14.467Z
+Build: pnpm build (/tmp/s10-wt/T012e)
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 111ms
+  Running TypeScript ...
+  Finished TypeScript in 706ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 231ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+Serve: http://127.0.0.1:4320 from apps/web/out (port 4320)
+http://127.0.0.1:4320/
+PASS light: idle overlay has every part label (16/16)
+PASS light: idle overlay has no leaders
+PASS light/start: tour is active (playing)
+PASS light/start: step 0 (0)
+PASS light/start: overlay shown (shown)
+PASS light/start: columns callouts (columns)
+PASS light/start: 1 labels in path order (part:main-activity)
+PASS light/start: 1 leader strokes (1)
+PASS light/start: only the current label is emphasised ([{"key":"part:main-activity","emphasis":true}])
+PASS light/start: every leader is a three-point elbow
+PASS light/next-x2: tour is active (paused)
+PASS light/next-x2: step 2 (2)
+PASS light/next-x2: overlay shown (shown)
+PASS light/next-x2: columns callouts (columns)
+PASS light/next-x2: 3 labels in path order (part:main-activity part:financial-api part:chucker-factory)
+PASS light/next-x2: 3 leader strokes (3)
+PASS light/next-x2: only the current label is emphasised ([{"key":"part:chucker-factory","emphasis":true}])
+PASS light/next-x2: every leader is a three-point elbow
+PASS light: tour-trail screenshot written
+PASS light: exit/stop restores every idle part label (16/16)
+PASS light: exit/stop removes every leader
+PASS light: no page errors ()
+PASS dark: idle overlay has every part label (16/16)
+PASS dark: idle overlay has no leaders
+PASS dark/start: tour is active (playing)
+PASS dark/start: step 0 (0)
+PASS dark/start: overlay shown (shown)
+PASS dark/start: columns callouts (columns)
+PASS dark/start: 1 labels in path order (part:main-activity)
+PASS dark/start: 1 leader strokes (1)
+PASS dark/start: only the current label is emphasised ([{"key":"part:main-activity","emphasis":true}])
+PASS dark/start: every leader is a three-point elbow
+PASS dark/next-x2: tour is active (paused)
+PASS dark/next-x2: step 2 (2)
+PASS dark/next-x2: overlay shown (shown)
+PASS dark/next-x2: columns callouts (columns)
+PASS dark/next-x2: 3 labels in path order (part:main-activity part:financial-api part:chucker-factory)
+PASS dark/next-x2: 3 leader strokes (3)
+PASS dark/next-x2: only the current label is emphasised ([{"key":"part:chucker-factory","emphasis":true}])
+PASS dark/next-x2: every leader is a three-point elbow
+PASS dark: tour-trail screenshot written
+PASS dark: exit/stop restores every idle part label (16/16)
+PASS dark: exit/stop removes every leader
+PASS dark: no page errors ()
+
+T012e smoke assertions passed
+PASS T012e browser smoke
+
+===== guards.sh (expected to stop at XPLODER-SRC-OK before S6) =====
+FROZEN-OK
+BRIEF-HISTORY-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+guards.sh exit=0
+PASS FROZEN-OK
+PASS BRIEF-HISTORY-OK
+PASS SURFACE-S2S4-OK
+PASS SURFACE-S5-OK
+PASS SURFACE-S7-OK
+PASS SURFACE-S8-OK
+PASS DEV-ROUTES-OK
+PASS S8-TOOLS-OK
+PASS XPLODER-SRC-OK is absent as expected before re-seal
+PASS SURFACE-S6-OK is absent as expected before re-seal
+
+===== independent expected seal checks =====
+packages/xploder/src/overlay/model.ts
+PASS XPLODER source diff is exactly src/overlay/model.ts (XPLODER-SRC-OK remains expected-red until re-seal)
+packages/xploder/src/overlay/model.ts
+PASS SURFACE-S6-OK is red only for src/overlay/model.ts as expected before re-seal
+
+===== summary =====
+expected_failures=3
+unexpected_failures=0
+T012e-OK (source/tests/smoke; S6/XPLODER seal failures are the documented orchestrator re-seal exceptions)
