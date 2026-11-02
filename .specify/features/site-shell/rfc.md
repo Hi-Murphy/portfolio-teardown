@@ -457,3 +457,8 @@ A new `tools/perf/src/site-probe.ts` + CLI `cli/site-probe.ts` (`pnpm site:probe
    - **(A, recommended)** the home hero hydrates on the **first user interaction** (pointermove/pointerdown/touchstart/scroll/keydown/focusin, whichever comes first) instead of `load` + idle. The poster stays until then. AC2 still holds (the poster paints first and the 3D hydrates after with CLS 0; reduced motion → never). Real mid-range phones also avoid a 3D init during load. Lighthouse never interacts, so the trace contains no 3D work.
    - Then measure the project route on CI. If it also misses (it loads 3D eagerly by design), apply the same "poster + outline until first interaction" pattern to the workbench, or chunk the init. That second step is decided on data.
    - **(B)** keep load + idle and look for main-thread savings in the 3D init (engine-side: frozen surfaces → a revision).
+
+16. **§9.15 decided (Murphy, 2026-11-02, 5h 83%): option A.** After asking "regardless of the frozen engine, which is better?" and hearing the orchestrator's view (A for the decorative home hero; B-style init savings belong to a follow-up engine-perf slice for the project route), Murphy chose A.
+   - The hero gate is now: reduced motion / Save-Data → skip; else `load` → visible → **first interaction** (pointermove/pointerdown/touchstart/wheel/scroll/keydown/focusin, captured passively on `window`) → idle → `import('./hero-stage')`.
+   - Verified locally on the export: no canvas and no live state 4 s after load without input; one pointer move → `revealed`; strict CLS 0 (`site:probe --group cls`).
+   - The project route is measured next on CI. If it misses, the decision follows the data (RFC §9.15 second bullet).
