@@ -21,11 +21,11 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T002b | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
+| T001 | ☑ (24 files sealed; negative control red) | 1 (Flash, sandbox on); full check re-run by orchestrator unsandboxed (tools/perf loopback EPERM in sandbox) | evidence/T001-log-guard.txt | 30d0bf8 |
+| T002 | ☑ (5 fidelity tests; strict + parsed equality, --check, sha) | 1 (Flash, sandbox on); check re-run by orchestrator unsandboxed (loopback EPERM: tools/perf tests + Turbopack) | evidence/T002-log-content-fidelity.txt | 674c2ae |
+| T002b | ☑ (site.json → site.source.ts; 9 fidelity tests) | 1 (Flash, sandbox off from here: every check needs loopback) | evidence/T002b-log-site-copy-fidelity.txt | 32a8140 |
+| T003 | ☑ (chips Kotlin · Android · Kotlin Coroutines · Jetpack Compose; fixture-import + hand-copy scans incl. site.json) | 1 (Flash, sandbox off) | evidence/T003-log-content-model.txt | 0a38430 |
+| T004 | ☑ (/dev/engine CLS 0.000637/0.000043 → 0 in 4 cells; independent cross-check 0 entries) | 1 (Flash, sandbox off) + orchestrator cross-check | evidence/T004-{log-cls-carryover.txt,cls-after.json} | 788f23c |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
@@ -41,6 +41,8 @@
 | T017 | ☐ ⚑ | | | |
 | T018 | ☐ | | | |
 | T019 | ☐ ⚑ | | | |
+
+**G1 gate (2026-11-02):** integrated `788f23c`, all 10 guards OK (incl. SURFACE-S8-OK), typecheck/lint green, tests tools/perf 111 · xploder 610 · web 83 (+1 skipped), build green → `evidence/G1-log-gate.txt`. Stage-3 start merged `main` (`5aae743`, Merlin: site.json + resume.pdf + brief erratum) → C4/T002b, Q14 open (RFC §9.5).
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specify/features/site-shell/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 
