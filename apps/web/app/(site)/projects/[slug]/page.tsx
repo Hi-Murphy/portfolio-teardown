@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 
 import { Workbench } from '../../../../components/workbench/workbench';
 import { PROJECT_SLUGS, getProject } from '../../../../content/projects';
+import { routeMetadata } from '../../../../seo/metadata';
+import { routeForSlug } from '../../../../seo/routes';
 
 interface ProjectPageProps {
   readonly params: Promise<{ readonly slug: string }>;
@@ -17,14 +19,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProject(slug);
+  const route = routeForSlug(slug);
 
-  if (project === undefined) return {};
+  if (route === undefined) return {};
 
-  return {
-    title: project.meta.name,
-    description: project.meta.tagline,
-  };
+  return routeMetadata(route);
 }
 
 function projectMetaLine(project: NonNullable<ReturnType<typeof getProject>>): string | undefined {

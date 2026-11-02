@@ -1,13 +1,10 @@
-import type { Metadata } from 'next';
-
 import { ProjectCard } from '../../../components/project-card';
 import { PROJECTS, cardModel } from '../../../content/projects';
 import { SITE } from '../../../content/site';
+import { routeMetadata } from '../../../seo/metadata';
+import { PROJECTS_ROUTE } from '../../../seo/routes';
 
-export const metadata: Metadata = {
-  title: SITE.projects.title,
-  description: SITE.meta.description,
-};
+export const metadata = routeMetadata(PROJECTS_ROUTE);
 
 export default function ProjectsPage() {
   const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;

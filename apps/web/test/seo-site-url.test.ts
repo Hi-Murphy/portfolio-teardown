@@ -72,8 +72,8 @@ describe('resolveSiteUrl', () => {
 });
 
 describe('absoluteUrl', () => {
-  test('returns an absolute home URL with one trailing slash', () => {
-    expect(absoluteUrl('/')).toBe(`${SITE_ORIGIN}/`);
+  test('returns the bare origin for home, as Next renders the canonical', () => {
+    expect(absoluteUrl('/')).toBe(SITE_ORIGIN);
   });
 
   test('returns canonical route URLs without a trailing slash', () => {

@@ -10,6 +10,7 @@ import { collectSourceFiles, formatHits, lineOf, snippetAt, type Hit } from './s
 const APP_ROOT = fileURLToPath(new URL('../app/', import.meta.url));
 const COMPONENTS_ROOT = fileURLToPath(new URL('../components/', import.meta.url));
 const CONTENT_ROOT = fileURLToPath(new URL('../content/', import.meta.url));
+const SEO_ROOT = fileURLToPath(new URL('../seo/', import.meta.url));
 const PROJECT_JSON_PATH = fileURLToPath(
   new URL('../../../.specify/content/websocket-inspector.json', import.meta.url),
 );
@@ -220,8 +221,12 @@ describe('hand-copied content scanner', () => {
     expect(missing).toEqual([]);
   });
 
-  test('app and components contain no hand-copied project or site content', () => {
-    const hits = scanForbiddenCopy([...sourceFiles(APP_ROOT), ...sourceFiles(COMPONENTS_ROOT)]);
+  test('app, components and seo contain no hand-copied project or site content', () => {
+    const hits = scanForbiddenCopy([
+      ...sourceFiles(APP_ROOT),
+      ...sourceFiles(COMPONENTS_ROOT),
+      ...sourceFiles(SEO_ROOT),
+    ]);
 
     expect(hits, formatHits(hits)).toEqual([]);
   });
