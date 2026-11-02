@@ -21,7 +21,7 @@ export function SiteNav() {
   return (
     <header className="border-b border-line/30 bg-bg">
       <div className="mx-auto w-full max-w-6xl px-1.5 sm:px-6">
-        <nav aria-label="Primary" className="flex h-11 min-w-0 items-center">
+        <nav aria-label="Primary" aria-hidden="true" className="flex h-11 min-w-0 items-center">
           <Link
             href="/"
             className="inline-flex h-11 min-w-9 shrink-0 items-center text-sm font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:gap-2"
