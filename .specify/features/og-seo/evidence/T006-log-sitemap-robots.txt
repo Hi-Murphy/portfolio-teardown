@@ -1,0 +1,32 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T006/apps/web
+
+stderr | test/seo-sitemap.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/seo-sitemap.test.ts > SEO sitemap and robots > the sitemap contains exactly the indexable routes 1ms
+ ✓ test/seo-sitemap.test.ts > SEO sitemap and robots > robots allows the site, blocks dev routes and points to the sitemap 0ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  22:13:11
+   Duration  116ms (import 73%, transform 19%, tests 5%, worker 3%)
+
+NO-DEV-ROUTES
+   Start at  22:13:14
+   Duration  93ms (tests 53%, import 26%, transform 11%, worker 9%)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
+T006-OK

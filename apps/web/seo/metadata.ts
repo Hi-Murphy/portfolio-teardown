@@ -75,6 +75,10 @@ export function baseMetadata(): Metadata {
   return {
     ...routeMetadata(NOT_FOUND_ROUTE),
     metadataBase: new URL(SITE_ORIGIN),
+    icons: {
+      icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+      apple: '/apple-touch-icon.png',
+    },
     title: {
       default: SITE.meta.title,
       template: `%s · ${SITE.meta.siteName}`,
