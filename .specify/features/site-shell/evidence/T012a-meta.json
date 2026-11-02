@@ -1,0 +1,536 @@
+{
+  "kind": "T012a-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "wideMobile": {
+      "width": 412,
+      "height": 823
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-dock-idle-mobile-light.png",
+      "mode": "dock-idle",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-tour-playing-mobile-light.png",
+      "mode": "tour-playing",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-dock-idle-desktop-light.png",
+      "mode": "dock-idle",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-tour-playing-desktop-light.png",
+      "mode": "tour-playing",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-dock-idle-mobile-dark.png",
+      "mode": "dock-idle",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-tour-playing-mobile-dark.png",
+      "mode": "tour-playing",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-dock-idle-desktop-dark.png",
+      "mode": "dock-idle",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012a-screenshot-tour-playing-desktop-dark.png",
+      "mode": "tour-playing",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    }
+  ],
+  "checks": [
+    {
+      "label": "SSR: project route responds 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "label": "SSR: workbench shell reserves the stage, dock and tour rows",
+      "ok": true
+    },
+    {
+      "label": "SSR: noscript style hides the dock and tour rows",
+      "ok": true
+    },
+    {
+      "label": "mobile: server shell reserves stage, dock and tour rows",
+      "ok": true,
+      "detail": "{\"stage\":{\"x\":20,\"y\":399.5,\"width\":320,\"height\":560},\"dock\":{\"x\":20,\"y\":971.5,\"width\":320,\"height\":112},\"tour\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":388}}"
+    },
+    {
+      "label": "mobile: stage rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,399.5,320,560 -> 20,399.5,320,560"
+    },
+    {
+      "label": "mobile: dock rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,971.5,320,112 -> 20,971.5,320,112"
+    },
+    {
+      "label": "mobile: tour rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,1095.5,320,388 -> 20,1095.5,320,388"
+    },
+    {
+      "label": "mobile: dock has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":110,\"scrollHeight\":110}"
+    },
+    {
+      "label": "mobile: dockControls has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":110,\"scrollHeight\":110}"
+    },
+    {
+      "label": "mobile: tour has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "mobile: tourPanel has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "mobile: tourNow has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":300,\"scrollWidth\":300,\"clientHeight\":65,\"scrollHeight\":65}"
+    },
+    {
+      "label": "mobile: page has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":360,\"scrollWidth\":360}"
+    },
+    {
+      "label": "mobile: tour card content stays inside its fixed height",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "mobile: dock content stays inside its fixed height",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":110,\"scrollHeight\":110}"
+    },
+    {
+      "label": "mobile: the Now line stays inside the tour card",
+      "ok": true,
+      "detail": "{\"clientWidth\":300,\"scrollWidth\":300,\"clientHeight\":65,\"scrollHeight\":65}"
+    },
+    {
+      "label": "mobile: dock uses two rows",
+      "ok": true,
+      "detail": "{\"toggle\":978.5,\"zoom\":1030.5}"
+    },
+    {
+      "label": "mobile: tour rail is a semantic list",
+      "ok": true
+    },
+    {
+      "label": "mobile: tour rail scrolls horizontally",
+      "ok": true
+    },
+    {
+      "label": "mobile: tour rail scrolls inside its fixed row",
+      "ok": true,
+      "detail": "{\"role\":\"list\",\"overflowX\":\"auto\",\"clientWidth\":302,\"scrollWidth\":864}"
+    },
+    {
+      "label": "mobile: rail chips are numbered 1..n with component names",
+      "ok": true,
+      "detail": "[{\"index\":0,\"number\":\"1\",\"name\":\"MainActivity\"},{\"index\":1,\"number\":\"2\",\"name\":\"Financial API\"},{\"index\":2,\"number\":\"3\",\"name\":\"Factory wrap\"},{\"index\":3,\"number\":\"4\",\"name\":\"Socket wrap\"},{\"index\":4,\"number\":\"5\",\"name\":\"Session tags\"},{\"index\":5,\"number\":\"6\",\"name\":\"InspectorDao\"},{\"index\":6,\"number\":\"7\",\"name\":\"Room store\"}]"
+    },
+    {
+      "label": "mobile: playing Now copy stays inside the tour card",
+      "ok": true,
+      "detail": "{\"clientHeight\":65,\"scrollHeight\":65}"
+    },
+    {
+      "label": "mobile: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "wideMobile: server shell reserves stage, dock and tour rows",
+      "ok": true,
+      "detail": "{\"stage\":{\"x\":20,\"y\":383.5,\"width\":372,\"height\":576.09375},\"dock\":{\"x\":20,\"y\":971.59375,\"width\":372,\"height\":112},\"tour\":{\"x\":20,\"y\":1095.59375,\"width\":372,\"height\":388}}"
+    },
+    {
+      "label": "wideMobile: stage rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,383.5,372,576.09375 -> 20,383.5,372,576.09375"
+    },
+    {
+      "label": "wideMobile: dock rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,971.59375,372,112 -> 20,971.59375,372,112"
+    },
+    {
+      "label": "wideMobile: tour rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,1095.59375,372,388 -> 20,1095.59375,372,388"
+    },
+    {
+      "label": "wideMobile: dock has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":370,\"scrollWidth\":370,\"clientHeight\":110,\"scrollHeight\":110}"
+    },
+    {
+      "label": "wideMobile: dockControls has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":370,\"scrollWidth\":370,\"clientHeight\":110,\"scrollHeight\":110}"
+    },
+    {
+      "label": "wideMobile: tour has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":370,\"scrollWidth\":370,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "wideMobile: tourPanel has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":370,\"scrollWidth\":370,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "wideMobile: tourNow has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":352,\"scrollWidth\":352,\"clientHeight\":65,\"scrollHeight\":65}"
+    },
+    {
+      "label": "wideMobile: page has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":412,\"scrollWidth\":412}"
+    },
+    {
+      "label": "wideMobile: tour card content stays inside its fixed height",
+      "ok": true,
+      "detail": "{\"clientWidth\":370,\"scrollWidth\":370,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "wideMobile: dock content stays inside its fixed height",
+      "ok": true,
+      "detail": "{\"clientWidth\":370,\"scrollWidth\":370,\"clientHeight\":110,\"scrollHeight\":110}"
+    },
+    {
+      "label": "wideMobile: the Now line stays inside the tour card",
+      "ok": true,
+      "detail": "{\"clientWidth\":352,\"scrollWidth\":352,\"clientHeight\":65,\"scrollHeight\":65}"
+    },
+    {
+      "label": "wideMobile: dock uses two rows",
+      "ok": true,
+      "detail": "{\"toggle\":978.59375,\"zoom\":1030.59375}"
+    },
+    {
+      "label": "wideMobile: tour rail is a semantic list",
+      "ok": true
+    },
+    {
+      "label": "wideMobile: tour rail scrolls horizontally",
+      "ok": true
+    },
+    {
+      "label": "wideMobile: tour rail scrolls inside its fixed row",
+      "ok": true,
+      "detail": "{\"role\":\"list\",\"overflowX\":\"auto\",\"clientWidth\":354,\"scrollWidth\":864}"
+    },
+    {
+      "label": "wideMobile: rail chips are numbered 1..n with component names",
+      "ok": true,
+      "detail": "[{\"index\":0,\"number\":\"1\",\"name\":\"MainActivity\"},{\"index\":1,\"number\":\"2\",\"name\":\"Financial API\"},{\"index\":2,\"number\":\"3\",\"name\":\"Factory wrap\"},{\"index\":3,\"number\":\"4\",\"name\":\"Socket wrap\"},{\"index\":4,\"number\":\"5\",\"name\":\"Session tags\"},{\"index\":5,\"number\":\"6\",\"name\":\"InspectorDao\"},{\"index\":6,\"number\":\"7\",\"name\":\"Room store\"}]"
+    },
+    {
+      "label": "wideMobile: playing Now copy stays inside the tour card",
+      "ok": true,
+      "detail": "{\"clientHeight\":65,\"scrollHeight\":65}"
+    },
+    {
+      "label": "wideMobile: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop: server shell reserves stage, dock and tour rows",
+      "ok": true,
+      "detail": "{\"stage\":{\"x\":96,\"y\":382.25,\"width\":1088,\"height\":560},\"dock\":{\"x\":96,\"y\":954.25,\"width\":1088,\"height\":64},\"tour\":{\"x\":96,\"y\":1030.25,\"width\":1088,\"height\":272}}"
+    },
+    {
+      "label": "desktop: stage rect is identical before and after hydration",
+      "ok": true,
+      "detail": "96,382.25,1088,560 -> 96,382.25,1088,560"
+    },
+    {
+      "label": "desktop: dock rect is identical before and after hydration",
+      "ok": true,
+      "detail": "96,954.25,1088,64 -> 96,954.25,1088,64"
+    },
+    {
+      "label": "desktop: tour rect is identical before and after hydration",
+      "ok": true,
+      "detail": "96,1030.25,1088,272 -> 96,1030.25,1088,272"
+    },
+    {
+      "label": "desktop: dock has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":62,\"scrollHeight\":62}"
+    },
+    {
+      "label": "desktop: dockControls has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":62,\"scrollHeight\":62}"
+    },
+    {
+      "label": "desktop: tour has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":270,\"scrollHeight\":270}"
+    },
+    {
+      "label": "desktop: tourPanel has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":270,\"scrollHeight\":270}"
+    },
+    {
+      "label": "desktop: tourNow has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1068,\"scrollWidth\":1068,\"clientHeight\":47,\"scrollHeight\":47}"
+    },
+    {
+      "label": "desktop: page has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1280,\"scrollWidth\":1280}"
+    },
+    {
+      "label": "desktop: tour card content stays inside its fixed height",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":270,\"scrollHeight\":270}"
+    },
+    {
+      "label": "desktop: dock content stays inside its fixed height",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":62,\"scrollHeight\":62}"
+    },
+    {
+      "label": "desktop: the Now line stays inside the tour card",
+      "ok": true,
+      "detail": "{\"clientWidth\":1068,\"scrollWidth\":1068,\"clientHeight\":47,\"scrollHeight\":47}"
+    },
+    {
+      "label": "desktop: dock uses one row",
+      "ok": true,
+      "detail": "{\"toggle\":964.25,\"zoom\":964.25}"
+    },
+    {
+      "label": "desktop: tour rail is a semantic list",
+      "ok": true
+    },
+    {
+      "label": "desktop: tour rail scrolls horizontally",
+      "ok": true
+    },
+    {
+      "label": "desktop: rail chips are numbered 1..n with component names",
+      "ok": true,
+      "detail": "[{\"index\":0,\"number\":\"1\",\"name\":\"MainActivity\"},{\"index\":1,\"number\":\"2\",\"name\":\"Financial API\"},{\"index\":2,\"number\":\"3\",\"name\":\"Factory wrap\"},{\"index\":3,\"number\":\"4\",\"name\":\"Socket wrap\"},{\"index\":4,\"number\":\"5\",\"name\":\"Session tags\"},{\"index\":5,\"number\":\"6\",\"name\":\"InspectorDao\"},{\"index\":6,\"number\":\"7\",\"name\":\"Room store\"}]"
+    },
+    {
+      "label": "desktop: playing Now copy stays inside the tour card",
+      "ok": true,
+      "detail": "{\"clientHeight\":47,\"scrollHeight\":47}"
+    },
+    {
+      "label": "desktop: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "no JS: dock and tour rows are hidden while the outline remains",
+      "ok": true,
+      "detail": "{\"dock\":false,\"tour\":false,\"outline\":true}"
+    },
+    {
+      "label": "controls: dock and tour render their full control set",
+      "ok": true,
+      "detail": "20"
+    },
+    {
+      "label": "controls: every button has an accessible name",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "label": "controls: every icon-only action has a label and title",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "label": "icons: every inline SVG is aria-hidden",
+      "ok": true
+    },
+    {
+      "label": "dock: exploded is the pressed state",
+      "ok": true
+    },
+    {
+      "label": "dock: implode clears the pressed state",
+      "ok": true
+    },
+    {
+      "label": "dock: explode restores the pressed state",
+      "ok": true
+    },
+    {
+      "label": "tour: Start moves the viewer to playing",
+      "ok": true
+    },
+    {
+      "label": "pause-on-implode: Implode while playing pauses the tour and implodes",
+      "ok": true
+    },
+    {
+      "label": "transport: Next moves to the following step",
+      "ok": true
+    },
+    {
+      "label": "transport: Previous moves back one step",
+      "ok": true
+    },
+    {
+      "label": "rail: a chip jump reaches step k while paused",
+      "ok": true,
+      "detail": "3"
+    },
+    {
+      "label": "rail: a chip jump keeps a playing tour playing",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "rail: hovering a chip highlights its component id",
+      "ok": true,
+      "detail": "session-tracker"
+    },
+    {
+      "label": "rail: leaving a chip clears the highlight",
+      "ok": true
+    },
+    {
+      "label": "flow chooser: selecting a flow updates its pressed state",
+      "ok": true
+    },
+    {
+      "label": "flow chooser: the step rail switches to the selected flow",
+      "ok": true,
+      "detail": "inspector-notification"
+    },
+    {
+      "label": "interactions: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "screenshot dock-idle/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour-playing/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot dock-idle/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour-playing/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot dock-idle/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour-playing/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot dock-idle/desktop/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour-playing/desktop/dark: written",
+      "ok": true
+    }
+  ],
+  "measurements": {
+    "mobile": {},
+    "wideMobile": {},
+    "desktop": {}
+  },
+  "passed": true
+}
