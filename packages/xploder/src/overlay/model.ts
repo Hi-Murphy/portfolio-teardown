@@ -52,6 +52,10 @@ export interface OverlayProject {
       readonly name?: string;
     }[];
   }[];
+  readonly flows?: readonly {
+    readonly id: string;
+    readonly path: readonly string[];
+  }[];
 }
 
 export interface OverlayViewport {
@@ -129,7 +133,11 @@ export interface OverlayModelInput {
   readonly viewport: OverlayViewport;
   readonly offsetY: number;
   readonly target: OverlayState;
-  readonly tour: { readonly status: OverlayTourStatus };
+  readonly tour: {
+    readonly status: OverlayTourStatus;
+    readonly flowId?: string | null;
+    readonly step?: number;
+  };
   readonly focus: OverlayFocus;
   readonly look: LookTokens;
   readonly highlight?: string | null;
@@ -678,15 +686,73 @@ export function overlayHighlight(
   };
 }
 
+/**
+ * S10 Q16 revision (Murphy-authorised; see
+ * .specify/features/site-shell/evidence/Q16-revision-note.md).
+ */
+function tourTrailModel(
+  base: OverlayModel,
+  project: OverlayProject,
+  tour: {
+    readonly status: OverlayTourStatus;
+    readonly flowId?: string | null;
+    readonly step?: number;
+  },
+  look: LookTokens,
+): OverlayModel {
+  const flow = project.flows?.find((candidate) => candidate.id === tour.flowId);
+  const step = tour.step;
+
+  if (
+    base.calloutMode !== 'columns' ||
+    flow === undefined ||
+    step === undefined ||
+    !Number.isFinite(step) ||
+    !Number.isInteger(step) ||
+    step < 0
+  ) {
+    return emptyOverlayModel();
+  }
+
+  const visited = flow.path.slice(0, step + 1);
+  const currentId = flow.path[step];
+  const labels = visited.flatMap((id): OverlayLabel[] => {
+    const label = base.labels.find((candidate) => candidate.key === `part:${id}`);
+
+    return label === undefined ? [] : [{ ...label, emphasis: id === currentId }];
+  });
+  const leaders = labels.flatMap((label): OverlayStroke[] => {
+    if (label.anchor === undefined) return [];
+
+    const middleY = label.y + label.h / 2;
+
+    return [
+      {
+        key: `leader:${label.key}`,
+        kind: 'leader',
+        points: [[label.x, middleY], [label.x - 12, middleY], label.anchor],
+        role: label.emphasis === true ? look.callouts.emphasisRole : look.annotation.leaderRole,
+        opacity: label.opacity,
+      },
+    ];
+  });
+
+  return { ...base, labels, strokes: leaders, titleBlock: null };
+}
+
 export function overlayStateModel(
   base: OverlayModel,
   project: OverlayProject,
   focus: OverlayFocus,
-  tour: { readonly status: OverlayTourStatus },
+  tour: {
+    readonly status: OverlayTourStatus;
+    readonly flowId?: string | null;
+    readonly step?: number;
+  },
   highlight: string | null | undefined,
   look: LookTokens,
 ): OverlayModel {
-  if (tour.status !== 'idle') return emptyOverlayModel();
+  if (tour.status !== 'idle') return tourTrailModel(base, project, tour, look);
 
   const focusActive = focus.layerId !== null && !focus.suspended;
   const labelLayers = new Map(base.labels.map((label) => [label.key, label.layerIndex] as const));
@@ -728,8 +794,6 @@ export function overlayStateModel(
 }
 
 export function overlayModel(input: OverlayModelInput): OverlayModel {
-  if (input.tour.status !== 'idle') return emptyOverlayModel();
-
   return overlayStateModel(
     overlayBaseModel(input),
     input.project,
