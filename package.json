@@ -25,6 +25,7 @@
     "a11y:axe": "node tools/perf/src/cli/a11y-axe.ts",
     "a11y:axe:site": "node tools/perf/src/cli/a11y-axe-site.ts",
     "site:probe": "node tools/perf/src/cli/site-probe.ts",
+    "bundle:manifest": "node tools/perf/src/cli/bundle-manifest.ts",
     "serve:out": "node tools/perf/src/cli/serve.ts",
     "build:fixtures": "PERF_FIXTURES=1 pnpm --filter web build"
   },

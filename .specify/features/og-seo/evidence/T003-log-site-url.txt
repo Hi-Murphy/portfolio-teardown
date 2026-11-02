@@ -1,0 +1,41 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T003/apps/web
+
+stderr | test/seo-site-url.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > SITE_URL wins and is normalized to an origin 1ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > HTTP is accepted only for localhost 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > production uses the Vercel production hostname 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > preview uses the Vercel deployment hostname 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > development uses the Vercel deployment hostname 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > falls back to localhost and warns when no URL source is set 1ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > throws when Vercel resolves to localhost 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > throws when production resolves to the preview deployment URL 0ms
+ ✓ test/seo-site-url.test.ts > absoluteUrl > returns an absolute home URL with one trailing slash 0ms
+ ✓ test/seo-site-url.test.ts > absoluteUrl > returns canonical route URLs without a trailing slash 0ms
+ ✓ test/seo-site-url.test.ts > absoluteUrl > rejects a path without a leading slash 0ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  22:06:01
+   Duration  65ms (import 44%, tests 23%, transform 19%, worker 14%)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+$ pnpm -r --if-present test
+T003-OK
