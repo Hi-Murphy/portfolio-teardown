@@ -1,21 +1,39 @@
+Scope: 2 of 4 workspace projects
+✓ Lockfile passes supply-chain policies (verified 5m ago)
+Lockfile is up to date, resolution step is skipped
+Packages: +2
+++
+Progress: resolved 2, reused 2, downloaded 0, added 2, done
+Done in 149ms using pnpm v12.15.0
 
  RUN  v5.0.5 /private/tmp/s11-wt/T008/apps/web
 
- ✓ test/seo-icon.test.ts > SEO icon > iconSvg parses as SVG and uses only blueprint palette colours 35ms
- ✓ test/seo-icon.test.ts > SEO icon > iconSvg carries a dark prefers-color-scheme block 0ms
- ✓ test/seo-icon.test.ts > SEO icon > apple icon renders a 180x180 PNG on an opaque paper ground 49ms
+stderr | test/seo-metadata.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
 
- Test Files  1 passed (1)
-      Tests  3 passed (3)
-   Start at  22:15:49
-   Duration  358ms (import 67%, tests 30%, transform 2%, worker 1%)
+ ✓ test/seo-metadata.test.ts > route metadata > / matches every D3 cell 1ms
+ ✓ test/seo-metadata.test.ts > route metadata > /projects matches every D3 cell 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > /projects/websocket-inspector matches every D3 cell 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > /404 matches every D3 cell 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > project descriptions fall back from tagline to summary to the site description 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > the not-found metadata has no canonical or og:url 0ms
+ ✓ test/seo-metadata.test.ts > base metadata and viewport > base metadata is the safe not-found payload plus the production base, icons and template 0ms
+ ✓ test/seo-metadata.test.ts > base metadata and viewport > viewport theme colors come from the light and dark blueprint paper roles 0ms
+ ✓ test/seo-icon.test.ts > SEO icon > iconSvg parses as SVG and uses only blueprint palette colours 40ms
+ ✓ test/seo-icon.test.ts > SEO icon > iconSvg carries a dark prefers-color-scheme block 0ms
+ ✓ test/seo-icon.test.ts > SEO icon > apple icon renders a 180x180 PNG on an opaque paper ground 59ms
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  22:18:08
+   Duration  494ms (import 49%, transform 32%, tests 18%, worker 1%)
 
 apps/web/out/apple-touch-icon.png: PNG image data, 180 x 180, 8-bit/color RGBA, non-interlaced
-./404.html 1
-./_not-found.html 1
-./index.html 1
-./projects.html 1
-./projects/websocket-inspector.html 1
+./404.html 4
+./_not-found.html 4
+./index.html 4
+./projects.html 4
+./projects/websocket-inspector.html 4
 FROZEN-OK
 BRIEF-HISTORY-OK
 XPLODER-OK
@@ -29,3 +47,8 @@ S8-TOOLS-OK
 PERF-CI-OK
 SEO-SERVER-ONLY-OK
 GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+$ pnpm -r --if-present test
+T008-OK
