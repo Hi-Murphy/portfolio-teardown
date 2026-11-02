@@ -1,0 +1,1555 @@
+{
+  "kind": "T012f-smoke",
+  "version": 1,
+  "targets": [
+    "export",
+    "dev"
+  ],
+  "runs": {
+    "export": {
+      "kind": "T012f-smoke",
+      "version": 1,
+      "target": "export",
+      "baseUrl": "http://127.0.0.1:4310/",
+      "homeUrl": "http://127.0.0.1:4310/",
+      "projectUrl": "http://127.0.0.1:4310/projects/websocket-inspector",
+      "tools": {
+        "playwright": "1.64.1",
+        "chromium": "156.0.8078.4"
+      },
+      "viewports": {
+        "mobile": {
+          "width": 360,
+          "height": 800
+        },
+        "desktop": {
+          "width": 1280,
+          "height": 900
+        }
+      },
+      "palettes": [
+        "light",
+        "dark"
+      ],
+      "screenshots": [
+        {
+          "path": ".specify/features/site-shell/evidence/T012f-screenshot-tour-playing-mobile-light.png",
+          "viewportName": "mobile",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "palette": "light"
+        },
+        {
+          "path": ".specify/features/site-shell/evidence/T012f-screenshot-tour-playing-desktop-light.png",
+          "viewportName": "desktop",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "palette": "light"
+        },
+        {
+          "path": ".specify/features/site-shell/evidence/T012f-screenshot-tour-playing-mobile-dark.png",
+          "viewportName": "mobile",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "palette": "dark"
+        },
+        {
+          "path": ".specify/features/site-shell/evidence/T012f-screenshot-tour-playing-desktop-dark.png",
+          "viewportName": "desktop",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "palette": "dark"
+        }
+      ],
+      "checks": [
+        {
+          "label": "direct load: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "direct load: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 1: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 1: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 2: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 2: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 3: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 3: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 4: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 4: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 5: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 5: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "direct load and reloads: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "cycle 1: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 1 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 1 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 1: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 1: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 1: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 1 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 1 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 2 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 2 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 2 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 2 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 3 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 3 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 3 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 3 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 4 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 4 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 4 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 4 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 5 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 5 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 5 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 5 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 6 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 6 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 6 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 6 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 7 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 7 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 7 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 7 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 8 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 8 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 8 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 8 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 9 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 9 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 9 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 9 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 10 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 10 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 10 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 10 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "navigation cycles: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "mobile/light playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "mobile/light playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=180.000 cluster=180.000"
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "mobile: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "mobile: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=429.500 clusterBottom=427.500"
+        },
+        {
+          "label": "mobile: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "mobile: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "mobile: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "mobile: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "mobile: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "mobile: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "mobile: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":29,\"top\":202.5,\"cardLeft\":20,\"cardTop\":193.5}"
+        },
+        {
+          "label": "mobile: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":318,\"cardScrollWidth\":318,\"cardClientHeight\":386,\"cardScrollHeight\":386,\"pageClientWidth\":360,\"pageScrollWidth\":360}"
+        },
+        {
+          "label": "mobile/light: tour playing screenshot written",
+          "ok": true
+        },
+        {
+          "label": "mobile/light: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "mobile/light: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "desktop/light playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "desktop/light playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=640.000 cluster=640.000"
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "desktop: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "desktop: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=479.875 clusterBottom=477.875"
+        },
+        {
+          "label": "desktop: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "desktop: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "desktop: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "desktop: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "desktop: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "desktop: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "desktop: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":105,\"top\":336.25,\"cardLeft\":96,\"cardTop\":327.25}"
+        },
+        {
+          "label": "desktop: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":1086,\"cardScrollWidth\":1086,\"cardClientHeight\":270,\"cardScrollHeight\":270,\"pageClientWidth\":1280,\"pageScrollWidth\":1280}"
+        },
+        {
+          "label": "desktop/light: tour playing screenshot written",
+          "ok": true
+        },
+        {
+          "label": "desktop/light: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "desktop/light: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "mobile/dark playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "mobile/dark playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=180.000 cluster=180.000"
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "mobile: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "mobile: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=429.500 clusterBottom=427.500"
+        },
+        {
+          "label": "mobile: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "mobile: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "mobile: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "mobile: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "mobile: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "mobile: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "mobile: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":29,\"top\":202.5,\"cardLeft\":20,\"cardTop\":193.5}"
+        },
+        {
+          "label": "mobile: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":318,\"cardScrollWidth\":318,\"cardClientHeight\":386,\"cardScrollHeight\":386,\"pageClientWidth\":360,\"pageScrollWidth\":360}"
+        },
+        {
+          "label": "mobile/dark: tour playing screenshot written",
+          "ok": true
+        },
+        {
+          "label": "mobile/dark: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "mobile/dark: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "desktop/dark playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "desktop/dark playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=640.000 cluster=640.000"
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "desktop: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "desktop: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=479.875 clusterBottom=477.875"
+        },
+        {
+          "label": "desktop: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "desktop: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "desktop: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "desktop: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "desktop: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "desktop: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "desktop: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":105,\"top\":336.25,\"cardLeft\":96,\"cardTop\":327.25}"
+        },
+        {
+          "label": "desktop: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":1086,\"cardScrollWidth\":1086,\"cardClientHeight\":270,\"cardScrollHeight\":270,\"pageClientWidth\":1280,\"pageScrollWidth\":1280}"
+        },
+        {
+          "label": "desktop/dark: tour playing screenshot written",
+          "ok": true
+        },
+        {
+          "label": "desktop/dark: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "desktop/dark: no page errors",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "passed": true
+    },
+    "dev": {
+      "kind": "T012f-smoke",
+      "version": 1,
+      "target": "dev",
+      "baseUrl": "http://localhost:3100/",
+      "homeUrl": "http://localhost:3100/",
+      "projectUrl": "http://localhost:3100/projects/websocket-inspector",
+      "tools": {
+        "playwright": "1.64.1",
+        "chromium": "156.0.8078.4"
+      },
+      "viewports": {
+        "mobile": {
+          "width": 360,
+          "height": 800
+        },
+        "desktop": {
+          "width": 1280,
+          "height": 900
+        }
+      },
+      "palettes": [
+        "light",
+        "dark"
+      ],
+      "screenshots": [],
+      "checks": [
+        {
+          "label": "direct load: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "direct load: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 1: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 1: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 2: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 2: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 3: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 3: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 4: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 4: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "reload 5: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "reload 5: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "direct load and reloads: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "cycle 1: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 1 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 1 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 1: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 1: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 1: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 1 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 1 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 2 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 2 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 2: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 2 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 2 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 3 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 3 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 3: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 3 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 3 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 4 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 4 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 4: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 4 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 4 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 5 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 5 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 5: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 5 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 5 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 6 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 6 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 6: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 6 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 6 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 7 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 7 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 7: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 7 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 7 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 8 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 8 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 8: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 8 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 8 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 9 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 9 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 9: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 9 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 9 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: hero CTA uses soft navigation",
+          "ok": true
+        },
+        {
+          "label": "cycle 10 forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 10 forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: goBack stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: goBack reaches /",
+          "ok": true
+        },
+        {
+          "label": "cycle 10: goForward stays on document",
+          "ok": true
+        },
+        {
+          "label": "cycle 10 back-forward: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "cycle 10 back-forward: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "navigation cycles: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "mobile/light playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "mobile/light playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=180.000 cluster=180.000"
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "mobile: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "mobile: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=429.500 clusterBottom=427.500"
+        },
+        {
+          "label": "mobile: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "mobile: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "mobile: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "mobile: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "mobile: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "mobile: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "mobile: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":29,\"top\":202.5,\"cardLeft\":20,\"cardTop\":193.5}"
+        },
+        {
+          "label": "mobile: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":318,\"cardScrollWidth\":318,\"cardClientHeight\":386,\"cardScrollHeight\":386,\"pageClientWidth\":360,\"pageScrollWidth\":360}"
+        },
+        {
+          "label": "mobile/light: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "mobile/light: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "desktop/light playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "desktop/light playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=640.000 cluster=640.000"
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "desktop: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "desktop: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=479.875 clusterBottom=477.875"
+        },
+        {
+          "label": "desktop: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "desktop: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "desktop: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "desktop: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "desktop: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "desktop: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "desktop: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":105,\"top\":336.25,\"cardLeft\":96,\"cardTop\":327.25}"
+        },
+        {
+          "label": "desktop: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":1086,\"cardScrollWidth\":1086,\"cardClientHeight\":270,\"cardScrollHeight\":270,\"pageClientWidth\":1280,\"pageScrollWidth\":1280}"
+        },
+        {
+          "label": "desktop/light: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "desktop/light: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "mobile/dark playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "mobile/dark playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=180.000 cluster=180.000"
+        },
+        {
+          "label": "mobile: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "mobile: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "mobile: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=429.500 clusterBottom=427.500"
+        },
+        {
+          "label": "mobile: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "mobile: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "mobile: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "mobile: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "mobile: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "mobile: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "mobile: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":29,\"top\":202.5,\"cardLeft\":20,\"cardTop\":193.5}"
+        },
+        {
+          "label": "mobile: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":318,\"cardScrollWidth\":318,\"cardClientHeight\":386,\"cardScrollHeight\":386,\"pageClientWidth\":360,\"pageScrollWidth\":360}"
+        },
+        {
+          "label": "mobile/dark: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "mobile/dark: no page errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "label": "desktop/dark playing setup: dock has at least 6 buttons",
+          "ok": true,
+          "detail": "7"
+        },
+        {
+          "label": "desktop/dark playing setup: tour panel has the Start control",
+          "ok": true
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the card",
+          "ok": true,
+          "detail": "delta=0.000px card=640.000 cluster=640.000"
+        },
+        {
+          "label": "desktop: transport cluster is horizontally centred in the panel",
+          "ok": true,
+          "detail": "delta=0.000px"
+        },
+        {
+          "label": "desktop: Step k of n is horizontally centred beneath the cluster",
+          "ok": true,
+          "detail": "delta=0.008px"
+        },
+        {
+          "label": "desktop: Step k of n sits beneath the cluster",
+          "ok": true,
+          "detail": "positionTop=479.875 clusterBottom=477.875"
+        },
+        {
+          "label": "desktop: Step k of n readout is visible",
+          "ok": true,
+          "detail": "Step 1 of 7"
+        },
+        {
+          "label": "desktop: Exit tour sits inside the transport cluster",
+          "ok": true
+        },
+        {
+          "label": "desktop: Exit tour keeps its icon, label, aria-label and title",
+          "ok": true,
+          "detail": "{\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"text\":\"Exit tour\"}"
+        },
+        {
+          "label": "desktop: transport controls render in the requested order",
+          "ok": true,
+          "detail": "tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit"
+        },
+        {
+          "label": "desktop: every transport button has hover/active styling, aria-label and title",
+          "ok": true,
+          "detail": "[{\"control\":\"tour-restart\",\"ariaLabel\":\"Restart tour\",\"title\":\"Restart tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-prev\",\"ariaLabel\":\"Previous step\",\"title\":\"Previous step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-play\",\"ariaLabel\":\"Pause tour\",\"title\":\"Pause tour\",\"className\":\"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm\"},{\"control\":\"tour-next\",\"ariaLabel\":\"Next step\",\"title\":\"Next step\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11\"},{\"control\":\"tour-exit\",\"ariaLabel\":\"Exit tour\",\"title\":\"Exit tour\",\"className\":\"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs\"}]"
+        },
+        {
+          "label": "desktop: primary Play/Pause is pressed and labelled while playing",
+          "ok": true,
+          "detail": "{\"pressed\":\"true\",\"label\":\"Pause tour\"}"
+        },
+        {
+          "label": "desktop: GUIDED TOUR remains the top-left micro label",
+          "ok": true,
+          "detail": "{\"text\":\"Guided tour\",\"left\":105,\"top\":336.25,\"cardLeft\":96,\"cardTop\":327.25}"
+        },
+        {
+          "label": "desktop: active tour content fits without overflow",
+          "ok": true,
+          "detail": "{\"cardClientWidth\":1086,\"cardScrollWidth\":1086,\"cardClientHeight\":270,\"cardScrollHeight\":270,\"pageClientWidth\":1280,\"pageScrollWidth\":1280}"
+        },
+        {
+          "label": "desktop/dark: Exit tour returns the tour to idle",
+          "ok": true,
+          "detail": "{\"exitCount\":0,\"playLabel\":\"Start tour\"}"
+        },
+        {
+          "label": "desktop/dark: no page errors",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "passed": true
+    }
+  }
+}

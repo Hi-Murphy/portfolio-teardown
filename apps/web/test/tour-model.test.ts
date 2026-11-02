@@ -130,4 +130,32 @@ describe('tour model', () => {
     expect(playing).toContain('data-site-control="tour-exit"');
     expect(playing).toContain('aria-label="Exit tour"');
   });
+
+  test('transport controls render as one cluster in the requested order', () => {
+    const html = renderToStaticMarkup(
+      createElement(TourPanel, {
+        flows: buildTourFlows(PROJECT),
+        flowId: 'main',
+        status: 'playing',
+        step: 0,
+        onSelectFlow: () => undefined,
+        onTogglePlayback: () => undefined,
+        onPrevious: () => undefined,
+        onNext: () => undefined,
+        onRestart: () => undefined,
+        onExit: () => undefined,
+        onJump: () => undefined,
+        onHighlight: () => undefined,
+      }),
+    );
+    const controls = ['tour-restart', 'tour-prev', 'tour-play', 'tour-next', 'tour-exit'].map(
+      (control) => html.indexOf(`data-site-control="${control}"`),
+    );
+
+    expect(html).toContain('data-site-tour-transport');
+    expect(controls.every((index) => index >= 0)).toBe(true);
+    expect(controls).toEqual([...controls].sort((left, right) => left - right));
+    expect(html).toContain('aria-label="Pause tour"');
+    expect(html).toContain('aria-pressed="true"');
+  });
 });
