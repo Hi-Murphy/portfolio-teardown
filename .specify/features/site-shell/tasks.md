@@ -40,6 +40,7 @@
 | T012f | ☑ (portal targets resolved after commit, scoped + rAF retry: 10× soft-nav/back/forward + 5× reload pass on export and next dev; centred transport Δ 0 px; CLS 0) | 1 (Flash) | evidence/T012f-* | (merge) |
 | T012g | ☑ (Layers \| Flows tabs, layer focus chips + parts list, icon-only primary, Exit tour removed, fixed card height; 115 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (solid glyphs, layer parts list) | evidence/T012g-* | (merge) |
 | T012h | ☑ (static SSR Explore card → identical geometry after hydration; idle Layers content-sized; Flows explodes + locks Implode; CLS 0) | 1 (Flash) | evidence/T012h-* | (merge) |
+| T012i | ☐ | | | |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
@@ -522,6 +523,21 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   - Screenshots: Layers idle, Layers focused, Flows playing, mobile + desktop, light + dark.
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. A compact Layers card; Flows explodes and locks Implode (default: as screenshotted).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. G2 verdict.
+
+### T012i [US3, US6] P1: interaction-gated workbench + "Explore in 3D" (RFC §9.18 D6c)
+
+- **Seam:** project route load ↔ workbench client chunk.
+- **Files:** `components/workbench/workbench.tsx` (stage button in the server shell), `components/workbench/workbench-loader.tsx` (gate: first interaction OR button → mount `WorkbenchClient`), `components/hero/*` (share the interaction helper via a small `components/interaction-gate.ts`), tests.
+- **Check:** export smoke (port 4310). It asserts:
+  - after load + 4 s with no input, there is no `<canvas>` and no `[data-xploder-ready]`; the poster, the Explore card (static) and the `explore-3d` button are visible;
+  - click `explore-3d` → busy state → viewer ready → poster fades → the dock and Explore card are live (the T012h/T012g behaviours hold: a layer chip toggles focus, Flows starts the tour);
+  - a fresh load + a pointer move (no click) → viewer ready;
+  - stage/dock/card rects are identical before and after mount;
+  - strict CLS 0 (`site:probe --group cls`; adapt its readiness wait to click `explore-3d` on the project route and to move the pointer on `/`);
+  - local Lighthouse `--categories performance,accessibility` on the project route: report the numbers (CI on the preview is the gate).
+  - Screenshots: pre-interaction stage (mobile + desktop, light + dark).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. The project page loads instantly; the 3D starts on touch/mouse or "Explore in 3D" (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing.
 
 ### T012c [US1–US5] G2 evidence refresh
 

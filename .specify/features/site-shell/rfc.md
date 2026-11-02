@@ -464,3 +464,12 @@ A new `tools/perf/src/site-probe.ts` + CLI `cli/site-probe.ts` (`pnpm site:probe
    - The project route is measured next on CI. If it misses, the decision follows the data (RFC §9.15 second bullet).
 
 17. **CI run 2 (head `5512174`):** home **0.99** perf, a11y 1, LCP 913 ms, CLS 0 → **pass** (option A confirmed). Project route: **0.87** perf (fail, exit 6), a11y 1, LCP 908 ms, CLS 0. Everything else is green. Evidence: `evidence/T016-log-ci-run2.txt`. AC5 is still blocked, on the project route only. Proposed (Murphy's call): **(P1, recommended)** the same pattern on the teardown route. The poster and the server-rendered Explore card show immediately; the 3D workbench mounts on the first interaction (any pointer/touch/scroll/key) **or** on an explicit centred "Explore in 3D" button on the stage, so the affordance is visible on touch devices. The real init cost then lands after the visitor engages, never inside the load window. **(P2)** engine-side init savings (shader/scene init split across frames, smaller three build) as a follow-up engine-perf slice; probably not enough alone to reach 0.95 on the CI CPU.
+
+18. **§9.17 decided (Murphy, 2026-11-02, fresh window 5h 25%): P1.** Tier 1 (Flash) is available again (a DeepSeek probe answered), so execution returns to Flash.
+   - **D6c — interaction-gated workbench (task T012i):**
+     - the project route renders the poster + the server-rendered Explore card at once; the workbench client chunk mounts on the **first interaction** (same event set as the hero) **or** when the visitor activates a centred **"Explore in 3D"** button `[data-site-control="explore-3d"]` on the stage (icon + label, ≥ 44 px, a visible affordance for touch);
+     - while it loads, the button shows a busy state (`aria-busy`, label "Loading 3D…");
+     - the reveal crossfade and fixed boxes are unchanged (CLS 0);
+     - reduced motion does not block the workbench (it is the page's content; the S8 static twins apply);
+     - no-JS and no-WebGL paths are unchanged.
+   - **Tooling consequence:** the site probe and site axe trigger the project-route 3D by clicking `explore-3d` (and the hero by a pointer move) before waiting for `[data-xploder-ready]`.
