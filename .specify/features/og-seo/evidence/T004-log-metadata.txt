@@ -1,12 +1,26 @@
 
  RUN  v5.0.5 /private/tmp/s11-wt/T004/apps/web
 
- ✓ test/prod-imports.test.ts > production import scanner > production source does not import xploder/fixtures 10ms
- ✓ test/prod-imports.test.ts > production import scanner > negative control catches xploder/fixtures 0ms
- ✓ test/seo-server-only.test.ts > SEO server-only boundary > seo/ contains no client component directive 8ms
+stderr | test/seo-site-url.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > SITE_URL wins and is normalized to an origin 1ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > HTTP is accepted only for localhost 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > production uses the Vercel production hostname 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > preview uses the Vercel deployment hostname 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > development uses the Vercel deployment hostname 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > falls back to localhost and warns when no URL source is set 1ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > throws when Vercel resolves to localhost 0ms
+ ✓ test/seo-site-url.test.ts > resolveSiteUrl > throws when production resolves to the preview deployment URL 0ms
+ ✓ test/seo-site-url.test.ts > absoluteUrl > returns the bare origin for home, as Next renders the canonical 0ms
+ ✓ test/seo-site-url.test.ts > absoluteUrl > returns canonical route URLs without a trailing slash 0ms
+ ✓ test/seo-site-url.test.ts > absoluteUrl > rejects a path without a leading slash 0ms
+ ✓ test/seo-server-only.test.ts > SEO server-only boundary > seo/ contains no client component directive 7ms
  ✓ test/seo-server-only.test.ts > SEO server-only boundary > client components do not import seo/ 2ms
  ✓ test/seo-server-only.test.ts > SEO server-only boundary > the relative import check resolves into seo/ 0ms
- ✓ test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals 14ms
+ ✓ test/prod-imports.test.ts > production import scanner > production source does not import xploder/fixtures 9ms
+ ✓ test/prod-imports.test.ts > production import scanner > negative control catches xploder/fixtures 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals 15ms
  ✓ test/no-color-literals.test.ts > color-literal scanner > scanner roots include engine sources 4ms
  ✓ test/no-color-literals.test.ts > color-literal scanner > scanner root includes the engine playground 1ms
  ✓ test/no-color-literals.test.ts > color-literal scanner > hex-color catches its negative control 0ms
@@ -17,14 +31,14 @@
  ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: palette.line 0ms
  ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: var(--bp-line) 0ms
  ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: issue #12 0ms
+stderr | test/seo-metadata.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
  ✓ test/seo-routes.test.ts > SEO route registry > indexable routes are home, projects and every content project 1ms
  ✓ test/seo-routes.test.ts > SEO route registry > the not-found route is not indexable and uses the safe home card 1ms
  ✓ test/seo-routes.test.ts > SEO route registry > routeForSlug returns only the matching content project 0ms
  ✓ test/seo-routes.test.ts > SEO route registry > dev and fixture routes are absent from the indexable registry 0ms
-stderr | test/seo-metadata.test.ts
-SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
-
- ✓ test/seo-metadata.test.ts > route metadata > / matches every D3 cell 1ms
+ ✓ test/seo-metadata.test.ts > route metadata > / matches every D3 cell 2ms
  ✓ test/seo-metadata.test.ts > route metadata > /projects matches every D3 cell 0ms
  ✓ test/seo-metadata.test.ts > route metadata > /projects/websocket-inspector matches every D3 cell 0ms
  ✓ test/seo-metadata.test.ts > route metadata > /404 matches every D3 cell 0ms
@@ -47,10 +61,10 @@ SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_
  ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches hand-copied project content 0ms
  ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches hand-copied site content 0ms
 
- Test Files  7 passed (7)
-      Tests  39 passed (39)
-   Start at  22:08:24
-   Duration  687ms (transform 49%, import 35%, tests 11%, worker 5%)
+ Test Files  8 passed (8)
+      Tests  50 passed (50)
+   Start at  22:09:57
+   Duration  345ms (import 46%, transform 34%, tests 16%, worker 3%)
 
 == index
 <meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)"/>
@@ -116,6 +130,7 @@ SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_
 <meta name="twitter:description" content="Every WebSocket frame, captured and inspectable."/>
 <meta name="twitter:image" content="https://hi-murphy.me/og/projects/websocket-inspector.png"/>
 == 404
+<meta name="robots" content="noindex"/>
 <meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)"/>
 <meta name="theme-color" content="#0B1A2E" media="(prefers-color-scheme: dark)"/>
 <title>Timur Haryo — Software Engineer · Android &amp; Developer Tools</title>
@@ -148,3 +163,8 @@ S8-TOOLS-OK
 PERF-CI-OK
 SEO-SERVER-ONLY-OK
 GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+$ pnpm -r --if-present test
+T004-OK

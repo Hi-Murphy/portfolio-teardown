@@ -72,7 +72,7 @@ describe('resolveSiteUrl', () => {
 });
 
 describe('absoluteUrl', () => {
-  test('returns the bare origin for home (Next's canonical form)', () => {
+  test('returns the bare origin for home, as Next renders the canonical', () => {
     expect(absoluteUrl('/')).toBe(SITE_ORIGIN);
   });
 
