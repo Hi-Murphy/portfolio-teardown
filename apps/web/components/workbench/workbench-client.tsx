@@ -8,7 +8,7 @@ import { SITE_REGISTRY } from '../../content/tech-registry';
 import { LIVE_CLASS } from '../hero/hero-classes';
 import { ProjectOutline } from '../project-outline';
 import { LiveViewer, useLiveViewer, useViewerPanels } from '../viewer/live-viewer';
-import { ExplorePanel } from './explore-panel';
+import { ExplorePanel, type ExploreMode } from './explore-panel';
 import { buildLayerModels, buildTourFlows, jumpSequence } from './tour-model';
 import { WorkbenchDock } from './workbench-dock';
 
@@ -31,6 +31,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [liveState, setLiveState] = useState<'loading' | 'revealed'>('loading');
   const [portalTargets, setPortalTargets] = useState<PortalTargets | null>(null);
+  const [exploreMode, setExploreMode] = useState<ExploreMode>('layers');
   const reveal = useCallback(() => setLiveState('revealed'), []);
 
   useLayoutEffect(() => {
@@ -42,6 +43,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
       const tour = root?.querySelector<HTMLElement>('[data-site-tour]') ?? null;
 
       if (dock !== null && tour !== null) {
+        tour.setAttribute('data-site-explore-live', '');
         setPortalTargets({ dock, tour });
         return;
       }
@@ -93,6 +95,8 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
   }, [viewer.actions, viewer.tour.status]);
 
   const toggleTarget = useCallback(() => {
+    if (exploreMode === 'flows') return;
+
     if (viewer.target === 'imploded') {
       viewer.actions.explode();
       return;
@@ -100,7 +104,23 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
 
     if (viewer.tour.status === 'playing') viewer.actions.pause();
     viewer.actions.implode();
-  }, [viewer.actions, viewer.target, viewer.tour.status]);
+  }, [exploreMode, viewer.actions, viewer.target, viewer.tour.status]);
+
+  const changeExploreMode = useCallback(
+    (next: ExploreMode) => {
+      if (next === exploreMode) return;
+
+      if (next === 'flows') {
+        if (viewer.target === 'imploded') viewer.actions.explode();
+        viewer.actions.releaseFocus();
+      } else {
+        viewer.actions.stop();
+      }
+
+      setExploreMode(next);
+    },
+    [exploreMode, viewer.actions, viewer.target],
+  );
 
   return (
     <>
@@ -138,6 +158,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
               can={viewer.can}
               caseStudyOpen={panels.state.kind === 'caseStudy'}
               caseStudyControlsId={panels.ids.caseStudy}
+              flowsActive={exploreMode === 'flows'}
               onToggle={toggleTarget}
               onRotateLeft={viewer.actions.rotateLeft}
               onRotateRight={viewer.actions.rotateRight}
@@ -150,11 +171,11 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
           )}
           {createPortal(
             <ExplorePanel
+              mode={exploreMode}
+              onModeChange={changeExploreMode}
               layers={layers}
               focusedLayerId={viewer.focus.layerId}
               onToggleLayer={viewer.actions.toggleFocus}
-              onEnterLayers={viewer.actions.stop}
-              onEnterFlows={viewer.actions.releaseFocus}
               flows={tourFlows}
               flowId={viewer.tour.flowId}
               status={viewer.tour.status}

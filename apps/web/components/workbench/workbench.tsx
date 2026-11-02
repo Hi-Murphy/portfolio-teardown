@@ -3,17 +3,23 @@ import type { Project } from 'xploder';
 import { POSTER_FADE_CLASS } from '../hero/hero-classes';
 import { ProjectOutline } from '../project-outline';
 import { TeardownPoster } from '../teardown-poster';
+import { ExploreView } from './explore-view';
+import { buildLayerModels } from './tour-model';
 import { WorkbenchLoader } from './workbench-loader';
+
+const EXPLORE_STATIC_CSS = '[data-site-explore-live] > [data-site-explore-static]{display:none}';
 
 export interface WorkbenchProps {
   readonly project: Project;
 }
 
 export function Workbench({ project }: WorkbenchProps) {
+  const layers = buildLayerModels(project);
+
   return (
     <div
       data-site-workbench=""
-      className="grid min-w-0 grid-rows-[min(70svh,44rem)_7rem_33.5rem] gap-3 sm:grid-rows-[min(70svh,44rem)_4rem_28rem]"
+      className="grid min-w-0 grid-rows-[min(70svh,44rem)_7rem_auto] gap-3 sm:grid-rows-[min(70svh,44rem)_4rem_auto]"
     >
       <div
         data-site-stage=""
@@ -32,7 +38,12 @@ export function Workbench({ project }: WorkbenchProps) {
       <div
         data-site-tour=""
         className="h-full min-w-0 overflow-hidden rounded border border-line/50 bg-surface"
-      />
+      >
+        <style>{EXPLORE_STATIC_CSS}</style>
+        <div data-site-explore-static="">
+          <ExploreView mode="layers" layers={layers} focusedLayerId={null} />
+        </div>
+      </div>
       <noscript className="col-start-1 row-start-4 block">
         <style>
           {

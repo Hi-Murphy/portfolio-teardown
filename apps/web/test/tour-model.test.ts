@@ -3,7 +3,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, test } from 'vitest';
 
 import { ExplorePanel } from '../components/workbench/explore-panel';
+import { ExploreView } from '../components/workbench/explore-view';
 import { TourPanel } from '../components/workbench/tour-panel';
+import { WorkbenchDock } from '../components/workbench/workbench-dock';
 import {
   buildLayerModels,
   buildTourFlows,
@@ -193,11 +195,11 @@ describe('tour model', () => {
   test('the Explore card defaults to the Layers tab and panel', () => {
     const html = renderToStaticMarkup(
       createElement(ExplorePanel, {
+        mode: 'layers',
+        onModeChange: () => undefined,
         layers: buildLayerModels(PROJECT),
         focusedLayerId: null,
         onToggleLayer: () => undefined,
-        onEnterLayers: () => undefined,
-        onEnterFlows: () => undefined,
         flows: buildTourFlows(PROJECT),
         flowId: 'main',
         status: 'idle',
@@ -227,5 +229,49 @@ describe('tour model', () => {
     expect(html).toContain('1 UI');
     expect(html).toContain('2 parts');
     expect(html).toContain('Pick a layer to isolate it.');
+  });
+
+  test('the server Explore view renders the initial Layers card without handlers', () => {
+    const html = renderToStaticMarkup(
+      createElement(ExploreView, {
+        mode: 'layers',
+        layers: buildLayerModels(PROJECT),
+        focusedLayerId: null,
+      }),
+    );
+
+    expect(html).toContain('role="tablist"');
+    expect(html).toContain('data-site-explore-tab="layers"');
+    expect(html).toContain('data-site-layer-chip="ui"');
+    expect(html).toContain('Pick a layer to isolate it.');
+    expect(html).toContain('data-site-explore-panel="flows" hidden=""');
+    expect(html).not.toContain('data-site-tour-transport');
+  });
+
+  test('Flows disables the Implode control and explains how to re-enable it', () => {
+    const html = renderToStaticMarkup(
+      createElement(WorkbenchDock, {
+        target: 'exploded',
+        flowsActive: true,
+        can: { zoomIn: true, zoomOut: true, zoomReset: true },
+        caseStudyOpen: false,
+        caseStudyControlsId: 'case-study-panel',
+        onToggle: () => undefined,
+        onRotateLeft: () => undefined,
+        onRotateRight: () => undefined,
+        onZoomOut: () => undefined,
+        onZoomReset: () => undefined,
+        onZoomIn: () => undefined,
+        onToggleCaseStudy: () => undefined,
+      }),
+    );
+    const toggle = html.slice(html.indexOf('data-site-control="toggle"'));
+    const toggleButton = toggle.slice(0, toggle.indexOf('</button>'));
+
+    expect(toggleButton).toContain('disabled=""');
+    expect(toggleButton).toContain('title="Switch to Layers to implode"');
+    expect(toggleButton).toContain('aria-describedby="site-implode-hint"');
+    expect(toggleButton).toContain('Implode');
+    expect(html).toContain('id="site-implode-hint"');
   });
 });
