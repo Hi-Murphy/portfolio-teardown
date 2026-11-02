@@ -32,10 +32,10 @@
 | T002 | ☑ (next/og, no fallback; double render identical, 1200×630, 27 921 B; Plex Sans 1.1.0 / Mono 2.5.0, OFL) | 1 (Flash, sandbox off) | evidence/T002-log-render.txt | fce9af1 |
 | T003 | ☑ (11-case D2 matrix incl. guards) | 1 (Flash, sandbox off); check re-run by orchestrator after T001 merge (guards.sh absent at dispatch) | evidence/T003-log-site-url.txt | 18c0be7 |
 | T004 | ☑ (D3 table on 4 routes; 404 no canonical/og:url + noindex; not-found metadata accepted) | 1 (Flash, sandbox off) + orchestrator review fix R1 (home URL = bare origin) | evidence/T004-log-metadata.txt | baf3ef6 |
-| T005 | ☐ | | | |
-| T006 | ☐ | | | |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
+| T005 | ☑ (3 cards 1200×630: 74 310 / 69 640 / 79 743 B; build-1 = build-2 SHA-256; 5 slabs) | 1 (Flash, sandbox off) + orchestrator review fix (title line-height 0.98 → 1.1, descenders clipped) | evidence/T005-{log-og-cards.txt,screenshot-og-*.png} | f6bca8e |
+| T006 | ☑ (sitemap = 3 indexable URLs; robots Allow / · Disallow /dev/ · Sitemap) | 1 (Flash, sandbox off) | evidence/T006-log-{sitemap-robots.txt,sitemap.xml,robots.txt} | cd61728 |
+| T007 | ☑ (Person + SoftwareApplication/SoftwareSourceCode; schema-dts 2.1.0) | 1 (Flash, sandbox off) | evidence/T007-log-json-ld.txt | b0e6c63 |
+| T008 | ☑ (icon.svg light+dark, apple 180×180 opaque; 4/4 tags on all 5 HTML routes) | 1 (Flash, sandbox off) + orchestrator fixes for 2 plan defects (seo-metadata expectation outside file list; grep -c on one-line HTML) | evidence/T008-{log-icons.txt,log-icon.svg,screenshot-apple-touch-icon.png} | 6427a64 |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
