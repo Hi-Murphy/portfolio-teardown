@@ -33,9 +33,9 @@
 | T009 | ☑ (27 smoke asserts: poster at FCP, reveal after load, idle exploded, reduced → skipped/0 animations, no-WebGL poster; CLS 0) | 1 (Flash) + orchestrator review fix (class constants out of the use-client module) | evidence/T009-{log-hero.txt,screenshot-*.png,meta.json} | c6d777f |
 | T010 | ☑ (only known slug, unknown 404, deep link 200, metadata, no-JS outline) | 1 (Flash); 1st launch stopped by orchestrator (port collision with T009, runner issue, not an attempt) | evidence/T010-{log-route.txt,screenshot-nojs-*.png,meta.json} | 34e2a47 |
 | T011 | ☑ (toolbar/case study/tour; rects stable; no-WebGL outline; ONE 3D chunk R2; CLS 0 on 3 routes) | 1 (Flash) | evidence/T011-{log-workbench.txt,screenshot-*.png,meta.json} | 56f49cf |
-| T012a | ☐ | | | |
-| T012b | ☐ | | | |
-| T012c | ☐ | | | |
+| T012a | ☑ (dock + Guided tour: route chooser w/ descriptions, transport, clickable step rail, hover highlight, Now line; pause-on-implode; 89 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (Case study text label ≥ sm) | evidence/T012a-{log-dock-tour.txt,screenshot-*.png,meta.json} | 3f93411 |
+| T012b | ☑ (header one line at 360 no overflow; footer two-column; Résumé links + public/resume.pdf removed; /resume.pdf 404) | 1 (Flash) + orchestrator review (nav server-side, only NavProjectsLink client; desktop right-aligned links) | evidence/T012b-{log-header-footer.txt,screenshot-*.png,cls.json,meta.json} | 4ed6c27 |
+| T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
