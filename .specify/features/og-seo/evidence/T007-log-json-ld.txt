@@ -1,0 +1,37 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T007/apps/web
+
+stderr | test/seo-json-ld.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/seo-json-ld.test.ts > JSON-LD mappers > home matches the D7 Person table from content 1ms
+ ✓ test/seo-json-ld.test.ts > JSON-LD mappers > project matches the D7 software table from content 0ms
+ ✓ test/seo-json-ld.test.ts > JSON-LD mappers > sameAs keeps content order and skips null URLs 0ms
+ ✓ test/seo-json-ld.test.ts > JSON-LD mappers > project description falls back from summary to tagline 0ms
+ ✓ test/seo-json-ld.test.ts > JSON-LD mappers > a project without a Source link omits codeRepository 0ms
+ ✓ test/seo-json-ld.test.ts > JSON-LD mappers > every leaf traces to content or an absolute self URL 0ms
+ ✓ test/seo-json-ld.test.ts > <JsonLd> > renders JSON in an application/ld+json script 3ms
+ ✓ test/seo-json-ld.test.ts > <JsonLd> > escapes a synthetic </script> string 0ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  22:13:59
+   Duration  111ms (import 71%, transform 17%, tests 10%, worker 3%)
+
+== index
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Timur Haryo Mahissanular","jobTitle":"Android engineer","url":"https://hi-murphy.me","sameAs":["https://github.com/TimurHaryo","https://id.linkedin.com/in/timurharyo"]}</script>
+== projects/websocket-inspector
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["SoftwareApplication","SoftwareSourceCode"],"name":"Scarlet Inspector","description":"A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.","url":"https://hi-murphy.me/projects/websocket-inspector","author":{"@type":"Person","name":"Timur Haryo Mahissanular","url":"https://hi-murphy.me"},"codeRepository":"https://github.com/TimurHaryo/websocket-inspector"}</script>
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK

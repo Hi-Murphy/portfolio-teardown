@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { JsonLd } from '../../../../components/json-ld';
 import { Workbench } from '../../../../components/workbench/workbench';
 import { PROJECT_SLUGS, getProject } from '../../../../content/projects';
+import { projectLd } from '../../../../seo/json-ld';
 import { routeMetadata } from '../../../../seo/metadata';
 import { routeForSlug } from '../../../../seo/routes';
 
@@ -44,6 +46,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+      <JsonLd data={projectLd(project)} />
       <header className="mb-8 flex flex-col gap-4">
         <Link
           href="/projects"
