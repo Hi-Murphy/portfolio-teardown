@@ -31,7 +31,10 @@ Options:
   --fixtures <dir>  serve an export containing the engine fixture routes
   --group <name>    run cls (default: cls)
   --out <dir>       output directory (default: .evidence/site-probe)
-  --help            show this help`;
+  --help            show this help
+
+Readiness: / moves the pointer and /projects/* clicks Explore in 3D before waiting for
+the viewer. These browser-only triggers have no unit test.`;
 
 function exitCodeTable(): string {
   return Object.entries(EXIT)
