@@ -98,7 +98,7 @@ package.json (root)            + "a11y:axe:site", "site:probe" scripts
 
 ## Guards (every task)
 
-All must print OK. They are scripted in `.specify/features/site-shell/guards.sh` (the S8 line is skipped until T001 creates its paths file) and run in every task check (tasks.md "Format & rules").
+All must print OK (the script exits 1 on any failure; S6 base = f65b13c after the Q16 re-seal, XPLODER-SRC-OK allows only src/overlay/model.ts). They are scripted in `.specify/features/site-shell/guards.sh` (the S8 line is skipped until T001 creates its paths file) and run in every task check (tasks.md "Format & rules").
 
 ```sh
 git diff --quiet 99a94f2 -- .specify/slices .specify/KICKOFF-S10.md .specify/content && echo FROZEN-OK

@@ -1808,3 +1808,9 @@ PASS SURFACE-S6-OK is red only for src/overlay/model.ts as expected before re-se
 expected_failures=3
 unexpected_failures=0
 T012e-OK (source/tests/smoke; S6/XPLODER seal failures are the documented orchestrator re-seal exceptions)
+== T012e re-seal (orchestrator, 2026-11-02)
+S6 manifest regenerated at base f65b13c (source commit of the tour trail); diff = base, note, src/overlay/model.ts hash.
+frozen-surface.test.ts S6 block: base + note updated. overlay-model.test.ts byte-identical since 5b22987.
+S6 negative control: red. guards.sh rewritten to exit 1 on any failed guard (tamper test: exit 1).
+XPLODER-SRC-OK = only packages/xploder/src/overlay/model.ts differs from 99a94f2.
+Suite: tools/perf 111, xploder 617 (incl. overlay-tour-trail), web 108; typecheck/lint green.
