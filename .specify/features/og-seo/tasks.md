@@ -28,10 +28,10 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
+| T001 | ☑ (13 guards; negative control FAIL XPLODER + S2S4; baseline 17 JS / 1 771 865 B) | 1 (Flash, sandbox off) + orchestrator review fix (build-id path normalization + test) | evidence/T001-log-{guard.txt,bundle-before.json} | 677eda0 |
+| T002 | ☑ (next/og, no fallback; double render identical, 1200×630, 27 921 B; Plex Sans 1.1.0 / Mono 2.5.0, OFL) | 1 (Flash, sandbox off) | evidence/T002-log-render.txt | fce9af1 |
+| T003 | ☑ (11-case D2 matrix incl. guards) | 1 (Flash, sandbox off); check re-run by orchestrator after T001 merge (guards.sh absent at dispatch) | evidence/T003-log-site-url.txt | 18c0be7 |
+| T004 | ☑ (D3 table on 4 routes; 404 no canonical/og:url + noindex; not-found metadata accepted) | 1 (Flash, sandbox off) + orchestrator review fix R1 (home URL = bare origin) | evidence/T004-log-metadata.txt | baf3ef6 |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |

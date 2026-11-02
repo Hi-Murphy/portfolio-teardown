@@ -324,3 +324,6 @@ Branch protection: the agent proposes `seo: meta + og` for the required set, and
    2. **Q10:** one validator.schema.org submission of the public JSON-LD is allowed.
    3. **Q14:** the agent proposes `seo: meta + og` for the required set; Murphy changes branch protection.
    4. **Usage:** 5h 84% at Gate 1 (the usage file is stale, F8). Stage 3 pacing: no new task starts at ≥ 85% (tasks.md).
+2. **Stage 3 refinements (orchestrator, recorded per the Gate 1 pre-approval of improvements):**
+   1. **R1 (T004):** Next 16 renders the home canonical and `og:url` as the bare origin (`https://hi-murphy.me`, no trailing slash). `absoluteUrl('/')` now returns the bare origin, so canonical, `og:url`, sitemap and JSON-LD print identical strings. This supersedes the D2 note "except the home URL `<origin>/`".
+   2. **R2 (T001):** `bundle-manifest` replaces the random `_next/static/<buildId>/` segment with `<build-id>`, so base and head manifests from different local builds compare like-for-like.
