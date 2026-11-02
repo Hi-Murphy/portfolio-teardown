@@ -39,6 +39,7 @@
 | T012e | ☑ (S6 tour trail; 44 smoke asserts; S6 re-sealed at f65b13c; guards exit non-zero) | 1 (Flash; 1st launch was a runner quoting bug, not an attempt) + ⚑ orchestrator re-seal | evidence/{T012e-*,Q16-revision-note.md} | cfef420 |
 | T012f | ☑ (portal targets resolved after commit, scoped + rAF retry: 10× soft-nav/back/forward + 5× reload pass on export and next dev; centred transport Δ 0 px; CLS 0) | 1 (Flash) | evidence/T012f-* | (merge) |
 | T012g | ☑ (Layers \| Flows tabs, layer focus chips + parts list, icon-only primary, Exit tour removed, fixed card height; 115 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (solid glyphs, layer parts list) | evidence/T012g-* | (merge) |
+| T012h | ☐ | | | |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
@@ -504,6 +505,21 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   - Screenshots: Layers (with focus) + Flows (playing), mobile + desktop, light + dark.
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. The switch, layer isolation, the tour (default: as screenshotted).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Names "Layers" / "Flows" (default: these).
+
+### T012h [US3] G2 feedback round 5: content-sized Explore card (SSR static initial state) + Flows owns exploded (RFC §9.12)
+
+- **Seam:** server shell ↔ client portal (initial Explore markup); mode state ↔ dock.
+- **Files:** `components/workbench/explore-view.tsx` (new, presentational, no hooks: tabs + layers/flows bodies from props), `explore-panel.tsx`, `layers-panel.tsx`, `workbench.tsx` (static initial card, no fixed height), `workbench-client.tsx` (mode state lifted; explode on Flows; dock toggle disabled in Flows), `workbench-dock.tsx` (disabled state + title), tests.
+- **Check:** export smoke (port 4310). It asserts:
+  - before hydration (JS route-held), the card shows the Layers tab + 5 chips + hint; after hydration, the card rect is identical (± 0.5 px) and no static duplicate is visible;
+  - in Layers/idle, the card height ≤ (header + chips + hint block + padding + 8 px), i.e. no large empty bottom (measure the content bottom vs the card bottom ≤ card padding + 8 px), at 360 and 1280;
+  - imploded → click Flows → state `exploded`; the toggle is disabled with a title; back to Layers → still `exploded`, toggle enabled;
+  - strict CLS 0 on load (`site:probe --group cls`);
+  - the 5× reload portal regression passes;
+  - all T012g assertions still pass (re-run t012g-smoke).
+  - Screenshots: Layers idle, Layers focused, Flows playing, mobile + desktop, light + dark.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. A compact Layers card; Flows explodes and locks Implode (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. G2 verdict.
 
 ### T012c [US1–US5] G2 evidence refresh
 
