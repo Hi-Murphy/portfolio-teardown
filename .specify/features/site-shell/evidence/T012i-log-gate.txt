@@ -1,0 +1,249 @@
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 338ms
+  Running TypeScript ...
+  Finished TypeScript in 919ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 225ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+PASS export mobile click path: 4 s after load with no input there is no canvas and no viewer-ready state ({"canvases":0,"ready":null})
+PASS export mobile click path: the poster is visible before interaction ({"poster":{"x":21,"y":400.5,"width":318,"height":558,"display":"block","visibility":"visible","opacity":1},"slabs":21})
+PASS export mobile click path: the static Explore card is visible before interaction ({"static":{"x":21,"y":1096.5,"width":318,"height":431.5,"display":"block","visibility":"visible","opacity":1},"live":false})
+PASS export mobile click path: Explore in 3D is visible with a label and a target of at least 44 px ({"rect":{"x":102.4140625,"y":657.5,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"text":"Explore in 3D"})
+PASS export mobile click path: Explore in 3D is centred in the stage ({"button":{"x":102.4140625,"y":657.5,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"stage":{"x":20,"y":399.5,"width":320,"height":560,"display":"block","visibility":"visible","opacity":1}})
+PASS export mobile: clicking Explore in 3D exposes aria-busy and the Loading 3D… label ({"seen":true,"ariaBusy":"true","label":"Loading 3D…"})
+PASS export mobile: clicking Explore in 3D mounts the live viewer ({"canvases":1,"ready":"true","liveState":"revealed"})
+PASS export mobile: the poster fades after the first live frame ({"x":21,"y":400.5,"width":318,"height":558,"display":"block","visibility":"hidden","opacity":0})
+PASS export mobile: the dock and Explore card are live after reveal ({"static":{"x":0,"y":0,"width":0,"height":0,"display":"none","visibility":"visible","opacity":1},"live":{"x":21,"y":1096.5,"width":318,"height":431.5,"display":"flex","visibility":"visible","opacity":1},"dock":7})
+PASS export mobile: the busy Explore in 3D control is hidden after reveal ({"rect":{"x":0,"y":0,"width":0,"height":0,"display":"none","visibility":"visible","opacity":1},"busy":"true","text":"Loading 3D…"})
+PASS export mobile: an explicit Explore in 3D click does not wait for or request idle (0)
+PASS export mobile: stage, dock, and Explore card rects are identical before and after mount (± 0.5 px) ({"before":{"stageRect":{"x":20,"y":399.5,"width":320,"height":560,"display":"block","visibility":"visible","opacity":1},"dockRect":{"x":20,"y":971.5,"width":320,"height":112,"display":"block","visibility":"visible","opacity":1},"tourRect":{"x":20,"y":1095.5,"width":320,"height":433.5,"display":"block","visibility":"visible","opacity":1}},"after":{"stageRect":{"x":20,"y":399.5,"width":320,"height":560,"display":"block","visibility":"visible","opacity":1},"dockRect":{"x":20,"y":971.5,"width":320,"height":112,"display":"block","visibility":"visible","opacity":1},"tourRect":{"x":20,"y":1095.5,"width":320,"height":433.5,"display":"block","visibility":"visible","opacity":1}}})
+PASS export mobile: a live layer chip toggles focus (delivery)
+PASS export mobile: Flows starts the tour through the live controls
+PASS export mobile: click path has no page errors ()
+PASS export mobile: a fresh passive path starts gated ({"canvases":0,"ready":null})
+PASS export mobile: a pointer move with no click mounts and reveals the viewer ({"canvases":1,"ready":"true","liveState":"revealed","idleCalls":1,"buttonBusy":null,"buttonText":"Explore in 3D"})
+PASS export mobile: a passive interaction waits for requestIdleCallback (1)
+PASS export mobile: the passive path does not enter the explicit-click busy state ({"busy":null,"text":"Explore in 3D"})
+PASS export mobile: passive path has no page errors ()
+PASS export desktop click path: 4 s after load with no input there is no canvas and no viewer-ready state ({"canvases":0,"ready":null})
+PASS export desktop click path: the poster is visible before interaction ({"poster":{"x":97,"y":383.25,"width":1086,"height":628,"display":"block","visibility":"visible","opacity":1},"slabs":21})
+PASS export desktop click path: the static Explore card is visible before interaction ({"static":{"x":97,"y":1101.25,"width":1086,"height":231.5,"display":"block","visibility":"visible","opacity":1},"live":false})
+PASS export desktop click path: Explore in 3D is visible with a label and a target of at least 44 px ({"rect":{"x":562.4140625,"y":675.25,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"text":"Explore in 3D"})
+PASS export desktop click path: Explore in 3D is centred in the stage ({"button":{"x":562.4140625,"y":675.25,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"stage":{"x":96,"y":382.25,"width":1088,"height":630,"display":"block","visibility":"visible","opacity":1}})
+PASS export desktop: clicking Explore in 3D exposes aria-busy and the Loading 3D… label ({"seen":true,"ariaBusy":"true","label":"Loading 3D…"})
+PASS export desktop: clicking Explore in 3D mounts the live viewer ({"canvases":1,"ready":"true","liveState":"revealed"})
+PASS export desktop: the poster fades after the first live frame ({"x":97,"y":383.25,"width":1086,"height":628,"display":"block","visibility":"hidden","opacity":0})
+PASS export desktop: the dock and Explore card are live after reveal ({"static":{"x":0,"y":0,"width":0,"height":0,"display":"none","visibility":"visible","opacity":1},"live":{"x":97,"y":1101.25,"width":1086,"height":231.5,"display":"flex","visibility":"visible","opacity":1},"dock":7})
+PASS export desktop: the busy Explore in 3D control is hidden after reveal ({"rect":{"x":0,"y":0,"width":0,"height":0,"display":"none","visibility":"visible","opacity":1},"busy":"true","text":"Loading 3D…"})
+PASS export desktop: an explicit Explore in 3D click does not wait for or request idle (0)
+PASS export desktop: stage, dock, and Explore card rects are identical before and after mount (± 0.5 px) ({"before":{"stageRect":{"x":96,"y":382.25,"width":1088,"height":630,"display":"block","visibility":"visible","opacity":1},"dockRect":{"x":96,"y":1024.25,"width":1088,"height":64,"display":"block","visibility":"visible","opacity":1},"tourRect":{"x":96,"y":1100.25,"width":1088,"height":233.5,"display":"block","visibility":"visible","opacity":1}},"after":{"stageRect":{"x":96,"y":382.25,"width":1088,"height":630,"display":"block","visibility":"visible","opacity":1},"dockRect":{"x":96,"y":1024.25,"width":1088,"height":64,"display":"block","visibility":"visible","opacity":1},"tourRect":{"x":96,"y":1100.25,"width":1088,"height":233.5,"display":"block","visibility":"visible","opacity":1}}})
+PASS export desktop: a live layer chip toggles focus (delivery)
+PASS export desktop: Flows starts the tour through the live controls
+PASS export desktop: click path has no page errors ()
+PASS export desktop: a fresh passive path starts gated ({"canvases":0,"ready":null})
+PASS export desktop: a pointer move with no click mounts and reveals the viewer ({"canvases":1,"ready":"true","liveState":"revealed","idleCalls":1,"buttonBusy":null,"buttonText":"Explore in 3D"})
+PASS export desktop: a passive interaction waits for requestIdleCallback (1)
+PASS export desktop: the passive path does not enter the explicit-click busy state ({"busy":null,"text":"Explore in 3D"})
+PASS export desktop: passive path has no page errors ()
+PASS export reduced motion: the workbench still mounts and reveals
+PASS export no-JS: the noscript style hides Explore in 3D ({"exists":true,"display":"none"})
+PASS export mobile light screenshot: 4 s after load with no input there is no canvas and no viewer-ready state ({"canvases":0,"ready":null})
+PASS export mobile light screenshot: the poster is visible before interaction ({"poster":{"x":21,"y":400.5,"width":318,"height":558,"display":"block","visibility":"visible","opacity":1},"slabs":21})
+PASS export mobile light screenshot: the static Explore card is visible before interaction ({"static":{"x":21,"y":1096.5,"width":318,"height":431.5,"display":"block","visibility":"visible","opacity":1},"live":false})
+PASS export mobile light screenshot: Explore in 3D is visible with a label and a target of at least 44 px ({"rect":{"x":102.4140625,"y":657.5,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"text":"Explore in 3D"})
+PASS export mobile light screenshot: Explore in 3D is centred in the stage ({"button":{"x":102.4140625,"y":657.5,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"stage":{"x":20,"y":399.5,"width":320,"height":560,"display":"block","visibility":"visible","opacity":1}})
+PASS export mobile dark screenshot: 4 s after load with no input there is no canvas and no viewer-ready state ({"canvases":0,"ready":null})
+PASS export mobile dark screenshot: the poster is visible before interaction ({"poster":{"x":21,"y":400.5,"width":318,"height":558,"display":"block","visibility":"visible","opacity":1},"slabs":21})
+PASS export mobile dark screenshot: the static Explore card is visible before interaction ({"static":{"x":21,"y":1096.5,"width":318,"height":431.5,"display":"block","visibility":"visible","opacity":1},"live":false})
+PASS export mobile dark screenshot: Explore in 3D is visible with a label and a target of at least 44 px ({"rect":{"x":102.4140625,"y":657.5,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"text":"Explore in 3D"})
+PASS export mobile dark screenshot: Explore in 3D is centred in the stage ({"button":{"x":102.4140625,"y":657.5,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"stage":{"x":20,"y":399.5,"width":320,"height":560,"display":"block","visibility":"visible","opacity":1}})
+PASS export desktop light screenshot: 4 s after load with no input there is no canvas and no viewer-ready state ({"canvases":0,"ready":null})
+PASS export desktop light screenshot: the poster is visible before interaction ({"poster":{"x":97,"y":383.25,"width":1086,"height":628,"display":"block","visibility":"visible","opacity":1},"slabs":21})
+PASS export desktop light screenshot: the static Explore card is visible before interaction ({"static":{"x":97,"y":1101.25,"width":1086,"height":231.5,"display":"block","visibility":"visible","opacity":1},"live":false})
+PASS export desktop light screenshot: Explore in 3D is visible with a label and a target of at least 44 px ({"rect":{"x":562.4140625,"y":675.25,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"text":"Explore in 3D"})
+PASS export desktop light screenshot: Explore in 3D is centred in the stage ({"button":{"x":562.4140625,"y":675.25,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"stage":{"x":96,"y":382.25,"width":1088,"height":630,"display":"block","visibility":"visible","opacity":1}})
+PASS export desktop dark screenshot: 4 s after load with no input there is no canvas and no viewer-ready state ({"canvases":0,"ready":null})
+PASS export desktop dark screenshot: the poster is visible before interaction ({"poster":{"x":97,"y":383.25,"width":1086,"height":628,"display":"block","visibility":"visible","opacity":1},"slabs":21})
+PASS export desktop dark screenshot: the static Explore card is visible before interaction ({"static":{"x":97,"y":1101.25,"width":1086,"height":231.5,"display":"block","visibility":"visible","opacity":1},"live":false})
+PASS export desktop dark screenshot: Explore in 3D is visible with a label and a target of at least 44 px ({"rect":{"x":562.4140625,"y":675.25,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"text":"Explore in 3D"})
+PASS export desktop dark screenshot: Explore in 3D is centred in the stage ({"button":{"x":562.4140625,"y":675.25,"width":155.171875,"height":44,"display":"flex","visibility":"visible","opacity":1},"stage":{"x":96,"y":382.25,"width":1088,"height":630,"display":"block","visibility":"visible","opacity":1}})
+
+T012i export smoke assertions passed
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls --out /tmp/s10-checks/t012i-cls
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+site-probe: PASS
+artifacts: /tmp/s10-checks/t012i-cls
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4310/projects/websocket-inspector --categories performance,accessibility --out /tmp/s10-checks/t012i-lighthouse
+performance: 1 >= 0.95 (median) pass
+lcp: 903.0627999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s10-checks/t012i-lighthouse/lighthouse-summary.json
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+packages/xploder test: 
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T012i/packages/xploder
+packages/xploder test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T012i/tools/perf
+tools/perf test: 
+packages/xploder test: (node:25936) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25937) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25938) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25940) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25939) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  115 passed (115)
+tools/perf test:    Start at  17:23:06
+tools/perf test:    Duration  1.24s (import 87%, tests 8%, transform 4%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:25942) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25943) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25944) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:25949) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  60 passed (60)
+packages/xploder test:       Tests  617 passed (617)
+packages/xploder test:    Start at  17:23:06
+packages/xploder test:    Duration  6.60s (tests 76%, import 18%, transform 5%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  60 workers spawned · ~95ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~537ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T012i/apps/web
+apps/web test: 
+apps/web test: (node:26040) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:26037) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  18 passed (18)
+apps/web test:       Tests  112 passed | 1 skipped (113)
+apps/web test:    Start at  17:23:13
+apps/web test:    Duration  749ms (environment 37%, tests 29%, import 22%, transform 11%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T012i-OK

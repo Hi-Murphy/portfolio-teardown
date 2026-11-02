@@ -86,12 +86,12 @@ interface ClsWindow {
 }
 
 const SITE_ROUTES: readonly Omit<ProbeRoute, 'base'>[] = [
-  { label: '/', path: '/', hasViewer: false },
+  { label: '/', path: '/', hasViewer: true },
   { label: '/projects', path: '/projects', hasViewer: false },
   {
     label: '/projects/websocket-inspector',
     path: '/projects/websocket-inspector',
-    hasViewer: false,
+    hasViewer: true,
   },
 ];
 const FIXTURE_ROUTE: Omit<ProbeRoute, 'base'> = {
@@ -282,6 +282,14 @@ async function probeCell(
       EXIT.UNREACHABLE,
       `unreachable: ${url.href} returned HTTP ${response?.status() ?? 'no response'}`,
     );
+  }
+
+  if (route.base === 'site' && route.path === '/') {
+    await page.mouse.move(16, 16);
+  } else if (route.base === 'site' && route.path.startsWith('/projects/')) {
+    const control = page.locator('[data-site-control="explore-3d"]');
+    await control.waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
+    await control.click({ timeout: WAIT_TIMEOUT_MS });
   }
 
   try {

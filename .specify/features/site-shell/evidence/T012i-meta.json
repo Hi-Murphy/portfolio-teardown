@@ -1,0 +1,429 @@
+{
+  "kind": "T012i-smoke",
+  "version": 1,
+  "target": "export",
+  "baseUrl": "http://127.0.0.1:4310/",
+  "projectUrl": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 900
+    }
+  },
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T012i-screenshot-pre-interaction-mobile-light.png",
+      "state": "pre-interaction"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012i-screenshot-pre-interaction-mobile-dark.png",
+      "state": "pre-interaction"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012i-screenshot-pre-interaction-desktop-light.png",
+      "state": "pre-interaction"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012i-screenshot-pre-interaction-desktop-dark.png",
+      "state": "pre-interaction"
+    }
+  ],
+  "checks": [
+    {
+      "label": "mobile click path: 4 s after load with no input there is no canvas and no viewer-ready state",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "mobile click path: the poster is visible before interaction",
+      "ok": true,
+      "detail": "{\"poster\":{\"x\":21,\"y\":400.5,\"width\":318,\"height\":558,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"slabs\":21}"
+    },
+    {
+      "label": "mobile click path: the static Explore card is visible before interaction",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":21,\"y\":1096.5,\"width\":318,\"height\":431.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"live\":false}"
+    },
+    {
+      "label": "mobile click path: Explore in 3D is visible with a label and a target of at least 44 px",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":102.4140625,\"y\":657.5,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "mobile click path: Explore in 3D is centred in the stage",
+      "ok": true,
+      "detail": "{\"button\":{\"x\":102.4140625,\"y\":657.5,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"stage\":{\"x\":20,\"y\":399.5,\"width\":320,\"height\":560,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}"
+    },
+    {
+      "label": "mobile: clicking Explore in 3D exposes aria-busy and the Loading 3D… label",
+      "ok": true,
+      "detail": "{\"seen\":true,\"ariaBusy\":\"true\",\"label\":\"Loading 3D…\"}"
+    },
+    {
+      "label": "mobile: clicking Explore in 3D mounts the live viewer",
+      "ok": true,
+      "detail": "{\"canvases\":1,\"ready\":\"true\",\"liveState\":\"revealed\"}"
+    },
+    {
+      "label": "mobile: the poster fades after the first live frame",
+      "ok": true,
+      "detail": "{\"x\":21,\"y\":400.5,\"width\":318,\"height\":558,\"display\":\"block\",\"visibility\":\"hidden\",\"opacity\":0}"
+    },
+    {
+      "label": "mobile: the dock and Explore card are live after reveal",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"display\":\"none\",\"visibility\":\"visible\",\"opacity\":1},\"live\":{\"x\":21,\"y\":1096.5,\"width\":318,\"height\":431.5,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"dock\":7}"
+    },
+    {
+      "label": "mobile: the busy Explore in 3D control is hidden after reveal",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"display\":\"none\",\"visibility\":\"visible\",\"opacity\":1},\"busy\":\"true\",\"text\":\"Loading 3D…\"}"
+    },
+    {
+      "label": "mobile: an explicit Explore in 3D click does not wait for or request idle",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "mobile: stage, dock, and Explore card rects are identical before and after mount (± 0.5 px)",
+      "ok": true,
+      "detail": "{\"before\":{\"stageRect\":{\"x\":20,\"y\":399.5,\"width\":320,\"height\":560,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"dockRect\":{\"x\":20,\"y\":971.5,\"width\":320,\"height\":112,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"tourRect\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":433.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}},\"after\":{\"stageRect\":{\"x\":20,\"y\":399.5,\"width\":320,\"height\":560,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"dockRect\":{\"x\":20,\"y\":971.5,\"width\":320,\"height\":112,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"tourRect\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":433.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}}"
+    },
+    {
+      "label": "mobile: a live layer chip toggles focus",
+      "ok": true,
+      "detail": "delivery"
+    },
+    {
+      "label": "mobile: Flows starts the tour through the live controls",
+      "ok": true
+    },
+    {
+      "label": "mobile: click path has no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "mobile: a fresh passive path starts gated",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "mobile: a pointer move with no click mounts and reveals the viewer",
+      "ok": true,
+      "detail": "{\"canvases\":1,\"ready\":\"true\",\"liveState\":\"revealed\",\"idleCalls\":1,\"buttonBusy\":null,\"buttonText\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "mobile: a passive interaction waits for requestIdleCallback",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "label": "mobile: the passive path does not enter the explicit-click busy state",
+      "ok": true,
+      "detail": "{\"busy\":null,\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "mobile: passive path has no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop click path: 4 s after load with no input there is no canvas and no viewer-ready state",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "desktop click path: the poster is visible before interaction",
+      "ok": true,
+      "detail": "{\"poster\":{\"x\":97,\"y\":383.25,\"width\":1086,\"height\":628,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"slabs\":21}"
+    },
+    {
+      "label": "desktop click path: the static Explore card is visible before interaction",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":97,\"y\":1101.25,\"width\":1086,\"height\":231.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"live\":false}"
+    },
+    {
+      "label": "desktop click path: Explore in 3D is visible with a label and a target of at least 44 px",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":562.4140625,\"y\":675.25,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "desktop click path: Explore in 3D is centred in the stage",
+      "ok": true,
+      "detail": "{\"button\":{\"x\":562.4140625,\"y\":675.25,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"stage\":{\"x\":96,\"y\":382.25,\"width\":1088,\"height\":630,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}"
+    },
+    {
+      "label": "desktop: clicking Explore in 3D exposes aria-busy and the Loading 3D… label",
+      "ok": true,
+      "detail": "{\"seen\":true,\"ariaBusy\":\"true\",\"label\":\"Loading 3D…\"}"
+    },
+    {
+      "label": "desktop: clicking Explore in 3D mounts the live viewer",
+      "ok": true,
+      "detail": "{\"canvases\":1,\"ready\":\"true\",\"liveState\":\"revealed\"}"
+    },
+    {
+      "label": "desktop: the poster fades after the first live frame",
+      "ok": true,
+      "detail": "{\"x\":97,\"y\":383.25,\"width\":1086,\"height\":628,\"display\":\"block\",\"visibility\":\"hidden\",\"opacity\":0}"
+    },
+    {
+      "label": "desktop: the dock and Explore card are live after reveal",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"display\":\"none\",\"visibility\":\"visible\",\"opacity\":1},\"live\":{\"x\":97,\"y\":1101.25,\"width\":1086,\"height\":231.5,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"dock\":7}"
+    },
+    {
+      "label": "desktop: the busy Explore in 3D control is hidden after reveal",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"display\":\"none\",\"visibility\":\"visible\",\"opacity\":1},\"busy\":\"true\",\"text\":\"Loading 3D…\"}"
+    },
+    {
+      "label": "desktop: an explicit Explore in 3D click does not wait for or request idle",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "label": "desktop: stage, dock, and Explore card rects are identical before and after mount (± 0.5 px)",
+      "ok": true,
+      "detail": "{\"before\":{\"stageRect\":{\"x\":96,\"y\":382.25,\"width\":1088,\"height\":630,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"dockRect\":{\"x\":96,\"y\":1024.25,\"width\":1088,\"height\":64,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"tourRect\":{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":233.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}},\"after\":{\"stageRect\":{\"x\":96,\"y\":382.25,\"width\":1088,\"height\":630,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"dockRect\":{\"x\":96,\"y\":1024.25,\"width\":1088,\"height\":64,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"tourRect\":{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":233.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}}"
+    },
+    {
+      "label": "desktop: a live layer chip toggles focus",
+      "ok": true,
+      "detail": "delivery"
+    },
+    {
+      "label": "desktop: Flows starts the tour through the live controls",
+      "ok": true
+    },
+    {
+      "label": "desktop: click path has no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop: a fresh passive path starts gated",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "desktop: a pointer move with no click mounts and reveals the viewer",
+      "ok": true,
+      "detail": "{\"canvases\":1,\"ready\":\"true\",\"liveState\":\"revealed\",\"idleCalls\":1,\"buttonBusy\":null,\"buttonText\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "desktop: a passive interaction waits for requestIdleCallback",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "label": "desktop: the passive path does not enter the explicit-click busy state",
+      "ok": true,
+      "detail": "{\"busy\":null,\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "desktop: passive path has no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "reduced motion: the workbench still mounts and reveals",
+      "ok": true
+    },
+    {
+      "label": "no-JS: the noscript style hides Explore in 3D",
+      "ok": true,
+      "detail": "{\"exists\":true,\"display\":\"none\"}"
+    },
+    {
+      "label": "mobile light screenshot: 4 s after load with no input there is no canvas and no viewer-ready state",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "mobile light screenshot: the poster is visible before interaction",
+      "ok": true,
+      "detail": "{\"poster\":{\"x\":21,\"y\":400.5,\"width\":318,\"height\":558,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"slabs\":21}"
+    },
+    {
+      "label": "mobile light screenshot: the static Explore card is visible before interaction",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":21,\"y\":1096.5,\"width\":318,\"height\":431.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"live\":false}"
+    },
+    {
+      "label": "mobile light screenshot: Explore in 3D is visible with a label and a target of at least 44 px",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":102.4140625,\"y\":657.5,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "mobile light screenshot: Explore in 3D is centred in the stage",
+      "ok": true,
+      "detail": "{\"button\":{\"x\":102.4140625,\"y\":657.5,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"stage\":{\"x\":20,\"y\":399.5,\"width\":320,\"height\":560,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}"
+    },
+    {
+      "label": "mobile dark screenshot: 4 s after load with no input there is no canvas and no viewer-ready state",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "mobile dark screenshot: the poster is visible before interaction",
+      "ok": true,
+      "detail": "{\"poster\":{\"x\":21,\"y\":400.5,\"width\":318,\"height\":558,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"slabs\":21}"
+    },
+    {
+      "label": "mobile dark screenshot: the static Explore card is visible before interaction",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":21,\"y\":1096.5,\"width\":318,\"height\":431.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"live\":false}"
+    },
+    {
+      "label": "mobile dark screenshot: Explore in 3D is visible with a label and a target of at least 44 px",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":102.4140625,\"y\":657.5,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "mobile dark screenshot: Explore in 3D is centred in the stage",
+      "ok": true,
+      "detail": "{\"button\":{\"x\":102.4140625,\"y\":657.5,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"stage\":{\"x\":20,\"y\":399.5,\"width\":320,\"height\":560,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}"
+    },
+    {
+      "label": "desktop light screenshot: 4 s after load with no input there is no canvas and no viewer-ready state",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "desktop light screenshot: the poster is visible before interaction",
+      "ok": true,
+      "detail": "{\"poster\":{\"x\":97,\"y\":383.25,\"width\":1086,\"height\":628,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"slabs\":21}"
+    },
+    {
+      "label": "desktop light screenshot: the static Explore card is visible before interaction",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":97,\"y\":1101.25,\"width\":1086,\"height\":231.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"live\":false}"
+    },
+    {
+      "label": "desktop light screenshot: Explore in 3D is visible with a label and a target of at least 44 px",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":562.4140625,\"y\":675.25,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "desktop light screenshot: Explore in 3D is centred in the stage",
+      "ok": true,
+      "detail": "{\"button\":{\"x\":562.4140625,\"y\":675.25,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"stage\":{\"x\":96,\"y\":382.25,\"width\":1088,\"height\":630,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}"
+    },
+    {
+      "label": "desktop dark screenshot: 4 s after load with no input there is no canvas and no viewer-ready state",
+      "ok": true,
+      "detail": "{\"canvases\":0,\"ready\":null}"
+    },
+    {
+      "label": "desktop dark screenshot: the poster is visible before interaction",
+      "ok": true,
+      "detail": "{\"poster\":{\"x\":97,\"y\":383.25,\"width\":1086,\"height\":628,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"slabs\":21}"
+    },
+    {
+      "label": "desktop dark screenshot: the static Explore card is visible before interaction",
+      "ok": true,
+      "detail": "{\"static\":{\"x\":97,\"y\":1101.25,\"width\":1086,\"height\":231.5,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1},\"live\":false}"
+    },
+    {
+      "label": "desktop dark screenshot: Explore in 3D is visible with a label and a target of at least 44 px",
+      "ok": true,
+      "detail": "{\"rect\":{\"x\":562.4140625,\"y\":675.25,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"text\":\"Explore in 3D\"}"
+    },
+    {
+      "label": "desktop dark screenshot: Explore in 3D is centred in the stage",
+      "ok": true,
+      "detail": "{\"button\":{\"x\":562.4140625,\"y\":675.25,\"width\":155.171875,\"height\":44,\"display\":\"flex\",\"visibility\":\"visible\",\"opacity\":1},\"stage\":{\"x\":96,\"y\":382.25,\"width\":1088,\"height\":630,\"display\":\"block\",\"visibility\":\"visible\",\"opacity\":1}}"
+    }
+  ],
+  "lighthouse": {
+    "url": "http://127.0.0.1:4310/projects/websocket-inspector",
+    "formFactor": "mobile",
+    "throttling": "simulate",
+    "runs": [
+      {
+        "performance": 1,
+        "accessibility": 1,
+        "lcpMs": 903.116,
+        "cls": 0,
+        "tbtMs": 1.5,
+        "fcpMs": 903.116,
+        "siMs": 903.116,
+        "totalByteWeight": 196060,
+        "benchmarkIndex": 4282.5
+      },
+      {
+        "performance": 1,
+        "accessibility": 1,
+        "lcpMs": 903.0627999999999,
+        "cls": 0,
+        "tbtMs": 0.5,
+        "fcpMs": 903.0627999999999,
+        "siMs": 903.0627999999999,
+        "totalByteWeight": 196098,
+        "benchmarkIndex": 4242.5
+      },
+      {
+        "performance": 1,
+        "accessibility": 1,
+        "lcpMs": 902.9194,
+        "cls": 0,
+        "tbtMs": 0.5,
+        "fcpMs": 902.9194,
+        "siMs": 902.9194,
+        "totalByteWeight": 196060,
+        "benchmarkIndex": 4303
+      }
+    ],
+    "medianRun": 1,
+    "assertions": [
+      {
+        "id": "performance",
+        "threshold": ">= 0.95",
+        "actual": 1,
+        "scope": "median",
+        "pass": true
+      },
+      {
+        "id": "lcp",
+        "threshold": "< 2500",
+        "actual": 903.0627999999999,
+        "scope": "median",
+        "pass": true
+      },
+      {
+        "id": "cls",
+        "threshold": "=== 0",
+        "actual": [
+          0,
+          0,
+          0
+        ],
+        "scope": "every-run",
+        "pass": true
+      },
+      {
+        "id": "accessibility",
+        "threshold": ">= 0.95",
+        "actual": 1,
+        "scope": "median",
+        "pass": true
+      }
+    ],
+    "pass": true
+  },
+  "passed": true
+}
