@@ -45,7 +45,7 @@
 | T013 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
 | T014 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
 | T015 | ☑ (opt-in --categories; A11Y_MIN_SCORE 0.95; S3 default unchanged; local perf 1 / a11y 1 on / and project, LCP ~0.9 s, CLS 0) | ⚑ orchestrator (Murphy "go"; tier 1 unavailable, DeepSeek 402) | evidence/T015-* | (this commit) |
-| T016 | ☐ ⚑ | | | |
+| T016 | ◐ ⚑ part 1 done (perf.yml: Lighthouse a11y + project route, weight project route, unknown-slug 404; pushed; draft PR #14). CI run 1: all green except Lighthouse home perf 0.89 → AC5 escalation RFC §9.15; part 2 (new a11y job) waits for T013/T014 | ⚑ orchestrator | evidence/T016-* | — |
 | T017 | ☐ ⚑ | | | |
 | T018 | ☐ | | | |
 | T019 | ☐ ⚑ | | | |
