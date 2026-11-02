@@ -1,0 +1,12 @@
+T012c evidence refresh
+Target: local static export, http://127.0.0.1:4310
+Lighthouse: mobile, simulated throttling, 1 run per route/theme (sanity only)
+Check result: T012c-OK
+
+route    theme perf lcpMs               cls tbtMs                 totalByteWeight
+home     light 1    908.0835999999999   0   29                    478562
+home     dark  1    907.3604            0   33.500000000000455    478523
+projects light 1    752.8275000000001   0   1                     194422
+projects dark  1    753.2201            0   0                     194461
+project  light 1    753.9141            0   85                    510940
+project  dark  1    753.6578            0   91.49999999999955     510940
