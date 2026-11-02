@@ -1,5 +1,3 @@
-'use client';
-
 import type { LayerModel } from './tour-model';
 
 const LAYER_CHIP =
@@ -11,14 +9,14 @@ const LAYER_CHIP_IDLE =
 export interface LayersPanelProps {
   readonly layers: readonly LayerModel[];
   readonly focusedLayerId: string | null;
-  readonly onToggleLayer: (layerId: string) => void;
+  readonly onToggleLayer?: (layerId: string) => void;
 }
 
 export function LayersPanel({ layers, focusedLayerId, onToggleLayer }: LayersPanelProps) {
   const focused = layers.find((layer) => layer.id === focusedLayerId);
 
   return (
-    <div data-site-layers-panel="" className="flex h-full min-w-0 flex-col gap-4">
+    <div data-site-layers-panel="" className="flex min-w-0 flex-col gap-4">
       <div data-site-layer-chips="" className="flex flex-wrap content-start gap-2">
         {layers.map((layer, index) => {
           const selected = layer.id === focusedLayerId;
@@ -30,7 +28,7 @@ export function LayersPanel({ layers, focusedLayerId, onToggleLayer }: LayersPan
               data-site-layer-chip={layer.id}
               aria-pressed={selected}
               className={`${LAYER_CHIP} ${selected ? LAYER_CHIP_SELECTED : LAYER_CHIP_IDLE}`}
-              onClick={() => onToggleLayer(layer.id)}
+              onClick={onToggleLayer === undefined ? undefined : () => onToggleLayer(layer.id)}
             >
               <span className={`min-w-0 truncate ${selected ? 'text-bg' : 'text-fg'}`}>
                 {`${index + 1} ${layer.name}`}

@@ -1,0 +1,243 @@
+{
+  "kind": "T012h-smoke",
+  "version": 1,
+  "target": "export",
+  "baseUrl": "http://127.0.0.1:4310/",
+  "projectUrl": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 900
+    }
+  },
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "expectedLayers": [
+    {
+      "id": "inspection-ui",
+      "name": "Inspection UI",
+      "partCount": 4,
+      "description": "Compose screens launched from the notification."
+    },
+    {
+      "id": "delivery",
+      "name": "Delivery & lifecycle",
+      "partCount": 4,
+      "description": "What keeps inspection alive outside the foreground."
+    },
+    {
+      "id": "capture",
+      "name": "Capture",
+      "partCount": 3,
+      "description": "Where frames are intercepted and tagged."
+    },
+    {
+      "id": "persistence",
+      "name": "Persistence",
+      "partCount": 2,
+      "description": "Sessions and frames at rest."
+    },
+    {
+      "id": "host",
+      "name": "Sample host",
+      "partCount": 3,
+      "description": "The smallest possible integration, kept deliberately thin."
+    }
+  ],
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-idle-mobile-light.png",
+      "state": "layers-idle"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-focus-mobile-light.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-flows-playing-mobile-light.png",
+      "state": "flows-playing"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-idle-desktop-light.png",
+      "state": "layers-idle"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-focus-desktop-light.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-flows-playing-desktop-light.png",
+      "state": "flows-playing"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-idle-mobile-dark.png",
+      "state": "layers-idle"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-focus-mobile-dark.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-flows-playing-mobile-dark.png",
+      "state": "flows-playing"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-idle-desktop-dark.png",
+      "state": "layers-idle"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-layers-focus-desktop-dark.png",
+      "state": "layers-focus"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012h-screenshot-flows-playing-desktop-dark.png",
+      "state": "flows-playing"
+    }
+  ],
+  "checks": [
+    {
+      "label": "reload regression 1: the live Explore card replaces the static copy",
+      "ok": true
+    },
+    {
+      "label": "reload regression 2: the live Explore card replaces the static copy",
+      "ok": true
+    },
+    {
+      "label": "reload regression 3: the live Explore card replaces the static copy",
+      "ok": true
+    },
+    {
+      "label": "reload regression 4: the live Explore card replaces the static copy",
+      "ok": true
+    },
+    {
+      "label": "reload regression 5: the live Explore card replaces the static copy",
+      "ok": true
+    },
+    {
+      "label": "reload regression: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "mobile: pre-hydration card shows Layers, 5 chips, and the hint",
+      "ok": true,
+      "detail": "{\"live\":false,\"staticVisible\":true,\"cardRect\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":433.5},\"tabRect\":{\"x\":80.5625,\"y\":1112.5,\"width\":198.875,\"height\":54},\"chipsRect\":{\"x\":37,\"y\":1182.5,\"width\":286,\"height\":252},\"hintRect\":{\"x\":37,\"y\":1450.5,\"width\":286,\"height\":61.5},\"selected\":\"layers\",\"chips\":5,\"hint\":\"Pick a layer to isolate it.\"}"
+    },
+    {
+      "label": "mobile: the Explore geometry is identical before and after hydration (± 0.5 px)",
+      "ok": true,
+      "detail": "{\"before\":{\"cardRect\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":433.5},\"tabRect\":{\"x\":80.5625,\"y\":1112.5,\"width\":198.875,\"height\":54},\"chipsRect\":{\"x\":37,\"y\":1182.5,\"width\":286,\"height\":252},\"hintRect\":{\"x\":37,\"y\":1450.5,\"width\":286,\"height\":61.5}},\"after\":{\"cardRect\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":433.5},\"tabRect\":{\"x\":80.5625,\"y\":1112.5,\"width\":198.875,\"height\":54},\"chipsRect\":{\"x\":37,\"y\":1182.5,\"width\":286,\"height\":252},\"hintRect\":{\"x\":37,\"y\":1450.5,\"width\":286,\"height\":61.5}}}"
+    },
+    {
+      "label": "mobile: the static copy is hidden and only one Explore card is visible",
+      "ok": true,
+      "detail": "{\"display\":\"none\",\"staticVisible\":false,\"visibleCards\":1}"
+    },
+    {
+      "label": "mobile: visible Explore ids are unique",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "label": "mobile: the accessibility tree has one Layers and one Flows tab",
+      "ok": true,
+      "detail": "[\"Layers\",\"Flows\"]"
+    },
+    {
+      "label": "mobile: idle Layers has no unused bottom space",
+      "ok": true,
+      "detail": "{\"cardRect\":{\"x\":20,\"y\":1095.5,\"width\":320,\"height\":433.5},\"emptyBottom\":17,\"paddingBottom\":16,\"heightBudget\":439.5}"
+    },
+    {
+      "label": "mobile: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "mobile: the dock can implode the teardown before Flows",
+      "ok": true
+    },
+    {
+      "label": "mobile: Flows explodes the view and locks Implode with its explanation",
+      "ok": true,
+      "detail": "{\"disabled\":true,\"title\":\"Switch to Layers to implode\",\"describedBy\":\"site-implode-hint\",\"text\":\"Implode\",\"label\":\"Implode teardown\",\"description\":\"Switch to Layers to implode\"}"
+    },
+    {
+      "label": "mobile: returning to Layers keeps the view exploded and re-enables Implode",
+      "ok": true,
+      "detail": "{\"target\":\"exploded\",\"disabled\":false,\"title\":\"Implode teardown\",\"text\":\"Implode\"}"
+    },
+    {
+      "label": "mobile: Flows switch has no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop: pre-hydration card shows Layers, 5 chips, and the hint",
+      "ok": true,
+      "detail": "{\"live\":false,\"staticVisible\":true,\"cardRect\":{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":233.5},\"tabRect\":{\"x\":540.5625,\"y\":1121.25,\"width\":198.875,\"height\":54},\"chipsRect\":{\"x\":117,\"y\":1191.25,\"width\":1046,\"height\":44},\"hintRect\":{\"x\":117,\"y\":1251.25,\"width\":1046,\"height\":61.5},\"selected\":\"layers\",\"chips\":5,\"hint\":\"Pick a layer to isolate it.\"}"
+    },
+    {
+      "label": "desktop: the Explore geometry is identical before and after hydration (± 0.5 px)",
+      "ok": true,
+      "detail": "{\"before\":{\"cardRect\":{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":233.5},\"tabRect\":{\"x\":540.5625,\"y\":1121.25,\"width\":198.875,\"height\":54},\"chipsRect\":{\"x\":117,\"y\":1191.25,\"width\":1046,\"height\":44},\"hintRect\":{\"x\":117,\"y\":1251.25,\"width\":1046,\"height\":61.5}},\"after\":{\"cardRect\":{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":233.5},\"tabRect\":{\"x\":540.5625,\"y\":1121.25,\"width\":198.875,\"height\":54},\"chipsRect\":{\"x\":117,\"y\":1191.25,\"width\":1046,\"height\":44},\"hintRect\":{\"x\":117,\"y\":1251.25,\"width\":1046,\"height\":61.5}}}"
+    },
+    {
+      "label": "desktop: the static copy is hidden and only one Explore card is visible",
+      "ok": true,
+      "detail": "{\"display\":\"none\",\"staticVisible\":false,\"visibleCards\":1}"
+    },
+    {
+      "label": "desktop: visible Explore ids are unique",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "label": "desktop: the accessibility tree has one Layers and one Flows tab",
+      "ok": true,
+      "detail": "[\"Layers\",\"Flows\"]"
+    },
+    {
+      "label": "desktop: idle Layers has no unused bottom space",
+      "ok": true,
+      "detail": "{\"cardRect\":{\"x\":96,\"y\":1100.25,\"width\":1088,\"height\":233.5},\"emptyBottom\":21,\"paddingBottom\":20,\"heightBudget\":239.5}"
+    },
+    {
+      "label": "desktop: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop: the dock can implode the teardown before Flows",
+      "ok": true
+    },
+    {
+      "label": "desktop: Flows explodes the view and locks Implode with its explanation",
+      "ok": true,
+      "detail": "{\"disabled\":true,\"title\":\"Switch to Layers to implode\",\"describedBy\":\"site-implode-hint\",\"text\":\"Implode\",\"label\":\"Implode teardown\",\"description\":\"Switch to Layers to implode\"}"
+    },
+    {
+      "label": "desktop: returning to Layers keeps the view exploded and re-enables Implode",
+      "ok": true,
+      "detail": "{\"target\":\"exploded\",\"disabled\":false,\"title\":\"Implode teardown\",\"text\":\"Implode\"}"
+    },
+    {
+      "label": "desktop: Flows switch has no page errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": true
+}

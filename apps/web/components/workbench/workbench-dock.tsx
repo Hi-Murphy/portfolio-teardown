@@ -151,6 +151,7 @@ const GROUP_BUTTON =
 
 export interface WorkbenchDockProps {
   readonly target: 'imploded' | 'exploded';
+  readonly flowsActive: boolean;
   readonly can: {
     readonly zoomIn: boolean;
     readonly zoomOut: boolean;
@@ -169,6 +170,7 @@ export interface WorkbenchDockProps {
 
 export function WorkbenchDock({
   target,
+  flowsActive,
   can,
   caseStudyOpen,
   caseStudyControlsId,
@@ -182,6 +184,7 @@ export function WorkbenchDock({
 }: WorkbenchDockProps) {
   const exploded = target === 'exploded';
   const toggleLabel = exploded ? 'Implode teardown' : 'Explode teardown';
+  const toggleTitle = flowsActive ? 'Switch to Layers to implode' : toggleLabel;
 
   return (
     <div
@@ -195,13 +198,20 @@ export function WorkbenchDock({
         data-site-control="toggle"
         aria-pressed={exploded}
         aria-label={toggleLabel}
-        title={toggleLabel}
-        className={`${PRIMARY_BASE} ${exploded ? PRIMARY_ACTIVE : PRIMARY_IDLE}`}
+        aria-describedby={flowsActive ? 'site-implode-hint' : undefined}
+        title={toggleTitle}
+        disabled={flowsActive}
+        className={`${PRIMARY_BASE} ${exploded ? PRIMARY_ACTIVE : PRIMARY_IDLE} disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45`}
         onClick={onToggle}
       >
         {exploded ? <CollapseIcon /> : <ExploreIcon />}
         <span>{exploded ? 'Implode' : 'Explode'}</span>
       </button>
+      {flowsActive ? (
+        <span id="site-implode-hint" className="sr-only">
+          Switch to Layers to implode
+        </span>
+      ) : null}
 
       <div role="group" aria-label="Rotate view" className={CONTROL_GROUP}>
         <button
