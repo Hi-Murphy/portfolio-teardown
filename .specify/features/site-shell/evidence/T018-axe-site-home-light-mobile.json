@@ -1,0 +1,47 @@
+{
+  "kind": "site-axe",
+  "version": 1,
+  "routeGroup": "home",
+  "palette": "light",
+  "viewport": {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "isMobile": true,
+    "hasTouch": true
+  },
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa",
+    "best-practice"
+  ],
+  "states": [
+    {
+      "state": "home",
+      "routeGroup": "home",
+      "path": "/",
+      "url": "http://127.0.0.1:63059/",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "state": "home-poster",
+      "routeGroup": "home",
+      "path": "/",
+      "url": "http://127.0.0.1:63059/",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "state": "home-reduced",
+      "routeGroup": "home",
+      "path": "/",
+      "url": "http://127.0.0.1:63059/",
+      "violations": [],
+      "incomplete": []
+    }
+  ]
+}

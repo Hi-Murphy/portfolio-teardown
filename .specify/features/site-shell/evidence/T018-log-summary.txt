@@ -1,0 +1,16 @@
+Lighthouse home: PASS performance=1.000 accessibility=1.000 LCP=933.665ms CLS=0/0/0
+Lighthouse project: PASS performance=1.000 accessibility=1.000 LCP=923.488ms CLS=0/0/0
+Weight home: PASS mobile=203696B/24 requests desktop=227230B/27 requests budget=3000000B
+Weight project: PASS mobile=196458B/21 requests desktop=219897B/24 requests budget=3000000B
+Build: PASS production export and PERF_FIXTURES export
+Axe site: PASS 12/12 cells serious=0 critical=0 moderate=0 minor=0 incomplete=756
+Site probe: PASS 7/7 groups and 60/60 checks; CLS=0 in all 16 cells; 2 draw calls
+No-JS: PASS home/project poster plus cards/outline; screenshots and DOM dumps captured
+Content fidelity: PASS conversion check plus 9/9 tests
+FPS: INFO droppedFrames=0 frames=13 windowMs=5040.083 p50=16.667ms p95=18.656ms max=18.656ms; no fps comparison
+Routes: PASS six dev/fixture/unknown asserts returned 404 without markers; resume.pdf absent and HTTP 404
+Guards: PASS FROZEN, BRIEF-HISTORY, XPLODER-SRC, SURFACE-S2S4, SURFACE-S5, SURFACE-S6, SURFACE-S7, SURFACE-S8, DEV-ROUTES, S8-TOOLS
+Xploder diff: PASS 8 expected files; model, S6/S8 seals, generated scripts, seal test and overlay-tour-trail test only
+Typecheck: PASS packages/xploder, tools/perf and apps/web
+Lint and format: PASS ESLint and Prettier check
+Tests: PASS 96 files and 857 tests (perf 127, xploder 617, web 113)

@@ -1,0 +1,156 @@
+{
+  "task": "T018",
+  "slice": "S10",
+  "title": "Evidence run (AC1-AC7 artifacts)",
+  "generatedAt": "2026-11-02T11:07:29Z",
+  "branch": "task/s10-t018-evidence",
+  "commit": "dbab8cdd036b44f487b1a90699917a0296136bdb",
+  "urls": {
+    "preview": "https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/",
+    "previewProject": "https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/projects/websocket-inspector",
+    "production": "https://portfolio-teardown.vercel.app"
+  },
+  "toolVersions": {
+    "node": "v24.19.0",
+    "pnpm": "12.15.0",
+    "macOS": "26.6.2",
+    "next": "16.4.3",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "lighthouse": "13.6.0",
+    "axeCore": "4.14.0",
+    "vitest": "5.0.5",
+    "typescript": "5.9.3",
+    "prettier": "3.9.10"
+  },
+  "commands": [
+    {
+      "command": "pnpm perf:lighthouse \"$PREVIEW\" --categories performance,accessibility --out /tmp/s10-checks/t018/lighthouse-home",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm perf:lighthouse \"${PREVIEW}projects/websocket-inspector\" --categories performance,accessibility --out /tmp/s10-checks/t018/lighthouse-project",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm perf:weight \"$PREVIEW\" --out /tmp/s10-checks/t018/weight-home",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm perf:weight \"${PREVIEW}projects/websocket-inspector\" --out /tmp/s10-checks/t018/weight-project",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build:fixtures",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm a11y:axe:site --serve apps/web/out --out /tmp/s10-checks/t018/axe",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm site:probe --serve apps/web/out --fixtures out-fixtures --out /tmp/s10-checks/t018/probe",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --filter web content:convert --check",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --filter web exec vitest run test/content-fidelity.test.ts test/site-copy-fidelity.test.ts --reporter verbose",
+      "exitCode": 0
+    },
+    {
+      "command": "node /tmp/s10-checks/t018-fps.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/perf/src/cli/assert-absent.ts \"${PREVIEW}dev/engine\"",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/perf/src/cli/assert-absent.ts \"${PREVIEW}fixtures/fps-calibration\"",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/perf/src/cli/assert-absent.ts \"${PREVIEW}projects/does-not-exist\"",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/perf/src/cli/assert-absent.ts \"${PREVIEW}resume.pdf\"",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/perf/src/cli/assert-absent.ts \"${PRODUCTION_URL}/dev/engine\"",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/perf/src/cli/assert-absent.ts \"${PRODUCTION_URL}/fixtures/fps-calibration\"",
+      "exitCode": 0
+    },
+    {
+      "command": "test ! -e apps/web/public/resume.pdf && test \"$(curl -s -o /dev/null -w '%{http_code}' \"${PREVIEW}resume.pdf\")\" = 404",
+      "exitCode": 0
+    },
+    {
+      "command": "bash .specify/features/site-shell/guards.sh",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --stat 99a94f2 -- packages/xploder",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm lint",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0
+    }
+  ],
+  "evidence": {
+    "lighthouseHome": "T018-lighthouse-summary-home.json",
+    "lighthouseProject": "T018-lighthouse-summary-project.json",
+    "weightHome": "T018-weight-home.json",
+    "weightProject": "T018-weight-project.json",
+    "axeSummary": "T018-axe-site-summary.json",
+    "axeCells": [
+      "T018-axe-site-home-light-desktop.json",
+      "T018-axe-site-home-light-mobile.json",
+      "T018-axe-site-home-dark-desktop.json",
+      "T018-axe-site-home-dark-mobile.json",
+      "T018-axe-site-projects-light-desktop.json",
+      "T018-axe-site-projects-light-mobile.json",
+      "T018-axe-site-projects-dark-desktop.json",
+      "T018-axe-site-projects-dark-mobile.json",
+      "T018-axe-site-project-light-desktop.json",
+      "T018-axe-site-project-light-mobile.json",
+      "T018-axe-site-project-dark-desktop.json",
+      "T018-axe-site-project-dark-mobile.json"
+    ],
+    "siteProbe": "T018-log-site-probe.txt",
+    "noJsScreenshots": [
+      "T018-screenshot-nojs-home.png",
+      "T018-screenshot-nojs-project.png"
+    ],
+    "noJsDoms": [
+      "T018-log-nojs-dom-home.html",
+      "T018-log-nojs-dom-project.html"
+    ],
+    "fidelity": "T018-log-fidelity.txt",
+    "fps": "T018-fps.json",
+    "routes404": "T018-log-routes-404.txt",
+    "guards": "T018-log-guards.txt",
+    "xploderDiff": "T018-log-xploder-diff.txt",
+    "summary": "T018-log-summary.txt"
+  }
+}
