@@ -1,0 +1,35 @@
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T005/apps/web
+
+ ✓ test/poster.test.ts > poster geometry > matches the public view projection for random points 1ms
+ ✓ test/poster.test.ts > poster geometry > frames the selected state symmetrically about the origin 1ms
+ ✓ test/poster.test.ts > poster geometry > uses the fitZoom scale ratio at the same aspect 0ms
+ ✓ test/poster.test.ts > poster geometry > paints slabs from far to near in a stable order 0ms
+ ✓ test/poster.test.ts > poster geometry > contains 21 slabs for 5 layers and 16 components 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  11:10:48
+   Duration  94ms (import 70%, transform 17%, tests 9%, worker 4%)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+      Tests  5 passed (5)
+10
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+tools/perf test:       Tests  111 passed (111)
+packages/xploder test:       Tests  610 passed (610)
+apps/web test:       Tests  87 passed | 2 skipped (89)
+T005-OK
+
+== Orchestrator review fix (2026-11-02): painter depth corrected from x + z - y (plan.md error) to x + y + z (camera at +x,+y,+z: far → near), test now pins depth = x+y+z. Re-run above: T005-OK. Scanner S10_SOURCE_FILES lists deferred to one orchestrator commit at the G2 gate (avoids parallel-task conflicts).
