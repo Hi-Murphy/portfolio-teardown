@@ -53,7 +53,7 @@ export function routeMetadata(route: SeoRoute): Metadata {
       type: 'website',
       images: [
         {
-          url: route.ogImagePath,
+          url: `https://portfolio-teardown.vercel.app${route.ogImagePath}`,
           width: OG_IMAGE_WIDTH,
           height: OG_IMAGE_HEIGHT,
           type: 'image/png',
