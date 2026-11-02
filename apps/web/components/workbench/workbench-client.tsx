@@ -51,13 +51,15 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
 
   const jumpToStep = useCallback(
     (stepIndex: number) => {
+      if (viewer.target === 'imploded') viewer.actions.explode();
+
       const resume = viewer.tour.status === 'playing';
 
       for (const action of jumpSequence(stepIndex, resume)) {
         viewer.actions[action]();
       }
     },
-    [viewer.actions, viewer.tour.status],
+    [viewer.actions, viewer.target, viewer.tour.status],
   );
 
   const previousStep = useCallback(() => {
@@ -144,6 +146,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
               onPrevious={previousStep}
               onNext={nextStep}
               onRestart={restartTour}
+              onExit={viewer.actions.stop}
               onJump={jumpToStep}
               onHighlight={viewer.actions.highlight}
             />,
