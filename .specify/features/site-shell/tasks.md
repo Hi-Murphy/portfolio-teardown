@@ -224,7 +224,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
 
 - **Seam:** route group ↔ chrome (`/` moves into `(site)`).
 - **Files:**
-  - `apps/web/content/site.ts` (**RFC §9.5 C4 + Q14 supersede §9.1**): `SITE` derived from `siteSource` (T002b): identity, hero, about, footer, meta. There is no hand-written copy; the one documented override is the LinkedIn URL per the Q14 resolution.
+  - `apps/web/content/site.ts` (**RFC §9.5 C4 + Q14 supersede §9.1**): `SITE` derived from `siteSource` (T002b): identity, hero, about, footer, meta. There is no hand-written copy and no override (Q14 resolved in `site.json`, RFC §9.6).
   - `apps/web/components/{skip-link,site-nav,site-footer}.tsx` (plan.md "Routes, metadata, nav"; R4).
   - `apps/web/app/(site)/layout.tsx`.
   - `apps/web/app/layout.tsx`: the metadata change only.
