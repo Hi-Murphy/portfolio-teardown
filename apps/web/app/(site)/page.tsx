@@ -7,11 +7,15 @@ import { ProjectCard } from '../../components/project-card';
 import { TeardownPoster } from '../../components/teardown-poster';
 import { PROJECTS, cardModel } from '../../content/projects';
 import { SITE } from '../../content/site';
+import { routeMetadata } from '../../seo/metadata';
+import { HOME_ROUTE } from '../../seo/routes';
 
 const PRIMARY_CTA_CLASS =
   'inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-semibold text-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const SECONDARY_CTA_CLASS =
   'inline-flex min-h-11 items-center justify-center rounded-sm border border-line px-5 text-sm font-medium text-fg hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+
+export const metadata = routeMetadata(HOME_ROUTE);
 
 export default function HomePage() {
   const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;

@@ -1,0 +1,150 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T004/apps/web
+
+ ✓ test/prod-imports.test.ts > production import scanner > production source does not import xploder/fixtures 10ms
+ ✓ test/prod-imports.test.ts > production import scanner > negative control catches xploder/fixtures 0ms
+ ✓ test/seo-server-only.test.ts > SEO server-only boundary > seo/ contains no client component directive 8ms
+ ✓ test/seo-server-only.test.ts > SEO server-only boundary > client components do not import seo/ 2ms
+ ✓ test/seo-server-only.test.ts > SEO server-only boundary > the relative import check resolves into seo/ 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > apps/web and xploder source outside theme/ contain no color literals 14ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner roots include engine sources 4ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > scanner root includes the engine playground 1ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > hex-number catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > css-color-fn catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > named-three-color catches its negative control 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: href='#main' 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: palette.line 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: var(--bp-line) 0ms
+ ✓ test/no-color-literals.test.ts > color-literal scanner > accepts non-color references: issue #12 0ms
+ ✓ test/seo-routes.test.ts > SEO route registry > indexable routes are home, projects and every content project 1ms
+ ✓ test/seo-routes.test.ts > SEO route registry > the not-found route is not indexable and uses the safe home card 1ms
+ ✓ test/seo-routes.test.ts > SEO route registry > routeForSlug returns only the matching content project 0ms
+ ✓ test/seo-routes.test.ts > SEO route registry > dev and fixture routes are absent from the indexable registry 0ms
+stderr | test/seo-metadata.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/seo-metadata.test.ts > route metadata > / matches every D3 cell 1ms
+ ✓ test/seo-metadata.test.ts > route metadata > /projects matches every D3 cell 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > /projects/websocket-inspector matches every D3 cell 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > /404 matches every D3 cell 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > project descriptions fall back from tagline to summary to the site description 0ms
+ ✓ test/seo-metadata.test.ts > route metadata > the not-found metadata has no canonical or og:url 0ms
+ ✓ test/seo-metadata.test.ts > base metadata and viewport > base metadata is the safe not-found payload plus the production base and template 0ms
+ ✓ test/seo-metadata.test.ts > base metadata and viewport > viewport theme colors come from the light and dark blueprint paper roles 0ms
+stderr | test/site-metadata.test.ts
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/site-metadata.test.ts > site metadata > root metadata is the shared 404-safe base 1ms
+ ✓ test/site-metadata.test.ts > site metadata > the home page uses the home route metadata 0ms
+ ✓ test/site-metadata.test.ts > site metadata > /projects uses the projects route metadata 0ms
+ ✓ test/site-metadata.test.ts > site metadata > project generateMetadata uses the project route metadata 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > ignores canonical strings shorter than twelve characters 1ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > the generated project source carries every collected project string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > the generated site source carries every collected site string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > app, components and seo contain no hand-copied project or site content 51ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > content copy appears only in its generated source module 4ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches hand-copied project content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches hand-copied site content 0ms
+
+ Test Files  7 passed (7)
+      Tests  39 passed (39)
+   Start at  22:08:24
+   Duration  687ms (transform 49%, import 35%, tests 11%, worker 5%)
+
+== index
+<meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0B1A2E" media="(prefers-color-scheme: dark)"/>
+<title>Timur Haryo — Software Engineer · Android &amp; Developer Tools</title>
+<meta name="description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<link rel="canonical" href="https://hi-murphy.me"/>
+<meta property="og:title" content="Timur Haryo — Software Engineer · Android &amp; Developer Tools"/>
+<meta property="og:description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta property="og:url" content="https://hi-murphy.me"/>
+<meta property="og:site_name" content="Timur Haryo"/>
+<meta property="og:locale" content="en"/>
+<meta property="og:image" content="https://hi-murphy.me/og/home.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Timur Haryo — Software Engineer · Android &amp; Developer Tools"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Timur Haryo — Software Engineer · Android &amp; Developer Tools"/>
+<meta name="twitter:description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta name="twitter:image" content="https://hi-murphy.me/og/home.png"/>
+== projects
+<meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0B1A2E" media="(prefers-color-scheme: dark)"/>
+<title>Projects · Timur Haryo</title>
+<meta name="description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<link rel="canonical" href="https://hi-murphy.me/projects"/>
+<meta property="og:title" content="Projects · Timur Haryo"/>
+<meta property="og:description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta property="og:url" content="https://hi-murphy.me/projects"/>
+<meta property="og:site_name" content="Timur Haryo"/>
+<meta property="og:locale" content="en"/>
+<meta property="og:image" content="https://hi-murphy.me/og/projects.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Projects · Timur Haryo"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Projects · Timur Haryo"/>
+<meta name="twitter:description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta name="twitter:image" content="https://hi-murphy.me/og/projects.png"/>
+== projects/websocket-inspector
+<meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0B1A2E" media="(prefers-color-scheme: dark)"/>
+<title>Scarlet Inspector · Timur Haryo</title>
+<meta name="description" content="Every WebSocket frame, captured and inspectable."/>
+<link rel="canonical" href="https://hi-murphy.me/projects/websocket-inspector"/>
+<meta property="og:title" content="Scarlet Inspector · Timur Haryo"/>
+<meta property="og:description" content="Every WebSocket frame, captured and inspectable."/>
+<meta property="og:url" content="https://hi-murphy.me/projects/websocket-inspector"/>
+<meta property="og:site_name" content="Timur Haryo"/>
+<meta property="og:locale" content="en"/>
+<meta property="og:image" content="https://hi-murphy.me/og/projects/websocket-inspector.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Scarlet Inspector · Timur Haryo"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Scarlet Inspector · Timur Haryo"/>
+<meta name="twitter:description" content="Every WebSocket frame, captured and inspectable."/>
+<meta name="twitter:image" content="https://hi-murphy.me/og/projects/websocket-inspector.png"/>
+== 404
+<meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0B1A2E" media="(prefers-color-scheme: dark)"/>
+<title>Timur Haryo — Software Engineer · Android &amp; Developer Tools</title>
+<meta name="description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta property="og:title" content="Timur Haryo — Software Engineer · Android &amp; Developer Tools"/>
+<meta property="og:description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta property="og:site_name" content="Timur Haryo"/>
+<meta property="og:locale" content="en"/>
+<meta property="og:image" content="https://hi-murphy.me/og/home.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Timur Haryo — Software Engineer · Android &amp; Developer Tools"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Timur Haryo — Software Engineer · Android &amp; Developer Tools"/>
+<meta name="twitter:description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta name="twitter:image" content="https://hi-murphy.me/og/home.png"/>
+NO-FOREIGN-HOST
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK

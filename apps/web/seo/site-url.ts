@@ -107,6 +107,6 @@ export function absoluteUrl(path: string): string {
     );
   }
 
-  const canonicalPath = path === '/' ? path : path.replace(/\/+$/, '');
-  return `${SITE_ORIGIN}${canonicalPath}`;
+  // Next prints the home canonical and og:url without a trailing slash, so every self-URL uses that form.
+  return `${SITE_ORIGIN}${path.replace(/\/+$/, '')}`;
 }

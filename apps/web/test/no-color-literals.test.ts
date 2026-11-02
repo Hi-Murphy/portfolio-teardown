@@ -6,6 +6,7 @@ import { describe, expect, test } from 'vitest';
 import { collectSourceFiles, formatHits, lineOf, snippetAt, type Hit } from './source-scan';
 
 const WEB_ROOT = fileURLToPath(new URL('..', import.meta.url));
+const SEO_ROOT = fileURLToPath(new URL('../seo/', import.meta.url));
 const XPLODER_SRC = fileURLToPath(new URL('../../../packages/xploder/src/', import.meta.url));
 const ENGINE_EXPLODE = fileURLToPath(
   new URL('../../../packages/xploder/src/engine/explode.ts', import.meta.url),
@@ -168,7 +169,9 @@ const BAD_SAMPLES = {
 describe('color-literal scanner', () => {
   test('apps/web and xploder source outside theme/ contain no color literals', () => {
     const hits = [
-      ...scanFiles(collectSourceFiles(WEB_ROOT)),
+      ...scanFiles([
+        ...new Set([...collectSourceFiles(WEB_ROOT), ...collectSourceFiles(SEO_ROOT)]),
+      ]),
       ...scanFiles(collectSourceFiles(XPLODER_SRC, { exclude: ['theme/'] })),
     ];
 
@@ -186,6 +189,7 @@ describe('color-literal scanner', () => {
     expect(sourceFiles).toEqual(expect.arrayContaining(S08_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
     expect(collectSourceFiles(WEB_ROOT)).toEqual(expect.arrayContaining(S10_SOURCE_FILES));
+    expect(collectSourceFiles(SEO_ROOT).length).toBeGreaterThan(0);
   });
 
   test.skipIf(!existsSync(PLAYGROUND))('scanner root includes the engine playground', () => {
