@@ -1,0 +1,227 @@
+# T010 route check
+
+## Exact check output
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 90ms
+  Running TypeScript ...
+  Finished TypeScript in 777ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 222ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+__next.!KHNpdGUp.projects.__PAGE__.txt
+__next.!KHNpdGUp.txt
+__next._full.txt
+__next._index.txt
+__next._tree.txt
+1
+1
+http://127.0.0.1:4320/
+UNKNOWN-404
+DEEP-LINK-200
+PASS project: document title uses the project name and site name
+PASS project: meta description is the project tagline
+PASS project: back link points to /projects
+PASS project: project name is the page h1
+PASS project: tagline comes from project meta
+PASS project: year and role come from project meta
+PASS project: Source link comes from project meta
+PASS project: document title uses the project name and site name
+PASS project: meta description is the project tagline
+PASS no-js mobile/light: poster visible
+PASS no-js mobile/light: project outline visible
+PASS no-js mobile/light: loading hidden
+PASS no-js mobile/light: toolbar hidden
+PASS no-js mobile/light: outline is fully above the footer
+PASS no-js mobile/light: screenshot written
+PASS project: document title uses the project name and site name
+PASS project: meta description is the project tagline
+PASS no-js desktop/light: poster visible
+PASS no-js desktop/light: project outline visible
+PASS no-js desktop/light: loading hidden
+PASS no-js desktop/light: toolbar hidden
+PASS no-js desktop/light: outline is fully above the footer
+PASS no-js desktop/light: screenshot written
+PASS project: document title uses the project name and site name
+PASS project: meta description is the project tagline
+PASS no-js mobile/dark: poster visible
+PASS no-js mobile/dark: project outline visible
+PASS no-js mobile/dark: loading hidden
+PASS no-js mobile/dark: toolbar hidden
+PASS no-js mobile/dark: outline is fully above the footer
+PASS no-js mobile/dark: screenshot written
+PASS project: document title uses the project name and site name
+PASS project: meta description is the project tagline
+PASS no-js desktop/dark: poster visible
+PASS no-js desktop/dark: project outline visible
+PASS no-js desktop/dark: loading hidden
+PASS no-js desktop/dark: toolbar hidden
+PASS no-js desktop/dark: outline is fully above the footer
+PASS no-js desktop/dark: screenshot written
+
+T010 smoke assertions passed
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T010/tools/perf
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T010/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:56038) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:56037) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:56040) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:56042) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:56044) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:56046) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  111 passed (111)
+tools/perf test:    Start at  11:26:51
+tools/perf test:    Duration  1.39s (import 87%, tests 8%, transform 4%, worker 1%)
+tools/perf test: 
+packages/xploder test: (node:56045) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: Done
+packages/xploder test: (node:56047) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:56055) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  59 passed (59)
+packages/xploder test:       Tests  610 passed (610)
+packages/xploder test:    Start at  11:26:51
+packages/xploder test:    Duration  6.82s (tests 77%, import 15%, transform 7%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  59 workers spawned · ~104ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~580ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T010/apps/web
+apps/web test: 
+apps/web test: (node:56109) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:56107) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  16 passed (16)
+apps/web test:       Tests  100 passed | 1 skipped (101)
+apps/web test:    Start at  11:26:58
+apps/web test:    Duration  761ms (environment 40%, tests 28%, import 24%, transform 7%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T010-OK
+
+## Extracted project metadata
+title: Scarlet Inspector · Timur Haryo
+description: Every WebSocket frame, captured and inspectable.
+
+## Exported project HTML routes
+websocket-inspector.html
+
+== Orchestrator review (2026-11-02): out/projects lists only websocket-inspector{,.html,.txt} + Next 16 __next.* RSC metadata files -> ONLY-KNOWN-SLUG holds (the check grep did not anticipate __next.*). First T010 launch was stopped by the orchestrator (port 4310 collision with parallel T009; runner issue, not a Flash attempt).

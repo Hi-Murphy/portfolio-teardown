@@ -1,0 +1,208 @@
+{
+  "kind": "T010-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T010-screenshot-nojs-project-mobile-light.png",
+      "route": "/projects/websocket-inspector",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light",
+      "javaScriptEnabled": false
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T010-screenshot-nojs-project-desktop-light.png",
+      "route": "/projects/websocket-inspector",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light",
+      "javaScriptEnabled": false
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T010-screenshot-nojs-project-mobile-dark.png",
+      "route": "/projects/websocket-inspector",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark",
+      "javaScriptEnabled": false
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T010-screenshot-nojs-project-desktop-dark.png",
+      "route": "/projects/websocket-inspector",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark",
+      "javaScriptEnabled": false
+    }
+  ],
+  "checks": [
+    {
+      "label": "project: document title uses the project name and site name",
+      "ok": true
+    },
+    {
+      "label": "project: meta description is the project tagline",
+      "ok": true
+    },
+    {
+      "label": "project: back link points to /projects",
+      "ok": true
+    },
+    {
+      "label": "project: project name is the page h1",
+      "ok": true
+    },
+    {
+      "label": "project: tagline comes from project meta",
+      "ok": true
+    },
+    {
+      "label": "project: year and role come from project meta",
+      "ok": true
+    },
+    {
+      "label": "project: Source link comes from project meta",
+      "ok": true
+    },
+    {
+      "label": "project: document title uses the project name and site name",
+      "ok": true
+    },
+    {
+      "label": "project: meta description is the project tagline",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/light: poster visible",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/light: project outline visible",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/light: loading hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/light: toolbar hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/light: outline is fully above the footer",
+      "ok": true
+    },
+    {
+      "label": "project: document title uses the project name and site name",
+      "ok": true
+    },
+    {
+      "label": "project: meta description is the project tagline",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/light: poster visible",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/light: project outline visible",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/light: loading hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/light: toolbar hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/light: outline is fully above the footer",
+      "ok": true
+    },
+    {
+      "label": "project: document title uses the project name and site name",
+      "ok": true
+    },
+    {
+      "label": "project: meta description is the project tagline",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/dark: poster visible",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/dark: project outline visible",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/dark: loading hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/dark: toolbar hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js mobile/dark: outline is fully above the footer",
+      "ok": true
+    },
+    {
+      "label": "project: document title uses the project name and site name",
+      "ok": true
+    },
+    {
+      "label": "project: meta description is the project tagline",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/dark: poster visible",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/dark: project outline visible",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/dark: loading hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/dark: toolbar hidden",
+      "ok": true
+    },
+    {
+      "label": "no-js desktop/dark: outline is fully above the footer",
+      "ok": true
+    }
+  ],
+  "passed": true
+}
