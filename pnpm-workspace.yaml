@@ -4,3 +4,4 @@ packages:
   - 'tools/*'
 allowBuilds:
   unrs-resolver: true
+  esbuild: false
