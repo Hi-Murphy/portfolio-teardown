@@ -1,0 +1,18 @@
+# T011 finding — bundle diff exit 6 (AC6 "no new client JS"): root cause bisect (orchestrator, 2026-11-03)
+
+Measured diff (head 1217f1e vs T001 baseline 3ba4c3b): TOTAL-JS 1771865 -> 1773116 (+1251) → DIFF-FAIL
+  1. turbopack runtime chunk 10030 -> 11255 B (+1225): head runtime gains Turbopack's async-module helper
+     (`u.a`, Symbols "turbopack queues" / "turbopack exports" / "turbopack error"). Loaded on every page.
+  2. _ssgManifest.js 108 -> 134 B (+26): new SSG entry "/og/[...card]".
+  3. 13822 B chunk renamed, same size, 8 bytes differ: one module id renumbered (28389 -> 58523) for Next's
+     metadata icon module (meta name="«nxt-icon»"). Identical code; no module added.
+
+Bisect (same worktree, clean .next/out each time):
+  a. app/og + app/apple-touch-icon.png removed          → runtime = turbopack-3-ry682tkyiqk.js (10030 B, base-identical), no async helper
+  b. routes kept, renderPng imports next/og dynamically  → runtime 11255 B, async helper present
+  c. routes kept, renderPng stubbed (no next/og import)  → runtime = turbopack-3-ry682tkyiqk.js (base-identical)
+  Conclusion: any next/og import inside the Next module graph makes Turbopack add async-module support to the
+  shared browser runtime (+1225 B client JS on every route). Items 1 and 2 are caused by the OG route handlers.
+
+Fix (RFC §9 R3): generate OG PNGs + apple-touch-icon.png in a pre-build script outside the Next graph
+(public/, git-ignored); icon.svg route stays (no next/og). Item 3 is documented as a module-id renumber.
