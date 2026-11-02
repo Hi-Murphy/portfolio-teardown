@@ -28,7 +28,13 @@ export function ProjectOutline({ project, message, className }: ProjectOutlinePr
   return (
     <section
       data-site-outline=""
-      className={['flex flex-col gap-6', className].filter(Boolean).join(' ')}
+      tabIndex={0}
+      className={[
+        'flex flex-col gap-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       {message === undefined ? null : (
         <p

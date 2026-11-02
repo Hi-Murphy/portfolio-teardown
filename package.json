@@ -23,6 +23,7 @@
     "a11y:probe": "node tools/perf/src/cli/a11y-probe.ts",
     "fps:engine": "node tools/perf/src/cli/fps-engine.ts",
     "a11y:axe": "node tools/perf/src/cli/a11y-axe.ts",
+    "a11y:axe:site": "node tools/perf/src/cli/a11y-axe-site.ts",
     "site:probe": "node tools/perf/src/cli/site-probe.ts",
     "serve:out": "node tools/perf/src/cli/serve.ts",
     "build:fixtures": "PERF_FIXTURES=1 pnpm --filter web build"
