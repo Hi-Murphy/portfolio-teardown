@@ -8,6 +8,8 @@ import { TeardownPoster } from './teardown-poster';
 interface ProjectCardBaseProps {
   readonly model: ProjectCardModel;
   readonly className?: string;
+  /** Heading level of the card title; 2 when the card sits directly under the page h1. */
+  readonly headingLevel?: 2 | 3;
 }
 
 export interface CompactProjectCardProps extends ProjectCardBaseProps {
@@ -33,7 +35,8 @@ function projectMetaLine(project: Project): string | undefined {
 }
 
 export function ProjectCard(props: ProjectCardProps) {
-  const { model, variant, className } = props;
+  const { model, variant, className, headingLevel = variant === 'list' ? 2 : 3 } = props;
+  const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const cardClassName = [
     'group relative rounded border border-line/30 bg-surface p-4 sm:p-5',
     className,
@@ -45,11 +48,11 @@ export function ProjectCard(props: ProjectCardProps) {
     return (
       <article data-site-card={model.slug} className={cardClassName}>
         <div className="flex flex-col gap-3">
-          <h3 className="text-lg leading-tight">
+          <Heading className="text-lg leading-tight">
             <Link href={`/projects/${model.slug}`} className={STRETCHED_LINK}>
               {model.name}
             </Link>
-          </h3>
+          </Heading>
           {model.tagline === undefined ? null : (
             <p className="text-sm leading-relaxed text-muted">{model.tagline}</p>
           )}
@@ -76,11 +79,11 @@ export function ProjectCard(props: ProjectCardProps) {
       </div>
       <div className="flex min-w-0 flex-col gap-3">
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg leading-tight">
+          <Heading className="text-lg leading-tight">
             <Link href={`/projects/${model.slug}`} className={STRETCHED_LINK}>
               {model.name}
             </Link>
-          </h3>
+          </Heading>
           {metaLine === undefined ? null : (
             <p className="font-mono text-xs text-muted">{metaLine}</p>
           )}

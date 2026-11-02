@@ -33,7 +33,12 @@ export default function NotFound() {
           {projects.length === 0 ? null : (
             <div className="mt-8 grid gap-4 md:grid-cols-2">
               {projects.map((project) => (
-                <ProjectCard key={project.meta.slug} model={cardModel(project)} variant="compact" />
+                <ProjectCard
+                  key={project.meta.slug}
+                  model={cardModel(project)}
+                  variant="compact"
+                  headingLevel={2}
+                />
               ))}
             </div>
           )}
