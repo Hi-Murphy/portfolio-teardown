@@ -1,0 +1,337 @@
+{
+  "kind": "T009-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-revealed-mobile-light.png",
+      "mode": "revealed",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-reduced-mobile-light.png",
+      "mode": "reduced",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-revealed-desktop-light.png",
+      "mode": "revealed",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-reduced-desktop-light.png",
+      "mode": "reduced",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-revealed-mobile-dark.png",
+      "mode": "revealed",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-reduced-mobile-dark.png",
+      "mode": "reduced",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-revealed-desktop-dark.png",
+      "mode": "revealed",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T009-screenshot-hero-reduced-desktop-dark.png",
+      "mode": "reduced",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    }
+  ],
+  "checks": [
+    {
+      "label": "SSR: home responds 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "label": "SSR: data-site-poster is inside data-site-hero",
+      "ok": true
+    },
+    {
+      "label": "SSR: live layer starts in the idle state",
+      "ok": true
+    },
+    {
+      "label": "FCP: live state is not revealed",
+      "ok": true,
+      "detail": "idle"
+    },
+    {
+      "label": "load: live state reaches revealed",
+      "ok": true
+    },
+    {
+      "label": "live: at most one canvas",
+      "ok": true
+    },
+    {
+      "label": "live: layer is aria-hidden",
+      "ok": true
+    },
+    {
+      "label": "live: layer is inert",
+      "ok": true
+    },
+    {
+      "label": "live: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "idle 5s: viewer stays exploded and not tweening",
+      "ok": true,
+      "detail": "[\"{\\\"state\\\":\\\"exploded\\\",\\\"tweening\\\":\\\"false\\\"}\"]"
+    },
+    {
+      "label": "reduced motion: live state is skipped",
+      "ok": true
+    },
+    {
+      "label": "reduced motion: no canvas",
+      "ok": true
+    },
+    {
+      "label": "reduced motion: poster is visible",
+      "ok": true
+    },
+    {
+      "label": "reduced motion: zero document animations over 2s",
+      "ok": true,
+      "detail": "0,0,0,0,0,0,0,0"
+    },
+    {
+      "label": "reduced motion: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "no WebGL: poster stays visible",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: at most one canvas",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: live layer stays inert",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "screenshot revealed/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot reduced/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot revealed/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot reduced/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot revealed/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot reduced/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot revealed/desktop/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot reduced/desktop/dark: written",
+      "ok": true
+    }
+  ],
+  "measurements": {
+    "normal": {
+      "fcp": {
+        "fcpState": "idle",
+        "fcpTime": 28,
+        "paints": [
+          {
+            "name": "first-paint",
+            "startTime": 28
+          },
+          {
+            "name": "first-contentful-paint",
+            "startTime": 28
+          }
+        ]
+      },
+      "idleSamples": [
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        },
+        {
+          "state": "exploded",
+          "tweening": "false"
+        }
+      ],
+      "pageErrors": []
+    },
+    "reduced": {
+      "animationSamples": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pageErrors": []
+    },
+    "noWebgl": {
+      "pageErrors": [],
+      "state": "loading"
+    }
+  },
+  "passed": true
+}

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
 import { AboutStrip } from '../../components/about-strip';
+import { POSTER_FADE_CLASS } from '../../components/hero/hero-classes';
+import { HeroLive } from '../../components/hero/hero-live';
 import { ProjectCard } from '../../components/project-card';
 import { TeardownPoster } from '../../components/teardown-poster';
 import { PROJECTS, cardModel } from '../../content/projects';
@@ -44,17 +46,11 @@ export default function HomePage() {
         {heroProject === undefined ? null : (
           <figure aria-labelledby="hero-caption" className="flex min-w-0 flex-col gap-3">
             <div className="relative aspect-[4/3] overflow-hidden rounded border border-line/30 bg-surface sm:aspect-[16/9]">
+              <HeroLive project={heroProject} />
               <TeardownPoster
                 project={heroProject}
                 state="exploded"
-                className="absolute inset-0 h-full w-full"
-              />
-              <div
-                data-site-live=""
-                data-site-live-state="idle"
-                className="absolute inset-0"
-                inert
-                aria-hidden="true"
+                className={POSTER_FADE_CLASS}
               />
             </div>
             <figcaption id="hero-caption" className="text-sm leading-relaxed text-muted">
