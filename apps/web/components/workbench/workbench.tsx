@@ -13,7 +13,7 @@ export function Workbench({ project }: WorkbenchProps) {
   return (
     <div
       data-site-workbench=""
-      className="grid min-w-0 grid-rows-[min(70svh,44rem)_7rem_24.25rem] gap-3 sm:grid-rows-[min(70svh,44rem)_4rem_17rem]"
+      className="grid min-w-0 grid-rows-[min(70svh,44rem)_7rem_33.5rem] gap-3 sm:grid-rows-[min(70svh,44rem)_4rem_28rem]"
     >
       <div
         data-site-stage=""

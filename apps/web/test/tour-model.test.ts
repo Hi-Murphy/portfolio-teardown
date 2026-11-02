@@ -2,8 +2,10 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, test } from 'vitest';
 
+import { ExplorePanel } from '../components/workbench/explore-panel';
 import { TourPanel } from '../components/workbench/tour-panel';
 import {
+  buildLayerModels,
   buildTourFlows,
   findTourFlow,
   jumpSequence,
@@ -13,12 +15,18 @@ import {
 const PROJECT = {
   layers: [
     {
+      id: 'ui',
+      name: 'UI',
+      description: 'The visible surface.',
       components: [
         { id: 'a', name: 'Alpha', summary: 'First component.' },
         { id: 'b', name: 'Beta', summary: 'Second component.' },
       ],
     },
     {
+      id: 'core',
+      name: 'Core',
+      description: 'The supporting parts.',
       components: [{ id: 'c', name: 'Gamma', summary: 'Third component.' }],
     },
   ],
@@ -37,6 +45,28 @@ const PROJECT = {
 } as const;
 
 describe('tour model', () => {
+  test('builds layer models from the project layers', () => {
+    expect(buildLayerModels(PROJECT)).toEqual([
+      {
+        id: 'ui',
+        name: 'UI',
+        partCount: 2,
+        description: 'The visible surface.',
+        parts: [
+          { id: 'a', name: 'Alpha', summary: 'First component.' },
+          { id: 'b', name: 'Beta', summary: 'Second component.' },
+        ],
+      },
+      {
+        id: 'core',
+        name: 'Core',
+        partCount: 1,
+        description: 'The supporting parts.',
+        parts: [{ id: 'c', name: 'Gamma', summary: 'Third component.' }],
+      },
+    ]);
+  });
+
   test('builds steps from flows and resolves component names and summaries', () => {
     const flows = buildTourFlows(PROJECT);
 
@@ -96,7 +126,6 @@ describe('tour model', () => {
         onPrevious: () => undefined,
         onNext: () => undefined,
         onRestart: () => undefined,
-        onExit: () => undefined,
         onJump: () => undefined,
         onHighlight: () => undefined,
       }),
@@ -109,7 +138,7 @@ describe('tour model', () => {
     expect(html).not.toContain('Main flow');
   });
 
-  test('Exit tour is present only when the tour is not idle', () => {
+  test('the tour has no Exit control and the primary control is icon-only', () => {
     const props = {
       flows: buildTourFlows(PROJECT),
       flowId: 'main',
@@ -119,16 +148,19 @@ describe('tour model', () => {
       onPrevious: () => undefined,
       onNext: () => undefined,
       onRestart: () => undefined,
-      onExit: () => undefined,
       onJump: () => undefined,
       onHighlight: () => undefined,
     } as const;
-    const idle = renderToStaticMarkup(createElement(TourPanel, { ...props, status: 'idle' }));
     const playing = renderToStaticMarkup(createElement(TourPanel, { ...props, status: 'playing' }));
+    const play = playing.slice(playing.indexOf('data-site-control="tour-play"'));
+    const playButton = play.slice(0, play.indexOf('</button>'));
 
-    expect(idle).not.toContain('data-site-control="tour-exit"');
-    expect(playing).toContain('data-site-control="tour-exit"');
-    expect(playing).toContain('aria-label="Exit tour"');
+    expect(playing).not.toContain('data-site-control="tour-exit"');
+    expect(playing).not.toContain('Exit tour');
+    expect(playButton).toContain('aria-label="Pause tour"');
+    expect(playButton).toContain('title="Pause tour"');
+    expect(playButton).toContain('aria-pressed="true"');
+    expect(playButton).not.toContain('<span');
   });
 
   test('transport controls render as one cluster in the requested order', () => {
@@ -143,13 +175,12 @@ describe('tour model', () => {
         onPrevious: () => undefined,
         onNext: () => undefined,
         onRestart: () => undefined,
-        onExit: () => undefined,
         onJump: () => undefined,
         onHighlight: () => undefined,
       }),
     );
-    const controls = ['tour-restart', 'tour-prev', 'tour-play', 'tour-next', 'tour-exit'].map(
-      (control) => html.indexOf(`data-site-control="${control}"`),
+    const controls = ['tour-restart', 'tour-prev', 'tour-play', 'tour-next'].map((control) =>
+      html.indexOf(`data-site-control="${control}"`),
     );
 
     expect(html).toContain('data-site-tour-transport');
@@ -157,5 +188,44 @@ describe('tour model', () => {
     expect(controls).toEqual([...controls].sort((left, right) => left - right));
     expect(html).toContain('aria-label="Pause tour"');
     expect(html).toContain('aria-pressed="true"');
+  });
+
+  test('the Explore card defaults to the Layers tab and panel', () => {
+    const html = renderToStaticMarkup(
+      createElement(ExplorePanel, {
+        layers: buildLayerModels(PROJECT),
+        focusedLayerId: null,
+        onToggleLayer: () => undefined,
+        onEnterLayers: () => undefined,
+        onEnterFlows: () => undefined,
+        flows: buildTourFlows(PROJECT),
+        flowId: 'main',
+        status: 'idle',
+        step: 0,
+        onSelectFlow: () => undefined,
+        onTogglePlayback: () => undefined,
+        onPrevious: () => undefined,
+        onNext: () => undefined,
+        onRestart: () => undefined,
+        onJump: () => undefined,
+        onHighlight: () => undefined,
+      }),
+    );
+
+    expect(html).toContain('role="tablist"');
+    expect(html).toContain('aria-label="Explore mode"');
+    expect(html).toContain('data-site-explore-tab="layers"');
+    expect(html).toContain('aria-selected="true"');
+    expect(html).toContain('aria-controls="explore-panel-layers"');
+    expect(html).toContain('role="tabpanel"');
+    expect(html).toContain('id="explore-panel-layers"');
+    expect(html).toContain('id="explore-panel-flows"');
+    expect(html).toContain('aria-controls="explore-panel-flows"');
+    expect(html).not.toContain('data-site-explore-panel="layers" hidden');
+    expect(html).toContain('data-site-explore-panel="flows" hidden=""');
+    expect(html).toContain('data-site-layer-chip="ui"');
+    expect(html).toContain('1 UI');
+    expect(html).toContain('2 parts');
+    expect(html).toContain('Pick a layer to isolate it.');
   });
 });
