@@ -40,9 +40,9 @@ Turn the placeholder into the **actual portfolio**: a home page with a poster-fi
 - Each task ends with WHAT MURPHY SHOULD TEST/VALIDATE + WHAT THE AGENT NEEDS FROM MURPHY (numbered, defaults).
 - No secrets; gitleaks green.
 
-## Murphy dependencies
-- **Résumé PDF:** provide the existing PDF (or a link) — until then the button points at a `#` with a `TODO(résumé)` note. Default: reuse the existing PDF.
-- **Contact method:** default is `mailto:` on the address you want public + GitHub/LinkedIn links; no form in MVP.
+## Murphy dependencies (resolved 2026-11-02)
+- **Résumé PDF:** ✅ reuse the existing file — place it at `apps/web/public/resume.pdf` (Murphy supplies it from his Mac; no accessible repo copy exists). Until the file lands, the nav button still renders pointing at `/resume.pdf` with a `TODO(résumé)` marker; S10 validation includes a file-exists check. Do not redesign it.
+- **Contact:** ✅ `mailto:vibing.murphy@gmail.com` + GitHub/LinkedIn links. No form in MVP.
 
 ## Freeze protocol
 Frozen at commit; work only on `task/s10-site-shell`; integration via PR after Murphy's final validation. Scope/AC changes = revision, logged in vault (counter 0 of 2). Design decisions (hero hydration strategy, card layout, route structure, list page design) live in `.specify/features/site-shell/rfc.md` — orchestrator-authored, Murphy-reviewed before spec/plan/tasks and again before execution.
