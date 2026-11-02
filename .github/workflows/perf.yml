@@ -49,7 +49,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Lighthouse gate
-        run: pnpm perf:lighthouse "${{ steps.preview.outputs.url }}"
+        run: pnpm perf:lighthouse "${{ steps.preview.outputs.url }}" --categories performance,accessibility
+      - name: Lighthouse gate (project route)
+        run: >-
+          pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects/websocket-inspector"
+          --categories performance,accessibility --out .evidence/ci/lighthouse-project
       - name: Upload Lighthouse evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -89,6 +93,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Weight gate
         run: pnpm perf:weight "${{ steps.preview.outputs.url }}"
+      - name: Weight gate (project route)
+        run: >-
+          pnpm perf:weight "${{ steps.preview.outputs.url }}projects/websocket-inspector"
+          --out .evidence/ci/weight-project
       - name: Upload weight evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -185,6 +193,9 @@ jobs:
       - name: Assert engine playground absent from preview
         if: github.event_name == 'pull_request'
         run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}dev/engine"
+      - name: Assert unknown project slug is 404 on preview
+        if: github.event_name == 'pull_request'
+        run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}projects/does-not-exist"
       - name: Resolve production deployment
         if: github.event_name == 'push'
         run: >-
