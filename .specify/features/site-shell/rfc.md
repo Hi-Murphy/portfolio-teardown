@@ -473,3 +473,5 @@ A new `tools/perf/src/site-probe.ts` + CLI `cli/site-probe.ts` (`pnpm site:probe
      - reduced motion does not block the workbench (it is the page's content; the S8 static twins apply);
      - no-JS and no-WebGL paths are unchanged.
    - **Tooling consequence:** the site probe and site axe trigger the project-route 3D by clicking `explore-3d` (and the hero by a pointer move) before waiting for `[data-xploder-ready]`.
+
+19. **G3 follow-up (Murphy, 2026-11-02, 5h 44%):** "yes add". The orchestrator added `a11y: axe (production routes)` to the repository ruleset **"main: required checks"** (id 26115910, active, target `~DEFAULT_BRANCH`). Required checks are now: build (typecheck, lint, test, build) · secrets (gitleaks) · perf-gate: lighthouse (mobile) · perf-gate: weight (< 3 MB) · a11y: axe (production routes). Nothing else in the ruleset changed. `main` uses rulesets, not classic branch protection. The S8 job `a11y: axe (engine fixture export)` stays non-required, as before.
