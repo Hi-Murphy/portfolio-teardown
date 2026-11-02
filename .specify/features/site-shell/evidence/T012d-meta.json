@@ -185,17 +185,17 @@
     {
       "label": "workbench poster: pointer-events-none",
       "ok": true,
-      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952051\"}"
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0\"}"
     },
     {
       "label": "workbench poster: invisible after reveal",
       "ok": true,
-      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952051\"}"
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0\"}"
     },
     {
       "label": "workbench: stage centre hit-test reaches the live viewer, not the poster",
       "ok": true,
-      "detail": "{\"poster\":{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952051\"},\"hitTag\":\"CANVAS\",\"hitInsideViewer\":true,\"hitPoster\":false}"
+      "detail": "{\"poster\":{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0\"},\"hitTag\":\"CANVAS\",\"hitInsideViewer\":true,\"hitPoster\":false}"
     },
     {
       "label": "hover: moving over slab centres sets data-xploder-highlight",
@@ -289,17 +289,17 @@
     {
       "label": "hero poster: pointer-events-none",
       "ok": true,
-      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952683\"}"
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0\"}"
     },
     {
       "label": "hero poster: invisible after reveal",
       "ok": true,
-      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952683\"}"
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0\"}"
     },
     {
       "label": "hero: poster no longer intercepts; the plan-mandated inert live layer is not a hit target",
       "ok": true,
-      "detail": "{\"poster\":{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952683\"},\"hitTag\":\"DIV\",\"hitInsideViewer\":false,\"hitPoster\":false,\"liveInert\":true,\"viewerPresent\":true}"
+      "detail": "{\"poster\":{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0\"},\"hitTag\":\"DIV\",\"hitInsideViewer\":false,\"hitPoster\":false,\"liveInert\":true,\"viewerPresent\":true}"
     },
     {
       "label": "hero: no page errors",

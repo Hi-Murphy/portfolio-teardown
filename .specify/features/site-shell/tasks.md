@@ -35,8 +35,8 @@
 | T011 | ☑ (toolbar/case study/tour; rects stable; no-WebGL outline; ONE 3D chunk R2; CLS 0 on 3 routes) | 1 (Flash) | evidence/T011-{log-workbench.txt,screenshot-*.png,meta.json} | 56f49cf |
 | T012a | ☑ (dock + Guided tour: route chooser w/ descriptions, transport, clickable step rail, hover highlight, Now line; pause-on-implode; 89 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (Case study text label ≥ sm) | evidence/T012a-{log-dock-tour.txt,screenshot-*.png,meta.json} | 3f93411 |
 | T012b | ☑ (header one line at 360 no overflow; footer two-column; Résumé links + public/resume.pdf removed; /resume.pdf 404) | 1 (Flash) + orchestrator review (nav server-side, only NavProjectsLink client; desktop right-aligned links) | evidence/T012b-{log-header-footer.txt,screenshot-*.png,cls.json,meta.json} | 4ed6c27 |
-| T012d | ☐ | | | |
-| T012e | ☐ | | | |
+| T012d | ☑ (poster hit-through fixed: hover leaders, wheel scroll at max zoom, slab clicks; Exit tour; route header first → last + steps; explode-before-step; 50 smoke asserts) | 1 (Flash) + orchestrator review (poster hides after the fade) | evidence/T012d-* | 907c2d6 |
+| T012e | ☑ (S6 tour trail; 44 smoke asserts; S6 re-sealed at f65b13c; guards exit non-zero) | 1 (Flash; 1st launch was a runner quoting bug, not an attempt) + ⚑ orchestrator re-seal | evidence/{T012e-*,Q16-revision-note.md} | cfef420 |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
