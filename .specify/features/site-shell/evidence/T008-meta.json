@@ -1,0 +1,268 @@
+{
+  "kind": "T008-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-home-mobile-light.png",
+      "route": "home",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-projects-mobile-light.png",
+      "route": "projects",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-home-desktop-light.png",
+      "route": "home",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-projects-desktop-light.png",
+      "route": "projects",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-home-mobile-dark.png",
+      "route": "home",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-projects-mobile-dark.png",
+      "route": "projects",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-home-desktop-dark.png",
+      "route": "home",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T008-screenshot-projects-desktop-dark.png",
+      "route": "projects",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    }
+  ],
+  "checks": [
+    {
+      "label": "home: hero contains the poster SVG",
+      "ok": true
+    },
+    {
+      "label": "home: hero headline is the page h1",
+      "ok": true
+    },
+    {
+      "label": "home: hero eyebrow uses SITE.hero.eyebrow",
+      "ok": true
+    },
+    {
+      "label": "home: hero subline uses SITE.hero.subline",
+      "ok": true
+    },
+    {
+      "label": "home: primary CTA uses SITE.hero.primaryCta",
+      "ok": true
+    },
+    {
+      "label": "home: secondary CTA links to /projects",
+      "ok": true
+    },
+    {
+      "label": "home: hero reserves the live layer",
+      "ok": true
+    },
+    {
+      "label": "home: live layer is empty and idle before T009",
+      "ok": true
+    },
+    {
+      "label": "home: hero caption comes from project meta",
+      "ok": true
+    },
+    {
+      "label": "home: cards heading uses SITE.projects.title",
+      "ok": true
+    },
+    {
+      "label": "home: card shows project name and tagline",
+      "ok": true
+    },
+    {
+      "label": "home: card shows exactly four chips",
+      "ok": true
+    },
+    {
+      "label": "home: about section has id=about",
+      "ok": true
+    },
+    {
+      "label": "home: S1 palette placeholder is absent",
+      "ok": true
+    },
+    {
+      "label": "home: nav has one Projects link",
+      "ok": true
+    },
+    {
+      "label": "nav: Projects reaches /projects in one click",
+      "ok": true
+    },
+    {
+      "label": "/projects: h1 uses SITE.projects.title",
+      "ok": true
+    },
+    {
+      "label": "/projects: card links to the project route",
+      "ok": true
+    },
+    {
+      "label": "/projects/nope: response status is 404",
+      "ok": true
+    },
+    {
+      "label": "/projects/nope: h1 says Page not found",
+      "ok": true
+    },
+    {
+      "label": "/projects/nope: compact project cards render",
+      "ok": true
+    },
+    {
+      "label": "/projects/nope: recovery link points home",
+      "ok": true
+    },
+    {
+      "label": "/projects/nope: recovery link points to /projects",
+      "ok": true
+    },
+    {
+      "label": "no-js: home renders the poster",
+      "ok": true
+    },
+    {
+      "label": "no-js: home renders project cards",
+      "ok": true
+    },
+    {
+      "label": "home/mobile/light: document title",
+      "ok": true
+    },
+    {
+      "label": "home/mobile/light: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "projects/mobile/light: document title",
+      "ok": true
+    },
+    {
+      "label": "projects/mobile/light: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "home/desktop/light: document title",
+      "ok": true
+    },
+    {
+      "label": "home/desktop/light: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "projects/desktop/light: document title",
+      "ok": true
+    },
+    {
+      "label": "projects/desktop/light: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "home/mobile/dark: document title",
+      "ok": true
+    },
+    {
+      "label": "home/mobile/dark: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "projects/mobile/dark: document title",
+      "ok": true
+    },
+    {
+      "label": "projects/mobile/dark: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "home/desktop/dark: document title",
+      "ok": true
+    },
+    {
+      "label": "home/desktop/dark: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "projects/desktop/dark: document title",
+      "ok": true
+    },
+    {
+      "label": "projects/desktop/dark: screenshot written",
+      "ok": true
+    }
+  ],
+  "passed": true
+}
