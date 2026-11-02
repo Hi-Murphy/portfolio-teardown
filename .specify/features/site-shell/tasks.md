@@ -38,6 +38,7 @@
 | T012d | ☑ (poster hit-through fixed: hover leaders, wheel scroll at max zoom, slab clicks; Exit tour; route header first → last + steps; explode-before-step; 50 smoke asserts) | 1 (Flash) + orchestrator review (poster hides after the fade) | evidence/T012d-* | 907c2d6 |
 | T012e | ☑ (S6 tour trail; 44 smoke asserts; S6 re-sealed at f65b13c; guards exit non-zero) | 1 (Flash; 1st launch was a runner quoting bug, not an attempt) + ⚑ orchestrator re-seal | evidence/{T012e-*,Q16-revision-note.md} | cfef420 |
 | T012f | ☑ (portal targets resolved after commit, scoped + rAF retry: 10× soft-nav/back/forward + 5× reload pass on export and next dev; centred transport Δ 0 px; CLS 0) | 1 (Flash) | evidence/T012f-* | (merge) |
+| T012g | ☐ | | | |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
@@ -484,6 +485,25 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   - Screenshots: tour playing (mobile + desktop, light + dark).
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Refresh and navigate repeatedly; the menus are always there. 2. The new centred transport (default: as screenshotted).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. G2 verdict.
+
+### T012g [US3] G2 feedback round 4: Explore card with Layers | Flows switch, spacing, icon-only play (RFC §9.11)
+
+- **Seam:** workbench UI ↔ S5 focus + tour actions (engine unchanged).
+- **Files:** `components/workbench/explore-panel.tsx` (new: tabs + mode state), `components/workbench/layers-panel.tsx` (new), `components/workbench/tour-panel.tsx` (spacing, icon-only primary, Exit tour removed), `components/workbench/workbench-client.tsx`, `components/workbench/workbench.tsx` (reserved card height), `components/workbench/tour-model.ts` (layer model: id, name, part count, description), `apps/web/test/tour-model.test.ts`.
+- **Check:** export smoke (port 4310). It asserts:
+  - the default tab is Layers (`aria-selected=true`) and the tour is idle;
+  - layer chips = 5 with "· N parts"; clicking chip 2 → `data-xploder-focus` = that layer id and the description shows; clicking again → released;
+  - ArrowRight on the tablist moves to Flows; Flows shows the route chooser + transport; the primary button has no visible text, and its aria-label is "Start tour" → after a click "Pause tour" (`aria-pressed=true`, tour playing);
+  - switching back to Layers → tour idle + full callouts (`data-xploder-overlay=shown`, ≥ 16 part labels);
+  - with focus active, switching to Flows → focus released;
+  - no Exit tour control exists;
+  - the card rect is identical across both modes and before/after hydration;
+  - no horizontal overflow at 360/1280;
+  - strict CLS 0 (`site:probe --group cls`);
+  - the portal regression (5× reload) still passes.
+  - Screenshots: Layers (with focus) + Flows (playing), mobile + desktop, light + dark.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. The switch, layer isolation, the tour (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Names "Layers" / "Flows" (default: these).
 
 ### T012c [US1–US5] G2 evidence refresh
 
