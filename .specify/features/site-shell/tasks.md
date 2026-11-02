@@ -36,6 +36,7 @@
 | T012a | ☑ (dock + Guided tour: route chooser w/ descriptions, transport, clickable step rail, hover highlight, Now line; pause-on-implode; 89 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (Case study text label ≥ sm) | evidence/T012a-{log-dock-tour.txt,screenshot-*.png,meta.json} | 3f93411 |
 | T012b | ☑ (header one line at 360 no overflow; footer two-column; Résumé links + public/resume.pdf removed; /resume.pdf 404) | 1 (Flash) + orchestrator review (nav server-side, only NavProjectsLink client; desktop right-aligned links) | evidence/T012b-{log-header-footer.txt,screenshot-*.png,cls.json,meta.json} | 4ed6c27 |
 | T012d | ☐ | | | |
+| T012e | ☐ | | | |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
@@ -455,6 +456,19 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   - screenshots (tour panel idle/playing, mobile + desktop, light + dark).
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Hover/click parts, scroll at max zoom, Exit tour, step while imploded (default: as screenshotted).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Q16 (tour trail callouts): (A) brief revision or (B) defer (default B).
+
+### T012e [US3] Q16 (A): S6 overlay "tour trail" + re-seal (RFC §9.9 D14)
+
+- **Seam:** S6 overlay model ↔ tour state (sealed surface, Murphy-authorised revision).
+- **Files:**
+  - `packages/xploder/src/overlay/model.ts`: the additive trail (D14);
+  - `packages/xploder/test/overlay-tour-trail.test.ts` (new): fixture A in a columns viewport; tour playing step 0 → exactly 1 part label + 1 leader, the label emphasised; step 3 → 4 labels in path order, 4 leaders, only the last emphasised; paused keeps the trail; unknown flowId → empty; narrow (non-columns) → empty; idle → unchanged base model (deep-equals the idle `overlayStateModel` without tour fields);
+  - `packages/xploder/test/frozen-surface.generate-s6.sh` (base → the T012e source commit, note += revision), regenerated `frozen-surface.s6.manifest.json`, `frozen-surface.test.ts` S6 block (base + note);
+  - `.specify/features/site-shell/guards.sh` (S6 base; XPLODER-SRC-OK = only `src/overlay/model.ts` differs from `99a94f2`);
+  - `evidence/Q16-revision-note.md` (for Merlin).
+- **Check:** xploder tests green (all, incl. `overlay-model.test.ts` unchanged); S6 negative control red; guards OK; export smoke on the project route (port 4320): Start tour → the overlay is shown with 1 part label + leader, then Next ×2 → 3 labels + 3 leaders, the latest emphasised; Exit/stop → full idle overlay back; screenshots of the tour trail (desktop, light + dark).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Play the tour and watch the names build up on the right (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Send `evidence/Q16-revision-note.md` to Merlin after S10 (agreed).
 
 ### T012c [US1–US5] G2 evidence refresh
 
