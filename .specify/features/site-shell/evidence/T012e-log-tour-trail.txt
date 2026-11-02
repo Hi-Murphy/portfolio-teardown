@@ -1,0 +1,50 @@
+T012e smoke 2026-11-02T06:07:00.222Z
+Build: pnpm build (/Users/murphy/orca/workspaces/portfolio-teardown/task-s10-site-shell)
+Serve: http://127.0.0.1:4320 from apps/web/out (port 4320)
+PASS light: idle overlay has every part label (16/16)
+PASS light: idle overlay has no leaders
+PASS light/start: tour is active (playing)
+PASS light/start: step 0 (0)
+PASS light/start: overlay shown (shown)
+PASS light/start: columns callouts (columns)
+PASS light/start: 1 labels in path order (part:main-activity)
+PASS light/start: 1 leader strokes (1)
+PASS light/start: only the current label is emphasised ([{"key":"part:main-activity","emphasis":true}])
+PASS light/start: every leader is a three-point elbow
+PASS light/next-x2: tour is active (paused)
+PASS light/next-x2: step 2 (2)
+PASS light/next-x2: overlay shown (shown)
+PASS light/next-x2: columns callouts (columns)
+PASS light/next-x2: 3 labels in path order (part:main-activity part:financial-api part:chucker-factory)
+PASS light/next-x2: 3 leader strokes (3)
+PASS light/next-x2: only the current label is emphasised ([{"key":"part:chucker-factory","emphasis":true}])
+PASS light/next-x2: every leader is a three-point elbow
+PASS light: tour-trail screenshot written
+PASS light: exit/stop restores every idle part label (16/16)
+PASS light: exit/stop removes every leader
+PASS light: no page errors ()
+PASS dark: idle overlay has every part label (16/16)
+PASS dark: idle overlay has no leaders
+PASS dark/start: tour is active (playing)
+PASS dark/start: step 0 (0)
+PASS dark/start: overlay shown (shown)
+PASS dark/start: columns callouts (columns)
+PASS dark/start: 1 labels in path order (part:main-activity)
+PASS dark/start: 1 leader strokes (1)
+PASS dark/start: only the current label is emphasised ([{"key":"part:main-activity","emphasis":true}])
+PASS dark/start: every leader is a three-point elbow
+PASS dark/next-x2: tour is active (paused)
+PASS dark/next-x2: step 2 (2)
+PASS dark/next-x2: overlay shown (shown)
+PASS dark/next-x2: columns callouts (columns)
+PASS dark/next-x2: 3 labels in path order (part:main-activity part:financial-api part:chucker-factory)
+PASS dark/next-x2: 3 leader strokes (3)
+PASS dark/next-x2: only the current label is emphasised ([{"key":"part:chucker-factory","emphasis":true}])
+PASS dark/next-x2: every leader is a three-point elbow
+PASS dark: tour-trail screenshot written
+PASS dark: exit/stop restores every idle part label (16/16)
+PASS dark: exit/stop removes every leader
+PASS dark: no page errors ()
+
+T012e smoke assertions passed
+== T012e re-seal (orchestrator, 2026-11-02): S6 manifest regenerated at base f65b13c; diff = base, note, src/overlay/model.ts hash. overlay-model.test.ts byte-identical since 5b22987. S6 negative control red; guards.sh exits 1 on failure (tamper test). Suite 111/617/108. Integrated smokes on cfef420: T012d 50 PASS, T012e 44 PASS.

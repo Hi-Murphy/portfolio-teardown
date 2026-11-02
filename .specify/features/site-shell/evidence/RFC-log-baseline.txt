@@ -1,0 +1,24 @@
+S10 RFC baseline (orchestrator, 2026-11-02) — branch task/s10-site-shell @ 99a94f2, fixture export (PERF_FIXTURES=1 pnpm --filter web build), served locally with tools/perf serve on 127.0.0.1:4310. Tools: lighthouse 13.6.0, chromium 156, playwright 1.64.1, node v24.19.0, darwin arm64.
+
+== 1. Mobile Lighthouse on the engine route (closest existing proxy for /projects/[slug]) ==
+$ pnpm perf:lighthouse "http://127.0.0.1:4310/dev/engine?fixture=a" --out /tmp/s10-baseline-lh
+exit 6 (budget violated — CLS only)
+performance: 1 >= 0.95 (median) pass
+lcp: 770.9295 < 2500 (median) pass
+cls: 0.00004300157470333178 x3 === 0 (every-run) fail
+runs: perf 0.99 / 1 / 1 · lcpMs 769 / 771 / 771 · tbtMs 114 / 58.5 / 84.5 · siMs 1931 / 1902 / 1930 · totalByteWeight 471109 B · benchmarkIndex ~4200
+note: the gate runs categories ['performance'] only (lighthouse-gate.ts:60) → accessibility is null; AC5 needs a11y >= 95 → D9.
+note: local static server, no CDN/compression; CI runners have a lower benchmarkIndex, so TBT will be higher there.
+
+== 2. Page-load layout-shift attribution on /dev/engine?fixture=a (PerformanceObserver layout-shift, buffered, until [data-xploder-ready="true"] + 1.5 s, no input) ==
+desktop 1280x800: total 0.000637, one entry at t=327 ms, hadRecentInput=false
+  SECTION{Layer focus controls} y720→714 h78→78
+  BUTTON[rotate-right] y640→637 · BUTTON[zoom-reset] y640→637 · BUTTON[case-study] y640→637 · BUTTON[rotate-left] y640→637 (all h44→44, x/w unchanged)
+mobile 412x823: total 0.000043, one entry at t=322 ms
+  BUTTON[case-study] y785.8→782.8 h37.2→40.2 (clipped by the viewport bottom edge)
+reading: a whole flex line of the "Engine playground controls" row moves up 3 px at hydration time. The only element in that row that changes box at mount is
+  <div class="ml-auto"><ThemeToggle/></div>: pre-mount placeholder = <span class="inline-block h-11 w-11"> (an inline-level box on the text baseline → the
+  div's line box is taller than 44 px by the descender gap); post-mount = <button class="inline-flex h-11 w-11 …">. The line's cross size shrinks and the
+  centred items move up. Same value as the S5 F7 attribution (0.0006, t≈320 ms), so this is the same shift.
+  The current production placeholder `/` puts ThemeToggle directly in a `flex` header (blockified flex item) → no shift there, which is why `/` has CLS 0 today.
+  The S10 nav reuses ThemeToggle → the fix belongs in the component (D10), not only in the playground.

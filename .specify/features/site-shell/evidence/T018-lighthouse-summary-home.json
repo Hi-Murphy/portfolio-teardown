@@ -1,0 +1,83 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/",
+  "finalUrl": "https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 933.6650000000001,
+      "cls": 0,
+      "tbtMs": 10,
+      "fcpMs": 933.6650000000001,
+      "siMs": 933.6650000000001,
+      "totalByteWeight": 204158,
+      "benchmarkIndex": 4285
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 932.055,
+      "cls": 0,
+      "tbtMs": 6,
+      "fcpMs": 932.055,
+      "siMs": 932.055,
+      "totalByteWeight": 204238,
+      "benchmarkIndex": 4285
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 937.382,
+      "cls": 0,
+      "tbtMs": 12,
+      "fcpMs": 937.382,
+      "siMs": 937.382,
+      "totalByteWeight": 204134,
+      "benchmarkIndex": 4247.5
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 933.6650000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

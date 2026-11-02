@@ -1,0 +1,8 @@
+absent: https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/dev/engine returned HTTP 404 without data-perf-fixture
+absent: https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+absent: https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/projects/does-not-exist returned HTTP 404 without data-perf-fixture
+absent: https://portfolio-teardown-git-task-s10-site-shell-murphy-3c4d.vercel.app/resume.pdf returned HTTP 404 without data-perf-fixture
+absent: https://portfolio-teardown.vercel.app/dev/engine returned HTTP 404 without data-perf-fixture
+absent: https://portfolio-teardown.vercel.app/fixtures/fps-calibration returned HTTP 404 without data-perf-fixture
+resume-file-absent: true
+resume-http-status: 404

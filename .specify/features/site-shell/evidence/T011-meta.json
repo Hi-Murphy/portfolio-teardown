@@ -1,0 +1,485 @@
+{
+  "kind": "T011-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-exploded-mobile-light.png",
+      "mode": "exploded",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-case-study-mobile-light.png",
+      "mode": "case-study",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-tour-mobile-light.png",
+      "mode": "tour",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-exploded-desktop-light.png",
+      "mode": "exploded",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-case-study-desktop-light.png",
+      "mode": "case-study",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-tour-desktop-light.png",
+      "mode": "tour",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-exploded-mobile-dark.png",
+      "mode": "exploded",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-case-study-mobile-dark.png",
+      "mode": "case-study",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-tour-mobile-dark.png",
+      "mode": "tour",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-exploded-desktop-dark.png",
+      "mode": "exploded",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-case-study-desktop-dark.png",
+      "mode": "case-study",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T011-screenshot-tour-desktop-dark.png",
+      "mode": "tour",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "palette": "dark"
+    }
+  ],
+  "checks": [
+    {
+      "label": "SSR: project route responds 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "label": "SSR: workbench shell and poster are present",
+      "ok": true
+    },
+    {
+      "label": "SSR: stage box has a reserved rect",
+      "ok": true
+    },
+    {
+      "label": "SSR: toolbar box has a reserved rect",
+      "ok": true
+    },
+    {
+      "label": "SSR mobile: stage box has a reserved rect",
+      "ok": true
+    },
+    {
+      "label": "SSR mobile: toolbar box has a reserved rect",
+      "ok": true
+    },
+    {
+      "label": "viewer: ready and exploded at load",
+      "ok": true,
+      "detail": "{\"ready\":\"true\",\"state\":\"exploded\",\"tweening\":\"false\",\"label\":\"Scarlet Inspector architecture view\"}"
+    },
+    {
+      "label": "viewer: no explosion tween at load",
+      "ok": true,
+      "detail": "false"
+    },
+    {
+      "label": "viewer: exactly one canvas",
+      "ok": true
+    },
+    {
+      "label": "viewer: project-specific accessible name",
+      "ok": true,
+      "detail": "Scarlet Inspector architecture view"
+    },
+    {
+      "label": "viewer: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "toolbar: buttons are present in the required order",
+      "ok": true,
+      "detail": "toggle, rotate-left, rotate-right, zoom-out, zoom-reset, zoom-in, case-study, flow-capture-path, flow-inspect-path, tour-play, tour-step, tour-stop"
+    },
+    {
+      "label": "toolbar: flow selector shows 2 flows",
+      "ok": true,
+      "detail": "flow-capture-path, flow-inspect-path"
+    },
+    {
+      "label": "toolbar: every button is at least 44px tall",
+      "ok": true,
+      "detail": "44,44,44,44,44,44,44,44,44,44,44,44"
+    },
+    {
+      "label": "layout: stage rect is identical before and after hydration",
+      "ok": true,
+      "detail": "96,382.25,1088,560 -> 96,382.25,1088,560"
+    },
+    {
+      "label": "layout: toolbar rect is identical before and after hydration",
+      "ok": true,
+      "detail": "96,954.25,1088,56 -> 96,954.25,1088,56"
+    },
+    {
+      "label": "poster: fades after the first live frame",
+      "ok": true
+    },
+    {
+      "label": "toolbar: Implode changes the viewer to imploded",
+      "ok": true
+    },
+    {
+      "label": "toolbar: Explode changes the viewer back to exploded",
+      "ok": true
+    },
+    {
+      "label": "case study: starts collapsed",
+      "ok": true
+    },
+    {
+      "label": "case study: button reports aria-expanded=true",
+      "ok": true
+    },
+    {
+      "label": "case study: panel id matches aria-controls",
+      "ok": true,
+      "detail": "case-study-_r_0_ / case-study-_r_0_"
+    },
+    {
+      "label": "case study: panel is ready",
+      "ok": true
+    },
+    {
+      "label": "tour: Step reaches paused step 1",
+      "ok": true
+    },
+    {
+      "label": "interactions: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "mobile layout: stage rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,399.5,320,560 -> 20,399.5,320,560"
+    },
+    {
+      "label": "mobile layout: toolbar rect is identical before and after hydration",
+      "ok": true,
+      "detail": "20,971.5,320,56 -> 20,971.5,320,56"
+    },
+    {
+      "label": "mobile layout: hydration adds no horizontal page overflow",
+      "ok": true,
+      "detail": "360 <= 360"
+    },
+    {
+      "label": "mobile layout: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "no WebGL: viewer reports unavailable",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: project outline is visible inside the stage",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: unavailable message is inside the stage",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: no canvas",
+      "ok": true
+    },
+    {
+      "label": "no WebGL: stage rect stays unchanged",
+      "ok": true,
+      "detail": "96,382.25,1088,560 -> 96,382.25,1088,560"
+    },
+    {
+      "label": "no WebGL: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "screenshot exploded/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot case-study/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot exploded/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot case-study/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot exploded/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot case-study/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot exploded/desktop/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot case-study/desktop/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/desktop/dark: written",
+      "ok": true
+    }
+  ],
+  "measurements": {
+    "hydration": {
+      "serverRects": {
+        "stage": {
+          "x": 96,
+          "y": 382.25,
+          "width": 1088,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 96,
+          "y": 954.25,
+          "width": 1088,
+          "height": 56
+        }
+      },
+      "mobileServerRects": {
+        "stage": {
+          "x": 20,
+          "y": 399.5,
+          "width": 320,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 20,
+          "y": 971.5,
+          "width": 320,
+          "height": 56
+        }
+      },
+      "hydratedRects": {
+        "stage": {
+          "x": 96,
+          "y": 382.25,
+          "width": 1088,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 96,
+          "y": 954.25,
+          "width": 1088,
+          "height": 56
+        }
+      },
+      "mobileHydratedRects": {
+        "stage": {
+          "x": 20,
+          "y": 399.5,
+          "width": 320,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 20,
+          "y": 971.5,
+          "width": 320,
+          "height": 56
+        }
+      }
+    },
+    "normal": {
+      "state": {
+        "ready": "true",
+        "state": "exploded",
+        "tweening": "false",
+        "label": "Scarlet Inspector architecture view"
+      },
+      "controls": [
+        "toggle",
+        "rotate-left",
+        "rotate-right",
+        "zoom-out",
+        "zoom-reset",
+        "zoom-in",
+        "case-study",
+        "flow-capture-path",
+        "flow-inspect-path",
+        "tour-play",
+        "tour-step",
+        "tour-stop"
+      ],
+      "hydratedRects": {
+        "stage": {
+          "x": 96,
+          "y": 382.25,
+          "width": 1088,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 96,
+          "y": 954.25,
+          "width": 1088,
+          "height": 56
+        }
+      },
+      "pageErrors": []
+    },
+    "mobile": {
+      "hydratedRects": {
+        "stage": {
+          "x": 20,
+          "y": 399.5,
+          "width": 320,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 20,
+          "y": 971.5,
+          "width": 320,
+          "height": 56
+        }
+      },
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360
+      },
+      "pageErrors": []
+    },
+    "noWebgl": {
+      "rects": {
+        "stage": {
+          "x": 96,
+          "y": 382.25,
+          "width": 1088,
+          "height": 560
+        },
+        "toolbar": {
+          "x": 96,
+          "y": 954.25,
+          "width": 1088,
+          "height": 56
+        }
+      },
+      "pageErrors": []
+    }
+  },
+  "passed": true
+}

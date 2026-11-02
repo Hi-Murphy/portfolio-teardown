@@ -1,0 +1,36 @@
+$ node tools/perf/src/cli/site-probe.ts --fixtures /tmp/s10-base/out-fixtures --group cls --out /tmp/s10-checks/t004-before
+cls /dev/engine?fixture=a desktop light total=0.000637 FAIL
+cls /dev/engine?fixture=a desktop dark total=0.000637 FAIL
+cls /dev/engine?fixture=a mobile light total=0.000043 FAIL
+cls /dev/engine?fixture=a mobile dark total=0.000043 FAIL
+site-probe: FAIL
+artifacts: /tmp/s10-checks/t004-before
+[ELIFECYCLE] Command failed with exit code 6.
+$ node tools/perf/src/cli/site-probe.ts --fixtures out-fixtures --group cls --out /tmp/s10-checks/t004-after
+cls /dev/engine?fixture=a desktop light total=0.000000 PASS
+cls /dev/engine?fixture=a desktop dark total=0.000000 PASS
+cls /dev/engine?fixture=a mobile light total=0.000000 PASS
+cls /dev/engine?fixture=a mobile dark total=0.000000 PASS
+site-probe: PASS
+artifacts: /tmp/s10-checks/t004-after
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T004/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  10:06:01
+   Duration  225ms (import 90%, transform 8%, tests 1%, worker 1%)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+
+== Orchestrator review (2026-11-02): independent cross-check with the Stage-1 attribution script (no hydration hold), fixture export of this worktree on 127.0.0.1:4311, /dev/engine?fixture=a: desktop 1280x800 and mobile 412x823 -> 0 layout-shift entries (before: one entry 0.000637 / 0.000043, RFC-log-baseline.txt). Probe note: the cls group delays /_next/static JS by HYDRATION_DELAY_MS=250 (measurement-only, tools/perf) so the SSR frame paints before hydration on fast localhost; this makes the check stricter, never looser.

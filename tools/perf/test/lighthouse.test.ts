@@ -6,6 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import {
   assertLighthouse,
+  parseCategories,
   pickMedianRun,
   summarizeLighthouse,
   type LHR,
@@ -124,5 +125,54 @@ describe('Lighthouse Markdown', () => {
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
+  });
+});
+
+describe('Lighthouse categories (S10 T015)', () => {
+  function withAccessibility(lhrs: LHR[], scores: readonly number[]): LHR[] {
+    return lhrs.map((lhr, index) => ({
+      ...lhr,
+      categories: { ...lhr.categories, accessibility: { score: scores[index] ?? 0 } },
+    })) as LHR[];
+  }
+
+  test('defaults to performance only, so S3 runs keep their three assertions', async () => {
+    expect(parseCategories(undefined)).toEqual(['performance']);
+
+    const summary = summarizeLighthouse(await passingLhrs());
+
+    expect(summary.assertions.map((assertion) => assertion.id)).toEqual([
+      'performance',
+      'lcp',
+      'cls',
+    ]);
+  });
+
+  test('always keeps performance and de-duplicates the list', () => {
+    expect(parseCategories('accessibility')).toEqual(['performance', 'accessibility']);
+    expect(parseCategories('performance, accessibility,performance')).toEqual([
+      'performance',
+      'accessibility',
+    ]);
+  });
+
+  test('rejects an unknown category as a usage error', () => {
+    expect(() => parseCategories('performance,acessibility')).toThrow(
+      /unknown Lighthouse category: acessibility/,
+    );
+  });
+
+  test('asserts accessibility >= 0.95 on the median when it was scored', async () => {
+    const passing = summarizeLighthouse(withAccessibility(await passingLhrs(), [1, 1, 1]), {
+      accessibility: true,
+    });
+    const failing = summarizeLighthouse(withAccessibility(await passingLhrs(), [0.9, 0.9, 0.9]), {
+      accessibility: true,
+    });
+
+    expect(passing.assertions.at(-1)).toMatchObject({ id: 'accessibility', pass: true });
+    expect(passing.pass).toBe(true);
+    expect(failing.assertions.at(-1)).toMatchObject({ id: 'accessibility', pass: false });
+    expect(failing.pass).toBe(false);
   });
 });

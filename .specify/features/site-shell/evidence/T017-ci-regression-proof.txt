@@ -1,0 +1,11 @@
+T017 regression proof: the new CI job 'a11y: axe (production routes)' fails on a deliberate app-only violation and recovers on revert.
+
+1. Baseline green: CI run 3 on 08865b7 (all checks pass; see T016-log-ci-run3.txt).
+2. Broken: 907849d adds aria-hidden="true" to <nav aria-label="Primary"> (focusable links inside).
+   perf run https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41431047142, job 125229409142: FAIL
+   axe-site total: serious 32 critical 0 moderate 0 minor 0 | failing aria-hidden-focus; exit code 6 (budget).
+   Every other check stayed green (CI run 41431047117 success).
+3. Revert: f0ab654 (git revert of 907849d).
+   CI https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41431456914 success
+   perf https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41431456882 success, including 'a11y: axe (production routes)' pass.
+Tier: orchestrator (⚑).

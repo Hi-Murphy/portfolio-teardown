@@ -1,0 +1,16 @@
+src/a11y/
+src/react/a11y/
+src/react/TeardownViewer.tsx
+src/react/lettering/PartLettering.tsx
+src/react/lettering/faceNames.ts
+src/react/panel/DetailPanel.tsx
+src/react/panel/PanelLayer.tsx
+src/react/panel/TechChips.tsx
+src/react/panel/useViewerPanels.ts
+test/a11y-announce.test.ts
+test/a11y-contrast.test.ts
+test/a11y-motion-matrix.json
+test/a11y-motion-matrix.test.ts
+test/a11y-navigator.test.ts
+test/a11y-reveal.test.ts
+test/lettering-face-names.test.ts

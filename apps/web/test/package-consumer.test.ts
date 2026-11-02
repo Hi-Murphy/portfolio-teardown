@@ -6,7 +6,10 @@ import { describe, expect, test } from 'vitest';
 import { collectSourceFiles, formatHits, lineOf, snippetAt, type Hit } from './source-scan';
 
 const APP_ROOT = fileURLToPath(new URL('../app/', import.meta.url));
-const PAGE = fileURLToPath(new URL('../app/page.tsx', import.meta.url));
+const PAGE = fileURLToPath(new URL('../app/(site)/page.tsx', import.meta.url));
+const COMPONENTS_ROOT = fileURLToPath(new URL('../components/', import.meta.url));
+const CONTENT_ROOT = fileURLToPath(new URL('../content/', import.meta.url));
+const SCRIPTS_ROOT = fileURLToPath(new URL('../scripts/', import.meta.url));
 const PLAYGROUND = fileURLToPath(
   new URL('../app/dev/engine/engine-playground.tsx', import.meta.url),
 );
@@ -160,5 +163,21 @@ describe('package-consumer scanner', () => {
         'good-sample.tsx',
       ),
     );
+  });
+
+  describe('site source package-consumer scanner', () => {
+    test.each([
+      ['components', COMPONENTS_ROOT],
+      ['content', CONTENT_ROOT],
+      ['scripts', SCRIPTS_ROOT],
+    ])('apps/web/%s imports xploder only through exported public subpaths', (_name, root) => {
+      expectNoHits(scanFiles(collectSourceFiles(root)));
+    });
+
+    test('site source roots contain files', () => {
+      for (const root of [COMPONENTS_ROOT, CONTENT_ROOT, SCRIPTS_ROOT]) {
+        expect(collectSourceFiles(root).length).toBeGreaterThan(0);
+      }
+    });
   });
 });

@@ -1,0 +1,343 @@
+{
+  "url": "http://127.0.0.1:4310/",
+  "titleExpected": "Timur Haryo — Software Engineer · Android & Developer Tools",
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T006-screenshot-mobile-light.png",
+      "palette": "light",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      }
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T006-screenshot-desktop-light.png",
+      "palette": "light",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      }
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T006-screenshot-mobile-dark.png",
+      "palette": "dark",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      }
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T006-screenshot-desktop-dark.png",
+      "palette": "dark",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      }
+    }
+  ],
+  "checks": [
+    {
+      "label": "mobile/light: title equals site.json meta.title",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav has 8 interactive items",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav items are in order with names",
+      "ok": true
+    },
+    {
+      "label": "mobile: theme toggle has an accessible name",
+      "ok": true
+    },
+    {
+      "label": "mobile: every nav target is at least 44x44",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav targets occupy one row",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav height equals one target row",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: no target=_blank links",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer has one mailto link",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer mailto uses identity.email",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer has a GitHub link",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer has a LinkedIn link",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer includes footer.line",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer includes contactLabel and email",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: footer includes build-year copyright",
+      "ok": true
+    },
+    {
+      "label": "mobile/light: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: title equals site.json meta.title",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav has 8 interactive items",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav items are in order with names",
+      "ok": true
+    },
+    {
+      "label": "desktop: theme toggle has an accessible name",
+      "ok": true
+    },
+    {
+      "label": "desktop: every nav target is at least 44x44",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav targets occupy one row",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav height equals one target row",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: no target=_blank links",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer has one mailto link",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer mailto uses identity.email",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer has a GitHub link",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer has a LinkedIn link",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer includes footer.line",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer includes contactLabel and email",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: footer includes build-year copyright",
+      "ok": true
+    },
+    {
+      "label": "desktop/light: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: title equals site.json meta.title",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav has 8 interactive items",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav items are in order with names",
+      "ok": true
+    },
+    {
+      "label": "mobile: theme toggle has an accessible name",
+      "ok": true
+    },
+    {
+      "label": "mobile: every nav target is at least 44x44",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav targets occupy one row",
+      "ok": true
+    },
+    {
+      "label": "mobile: nav height equals one target row",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: no target=_blank links",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer has one mailto link",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer mailto uses identity.email",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer has a GitHub link",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer has a LinkedIn link",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer includes footer.line",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer includes contactLabel and email",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: footer includes build-year copyright",
+      "ok": true
+    },
+    {
+      "label": "mobile/dark: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: title equals site.json meta.title",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav has 8 interactive items",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav items are in order with names",
+      "ok": true
+    },
+    {
+      "label": "desktop: theme toggle has an accessible name",
+      "ok": true
+    },
+    {
+      "label": "desktop: every nav target is at least 44x44",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav targets occupy one row",
+      "ok": true
+    },
+    {
+      "label": "desktop: nav height equals one target row",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: no target=_blank links",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer has one mailto link",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer mailto uses identity.email",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer has a GitHub link",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer has a LinkedIn link",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer includes footer.line",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer includes contactLabel and email",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: footer includes build-year copyright",
+      "ok": true
+    },
+    {
+      "label": "desktop/dark: screenshot written",
+      "ok": true
+    },
+    {
+      "label": "412/light: title equals site.json meta.title",
+      "ok": true
+    },
+    {
+      "label": "412: nav has 8 interactive items",
+      "ok": true
+    },
+    {
+      "label": "412: nav items are in order with names",
+      "ok": true
+    },
+    {
+      "label": "412: theme toggle has an accessible name",
+      "ok": true
+    },
+    {
+      "label": "412: every nav target is at least 44x44",
+      "ok": true
+    },
+    {
+      "label": "412: nav targets occupy one row",
+      "ok": true
+    },
+    {
+      "label": "412: nav height equals one target row",
+      "ok": true
+    },
+    {
+      "label": "skip link is the first Tab stop",
+      "ok": true
+    },
+    {
+      "label": "skip link moves focus to #main",
+      "ok": true
+    }
+  ],
+  "passed": true
+}

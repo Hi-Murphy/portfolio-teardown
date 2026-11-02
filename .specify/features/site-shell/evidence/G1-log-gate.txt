@@ -1,0 +1,22 @@
+G1 gate (orchestrator, 2026-11-02) on task/s10-site-shell @ 788f23c
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+apps/web typecheck: Done
+All matched files use Prettier code style!
+tools/perf test:       Tests  111 passed (111)
+packages/xploder test:       Tests  610 passed (610)
+apps/web test:       Tests  83 passed | 1 skipped (84)
+✓ Compiled successfully in 1273ms
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+○  (Static)  prerendered as static content
+gate exit=0

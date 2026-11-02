@@ -1,0 +1,4080 @@
+{
+  "kind": "site-axe",
+  "version": 1,
+  "routeGroup": "project",
+  "palette": "light",
+  "viewport": {
+    "name": "desktop",
+    "width": 1280,
+    "height": 800,
+    "isMobile": false,
+    "hasTouch": false
+  },
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa",
+    "best-practice"
+  ],
+  "states": [
+    {
+      "state": "project-poster",
+      "routeGroup": "project",
+      "path": "/projects/websocket-inspector",
+      "url": "http://127.0.0.1:63059/projects/websocket-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "button[data-site-layer-chip=\"inspection-ui\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "button[data-site-layer-chip=\"delivery\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "button[data-site-layer-chip=\"capture\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "button[data-site-layer-chip=\"persistence\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "button[data-site-layer-chip=\"host\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "state": "project-idle",
+      "routeGroup": "project",
+      "path": "/projects/websocket-inspector",
+      "url": "http://127.0.0.1:63059/projects/websocket-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:inspection-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:inspection-ui\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:delivery\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:delivery\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:capture\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:capture\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:persistence\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:persistence\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:host\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:host\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-ui\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:list-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:list-screen\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:detail-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:detail-screen\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:frame-row\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:frame-row\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:scarlet-inspector\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:scarlet-inspect...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-service\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-servi...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-notification\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-notif...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-launcher\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-launc...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:chucker-factory\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:chucker-factory\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:chucker-socket\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:chucker-socket\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:session-tracker\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:session-tracker\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-dao\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-dao\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-database\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-datab...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:main-activity\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:financial-api\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:financial-api\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:stream-adapter\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:stream-adapter\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"dimension:stack\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"dimension:stack\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"dimension:footprint\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"dimension:footprint\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-ui\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"list-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"list-screen\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"detail-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"detail-screen\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"frame-row\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"frame-row\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"scarlet-inspector\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"scarlet-inspector\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-service\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-service\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-notification\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-notificati...\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-launcher\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-launcher\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"chucker-factory\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"chucker-factory\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"chucker-socket\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"chucker-socket\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"session-tracker\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"session-tracker\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-dao\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-dao\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-database\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-database\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"main-activity\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"financial-api\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"financial-api\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"stream-adapter\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"stream-adapter\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"inspection-ui\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"delivery\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"capture\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"persistence\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"host\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "duplicate-id-aria",
+          "impact": "critical",
+          "description": "Ensure every id attribute value used in ARIA and in labels is unique",
+          "help": "IDs used in ARIA and labels must be unique",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > button[data-site-explore-tab=\"layers\"][aria-controls=\"explore-panel-layers\"][role=\"tab\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-layers\" data-site-explore-ta...=\"layers\" aria-selected=\"true\" aria-controls=\"explore-panel-layers\" tabindex=\"0\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+                  "data": "explore-tab-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > .active\\:text-fg[data-site-explore-tab=\"flows\"][aria-controls=\"explore-panel-flows\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-flows\" data-site-explore-ta...=\"flows\" aria-selected=\"false\" aria-controls=\"explore-panel-flows\" tabindex=\"-1\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+                  "data": "explore-tab-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-layers\" aria-labelledby=\"explore-tab-layers\" data-site-explore-panel=\"layers\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+                  "data": "explore-panel-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-flows\"][data-site-explore-panel=\"flows\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-flows\" aria-labelledby=\"explore-tab-flows\" data-site-explore-panel=\"flows\" hidden=\"\"></div>",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+                  "data": "explore-panel-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "state": "project-case-study",
+      "routeGroup": "project",
+      "path": "/projects/websocket-inspector",
+      "url": "http://127.0.0.1:63059/projects/websocket-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:inspection-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:inspection-ui\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:delivery\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:delivery\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:capture\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:capture\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:persistence\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:persistence\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:host\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:host\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-ui\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:list-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:list-screen\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:detail-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:detail-screen\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:frame-row\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:frame-row\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:scarlet-inspector\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:scarlet-inspect...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-service\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-servi...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-notification\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-notif...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-launcher\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-launc...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:chucker-factory\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:chucker-factory\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:chucker-socket\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:chucker-socket\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:session-tracker\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:session-tracker\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-dao\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-dao\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-database\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-datab...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:main-activity\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:financial-api\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:financial-api\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:stream-adapter\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:stream-adapter\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"dimension:stack\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"dimension:stack\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"dimension:footprint\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"dimension:footprint\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-ui\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"list-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"list-screen\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"detail-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"detail-screen\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"frame-row\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"frame-row\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"scarlet-inspector\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"scarlet-inspector\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-service\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-service\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-notification\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-notificati...\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-launcher\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-launcher\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"chucker-factory\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"chucker-factory\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"chucker-socket\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"chucker-socket\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"session-tracker\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"session-tracker\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-dao\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-dao\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-database\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-database\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"main-activity\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"financial-api\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"financial-api\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"stream-adapter\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"stream-adapter\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"inspection-ui\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"delivery\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"capture\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"persistence\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"host\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "duplicate-id-aria",
+          "impact": "critical",
+          "description": "Ensure every id attribute value used in ARIA and in labels is unique",
+          "help": "IDs used in ARIA and labels must be unique",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > button[data-site-explore-tab=\"layers\"][aria-controls=\"explore-panel-layers\"][role=\"tab\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-layers\" data-site-explore-ta...=\"layers\" aria-selected=\"true\" aria-controls=\"explore-panel-layers\" tabindex=\"0\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+                  "data": "explore-tab-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > .active\\:text-fg[data-site-explore-tab=\"flows\"][aria-controls=\"explore-panel-flows\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-flows\" data-site-explore-ta...=\"flows\" aria-selected=\"false\" aria-controls=\"explore-panel-flows\" tabindex=\"-1\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+                  "data": "explore-tab-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-layers\" aria-labelledby=\"explore-tab-layers\" data-site-explore-panel=\"layers\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+                  "data": "explore-panel-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-flows\"][data-site-explore-panel=\"flows\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-flows\" aria-labelledby=\"explore-tab-flows\" data-site-explore-panel=\"flows\" hidden=\"\"></div>",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+                  "data": "explore-panel-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+          "tags": [
+            "cat.semantics",
+            "wcag21a",
+            "wcag253",
+            "EN-301-549",
+            "EN-9.2.5.3",
+            "RGAAv4",
+            "RGAA-6.1.5"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "button[data-xploder-panel-close=\"\"]"
+              ],
+              "impact": "serious",
+              "html": "<button type=\"button\" data-xploder-panel-close=\"\" aria-label=\"Close case study\" style=\"min-width: 2.75rem; min-height: 2.75rem; border: 0px; background: transparent; color: rgb(34, 38, 43); cursor: pointer; font-size: 1rem; line-height: 1;\">×</button>",
+              "failureSummary": "Fix any of the following:\n  Unable to determine if the visible text is part of the accessible name",
+              "any": [
+                {
+                  "id": "label-content-name-mismatch",
+                  "message": "Unable to determine if the visible text is part of the accessible name",
+                  "data": null
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "state": "project-detail",
+      "routeGroup": "project",
+      "path": "/projects/websocket-inspector",
+      "url": "http://127.0.0.1:63059/projects/websocket-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "description": "Ensure all ARIA attributes have valid values",
+          "help": "ARIA attributes must conform to valid values",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "button[data-xploder-proxy=\"inspector-ui\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" data-xploder-proxy=\"inspector-ui\" tabindex=\"0\" aria-haspopup=\"dialog\" aria-expanded=\"true\" aria-describedby=\"_r_7_-inspector-ui-d...\" aria-controls=\"detail-_r_0_\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"detail-_r_0_\"",
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-valid-attr-value",
+                  "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"detail-_r_0_\"",
+                  "data": {
+                    "messageKey": "controlsWithinPopup",
+                    "needsReview": "aria-controls=\"detail-_r_0_\""
+                  }
+                }
+              ],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:inspection-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:inspection-ui\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:delivery\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:delivery\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:capture\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:capture\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:persistence\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:persistence\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"layer:host\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"layer:host\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-ui\" style=\"position: absolute; ...\" data-xploder-emphasi...=\"true\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:list-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:list-screen\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:detail-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:detail-screen\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:frame-row\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:frame-row\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:scarlet-inspector\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:scarlet-inspect...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-service\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-servi...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-notification\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-notif...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-launcher\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-launc...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:chucker-factory\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:chucker-factory\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:chucker-socket\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:chucker-socket\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:session-tracker\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:session-tracker\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-dao\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-dao\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:inspector-database\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:inspector-datab...\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:main-activity\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:financial-api\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:financial-api\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"part:stream-adapter\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:stream-adapter\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"dimension:stack\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"dimension:stack\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "span[data-xploder-label=\"dimension:footprint\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"dimension:footprint\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-ui\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-ui\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"list-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"list-screen\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"detail-screen\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"detail-screen\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"frame-row\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"frame-row\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"scarlet-inspector\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"scarlet-inspector\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-service\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-service\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-notification\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-notificati...\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-launcher\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-launcher\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"chucker-factory\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"chucker-factory\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"chucker-socket\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"chucker-socket\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"session-tracker\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"session-tracker\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-dao\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-dao\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"inspector-database\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"inspector-database\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"main-activity\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"financial-api\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"financial-api\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-xploder-lettering=\"stream-adapter\"]"
+              ],
+              "impact": "serious",
+              "html": "<div data-xploder-letteri...=\"stream-adapter\" data-xploder-letteri...=\"face\" style=\"position: absolute; ...\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"inspection-ui\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"delivery\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"capture\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"persistence\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"host\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "duplicate-id-aria",
+          "impact": "critical",
+          "description": "Ensure every id attribute value used in ARIA and in labels is unique",
+          "help": "IDs used in ARIA and labels must be unique",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > button[data-site-explore-tab=\"layers\"][aria-controls=\"explore-panel-layers\"][role=\"tab\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-layers\" data-site-explore-ta...=\"layers\" aria-selected=\"true\" aria-controls=\"explore-panel-layers\" tabindex=\"0\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+                  "data": "explore-tab-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > .active\\:text-fg[data-site-explore-tab=\"flows\"][aria-controls=\"explore-panel-flows\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-flows\" data-site-explore-ta...=\"flows\" aria-selected=\"false\" aria-controls=\"explore-panel-flows\" tabindex=\"-1\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+                  "data": "explore-tab-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-layers\" aria-labelledby=\"explore-tab-layers\" data-site-explore-panel=\"layers\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+                  "data": "explore-panel-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-flows\"][data-site-explore-panel=\"flows\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-flows\" aria-labelledby=\"explore-tab-flows\" data-site-explore-panel=\"flows\" hidden=\"\"></div>",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+                  "data": "explore-panel-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+          "tags": [
+            "cat.semantics",
+            "wcag21a",
+            "wcag253",
+            "EN-301-549",
+            "EN-9.2.5.3",
+            "RGAAv4",
+            "RGAA-6.1.5"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "button[data-xploder-panel-close=\"\"]"
+              ],
+              "impact": "serious",
+              "html": "<button type=\"button\" data-xploder-panel-close=\"\" aria-label=\"Close details\" style=\"min-width: 2.75rem; min-height: 2.75rem; border: 0px; background: transparent; color: rgb(34, 38, 43); cursor: pointer; font-size: 1rem; line-height: 1;\">×</button>",
+              "failureSummary": "Fix any of the following:\n  Unable to determine if the visible text is part of the accessible name",
+              "any": [
+                {
+                  "id": "label-content-name-mismatch",
+                  "message": "Unable to determine if the visible text is part of the accessible name",
+                  "data": null
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "state": "project-flows-step1",
+      "routeGroup": "project",
+      "path": "/projects/websocket-inspector",
+      "url": "http://127.0.0.1:63059/projects/websocket-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "span[data-xploder-label=\"part:main-activity\"]"
+              ],
+              "impact": "serious",
+              "html": "<span data-xploder-label=\"part:main-activity\" style=\"position: absolute; ...\" data-xploder-emphasi...=\"true\">",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "duplicate-id-aria",
+          "impact": "critical",
+          "description": "Ensure every id attribute value used in ARIA and in labels is unique",
+          "help": "IDs used in ARIA and labels must be unique",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > button[data-site-explore-tab=\"layers\"][aria-controls=\"explore-panel-layers\"][role=\"tab\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-layers\" data-site-explore-ta...=\"layers\" aria-selected=\"true\" aria-controls=\"explore-panel-layers\" tabindex=\"0\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+                  "data": "explore-tab-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                ".active\\:text-fg[data-site-explore-tab=\"flows\"][aria-controls=\"explore-panel-flows\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-flows\" data-site-explore-ta...=\"flows\" aria-selected=\"false\" aria-controls=\"explore-panel-flows\" tabindex=\"-1\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+                  "data": "explore-tab-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-layers\" aria-labelledby=\"explore-tab-layers\" data-site-explore-panel=\"layers\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+                  "data": "explore-panel-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-flows\"][data-site-explore-panel=\"flows\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-flows\" aria-labelledby=\"explore-tab-flows\" data-site-explore-panel=\"flows\" hidden=\"\"></div>",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+                  "data": "explore-panel-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "state": "project-no-webgl",
+      "routeGroup": "project",
+      "path": "/projects/websocket-inspector",
+      "url": "http://127.0.0.1:63059/projects/websocket-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"inspection-ui\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"delivery\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"capture\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"persistence\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-tour=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"] > .gap-4.flex-col[data-site-layers-panel=\"\"] > .content-start.flex-wrap[data-site-layer-chips=\"\"] > .text-left.active\\:border-accent[data-site-layer-chip=\"host\"] > .opacity-55[aria-hidden=\"true\"]"
+              ],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"opacity-55\">·</span>",
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element content is too short to determine if it is actual text content",
+                  "data": {
+                    "fgColor": "#818281",
+                    "bgColor": "#f6f3ea",
+                    "contrastRatio": 3.47,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        },
+        {
+          "id": "duplicate-id-aria",
+          "impact": "critical",
+          "description": "Ensure every id attribute value used in ARIA and in labels is unique",
+          "help": "IDs used in ARIA and labels must be unique",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > button[data-site-explore-tab=\"layers\"][aria-controls=\"explore-panel-layers\"][role=\"tab\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-layers\" data-site-explore-ta...=\"layers\" aria-selected=\"true\" aria-controls=\"explore-panel-layers\" tabindex=\"0\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-layers",
+                  "data": "explore-tab-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .gap-1.p-1[role=\"tablist\"] > .active\\:text-fg[data-site-explore-tab=\"flows\"][aria-controls=\"explore-panel-flows\"]"
+              ],
+              "impact": "critical",
+              "html": "<button type=\"button\" role=\"tab\" id=\"explore-tab-flows\" data-site-explore-ta...=\"flows\" aria-selected=\"false\" aria-controls=\"explore-panel-flows\" tabindex=\"-1\" class=\"inline-flex h-11 min...\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-tab-flows",
+                  "data": "explore-tab-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-layers\"][data-site-explore-panel=\"layers\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-layers\" aria-labelledby=\"explore-tab-layers\" data-site-explore-panel=\"layers\">",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-layers",
+                  "data": "explore-panel-layers"
+                }
+              ],
+              "all": [],
+              "none": []
+            },
+            {
+              "target": [
+                "div[data-site-explore-static=\"\"] > .sm\\:p-5.p-4[data-site-explore=\"\"] > .relative.min-w-0 > div[aria-labelledby=\"explore-tab-flows\"][data-site-explore-panel=\"flows\"][role=\"tabpanel\"]"
+              ],
+              "impact": "critical",
+              "html": "<div role=\"tabpanel\" id=\"explore-panel-flows\" aria-labelledby=\"explore-tab-flows\" data-site-explore-panel=\"flows\" hidden=\"\"></div>",
+              "failureSummary": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+              "any": [
+                {
+                  "id": "duplicate-id-aria",
+                  "message": "Document has multiple elements referenced with ARIA with the same id attribute: explore-panel-flows",
+                  "data": "explore-panel-flows"
+                }
+              ],
+              "all": [],
+              "none": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

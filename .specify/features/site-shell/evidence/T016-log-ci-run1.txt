@@ -1,0 +1,7 @@
+T016 CI run 1 (PR #14, head 923fec4): https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41404421018
+Green: build/typecheck/lint/test, gitleaks, weight (< 3 MB, both routes), fps calibration, fixture exclusion (+ unknown slug 404), a11y axe (engine fixture export), Vercel.
+RED: perf-gate lighthouse (mobile), exit 6 (budget) on the home preview URL; project-route step not reached.
+  performance: 0.89 >= 0.95 (median) FAIL | lcp 963 ms pass | cls 0,0,0 pass | accessibility 1 pass
+  runs: perf 0.90/0.89/0.84 | TBT 426/449/639 ms | SI 1633/1426/1435 | FCP=LCP ~960 ms | 491 KB | benchmarkIndex ~2300 (local was ~4200, TBT ~30 ms)
+Reading: the hero's lazily imported three/R3F/xploder chunk (load -> idle -> import -> WebGL init) lands inside the Lighthouse TBT window on the slower runner; long tasks = chunk parse + scene/shader init.
+No rerun (EVIDENCE.md §6: exit 6 stays red). Repro: pnpm build && pnpm serve:out, then pnpm perf:lighthouse <url> --categories performance,accessibility with CPU throttling as in CI.

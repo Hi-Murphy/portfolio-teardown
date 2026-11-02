@@ -1,0 +1,21 @@
+$ node scripts/convert-content.ts --check
+content:convert: apps/web/content/projects/websocket-inspector.source.ts is up to date
+content:convert: apps/web/content/site.source.ts is up to date
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T018/apps/web
+
+ ✓ test/site-copy-fidelity.test.ts > site copy fidelity > (a) generated module is strictly equal to the canonical JSON 1ms
+ ✓ test/site-copy-fidelity.test.ts > site copy fidelity > (b) content:convert --check exits 0 124ms
+ ✓ test/site-copy-fidelity.test.ts > site copy fidelity > (c) generated header records the canonical JSON sha256 0ms
+ ✓ test/site-copy-fidelity.test.ts > site copy fidelity > (d) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > project content fidelity > (a) generated module is strictly equal to the canonical JSON 1ms
+ ✓ test/content-fidelity.test.ts > project content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > project content fidelity > (c) content:convert --check exits 0 121ms
+ ✓ test/content-fidelity.test.ts > project content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > project content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  18:05:45
+   Duration  277ms (tests 75%, transform 13%, import 12%, worker 1%)
+

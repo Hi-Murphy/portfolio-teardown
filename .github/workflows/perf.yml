@@ -49,7 +49,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Lighthouse gate
-        run: pnpm perf:lighthouse "${{ steps.preview.outputs.url }}"
+        run: pnpm perf:lighthouse "${{ steps.preview.outputs.url }}" --categories performance,accessibility
+      - name: Lighthouse gate (project route)
+        run: >-
+          pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects/websocket-inspector"
+          --categories performance,accessibility --out .evidence/ci/lighthouse-project
       - name: Upload Lighthouse evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -89,6 +93,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Weight gate
         run: pnpm perf:weight "${{ steps.preview.outputs.url }}"
+      - name: Weight gate (project route)
+        run: >-
+          pnpm perf:weight "${{ steps.preview.outputs.url }}projects/websocket-inspector"
+          --out .evidence/ci/weight-project
       - name: Upload weight evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -157,6 +165,36 @@ jobs:
           path: .evidence/ci/
           retention-days: 14
 
+  a11y-site:
+    name: 'a11y: axe (production routes)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - run: pnpm build
+      - run: pnpm a11y:axe:site --serve apps/web/out --out .evidence/ci/axe-site
+      - run: pnpm site:probe --serve apps/web/out --ci --out .evidence/ci/site-probe
+      - name: Upload site a11y evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: a11y-site
+          path: .evidence/ci/
+          retention-days: 14
+
   fixture-exclusion:
     name: 'perf: fixture exclusion'
     runs-on: ubuntu-latest
@@ -185,6 +223,9 @@ jobs:
       - name: Assert engine playground absent from preview
         if: github.event_name == 'pull_request'
         run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}dev/engine"
+      - name: Assert unknown project slug is 404 on preview
+        if: github.event_name == 'pull_request'
+        run: node tools/perf/src/cli/assert-absent.ts "${{ steps.preview.outputs.url }}projects/does-not-exist"
       - name: Resolve production deployment
         if: github.event_name == 'push'
         run: >-

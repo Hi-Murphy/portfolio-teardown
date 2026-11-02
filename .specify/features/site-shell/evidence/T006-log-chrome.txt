@@ -1,0 +1,211 @@
+PASS mobile/light: title equals site.json meta.title
+PASS mobile: nav has 8 interactive items
+PASS mobile: nav items are in order with names
+PASS mobile: theme toggle has an accessible name
+PASS mobile: every nav target is at least 44x44
+PASS mobile: nav targets occupy one row
+PASS mobile: nav height equals one target row
+PASS mobile/light: no target=_blank links
+PASS mobile/light: footer has one mailto link
+PASS mobile/light: footer mailto uses identity.email
+PASS mobile/light: footer has a GitHub link
+PASS mobile/light: footer has a LinkedIn link
+PASS mobile/light: footer includes footer.line
+PASS mobile/light: footer includes contactLabel and email
+PASS mobile/light: footer includes build-year copyright
+PASS mobile/light: screenshot written
+PASS desktop/light: title equals site.json meta.title
+PASS desktop: nav has 8 interactive items
+PASS desktop: nav items are in order with names
+PASS desktop: theme toggle has an accessible name
+PASS desktop: every nav target is at least 44x44
+PASS desktop: nav targets occupy one row
+PASS desktop: nav height equals one target row
+PASS desktop/light: no target=_blank links
+PASS desktop/light: footer has one mailto link
+PASS desktop/light: footer mailto uses identity.email
+PASS desktop/light: footer has a GitHub link
+PASS desktop/light: footer has a LinkedIn link
+PASS desktop/light: footer includes footer.line
+PASS desktop/light: footer includes contactLabel and email
+PASS desktop/light: footer includes build-year copyright
+PASS desktop/light: screenshot written
+PASS mobile/dark: title equals site.json meta.title
+PASS mobile: nav has 8 interactive items
+PASS mobile: nav items are in order with names
+PASS mobile: theme toggle has an accessible name
+PASS mobile: every nav target is at least 44x44
+PASS mobile: nav targets occupy one row
+PASS mobile: nav height equals one target row
+PASS mobile/dark: no target=_blank links
+PASS mobile/dark: footer has one mailto link
+PASS mobile/dark: footer mailto uses identity.email
+PASS mobile/dark: footer has a GitHub link
+PASS mobile/dark: footer has a LinkedIn link
+PASS mobile/dark: footer includes footer.line
+PASS mobile/dark: footer includes contactLabel and email
+PASS mobile/dark: footer includes build-year copyright
+PASS mobile/dark: screenshot written
+PASS desktop/dark: title equals site.json meta.title
+PASS desktop: nav has 8 interactive items
+PASS desktop: nav items are in order with names
+PASS desktop: theme toggle has an accessible name
+PASS desktop: every nav target is at least 44x44
+PASS desktop: nav targets occupy one row
+PASS desktop: nav height equals one target row
+PASS desktop/dark: no target=_blank links
+PASS desktop/dark: footer has one mailto link
+PASS desktop/dark: footer mailto uses identity.email
+PASS desktop/dark: footer has a GitHub link
+PASS desktop/dark: footer has a LinkedIn link
+PASS desktop/dark: footer includes footer.line
+PASS desktop/dark: footer includes contactLabel and email
+PASS desktop/dark: footer includes build-year copyright
+PASS desktop/dark: screenshot written
+PASS 412/light: title equals site.json meta.title
+PASS 412: nav has 8 interactive items
+PASS 412: nav items are in order with names
+PASS 412: theme toggle has an accessible name
+PASS 412: every nav target is at least 44x44
+PASS 412: nav targets occupy one row
+PASS 412: nav height equals one target row
+PASS skip link is the first Tab stop
+PASS skip link moves focus to #main
+
+T006 smoke assertions passed
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+tools/perf test: 
+packages/xploder test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T006/tools/perf
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T006/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:49533) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49538) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49541) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49547) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49551) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49550) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  111 passed (111)
+tools/perf test:    Start at  11:12:35
+tools/perf test:    Duration  1.28s (import 86%, tests 8%, transform 5%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:49554) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49559) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:49560) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  59 passed (59)
+packages/xploder test:       Tests  610 passed (610)
+packages/xploder test:    Start at  11:12:35
+packages/xploder test:    Duration  6.60s (tests 76%, import 17%, transform 5%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  59 workers spawned · ~94ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~521ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T006/apps/web
+apps/web test: 
+apps/web test: (node:49647) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:49644) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  13 passed (13)
+apps/web test:       Tests  87 passed | 1 skipped (88)
+apps/web test:    Start at  11:12:42
+apps/web test:    Duration  645ms (environment 37%, tests 29%, import 23%, transform 9%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T006-OK

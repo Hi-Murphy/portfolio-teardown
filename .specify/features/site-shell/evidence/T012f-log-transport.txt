@@ -1,0 +1,503 @@
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 120ms
+  Running TypeScript ...
+  Finished TypeScript in 758ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 227ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+PASS export direct load: dock has at least 6 buttons (7)
+PASS export direct load: tour panel has the Start control
+PASS export reload 1: dock has at least 6 buttons (7)
+PASS export reload 1: tour panel has the Start control
+PASS export reload 2: dock has at least 6 buttons (7)
+PASS export reload 2: tour panel has the Start control
+PASS export reload 3: dock has at least 6 buttons (7)
+PASS export reload 3: tour panel has the Start control
+PASS export reload 4: dock has at least 6 buttons (7)
+PASS export reload 4: tour panel has the Start control
+PASS export reload 5: dock has at least 6 buttons (7)
+PASS export reload 5: tour panel has the Start control
+PASS export direct load and reloads: no page errors ()
+PASS export cycle 1: hero CTA uses soft navigation
+PASS export cycle 1 forward: dock has at least 6 buttons (7)
+PASS export cycle 1 forward: tour panel has the Start control
+PASS export cycle 1: goBack stays on document
+PASS export cycle 1: goBack reaches /
+PASS export cycle 1: goForward stays on document
+PASS export cycle 1 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 1 back-forward: tour panel has the Start control
+PASS export cycle 2: hero CTA uses soft navigation
+PASS export cycle 2 forward: dock has at least 6 buttons (7)
+PASS export cycle 2 forward: tour panel has the Start control
+PASS export cycle 2: goBack stays on document
+PASS export cycle 2: goBack reaches /
+PASS export cycle 2: goForward stays on document
+PASS export cycle 2 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 2 back-forward: tour panel has the Start control
+PASS export cycle 3: hero CTA uses soft navigation
+PASS export cycle 3 forward: dock has at least 6 buttons (7)
+PASS export cycle 3 forward: tour panel has the Start control
+PASS export cycle 3: goBack stays on document
+PASS export cycle 3: goBack reaches /
+PASS export cycle 3: goForward stays on document
+PASS export cycle 3 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 3 back-forward: tour panel has the Start control
+PASS export cycle 4: hero CTA uses soft navigation
+PASS export cycle 4 forward: dock has at least 6 buttons (7)
+PASS export cycle 4 forward: tour panel has the Start control
+PASS export cycle 4: goBack stays on document
+PASS export cycle 4: goBack reaches /
+PASS export cycle 4: goForward stays on document
+PASS export cycle 4 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 4 back-forward: tour panel has the Start control
+PASS export cycle 5: hero CTA uses soft navigation
+PASS export cycle 5 forward: dock has at least 6 buttons (7)
+PASS export cycle 5 forward: tour panel has the Start control
+PASS export cycle 5: goBack stays on document
+PASS export cycle 5: goBack reaches /
+PASS export cycle 5: goForward stays on document
+PASS export cycle 5 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 5 back-forward: tour panel has the Start control
+PASS export cycle 6: hero CTA uses soft navigation
+PASS export cycle 6 forward: dock has at least 6 buttons (7)
+PASS export cycle 6 forward: tour panel has the Start control
+PASS export cycle 6: goBack stays on document
+PASS export cycle 6: goBack reaches /
+PASS export cycle 6: goForward stays on document
+PASS export cycle 6 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 6 back-forward: tour panel has the Start control
+PASS export cycle 7: hero CTA uses soft navigation
+PASS export cycle 7 forward: dock has at least 6 buttons (7)
+PASS export cycle 7 forward: tour panel has the Start control
+PASS export cycle 7: goBack stays on document
+PASS export cycle 7: goBack reaches /
+PASS export cycle 7: goForward stays on document
+PASS export cycle 7 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 7 back-forward: tour panel has the Start control
+PASS export cycle 8: hero CTA uses soft navigation
+PASS export cycle 8 forward: dock has at least 6 buttons (7)
+PASS export cycle 8 forward: tour panel has the Start control
+PASS export cycle 8: goBack stays on document
+PASS export cycle 8: goBack reaches /
+PASS export cycle 8: goForward stays on document
+PASS export cycle 8 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 8 back-forward: tour panel has the Start control
+PASS export cycle 9: hero CTA uses soft navigation
+PASS export cycle 9 forward: dock has at least 6 buttons (7)
+PASS export cycle 9 forward: tour panel has the Start control
+PASS export cycle 9: goBack stays on document
+PASS export cycle 9: goBack reaches /
+PASS export cycle 9: goForward stays on document
+PASS export cycle 9 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 9 back-forward: tour panel has the Start control
+PASS export cycle 10: hero CTA uses soft navigation
+PASS export cycle 10 forward: dock has at least 6 buttons (7)
+PASS export cycle 10 forward: tour panel has the Start control
+PASS export cycle 10: goBack stays on document
+PASS export cycle 10: goBack reaches /
+PASS export cycle 10: goForward stays on document
+PASS export cycle 10 back-forward: dock has at least 6 buttons (7)
+PASS export cycle 10 back-forward: tour panel has the Start control
+PASS export navigation cycles: no page errors ()
+PASS export mobile/light playing setup: dock has at least 6 buttons (7)
+PASS export mobile/light playing setup: tour panel has the Start control
+PASS export mobile: transport cluster is horizontally centred in the card (delta=0.000px card=180.000 cluster=180.000)
+PASS export mobile: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS export mobile: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS export mobile: Step k of n sits beneath the cluster (positionTop=429.500 clusterBottom=427.500)
+PASS export mobile: Step k of n readout is visible (Step 1 of 7)
+PASS export mobile: Exit tour sits inside the transport cluster
+PASS export mobile: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS export mobile: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS export mobile: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS export mobile: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS export mobile: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":29,"top":202.5,"cardLeft":20,"cardTop":193.5})
+PASS export mobile: active tour content fits without overflow ({"cardClientWidth":318,"cardScrollWidth":318,"cardClientHeight":386,"cardScrollHeight":386,"pageClientWidth":360,"pageScrollWidth":360})
+PASS export mobile/light: tour playing screenshot written
+PASS export mobile/light: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS export mobile/light: no page errors ()
+PASS export desktop/light playing setup: dock has at least 6 buttons (7)
+PASS export desktop/light playing setup: tour panel has the Start control
+PASS export desktop: transport cluster is horizontally centred in the card (delta=0.000px card=640.000 cluster=640.000)
+PASS export desktop: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS export desktop: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS export desktop: Step k of n sits beneath the cluster (positionTop=479.875 clusterBottom=477.875)
+PASS export desktop: Step k of n readout is visible (Step 1 of 7)
+PASS export desktop: Exit tour sits inside the transport cluster
+PASS export desktop: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS export desktop: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS export desktop: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS export desktop: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS export desktop: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":105,"top":336.25,"cardLeft":96,"cardTop":327.25})
+PASS export desktop: active tour content fits without overflow ({"cardClientWidth":1086,"cardScrollWidth":1086,"cardClientHeight":270,"cardScrollHeight":270,"pageClientWidth":1280,"pageScrollWidth":1280})
+PASS export desktop/light: tour playing screenshot written
+PASS export desktop/light: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS export desktop/light: no page errors ()
+PASS export mobile/dark playing setup: dock has at least 6 buttons (7)
+PASS export mobile/dark playing setup: tour panel has the Start control
+PASS export mobile: transport cluster is horizontally centred in the card (delta=0.000px card=180.000 cluster=180.000)
+PASS export mobile: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS export mobile: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS export mobile: Step k of n sits beneath the cluster (positionTop=429.500 clusterBottom=427.500)
+PASS export mobile: Step k of n readout is visible (Step 1 of 7)
+PASS export mobile: Exit tour sits inside the transport cluster
+PASS export mobile: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS export mobile: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS export mobile: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS export mobile: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS export mobile: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":29,"top":202.5,"cardLeft":20,"cardTop":193.5})
+PASS export mobile: active tour content fits without overflow ({"cardClientWidth":318,"cardScrollWidth":318,"cardClientHeight":386,"cardScrollHeight":386,"pageClientWidth":360,"pageScrollWidth":360})
+PASS export mobile/dark: tour playing screenshot written
+PASS export mobile/dark: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS export mobile/dark: no page errors ()
+PASS export desktop/dark playing setup: dock has at least 6 buttons (7)
+PASS export desktop/dark playing setup: tour panel has the Start control
+PASS export desktop: transport cluster is horizontally centred in the card (delta=0.000px card=640.000 cluster=640.000)
+PASS export desktop: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS export desktop: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS export desktop: Step k of n sits beneath the cluster (positionTop=479.875 clusterBottom=477.875)
+PASS export desktop: Step k of n readout is visible (Step 1 of 7)
+PASS export desktop: Exit tour sits inside the transport cluster
+PASS export desktop: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS export desktop: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS export desktop: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS export desktop: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS export desktop: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":105,"top":336.25,"cardLeft":96,"cardTop":327.25})
+PASS export desktop: active tour content fits without overflow ({"cardClientWidth":1086,"cardScrollWidth":1086,"cardClientHeight":270,"cardScrollHeight":270,"pageClientWidth":1280,"pageScrollWidth":1280})
+PASS export desktop/dark: tour playing screenshot written
+PASS export desktop/dark: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS export desktop/dark: no page errors ()
+
+T012f export smoke assertions passed
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+site-probe: PASS
+artifacts: /private/tmp/s10-wt/T012f/.evidence/site-probe
+PASS dev direct load: dock has at least 6 buttons (7)
+PASS dev direct load: tour panel has the Start control
+PASS dev reload 1: dock has at least 6 buttons (7)
+PASS dev reload 1: tour panel has the Start control
+PASS dev reload 2: dock has at least 6 buttons (7)
+PASS dev reload 2: tour panel has the Start control
+PASS dev reload 3: dock has at least 6 buttons (7)
+PASS dev reload 3: tour panel has the Start control
+PASS dev reload 4: dock has at least 6 buttons (7)
+PASS dev reload 4: tour panel has the Start control
+PASS dev reload 5: dock has at least 6 buttons (7)
+PASS dev reload 5: tour panel has the Start control
+PASS dev direct load and reloads: no page errors ()
+PASS dev cycle 1: hero CTA uses soft navigation
+PASS dev cycle 1 forward: dock has at least 6 buttons (7)
+PASS dev cycle 1 forward: tour panel has the Start control
+PASS dev cycle 1: goBack stays on document
+PASS dev cycle 1: goBack reaches /
+PASS dev cycle 1: goForward stays on document
+PASS dev cycle 1 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 1 back-forward: tour panel has the Start control
+PASS dev cycle 2: hero CTA uses soft navigation
+PASS dev cycle 2 forward: dock has at least 6 buttons (7)
+PASS dev cycle 2 forward: tour panel has the Start control
+PASS dev cycle 2: goBack stays on document
+PASS dev cycle 2: goBack reaches /
+PASS dev cycle 2: goForward stays on document
+PASS dev cycle 2 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 2 back-forward: tour panel has the Start control
+PASS dev cycle 3: hero CTA uses soft navigation
+PASS dev cycle 3 forward: dock has at least 6 buttons (7)
+PASS dev cycle 3 forward: tour panel has the Start control
+PASS dev cycle 3: goBack stays on document
+PASS dev cycle 3: goBack reaches /
+PASS dev cycle 3: goForward stays on document
+PASS dev cycle 3 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 3 back-forward: tour panel has the Start control
+PASS dev cycle 4: hero CTA uses soft navigation
+PASS dev cycle 4 forward: dock has at least 6 buttons (7)
+PASS dev cycle 4 forward: tour panel has the Start control
+PASS dev cycle 4: goBack stays on document
+PASS dev cycle 4: goBack reaches /
+PASS dev cycle 4: goForward stays on document
+PASS dev cycle 4 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 4 back-forward: tour panel has the Start control
+PASS dev cycle 5: hero CTA uses soft navigation
+PASS dev cycle 5 forward: dock has at least 6 buttons (7)
+PASS dev cycle 5 forward: tour panel has the Start control
+PASS dev cycle 5: goBack stays on document
+PASS dev cycle 5: goBack reaches /
+PASS dev cycle 5: goForward stays on document
+PASS dev cycle 5 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 5 back-forward: tour panel has the Start control
+PASS dev cycle 6: hero CTA uses soft navigation
+PASS dev cycle 6 forward: dock has at least 6 buttons (7)
+PASS dev cycle 6 forward: tour panel has the Start control
+PASS dev cycle 6: goBack stays on document
+PASS dev cycle 6: goBack reaches /
+PASS dev cycle 6: goForward stays on document
+PASS dev cycle 6 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 6 back-forward: tour panel has the Start control
+PASS dev cycle 7: hero CTA uses soft navigation
+PASS dev cycle 7 forward: dock has at least 6 buttons (7)
+PASS dev cycle 7 forward: tour panel has the Start control
+PASS dev cycle 7: goBack stays on document
+PASS dev cycle 7: goBack reaches /
+PASS dev cycle 7: goForward stays on document
+PASS dev cycle 7 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 7 back-forward: tour panel has the Start control
+PASS dev cycle 8: hero CTA uses soft navigation
+PASS dev cycle 8 forward: dock has at least 6 buttons (7)
+PASS dev cycle 8 forward: tour panel has the Start control
+PASS dev cycle 8: goBack stays on document
+PASS dev cycle 8: goBack reaches /
+PASS dev cycle 8: goForward stays on document
+PASS dev cycle 8 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 8 back-forward: tour panel has the Start control
+PASS dev cycle 9: hero CTA uses soft navigation
+PASS dev cycle 9 forward: dock has at least 6 buttons (7)
+PASS dev cycle 9 forward: tour panel has the Start control
+PASS dev cycle 9: goBack stays on document
+PASS dev cycle 9: goBack reaches /
+PASS dev cycle 9: goForward stays on document
+PASS dev cycle 9 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 9 back-forward: tour panel has the Start control
+PASS dev cycle 10: hero CTA uses soft navigation
+PASS dev cycle 10 forward: dock has at least 6 buttons (7)
+PASS dev cycle 10 forward: tour panel has the Start control
+PASS dev cycle 10: goBack stays on document
+PASS dev cycle 10: goBack reaches /
+PASS dev cycle 10: goForward stays on document
+PASS dev cycle 10 back-forward: dock has at least 6 buttons (7)
+PASS dev cycle 10 back-forward: tour panel has the Start control
+PASS dev navigation cycles: no page errors ()
+PASS dev mobile/light playing setup: dock has at least 6 buttons (7)
+PASS dev mobile/light playing setup: tour panel has the Start control
+PASS dev mobile: transport cluster is horizontally centred in the card (delta=0.000px card=180.000 cluster=180.000)
+PASS dev mobile: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS dev mobile: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS dev mobile: Step k of n sits beneath the cluster (positionTop=429.500 clusterBottom=427.500)
+PASS dev mobile: Step k of n readout is visible (Step 1 of 7)
+PASS dev mobile: Exit tour sits inside the transport cluster
+PASS dev mobile: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS dev mobile: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS dev mobile: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS dev mobile: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS dev mobile: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":29,"top":202.5,"cardLeft":20,"cardTop":193.5})
+PASS dev mobile: active tour content fits without overflow ({"cardClientWidth":318,"cardScrollWidth":318,"cardClientHeight":386,"cardScrollHeight":386,"pageClientWidth":360,"pageScrollWidth":360})
+PASS dev mobile/light: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS dev mobile/light: no page errors ()
+PASS dev desktop/light playing setup: dock has at least 6 buttons (7)
+PASS dev desktop/light playing setup: tour panel has the Start control
+PASS dev desktop: transport cluster is horizontally centred in the card (delta=0.000px card=640.000 cluster=640.000)
+PASS dev desktop: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS dev desktop: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS dev desktop: Step k of n sits beneath the cluster (positionTop=479.875 clusterBottom=477.875)
+PASS dev desktop: Step k of n readout is visible (Step 1 of 7)
+PASS dev desktop: Exit tour sits inside the transport cluster
+PASS dev desktop: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS dev desktop: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS dev desktop: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS dev desktop: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS dev desktop: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":105,"top":336.25,"cardLeft":96,"cardTop":327.25})
+PASS dev desktop: active tour content fits without overflow ({"cardClientWidth":1086,"cardScrollWidth":1086,"cardClientHeight":270,"cardScrollHeight":270,"pageClientWidth":1280,"pageScrollWidth":1280})
+PASS dev desktop/light: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS dev desktop/light: no page errors ()
+PASS dev mobile/dark playing setup: dock has at least 6 buttons (7)
+PASS dev mobile/dark playing setup: tour panel has the Start control
+PASS dev mobile: transport cluster is horizontally centred in the card (delta=0.000px card=180.000 cluster=180.000)
+PASS dev mobile: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS dev mobile: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS dev mobile: Step k of n sits beneath the cluster (positionTop=429.500 clusterBottom=427.500)
+PASS dev mobile: Step k of n readout is visible (Step 1 of 7)
+PASS dev mobile: Exit tour sits inside the transport cluster
+PASS dev mobile: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS dev mobile: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS dev mobile: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS dev mobile: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS dev mobile: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":29,"top":202.5,"cardLeft":20,"cardTop":193.5})
+PASS dev mobile: active tour content fits without overflow ({"cardClientWidth":318,"cardScrollWidth":318,"cardClientHeight":386,"cardScrollHeight":386,"pageClientWidth":360,"pageScrollWidth":360})
+PASS dev mobile/dark: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS dev mobile/dark: no page errors ()
+PASS dev desktop/dark playing setup: dock has at least 6 buttons (7)
+PASS dev desktop/dark playing setup: tour panel has the Start control
+PASS dev desktop: transport cluster is horizontally centred in the card (delta=0.000px card=640.000 cluster=640.000)
+PASS dev desktop: transport cluster is horizontally centred in the panel (delta=0.000px)
+PASS dev desktop: Step k of n is horizontally centred beneath the cluster (delta=0.008px)
+PASS dev desktop: Step k of n sits beneath the cluster (positionTop=479.875 clusterBottom=477.875)
+PASS dev desktop: Step k of n readout is visible (Step 1 of 7)
+PASS dev desktop: Exit tour sits inside the transport cluster
+PASS dev desktop: Exit tour keeps its icon, label, aria-label and title ({"ariaLabel":"Exit tour","title":"Exit tour","text":"Exit tour"})
+PASS dev desktop: transport controls render in the requested order (tour-restart -> tour-prev -> tour-play -> tour-next -> tour-exit)
+PASS dev desktop: every transport button has hover/active styling, aria-label and title ([{"control":"tour-restart","ariaLabel":"Restart tour","title":"Restart tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-prev","ariaLabel":"Previous step","title":"Previous step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-play","ariaLabel":"Pause tour","title":"Pause tour","className":"inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm"},{"control":"tour-next","ariaLabel":"Next step","title":"Next step","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent w-11"},{"control":"tour-exit","ariaLabel":"Exit tour","title":"Exit tour","className":"inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs"}])
+PASS dev desktop: primary Play/Pause is pressed and labelled while playing ({"pressed":"true","label":"Pause tour"})
+PASS dev desktop: GUIDED TOUR remains the top-left micro label ({"text":"Guided tour","left":105,"top":336.25,"cardLeft":96,"cardTop":327.25})
+PASS dev desktop: active tour content fits without overflow ({"cardClientWidth":1086,"cardScrollWidth":1086,"cardClientHeight":270,"cardScrollHeight":270,"pageClientWidth":1280,"pageScrollWidth":1280})
+PASS dev desktop/dark: Exit tour returns the tour to idle ({"exitCount":0,"playLabel":"Start tour"})
+PASS dev desktop/dark: no page errors ()
+
+T012f dev smoke assertions passed
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T012f/packages/xploder
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T012f/tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test: (node:87024) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87025) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87027) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87028) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87029) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87032) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87031) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  111 passed (111)
+tools/perf test:    Start at  13:21:57
+tools/perf test:    Duration  1.40s (import 85%, tests 12%, transform 3%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:87035) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:87039) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  60 passed (60)
+packages/xploder test:       Tests  617 passed (617)
+packages/xploder test:    Start at  13:21:57
+packages/xploder test:    Duration  6.49s (tests 77%, import 17%, transform 4%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  60 workers spawned · ~97ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~547ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T012f/apps/web
+apps/web test: 
+apps/web test: (node:87090) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:87091) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  18 passed (18)
+apps/web test:       Tests  108 passed | 1 skipped (109)
+apps/web test:    Start at  13:22:03
+apps/web test:    Duration  729ms (environment 38%, tests 28%, import 23%, transform 9%, worker 2%)
+apps/web test: 
+apps/web test: Done
+T012f-OK

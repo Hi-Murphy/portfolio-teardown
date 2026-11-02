@@ -1,0 +1,36 @@
+G2 gate (orchestrator, 2026-11-02) on task/s10-site-shell @ 2df7796
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+apps/web typecheck: Done
+All matched files use Prettier code style!
+tools/perf test:       Tests  111 passed (111)
+packages/xploder test:       Tests  610 passed (610)
+apps/web test:       Tests  103 passed (103)
+✓ Compiled successfully in 1445ms
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls --out /tmp/s10-checks/g2-cls
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+site-probe: PASS
+gate exit=0

@@ -1,13 +1,13 @@
 {
-  "base": "0b2c678",
-  "note": "S06 seal (S07 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why.",
+  "base": "f65b13c",
+  "note": "S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why.",
   "files": {
     "src/look/fills.ts": "3a53ce1ccc51b4a95fefac2c8845072a5f0372b8336d17cabbd6b155f73a526b",
     "src/look/product.ts": "6a4d6f52f4ba390ed7ca6557194539f686688d0c187fe1fd3b137af61a9c113a",
     "src/look/tokens.ts": "4536c786c11c13360a1668c654ec35c362166e827ad10d6e3d15ade6466bc677",
     "src/overlay/columns.ts": "8447efba9d48d9dc1d16c2ae1b571100ffc717cbfc4b34428cbd7c4a05f9e0a6",
     "src/overlay/dimension.ts": "1dab5964ac53587eed5f8113e65f9ca8bbe4a08ff1bb9c4ab7fc2080f63d9b0f",
-    "src/overlay/model.ts": "3efd1c695d7ed57c632e7ea9ae65c735f3841e8e2d229a242d32d24b9820f023",
+    "src/overlay/model.ts": "63427b9eed60ea9fc07eae2b55214be66bc37bbeb736d3a6cff4f1e767d77117",
     "src/overlay/parts.ts": "747984c0c25294a953cc01d40c15899a0d9fdb24f18fdd9dac0ce348e296b4e3",
     "src/overlay/place.ts": "135d4d48195dcc46544da3b90caaed6ab473d2c2e129825bda1ee78e7533ab49",
     "src/overlay/project.ts": "19f36bb65ef0b1dc2ea4931c15a608acd8c4b0934f055a90cfa4bddf0efbeb87",

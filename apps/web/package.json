@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "content:convert": "node scripts/convert-content.ts",
     "test": "vitest run",
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint ."

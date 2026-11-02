@@ -1,0 +1,236 @@
+===== T011 build =====
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 103ms
+  Running TypeScript ...
+  Finished TypeScript in 680ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 220ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+
+===== T011 3D chunk =====
+apps/web/out/_next/static/chunks/3fpy9b_qnc3hx.js
+
+===== T011 smoke, CLS, guards, typecheck, lint, tests =====
+PASS SSR: project route responds 200 (200)
+PASS SSR: workbench shell and poster are present
+PASS SSR: stage box has a reserved rect
+PASS SSR: toolbar box has a reserved rect
+PASS SSR mobile: stage box has a reserved rect
+PASS SSR mobile: toolbar box has a reserved rect
+PASS viewer: ready and exploded at load ({"ready":"true","state":"exploded","tweening":"false","label":"Scarlet Inspector architecture view"})
+PASS viewer: no explosion tween at load (false)
+PASS viewer: exactly one canvas
+PASS viewer: project-specific accessible name (Scarlet Inspector architecture view)
+PASS viewer: no page errors ()
+PASS toolbar: buttons are present in the required order (toggle, rotate-left, rotate-right, zoom-out, zoom-reset, zoom-in, case-study, flow-capture-path, flow-inspect-path, tour-play, tour-step, tour-stop)
+PASS toolbar: flow selector shows 2 flows (flow-capture-path, flow-inspect-path)
+PASS toolbar: every button is at least 44px tall (44,44,44,44,44,44,44,44,44,44,44,44)
+PASS layout: stage rect is identical before and after hydration (96,382.25,1088,560 -> 96,382.25,1088,560)
+PASS layout: toolbar rect is identical before and after hydration (96,954.25,1088,56 -> 96,954.25,1088,56)
+PASS poster: fades after the first live frame
+PASS toolbar: Implode changes the viewer to imploded
+PASS toolbar: Explode changes the viewer back to exploded
+PASS case study: starts collapsed
+PASS case study: button reports aria-expanded=true
+PASS case study: panel id matches aria-controls (case-study-_r_0_ / case-study-_r_0_)
+PASS case study: panel is ready
+PASS tour: Step reaches paused step 1
+PASS interactions: no page errors ()
+PASS mobile layout: stage rect is identical before and after hydration (20,399.5,320,560 -> 20,399.5,320,560)
+PASS mobile layout: toolbar rect is identical before and after hydration (20,971.5,320,56 -> 20,971.5,320,56)
+PASS mobile layout: hydration adds no horizontal page overflow (360 <= 360)
+PASS mobile layout: no page errors ()
+PASS no WebGL: viewer reports unavailable
+PASS no WebGL: project outline is visible inside the stage
+PASS no WebGL: unavailable message is inside the stage
+PASS no WebGL: no canvas
+PASS no WebGL: stage rect stays unchanged (96,382.25,1088,560 -> 96,382.25,1088,560)
+PASS no WebGL: no page errors ()
+PASS screenshot exploded/mobile/light: written
+PASS screenshot case-study/mobile/light: written
+PASS screenshot tour/mobile/light: written
+PASS screenshot exploded/desktop/light: written
+PASS screenshot case-study/desktop/light: written
+PASS screenshot tour/desktop/light: written
+PASS screenshot exploded/mobile/dark: written
+PASS screenshot case-study/mobile/dark: written
+PASS screenshot tour/mobile/dark: written
+PASS screenshot exploded/desktop/dark: written
+PASS screenshot case-study/desktop/dark: written
+PASS screenshot tour/desktop/dark: written
+
+T011 smoke assertions passed
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+site-probe: PASS
+artifacts: /private/tmp/s10-wt/T011/.evidence/site-probe
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+
+===== T011 final typecheck, lint, tests =====
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T011/tools/perf
+packages/xploder test: 
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T011/packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:60698) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60699) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60700) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60702) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60703) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  111 passed (111)
+tools/perf test:    Start at  11:39:51
+tools/perf test:    Duration  1.28s (import 89%, tests 6%, transform 3%, worker 2%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:60706) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60707) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60708) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:60714) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  59 passed (59)
+packages/xploder test:       Tests  610 passed (610)
+packages/xploder test:    Start at  11:39:51
+packages/xploder test:    Duration  6.53s (tests 77%, import 17%, transform 5%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  59 workers spawned · ~94ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~521ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T011/apps/web
+apps/web test: 
+apps/web test: (node:60766) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:60765) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  17 passed (17)
+apps/web test:       Tests  102 passed | 1 skipped (103)
+apps/web test:    Start at  11:39:58
+apps/web test:    Duration  681ms (environment 37%, tests 28%, import 23%, transform 10%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T011-OK
