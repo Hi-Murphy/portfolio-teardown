@@ -1,0 +1,1790 @@
+{
+  "schemaVersion": 1,
+  "result": "PASS",
+  "siteUrl": "https://hi-murphy.me",
+  "outDir": "/private/tmp/s11-wt/T009/apps/web/out",
+  "expectationPath": "/private/tmp/s11-wt/T009/apps/web/out-seo-expect.json",
+  "routes": [
+    {
+      "path": "/",
+      "kind": "home",
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/index.html",
+      "pass": true,
+      "steps": [
+        {
+          "step": "meta",
+          "pass": true,
+          "checks": [
+            {
+              "name": "title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo — Software Engineer · Android & Developer Tools\" actual=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "canonical is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me\""
+            },
+            {
+              "name": "canonical exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me\" actual=\"https://hi-murphy.me\""
+            },
+            {
+              "name": "canonical is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me\""
+            },
+            {
+              "name": "og:title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "og:title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo — Software Engineer · Android & Developer Tools\" actual=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "og:description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "og:description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "og:site_name is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo\""
+            },
+            {
+              "name": "og:site_name exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo\" actual=\"Timur Haryo\""
+            },
+            {
+              "name": "og:locale is present once in <head>",
+              "pass": true,
+              "detail": "value=\"en\""
+            },
+            {
+              "name": "og:locale exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"en\" actual=\"en\""
+            },
+            {
+              "name": "og:type is present once in <head>",
+              "pass": true,
+              "detail": "value=\"website\""
+            },
+            {
+              "name": "og:type exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"website\" actual=\"website\""
+            },
+            {
+              "name": "og:url is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me\""
+            },
+            {
+              "name": "og:url exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me\" actual=\"https://hi-murphy.me\""
+            },
+            {
+              "name": "og:url is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me\""
+            },
+            {
+              "name": "og:image is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "og:image exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/home.png\" actual=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "og:image is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "og:image:width is present once in <head>",
+              "pass": true,
+              "detail": "value=\"1200\""
+            },
+            {
+              "name": "og:image:width exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"1200\" actual=\"1200\""
+            },
+            {
+              "name": "og:image:height is present once in <head>",
+              "pass": true,
+              "detail": "value=\"630\""
+            },
+            {
+              "name": "og:image:height exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"630\" actual=\"630\""
+            },
+            {
+              "name": "og:image:type is present once in <head>",
+              "pass": true,
+              "detail": "value=\"image/png\""
+            },
+            {
+              "name": "og:image:type exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"image/png\" actual=\"image/png\""
+            },
+            {
+              "name": "og:image:alt is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "og:image:alt exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo — Software Engineer · Android & Developer Tools\" actual=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "twitter:card is present once in <head>",
+              "pass": true,
+              "detail": "value=\"summary_large_image\""
+            },
+            {
+              "name": "twitter:card exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"summary_large_image\" actual=\"summary_large_image\""
+            },
+            {
+              "name": "twitter:title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "twitter:title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo — Software Engineer · Android & Developer Tools\" actual=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "twitter:description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "twitter:description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "twitter:image is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "twitter:image exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/home.png\" actual=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "twitter:image is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "icon link is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "icon link exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+            },
+            {
+              "name": "apple-touch-icon link is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "apple-touch-icon link exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+            }
+          ]
+        },
+        {
+          "step": "unfurl",
+          "pass": true,
+          "checks": [
+            {
+              "name": "open-graph-scraper parsed the HTML",
+              "pass": true,
+              "detail": "error=false"
+            },
+            {
+              "name": "unfurler title matches og:title",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo — Software Engineer · Android & Developer Tools\" actual=\"Timur Haryo — Software Engineer · Android & Developer Tools\""
+            },
+            {
+              "name": "unfurler description matches og:description",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "unfurler image URL matches og:image",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/home.png\" actual=\"https://hi-murphy.me/og/home.png\""
+            },
+            {
+              "name": "unfurler image width matches og:image:width",
+              "pass": true,
+              "detail": "expected=\"1200\" actual=\"1200\""
+            },
+            {
+              "name": "unfurler image height matches og:image:height",
+              "pass": true,
+              "detail": "expected=\"630\" actual=\"630\""
+            },
+            {
+              "name": "unfurler card matches twitter:card",
+              "pass": true,
+              "detail": "expected=\"summary_large_image\" actual=\"summary_large_image\""
+            }
+          ]
+        },
+        {
+          "step": "card",
+          "pass": true,
+          "checks": [
+            {
+              "name": "card file exists",
+              "pass": true,
+              "detail": "/og/home.png"
+            },
+            {
+              "name": "card is a PNG with a valid IHDR chunk",
+              "pass": true,
+              "detail": "sha256=56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669"
+            },
+            {
+              "name": "card is exactly 1200x630",
+              "pass": true,
+              "detail": "1200x630"
+            },
+            {
+              "name": "card is at most 300 KiB",
+              "pass": true,
+              "detail": "74310 bytes (limit 307200)"
+            },
+            {
+              "name": "og:image resolves to the checked card file",
+              "pass": true,
+              "detail": "og:image=\"https://hi-murphy.me/og/home.png\" card=/og/home.png"
+            },
+            {
+              "name": "card hash equals the first build",
+              "pass": true,
+              "detail": "build-1=\"56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669\" build-2=56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669"
+            }
+          ]
+        },
+        {
+          "step": "sitemap-robots",
+          "pass": true,
+          "checks": [
+            {
+              "name": "sitemap.xml exists and contains <loc> entries",
+              "pass": true,
+              "detail": "3 entries"
+            },
+            {
+              "name": "sitemap URL set exactly equals the indexable routes",
+              "pass": true,
+              "detail": "missing=[] extra=[]"
+            },
+            {
+              "name": "robots.txt contains \"Allow: /\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "robots.txt contains \"Disallow: /dev/\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "robots.txt contains \"Sitemap: https://hi-murphy.me/sitemap.xml\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "sitemap and robots exclude dev, fixture and calibration routes",
+              "pass": true,
+              "detail": "found=[]"
+            }
+          ]
+        },
+        {
+          "step": "json-ld",
+          "pass": true,
+          "checks": [
+            {
+              "name": "JSON-LD script parses",
+              "pass": true,
+              "detail": "valid JSON"
+            },
+            {
+              "name": "JSON-LD exactly matches the content-derived expectation",
+              "pass": true,
+              "detail": "expected={\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"jobTitle\":\"Android engineer\",\"url\":\"https://hi-murphy.me\",\"sameAs\":[\"https://github.com/TimurHaryo\",\"https://id.linkedin.com/in/timurharyo\"]} actual={\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"jobTitle\":\"Android engineer\",\"url\":\"https://hi-murphy.me\",\"sameAs\":[\"https://github.com/TimurHaryo\",\"https://id.linkedin.com/in/timurharyo\"]}"
+            },
+            {
+              "name": "JSON-LD @context is https://schema.org",
+              "pass": true,
+              "detail": "@context=\"https://schema.org\""
+            },
+            {
+              "name": "$ has at least one @type",
+              "pass": true,
+              "detail": "types=[\"Person\"]"
+            },
+            {
+              "name": "$ @type Person exists in schema.org 30.1",
+              "pass": true,
+              "detail": "known=Thing,CreativeWork,SoftwareApplication,SoftwareSourceCode,Person,Text,URL"
+            },
+            {
+              "name": "$.name exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=name"
+            },
+            {
+              "name": "$.name is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"Person\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.name[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"Timur Haryo Mahissanular\" ranges=[\"Text\"]"
+            },
+            {
+              "name": "$.jobTitle exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=jobTitle"
+            },
+            {
+              "name": "$.jobTitle is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"Person\"] domains=[\"Person\"]"
+            },
+            {
+              "name": "$.jobTitle[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"Android engineer\" ranges=[\"DefinedTerm\",\"Text\"]"
+            },
+            {
+              "name": "$.url exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=url"
+            },
+            {
+              "name": "$.url is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"Person\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.url[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me\" ranges=[\"URL\"]"
+            },
+            {
+              "name": "$.sameAs exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=sameAs"
+            },
+            {
+              "name": "$.sameAs is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"Person\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.sameAs[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"https://github.com/TimurHaryo\" ranges=[\"URL\"]"
+            },
+            {
+              "name": "$.sameAs[1] is in the expected range",
+              "pass": true,
+              "detail": "value=\"https://id.linkedin.com/in/timurharyo\" ranges=[\"URL\"]"
+            },
+            {
+              "name": "JSON-LD url equals the page canonical",
+              "pass": true,
+              "detail": "expected=https://hi-murphy.me actual=\"https://hi-murphy.me\""
+            }
+          ]
+        },
+        {
+          "step": "host-leak",
+          "pass": true,
+          "checks": [
+            {
+              "name": "every self URL uses the configured origin and all content URLs are verbatim",
+              "pass": true,
+              "detail": "9 URL values checked"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/projects",
+      "kind": "projects",
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/projects.html",
+      "pass": true,
+      "steps": [
+        {
+          "step": "meta",
+          "pass": true,
+          "checks": [
+            {
+              "name": "title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Projects · Timur Haryo\" actual=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "canonical is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects\""
+            },
+            {
+              "name": "canonical exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/projects\" actual=\"https://hi-murphy.me/projects\""
+            },
+            {
+              "name": "canonical is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects\""
+            },
+            {
+              "name": "og:title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "og:title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Projects · Timur Haryo\" actual=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "og:description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "og:description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "og:site_name is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo\""
+            },
+            {
+              "name": "og:site_name exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo\" actual=\"Timur Haryo\""
+            },
+            {
+              "name": "og:locale is present once in <head>",
+              "pass": true,
+              "detail": "value=\"en\""
+            },
+            {
+              "name": "og:locale exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"en\" actual=\"en\""
+            },
+            {
+              "name": "og:type is present once in <head>",
+              "pass": true,
+              "detail": "value=\"website\""
+            },
+            {
+              "name": "og:type exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"website\" actual=\"website\""
+            },
+            {
+              "name": "og:url is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects\""
+            },
+            {
+              "name": "og:url exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/projects\" actual=\"https://hi-murphy.me/projects\""
+            },
+            {
+              "name": "og:url is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects\""
+            },
+            {
+              "name": "og:image is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "og:image exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/projects.png\" actual=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "og:image is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "og:image:width is present once in <head>",
+              "pass": true,
+              "detail": "value=\"1200\""
+            },
+            {
+              "name": "og:image:width exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"1200\" actual=\"1200\""
+            },
+            {
+              "name": "og:image:height is present once in <head>",
+              "pass": true,
+              "detail": "value=\"630\""
+            },
+            {
+              "name": "og:image:height exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"630\" actual=\"630\""
+            },
+            {
+              "name": "og:image:type is present once in <head>",
+              "pass": true,
+              "detail": "value=\"image/png\""
+            },
+            {
+              "name": "og:image:type exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"image/png\" actual=\"image/png\""
+            },
+            {
+              "name": "og:image:alt is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "og:image:alt exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Projects · Timur Haryo\" actual=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "twitter:card is present once in <head>",
+              "pass": true,
+              "detail": "value=\"summary_large_image\""
+            },
+            {
+              "name": "twitter:card exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"summary_large_image\" actual=\"summary_large_image\""
+            },
+            {
+              "name": "twitter:title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "twitter:title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Projects · Timur Haryo\" actual=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "twitter:description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "twitter:description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "twitter:image is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "twitter:image exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/projects.png\" actual=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "twitter:image is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "icon link is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "icon link exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+            },
+            {
+              "name": "apple-touch-icon link is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "apple-touch-icon link exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+            }
+          ]
+        },
+        {
+          "step": "unfurl",
+          "pass": true,
+          "checks": [
+            {
+              "name": "open-graph-scraper parsed the HTML",
+              "pass": true,
+              "detail": "error=false"
+            },
+            {
+              "name": "unfurler title matches og:title",
+              "pass": true,
+              "detail": "expected=\"Projects · Timur Haryo\" actual=\"Projects · Timur Haryo\""
+            },
+            {
+              "name": "unfurler description matches og:description",
+              "pass": true,
+              "detail": "expected=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\" actual=\"Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.\""
+            },
+            {
+              "name": "unfurler image URL matches og:image",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/projects.png\" actual=\"https://hi-murphy.me/og/projects.png\""
+            },
+            {
+              "name": "unfurler image width matches og:image:width",
+              "pass": true,
+              "detail": "expected=\"1200\" actual=\"1200\""
+            },
+            {
+              "name": "unfurler image height matches og:image:height",
+              "pass": true,
+              "detail": "expected=\"630\" actual=\"630\""
+            },
+            {
+              "name": "unfurler card matches twitter:card",
+              "pass": true,
+              "detail": "expected=\"summary_large_image\" actual=\"summary_large_image\""
+            }
+          ]
+        },
+        {
+          "step": "card",
+          "pass": true,
+          "checks": [
+            {
+              "name": "card file exists",
+              "pass": true,
+              "detail": "/og/projects.png"
+            },
+            {
+              "name": "card is a PNG with a valid IHDR chunk",
+              "pass": true,
+              "detail": "sha256=53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22"
+            },
+            {
+              "name": "card is exactly 1200x630",
+              "pass": true,
+              "detail": "1200x630"
+            },
+            {
+              "name": "card is at most 300 KiB",
+              "pass": true,
+              "detail": "69640 bytes (limit 307200)"
+            },
+            {
+              "name": "og:image resolves to the checked card file",
+              "pass": true,
+              "detail": "og:image=\"https://hi-murphy.me/og/projects.png\" card=/og/projects.png"
+            },
+            {
+              "name": "card hash equals the first build",
+              "pass": true,
+              "detail": "build-1=\"53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22\" build-2=53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22"
+            }
+          ]
+        },
+        {
+          "step": "sitemap-robots",
+          "pass": true,
+          "checks": [
+            {
+              "name": "sitemap.xml exists and contains <loc> entries",
+              "pass": true,
+              "detail": "3 entries"
+            },
+            {
+              "name": "sitemap URL set exactly equals the indexable routes",
+              "pass": true,
+              "detail": "missing=[] extra=[]"
+            },
+            {
+              "name": "robots.txt contains \"Allow: /\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "robots.txt contains \"Disallow: /dev/\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "robots.txt contains \"Sitemap: https://hi-murphy.me/sitemap.xml\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "sitemap and robots exclude dev, fixture and calibration routes",
+              "pass": true,
+              "detail": "found=[]"
+            }
+          ]
+        },
+        {
+          "step": "json-ld",
+          "pass": true,
+          "checks": [
+            {
+              "name": "route has no JSON-LD document by design",
+              "pass": true,
+              "detail": "expected one JSON-LD script, found 0"
+            }
+          ]
+        },
+        {
+          "step": "host-leak",
+          "pass": true,
+          "checks": [
+            {
+              "name": "every self URL uses the configured origin and all content URLs are verbatim",
+              "pass": true,
+              "detail": "6 URL values checked"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/projects/websocket-inspector",
+      "kind": "project",
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/projects/websocket-inspector.html",
+      "pass": true,
+      "steps": [
+        {
+          "step": "meta",
+          "pass": true,
+          "checks": [
+            {
+              "name": "title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Scarlet Inspector · Timur Haryo\" actual=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Every WebSocket frame, captured and inspectable.\" actual=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "canonical is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "canonical exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/projects/websocket-inspector\" actual=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "canonical is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "og:title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "og:title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Scarlet Inspector · Timur Haryo\" actual=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "og:description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "og:description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Every WebSocket frame, captured and inspectable.\" actual=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "og:site_name is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Timur Haryo\""
+            },
+            {
+              "name": "og:site_name exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Timur Haryo\" actual=\"Timur Haryo\""
+            },
+            {
+              "name": "og:locale is present once in <head>",
+              "pass": true,
+              "detail": "value=\"en\""
+            },
+            {
+              "name": "og:locale exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"en\" actual=\"en\""
+            },
+            {
+              "name": "og:type is present once in <head>",
+              "pass": true,
+              "detail": "value=\"website\""
+            },
+            {
+              "name": "og:type exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"website\" actual=\"website\""
+            },
+            {
+              "name": "og:url is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "og:url exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/projects/websocket-inspector\" actual=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "og:url is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "og:image is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "og:image exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/projects/websocket-inspector.png\" actual=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "og:image is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "og:image:width is present once in <head>",
+              "pass": true,
+              "detail": "value=\"1200\""
+            },
+            {
+              "name": "og:image:width exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"1200\" actual=\"1200\""
+            },
+            {
+              "name": "og:image:height is present once in <head>",
+              "pass": true,
+              "detail": "value=\"630\""
+            },
+            {
+              "name": "og:image:height exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"630\" actual=\"630\""
+            },
+            {
+              "name": "og:image:type is present once in <head>",
+              "pass": true,
+              "detail": "value=\"image/png\""
+            },
+            {
+              "name": "og:image:type exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"image/png\" actual=\"image/png\""
+            },
+            {
+              "name": "og:image:alt is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "og:image:alt exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Scarlet Inspector · Timur Haryo\" actual=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "twitter:card is present once in <head>",
+              "pass": true,
+              "detail": "value=\"summary_large_image\""
+            },
+            {
+              "name": "twitter:card exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"summary_large_image\" actual=\"summary_large_image\""
+            },
+            {
+              "name": "twitter:title is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "twitter:title exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Scarlet Inspector · Timur Haryo\" actual=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "twitter:description is present once in <head>",
+              "pass": true,
+              "detail": "value=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "twitter:description exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"Every WebSocket frame, captured and inspectable.\" actual=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "twitter:image is present once in <head>",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "twitter:image exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/projects/websocket-inspector.png\" actual=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "twitter:image is an absolute HTTP(S) URL",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "icon link is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "icon link exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+            },
+            {
+              "name": "apple-touch-icon link is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "apple-touch-icon link exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+              "pass": true,
+              "detail": "matches=1"
+            },
+            {
+              "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+              "pass": true,
+              "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+            }
+          ]
+        },
+        {
+          "step": "unfurl",
+          "pass": true,
+          "checks": [
+            {
+              "name": "open-graph-scraper parsed the HTML",
+              "pass": true,
+              "detail": "error=false"
+            },
+            {
+              "name": "unfurler title matches og:title",
+              "pass": true,
+              "detail": "expected=\"Scarlet Inspector · Timur Haryo\" actual=\"Scarlet Inspector · Timur Haryo\""
+            },
+            {
+              "name": "unfurler description matches og:description",
+              "pass": true,
+              "detail": "expected=\"Every WebSocket frame, captured and inspectable.\" actual=\"Every WebSocket frame, captured and inspectable.\""
+            },
+            {
+              "name": "unfurler image URL matches og:image",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me/og/projects/websocket-inspector.png\" actual=\"https://hi-murphy.me/og/projects/websocket-inspector.png\""
+            },
+            {
+              "name": "unfurler image width matches og:image:width",
+              "pass": true,
+              "detail": "expected=\"1200\" actual=\"1200\""
+            },
+            {
+              "name": "unfurler image height matches og:image:height",
+              "pass": true,
+              "detail": "expected=\"630\" actual=\"630\""
+            },
+            {
+              "name": "unfurler card matches twitter:card",
+              "pass": true,
+              "detail": "expected=\"summary_large_image\" actual=\"summary_large_image\""
+            }
+          ]
+        },
+        {
+          "step": "card",
+          "pass": true,
+          "checks": [
+            {
+              "name": "card file exists",
+              "pass": true,
+              "detail": "/og/projects/websocket-inspector.png"
+            },
+            {
+              "name": "card is a PNG with a valid IHDR chunk",
+              "pass": true,
+              "detail": "sha256=74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3"
+            },
+            {
+              "name": "card is exactly 1200x630",
+              "pass": true,
+              "detail": "1200x630"
+            },
+            {
+              "name": "card is at most 300 KiB",
+              "pass": true,
+              "detail": "79743 bytes (limit 307200)"
+            },
+            {
+              "name": "og:image resolves to the checked card file",
+              "pass": true,
+              "detail": "og:image=\"https://hi-murphy.me/og/projects/websocket-inspector.png\" card=/og/projects/websocket-inspector.png"
+            },
+            {
+              "name": "card hash equals the first build",
+              "pass": true,
+              "detail": "build-1=\"74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3\" build-2=74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3"
+            }
+          ]
+        },
+        {
+          "step": "sitemap-robots",
+          "pass": true,
+          "checks": [
+            {
+              "name": "sitemap.xml exists and contains <loc> entries",
+              "pass": true,
+              "detail": "3 entries"
+            },
+            {
+              "name": "sitemap URL set exactly equals the indexable routes",
+              "pass": true,
+              "detail": "missing=[] extra=[]"
+            },
+            {
+              "name": "robots.txt contains \"Allow: /\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "robots.txt contains \"Disallow: /dev/\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "robots.txt contains \"Sitemap: https://hi-murphy.me/sitemap.xml\"",
+              "pass": true,
+              "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+            },
+            {
+              "name": "sitemap and robots exclude dev, fixture and calibration routes",
+              "pass": true,
+              "detail": "found=[]"
+            }
+          ]
+        },
+        {
+          "step": "json-ld",
+          "pass": true,
+          "checks": [
+            {
+              "name": "JSON-LD script parses",
+              "pass": true,
+              "detail": "valid JSON"
+            },
+            {
+              "name": "JSON-LD exactly matches the content-derived expectation",
+              "pass": true,
+              "detail": "expected={\"@context\":\"https://schema.org\",\"@type\":[\"SoftwareApplication\",\"SoftwareSourceCode\"],\"name\":\"Scarlet Inspector\",\"description\":\"A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.\",\"url\":\"https://hi-murphy.me/projects/websocket-inspector\",\"author\":{\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"url\":\"https://hi-murphy.me\"},\"codeRepository\":\"https://github.com/TimurHaryo/websocket-inspector\"} actual={\"@context\":\"https://schema.org\",\"@type\":[\"SoftwareApplication\",\"SoftwareSourceCode\"],\"name\":\"Scarlet Inspector\",\"description\":\"A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.\",\"url\":\"https://hi-murphy.me/projects/websocket-inspector\",\"author\":{\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"url\":\"https://hi-murphy.me\"},\"codeRepository\":\"https://github.com/TimurHaryo/websocket-inspector\"}"
+            },
+            {
+              "name": "JSON-LD @context is https://schema.org",
+              "pass": true,
+              "detail": "@context=\"https://schema.org\""
+            },
+            {
+              "name": "$ has at least one @type",
+              "pass": true,
+              "detail": "types=[\"SoftwareApplication\",\"SoftwareSourceCode\"]"
+            },
+            {
+              "name": "$ @type SoftwareApplication exists in schema.org 30.1",
+              "pass": true,
+              "detail": "known=Thing,CreativeWork,SoftwareApplication,SoftwareSourceCode,Person,Text,URL"
+            },
+            {
+              "name": "$ @type SoftwareSourceCode exists in schema.org 30.1",
+              "pass": true,
+              "detail": "known=Thing,CreativeWork,SoftwareApplication,SoftwareSourceCode,Person,Text,URL"
+            },
+            {
+              "name": "$.name exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=name"
+            },
+            {
+              "name": "$.name is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"SoftwareApplication\",\"SoftwareSourceCode\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.name[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"Scarlet Inspector\" ranges=[\"Text\"]"
+            },
+            {
+              "name": "$.description exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=description"
+            },
+            {
+              "name": "$.description is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"SoftwareApplication\",\"SoftwareSourceCode\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.description[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.\" ranges=[\"Text\",\"TextObject\"]"
+            },
+            {
+              "name": "$.url exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=url"
+            },
+            {
+              "name": "$.url is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"SoftwareApplication\",\"SoftwareSourceCode\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.url[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me/projects/websocket-inspector\" ranges=[\"URL\"]"
+            },
+            {
+              "name": "$.author exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=author"
+            },
+            {
+              "name": "$.author is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"SoftwareApplication\",\"SoftwareSourceCode\"] domains=[\"CreativeWork\",\"Rating\"]"
+            },
+            {
+              "name": "$.author[0] is in the expected range",
+              "pass": true,
+              "detail": "value={\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"url\":\"https://hi-murphy.me\"} ranges=[\"Organization\",\"Person\"]"
+            },
+            {
+              "name": "$.author[0] has at least one @type",
+              "pass": true,
+              "detail": "types=[\"Person\"]"
+            },
+            {
+              "name": "$.author[0] @type Person exists in schema.org 30.1",
+              "pass": true,
+              "detail": "known=Thing,CreativeWork,SoftwareApplication,SoftwareSourceCode,Person,Text,URL"
+            },
+            {
+              "name": "$.author[0].name exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=name"
+            },
+            {
+              "name": "$.author[0].name is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"Person\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.author[0].name[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"Timur Haryo Mahissanular\" ranges=[\"Text\"]"
+            },
+            {
+              "name": "$.author[0].url exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=url"
+            },
+            {
+              "name": "$.author[0].url is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"Person\"] domains=[\"Thing\"]"
+            },
+            {
+              "name": "$.author[0].url[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"https://hi-murphy.me\" ranges=[\"URL\"]"
+            },
+            {
+              "name": "$.codeRepository exists in the schema vocabulary subset",
+              "pass": true,
+              "detail": "property=codeRepository"
+            },
+            {
+              "name": "$.codeRepository is valid for its @type",
+              "pass": true,
+              "detail": "types=[\"SoftwareApplication\",\"SoftwareSourceCode\"] domains=[\"SoftwareSourceCode\"]"
+            },
+            {
+              "name": "$.codeRepository[0] is in the expected range",
+              "pass": true,
+              "detail": "value=\"https://github.com/TimurHaryo/websocket-inspector\" ranges=[\"URL\"]"
+            },
+            {
+              "name": "JSON-LD url equals the page canonical",
+              "pass": true,
+              "detail": "expected=https://hi-murphy.me/projects/websocket-inspector actual=\"https://hi-murphy.me/projects/websocket-inspector\""
+            },
+            {
+              "name": "JSON-LD author.url equals the page canonical origin home",
+              "pass": true,
+              "detail": "expected=\"https://hi-murphy.me\" actual=\"https://hi-murphy.me\""
+            }
+          ]
+        },
+        {
+          "step": "host-leak",
+          "pass": true,
+          "checks": [
+            {
+              "name": "every self URL uses the configured origin and all content URLs are verbatim",
+              "pass": true,
+              "detail": "9 URL values checked"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "htmlCoverage": [
+    {
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/404.html",
+      "routePath": "/404",
+      "pass": true,
+      "checks": [
+        {
+          "name": "icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+        },
+        {
+          "name": "apple-touch-icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "apple-touch-icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+        },
+        {
+          "name": "every self URL uses the configured origin and all content URLs are verbatim",
+          "pass": true,
+          "detail": "4 URL values checked"
+        }
+      ]
+    },
+    {
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/_not-found.html",
+      "routePath": "/_not-found",
+      "pass": true,
+      "checks": [
+        {
+          "name": "icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+        },
+        {
+          "name": "apple-touch-icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "apple-touch-icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+        },
+        {
+          "name": "every self URL uses the configured origin and all content URLs are verbatim",
+          "pass": true,
+          "detail": "4 URL values checked"
+        }
+      ]
+    },
+    {
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/index.html",
+      "routePath": "/",
+      "pass": true,
+      "checks": [
+        {
+          "name": "icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+        },
+        {
+          "name": "apple-touch-icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "apple-touch-icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+        },
+        {
+          "name": "every self URL uses the configured origin and all content URLs are verbatim",
+          "pass": true,
+          "detail": "9 URL values checked"
+        }
+      ]
+    },
+    {
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/projects.html",
+      "routePath": "/projects",
+      "pass": true,
+      "checks": [
+        {
+          "name": "icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+        },
+        {
+          "name": "apple-touch-icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "apple-touch-icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+        },
+        {
+          "name": "every self URL uses the configured origin and all content URLs are verbatim",
+          "pass": true,
+          "detail": "6 URL values checked"
+        }
+      ]
+    },
+    {
+      "htmlPath": "/private/tmp/s11-wt/T009/apps/web/out/projects/websocket-inspector.html",
+      "routePath": "/projects/websocket-inspector",
+      "pass": true,
+      "checks": [
+        {
+          "name": "icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"icon\",\"href\":\"/icon.svg\",\"type\":\"image/svg+xml\"} actual=\"<link rel=\\\"icon\\\" href=\\\"/icon.svg\\\" type=\\\"image/svg+xml\\\">\""
+        },
+        {
+          "name": "apple-touch-icon link is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "apple-touch-icon link exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected={\"rel\":\"apple-touch-icon\",\"href\":\"/apple-touch-icon.png\"} actual=\"<link rel=\\\"apple-touch-icon\\\" href=\\\"/apple-touch-icon.png\\\">\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: light) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#F6F3EA\" actual=\"#F6F3EA\""
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) is present once in <head>",
+          "pass": true,
+          "detail": "matches=1"
+        },
+        {
+          "name": "theme-color (prefers-color-scheme: dark) exactly equals the generated expectation",
+          "pass": true,
+          "detail": "expected=\"#0B1A2E\" actual=\"#0B1A2E\""
+        },
+        {
+          "name": "every self URL uses the configured origin and all content URLs are verbatim",
+          "pass": true,
+          "detail": "9 URL values checked"
+        }
+      ]
+    }
+  ],
+  "sitemapRobots": {
+    "step": "sitemap-robots",
+    "pass": true,
+    "checks": [
+      {
+        "name": "sitemap.xml exists and contains <loc> entries",
+        "pass": true,
+        "detail": "3 entries"
+      },
+      {
+        "name": "sitemap URL set exactly equals the indexable routes",
+        "pass": true,
+        "detail": "missing=[] extra=[]"
+      },
+      {
+        "name": "robots.txt contains \"Allow: /\"",
+        "pass": true,
+        "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+      },
+      {
+        "name": "robots.txt contains \"Disallow: /dev/\"",
+        "pass": true,
+        "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+      },
+      {
+        "name": "robots.txt contains \"Sitemap: https://hi-murphy.me/sitemap.xml\"",
+        "pass": true,
+        "detail": "lines=[\"User-Agent: *\",\"Allow: /\",\"Disallow: /dev/\",\"\",\"Sitemap: https://hi-murphy.me/sitemap.xml\"]"
+      },
+      {
+        "name": "sitemap and robots exclude dev, fixture and calibration routes",
+        "pass": true,
+        "detail": "found=[]"
+      }
+    ]
+  },
+  "unfurl": [
+    {
+      "route": "/",
+      "title": "Timur Haryo — Software Engineer · Android & Developer Tools",
+      "description": "Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.",
+      "image": "https://hi-murphy.me/og/home.png",
+      "width": "1200",
+      "height": "630",
+      "card": "summary_large_image",
+      "pass": true
+    },
+    {
+      "route": "/projects",
+      "title": "Projects · Timur Haryo",
+      "description": "Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.",
+      "image": "https://hi-murphy.me/og/projects.png",
+      "width": "1200",
+      "height": "630",
+      "card": "summary_large_image",
+      "pass": true
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "title": "Scarlet Inspector · Timur Haryo",
+      "description": "Every WebSocket frame, captured and inspectable.",
+      "image": "https://hi-murphy.me/og/projects/websocket-inspector.png",
+      "width": "1200",
+      "height": "630",
+      "card": "summary_large_image",
+      "pass": true
+    }
+  ],
+  "cards": [
+    {
+      "route": "/",
+      "path": "/og/home.png",
+      "bytes": 74310,
+      "sha256": "56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669"
+    },
+    {
+      "route": "/projects",
+      "path": "/og/projects.png",
+      "bytes": 69640,
+      "sha256": "53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22"
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "path": "/og/projects/websocket-inspector.png",
+      "bytes": 79743,
+      "sha256": "74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3"
+    }
+  ],
+  "hashComparison": {
+    "comparedTo": "/tmp/s11-checks/seo-1/og-hashes.json",
+    "pass": true,
+    "cards": [
+      {
+        "path": "/og/home.png",
+        "build1": "56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669",
+        "build2": "56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669",
+        "pass": true
+      },
+      {
+        "path": "/og/projects.png",
+        "build1": "53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22",
+        "build2": "53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22",
+        "pass": true
+      },
+      {
+        "path": "/og/projects/websocket-inspector.png",
+        "build1": "74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3",
+        "build2": "74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3",
+        "pass": true
+      }
+    ]
+  }
+}
