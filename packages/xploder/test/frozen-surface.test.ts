@@ -4,6 +4,7 @@ import manifestJson from './frozen-surface.manifest.json';
 import manifestS5Json from './frozen-surface.s5.manifest.json';
 import manifestS6Json from './frozen-surface.s6.manifest.json';
 import manifestS7Json from './frozen-surface.s7.manifest.json';
+import manifestS8Json from './frozen-surface.s8.manifest.json';
 
 interface FrozenSurfaceManifest {
   readonly base: string;
@@ -43,6 +44,13 @@ const TIER_B_S7_FILES = [
   'src/react/panel/TechChips.tsx',
   'src/react/panel/useViewerPanels.ts',
   'src/react/lettering/PartLettering.tsx',
+] as const;
+const REQUIRED_S8_FILES = [
+  'src/a11y/navigator.ts',
+  'src/react/a11y/LiveRegion.tsx',
+  'src/react/TeardownViewer.tsx',
+  'src/react/panel/PanelLayer.tsx',
+  'test/a11y-navigator.test.ts',
 ] as const;
 
 type RawImportMeta = ImportMeta & {
@@ -216,6 +224,31 @@ describe('frozen S7 surface', () => {
 
     for (const path of TIER_B_S7_FILES) {
       expect(manifest.files).not.toHaveProperty(path);
+    }
+
+    for (const [path, expected] of entries) {
+      const workingCopy = rawFiles[path];
+
+      if (workingCopy === undefined) throw new Error(`Missing working copy for ${path}`);
+
+      expect(await sha256(workingCopy), path).toBe(expected);
+    }
+  });
+});
+
+describe('frozen S8 surface', () => {
+  test('matches every hash recorded from the base commit', async () => {
+    const manifest = manifestS8Json as FrozenSurfaceManifest;
+    const entries = Object.entries(manifest.files);
+
+    expect(manifest.base).toBe('99a94f2');
+    expect(manifest.note).toBe(
+      'S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+    );
+    expect(entries.length).toBeGreaterThanOrEqual(16);
+
+    for (const path of REQUIRED_S8_FILES) {
+      expect(manifest.files).toHaveProperty(path);
     }
 
     for (const [path, expected] of entries) {
