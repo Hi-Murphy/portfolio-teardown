@@ -33,6 +33,9 @@
 | T009 | ☑ (27 smoke asserts: poster at FCP, reveal after load, idle exploded, reduced → skipped/0 animations, no-WebGL poster; CLS 0) | 1 (Flash) + orchestrator review fix (class constants out of the use-client module) | evidence/T009-{log-hero.txt,screenshot-*.png,meta.json} | c6d777f |
 | T010 | ☑ (only known slug, unknown 404, deep link 200, metadata, no-JS outline) | 1 (Flash); 1st launch stopped by orchestrator (port collision with T009, runner issue, not an attempt) | evidence/T010-{log-route.txt,screenshot-nojs-*.png,meta.json} | 34e2a47 |
 | T011 | ☑ (toolbar/case study/tour; rects stable; no-WebGL outline; ONE 3D chunk R2; CLS 0 on 3 routes) | 1 (Flash) | evidence/T011-{log-workbench.txt,screenshot-*.png,meta.json} | 56f49cf |
+| T012a | ☐ | | | |
+| T012b | ☐ | | | |
+| T012c | ☐ | | | |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
@@ -392,6 +395,49 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: Q12, no layer-focus row).
 
+### T012a [US3, US5] G2 feedback: control dock + Guided tour panel + pause-on-implode (RFC §9.7 D6a/D6b)
+
+- **Seam:** viewer handle ↔ the redesigned workbench controls (app only; engine unchanged).
+- **Files:**
+  - `components/workbench/workbench.tsx`: the server shell reserves fixed-height rows for the dock (2 rows < sm, 1 row ≥ sm) and the tour card; the `<noscript>` style hides both.
+  - `components/workbench/workbench-client.tsx`: the dock + tour panel (split into `workbench-dock.tsx` and `tour-panel.tsx` if clearer).
+  - `components/workbench/tour-model.ts`: pure. Steps from `project.flows` + component names/summaries; the jump sequence; unit-tested in `apps/web/test/tour-model.test.ts`.
+- **Check:** export smoke (port 4310). It asserts:
+  - the dock fits without horizontal overflow at 360/412/1280;
+  - each button has an accessible name;
+  - Explode/Implode toggles `data-xploder-state`;
+  - Start tour → `data-xploder-tour=playing`; **Implode while playing → tour `paused` and state `imploded`**;
+  - Next/Prev move the step;
+  - clicking rail chip k → step k (playing stays playing, paused stays paused);
+  - hovering a chip → `data-xploder-highlight` = that id;
+  - the route chooser switches the flow;
+  - stage/dock/tour rects are identical before and after hydration;
+  - `site:probe --group cls` strict 0;
+  - screenshots (dock idle, tour playing, mobile + desktop, light + dark) + meta.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Play with the dock and the tour on `pnpm dev` (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Q15 flow labels (default: content labels + descriptions).
+
+### T012b [P] [US1] G2 feedback: header + footer redesign, Résumé removed (RFC §9.7 D12a)
+
+- **Seam:** site chrome ↔ `site.json`.
+- **Files:** `components/site-nav.tsx`, `components/site-footer.tsx`, `components/icons.tsx` (GitHub mark, LinkedIn, mail; `aria-hidden`), `apps/web/public/resume.pdf` (deleted).
+- **Check:** export smoke (port 4320). It asserts:
+  - the nav is one line with **no horizontal overflow** at 360/412/1280;
+  - items in order with names;
+  - targets ≥ 36×44;
+  - no `/resume.pdf` link anywhere and `/resume.pdf` → 404;
+  - the footer has `id=contact` + mailto + GitHub + LinkedIn;
+  - `site:probe --group cls` strict 0;
+  - screenshots of header + footer at 360/1280, light + dark.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Header/footer look (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing.
+
+### T012c [US1–US5] G2 evidence refresh
+
+- **Seam:** evidence only. It re-runs T012's bundle after T012a/T012b (`T012c-*`).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. G2 click-through again.
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. G2 verdict.
+
 ### T012 [US1–US5] G2 visual evidence bundle + poster/live parity info
 
 - **Seam:** the whole site ↔ the evidence CLI (pre-gate visual record).
@@ -532,7 +578,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   pnpm fps "${PREVIEW}projects/websocket-inspector" --out /tmp/s10-checks/t018-fps   # dropped frames, information (no fps literal in any check)
   node tools/perf/src/cli/assert-absent.ts "${PREVIEW}dev/engine"; node tools/perf/src/cli/assert-absent.ts "${PREVIEW}fixtures/fps-calibration"
   node tools/perf/src/cli/assert-absent.ts "${PREVIEW}projects/does-not-exist"
-  test -f apps/web/public/resume.pdf && echo RESUME-PRESENT || echo 'RESUME-MISSING (Murphy dependency)'
+  test ! -e apps/web/public/resume.pdf && test "$(curl -s -o /dev/null -w '%{http_code}' "${PREVIEW}resume.pdf")" = 404 && echo RESUME-NOT-SERVED   # RFC §9.7.5
   bash .specify/features/site-shell/guards.sh | tee /tmp/s10-checks/t018-guards.txt
   git diff --stat 99a94f2 -- packages/xploder | tee /tmp/s10-checks/t018-xploder-diff.txt   # only test/frozen-surface.s8.* + frozen-surface.test.ts
   ```
