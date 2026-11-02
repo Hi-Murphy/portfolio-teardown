@@ -25,6 +25,7 @@ import type { PanelState } from '../../panel/state';
 import type { MotionTokens } from '../../motion';
 import type { TechRegistry } from '../../schema/tech';
 import type { Palette } from '../../theme';
+import { usePanelFocus } from '../a11y/usePanelFocus';
 import type { OverlayEvent } from '../scene/OverlayProjector';
 import { CaseStudyPanel } from './CaseStudyPanel';
 import { DetailPanel } from './DetailPanel';
@@ -163,6 +164,8 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
   ref,
 ) {
   const layerRef = useRef<HTMLDivElement>(null);
+  const surfaceElementRef = useRef<HTMLElement>(null);
+  const detailHeadingRef = useRef<HTMLHeadingElement>(null);
   const motionRef = useRef<HTMLDivElement>(null);
   const settledRef = useRef<SettledEvent | null>(null);
   const offsetRef = useRef(0);
@@ -437,6 +440,24 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
     [project, surface?.kind],
   );
   const caseStudyHeadingId = `${headingIds.caseStudy}-heading`;
+  const focusSurfaceKey =
+    surface !== null &&
+    ((state.kind === 'detail' && surface.kind === 'detail' && surface.id === state.componentId) ||
+      (state.kind === 'caseStudy' && surface.kind === 'caseStudy'))
+      ? surface.key
+      : null;
+  const focusVisible =
+    focusSurfaceKey !== null &&
+    !moving &&
+    surface?.phase === 'enter' &&
+    (surface?.placement.size ?? 0) >= 1;
+  usePanelFocus({
+    surfaceRef: surfaceElementRef,
+    surfaceKey: focusSurfaceKey,
+    headingRef: detailHeadingRef,
+    visible: focusVisible,
+    kind: surface?.kind ?? null,
+  });
 
   if (settled === null) return null;
 
@@ -456,10 +477,16 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
     <div ref={layerRef} data-xploder-panel-layer="" style={layerStyle}>
       {surface === null ? null : (
         <section
+          ref={surfaceElementRef}
           key={surface.key}
           role="dialog"
           aria-modal="false"
           aria-labelledby={surface.kind === 'detail' ? headingIds.detail : caseStudyHeadingId}
+          aria-describedby={
+            surface.kind === 'detail' && model !== null
+              ? `${headingIds.detail}-meta${model.summary === undefined ? '' : ` ${headingIds.detail}-summary`}`
+              : undefined
+          }
           id={surface.kind === 'caseStudy' ? headingIds.caseStudy : undefined}
           data-xploder-panel-surface=""
           data-xploder-panel-dock={surface.placement.dock}
@@ -475,6 +502,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
                 model={model}
                 palette={palette}
                 headingId={headingIds.detail}
+                headingRef={detailHeadingRef}
                 onClose={() => onCloseRef.current('closeControl')}
               />
             ) : null}

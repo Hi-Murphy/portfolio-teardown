@@ -2,14 +2,18 @@ import { Canvas } from '@react-three/fiber';
 import {
   useCallback,
   useEffect,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react';
 
+import { announce, type AnnounceEvent } from '../a11y/announce';
+import { PAN_PAGE_FRACTION, PAN_STEP_PX } from '../a11y/look';
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
@@ -23,13 +27,17 @@ import { resolveSlabClick } from '../panel/tourClick';
 import type { ComponentKind } from '../schema/constants';
 import type { TechRegistry } from '../schema/tech';
 import type { Palette } from '../theme';
+import { CanvasBoundary } from './a11y/CanvasBoundary';
+import { ComponentNavigator, type ComponentNavigatorHandle } from './a11y/ComponentNavigator';
+import { LiveRegion, type LiveRegionHandle } from './a11y/LiveRegion';
+import { hasWebgl } from './a11y/webgl';
 import {
   LETTERING_HIDE_CSS,
   PartLettering,
   type PartLetteringHandle,
 } from './lettering/PartLettering';
 import { BlueprintOverlay, type BlueprintOverlayHandle } from './overlay/BlueprintOverlay';
-import { TourCaption, TourCaptionLiveRegion } from './overlay/TourCaption';
+import { TourCaption } from './overlay/TourCaption';
 import { executeTourCommand } from './panel/executeTourCommand';
 import { PanelLayer, type PanelLayerHandle } from './panel/PanelLayer';
 import {
@@ -96,6 +104,19 @@ const CANVAS_VIEWPORT_STYLE: CSSProperties = {
   width: '100%',
 };
 
+const VISUALLY_HIDDEN_STYLE: CSSProperties = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  whiteSpace: 'nowrap',
+  margin: '-1px',
+  padding: 0,
+  border: 0,
+};
+
 const PROJECT_MISMATCH_WARNING =
   'TeardownViewer: pass the same project object to useTeardownViewer({ project }) and <TeardownViewer project>.';
 
@@ -114,12 +135,17 @@ export function TeardownViewer({
 }: TeardownViewerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const liveRegionRef = useRef<LiveRegionHandle>(null);
+  const navigatorRef = useRef<ComponentNavigatorHandle>(null);
+  const proxyOpenerRef = useRef<HTMLButtonElement | null>(null);
   const overlayRef = useRef<BlueprintOverlayHandle>(null);
   const letteringRef = useRef<PartLetteringHandle>(null);
   const panelLayerRef = useRef<PanelLayerHandle>(null);
   const progressRef = useRef<Float32Array | null>(null);
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
+  const [webgl] = useState(() => hasWebgl());
+  const keysHelpId = useId();
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
   const pickBridgeRef = useRef<PickBridgeHandle>({
@@ -132,10 +158,17 @@ export function TeardownViewer({
   const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
   const internalPanels = useViewerPanels();
   const panelsHandle = panels ?? internalPanels;
-  const { dispatch } = panelsMetadataOf(panelsHandle);
+  const { dispatch, recordOpener } = panelsMetadataOf(panelsHandle);
   const previousPanelStateRef = useRef<PanelState>(panelsHandle.state);
   const previousPanelKindRef = useRef(panelsHandle.state.kind);
   const previousSlugRef = useRef(project.meta.slug);
+  const previousTourRef = useRef<{
+    readonly flowId: string | null;
+    readonly step: number;
+  } | null>(null);
+  const pendingTourJumpRef = useRef(false);
+  const pendingTourPauseRef = useRef(false);
+  const previousAnnouncementPanelRef = useRef<PanelState>(panelsHandle.state);
   const themePalette = useBlueprintPalette();
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
@@ -165,6 +198,10 @@ export function TeardownViewer({
     targetLayerIndex === null || targetLayerIndex < 0 ? null : targetLayerIndex,
     project.layers.length,
   );
+  const componentCount = project.layers.reduce(
+    (count, layer) => count + layer.components.length,
+    0,
+  );
 
   const onScrollExtent = useCallback((extent: number) => {
     if (extent === publishedExtentRef.current) return;
@@ -177,6 +214,7 @@ export function TeardownViewer({
     overlayRef.current?.update(event);
     letteringRef.current?.update(event);
     panelLayerRef.current?.update(event);
+    navigatorRef.current?.update(event);
   }, []);
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
@@ -189,12 +227,30 @@ export function TeardownViewer({
     overlayRef.current?.setScroll(offsetY);
     letteringRef.current?.setScroll(offsetY);
     panelLayerRef.current?.setScroll(offsetY);
+    navigatorRef.current?.setScroll(offsetY);
   }, []);
 
   usePointerPick(stageRef, pickBridgeRef, layout, viewer.onPointerInput, pointer);
 
+  const focusProxyOpener = useCallback((opener: Element | null): boolean => {
+    const recorded = opener ?? proxyOpenerRef.current;
+    const proxy =
+      recorded instanceof HTMLElement &&
+      recorded.isConnected &&
+      recorded.matches('[data-xploder-proxy]')
+        ? recorded
+        : null;
+
+    proxyOpenerRef.current = null;
+
+    if (proxy === null) return false;
+
+    proxy.focus({ preventScroll: true });
+    return true;
+  }, []);
+
   const onSlabClick = useCallback(
-    (hit: string | null) => {
+    (hit: string | null, opener: HTMLButtonElement | null = null) => {
       const decision = resolveSlabClick({
         hit,
         tour: {
@@ -205,10 +261,27 @@ export function TeardownViewer({
         flows: project.flows ?? [],
       });
 
+      if (decision.tour?.type === 'jump') pendingTourJumpRef.current = true;
+      if (decision.tour?.type === 'pause') pendingTourPauseRef.current = true;
+
       executeTourCommand(viewer.actions, decision.tour);
 
       if (decision.panelEvent !== null) {
         const next = panelReducer(panelsHandle.state, decision.panelEvent);
+        const openedDetail =
+          next.kind === 'detail' &&
+          (panelsHandle.state.kind !== 'detail' ||
+            panelsHandle.state.componentId !== next.componentId);
+
+        if (openedDetail) {
+          if (opener === null) {
+            proxyOpenerRef.current = null;
+            recordOpener(wrapperRef.current);
+          } else {
+            proxyOpenerRef.current = opener;
+            recordOpener(opener);
+          }
+        }
 
         dispatch(decision.panelEvent);
 
@@ -217,19 +290,73 @@ export function TeardownViewer({
           next.kind === 'closed' &&
           decision.tour?.type !== 'jump'
         ) {
-          wrapperRef.current?.focus({ preventScroll: true });
+          if (!focusProxyOpener(panelsMetadataOf(panelsHandle).opener)) {
+            wrapperRef.current?.focus({ preventScroll: true });
+          }
         }
       }
     },
     [
       dispatch,
-      panelsHandle.state,
+      focusProxyOpener,
+      panelsHandle,
+      recordOpener,
       project.flows,
       viewer.actions,
       viewer.tour.flowId,
       viewer.tour.status,
       viewer.tour.step,
     ],
+  );
+
+  const onNavigatorActivate = useCallback(
+    (id: string, proxy: HTMLButtonElement) => {
+      onSlabClick(id, proxy);
+    },
+    [onSlabClick],
+  );
+
+  const onWrapperKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      viewer.onKeyDown(event);
+
+      if (event.defaultPrevented || event.target !== event.currentTarget) return;
+
+      const stage = stageRef.current;
+
+      if (stage === null || stage.scrollHeight <= stage.clientHeight) return;
+
+      const maximum = stage.scrollHeight - stage.clientHeight;
+      let next: number | null = null;
+
+      switch (event.key) {
+        case 'ArrowUp':
+          next = stage.scrollTop - PAN_STEP_PX;
+          break;
+        case 'ArrowDown':
+          next = stage.scrollTop + PAN_STEP_PX;
+          break;
+        case 'PageUp':
+          next = stage.scrollTop - stage.clientHeight * PAN_PAGE_FRACTION;
+          break;
+        case 'PageDown':
+          next = stage.scrollTop + stage.clientHeight * PAN_PAGE_FRACTION;
+          break;
+        case 'Home':
+          next = 0;
+          break;
+        case 'End':
+          next = maximum;
+          break;
+      }
+
+      if (next === null) return;
+
+      event.preventDefault();
+      stage.scrollTop = Math.min(maximum, Math.max(0, next));
+      stage.dispatchEvent(new Event('scroll'));
+    },
+    [viewer],
   );
 
   useSlabClick(stageRef, pickBridgeRef, layout, onSlabClick);
@@ -241,6 +368,10 @@ export function TeardownViewer({
       const wrapper = wrapperRef.current;
 
       dispatch({ type: reason });
+
+      if (focusProxyOpener(opener)) {
+        return;
+      }
 
       if (closing.kind === 'caseStudy' && opener instanceof HTMLElement && opener.isConnected) {
         opener.focus({ preventScroll: true });
@@ -258,7 +389,7 @@ export function TeardownViewer({
         }
       }
     },
-    [dispatch, panelsHandle],
+    [dispatch, focusProxyOpener, panelsHandle],
   );
 
   useEffect(() => {
@@ -447,101 +578,191 @@ export function TeardownViewer({
       panelsHandle.state.kind === 'caseStudy' ? 'case-study' : panelsHandle.state.kind;
   }, [panelsHandle.state.kind]);
 
+  useLayoutEffect(() => {
+    const previous = previousAnnouncementPanelRef.current;
+    const current = panelsHandle.state;
+    const paused = pendingTourPauseRef.current;
+
+    previousAnnouncementPanelRef.current = current;
+    pendingTourPauseRef.current = false;
+
+    let event: AnnounceEvent | null = null;
+
+    if (
+      current.kind === 'detail' &&
+      (previous.kind !== 'detail' || previous.componentId !== current.componentId)
+    ) {
+      event = paused
+        ? { type: 'tourPausedOpen', componentId: current.componentId }
+        : { type: 'detailOpen', componentId: current.componentId };
+    } else if (current.kind === 'caseStudy' && previous.kind !== 'caseStudy') {
+      event = { type: 'caseStudyOpen' };
+    } else if (current.kind === 'closed' && previous.kind === 'detail') {
+      event = { type: 'detailClose', componentId: previous.componentId };
+    } else if (current.kind === 'closed' && previous.kind === 'caseStudy') {
+      event = { type: 'caseStudyClose' };
+    }
+
+    if (event !== null) liveRegionRef.current?.say(announce(event, project));
+  }, [panelsHandle.state, project]);
+
+  useLayoutEffect(() => {
+    const previous = previousTourRef.current;
+    const current = {
+      flowId: viewer.tour.flowId,
+      step: viewer.tour.step,
+    } as const;
+
+    previousTourRef.current = current;
+
+    if (previous === null) return;
+
+    const jump = pendingTourJumpRef.current;
+    const changed = previous.flowId !== current.flowId || previous.step !== current.step;
+
+    if (!changed && !jump) return;
+
+    pendingTourJumpRef.current = false;
+
+    if (viewer.tour.status === 'idle' || current.flowId === null) return;
+
+    const type = jump ? 'tourJump' : 'tourStep';
+
+    liveRegionRef.current?.say(announce({ type, flowId: current.flowId, position }, project));
+  }, [position, project, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
+
+  const webglFallback = fallback ?? <p>WebGL is unavailable for this architecture view.</p>;
+  const detailOpenId = panelsHandle.state.kind === 'detail' ? panelsHandle.state.componentId : null;
+
   return (
     <div
       ref={wrapperRef}
       tabIndex={0}
       role="group"
       aria-label={ariaLabel ?? `${project.meta.slug} architecture view`}
-      aria-keyshortcuts="ArrowLeft ArrowRight + - 0"
-      onKeyDown={viewer.onKeyDown}
+      aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown PageUp PageDown Home End + - 0"
+      aria-describedby={keysHelpId}
+      onKeyDown={onWrapperKeyDown}
       style={WRAPPER_STYLE}
       className={className}
       data-xploder-titleblock="hidden"
       data-xploder-lettering-on=""
+      data-xploder-webgl={webgl ? 'available' : 'unavailable'}
     >
       <style>{LETTERING_HIDE_CSS}</style>
-      <div ref={stageRef} data-xploder-stage="" style={STAGE_STYLE}>
-        <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
-          <Canvas
-            orthographic
-            frameloop="demand"
-            dpr={[1, 2]}
-            gl={{ antialias: true, alpha: true }}
-            style={CANVAS_STYLE}
-            fallback={fallback ?? <p>WebGL is unavailable for this architecture view.</p>}
-          >
-            <Scene
-              layout={layout}
-              palette={resolvedPalette}
-              tokens={tokens}
-              target={viewer.target}
-              rig={viewer.rig}
-              slug={project.meta.slug}
-              onPhase={onPhase}
-              onSettled={onSettled}
-              onStats={onStatsChange}
-              emphasis={emphasis}
-              onEmphasisPhase={onEmphasisPhase}
-              progressRef={progressRef}
-              pickBridgeRef={pickBridgeRef}
-              scrollRef={stageRef}
-              onScrollExtent={onScrollExtent}
-              look={look}
-              kinds={kinds}
-              onOverlay={onOverlay}
-              onOverlayScroll={onOverlayScroll}
-            />
-          </Canvas>
-          <BlueprintOverlay
-            ref={overlayRef}
-            project={project}
-            layout={layout}
-            palette={resolvedPalette}
-            tokens={tokens}
-            target={viewer.target}
-            phase={phase}
-            tour={viewer.tour}
-            focus={viewer.focus}
-            highlight={viewer.highlight}
-            look={look}
-            onTitleBlockShown={onTitleBlockShown}
-          />
-          <PartLettering
-            ref={letteringRef}
-            layout={layout}
-            project={project}
-            palette={resolvedPalette}
-            tokens={tokens}
-            look={look}
-            bridgeRef={pickBridgeRef}
-            target={viewer.target}
-            phase={phase}
-            tourStatus={viewer.tour.status}
-            focus={viewer.focus}
-            highlight={viewer.highlight}
-            wrapperRef={wrapperRef}
-          />
-        </div>
-        <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
-      </div>
-      {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
+      <LiveRegion ref={liveRegionRef} />
+      <p id={keysHelpId} style={VISUALLY_HIDDEN_STYLE}>
+        {project.layers.length} {project.layers.length === 1 ? 'layer' : 'layers'}, {componentCount}{' '}
+        {componentCount === 1 ? 'component' : 'components'}. Use Left and Right Arrow to rotate,
+        plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the
+        drawing. Press Tab to move to Components.
+      </p>
+      {webgl ? (
         <>
-          <TourCaptionLiveRegion
+          <div
+            ref={stageRef}
+            data-xploder-stage=""
+            style={STAGE_STYLE}
+            tabIndex={-1}
+            onFocus={(event) => {
+              if (event.target === event.currentTarget) {
+                wrapperRef.current?.focus({ preventScroll: true });
+              }
+            }}
+          >
+            <div data-xploder-canvas-viewport="" style={CANVAS_VIEWPORT_STYLE}>
+              <CanvasBoundary fallback={webglFallback}>
+                <Canvas
+                  orthographic
+                  frameloop="demand"
+                  dpr={[1, 2]}
+                  gl={{ antialias: true, alpha: true }}
+                  style={CANVAS_STYLE}
+                  fallback={webglFallback}
+                >
+                  <Scene
+                    layout={layout}
+                    palette={resolvedPalette}
+                    tokens={tokens}
+                    target={viewer.target}
+                    rig={viewer.rig}
+                    slug={project.meta.slug}
+                    onPhase={onPhase}
+                    onSettled={onSettled}
+                    onStats={onStatsChange}
+                    emphasis={emphasis}
+                    onEmphasisPhase={onEmphasisPhase}
+                    progressRef={progressRef}
+                    pickBridgeRef={pickBridgeRef}
+                    scrollRef={stageRef}
+                    onScrollExtent={onScrollExtent}
+                    look={look}
+                    kinds={kinds}
+                    onOverlay={onOverlay}
+                    onOverlayScroll={onOverlayScroll}
+                  />
+                </Canvas>
+              </CanvasBoundary>
+              <div aria-hidden="true">
+                <BlueprintOverlay
+                  ref={overlayRef}
+                  project={project}
+                  layout={layout}
+                  palette={resolvedPalette}
+                  tokens={tokens}
+                  target={viewer.target}
+                  phase={phase}
+                  tour={viewer.tour}
+                  focus={viewer.focus}
+                  highlight={viewer.highlight}
+                  look={look}
+                  onTitleBlockShown={onTitleBlockShown}
+                />
+              </div>
+              <PartLettering
+                ref={letteringRef}
+                layout={layout}
+                project={project}
+                palette={resolvedPalette}
+                tokens={tokens}
+                look={look}
+                bridgeRef={pickBridgeRef}
+                target={viewer.target}
+                phase={phase}
+                tourStatus={viewer.tour.status}
+                focus={viewer.focus}
+                highlight={viewer.highlight}
+                wrapperRef={wrapperRef}
+                zoomFactor={viewer.rig.zoomFactor}
+              />
+            </div>
+            <div data-xploder-scroll-spacer="" style={{ height: scrollExtentPx }} />
+          </div>
+          <ComponentNavigator
+            ref={navigatorRef}
             project={project}
-            flowId={viewer.tour.flowId}
-            position={position}
-          />
-          <TourCaption
-            key={`${captionSide}:${viewer.tour.flowId}:${position.step}`}
-            project={project}
-            flowId={viewer.tour.flowId}
-            position={position}
-            anchor={captionSide}
             palette={resolvedPalette}
-            tokens={tokens}
+            stageRef={stageRef}
+            highlight={viewer.highlight}
+            detailOpenId={detailOpenId}
+            detailId={panelsHandle.ids.detail}
+            onHighlight={viewer.actions.highlight}
+            onActivate={onNavigatorActivate}
           />
         </>
+      ) : (
+        webglFallback
+      )}
+      {viewer.tour.flowId === null || viewer.tour.status === 'idle' ? null : (
+        <TourCaption
+          key={`${captionSide}:${viewer.tour.flowId}:${position.step}`}
+          project={project}
+          flowId={viewer.tour.flowId}
+          position={position}
+          anchor={captionSide}
+          palette={resolvedPalette}
+          tokens={tokens}
+        />
       )}
       <PanelLayer
         ref={panelLayerRef}

@@ -1,0 +1,14 @@
+src/panel/
+src/lettering/
+src/react/panel/CaseStudyPanel.tsx
+src/react/panel/executeTourCommand.ts
+src/react/panel/pickAt.ts
+src/react/panel/useSlabClick.ts
+test/panel-content.test.ts
+test/panel-motion.test.ts
+test/panel-place.test.ts
+test/panel-state.test.ts
+test/panel-tour-click.test.ts
+test/viewer-panels.test.tsx
+test/lettering.test.ts
+test/lettering-column.test.ts

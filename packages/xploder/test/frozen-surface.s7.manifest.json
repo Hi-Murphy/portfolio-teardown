@@ -1,0 +1,30 @@
+{
+  "base": "5b22987",
+  "note": "S07 seal, Tier A (S08 RFC D1). Tier B files are edited for a11y only and guarded by the presentation snapshot. A later slice that changes a listed file regenerates this manifest in the same diff and states why.",
+  "files": {
+    "src/lettering/column.ts": "f3d29f3d04db131d9c9f8d7d93a459c1813a2d082970636e0ce260fca128e3b2",
+    "src/lettering/faces.ts": "8ee69dfee2556b958a41be3c1850d72d7992eb8f070b485431f51ef3f6b6cc4d",
+    "src/lettering/layers.ts": "a348ece32f61edff7607bd897b0f22656381463c782cfc4c6a6c418b8effb7eb",
+    "src/lettering/look.ts": "74fb8f25cd7d964fb573e090d936b1353985ac89f00ccbdfe26815ef3c456875",
+    "src/lettering/model.ts": "11e7aae9434910d91bdd0119f259e706b76a4e0b6d710ba09090538836856624",
+    "src/lettering/place.ts": "ae614758d4f87d7699fcb7869f5cda9ba75fc02ee99e69c99ed25ccc1d83b306",
+    "src/panel/content.ts": "e9501fdb3b7fe032becf6954d1024b8dc3dfab95eba816363ced864ef90c38f9",
+    "src/panel/look.ts": "d5d291f5225272f77a0ec29bc63a678c408f70bb2a6d9a4afa5789a45c4b0b18",
+    "src/panel/motion.ts": "9631b93a01a068867775d6cca52c822577d9b9abf5fd0aada7d43f2f51db64b4",
+    "src/panel/place.ts": "254c30fa7e8092318f7c9e23b556b36c847e908856997a1c5b1bfdd6743ee1c0",
+    "src/panel/state.ts": "7e740ba14a2771313d9b6f0f623f39243b504e9c1a843aa245104bab923a1325",
+    "src/panel/tourClick.ts": "d26b2fe2e35b5f9534599a8b2249c7478f1e7de24dd4ed0041452bb7b6ee8a15",
+    "src/react/panel/CaseStudyPanel.tsx": "8b5f4a66e32b4d1e2a1a2de0110e106dd968eddd57eaf08647eb37a608e7221a",
+    "src/react/panel/executeTourCommand.ts": "cf4878e3fc9e4908ae448d962d61a1616aaae03c2801286cd3cfca2013f87fc4",
+    "src/react/panel/pickAt.ts": "130dafa9a23b7d69ab011a745dd6c3e59aab7ee1ba9ab1a294637cde1058f550",
+    "src/react/panel/useSlabClick.ts": "ef0412daaa8cc4256a1b4c1229507a73ee369289f6268cc9ebfbd27405abcf55",
+    "test/lettering-column.test.ts": "c6c55d8330b01ef622d199bcd9dd24e9cab6565d4198a8749e758c04e9cb21cf",
+    "test/lettering.test.ts": "d22627c08bfc12026131d4b803768353de389a0f7c51ce7cd1f7ee3fa09502bd",
+    "test/panel-content.test.ts": "21291aecb55930cb1b807c7c2e0b1f4db373816a2f691ac00416f273dbdc8df7",
+    "test/panel-motion.test.ts": "fca872b069a6e09a7b3531bd65ca3bfc181cce0bb04cfecf0c64e87f39704b38",
+    "test/panel-place.test.ts": "63dfb0d890dd8cc7b54ce12997be9e55723d2abdc0fe809dea2f56d1446f9361",
+    "test/panel-state.test.ts": "4ee661d62b3f5923c2c4dad4dd8e6144ada15c1759f1d9fcdb399f13dc732007",
+    "test/panel-tour-click.test.ts": "553d12798a0ae8e2359cdf37c9fca33f6b9f07a03f5d40a25afb986f57e9271a",
+    "test/viewer-panels.test.tsx": "596fbd5924669dda319a371f0459c3ab7b0875efdca37f8d12bb15d1a518ce60"
+  }
+}

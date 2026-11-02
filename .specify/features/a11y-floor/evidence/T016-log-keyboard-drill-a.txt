@@ -1,0 +1,78 @@
+group: drill (fixture A)
+result: PASS
+drill-a Tab skip role=link name="Skip to engine controls" panel=closed PASS
+drill-a Tab viewer role=group name="Tidewatch architecture view" panel=closed PASS
+drill-a Tab proxy:beachgoer role=button name="Beachgoer" panel=closed PASS
+drill-a Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-a Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-a Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-a Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-a Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-a Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-a Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-a Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-a Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-a Tab control:focus-ui role=button name="Interface" panel=closed PASS
+drill-a Tab control:focus-state role=button name="View state" panel=closed PASS
+drill-a Tab control:focus-data role=button name="Tide data" panel=closed PASS
+drill-a Tab control:focus-platform role=button name="External boundary" panel=closed PASS
+drill-a Tab control:flow-live-update role=button name="Live update" panel=closed PASS
+drill-a Tab control:flow-offline-read role=button name="Saved forecast" panel=closed PASS
+drill-a Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-a Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-a Tab control:tour-stop role=button name="Stop" panel=closed PASS
+drill-a Shift+Tab control:tour-step role=button name="Step" panel=closed PASS
+drill-a Shift+Tab control:tour-play role=button name="Play" panel=closed PASS
+drill-a Shift+Tab control:flow-offline-read role=button name="Saved forecast" panel=closed PASS
+drill-a Shift+Tab control:flow-live-update role=button name="Live update" panel=closed PASS
+drill-a Shift+Tab control:focus-platform role=button name="External boundary" panel=closed PASS
+drill-a Shift+Tab control:focus-data role=button name="Tide data" panel=closed PASS
+drill-a Shift+Tab control:focus-state role=button name="View state" panel=closed PASS
+drill-a Shift+Tab control:focus-ui role=button name="Interface" panel=closed PASS
+drill-a Shift+Tab theme role=button name="Switch to dark theme" panel=closed PASS
+drill-a Shift+Tab control:case-study role=button name="Case study" panel=closed PASS
+drill-a Shift+Tab control:zoom-in role=button name="Zoom in" panel=closed PASS
+drill-a Shift+Tab control:rotate-right role=button name="Rotate right" panel=closed PASS
+drill-a Shift+Tab control:rotate-left role=button name="Rotate left" panel=closed PASS
+drill-a Shift+Tab control:toggle role=button name="Implode" panel=closed PASS
+drill-a Shift+Tab control:fixture-c role=button name="Fixture C" panel=closed PASS
+drill-a Shift+Tab control:fixture-b role=button name="Fixture B" panel=closed PASS
+drill-a Shift+Tab control:fixture-a role=button name="Fixture A" panel=closed PASS
+drill-a Shift+Tab proxy:beachgoer role=button name="Beachgoer" panel=closed PASS
+drill-a Shift+Tab viewer role=group name="Tidewatch architecture view" panel=closed PASS
+drill-a Shift+Tab skip role=link name="Skip to engine controls" panel=closed PASS
+Components stop: button "Beachgoer" PASS
+ArrowDown 1/8: button "Beachgoer" highlight=beachgoer ring=true PASS
+open beachgoer: dialog="dialog" name="Beachgoer" heading-focused=true PASS
+Escape beachgoer: active=button "Beachgoer" PASS
+ArrowDown 2/8: button "Tide Chart Screen" highlight=tide-chart-screen ring=true PASS
+open tide-chart-screen: dialog="dialog" name="Tide Chart Screen" heading-focused=true PASS
+Escape tide-chart-screen: active=button "Tide Chart Screen" PASS
+ArrowDown 3/8: button "Forecast Details Panel" highlight=forecast-details-panel ring=true PASS
+open forecast-details-panel: dialog="dialog" name="Forecast Details Panel" heading-focused=true PASS
+Escape forecast-details-panel: active=button "Forecast Details Panel" PASS
+ArrowDown 4/8: button "Tide View Model" highlight=tide-view-model ring=true PASS
+open tide-view-model: dialog="dialog" name="Tide View Model" heading-focused=true PASS
+Escape tide-view-model: active=button "Tide View Model" PASS
+ArrowDown 5/8: button "Tide Repository" highlight=tide-repository ring=true PASS
+open tide-repository: dialog="dialog" name="Tide Repository" heading-focused=true PASS
+Escape tide-repository: active=button "Tide Repository" PASS
+ArrowDown 6/8: button "Live Tide Client" highlight=live-tide-client ring=true PASS
+open live-tide-client: dialog="dialog" name="Live Tide Client" heading-focused=true PASS
+Escape live-tide-client: active=button "Live Tide Client" PASS
+ArrowDown 7/8: button "Tide Cache" highlight=tide-cache ring=true PASS
+open tide-cache: dialog="dialog" name="Tide Cache" heading-focused=true PASS
+Escape tide-cache: active=button "Tide Cache" PASS
+ArrowDown 8/8: button "Tide Feed" highlight=tide-feed ring=true PASS
+open tide-feed: dialog="dialog" name="Tide Feed" heading-focused=true PASS
+Escape tide-feed: active=button "Tide Feed" PASS
+wrap=proxy:beachgoer End=proxy:tide-feed Home=proxy:beachgoer PASS
+Space beachgoer: heading-focused=true returned=proxy:beachgoer PASS
+proxy ArrowLeft=45->315 +=1->1.25 PASS
+pointer tide-repository: heading-focused=true Escape-active=group "Tidewatch architecture view" PASS
+PASS drill-a-tab-order: expected ["skip","viewer","proxy:beachgoer","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ui","control:focus-state","control:focus-data","control:focus-platform","control:flow-live-update","control:flow-offline-read","control:tour-play","control:tour-step","control:tour-stop"] actual ["skip","viewer","proxy:beachgoer","control:fixture-a","control:fixture-b","control:fixture-c","control:toggle","control:rotate-left","control:rotate-right","control:zoom-in","control:case-study","theme","control:focus-ui","control:focus-state","control:focus-data","control:focus-platform","control:flow-live-update","control:flow-offline-read","control:tour-play","control:tour-step","control:tour-stop"]
+PASS drill-a-shift-tab-order: expected ["control:tour-step","control:tour-play","control:flow-offline-read","control:flow-live-update","control:focus-platform","control:focus-data","control:focus-state","control:focus-ui","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:beachgoer","viewer","skip"] actual ["control:tour-step","control:tour-play","control:flow-offline-read","control:flow-live-update","control:focus-platform","control:focus-data","control:focus-state","control:focus-ui","theme","control:case-study","control:zoom-in","control:rotate-right","control:rotate-left","control:toggle","control:fixture-c","control:fixture-b","control:fixture-a","proxy:beachgoer","viewer","skip"]
+PASS drill-a-no-trap: expected null actual null
+[shared] tour jump: status=playing focus=proxy:tide-repository copy="Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast." PASS
+[shared] tour pause: status=paused heading=true returned=proxy:forecast-details-panel copy="Tour paused. Forecast Details Panel, module. A compact view of the selected day's tide events." PASS
+summary: PASS

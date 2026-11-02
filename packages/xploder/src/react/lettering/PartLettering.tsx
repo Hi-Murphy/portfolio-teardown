@@ -34,6 +34,7 @@ import type { OverlayFrame, Vec2 } from '../../overlay/project';
 import { partShortText } from '../../overlay/parts';
 import { overlayTiming } from '../../overlay/timing';
 import type { Palette } from '../../theme';
+import { faceLetteringAllOrNone } from './faceNames';
 import type { OverlayEvent } from '../scene/OverlayProjector';
 import type { PickBridgeHandle } from '../scene/PickBridge';
 import type { TeardownTarget, TourStatus, ViewerProject } from '../useTeardownViewer';
@@ -71,6 +72,7 @@ export interface PartLetteringProps {
   readonly focus: { readonly layerId: string | null; readonly suspended: boolean };
   readonly highlight: string | null;
   readonly wrapperRef: RefObject<HTMLDivElement | null>;
+  readonly zoomFactor?: number;
 }
 
 interface SettledLettering {
@@ -217,6 +219,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       focus,
       highlight,
       wrapperRef,
+      zoomFactor = 1,
     },
     ref,
   ) {
@@ -229,6 +232,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     const layerIds = useMemo(() => layerIdsByComponent(layout), [layout]);
     const scope = useId();
     const layerIdsByLayerIndex = useMemo(() => layerIdsByIndex(layout), [layout]);
+    const zoomFactorRef = useRef(zoomFactor);
     const [settled, setSettled] = useState<SettledLettering | null>(null);
     const [moving, setMoving] = useState(false);
 
@@ -305,12 +309,17 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                 look: LETTERING_LOOK,
               })
             : null;
-        const faceNames = column === null ? names : new Map<string, string>();
-        const items = letteringModel({
-          layout,
-          components,
-          layers: event.frame.layers,
-          names: faceNames,
+        const items = faceLetteringAllOrNone({
+          zoomFactor: zoomFactorRef.current,
+          columnActive: column !== null,
+          names,
+          build: (faceNames) =>
+            letteringModel({
+              layout,
+              components,
+              layers: event.frame.layers,
+              names: faceNames,
+            }),
         });
         const layersShown = mode === 'tags' || extentPx > 1e-9;
         const layerLabels = layersShown
@@ -345,6 +354,10 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     );
 
     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
+
+    useLayoutEffect(() => {
+      zoomFactorRef.current = zoomFactor;
+    }, [zoomFactor]);
 
     const items = settled?.items ?? [];
     const column = settled?.column ?? null;
@@ -421,9 +434,13 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     };
     const numberColor = (id: string): string =>
       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
+    const faceNumberColor = (id: string): string =>
+      highlight === id ? palette.ink : palette[look.annotation.partRole];
+    const faceNameColor = (id: string): string =>
+      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
 
     return (
-      <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
+      <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
         {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
         <div
           ref={groupRef}
@@ -581,7 +598,8 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                   userSelect: 'text',
                   whiteSpace: 'nowrap',
                   font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                  color,
+                  color: faceNumberColor(item.id),
+                  borderColor: numberColor(item.id),
                   opacity,
                   ...(transition === undefined ? {} : { transition }),
                 }}
@@ -595,7 +613,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                         style={{
                           font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
                           textTransform: 'uppercase',
-                          color: palette[look.annotation.textRole] || palette.label,
+                          color: faceNameColor(item.id),
                         }}
                       >
                         {line}

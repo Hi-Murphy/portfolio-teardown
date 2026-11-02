@@ -1,0 +1,12 @@
+group: metrics
+result: PASS
+metrics draw calls idle: 2 PASS
+metrics draw calls detail-open: 2 PASS
+metrics draw calls component-focused: 2 PASS
+metrics CLS buffered: pageTotal=0.0006 inside=0 outside=1 entries=1
+metrics CLS outside: value=0.00063746337890625 start=328.89999997615814 hadRecentInput=false sources=5
+PASS metrics-draw-calls-idle: expected "2" actual "2"
+PASS metrics-draw-calls-detail-open: expected "2" actual "2"
+PASS metrics-draw-calls-component-focused: expected "2" actual "2"
+PASS metrics-cls-inside-viewer: expected 0 actual 0
+summary: PASS (4 checks)

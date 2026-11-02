@@ -1,0 +1,27 @@
+state: component-focused
+source: aria.log.txt (Chromium accessibility snapshot)
+aria component-focused: 23 snapshot lines, 347 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria component-focused | - group "Tidewatch architecture view":
+aria component-focused |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria component-focused |   - group "Components":
+aria component-focused |     - list "Interface":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Beachgoer"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Chart Screen"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Forecast Details Panel"
+aria component-focused |     - list "View state":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide View Model"
+aria component-focused |     - list "Tide data":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Repository"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Live Tide Client"
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Cache"
+aria component-focused |     - list "External boundary":
+aria component-focused |       - listitem:
+aria component-focused |         - button "Tide Feed"
+summary: PASS

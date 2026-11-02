@@ -1,0 +1,257 @@
+S08/T004: announcement model — fixture A message table + verification
+Working directory: repository root
+
+== Exact task check ==
+$ set -euo pipefail; pnpm --filter xploder exec vitest run test/a11y-announce.test.ts --reporter verbose 2>&1 | tee /tmp/s08-checks/t004.txt
+
+ RUN  v5.0.5 packages/xploder
+
+stdout | test/a11y-announce.test.ts > announce > prints the fixture A message table
+Fixture A announcement table
+tourStep step 1: Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart.
+tourStep step 2: Live update · Step 2 of 6. Tide Chart Screen. The main chart and its live-or-saved state.
+tourStep step 3: Live update · Step 3 of 6. Tide View Model. Combines the selected beach with the latest tide series.
+tourStep step 4: Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast.
+tourStep step 5: Live update · Step 5 of 6. Live Tide Client. Keeps the current tide reading in step.
+tourStep step 6: Live update · Step 6 of 6. Tide Feed. A public feed of coastal tide readings.
+tourJump: Jumped to Live update · Step 4 of 6. Tide Repository. Chooses between a live reading and the saved forecast.
+tourPausedOpen: Tour paused. Tide Repository, module. Chooses between a live reading and the saved forecast.
+detailOpen: Tide Repository, module. Chooses between a live reading and the saved forecast.
+detailOpen switch: Live Tide Client, service. Keeps the current tide reading in step.
+detailClose: Tide Repository details closed.
+caseStudyOpen: Case study: Tidewatch.
+caseStudyClose: Case study closed.
+detailOpen without summary: Bare, service.
+
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 1 1ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 2 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 3 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 4 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 5 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourStep step 6 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourJump 0ms
+ ✓ test/a11y-announce.test.ts > announce > tourPausedOpen 0ms
+ ✓ test/a11y-announce.test.ts > announce > detailOpen 0ms
+ ✓ test/a11y-announce.test.ts > announce > detailOpen switch 0ms
+ ✓ test/a11y-announce.test.ts > announce > detailClose 0ms
+ ✓ test/a11y-announce.test.ts > announce > caseStudyOpen 0ms
+ ✓ test/a11y-announce.test.ts > announce > caseStudyClose 0ms
+ ✓ test/a11y-announce.test.ts > announce > prints the fixture A message table 0ms
+ ✓ test/a11y-announce.test.ts > announce > keeps detail-open announcements enabled by default 0ms
+ ✓ test/a11y-announce.test.ts > announce > omits the summary when a component has none 0ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  19:03:11
+   Duration  120ms (import 76%, transform 17%, tests 4%, worker 4%)
+
+$ pnpm typecheck && pnpm lint && pnpm test && echo T004-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+packages/xploder test: 
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 packages/xploder
+packages/xploder test: 
+tools/perf test:  RUN  v5.0.5 tools/perf
+tools/perf test: 
+tools/perf test:  ❯ test/serve.test.ts (5 tests | 5 skipped) 27ms
+tools/perf test:  ❯ test/reach.test.ts (3 tests | 3 skipped) 20ms
+packages/xploder test: (node:22928) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:22929) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:22931) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:22932) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:22935) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: Error: listen EPERM: operation not permitted 127.0.0.1
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/reach.test.ts [ test/reach.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/reach.test.ts:21:17
+tools/perf test:      19|
+tools/perf test:      20| afterAll(async () => {
+tools/perf test:      21|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      22|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      23| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+tools/perf test: 
+tools/perf test:  FAIL  test/serve.test.ts [ test/serve.test.ts ]
+tools/perf test: TypeError: Cannot read properties of undefined (reading 'close')
+tools/perf test:  ❯ test/serve.test.ts:67:17
+tools/perf test:      65|
+tools/perf test:      66| afterAll(async () => {
+tools/perf test:      67|   await serving.close();
+tools/perf test:        |                 ^
+tools/perf test:      68|   await rm(dir, { recursive: true, force: true });
+tools/perf test:      69| });
+tools/perf test: 
+tools/perf test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+tools/perf test: 
+tools/perf test: 
+tools/perf test:  Test Files  2 failed | 11 passed (13)
+tools/perf test:       Tests  77 passed | 8 skipped (85)
+tools/perf test:    Start at  19:03:18
+tools/perf test:    Duration  1.34s (import 87%, tests 9%, transform 3%, worker 1%)
+tools/perf test: 
+tools/perf test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+packages/xploder test: Failed
+[ELIFECYCLE] Command failed with signal SIGKILL.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in tools/perf
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+== Sandbox exception ==
+The exact pnpm test step failed only in tools/perf because the sandbox denied binding 127.0.0.1
+(listen EPERM), and the parallel xploder process was SIGKILLed. Typecheck, lint and format passed.
+The other workspace suites were rerun alone: xploder passed 562/562 and web passed 53 tests.
+The orchestrator must rerun the full check outside the sandbox.
+
+== Isolated xploder suite ==
+$ pnpm --filter xploder test
+$ vitest run
+
+ RUN  v5.0.5 packages/xploder
+
+(node:22991) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:22993) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:22994) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:22998) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:22995) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:22999) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:23000) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:23001) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:23006) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+theme  role                   paper   surface
+light  paper                    1.00     1.06
+light  surface                  1.06     1.00
+light  grid                     1.19     1.26
+light  line                     7.58     8.06
+light  lineMuted                3.23     3.43
+light  ink                     13.71    14.58
+light  label                    7.33     7.79
+light  accent                   5.27     5.60
+light  steel                    5.23     5.56
+light  tech-language            5.74     6.10
+light  tech-platform            6.10     6.48
+light  tech-framework           6.30     6.70
+light  tech-library             4.93     5.24
+light  tech-storage             5.18     5.51
+light  tech-network             5.27     5.60
+light  tech-tooling             5.45     5.79
+light  tech-ai                  5.37     5.70
+dark   paper                    1.00     1.13
+dark   surface                  1.13     1.00
+dark   grid                     1.37     1.21
+dark   line                     9.36     8.25
+dark   lineMuted                3.78     3.33
+dark   ink                     14.81    13.06
+dark   label                    8.62     7.60
+dark   accent                   9.57     8.44
+dark   steel                    6.74     5.94
+dark   tech-language            7.93     6.99
+dark   tech-platform            8.33     7.35
+dark   tech-framework           8.17     7.21
+dark   tech-library             9.64     8.50
+dark   tech-storage             9.23     8.14
+dark   tech-network            10.01     8.83
+dark   tech-tooling            10.40     9.17
+dark   tech-ai                  7.54     6.65
+
+ Test Files  54 passed (54)
+      Tests  562 passed (562)
+   Start at  19:03:23
+   Duration  7.38s (tests 81%, import 16%, transform 2%, worker 1%)
+
+    Isolate  54 workers spawned · ~89ms startup each (spawn + environment, per file)
+             at least ~445ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+== Isolated apps/web suite ==
+$ pnpm --filter web test
+$ vitest run
+
+ RUN  v5.0.5 apps/web
+
+
+ Test Files  4 passed | 1 skipped (5)
+      Tests  53 passed | 2 skipped (55)
+   Start at  19:04:17
+   Duration  110ms (tests 52%, import 28%, transform 11%, worker 8%)
+
+
+== Frozen-surface guards ==
+$ git diff --quiet 5b22987 -- .specify/slices .specify/KICKOFF-S08.md && echo FROZEN-OK
+FROZEN-OK
+$ git diff --quiet 53b2b2b -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.paths) && echo SURFACE-S2S4-OK
+SURFACE-S2S4-OK
+$ git diff --quiet f31600e -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) && echo SURFACE-S5-OK
+SURFACE-S5-OK
+$ git diff --quiet 0b2c678 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s6.paths) && echo SURFACE-S6-OK
+SURFACE-S6-OK
+$ git diff --quiet 5b22987 -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s7.paths) && echo SURFACE-S7-OK
+SURFACE-S7-OK
+$ git diff --quiet 5b22987 -- tools/perf/src/panel-probe.ts tools/perf/src/engine-probe.ts tools/perf/src/cli/engine-probe.ts && echo PROBES-OK
+PROBES-OK
+$ test -z "$(git log --oneline 5b22987..HEAD -- .specify/slices .specify/KICKOFF-S08.md)" && echo BRIEF-HISTORY-OK
+BRIEF-HISTORY-OK
+
+== Final status ==
+T004-OK

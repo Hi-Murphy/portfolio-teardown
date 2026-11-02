@@ -1,0 +1,52 @@
+diff --git a/packages/xploder/src/react/lettering/PartLettering.tsx b/packages/xploder/src/react/lettering/PartLettering.tsx
+index c40e416..5d2b456 100644
+--- a/packages/xploder/src/react/lettering/PartLettering.tsx
++++ b/packages/xploder/src/react/lettering/PartLettering.tsx
+@@ -423,7 +423,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
+       highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
+ 
+     return (
+-      <div ref={rootRef} data-xploder-lettering-layer="" style={ROOT_STYLE}>
++      <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
+         {layerFaceIds.length === 0 ? null : <style>{layerHideCss(scope, layerFaceIds)}</style>}
+         <div
+           ref={groupRef}
+diff --git a/packages/xploder/src/react/panel/TechChips.tsx b/packages/xploder/src/react/panel/TechChips.tsx
+index 6a47d1b..400b856 100644
+--- a/packages/xploder/src/react/panel/TechChips.tsx
++++ b/packages/xploder/src/react/panel/TechChips.tsx
+@@ -18,6 +18,19 @@ const LIST_STYLE: CSSProperties = {
+   margin: 0,
+ };
+ 
++const VISUALLY_HIDDEN_STYLE: CSSProperties = {
++  position: 'absolute',
++  width: '1px',
++  height: '1px',
++  overflow: 'hidden',
++  clip: 'rect(0 0 0 0)',
++  clipPath: 'inset(50%)',
++  whiteSpace: 'nowrap',
++  margin: '-1px',
++  padding: 0,
++  border: 0,
++};
++
+ function chipStyle(accent: string | null, palette: Palette): CSSProperties {
+   return {
+     display: 'inline-flex',
+@@ -53,7 +66,13 @@ export function TechChips({ chips, palette }: TechChipsProps) {
+                 }}
+               />
+             )}
+-            <span>{chip.label}</span>
++            <span>
++              {chip.label}
++              {chip.category === undefined ? null : ','}
++            </span>
++            {chip.category === undefined ? null : (
++              <span style={VISUALLY_HIDDEN_STYLE}> {chip.category}</span>
++            )}
+           </li>
+         );
+       })}

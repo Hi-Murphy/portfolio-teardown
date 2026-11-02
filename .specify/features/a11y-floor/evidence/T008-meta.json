@@ -1,0 +1,30 @@
+{
+  "command": "node /tmp/s08-checks/t008-smoke.mjs",
+  "url": "http://localhost:3000/dev/engine",
+  "chromium": "156.0.8078.4",
+  "checks": [
+    "WebGL available",
+    "fixture A has 8 ordered proxies",
+    "Tab from body reaches the wrapper",
+    "Tab from the wrapper reaches one proxy",
+    "the navigator has exactly one Tab stop",
+    "ArrowDown 1 focuses tide-chart-screen",
+    "ArrowDown 2 focuses forecast-details-panel",
+    "ArrowDown 3 focuses tide-view-model",
+    "ArrowDown 4 focuses tide-repository",
+    "ArrowDown 5 focuses live-tide-client",
+    "ArrowDown 6 focuses tide-cache",
+    "ArrowDown 7 focuses tide-feed",
+    "ArrowDown 8 focuses beachgoer",
+    "ArrowLeft changes data-xploder-azimuth",
+    "Enter opens data-xploder-panel=detail",
+    "fixture C reaches maximum zoom",
+    "wrapper ArrowDown pans the stage at maximum zoom",
+    "the stage is not a Tab stop",
+    "Tab from the wrapper never lands on the stage",
+    "programmatic stage focus redirects to the wrapper",
+    "mouse click on the canvas focuses the wrapper",
+    "captured the light focus-ring screenshot",
+    "captured the dark focus-ring screenshot"
+  ]
+}

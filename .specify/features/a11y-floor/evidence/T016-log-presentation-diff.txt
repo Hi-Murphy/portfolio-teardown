@@ -1,0 +1,66 @@
+group: presentation
+result: PASS
+presentation a-exploded-idle/light/desktop: 12 nodes
+presentation a-highlight-tide-repository/light/desktop: 12 nodes
+presentation a-select-tide-repository/light/desktop: 45 nodes
+presentation a-panel-case-study/light/desktop: 37 nodes
+presentation b-select-reconciliation-ledger/light/desktop: 38 nodes
+presentation c-exploded-idle/light/desktop: 17 nodes
+presentation c-focus-client/light/desktop: 17 nodes
+presentation a-exploded-idle/light/mobile: 64 nodes
+presentation a-highlight-tide-repository/light/mobile: 64 nodes
+presentation a-select-tide-repository/light/mobile: 97 nodes
+presentation a-panel-case-study/light/mobile: 89 nodes
+presentation b-select-reconciliation-ledger/light/mobile: 73 nodes
+presentation c-exploded-idle/light/mobile: 98 nodes
+presentation c-focus-client/light/mobile: 98 nodes
+presentation a-exploded-idle/dark/desktop: 12 nodes
+presentation a-highlight-tide-repository/dark/desktop: 12 nodes
+presentation a-select-tide-repository/dark/desktop: 45 nodes
+presentation a-panel-case-study/dark/desktop: 37 nodes
+presentation b-select-reconciliation-ledger/dark/desktop: 38 nodes
+presentation c-exploded-idle/dark/desktop: 17 nodes
+presentation c-focus-client/dark/desktop: 17 nodes
+presentation a-exploded-idle/dark/mobile: 64 nodes
+presentation a-highlight-tide-repository/dark/mobile: 64 nodes
+presentation a-select-tide-repository/dark/mobile: 97 nodes
+presentation a-panel-case-study/dark/mobile: 89 nodes
+presentation b-select-reconciliation-ledger/dark/mobile: 73 nodes
+presentation c-exploded-idle/dark/mobile: 98 nodes
+presentation c-focus-client/dark/mobile: 98 nodes
+presentation diff a-highlight-tide-repository/light/desktop lettering-layer/div:nth-child(1)/div:nth-child(6) changed styles.color "rgb(10, 110, 135)" -> "rgb(34, 38, 43)" ALLOWED
+presentation diff a-select-tide-repository/light/desktop lettering-layer/div:nth-child(1)/div:nth-child(6) changed styles.color "rgb(10, 110, 135)" -> "rgb(34, 38, 43)" ALLOWED
+presentation diff b-select-reconciliation-ledger/light/desktop lettering-layer/div:nth-child(1)/div:nth-child(5) changed styles.color "rgb(10, 110, 135)" -> "rgb(34, 38, 43)" ALLOWED
+presentation diff a-highlight-tide-repository/light/mobile lettering-layer/div:nth-child(2)/div:nth-child(14) changed styles.color "rgb(10, 110, 135)" -> "rgb(34, 38, 43)" ALLOWED
+presentation diff a-select-tide-repository/light/mobile lettering-layer/div:nth-child(2)/div:nth-child(14) changed styles.color "rgb(10, 110, 135)" -> "rgb(34, 38, 43)" ALLOWED
+presentation diff b-select-reconciliation-ledger/light/mobile lettering-layer/div:nth-child(2)/div:nth-child(10) changed styles.color "rgb(10, 110, 135)" -> "rgb(34, 38, 43)" ALLOWED
+presentation diff a-highlight-tide-repository/dark/desktop lettering-layer/div:nth-child(1)/div:nth-child(6) changed styles.color "rgb(79, 208, 230)" -> "rgb(230, 237, 245)" ALLOWED
+presentation diff a-select-tide-repository/dark/desktop lettering-layer/div:nth-child(1)/div:nth-child(6) changed styles.color "rgb(79, 208, 230)" -> "rgb(230, 237, 245)" ALLOWED
+presentation diff b-select-reconciliation-ledger/dark/desktop lettering-layer/div:nth-child(1)/div:nth-child(5) changed styles.color "rgb(79, 208, 230)" -> "rgb(230, 237, 245)" ALLOWED
+presentation diff a-highlight-tide-repository/dark/mobile lettering-layer/div:nth-child(2)/div:nth-child(14) changed styles.color "rgb(79, 208, 230)" -> "rgb(230, 237, 245)" ALLOWED
+presentation diff a-select-tide-repository/dark/mobile lettering-layer/div:nth-child(2)/div:nth-child(14) changed styles.color "rgb(79, 208, 230)" -> "rgb(230, 237, 245)" ALLOWED
+presentation diff b-select-reconciliation-ledger/dark/mobile lettering-layer/div:nth-child(2)/div:nth-child(10) changed styles.color "rgb(79, 208, 230)" -> "rgb(230, 237, 245)" ALLOWED
+presentation diff a-select-tide-repository/light/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/light/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/light/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/light/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/light/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/light/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/light/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/light/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/light/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/light/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/dark/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/dark/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/dark/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/dark/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/dark/desktop panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/dark/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/dark/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff a-select-tide-repository/dark/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(3)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/dark/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(1)/span:nth-child(3) added  null -> null ALLOWED
+presentation diff b-select-reconciliation-ledger/dark/mobile panel-layer/section:nth-child(1)/div:nth-child(1)/div:nth-child(1)/ul:nth-child(6)/li:nth-child(2)/span:nth-child(3) added  null -> null ALLOWED
+presentation: 32 differences, 32 allowed, 0 failing
+PASS presentation-diff-only-approved-kinds: expected "R2 lettering colour and <=1x1 chip spans only" actual []
+PASS presentation-baseline-nodes-present: expected ">0" actual 1522
+summary: PASS (2 checks)

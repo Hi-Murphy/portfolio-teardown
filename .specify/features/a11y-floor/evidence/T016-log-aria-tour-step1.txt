@@ -1,0 +1,32 @@
+state: tour-step1
+source: aria.log.txt (Chromium accessibility snapshot)
+aria tour-step1: 28 snapshot lines, 365 AX nodes, part-number-verdict=PASS, ignored-roots=PASS
+aria tour-step1 | - group "Tidewatch architecture view":
+aria tour-step1 |   - text: Live update · Step 1 of 6. Beachgoer. A person checking the next high tide.. A new tide reading travels from the public feed to the chart.
+aria tour-step1 |   - paragraph: 4 layers, 8 components. Use Left and Right Arrow to rotate, plus and minus to zoom, and Up and Down Arrow, Page Up, Page Down, Home, or End to pan the drawing. Press Tab to move to Components.
+aria tour-step1 |   - group "Components":
+aria tour-step1 |     - list "Interface":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Beachgoer"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Chart Screen"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Forecast Details Panel"
+aria tour-step1 |     - list "View state":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide View Model"
+aria tour-step1 |     - list "Tide data":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Repository"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Live Tide Client"
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Cache"
+aria tour-step1 |     - list "External boundary":
+aria tour-step1 |       - listitem:
+aria tour-step1 |         - button "Tide Feed"
+aria tour-step1 |   - paragraph: Live update · Step 1 of 6
+aria tour-step1 |   - paragraph: Beachgoer
+aria tour-step1 |   - paragraph: A person checking the next high tide.
+aria tour-step1 |   - paragraph: A new tide reading travels from the public feed to the chart.
+summary: PASS

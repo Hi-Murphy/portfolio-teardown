@@ -1,0 +1,15 @@
+{
+  "command": "node /tmp/s08-checks/t011-screenshots.mjs",
+  "exitCode": 0,
+  "url": "http://127.0.0.1:4199/dev/engine?fixture=a&state=exploded&highlight=tide-repository",
+  "chromium": "156.0.8078.4",
+  "viewport": "1440x1000 desktop",
+  "screenshots": [
+    "evidence/T011-screenshot-highlight-light.png",
+    "evidence/T011-screenshot-highlight-dark.png"
+  ],
+  "checks": [
+    "light: 3 zoom-in clicks; highlighted face number and 2 name line(s) use rgb(34, 38, 43); text \"3.1TideRepository\"",
+    "dark: 3 zoom-in clicks; highlighted face number and 2 name line(s) use rgb(230, 237, 245); text \"3.1TideRepository\""
+  ]
+}

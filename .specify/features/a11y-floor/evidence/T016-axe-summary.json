@@ -1,0 +1,636 @@
+{
+  "serious": 0,
+  "critical": 0,
+  "moderate": 0,
+  "minor": 0,
+  "incomplete": 1098,
+  "ledger": [
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:state\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:data\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:platform\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-view-model\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-repository\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:live-tide-client\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-cache\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-feed\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-view-model\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-repository\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"live-tide-client\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-cache\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-feed\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:platform\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-view-model\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-view-model\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-view-model\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-repository\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-repository\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-repository\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"live-tide-client\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"live-tide-client\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"live-tide-client\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-cache\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-cache\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-cache\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-feed\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-feed\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-feed\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-view-model\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-repository\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"live-tide-client\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-cache\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-feed\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering-layer-label=\"state\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "light/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering-layer-label=\"data\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:state\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:data\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:platform\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-view-model\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-repository\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:live-tide-client\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-cache\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"part:tide-feed\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-view-model\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-repository\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"live-tide-client\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-cache\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/desktop",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-feed\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "span[data-xploder-label=\"layer:platform\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-view-model\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-view-model\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-view-model\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-repository\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-repository\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-repository\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"live-tide-client\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"live-tide-client\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"live-tide-client\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-cache\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-cache\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-cache\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-feed\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(1)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-feed\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(1) > span:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-column-row=\"tide-feed\"] > div[data-a11y-dimmed=\"\"] > div[data-a11y-dimmed=\"\"]:nth-child(2)",
+      "ratio": 0,
+      "layer": "unknown",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-view-model\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-repository\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"live-tide-client\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-cache\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering=\"tide-feed\"]",
+      "ratio": 0,
+      "layer": "platform",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering-layer-label=\"state\"]",
+      "ratio": 0,
+      "layer": "state",
+      "opacity": 0.3
+    },
+    {
+      "cell": "dark/mobile",
+      "state": "a-layer-focus",
+      "selector": "div[data-xploder-lettering-layer-label=\"data\"]",
+      "ratio": 0,
+      "layer": "data",
+      "opacity": 0.3
+    }
+  ],
+  "cells": [
+    {
+      "id": "light/desktop",
+      "palette": "light",
+      "viewport": "desktop",
+      "states": 11,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 209,
+      "ledger": 13
+    },
+    {
+      "id": "light/mobile",
+      "palette": "light",
+      "viewport": "mobile",
+      "states": 11,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 340,
+      "ledger": 23
+    },
+    {
+      "id": "dark/desktop",
+      "palette": "dark",
+      "viewport": "desktop",
+      "states": 11,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 209,
+      "ledger": 13
+    },
+    {
+      "id": "dark/mobile",
+      "palette": "dark",
+      "viewport": "mobile",
+      "states": 11,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 340,
+      "ledger": 23
+    }
+  ],
+  "failingRules": []
+}
