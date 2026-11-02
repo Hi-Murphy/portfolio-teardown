@@ -1,0 +1,52 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.99,
+      "accessibility": 1,
+      "lcpMs": 755.2109,
+      "cls": 0,
+      "tbtMs": 101.5,
+      "fcpMs": 755.2109,
+      "siMs": 1826.236061363185,
+      "totalByteWeight": 506101,
+      "benchmarkIndex": 4199.5
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.99,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 755.2109,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

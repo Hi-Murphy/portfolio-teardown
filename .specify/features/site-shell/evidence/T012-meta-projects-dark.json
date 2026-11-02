@@ -1,0 +1,58 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/projects",
+  "finalUrl": "http://127.0.0.1:4310/projects",
+  "httpStatus": 200,
+  "startedAt": "2026-11-02T04:45:12.790Z",
+  "finishedAt": "2026-11-02T04:45:20.196Z",
+  "durationMs": 7406,
+  "argv": [
+    "http://127.0.0.1:4310/projects",
+    "--color-scheme",
+    "dark",
+    "--runs",
+    "1",
+    "--out",
+    "/tmp/s10-checks/t012/projects-dark"
+  ],
+  "colorScheme": "dark",
+  "git": {
+    "sha": "56f49cf12c7ca036495afa4547cc30709edd36f3",
+    "dirty": false
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 796
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 730
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 5712
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}
