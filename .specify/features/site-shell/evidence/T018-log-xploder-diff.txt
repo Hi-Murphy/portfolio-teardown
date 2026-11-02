@@ -1,0 +1,9 @@
+ packages/xploder/src/overlay/model.ts              |  74 +++++++-
+ .../xploder/test/frozen-surface.generate-s6.sh     |   4 +-
+ .../xploder/test/frozen-surface.generate-s8.sh     |  54 ++++++
+ .../xploder/test/frozen-surface.s6.manifest.json   |   6 +-
+ .../xploder/test/frozen-surface.s8.manifest.json   |  30 +++
+ packages/xploder/test/frozen-surface.s8.paths      |  16 ++
+ packages/xploder/test/frozen-surface.test.ts       |  37 +++-
+ packages/xploder/test/overlay-tour-trail.test.ts   | 207 +++++++++++++++++++++
+ 8 files changed, 416 insertions(+), 12 deletions(-)

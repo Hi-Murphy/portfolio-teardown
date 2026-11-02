@@ -1,0 +1,16 @@
+{
+  "fps": 2.579322602425397,
+  "frames": 13,
+  "droppedFrames": 0,
+  "windowMs": 5040.083,
+  "intervalsMs": {
+    "p50": 16.667,
+    "p95": 18.656,
+    "max": 18.656
+  },
+  "source": "trace:DrawFrame",
+  "pid": 36397,
+  "pidSource": "draw-frame-frequency-fallback",
+  "rafFps": 60.002400096003846,
+  "chromium": "156.0.8078.4"
+}
