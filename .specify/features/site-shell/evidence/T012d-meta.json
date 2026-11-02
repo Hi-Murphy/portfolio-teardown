@@ -1,0 +1,343 @@
+{
+  "kind": "T012d-smoke",
+  "version": 1,
+  "url": "http://127.0.0.1:4310/projects/websocket-inspector",
+  "tools": {
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 800
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 900
+    }
+  },
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "screenshots": [
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-idle-mobile-light.png",
+      "mode": "idle",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-playing-mobile-light.png",
+      "mode": "playing",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-idle-desktop-light.png",
+      "mode": "idle",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-playing-desktop-light.png",
+      "mode": "playing",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "palette": "light"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-idle-mobile-dark.png",
+      "mode": "idle",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-playing-mobile-dark.png",
+      "mode": "playing",
+      "viewportName": "mobile",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-idle-desktop-dark.png",
+      "mode": "idle",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "palette": "dark"
+    },
+    {
+      "path": ".specify/features/site-shell/evidence/T012d-screenshot-tour-playing-desktop-dark.png",
+      "mode": "playing",
+      "viewportName": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "palette": "dark"
+    }
+  ],
+  "checks": [
+    {
+      "label": "SSR: project route responds 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "label": "SSR: the poster and fixed workbench rows are present in the export bytes",
+      "ok": true
+    },
+    {
+      "label": "mobile: stage row keeps its reserved height",
+      "ok": true,
+      "detail": "20,399.5,320,560 -> 20,399.5,320,560"
+    },
+    {
+      "label": "mobile: dock row keeps its reserved height",
+      "ok": true,
+      "detail": "20,971.5,320,112 -> 20,971.5,320,112"
+    },
+    {
+      "label": "mobile: tour row keeps its reserved height",
+      "ok": true,
+      "detail": "20,1095.5,320,388 -> 20,1095.5,320,388"
+    },
+    {
+      "label": "mobile: idle tour card fits its fixed row",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "mobile: tour row has no overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":318,\"scrollWidth\":318,\"clientHeight\":386,\"scrollHeight\":386}"
+    },
+    {
+      "label": "mobile: page has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":360,\"scrollWidth\":360}"
+    },
+    {
+      "label": "mobile: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "desktop: stage row keeps its reserved height",
+      "ok": true,
+      "detail": "96,382.25,1088,630 -> 96,382.25,1088,630"
+    },
+    {
+      "label": "desktop: dock row keeps its reserved height",
+      "ok": true,
+      "detail": "96,1024.25,1088,64 -> 96,1024.25,1088,64"
+    },
+    {
+      "label": "desktop: tour row keeps its reserved height",
+      "ok": true,
+      "detail": "96,1100.25,1088,272 -> 96,1100.25,1088,272"
+    },
+    {
+      "label": "desktop: idle tour card fits its fixed row",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":270,\"scrollHeight\":270}"
+    },
+    {
+      "label": "desktop: tour row has no overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1086,\"scrollWidth\":1086,\"clientHeight\":270,\"scrollHeight\":270}"
+    },
+    {
+      "label": "desktop: page has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"clientWidth\":1280,\"scrollWidth\":1280}"
+    },
+    {
+      "label": "desktop: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "workbench poster: pointer-events-none",
+      "ok": true,
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952051\"}"
+    },
+    {
+      "label": "workbench poster: invisible after reveal",
+      "ok": true,
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952051\"}"
+    },
+    {
+      "label": "workbench: stage centre hit-test reaches the live viewer, not the poster",
+      "ok": true,
+      "detail": "{\"poster\":{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952051\"},\"hitTag\":\"CANVAS\",\"hitInsideViewer\":true,\"hitPoster\":false}"
+    },
+    {
+      "label": "hover: moving over slab centres sets data-xploder-highlight",
+      "ok": true,
+      "detail": "inspector-ui"
+    },
+    {
+      "label": "hover: the overlay contains one leader stroke for the highlighted part",
+      "ok": true,
+      "detail": "{\"id\":\"inspector-ui\",\"leaders\":1}"
+    },
+    {
+      "label": "click: clicking a slab opens the component detail panel",
+      "ok": true,
+      "detail": "{\"panel\":\"detail\",\"ready\":\"true\"}"
+    },
+    {
+      "label": "wheel: zoom-in reaches the maximum",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "label": "wheel: the viewer has a scroll container at maximum zoom",
+      "ok": true,
+      "detail": "{\"top\":0,\"max\":1055}"
+    },
+    {
+      "label": "wheel: a wheel over the stage centre increases scrollTop at maximum zoom",
+      "ok": true,
+      "detail": "0 -> 500"
+    },
+    {
+      "label": "hit-through interactions: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "route options: one option per flow",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "label": "route option 1: first component → last component plus step count",
+      "ok": true,
+      "detail": "{\"id\":\"capture-path\",\"title\":\"MainActivity → Room store\",\"count\":\"7 steps\",\"description\":\"An app message leaves the host, passes through the decorators, and lands in Room.\"}"
+    },
+    {
+      "label": "route options: descriptions render beneath the titles",
+      "ok": true,
+      "detail": "[\"An app message leaves the host, passes through the decorators, and lands in Room.\",\"The notification opens the inspector; list and detail read the same rows Room stored.\"]"
+    },
+    {
+      "label": "route options: flow labels are never rendered",
+      "ok": true
+    },
+    {
+      "label": "route option 2: first component → last component plus step count",
+      "ok": true,
+      "detail": "{\"title\":\"Notification → Room store\",\"count\":\"7 steps\",\"expected\":\"Notification → Room store\",\"steps\":7}"
+    },
+    {
+      "label": "Exit tour: absent while the tour is idle",
+      "ok": true
+    },
+    {
+      "label": "Exit tour: icon + label is visible whenever the tour is not idle",
+      "ok": true
+    },
+    {
+      "label": "Exit tour: stop returns the tour to idle and restores overlay callouts",
+      "ok": true
+    },
+    {
+      "label": "explode-before-step: imploded + Next explodes and advances to step 1",
+      "ok": true
+    },
+    {
+      "label": "explode-before-step: imploded + rail chip 3 explodes and jumps to step 3",
+      "ok": true
+    },
+    {
+      "label": "tour interactions: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "tour panel: active content stays inside the fixed row",
+      "ok": true,
+      "detail": "{\"clientHeight\":270,\"scrollHeight\":270,\"clientWidth\":1086,\"scrollWidth\":1086}"
+    },
+    {
+      "label": "hero poster: pointer-events-none",
+      "ok": true,
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952683\"}"
+    },
+    {
+      "label": "hero poster: invisible after reveal",
+      "ok": true,
+      "detail": "{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952683\"}"
+    },
+    {
+      "label": "hero: poster no longer intercepts; the plan-mandated inert live layer is not a hit target",
+      "ok": true,
+      "detail": "{\"poster\":{\"pointerEvents\":\"none\",\"visibility\":\"hidden\",\"opacity\":\"0.00952683\"},\"hitTag\":\"DIV\",\"hitInsideViewer\":false,\"hitPoster\":false,\"liveInert\":true,\"viewerPresent\":true}"
+    },
+    {
+      "label": "hero: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "label": "screenshot tour/idle/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/playing/mobile/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/idle/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/playing/desktop/light: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/idle/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/playing/mobile/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/idle/desktop/dark: written",
+      "ok": true
+    },
+    {
+      "label": "screenshot tour/playing/desktop/dark: written",
+      "ok": true
+    }
+  ],
+  "passed": true
+}

@@ -1,5 +1,8 @@
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, test } from 'vitest';
 
+import { TourPanel } from '../components/workbench/tour-panel';
 import {
   buildTourFlows,
   findTourFlow,
@@ -40,7 +43,7 @@ describe('tour model', () => {
     expect(flows).toEqual([
       {
         id: 'main',
-        label: 'Main flow',
+        title: 'Alpha → Gamma',
         description: 'The primary path.',
         steps: [
           { index: 0, id: 'a', name: 'Alpha', summary: 'First component.' },
@@ -50,7 +53,7 @@ describe('tour model', () => {
       },
       {
         id: 'unlabelled',
-        label: 'unlabelled',
+        title: 'Gamma → missing',
         description: '',
         steps: [
           { index: 0, id: 'c', name: 'Gamma', summary: 'Third component.' },
@@ -64,7 +67,7 @@ describe('tour model', () => {
     const flows = buildTourFlows(PROJECT);
     const flow = findTourFlow(flows, 'main');
 
-    expect(flow?.label).toBe('Main flow');
+    expect(flow?.title).toBe('Alpha → Gamma');
     expect(findTourFlow(flows, null)).toBeUndefined();
     expect(tourStepAt(flow, 1)).toEqual({
       index: 1,
@@ -79,5 +82,52 @@ describe('tour model', () => {
     expect(jumpSequence(0, false)).toEqual(['stop', 'step']);
     expect(jumpSequence(2, false)).toEqual(['stop', 'step', 'step', 'step']);
     expect(jumpSequence(2, true)).toEqual(['stop', 'step', 'step', 'step', 'play']);
+  });
+
+  test('a single flow renders the route header without a chooser', () => {
+    const html = renderToStaticMarkup(
+      createElement(TourPanel, {
+        flows: [buildTourFlows(PROJECT)[0]!],
+        flowId: 'main',
+        status: 'idle',
+        step: 0,
+        onSelectFlow: () => undefined,
+        onTogglePlayback: () => undefined,
+        onPrevious: () => undefined,
+        onNext: () => undefined,
+        onRestart: () => undefined,
+        onExit: () => undefined,
+        onJump: () => undefined,
+        onHighlight: () => undefined,
+      }),
+    );
+
+    expect(html).toContain('data-site-tour-flow-header');
+    expect(html).toContain('Alpha → Gamma');
+    expect(html).toContain('3 steps');
+    expect(html).not.toContain('role="group" aria-label="Tour flow"');
+    expect(html).not.toContain('Main flow');
+  });
+
+  test('Exit tour is present only when the tour is not idle', () => {
+    const props = {
+      flows: buildTourFlows(PROJECT),
+      flowId: 'main',
+      step: 0,
+      onSelectFlow: () => undefined,
+      onTogglePlayback: () => undefined,
+      onPrevious: () => undefined,
+      onNext: () => undefined,
+      onRestart: () => undefined,
+      onExit: () => undefined,
+      onJump: () => undefined,
+      onHighlight: () => undefined,
+    } as const;
+    const idle = renderToStaticMarkup(createElement(TourPanel, { ...props, status: 'idle' }));
+    const playing = renderToStaticMarkup(createElement(TourPanel, { ...props, status: 'playing' }));
+
+    expect(idle).not.toContain('data-site-control="tour-exit"');
+    expect(playing).toContain('data-site-control="tour-exit"');
+    expect(playing).toContain('aria-label="Exit tour"');
   });
 });

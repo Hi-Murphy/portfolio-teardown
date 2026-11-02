@@ -25,7 +25,7 @@ export interface TourStep {
 
 export interface TourFlow {
   readonly id: string;
-  readonly label: string;
+  readonly title: string;
   readonly description: string;
   readonly steps: readonly TourStep[];
 }
@@ -39,11 +39,8 @@ export function buildTourFlows(project: TourModelProject): readonly TourFlow[] {
     ),
   );
 
-  return (project.flows ?? []).map((flow) => ({
-    id: flow.id,
-    label: flow.label ?? flow.id,
-    description: flow.description ?? '',
-    steps: flow.path.map((id, index) => {
+  return (project.flows ?? []).map((flow) => {
+    const steps = flow.path.map((id, index) => {
       const component = components.get(id);
 
       return {
@@ -52,8 +49,17 @@ export function buildTourFlows(project: TourModelProject): readonly TourFlow[] {
         name: component?.name ?? id,
         summary: component?.summary ?? '',
       };
-    }),
-  }));
+    });
+    const first = steps[0];
+    const last = steps[steps.length - 1];
+
+    return {
+      id: flow.id,
+      title: first === undefined || last === undefined ? '' : `${first.name} → ${last.name}`,
+      description: flow.description ?? '',
+      steps,
+    };
+  });
 }
 
 export function findTourFlow(

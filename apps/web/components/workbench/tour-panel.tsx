@@ -7,6 +7,7 @@ import { findTourFlow, tourStepAt, type TourFlow, type TourModelStatus } from '.
 
 const FLOW_CHOOSER =
   'grid grid-cols-1 gap-1.5 rounded border border-line/40 bg-bg/60 p-1.5 sm:grid-cols-2';
+const FLOW_HEADER = 'min-w-0 rounded border border-line/40 bg-bg/60 px-2 py-1.5';
 const FLOW_BUTTON =
   'min-w-0 rounded border px-2 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const FLOW_BUTTON_SELECTED = 'border-accent bg-accent/10 text-fg';
@@ -19,6 +20,51 @@ const CHIP =
 const CHIP_SELECTED = 'border-accent bg-accent text-bg';
 const CHIP_IDLE = 'border-line/60 bg-bg text-fg hover:border-accent hover:text-accent';
 
+function ExitTourIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      className="h-4 w-4 shrink-0"
+    >
+      <path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9" />
+    </svg>
+  );
+}
+
+function FlowText({ flow }: { readonly flow: TourFlow }) {
+  return (
+    <>
+      <span className="flex min-w-0 items-baseline gap-2">
+        <span
+          data-site-tour-flow-title=""
+          className="min-w-0 truncate text-xs font-semibold text-fg"
+        >
+          {flow.title}
+        </span>
+        <span
+          data-site-tour-flow-count=""
+          className="shrink-0 font-mono text-[0.625rem] text-muted"
+        >
+          {`${flow.steps.length} steps`}
+        </span>
+      </span>
+      <span
+        data-site-tour-flow-description=""
+        className="mt-0.5 line-clamp-2 text-[0.6875rem] leading-snug text-muted"
+      >
+        {flow.description}
+      </span>
+    </>
+  );
+}
+
 export interface TourPanelProps {
   readonly flows: readonly TourFlow[];
   readonly flowId: string | null;
@@ -29,6 +75,7 @@ export interface TourPanelProps {
   readonly onPrevious: () => void;
   readonly onNext: () => void;
   readonly onRestart: () => void;
+  readonly onExit: () => void;
   readonly onJump: (stepIndex: number) => void;
   readonly onHighlight: (componentId: string | null) => void;
 }
@@ -43,6 +90,7 @@ export function TourPanel({
   onPrevious,
   onNext,
   onRestart,
+  onExit,
   onJump,
   onHighlight,
 }: TourPanelProps) {
@@ -61,42 +109,58 @@ export function TourPanel({
   }, [current?.id, step]);
 
   return (
-    <div data-site-tour-panel="" className="flex h-full min-w-0 flex-col gap-1.5 p-2">
-      <div className="flex min-w-0 items-center justify-between gap-3">
+    <div data-site-tour-panel="" className="flex h-full min-w-0 flex-col gap-1 p-2">
+      <div className="flex min-h-11 min-w-0 items-center justify-between gap-2">
         <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">
           Guided tour
         </p>
-        <p
-          data-site-tour-position=""
-          aria-live="polite"
-          className="shrink-0 font-mono text-[0.6875rem] text-muted"
-        >
-          {`Step ${position} of ${total}`}
-        </p>
+        <div className="flex min-w-0 items-center gap-2">
+          <p
+            data-site-tour-position=""
+            aria-live="polite"
+            className="shrink-0 font-mono text-[0.6875rem] text-muted"
+          >
+            {`Step ${position} of ${total}`}
+          </p>
+          {status === 'idle' ? null : (
+            <button
+              type="button"
+              data-site-control="tour-exit"
+              aria-label="Exit tour"
+              title="Exit tour"
+              className={`${TRANSPORT_BUTTON} gap-1.5 px-2 text-xs font-semibold`}
+              onClick={onExit}
+            >
+              <ExitTourIcon />
+              <span>Exit tour</span>
+            </button>
+          )}
+        </div>
       </div>
 
-      <div role="group" aria-label="Tour flow" className={FLOW_CHOOSER}>
-        {flows.map((candidate, index) => (
-          <button
-            key={candidate.id}
-            type="button"
-            data-site-control={`flow-${candidate.id}`}
-            aria-pressed={flowId === candidate.id}
-            className={`${FLOW_BUTTON} ${
-              flowId === candidate.id ? FLOW_BUTTON_SELECTED : FLOW_BUTTON_IDLE
-            }`}
-            onClick={() => onSelectFlow(candidate.id)}
-          >
-            <span className="block font-mono text-[0.625rem] uppercase tracking-[0.16em] text-muted">
-              {`Flow ${index + 1}`}
-            </span>
-            <span className="block truncate text-xs font-semibold text-fg">{candidate.label}</span>
-            <span className="mt-0.5 line-clamp-2 text-[0.6875rem] leading-snug text-muted">
-              {candidate.description}
-            </span>
-          </button>
-        ))}
-      </div>
+      {flows.length === 1 && flows[0] !== undefined ? (
+        <div data-site-tour-flow-header="" className={FLOW_HEADER}>
+          <FlowText flow={flows[0]} />
+        </div>
+      ) : (
+        <div role="group" aria-label="Tour flow" className={FLOW_CHOOSER}>
+          {flows.map((candidate) => (
+            <button
+              key={candidate.id}
+              type="button"
+              data-site-control={`flow-${candidate.id}`}
+              data-site-tour-flow-option={candidate.id}
+              aria-pressed={flowId === candidate.id}
+              className={`${FLOW_BUTTON} ${
+                flowId === candidate.id ? FLOW_BUTTON_SELECTED : FLOW_BUTTON_IDLE
+              }`}
+              onClick={() => onSelectFlow(candidate.id)}
+            >
+              <FlowText flow={candidate} />
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="flex min-w-0 items-center gap-1">
         <button
@@ -177,7 +241,7 @@ export function TourPanel({
         </ol>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-hidden rounded border border-line/30 bg-bg/60 px-2.5 py-1.5">
+      <div className="min-h-0 flex-1 overflow-hidden rounded border border-line/30 bg-bg/60 px-2.5 py-1">
         <p className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-muted">Now</p>
         <p
           data-site-tour-now=""
