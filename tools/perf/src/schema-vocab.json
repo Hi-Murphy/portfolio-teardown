@@ -1,0 +1,57 @@
+{
+  "version": "30.1",
+  "sourceUrl": "https://schema.org/version/latest/schemaorg-current-https.jsonld",
+  "types": {
+    "Thing": {
+      "supertypes": []
+    },
+    "CreativeWork": {
+      "supertypes": ["Thing"]
+    },
+    "SoftwareApplication": {
+      "supertypes": ["CreativeWork"]
+    },
+    "SoftwareSourceCode": {
+      "supertypes": ["CreativeWork"]
+    },
+    "Person": {
+      "supertypes": ["Thing"]
+    },
+    "Text": {
+      "supertypes": []
+    },
+    "URL": {
+      "supertypes": ["Text"]
+    }
+  },
+  "properties": {
+    "name": {
+      "domainIncludes": ["Thing"],
+      "rangeIncludes": ["Text"]
+    },
+    "jobTitle": {
+      "domainIncludes": ["Person"],
+      "rangeIncludes": ["DefinedTerm", "Text"]
+    },
+    "url": {
+      "domainIncludes": ["Thing"],
+      "rangeIncludes": ["URL"]
+    },
+    "sameAs": {
+      "domainIncludes": ["Thing"],
+      "rangeIncludes": ["URL"]
+    },
+    "description": {
+      "domainIncludes": ["Thing"],
+      "rangeIncludes": ["Text", "TextObject"]
+    },
+    "author": {
+      "domainIncludes": ["CreativeWork", "Rating"],
+      "rangeIncludes": ["Organization", "Person"]
+    },
+    "codeRepository": {
+      "domainIncludes": ["SoftwareSourceCode"],
+      "rangeIncludes": ["URL"]
+    }
+  }
+}
