@@ -1,4 +1,4 @@
-# Slice 08 — A11y Floor: Keyboard · Screen Reader · Contrast · No-JS · FROZEN BRIEF v1
+# Slice 08 — A11y Floor: Keyboard · Screen Reader · Contrast · No-JS · FROZEN BRIEF v2
 
 **slice:** S08-a11y-floor · **project:** portfolio-teardown · **repo:** Hi-Murphy/portfolio-teardown · **milestone:** M1 · **author:** Merlin (project layer) · **orchestrator:** Opus 5.5 (orca) · **branch:** `task/s08-a11y-floor` · **depends on:** S7 ✅ (PR #12 → `10c10037`) · **revision counter:** 0 of 2
 
@@ -23,7 +23,7 @@ Make the teardown **usable without a mouse, without sight, and without JavaScrip
 7. **Reduced-motion coverage matrix:** every animation listed with its reduced-motion twin, verified (0 animations under emulation), including S7 additions.
 
 ## Non-goals (hard)
-- No visual redesign (S6/S7 sealed) · no new interaction features beyond a11y affordances · no site shell, landing, routes (S10) · no real content (S9) · no schema/API changes · no camera/layout changes · no cross-project chip links (S14) · no pixel/papercraft theme.
+- No visual redesign (S6/S7 sealed) — **OVERRIDDEN by revisions 1–2, see Revision log** · no new interaction features beyond a11y affordances · no site shell, landing, routes (S10) · no real content (S9) · no schema/API changes · no camera/layout changes · no cross-project chip links (S14) · no pixel/papercraft theme.
 
 ## Acceptance criteria (inviolable — no rewording, no relaxing)
 - **AC1:** keyboard-only drill passes for fixtures A and B: every component selectable via keyboard, panel opens from the keyboard, `Esc` closes it, focus returns to the triggering element, no traps, tab order logical; automated drill script + log attached.
@@ -33,6 +33,8 @@ Make the teardown **usable without a mouse, without sight, and without JavaScrip
 - **AC5:** reduced-motion coverage matrix complete for all animations (including S7 lettering/panel additions) — 0 animations under emulation, with a twin for each; evidence attached.
 - **AC6:** JS-disabled render shows poster + accessible project list (screenshot + DOM evidence); no-WebGL path shows the same list plus a message (evidence).
 - **AC7:** full CI green (build/typecheck/lint/test, gitleaks, lighthouse, weight, fps calibration, fixture exclusion) + the new axe gate; frozen-surface checks for S2–S7 remain empty; 2 draw calls unchanged; zero CLS.
+- **AC8 (v2 — added by revisions 1–2, reason `spec-gap`):** presentation states of face lettering are specified and tested: (a) highlighted (hover/focus/tour) face lettering renders in **ink** and meets AA (≥4.5:1) in both palettes — the pre-fix render measured 3.05/3.34 and 4.24/3.01; (b) part **names are disclosed progressively by zoom-click count** — the first zoom-in click shows numbers only, names appear from the second click onward, subject to a ≥8 px legibility threshold, all-or-nothing per fixture (observed: A from click 3, C from click 4, B from click 5); evidence: contrast table rows for highlighted lettering + zoom-click sequence screenshots.
+
 
 ## Executor rules (binding)
 - Tasks sized for DeepSeek Flash 4.1: one integration seam + one executable check each. Every a11y claim attaches machine-made evidence per `.specify/EVIDENCE.md` (AX-tree dumps, measured ratios, axe JSON, drill logs, screenshots).
@@ -45,3 +47,9 @@ Make the teardown **usable without a mouse, without sight, and without JavaScrip
 
 ## Freeze protocol
 Frozen at commit; work only on `task/s08-a11y-floor`; integration via PR after Murphy's final validation. Scope/AC changes = revision, logged in vault (counter 0 of 2). Design decisions (keyboard model, focus strategy, aria structure, axe integration, contrast token fixes) live in `.specify/features/a11y-floor/rfc.md` — orchestrator-authored, Murphy-reviewed before spec/plan/tasks and again before execution.
+
+
+## Revision log
+- **v2 · 2026-11-02 · AC8 (revision 1) · reason `spec-gap`** — G2/G3 feedback, **presentation override of the "no visual redesign" non-goal.** Highlighted-face lettering failed AC4's AA bar (3.05/3.34 and 4.24/3.01) because the S7 lettering spec never defined interaction-state colors. Fix: highlighted face lettering (number + name) drawn in ink; render-level only, no token change. Evidence: `T011-*`. Approved by Murphy at the gate.
+- **v2 · 2026-11-02 · AC8 (revision 2) · reason `spec-gap`** — face part names appeared at the first zoom-in click, crowding the slab and failing the ≥8 px legibility bar (S7's spec said "name when it fits" but never defined zoom-level disclosure). Fix: progressive disclosure — numbers at click 1, names from click 2 subject to ≥8 px, all-or-nothing (A click 3, C click 4, B click 5). Evidence: `T012a`/`T012b`. Approved by Murphy at the gate.
+- **Revision count: 2 of 2 — at the split threshold. A third revision on S08 = split the slice, do not re-plan it.**
