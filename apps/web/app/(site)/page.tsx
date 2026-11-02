@@ -3,15 +3,21 @@ import Link from 'next/link';
 import { AboutStrip } from '../../components/about-strip';
 import { POSTER_FADE_CLASS } from '../../components/hero/hero-classes';
 import { HeroLive } from '../../components/hero/hero-live';
+import { JsonLd } from '../../components/json-ld';
 import { ProjectCard } from '../../components/project-card';
 import { TeardownPoster } from '../../components/teardown-poster';
 import { PROJECTS, cardModel } from '../../content/projects';
 import { SITE } from '../../content/site';
+import { personLd } from '../../seo/json-ld';
+import { routeMetadata } from '../../seo/metadata';
+import { HOME_ROUTE } from '../../seo/routes';
 
 const PRIMARY_CTA_CLASS =
   'inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-semibold text-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const SECONDARY_CTA_CLASS =
   'inline-flex min-h-11 items-center justify-center rounded-sm border border-line px-5 text-sm font-medium text-fg hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+
+export const metadata = routeMetadata(HOME_ROUTE);
 
 export default function HomePage() {
   const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;
@@ -19,6 +25,7 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+      <JsonLd data={personLd()} />
       <section
         data-site-hero=""
         className="grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12"

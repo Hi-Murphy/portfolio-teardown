@@ -1,0 +1,16 @@
+# schema-vocab.json verified against the live schema.org release (orchestrator review, 2026-11-03)
+source: https://schema.org/version/latest/schemaorg-current-https.jsonld (1521575 bytes, sha256 0a4b8c4c910fc831ec8695196510973390906a5ee34dc6b862dfec4d21a12f74); releases page: V30.1
+type Thing: supertypes [] vs [] OK
+type CreativeWork: supertypes ['Thing'] vs ['Thing'] OK
+type SoftwareApplication: supertypes ['CreativeWork'] vs ['CreativeWork'] OK
+type SoftwareSourceCode: supertypes ['CreativeWork'] vs ['CreativeWork'] OK
+type Person: supertypes ['Thing'] vs ['Thing'] OK
+type URL: supertypes ['Text'] vs ['Text'] OK
+property name: domain ['Thing'] range ['Text'] OK
+property jobTitle: domain ['Person'] range ['DefinedTerm', 'Text'] OK
+property url: domain ['Thing'] range ['URL'] OK
+property sameAs: domain ['Thing'] range ['URL'] OK
+property description: domain ['Thing'] range ['Text', 'TextObject'] OK
+property author: domain ['CreativeWork', 'Rating'] range ['Organization', 'Person'] OK
+property codeRepository: domain ['SoftwareSourceCode'] range ['URL'] OK
+VOCAB-MATCH

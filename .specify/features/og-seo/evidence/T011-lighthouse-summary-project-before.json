@@ -1,0 +1,83 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown.vercel.app/projects/websocket-inspector",
+  "finalUrl": "https://portfolio-teardown.vercel.app/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 922.9585,
+      "cls": 0,
+      "tbtMs": 5.5,
+      "fcpMs": 922.9585,
+      "siMs": 922.9585,
+      "totalByteWeight": 196810,
+      "benchmarkIndex": 4238.5
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 921.9665,
+      "cls": 0,
+      "tbtMs": 0.5,
+      "fcpMs": 921.9665,
+      "siMs": 921.9665,
+      "totalByteWeight": 196732,
+      "benchmarkIndex": 4255.5
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 932.0675,
+      "cls": 0,
+      "tbtMs": 8.5,
+      "fcpMs": 932.0675,
+      "siMs": 932.0675,
+      "totalByteWeight": 196729,
+      "benchmarkIndex": 4286.5
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 922.9585,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

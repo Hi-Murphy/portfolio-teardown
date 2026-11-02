@@ -1,0 +1,202 @@
+{
+ "tool": "https://validator.schema.org/validate (POST, html snippet mode; one submission per route, Gate 1 Q10)",
+ "date": "2026-11-03",
+ "input": "JSON-LD <script> extracted from a local production build with SITE_URL=https://hi-murphy.me",
+ "routes": {
+  "/": {
+   "numObjects": 1,
+   "totalNumErrors": 0,
+   "totalNumWarnings": 0,
+   "response": {
+    "isRendered": false,
+    "tripleGroups": [
+     {
+      "ownerSet": {},
+      "nodes": [
+       {
+        "types": [
+         {
+          "pred": "itemtype",
+          "value": "Person",
+          "errors": [],
+          "begin": 76,
+          "end": 84
+         }
+        ],
+        "typeGroup": "Person",
+        "errors": [],
+        "properties": [
+         {
+          "pred": "name",
+          "value": "Timur Haryo Mahissanular",
+          "errors": [],
+          "begin": 92,
+          "end": 118
+         },
+         {
+          "pred": "jobTitle",
+          "value": "Android engineer",
+          "errors": [],
+          "begin": 130,
+          "end": 148
+         },
+         {
+          "pred": "url",
+          "value": "https://hi-murphy.me/",
+          "errors": [],
+          "begin": 155,
+          "end": 177
+         },
+         {
+          "pred": "sameAs",
+          "value": "https://github.com/TimurHaryo",
+          "errors": [],
+          "begin": 188,
+          "end": 219
+         },
+         {
+          "pred": "sameAs",
+          "value": "https://id.linkedin.com/in/timurharyo",
+          "errors": [],
+          "begin": 220,
+          "end": 259
+         }
+        ],
+        "nodeProperties": [],
+        "numErrors": 0,
+        "numWarnings": 0
+       }
+      ],
+      "numNodesWithError": 0,
+      "numNodesWithWarning": 0,
+      "numErrors": 0,
+      "numWarnings": 0,
+      "type": "Person"
+     }
+    ],
+    "numObjects": 1,
+    "html": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"jobTitle\":\"Android engineer\",\"url\":\"https://hi-murphy.me\",\"sameAs\":[\"https://github.com/TimurHaryo\",\"https://id.linkedin.com/in/timurharyo\"]}</script>",
+    "errors": [],
+    "totalNumErrors": 0,
+    "totalNumWarnings": 0
+   }
+  },
+  "/projects/websocket-inspector": {
+   "numObjects": 1,
+   "totalNumErrors": 0,
+   "totalNumWarnings": 0,
+   "response": {
+    "isRendered": false,
+    "tripleGroups": [
+     {
+      "ownerSet": {},
+      "nodes": [
+       {
+        "types": [
+         {
+          "pred": "itemtype",
+          "value": "SoftwareApplication",
+          "errors": [],
+          "begin": 77,
+          "end": 98
+         },
+         {
+          "pred": "itemtype",
+          "value": "SoftwareSourceCode",
+          "errors": [],
+          "begin": 99,
+          "end": 119
+         }
+        ],
+        "typeGroup": "SoftwareApplication / SoftwareSourceCode",
+        "errors": [],
+        "properties": [
+         {
+          "pred": "name",
+          "value": "Scarlet Inspector",
+          "errors": [],
+          "begin": 128,
+          "end": 147
+         },
+         {
+          "pred": "description",
+          "value": "A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.",
+          "errors": [],
+          "begin": 162,
+          "end": 398
+         },
+         {
+          "pred": "url",
+          "value": "https://hi-murphy.me/projects/websocket-inspector",
+          "errors": [],
+          "begin": 405,
+          "end": 456
+         },
+         {
+          "pred": "codeRepository",
+          "value": "https://github.com/TimurHaryo/websocket-inspector",
+          "errors": [],
+          "begin": 565,
+          "end": 616
+         }
+        ],
+        "nodeProperties": [
+         {
+          "pred": "author",
+          "target": {
+           "types": [
+            {
+             "pred": "itemtype",
+             "value": "Person",
+             "errors": [],
+             "begin": 475,
+             "end": 483
+            }
+           ],
+           "typeGroup": "Person",
+           "errors": [],
+           "properties": [
+            {
+             "pred": "name",
+             "value": "Timur Haryo Mahissanular",
+             "errors": [],
+             "begin": 491,
+             "end": 517
+            },
+            {
+             "pred": "url",
+             "value": "https://hi-murphy.me/",
+             "errors": [],
+             "begin": 524,
+             "end": 546
+            }
+           ],
+           "nodeProperties": [],
+           "numErrors": 0,
+           "numWarnings": 0
+          },
+          "errors": [],
+          "begin": 466,
+          "end": 547
+         }
+        ],
+        "numErrors": 0,
+        "numWarnings": 0
+       }
+      ],
+      "numNodesWithError": 0,
+      "numNodesWithWarning": 0,
+      "numErrors": 0,
+      "numWarnings": 0,
+      "type": "SoftwareApplication / SoftwareSourceCode"
+     }
+    ],
+    "numObjects": 1,
+    "html": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"SoftwareApplication\",\"SoftwareSourceCode\"],\"name\":\"Scarlet Inspector\",\"description\":\"A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.\",\"url\":\"https://hi-murphy.me/projects/websocket-inspector\",\"author\":{\"@type\":\"Person\",\"name\":\"Timur Haryo Mahissanular\",\"url\":\"https://hi-murphy.me\"},\"codeRepository\":\"https://github.com/TimurHaryo/websocket-inspector\"}</script>",
+    "errors": [],
+    "totalNumErrors": 0,
+    "totalNumWarnings": 0
+   }
+  }
+ }
+}

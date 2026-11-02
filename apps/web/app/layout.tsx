@@ -3,17 +3,12 @@ import type * as React from 'react';
 import { motionCss } from 'xploder/motion';
 import { paletteCss } from 'xploder/theme';
 
-import { SITE } from '../content/site';
+import { baseMetadata, SITE_VIEWPORT } from '../seo/metadata';
 import './globals.css';
 import { THEME_SCRIPT } from './theme-script';
 
-export const metadata = {
-  title: {
-    default: SITE.meta.title,
-    template: '%s · ' + SITE.meta.siteName,
-  },
-  description: SITE.meta.description,
-};
+export const metadata = baseMetadata();
+export const viewport = SITE_VIEWPORT;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -10,6 +10,7 @@ const APP_ROOT = fileURLToPath(new URL('../app/', import.meta.url));
 const COMPONENTS_ROOT = fileURLToPath(new URL('../components/', import.meta.url));
 const CONTENT_ROOT = fileURLToPath(new URL('../content/', import.meta.url));
 const SCRIPTS_ROOT = fileURLToPath(new URL('../scripts/', import.meta.url));
+const SEO_ROOT = fileURLToPath(new URL('../seo/', import.meta.url));
 const FORBIDDEN_SPECIFIER = 'xploder/fixtures';
 const IMPORT_SPECIFIER = /(?:\bfrom\s*|\bimport\s*(?:\(\s*)?|\brequire\s*\(\s*)['"]([^'"]+)['"]/g;
 
@@ -44,6 +45,7 @@ function productionFiles(): string[] {
     ...filesUnder(COMPONENTS_ROOT),
     ...filesUnder(CONTENT_ROOT),
     ...filesUnder(SCRIPTS_ROOT),
+    ...filesUnder(SEO_ROOT),
   ];
 }
 

@@ -1,0 +1,165 @@
+{
+  "kind": "weight",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/",
+  "budgetBytes": 3000000,
+  "profiles": {
+    "mobile": {
+      "totalBytes": 200676,
+      "requests": 24,
+      "byType": {
+        "document": 15050,
+        "stylesheet": 6430,
+        "script": 149620,
+        "fetch": 28800,
+        "other": 776
+      },
+      "byOrigin": {
+        "first": 200519,
+        "third": 157
+      },
+      "top": [
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wdsxqyyghjxc.js",
+          "type": "script",
+          "bytes": 73699,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "type": "script",
+          "bytes": 46640,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/",
+          "type": "document",
+          "bytes": 15050,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0rm1aed8pqyhm.js",
+          "type": "script",
+          "bytes": 9353,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/__next.!KHNpdGUp.__PAGE__.txt?_rsc=gzSU19M5behYtFJ2",
+          "type": "fetch",
+          "bytes": 8129,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=lXgVy4icVkuKRDeA",
+          "type": "fetch",
+          "bytes": 7647,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3oumnv78yngah.css",
+          "type": "stylesheet",
+          "bytes": 6430,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2gjzybnkjf2k5.js",
+          "type": "script",
+          "bytes": 4522,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "type": "script",
+          "bytes": 4352,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/projects/__next._index.txt?_rsc=yIp22O3xgPPxC28X",
+          "type": "fetch",
+          "bytes": 4202,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    },
+    "desktop": {
+      "totalBytes": 224072,
+      "requests": 27,
+      "byType": {
+        "document": 15050,
+        "stylesheet": 6408,
+        "script": 173059,
+        "fetch": 28797,
+        "other": 758
+      },
+      "byOrigin": {
+        "first": 200494,
+        "third": 23578
+      },
+      "top": [
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wdsxqyyghjxc.js",
+          "type": "script",
+          "bytes": 73692,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "type": "script",
+          "bytes": 46636,
+          "thirdParty": false
+        },
+        {
+          "url": "https://vercel.live/_next-live/feedback/feedback.js",
+          "type": "script",
+          "bytes": 23578,
+          "thirdParty": true
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/",
+          "type": "document",
+          "bytes": 15050,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0rm1aed8pqyhm.js",
+          "type": "script",
+          "bytes": 9361,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/__next.!KHNpdGUp.__PAGE__.txt?_rsc=gzSU19M5behYtFJ2",
+          "type": "fetch",
+          "bytes": 8123,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=lXgVy4icVkuKRDeA",
+          "type": "fetch",
+          "bytes": 7649,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3oumnv78yngah.css",
+          "type": "stylesheet",
+          "bytes": 6408,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/2gjzybnkjf2k5.js",
+          "type": "script",
+          "bytes": 4522,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s11-og-seo-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "type": "script",
+          "bytes": 4351,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    }
+  },
+  "pass": true
+}

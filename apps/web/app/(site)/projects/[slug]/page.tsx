@@ -2,8 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { JsonLd } from '../../../../components/json-ld';
 import { Workbench } from '../../../../components/workbench/workbench';
 import { PROJECT_SLUGS, getProject } from '../../../../content/projects';
+import { projectLd } from '../../../../seo/json-ld';
+import { routeMetadata } from '../../../../seo/metadata';
+import { routeForSlug } from '../../../../seo/routes';
 
 interface ProjectPageProps {
   readonly params: Promise<{ readonly slug: string }>;
@@ -17,14 +21,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProject(slug);
+  const route = routeForSlug(slug);
 
-  if (project === undefined) return {};
+  if (route === undefined) return {};
 
-  return {
-    title: project.meta.name,
-    description: project.meta.tagline,
-  };
+  return routeMetadata(route);
 }
 
 function projectMetaLine(project: NonNullable<ReturnType<typeof getProject>>): string | undefined {
@@ -45,6 +46,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+      <JsonLd data={projectLd(project)} />
       <header className="mb-8 flex flex-col gap-4">
         <Link
           href="/projects"

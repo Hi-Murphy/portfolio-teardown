@@ -2,6 +2,9 @@
 node_modules/
 .next/
 out/
+apps/web/out-seo-expect.json
+apps/web/public/og/
+apps/web/public/apple-touch-icon.png
 .evidence/
 out-fixtures/
 .vercel/

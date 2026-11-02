@@ -1,0 +1,49 @@
+# RFC spike log — static route handlers under output:'export' (throwaway app, deleted after run)
+date: 2026-11-02 · node v24.19.0 · next "version":"16.4.3"
+
+$ next build  (app/og/[...card]/route.ts, app/icon.svg/route.ts, app/apple-touch-icon.png/route.ts, app/sitemap.ts, app/robots.ts; all force-static; metadataBase https://example.test)
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /apple-touch-icon.png
+├ ○ /icon.svg
+├   /og/[...card]
+│ ├ ● /og/home.png
+│ └ ● /og/projects/x.png
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+exit: 0
+
+$ find out -type f | grep -v _next
+out/404.html
+out/_not-found.html
+out/_not-found.txt
+out/apple-touch-icon.png
+out/icon.svg
+out/index.html
+out/index.txt
+out/og/home.png
+out/og/projects/x.png
+out/robots.txt
+out/sitemap.xml
+
+$ cat out/robots.txt
+User-Agent: *
+Allow: /
+Disallow: /dev/
+
+Sitemap: https://example.test/sitemap.xml
+
+$ xxd out/og/home.png; xxd out/og/projects/x.png
+00000000: 8950 4e47 01                             .PNG.
+00000000: 8950 4e47 02                             .PNG.
+
+$ grep og:image / icon links in out/index.html
+<meta property="og:image" content="https://example.test/og/home.png"/>
+<link rel="icon" href="/icon.svg"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>

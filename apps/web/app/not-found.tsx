@@ -6,9 +6,13 @@ import { SiteNav } from '../components/site-nav';
 import { SkipLink } from '../components/skip-link';
 import { PROJECTS, cardModel } from '../content/projects';
 import { SITE } from '../content/site';
+import { routeMetadata } from '../seo/metadata';
+import { NOT_FOUND_ROUTE } from '../seo/routes';
 
 const RECOVERY_LINK_CLASS =
   'inline-flex min-h-11 items-center justify-center rounded-sm border border-line px-5 text-sm font-medium text-fg hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+
+export const metadata = routeMetadata(NOT_FOUND_ROUTE);
 
 export default function NotFound() {
   const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;

@@ -1,0 +1,56 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T005/apps/web
+
+ ✓ test/seo-card.test.ts > OG card model > / uses the D5 content fields 2ms
+ ✓ test/seo-card.test.ts > OG card model > / draws only layer slabs 1ms
+ ✓ test/seo-card.test.ts > OG card model > /projects uses the D5 content fields 0ms
+ ✓ test/seo-card.test.ts > OG card model > /projects draws only layer slabs 0ms
+ ✓ test/seo-card.test.ts > OG card model > /projects/websocket-inspector uses the D5 content fields 0ms
+ ✓ test/seo-card.test.ts > OG card model > /projects/websocket-inspector draws only layer slabs 0ms
+ ✓ test/seo-card.test.ts > OG card model > the project silhouette contains its five layer slabs 1ms
+ ✓ test/seo-card.test.ts > OG card element > / uses only light blueprint colours 1ms
+ ✓ test/seo-card.test.ts > OG card element > / uses fonts that cover every rendered glyph 1ms
+ ✓ test/seo-card.test.ts > OG card element > /projects uses only light blueprint colours 0ms
+ ✓ test/seo-card.test.ts > OG card element > /projects uses fonts that cover every rendered glyph 1ms
+ ✓ test/seo-card.test.ts > OG card element > /projects/websocket-inspector uses only light blueprint colours 0ms
+ ✓ test/seo-card.test.ts > OG card element > /projects/websocket-inspector uses fonts that cover every rendered glyph 1ms
+ ✓ test/seo-card.test.ts > OG card element > long titles and subtitles clamp at two lines and title-block rows cap at six plus overflow 0ms
+stdout | test/seo-render.test.ts > OG renderer > next/og renders deterministic 1200x630 PNG bytes
+renderer=next/og ImageResponse
+first=sha256:4806791ce0678b075b3924bf81d45b500769fabcf7355130cad3cbb771540472 bytes=27921
+second=sha256:4806791ce0678b075b3924bf81d45b500769fabcf7355130cad3cbb771540472 bytes=27921
+dimensions=1200x630
+negative=sha256:8eaf6f81d348f2928714da0d24b712b1f7b8f263aa2b4f235c175e68990c7f1b bytes=28041
+
+ ✓ test/seo-render.test.ts > OG renderer > next/og renders deterministic 1200x630 PNG bytes 84ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  22:19:19
+   Duration  181ms (tests 41%, transform 34%, import 24%, worker 2%)
+
+HASHES-IDENTICAL
+56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669  ./home.png
+53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22  ./projects.png
+74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3  ./projects/websocket-inspector.png
+./home.png 1200 x 630 74310
+./projects.png 1200 x 630 69640
+./projects/websocket-inspector.png 1200 x 630 79743
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+$ pnpm -r --if-present test
+T005-OK
