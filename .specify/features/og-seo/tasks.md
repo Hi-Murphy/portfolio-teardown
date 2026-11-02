@@ -36,8 +36,8 @@
 | T006 | ☑ (sitemap = 3 indexable URLs; robots Allow / · Disallow /dev/ · Sitemap) | 1 (Flash, sandbox off) | evidence/T006-log-{sitemap-robots.txt,sitemap.xml,robots.txt} | cd61728 |
 | T007 | ☑ (Person + SoftwareApplication/SoftwareSourceCode; schema-dts 2.1.0) | 1 (Flash, sandbox off) | evidence/T007-log-json-ld.txt | b0e6c63 |
 | T008 | ☑ (icon.svg light+dark, apple 180×180 opaque; 4/4 tags on all 5 HTML routes) | 1 (Flash, sandbox off) + orchestrator fixes for 2 plan defects (seo-metadata expectation outside file list; grep -c on one-line HTML) | evidence/T008-{log-icons.txt,log-icon.svg,screenshot-apple-touch-icon.png} | 6427a64 |
-| T009 | ☐ | | | |
-| T010 | ☐ | | | |
+| T009 | ☑ (6 steps PASS on 3 routes; 9/9 on all 5 HTML files; build-1 = build-2; neg control exit 6; vocab = schema.org V30.1) | 1 (Flash, sandbox off) + orchestrator vocab verification vs live schema.org | evidence/T009-log-{seo-probe.txt,seo-probe.json,seo-probe.md,schema-vocab-verify.txt} | ba8e204 |
+| T010 | ☑ (PR #15: 11/11 checks green incl. seo: meta + og; red proof PR #16 exit 6 then closed; CI x64 card hashes = local arm64) | 1 (Flash, sandbox off) for the job; orchestrator: push, PRs, red proof, eslint scope fix | evidence/T010-{ci-run.txt,ci-regression-proof.txt} | 3c2ca4e |
 | T011 | ☐ | | | |
 
 ---

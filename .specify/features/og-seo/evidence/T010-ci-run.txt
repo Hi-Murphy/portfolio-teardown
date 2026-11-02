@@ -1,0 +1,53 @@
+# T010 — CI run on draft PR #15 (head 3c2ca4e)
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/15
+
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/AG7rL7Z1rRJySXAXTupzmbo87reN
+Vercel Preview Comments	pass	0	https://vercel.com/github
+a11y: axe (engine fixture export)	pass	2m40s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058415/job/125588058085
+a11y: axe (production routes)	pass	3m7s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058415/job/125588057985
+build (typecheck, lint, test, build)	pass	1m37s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058418/job/125588058249
+perf-gate: lighthouse (mobile)	pass	1m33s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058415/job/125588057713
+perf-gate: weight (< 3 MB)	pass	1m50s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058415/job/125588058155
+perf: fixture exclusion	pass	44s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058415/job/125588058165
+perf: fps calibration	pass	1m1s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058415/job/125588058050
+secrets (gitleaks)	pass	8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058418/job/125588058136
+seo: meta + og	pass	1m10s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536058418/job/125588057866
+
+## seo: meta + og — probe steps (log excerpt)
+##[group]Run pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+shell: /usr/bin/bash -e {0}
+env:
+  SITE_URL: https://hi-murphy.me
+  PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+##[endgroup]
+$ node tools/perf/src/cli/seo-probe.ts --out-dir apps/web/out --site-url https://hi-murphy.me --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+seo-probe: PASS
+artifacts: /home/runner/work/portfolio-teardown/portfolio-teardown/.evidence/ci/seo/build-1
+##[group]Run rm -rf apps/web/.next apps/web/out
+rm -rf apps/web/.next apps/web/out
+shell: /usr/bin/bash -e {0}
+env:
+  SITE_URL: https://hi-murphy.me
+  PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+##[endgroup]
+##[group]Run pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --compare .evidence/ci/seo/build-1/og-hashes.json --out .evidence/ci/seo/build-2
+pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --compare .evidence/ci/seo/build-1/og-hashes.json --out .evidence/ci/seo/build-2
+shell: /usr/bin/bash -e {0}
+env:
+  SITE_URL: https://hi-murphy.me
+  PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+##[endgroup]
+$ node tools/perf/src/cli/seo-probe.ts --out-dir apps/web/out --site-url https://hi-murphy.me --expect apps/web/out-seo-expect.json --compare .evidence/ci/seo/build-1/og-hashes.json --out .evidence/ci/seo/build-2
+seo-probe: PASS
+artifacts: /home/runner/work/portfolio-teardown/portfolio-teardown/.evidence/ci/seo/build-2
+##[group]Run actions/upload-artifact@v7
+with:
+  name: seo
+  path: .evidence/ci/seo/
+  retention-days: 14
+
+## Card hashes: CI (ubuntu x64, build-2) vs local (macOS arm64, T009 build)
+/og/home.png 74310 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669 LOCAL-MATCH
+/og/projects.png 69640 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22 LOCAL-MATCH
+/og/projects/websocket-inspector.png 79743 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3 LOCAL-MATCH

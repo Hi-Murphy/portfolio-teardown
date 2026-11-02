@@ -1,0 +1,29 @@
+# T010 regression proof — seo: meta + og goes red on a hardcoded og:image host
+throwaway PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/16 (base task/s11-og-seo, head test/s11-seo-red; closed + branch deleted after the run)
+break: apps/web/seo/metadata.ts openGraph.images[0].url = `https://portfolio-teardown.vercel.app${route.ogImagePath}`
+job: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41536120612/job/125588267824 → FAILURE
+
+##[group]Run pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+shell: /usr/bin/bash -e {0}
+env:
+  SITE_URL: https://hi-murphy.me
+  PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+##[endgroup]
+$ node tools/perf/src/cli/seo-probe.ts --out-dir apps/web/out --site-url https://hi-murphy.me --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+seo-probe: FAIL
+artifacts: /home/runner/work/portfolio-teardown/portfolio-teardown/.evidence/ci/seo/build-1
+FAIL / card: og:image resolves to the checked card file: og:image="https://portfolio-teardown.vercel.app/og/home.png" card=/og/home.png
+FAIL / host-leak: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:image","reason":"self URL origin https://portfolio-teardown.vercel.app != https:/
+FAIL /projects card: og:image resolves to the checked card file: og:image="https://portfolio-teardown.vercel.app/og/projects.png" card=/og/projects.png
+FAIL /projects host-leak: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/projects.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/projects.png","source":"og:image","reason":"self URL origin https://portfolio-teardown.verce
+FAIL /projects/websocket-inspector card: og:image resolves to the checked card file: og:image="https://portfolio-teardown.vercel.app/og/projects/websocket-inspector.png" card=/og/projects/websocket-inspector.png
+FAIL /projects/websocket-inspector host-leak: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/projects/websocket-inspector.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/projects/websocket-inspector.png","source":"og:image
+FAIL /home/runner/work/portfolio-teardown/portfolio-teardown/apps/web/out/404.html coverage: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:image"
+FAIL /home/runner/work/portfolio-teardown/portfolio-teardown/apps/web/out/_not-found.html coverage: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og
+FAIL /home/runner/work/portfolio-teardown/portfolio-teardown/apps/web/out/index.html coverage: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/home.png","source":"og:imag
+FAIL /home/runner/work/portfolio-teardown/portfolio-teardown/apps/web/out/projects.html coverage: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/projects.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-teardown.vercel.app/og/projects.png","sourc
+FAIL /home/runner/work/portfolio-teardown/portfolio-teardown/apps/web/out/projects/websocket-inspector.html coverage: every self URL uses the configured origin and all content URLs are verbatim: [{"value":"https://portfolio-teardown.vercel.app/og/projects/websocket-inspector.png","source":"og:image","reason":"blacklisted host portfolio-teardown.vercel.app"},{"value":"https://portfolio-tea
+failed steps: card, host-leak
+[ELIFECYCLE] Command failed with exit code 6.
+##[error]Process completed with exit code 6.
