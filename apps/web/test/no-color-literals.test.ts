@@ -68,6 +68,37 @@ const S07_SOURCE_FILES = [
   'lettering/layers.ts',
   'react/lettering/PartLettering.tsx',
 ].map((path) => fileURLToPath(new URL(`../../../packages/xploder/src/${path}`, import.meta.url)));
+const S10_SOURCE_FILES = [
+  'app/(site)/layout.tsx',
+  'app/(site)/page.tsx',
+  'app/(site)/projects/[slug]/page.tsx',
+  'app/(site)/projects/page.tsx',
+  'app/not-found.tsx',
+  'components/about-strip.tsx',
+  'components/hero/hero-classes.ts',
+  'components/hero/hero-live.tsx',
+  'components/hero/hero-stage.tsx',
+  'components/project-card.tsx',
+  'components/project-outline.tsx',
+  'components/site-footer.tsx',
+  'components/site-nav.tsx',
+  'components/skip-link.tsx',
+  'components/teardown-poster.tsx',
+  'components/tech-chip-list.tsx',
+  'components/viewer/live-viewer.tsx',
+  'components/workbench/workbench-client.tsx',
+  'components/workbench/workbench-loader.tsx',
+  'components/workbench/workbench.tsx',
+  'content/poster.ts',
+  'content/projects/index.ts',
+  'content/projects/websocket-inspector.source.ts',
+  'content/projects/websocket-inspector.ts',
+  'content/site-copy.ts',
+  'content/site.source.ts',
+  'content/site.ts',
+  'content/tech-registry.ts',
+  'scripts/convert-content.ts',
+].map((path) => fileURLToPath(new URL(`../${path}`, import.meta.url)));
 const S08_SOURCE_FILES = [
   'a11y/announce.ts',
   'a11y/contrast.ts',
@@ -145,6 +176,7 @@ describe('color-literal scanner', () => {
     expect(sourceFiles).toEqual(expect.arrayContaining(S07_SOURCE_FILES));
     expect(sourceFiles).toEqual(expect.arrayContaining(S08_SOURCE_FILES));
     expect(collectSourceFiles(WEB_ROOT).length).toBeGreaterThan(0);
+    expect(collectSourceFiles(WEB_ROOT)).toEqual(expect.arrayContaining(S10_SOURCE_FILES));
   });
 
   test.skipIf(!existsSync(PLAYGROUND))('scanner root includes the engine playground', () => {
