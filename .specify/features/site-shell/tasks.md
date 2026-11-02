@@ -43,10 +43,10 @@
 | T012i | ☑ (poster + static Explore card at load; 3D on first interaction or Explore in 3D; local LH project perf 1 / a11y 1; CLS 0; 62 smoke asserts) | 1 (Flash) | evidence/T012i-* | (merge) |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
-| T013 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
-| T014 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
+| T013 | ☑ (12 cells × states: serious 0 / critical 0; after the heading-level fix moderate 0 / minor 0; incomplete = text over the canvas, as in S8) | 1 (Flash, after DeepSeek top-up) + orchestrator review (card heading level h2 under the page h1) | evidence/T013-* | 53c3f4b |
+| T014 | ☑ (drill 13, hero 7, cls 16 incl. /dev/engine, routes 11, nojs 6, reduced-motion 5, draws: project 2 / hero 2) | 1 (Flash) | evidence/T014-log-site-probe.txt | 96d915b |
 | T015 | ☑ (opt-in --categories; A11Y_MIN_SCORE 0.95; S3 default unchanged; local perf 1 / a11y 1 on / and project, LCP ~0.9 s, CLS 0) | ⚑ orchestrator (Murphy "go"; tier 1 unavailable, DeepSeek 402) | evidence/T015-* | (this commit) |
-| T016 | ◐ ⚑ part 1 done (perf.yml: Lighthouse a11y + project route, weight project route, unknown-slug 404; pushed; draft PR #14). CI run 1: all green except Lighthouse home perf 0.89 → AC5 escalation RFC §9.15; part 2 (new a11y job) waits for T013/T014 | ⚑ orchestrator | evidence/T016-* | — |
+| T016 | ☑ ⚑ (perf.yml: Lighthouse a11y + project route, weight project route, unknown-slug 404, new job 'a11y: axe (production routes)'; draft PR #14; CI run 1 home 0.89 → A; run 2 project 0.87 → P1; run 3 pending) | ⚑ orchestrator | evidence/T016-* | 2845788 |
 | T017 | ☐ ⚑ | | | |
 | T018 | ☐ | | | |
 | T019 | ☐ ⚑ | | | |
