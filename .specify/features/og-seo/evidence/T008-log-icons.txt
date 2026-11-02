@@ -1,0 +1,31 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T008/apps/web
+
+ ✓ test/seo-icon.test.ts > SEO icon > iconSvg parses as SVG and uses only blueprint palette colours 35ms
+ ✓ test/seo-icon.test.ts > SEO icon > iconSvg carries a dark prefers-color-scheme block 0ms
+ ✓ test/seo-icon.test.ts > SEO icon > apple icon renders a 180x180 PNG on an opaque paper ground 49ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  22:15:49
+   Duration  358ms (import 67%, tests 30%, transform 2%, worker 1%)
+
+apps/web/out/apple-touch-icon.png: PNG image data, 180 x 180, 8-bit/color RGBA, non-interlaced
+./404.html 1
+./_not-found.html 1
+./index.html 1
+./projects.html 1
+./projects/websocket-inspector.html 1
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
