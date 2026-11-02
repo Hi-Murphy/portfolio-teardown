@@ -10,11 +10,15 @@ const FLOW_CHOOSER =
 const FLOW_HEADER = 'min-w-0 rounded border border-line/40 bg-bg/60 px-2 py-1.5';
 const FLOW_BUTTON =
   'min-w-0 rounded border px-2 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
-const FLOW_BUTTON_SELECTED = 'border-accent bg-accent/10 text-fg';
-const FLOW_BUTTON_IDLE = 'border-transparent text-fg hover:border-line hover:bg-surface';
+const FLOW_BUTTON_SELECTED =
+  'border-accent bg-accent/10 text-fg active:border-accent active:bg-accent/20';
+const FLOW_BUTTON_IDLE =
+  'border-transparent text-fg hover:border-line hover:bg-surface active:border-accent active:bg-surface';
 const TRANSPORT_BUTTON =
-  'inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+  'inline-flex h-11 shrink-0 items-center justify-center rounded border border-line/60 bg-bg text-fg hover:border-accent hover:bg-surface hover:text-accent active:border-accent active:bg-surface active:text-accent disabled:cursor-not-allowed disabled:border-line/30 disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const TRANSPORT_ICON = `${TRANSPORT_BUTTON} w-11`;
+const TRANSPORT_PRIMARY =
+  'inline-flex h-14 min-w-[4.25rem] shrink-0 items-center justify-center gap-1 rounded border border-accent bg-accent px-2 text-xs font-semibold text-bg hover:border-fg hover:bg-accent/90 active:border-fg active:bg-accent/80 disabled:cursor-not-allowed disabled:border-line/30 disabled:bg-surface disabled:text-muted disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:gap-1.5 sm:px-4 sm:text-sm';
 const CHIP =
   'inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-3 font-mono text-[0.6875rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const CHIP_SELECTED = 'border-accent bg-accent text-bg';
@@ -110,33 +114,9 @@ export function TourPanel({
 
   return (
     <div data-site-tour-panel="" className="flex h-full min-w-0 flex-col gap-1 p-2">
-      <div className="flex min-h-11 min-w-0 items-center justify-between gap-2">
-        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">
-          Guided tour
-        </p>
-        <div className="flex min-w-0 items-center gap-2">
-          <p
-            data-site-tour-position=""
-            aria-live="polite"
-            className="shrink-0 font-mono text-[0.6875rem] text-muted"
-          >
-            {`Step ${position} of ${total}`}
-          </p>
-          {status === 'idle' ? null : (
-            <button
-              type="button"
-              data-site-control="tour-exit"
-              aria-label="Exit tour"
-              title="Exit tour"
-              className={`${TRANSPORT_BUTTON} gap-1.5 px-2 text-xs font-semibold`}
-              onClick={onExit}
-            >
-              <ExitTourIcon />
-              <span>Exit tour</span>
-            </button>
-          )}
-        </div>
-      </div>
+      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">
+        Guided tour
+      </p>
 
       {flows.length === 1 && flows[0] !== undefined ? (
         <div data-site-tour-flow-header="" className={FLOW_HEADER}>
@@ -162,53 +142,81 @@ export function TourPanel({
         </div>
       )}
 
-      <div className="flex min-w-0 items-center gap-1">
-        <button
-          type="button"
-          data-site-control="tour-play"
-          aria-label={playbackAria}
-          title={playbackAria}
-          aria-pressed={playing}
-          disabled={flows.length === 0}
-          className={`${TRANSPORT_BUTTON} min-w-[4.5rem] gap-1.5 px-2.5 text-xs font-semibold`}
-          onClick={onTogglePlayback}
+      <div
+        data-site-tour-transport-region=""
+        className="flex h-[4.75rem] shrink-0 flex-col items-center justify-start gap-0.5"
+      >
+        <div
+          data-site-tour-transport=""
+          className="flex w-fit max-w-full items-center justify-center gap-0.5 sm:gap-2"
         >
-          {playing ? <PauseIcon /> : <PlayIcon />}
-          <span>{playbackLabel}</span>
-        </button>
-        <button
-          type="button"
-          data-site-control="tour-prev"
-          aria-label="Previous step"
-          title="Previous step"
-          disabled={status === 'idle' || step <= 0}
-          className={TRANSPORT_ICON}
-          onClick={onPrevious}
+          <button
+            type="button"
+            data-site-control="tour-restart"
+            aria-label="Restart tour"
+            title="Restart tour"
+            disabled={status === 'idle' || total === 0}
+            className={TRANSPORT_ICON}
+            onClick={onRestart}
+          >
+            <RestartIcon />
+          </button>
+          <button
+            type="button"
+            data-site-control="tour-prev"
+            aria-label="Previous step"
+            title="Previous step"
+            disabled={status === 'idle' || step <= 0}
+            className={TRANSPORT_ICON}
+            onClick={onPrevious}
+          >
+            <PreviousIcon />
+          </button>
+          <button
+            type="button"
+            data-site-control="tour-play"
+            aria-label={playbackAria}
+            title={playbackAria}
+            aria-pressed={playing}
+            disabled={flows.length === 0}
+            className={TRANSPORT_PRIMARY}
+            onClick={onTogglePlayback}
+          >
+            {playing ? <PauseIcon /> : <PlayIcon />}
+            <span>{playbackLabel}</span>
+          </button>
+          <button
+            type="button"
+            data-site-control="tour-next"
+            aria-label="Next step"
+            title="Next step"
+            disabled={total === 0 || step >= total - 1}
+            className={TRANSPORT_ICON}
+            onClick={onNext}
+          >
+            <NextIcon />
+          </button>
+          {status === 'idle' ? null : (
+            <button
+              type="button"
+              data-site-control="tour-exit"
+              aria-label="Exit tour"
+              title="Exit tour"
+              className={`${TRANSPORT_BUTTON} gap-1 px-1.5 text-[0.625rem] font-semibold sm:gap-1.5 sm:px-2.5 sm:text-xs`}
+              onClick={onExit}
+            >
+              <ExitTourIcon />
+              <span>Exit tour</span>
+            </button>
+          )}
+        </div>
+        <p
+          data-site-tour-position=""
+          aria-live="polite"
+          className="h-4 shrink-0 font-mono text-[0.6875rem] leading-4 text-muted"
         >
-          <PreviousIcon />
-        </button>
-        <button
-          type="button"
-          data-site-control="tour-next"
-          aria-label="Next step"
-          title="Next step"
-          disabled={total === 0 || step >= total - 1}
-          className={TRANSPORT_ICON}
-          onClick={onNext}
-        >
-          <NextIcon />
-        </button>
-        <button
-          type="button"
-          data-site-control="tour-restart"
-          aria-label="Restart tour"
-          title="Restart tour"
-          disabled={status === 'idle' || total === 0}
-          className={TRANSPORT_ICON}
-          onClick={onRestart}
-        >
-          <RestartIcon />
-        </button>
+          {`Step ${position} of ${total}`}
+        </p>
       </div>
 
       <div className="h-11 min-w-0 overflow-x-auto overflow-y-hidden">

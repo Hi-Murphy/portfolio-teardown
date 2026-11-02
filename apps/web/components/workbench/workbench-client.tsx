@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { getProject } from '../../content/projects';
@@ -13,17 +13,8 @@ import { TourPanel } from './tour-panel';
 import { WorkbenchDock } from './workbench-dock';
 
 interface PortalTargets {
-  readonly dock: HTMLElement | null;
-  readonly tour: HTMLElement | null;
-}
-
-function findPortalTargets(): PortalTargets {
-  if (typeof document === 'undefined') return { dock: null, tour: null };
-
-  return {
-    dock: document.querySelector<HTMLElement>('[data-site-dock]'),
-    tour: document.querySelector<HTMLElement>('[data-site-tour]'),
-  };
+  readonly dock: HTMLElement;
+  readonly tour: HTMLElement;
 }
 
 export function WorkbenchClient({ slug }: { readonly slug: string }) {
@@ -36,13 +27,36 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
   const viewer = useLiveViewer({ initial: 'exploded', project });
   const panels = useViewerPanels();
   const tourFlows = useMemo(() => buildTourFlows(project), [project]);
-  const liveRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const [liveState, setLiveState] = useState<'loading' | 'revealed'>('loading');
-  const [portalTargets] = useState(findPortalTargets);
+  const [portalTargets, setPortalTargets] = useState<PortalTargets | null>(null);
   const reveal = useCallback(() => setLiveState('revealed'), []);
 
+  useLayoutEffect(() => {
+    let frame: number | undefined;
+
+    const resolveTargets = () => {
+      const root = rootRef.current?.closest<HTMLElement>('[data-site-workbench]');
+      const dock = root?.querySelector<HTMLElement>('[data-site-dock]') ?? null;
+      const tour = root?.querySelector<HTMLElement>('[data-site-tour]') ?? null;
+
+      if (dock !== null && tour !== null) {
+        setPortalTargets({ dock, tour });
+        return;
+      }
+
+      frame = window.requestAnimationFrame(resolveTargets);
+    };
+
+    resolveTargets();
+
+    return () => {
+      if (frame !== undefined) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   useEffect(() => {
-    if (liveRef.current?.querySelector('[data-xploder-webgl="unavailable"]') === null) return;
+    if (rootRef.current?.querySelector('[data-xploder-webgl="unavailable"]') === null) return;
 
     const frame = window.requestAnimationFrame(() => setLiveState('revealed'));
 
@@ -90,7 +104,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
   return (
     <>
       <div
-        ref={liveRef}
+        ref={rootRef}
         data-site-workbench-slot=""
         data-site-live=""
         data-site-live-state={liveState}
@@ -115,9 +129,9 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
           aria-label={`${project.meta.name} architecture view`}
         />
       </div>
-      {portalTargets.dock === null
-        ? null
-        : createPortal(
+      {portalTargets === null ? null : (
+        <>
+          {createPortal(
             <WorkbenchDock
               target={viewer.target}
               can={viewer.can}
@@ -133,9 +147,7 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
             />,
             portalTargets.dock,
           )}
-      {portalTargets.tour === null
-        ? null
-        : createPortal(
+          {createPortal(
             <TourPanel
               flows={tourFlows}
               flowId={viewer.tour.flowId}
@@ -152,6 +164,8 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
             />,
             portalTargets.tour,
           )}
+        </>
+      )}
     </>
   );
 }
