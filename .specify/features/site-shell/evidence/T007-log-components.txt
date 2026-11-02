@@ -1,0 +1,36 @@
+
+ RUN  v5.0.5 /private/tmp/s10-wt/T007/apps/web
+
+ ✓ test/server-components.test.ts > server content components > ../components/project-card.tsx does not opt into the client runtime 1ms
+ ✓ test/server-components.test.ts > server content components > ../components/tech-chip-list.tsx does not opt into the client runtime 0ms
+ ✓ test/server-components.test.ts > server content components > ../components/project-outline.tsx does not opt into the client runtime 0ms
+ ✓ test/server-components.test.ts > server content components > ../components/about-strip.tsx does not opt into the client runtime 0ms
+ ✓ test/server-components.test.ts > server content components > ../components/teardown-poster.tsx does not opt into the client runtime 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  11:14:25
+   Duration  62ms (import 47%, tests 18%, transform 18%, worker 17%, environment 1%)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+tools/perf test:       Tests  111 passed (111)
+packages/xploder test:       Tests  610 passed (610)
+apps/web test:       Tests  92 passed | 2 skipped (94)
+$ pnpm -r --if-present build
+$ next build
+✓ Compiled successfully in 833ms
+✓ Generating static pages using 4 workers (3/3) in 172ms
+T007-OK
