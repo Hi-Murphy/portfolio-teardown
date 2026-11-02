@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest';
 
+import { generateMetadata as generateProjectMetadata } from '../app/(site)/projects/[slug]/page';
 import { metadata as rootMetadata } from '../app/layout';
 import { metadata as projectsMetadata } from '../app/(site)/projects/page';
+import { PROJECTS } from '../content/projects';
 import { SITE } from '../content/site';
 
 describe('site metadata', () => {
@@ -22,5 +24,16 @@ describe('site metadata', () => {
     });
   });
 
-  test.todo('project route generateMetadata uses the project meta name and tagline (T010)');
+  test('project route generateMetadata uses the project meta name and tagline', async () => {
+    const project = PROJECTS[0];
+
+    if (project === undefined) throw new Error('Expected at least one project.');
+
+    await expect(
+      generateProjectMetadata({ params: Promise.resolve({ slug: project.meta.slug }) }),
+    ).resolves.toEqual({
+      title: project.meta.name,
+      description: project.meta.tagline,
+    });
+  });
 });
