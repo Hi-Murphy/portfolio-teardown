@@ -1,0 +1,45 @@
+{
+  "kind": "site-probe-cls",
+  "version": 1,
+  "baseUrl": "http://127.0.0.1:64714/",
+  "chromium": "156.0.8078.4",
+  "cells": [
+    {
+      "route": "/dev/engine?fixture=a",
+      "viewport": "desktop",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/dev/engine?fixture=a",
+      "viewport": "desktop",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/dev/engine?fixture=a",
+      "viewport": "mobile",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/dev/engine?fixture=a",
+      "viewport": "mobile",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    }
+  ],
+  "pass": true
+}
