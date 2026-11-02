@@ -1,0 +1,20 @@
+T016 CI run 2 (PR #14, head 5512174, option A):
+perf-gate: lighthouse (mobile)	fail
+Vercel	pass
+Vercel Preview Comments	pass
+a11y: axe (engine fixture export)	pass
+build (typecheck, lint, test, build)	pass
+perf-gate: weight (< 3 MB)	pass
+perf: fixture exclusion	pass
+perf: fps calibration	pass
+secrets (gitleaks)	pass
+performance: 0.99 >= 0.95 (median) pass
+lcp: 913.334 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+performance: 0.87 >= 0.95 (median) fail
+lcp: 908.062 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+
+Reading: home now passes (the 0.89 -> 0.99 fix confirmed on CI). The project route (3D loads eagerly by design) misses performance 0.87 < 0.95 (exit 6); LCP/CLS/a11y pass. Per RFC §9.15 the next step is decided on this data (§9.17).
