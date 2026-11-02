@@ -48,8 +48,8 @@
 | T015 | ☑ (opt-in --categories; A11Y_MIN_SCORE 0.95; S3 default unchanged; local perf 1 / a11y 1 on / and project, LCP ~0.9 s, CLS 0) | ⚑ orchestrator (Murphy "go"; tier 1 unavailable, DeepSeek 402) | evidence/T015-* | (this commit) |
 | T016 | ☑ ⚑ (perf.yml: Lighthouse a11y + project route, weight project route, unknown-slug 404, new job 'a11y: axe (production routes)'; draft PR #14; CI run 1 home 0.89 → A; run 2 project 0.87 → P1; run 3 pending) | ⚑ orchestrator | evidence/T016-* | 2845788 |
 | T017 | ☑ ⚑ (907849d red: aria-hidden-focus ×32, exit 6 → f0ab654 revert green) | ⚑ orchestrator | evidence/T017-ci-regression-proof.txt | f0ab654 |
-| T018 | ☐ | | | |
-| T019 | ☐ ⚑ | | | |
+| T018 | ☑ (preview LH home/project perf 1.0 a11y 1.0; weight ~0.2 MB; axe 12 cells 0; probe 7/7 groups; fps 0 dropped (info); 404s preview + prod; guards 10/10; 857 tests) | 1 (Flash) | evidence/T018-* | 9fb999a |
+| T019 | ☑ ⚑ (AC-selfcheck.md: AC1–AC7 PASS, AC7 with the Murphy-authorised S6 exception; PR #14 ready) | ⚑ orchestrator | evidence/AC-selfcheck.md | (PR head) |
 
 **G1 gate (2026-11-02):** integrated `788f23c`, all 10 guards OK (incl. SURFACE-S8-OK), typecheck/lint green, tests tools/perf 111 · xploder 610 · web 83 (+1 skipped), build green → `evidence/G1-log-gate.txt`. Stage-3 start merged `main` (`5aae743`, Merlin: site.json + resume.pdf + brief erratum) → C4/T002b, Q14 open (RFC §9.5).
 
