@@ -40,7 +40,7 @@
 | T012f | ☑ (portal targets resolved after commit, scoped + rAF retry: 10× soft-nav/back/forward + 5× reload pass on export and next dev; centred transport Δ 0 px; CLS 0) | 1 (Flash) | evidence/T012f-* | (merge) |
 | T012g | ☑ (Layers \| Flows tabs, layer focus chips + parts list, icon-only primary, Exit tour removed, fixed card height; 115 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (solid glyphs, layer parts list) | evidence/T012g-* | (merge) |
 | T012h | ☑ (static SSR Explore card → identical geometry after hydration; idle Layers content-sized; Flows explodes + locks Implode; CLS 0) | 1 (Flash) | evidence/T012h-* | (merge) |
-| T012i | ☐ | | | |
+| T012i | ☑ (poster + static Explore card at load; 3D on first interaction or Explore in 3D; local LH project perf 1 / a11y 1; CLS 0; 62 smoke asserts) | 1 (Flash) | evidence/T012i-* | (merge) |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
