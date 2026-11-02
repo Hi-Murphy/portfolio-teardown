@@ -1,0 +1,21 @@
+T016 CI run 3 (PR #14, head 08865b7 incl. P1 + new a11y job): ALL GREEN
+Vercel	pass	https://vercel.com/murphy-3c4d/portfolio-teardown/DEoYDwWF7Epfn1oivwkzcJUh8UhN
+Vercel Preview Comments	pass	https://vercel.com/github
+a11y: axe (engine fixture export)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590028/job/125227877091
+a11y: axe (production routes)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590028/job/125227877296
+build (typecheck, lint, test, build)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590033/job/125227876941
+perf-gate: lighthouse (mobile)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590028/job/125227876699
+perf-gate: weight (< 3 MB)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590028/job/125227877336
+perf: fixture exclusion	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590028/job/125227877051
+perf: fps calibration	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590028/job/125227877240
+secrets (gitleaks)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41430590033/job/125227877268
+performance: 0.99 >= 0.95 (median) pass
+lcp: 907.271 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+performance: 1 >= 0.95 (median) pass
+lcp: 906.3129999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+
+(Lighthouse block 1 = home, block 2 = project route; mobile, median of 3, Vercel preview)
