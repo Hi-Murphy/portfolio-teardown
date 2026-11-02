@@ -26,14 +26,14 @@
 | T002b | ☑ (site.json → site.source.ts; 9 fidelity tests) | 1 (Flash, sandbox off from here: every check needs loopback) | evidence/T002b-log-site-copy-fidelity.txt | 32a8140 |
 | T003 | ☑ (chips Kotlin · Android · Kotlin Coroutines · Jetpack Compose; fixture-import + hand-copy scans incl. site.json) | 1 (Flash, sandbox off) | evidence/T003-log-content-model.txt | 0a38430 |
 | T004 | ☑ (/dev/engine CLS 0.000637/0.000043 → 0 in 4 cells; independent cross-check 0 entries) | 1 (Flash, sandbox off) + orchestrator cross-check | evidence/T004-{log-cls-carryover.txt,cls-after.json} | 788f23c |
-| T005 | ☐ | | | |
-| T006 | ☐ | | | |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
-| T009 | ☐ | | | |
-| T010 | ☐ | | | |
-| T011 | ☐ | | | |
-| T012 | ☐ | | | |
+| T005 | ☑ (21 slabs, projection identity, fitZoom framing) | 1 (Flash) + orchestrator review fix (painter depth x+y+z; plan error) | evidence/T005-log-poster.txt | 81dd53f |
+| T006 | ☑ (title = site.json meta.title; nav one row 360–1280; skip link; R4) | 1 (Flash) | evidence/T006-{log-chrome.txt,screenshot-*.png,meta.json} | fbaf896 |
+| T007 | ☑ (card/chips/outline/about; no 'use client' R10) | 1 (Flash) | evidence/T007-log-components.txt | bac7043 |
+| T008 | ☑ (hero copy from site.json; /projects; 404 + cards R6; CLS 0) | 1 (Flash) | evidence/T008-{log-pages.txt,screenshot-*.png,meta.json} | 8f1eaf4 |
+| T009 | ☑ (27 smoke asserts: poster at FCP, reveal after load, idle exploded, reduced → skipped/0 animations, no-WebGL poster; CLS 0) | 1 (Flash) + orchestrator review fix (class constants out of the use-client module) | evidence/T009-{log-hero.txt,screenshot-*.png,meta.json} | c6d777f |
+| T010 | ☑ (only known slug, unknown 404, deep link 200, metadata, no-JS outline) | 1 (Flash); 1st launch stopped by orchestrator (port collision with T009, runner issue, not an attempt) | evidence/T010-{log-route.txt,screenshot-nojs-*.png,meta.json} | 34e2a47 |
+| T011 | ☑ (toolbar/case study/tour; rects stable; no-WebGL outline; ONE 3D chunk R2; CLS 0 on 3 routes) | 1 (Flash) | evidence/T011-{log-workbench.txt,screenshot-*.png,meta.json} | 56f49cf |
+| T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
@@ -43,6 +43,8 @@
 | T019 | ☐ ⚑ | | | |
 
 **G1 gate (2026-11-02):** integrated `788f23c`, all 10 guards OK (incl. SURFACE-S8-OK), typecheck/lint green, tests tools/perf 111 · xploder 610 · web 83 (+1 skipped), build green → `evidence/G1-log-gate.txt`. Stage-3 start merged `main` (`5aae743`, Merlin: site.json + resume.pdf + brief erratum) → C4/T002b, Q14 open (RFC §9.5).
+
+**G2 gate (2026-11-02):** integrated `2df7796` (+ `7a49449` scanner S10 lists; `main` 72dc34a merged at G2 start, Q14 resolved in site.json), guards 10 OK, typecheck/lint green, tests tools/perf 111 · xploder 610 · web 103, build green (/, /projects, /projects/[slug]), strict CLS 0 on 3 routes × 2 viewports × 2 themes → `evidence/G2-log-gate.txt`.
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specify/features/site-shell/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 
