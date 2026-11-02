@@ -54,6 +54,8 @@
 
 **G2 gate (2026-11-02):** integrated `2df7796` (+ `7a49449` scanner S10 lists; `main` 72dc34a merged at G2 start, Q14 resolved in site.json), guards 10 OK, typecheck/lint green, tests tools/perf 111 · xploder 610 · web 103, build green (/, /projects, /projects/[slug]), strict CLS 0 on 3 routes × 2 viewports × 2 themes → `evidence/G2-log-gate.txt`.
 
+**G2 approved (2026-11-02, Murphy, 5h 71%)** after feedback rounds 1–5 (T012a–T012h); integrated `b006b1f`: guards 10 OK, tests 111/617/113, build green, strict CLS 0 (RFC §9.13).
+
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specify/features/site-shell/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 
 ## Format & rules (apply to every task)

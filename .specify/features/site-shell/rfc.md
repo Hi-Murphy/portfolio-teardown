@@ -444,3 +444,9 @@ A new `tools/perf/src/site-probe.ts` + CLI `cli/site-probe.ts` (`pnpm site:probe
 12. **G2 feedback round 5 (Murphy, 2026-11-02).**
    1. **Layers mode with no layer selected: shrink the unused bottom space.** The Explore card drops its fixed height and sizes to its content. **CLS-safe by construction:** the server shell renders the card's initial state (Layers tab selected, chips, hint line) with a **shared presentational component** (no hooks) that the client also uses. On mount, the client portal takes over and the static copy is hidden, with identical geometry (same markup and classes). Every later height change (selecting a layer, switching to Flows) follows a user activation, so it is input-driven and excluded from CLS by definition; the load-to-hydration window stays strict 0 (`site:probe --group cls`). `<noscript>` still hides the card (task **T012h**).
    2. **Flows mode owns the exploded state.** Switching to Flows calls `actions.explode()` when the view is imploded. While Flows is active, the dock's Implode/Explode toggle is **disabled** (`disabled` + a `title` explaining "Switch to Layers to implode"). Switching back to Layers leaves the view exploded (no auto-implode). The mode state moves up into `WorkbenchClient`, so the dock and the Explore card share it. Pause-on-implode stays for safety but is unreachable from the UI while in Flows (T012h).
+
+13. **G2 gate (Murphy, 2026-11-02, 5h 71%): "all good. go next if possible".** G2 approved after feedback rounds 1–5 (T012a–T012h). G3 starts. Notes carried into G3 task briefs, because the UI changed since tasks.md was written:
+   - the nav no longer has a Résumé link; the hero has two CTAs (primary → project route, secondary → `/projects`);
+   - the project page's case study opens from the dock button `[data-site-control="case-study"]`;
+   - the tour is reached via the Explore card's **Flows** tab;
+   - the Exit tour control no longer exists (switching to Layers stops the tour).
