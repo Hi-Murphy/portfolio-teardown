@@ -1,0 +1,27 @@
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
+FAIL XPLODER
+FAIL SURFACE-S2S4
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T001/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:03:35
+   Duration  83ms (transform 53%, import 30%, tests 9%, worker 7%)
+
+bundle-manifest: 17 JS files, 1771865 bytes
+routes: 5
+wrote: /private/tmp/s11-wt/T001/.specify/features/og-seo/evidence/T001-log-bundle-before.json
