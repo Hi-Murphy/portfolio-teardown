@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- satori (next/og) element tree for build-time PNG cards; never rendered in a page. */
 import type { CSSProperties, ReactElement } from 'react';
 import { blueprint } from 'xploder/theme';
 
