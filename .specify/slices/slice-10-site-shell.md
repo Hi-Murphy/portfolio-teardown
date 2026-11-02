@@ -9,6 +9,7 @@ Turn the placeholder into the **actual portfolio**: a home page with a poster-fi
 - Live: engine (S4/S5), blueprint theme (S6), panels/chips/tour (S7), a11y floor incl. axe gate on the engine fixture export (S8), lockfile-gated CI (S3).
 - `apps/web/app/page.tsx` is still the S1 placeholder; dev routes (`/dev/engine`, `/fixtures/fps-calibration`) are prod-excluded and must stay so (404 in production).
 - **Content (S9, finalized):** canonical JSON at `.specify/content/websocket-inspector.json` — schema v1 exact (`schemaVersion`, `meta`, `story`, `layers[5]`, `components[16]`, `flows[2]`). Source repo is now public: https://github.com/TimurHaryo/websocket-inspector (per-component `links` populated). Convert it to a TS module validated by zod at build time (authoring rule D-06), not a hand-copied object.
+- **Site copy (S10, FINAL):** identity, hero, about, footer and per-route metadata are canonical at `.specify/content/site.json` — wire it, do not invent copy. Public contact: `vibing.murphy@gmail.com`. Résumé PDF is present at `apps/web/public/resume.pdf` (served as `/resume.pdf`, published as-is; do not restyle or redact it).
 - **S10 carry-over (from S5):** `/dev/engine` control row has a page-load CLS ≈ 0.0006 (pre-existing since S4). S10 owns it — fix it (or prove it cannot affect production routes) before closing.
 - Design-target device: mid-range Android over 4G. Landing budgets are unchanged: LCP < 2.5 s, CLS = 0, mobile Lighthouse perf/a11y ≥ 95, first load < 3 MB.
 
@@ -41,7 +42,7 @@ Turn the placeholder into the **actual portfolio**: a home page with a poster-fi
 - No secrets; gitleaks green.
 
 ## Murphy dependencies (resolved 2026-11-02)
-- **Résumé PDF:** ✅ reuse the existing file — place it at `apps/web/public/resume.pdf` (Murphy supplies it from his Mac; no accessible repo copy exists). Until the file lands, the nav button still renders pointing at `/resume.pdf` with a `TODO(résumé)` marker; S10 validation includes a file-exists check. Do not redesign it.
+- **Résumé PDF:** ✅ done — the real file is committed at `apps/web/public/resume.pdf` (published as-is by Murphy's decision; phone number intentionally kept). The nav button links to `/resume.pdf`; S10 validation includes a file-exists check. Do not restyle or redact it.
 - **Contact:** ✅ `mailto:vibing.murphy@gmail.com` + GitHub/LinkedIn links. No form in MVP.
 
 ## Freeze protocol
