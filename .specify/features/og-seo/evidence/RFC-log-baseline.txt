@@ -1,0 +1,30 @@
+# RFC baseline — production head tags + SEO files before S11
+date: 2026-11-02 · base commit 3ba4c3b · target https://portfolio-teardown.vercel.app (public)
+
+$ curl -s https://portfolio-teardown.vercel.app/ | grep -oE '<(title|meta|link)[^>]*>' (stylesheet/preload/viewport/charset dropped)
+<title>Timur Haryo — Software Engineer · Android &amp; Developer Tools</title>
+<meta name="description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta name="color-scheme" content="light dark"/>
+og/twitter/canonical/ld+json/icon count: 0
+
+$ curl -s https://portfolio-teardown.vercel.app/projects | grep -oE '<(title|meta|link)[^>]*>' (stylesheet/preload/viewport/charset dropped)
+<title>Projects · Timur Haryo</title>
+<meta name="description" content="Android engineer at Stockbit &amp; Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers."/>
+<meta name="color-scheme" content="light dark"/>
+og/twitter/canonical/ld+json/icon count: 0
+
+$ curl -s https://portfolio-teardown.vercel.app/projects/websocket-inspector | grep -oE '<(title|meta|link)[^>]*>' (stylesheet/preload/viewport/charset dropped)
+<title>Scarlet Inspector · Timur Haryo</title>
+<meta name="description" content="Every WebSocket frame, captured and inspectable."/>
+<meta name="color-scheme" content="light dark"/>
+og/twitter/canonical/ld+json/icon count: 0
+
+$ curl -sI /robots.txt → HTTP/2 404 
+
+$ curl -sI /sitemap.xml → HTTP/2 404 
+
+$ curl -sI /favicon.ico → HTTP/2 404 
+
+$ curl -sI /icon.svg → HTTP/2 404 
+
+$ curl -sI /apple-touch-icon.png → HTTP/2 404 
