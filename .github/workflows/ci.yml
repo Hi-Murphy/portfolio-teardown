@@ -49,3 +49,31 @@ jobs:
           tar -xzf "gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -C "$RUNNER_TEMP"
       - name: Scan for secrets
         run: '"$RUNNER_TEMP/gitleaks" git --redact --verbose --exit-code 1 .'
+
+  seo:
+    name: 'seo: meta + og'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SITE_URL: https://hi-murphy.me
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm --filter web seo:expect
+      - run: pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --out .evidence/ci/seo/build-1
+      - run: rm -rf apps/web/.next apps/web/out
+      - run: pnpm build
+      - run: pnpm --filter web seo:expect
+      - run: pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --compare .evidence/ci/seo/build-1/og-hashes.json --out .evidence/ci/seo/build-2
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: seo
+          path: .evidence/ci/seo/
+          retention-days: 14
