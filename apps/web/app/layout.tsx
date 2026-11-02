@@ -3,12 +3,16 @@ import type * as React from 'react';
 import { motionCss } from 'xploder/motion';
 import { paletteCss } from 'xploder/theme';
 
+import { SITE } from '../content/site';
 import './globals.css';
 import { THEME_SCRIPT } from './theme-script';
 
 export const metadata = {
-  title: 'Portfolio Teardown',
-  description: 'Data-driven teardown portfolio — coming online slice by slice.',
+  title: {
+    default: SITE.meta.title,
+    template: '%s · ' + SITE.meta.siteName,
+  },
+  description: SITE.meta.description,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
