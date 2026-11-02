@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+const BOX = 'inline-flex h-11 w-11 shrink-0 items-center justify-center align-middle';
+
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -58,13 +60,13 @@ export function ThemeToggle() {
   }
 
   if (!mounted) {
-    return <span aria-hidden="true" className="inline-block h-11 w-11" />;
+    return <span aria-hidden="true" className={BOX} />;
   }
 
   return (
     <button
       type="button"
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg hover:bg-fg/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className={`${BOX} rounded-full text-fg hover:bg-fg/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
       onClick={toggle}
     >
