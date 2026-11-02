@@ -42,9 +42,9 @@
 | T012h | ☑ (static SSR Explore card → identical geometry after hydration; idle Layers content-sized; Flows explodes + locks Implode; CLS 0) | 1 (Flash) | evidence/T012h-* | (merge) |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
-| T013 | ☐ | | | |
-| T014 | ☐ | | | |
-| T015 | ☐ | | | |
+| T013 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
+| T014 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
+| T015 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
 | T016 | ☐ ⚑ | | | |
 | T017 | ☐ ⚑ | | | |
 | T018 | ☐ | | | |

@@ -450,3 +450,5 @@ A new `tools/perf/src/site-probe.ts` + CLI `cli/site-probe.ts` (`pnpm site:probe
    - the project page's case study opens from the dock button `[data-site-control="case-study"]`;
    - the tour is reached via the Explore card's **Flows** tab;
    - the Exit tour control no longer exists (switching to Layers stops the tour).
+
+14. **G3 blocked on the executor (2026-11-02):** the first G3 dispatch (T013/T014/T015 in parallel) ended at once with **DeepSeek API `402 Payment Required: Insufficient Balance`** for all three. No file changed; the empty worktrees and branches were removed. This was neither a Flash failure nor a counted attempt; tier 1 is **unavailable**. Tier 1.5 is dormant (`OPENROUTER_API_KEY` unset). Per the standing escalation policy, the orchestrator **pauses and reports** and does not take over automatically. Options for Murphy: (a) top up the DeepSeek balance → resume with Flash; (b) "go" → the orchestrator executes G3 personally (Claude usage; G3 is mostly tooling: site axe CLI, site-probe groups, Lighthouse flag, CI wiring); (c) both (orchestrator starts, Flash resumes when funded).
