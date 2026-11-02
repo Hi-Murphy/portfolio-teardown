@@ -123,10 +123,14 @@ describe('route metadata', () => {
 });
 
 describe('base metadata and viewport', () => {
-  test('base metadata is the safe not-found payload plus the production base and template', () => {
+  test('base metadata is the safe not-found payload plus the production base, icons and template', () => {
     expect(baseMetadata()).toEqual({
       ...routeMetadata(NOT_FOUND_ROUTE),
       metadataBase: new URL(SITE_ORIGIN),
+      icons: {
+        icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+        apple: '/apple-touch-icon.png',
+      },
       title: {
         default: SITE.meta.title,
         template: `%s · ${SITE.meta.siteName}`,
