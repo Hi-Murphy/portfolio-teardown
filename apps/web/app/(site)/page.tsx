@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { AboutStrip } from '../../components/about-strip';
 import { POSTER_FADE_CLASS } from '../../components/hero/hero-classes';
 import { HeroLive } from '../../components/hero/hero-live';
+import { JsonLd } from '../../components/json-ld';
 import { ProjectCard } from '../../components/project-card';
 import { TeardownPoster } from '../../components/teardown-poster';
 import { PROJECTS, cardModel } from '../../content/projects';
 import { SITE } from '../../content/site';
+import { personLd } from '../../seo/json-ld';
 import { routeMetadata } from '../../seo/metadata';
 import { HOME_ROUTE } from '../../seo/routes';
 
@@ -23,6 +25,7 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+      <JsonLd data={personLd()} />
       <section
         data-site-hero=""
         className="grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12"
