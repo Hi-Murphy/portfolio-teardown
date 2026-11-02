@@ -37,6 +37,7 @@
 | T012b | ☑ (header one line at 360 no overflow; footer two-column; Résumé links + public/resume.pdf removed; /resume.pdf 404) | 1 (Flash) + orchestrator review (nav server-side, only NavProjectsLink client; desktop right-aligned links) | evidence/T012b-{log-header-footer.txt,screenshot-*.png,cls.json,meta.json} | 4ed6c27 |
 | T012d | ☑ (poster hit-through fixed: hover leaders, wheel scroll at max zoom, slab clicks; Exit tour; route header first → last + steps; explode-before-step; 50 smoke asserts) | 1 (Flash) + orchestrator review (poster hides after the fade) | evidence/T012d-* | 907c2d6 |
 | T012e | ☑ (S6 tour trail; 44 smoke asserts; S6 re-sealed at f65b13c; guards exit non-zero) | 1 (Flash; 1st launch was a runner quoting bug, not an attempt) + ⚑ orchestrator re-seal | evidence/{T012e-*,Q16-revision-note.md} | cfef420 |
+| T012f | ☐ | | | |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
@@ -469,6 +470,20 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
 - **Check:** xploder tests green (all, incl. `overlay-model.test.ts` unchanged); S6 negative control red; guards OK; export smoke on the project route (port 4320): Start tour → the overlay is shown with 1 part label + leader, then Next ×2 → 3 labels + 3 leaders, the latest emphasised; Exit/stop → full idle overlay back; screenshots of the tour trail (desktop, light + dark).
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Play the tour and watch the names build up on the right (default: as screenshotted).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Send `evidence/Q16-revision-note.md` to Merlin after S10 (agreed).
+
+### T012f [US3] G2 feedback round 3: centred tour transport + portal-target race fix (RFC §9.10)
+
+- **Seam:** workbench client portals ↔ server shell boxes; tour transport UI.
+- **Files:** `components/workbench/workbench-client.tsx` (portal targets after commit, scoped + retry), `components/workbench/tour-panel.tsx` (centred transport cluster incl. Exit tour), `apps/web/test/tour-model.test.ts` (if markup tests change).
+- **Check:** export smoke (port 4310) + dev smoke (`pnpm --filter web dev` on port 3100, `http://localhost:3100`). Each asserts:
+  - 10× cycle: load `/`, click the hero primary CTA (soft nav) → the dock has ≥ 6 buttons and the tour panel has the Start control; `goBack` → `/`; `goForward` → the project route, dock + tour present;
+  - 5× `reload` on the project route → dock + tour present;
+  - direct load of the project route → present;
+  - while playing, the transport cluster is horizontally centred within the tour card (|centre delta| ≤ 2 px) at 360/1280, Exit tour sits inside the cluster, and Exit tour → idle;
+  - strict CLS 0 (`site:probe --group cls` on the export).
+  - Screenshots: tour playing (mobile + desktop, light + dark).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Refresh and navigate repeatedly; the menus are always there. 2. The new centred transport (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. G2 verdict.
 
 ### T012c [US1–US5] G2 evidence refresh
 
