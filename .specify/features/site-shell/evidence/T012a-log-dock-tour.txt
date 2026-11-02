@@ -1,0 +1,270 @@
+$ pnpm -r --if-present build
+$ next build
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 227ms
+  Running TypeScript ...
+  Finished TypeScript in 830ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 221ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /projects
+└   /projects/[slug]
+  └ ● /projects/websocket-inspector
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+PASS SSR: project route responds 200 (200)
+PASS SSR: workbench shell reserves the stage, dock and tour rows
+PASS SSR: noscript style hides the dock and tour rows
+PASS mobile: server shell reserves stage, dock and tour rows ({"stage":{"x":20,"y":399.5,"width":320,"height":560},"dock":{"x":20,"y":971.5,"width":320,"height":112},"tour":{"x":20,"y":1095.5,"width":320,"height":388}})
+PASS mobile: stage rect is identical before and after hydration (20,399.5,320,560 -> 20,399.5,320,560)
+PASS mobile: dock rect is identical before and after hydration (20,971.5,320,112 -> 20,971.5,320,112)
+PASS mobile: tour rect is identical before and after hydration (20,1095.5,320,388 -> 20,1095.5,320,388)
+PASS mobile: dock has no horizontal overflow ({"clientWidth":318,"scrollWidth":318,"clientHeight":110,"scrollHeight":110})
+PASS mobile: dockControls has no horizontal overflow ({"clientWidth":318,"scrollWidth":318,"clientHeight":110,"scrollHeight":110})
+PASS mobile: tour has no horizontal overflow ({"clientWidth":318,"scrollWidth":318,"clientHeight":386,"scrollHeight":386})
+PASS mobile: tourPanel has no horizontal overflow ({"clientWidth":318,"scrollWidth":318,"clientHeight":386,"scrollHeight":386})
+PASS mobile: tourNow has no horizontal overflow ({"clientWidth":300,"scrollWidth":300,"clientHeight":65,"scrollHeight":65})
+PASS mobile: page has no horizontal overflow ({"clientWidth":360,"scrollWidth":360})
+PASS mobile: tour card content stays inside its fixed height ({"clientWidth":318,"scrollWidth":318,"clientHeight":386,"scrollHeight":386})
+PASS mobile: dock content stays inside its fixed height ({"clientWidth":318,"scrollWidth":318,"clientHeight":110,"scrollHeight":110})
+PASS mobile: the Now line stays inside the tour card ({"clientWidth":300,"scrollWidth":300,"clientHeight":65,"scrollHeight":65})
+PASS mobile: dock uses two rows ({"toggle":978.5,"zoom":1030.5})
+PASS mobile: tour rail is a semantic list
+PASS mobile: tour rail scrolls horizontally
+PASS mobile: tour rail scrolls inside its fixed row ({"role":"list","overflowX":"auto","clientWidth":302,"scrollWidth":864})
+PASS mobile: rail chips are numbered 1..n with component names ([{"index":0,"number":"1","name":"MainActivity"},{"index":1,"number":"2","name":"Financial API"},{"index":2,"number":"3","name":"Factory wrap"},{"index":3,"number":"4","name":"Socket wrap"},{"index":4,"number":"5","name":"Session tags"},{"index":5,"number":"6","name":"InspectorDao"},{"index":6,"number":"7","name":"Room store"}])
+PASS mobile: playing Now copy stays inside the tour card ({"clientHeight":65,"scrollHeight":65})
+PASS mobile: no page errors ()
+PASS wideMobile: server shell reserves stage, dock and tour rows ({"stage":{"x":20,"y":383.5,"width":372,"height":576.09375},"dock":{"x":20,"y":971.59375,"width":372,"height":112},"tour":{"x":20,"y":1095.59375,"width":372,"height":388}})
+PASS wideMobile: stage rect is identical before and after hydration (20,383.5,372,576.09375 -> 20,383.5,372,576.09375)
+PASS wideMobile: dock rect is identical before and after hydration (20,971.59375,372,112 -> 20,971.59375,372,112)
+PASS wideMobile: tour rect is identical before and after hydration (20,1095.59375,372,388 -> 20,1095.59375,372,388)
+PASS wideMobile: dock has no horizontal overflow ({"clientWidth":370,"scrollWidth":370,"clientHeight":110,"scrollHeight":110})
+PASS wideMobile: dockControls has no horizontal overflow ({"clientWidth":370,"scrollWidth":370,"clientHeight":110,"scrollHeight":110})
+PASS wideMobile: tour has no horizontal overflow ({"clientWidth":370,"scrollWidth":370,"clientHeight":386,"scrollHeight":386})
+PASS wideMobile: tourPanel has no horizontal overflow ({"clientWidth":370,"scrollWidth":370,"clientHeight":386,"scrollHeight":386})
+PASS wideMobile: tourNow has no horizontal overflow ({"clientWidth":352,"scrollWidth":352,"clientHeight":65,"scrollHeight":65})
+PASS wideMobile: page has no horizontal overflow ({"clientWidth":412,"scrollWidth":412})
+PASS wideMobile: tour card content stays inside its fixed height ({"clientWidth":370,"scrollWidth":370,"clientHeight":386,"scrollHeight":386})
+PASS wideMobile: dock content stays inside its fixed height ({"clientWidth":370,"scrollWidth":370,"clientHeight":110,"scrollHeight":110})
+PASS wideMobile: the Now line stays inside the tour card ({"clientWidth":352,"scrollWidth":352,"clientHeight":65,"scrollHeight":65})
+PASS wideMobile: dock uses two rows ({"toggle":978.59375,"zoom":1030.59375})
+PASS wideMobile: tour rail is a semantic list
+PASS wideMobile: tour rail scrolls horizontally
+PASS wideMobile: tour rail scrolls inside its fixed row ({"role":"list","overflowX":"auto","clientWidth":354,"scrollWidth":864})
+PASS wideMobile: rail chips are numbered 1..n with component names ([{"index":0,"number":"1","name":"MainActivity"},{"index":1,"number":"2","name":"Financial API"},{"index":2,"number":"3","name":"Factory wrap"},{"index":3,"number":"4","name":"Socket wrap"},{"index":4,"number":"5","name":"Session tags"},{"index":5,"number":"6","name":"InspectorDao"},{"index":6,"number":"7","name":"Room store"}])
+PASS wideMobile: playing Now copy stays inside the tour card ({"clientHeight":65,"scrollHeight":65})
+PASS wideMobile: no page errors ()
+PASS desktop: server shell reserves stage, dock and tour rows ({"stage":{"x":96,"y":382.25,"width":1088,"height":560},"dock":{"x":96,"y":954.25,"width":1088,"height":64},"tour":{"x":96,"y":1030.25,"width":1088,"height":272}})
+PASS desktop: stage rect is identical before and after hydration (96,382.25,1088,560 -> 96,382.25,1088,560)
+PASS desktop: dock rect is identical before and after hydration (96,954.25,1088,64 -> 96,954.25,1088,64)
+PASS desktop: tour rect is identical before and after hydration (96,1030.25,1088,272 -> 96,1030.25,1088,272)
+PASS desktop: dock has no horizontal overflow ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":62,"scrollHeight":62})
+PASS desktop: dockControls has no horizontal overflow ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":62,"scrollHeight":62})
+PASS desktop: tour has no horizontal overflow ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":270,"scrollHeight":270})
+PASS desktop: tourPanel has no horizontal overflow ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":270,"scrollHeight":270})
+PASS desktop: tourNow has no horizontal overflow ({"clientWidth":1068,"scrollWidth":1068,"clientHeight":47,"scrollHeight":47})
+PASS desktop: page has no horizontal overflow ({"clientWidth":1280,"scrollWidth":1280})
+PASS desktop: tour card content stays inside its fixed height ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":270,"scrollHeight":270})
+PASS desktop: dock content stays inside its fixed height ({"clientWidth":1086,"scrollWidth":1086,"clientHeight":62,"scrollHeight":62})
+PASS desktop: the Now line stays inside the tour card ({"clientWidth":1068,"scrollWidth":1068,"clientHeight":47,"scrollHeight":47})
+PASS desktop: dock uses one row ({"toggle":964.25,"zoom":964.25})
+PASS desktop: tour rail is a semantic list
+PASS desktop: tour rail scrolls horizontally
+PASS desktop: rail chips are numbered 1..n with component names ([{"index":0,"number":"1","name":"MainActivity"},{"index":1,"number":"2","name":"Financial API"},{"index":2,"number":"3","name":"Factory wrap"},{"index":3,"number":"4","name":"Socket wrap"},{"index":4,"number":"5","name":"Session tags"},{"index":5,"number":"6","name":"InspectorDao"},{"index":6,"number":"7","name":"Room store"}])
+PASS desktop: playing Now copy stays inside the tour card ({"clientHeight":47,"scrollHeight":47})
+PASS desktop: no page errors ()
+PASS no JS: dock and tour rows are hidden while the outline remains ({"dock":false,"tour":false,"outline":true})
+PASS controls: dock and tour render their full control set (20)
+PASS controls: every button has an accessible name ([])
+PASS controls: every icon-only action has a label and title ([])
+PASS icons: every inline SVG is aria-hidden
+PASS dock: exploded is the pressed state
+PASS dock: implode clears the pressed state
+PASS dock: explode restores the pressed state
+PASS tour: Start moves the viewer to playing
+PASS pause-on-implode: Implode while playing pauses the tour and implodes
+PASS transport: Next moves to the following step
+PASS transport: Previous moves back one step
+PASS rail: a chip jump reaches step k while paused (3)
+PASS rail: a chip jump keeps a playing tour playing (5)
+PASS rail: hovering a chip highlights its component id (session-tracker)
+PASS rail: leaving a chip clears the highlight
+PASS flow chooser: selecting a flow updates its pressed state
+PASS flow chooser: the step rail switches to the selected flow (inspector-notification)
+PASS interactions: no page errors ()
+PASS screenshot dock-idle/mobile/light: written
+PASS screenshot tour-playing/mobile/light: written
+PASS screenshot dock-idle/desktop/light: written
+PASS screenshot tour-playing/desktop/light: written
+PASS screenshot dock-idle/mobile/dark: written
+PASS screenshot tour-playing/mobile/dark: written
+PASS screenshot dock-idle/desktop/dark: written
+PASS screenshot tour-playing/desktop/dark: written
+
+T012a smoke assertions passed
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+site-probe: PASS
+artifacts: /private/tmp/s10-wt/T012a/.evidence/site-probe
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s10-wt/T012a/packages/xploder
+packages/xploder test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s10-wt/T012a/tools/perf
+tools/perf test: 
+packages/xploder test: (node:72173) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72174) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72175) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72176) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72177) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72180) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  17 passed (17)
+tools/perf test:       Tests  111 passed (111)
+tools/perf test:    Start at  12:23:22
+tools/perf test:    Duration  1.34s (import 84%, tests 11%, transform 4%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:72182) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72181) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:72187) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  59 passed (59)
+packages/xploder test:       Tests  610 passed (610)
+packages/xploder test:    Start at  12:23:22
+packages/xploder test:    Duration  6.50s (tests 76%, import 17%, transform 6%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  59 workers spawned · ~94ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~523ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 /private/tmp/s10-wt/T012a/apps/web
+apps/web test: 
+apps/web test: (node:72237) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:72238) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  18 passed (18)
+apps/web test:       Tests  105 passed | 1 skipped (106)
+apps/web test:    Start at  12:23:29
+apps/web test:    Duration  730ms (environment 38%, tests 28%, import 23%, transform 9%, worker 1%)
+apps/web test: 
+apps/web test: Done
+T012a-OK
