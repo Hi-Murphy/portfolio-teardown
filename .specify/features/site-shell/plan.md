@@ -161,7 +161,7 @@ Note `"S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that
 `content/poster.ts` (pure, Node-tested) + `components/teardown-poster.tsx` (server).
 
 - **Projection** (iso units, equal to the camera's up to the factor √(3/2)): `p(x, y, z) = [(x − z)·cos30°, (x + z)·sin30° − y]` (SVG y grows down).
-- **Slab faces:** top + `+x` side + `+z` side, as in S8 `EngineFallback`. Painter's order: sort slabs by `x + z − y` ascending (far → near), so nearer faces paint last.
+- **Slab faces:** top + `+x` side + `+z` side, as in S8 `EngineFallback`. Painter's order: sort slabs by `x + y + z` ascending (far → near; the camera sits at +x, +y, +z — corrected at T005 review), so nearer faces paint last.
 - **Framing (R1):**
   - `[u, v] = max over k ∈ 0..3` of the projected half-extents of `layout.bounds.<state>` at azimuth `VIEW.baseAzimuth + k·VIEW.snap` (the same corners loop as `fitZoom`), converted to poster units (×√(3/2));
   - margin: `width = 2u / (1 − 2·VIEW.fitMargin)`, `height = 2v / (1 − 2·VIEW.fitMargin)`;
