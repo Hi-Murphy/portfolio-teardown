@@ -1,0 +1,363 @@
+# RFC — S10 Site Shell: Landing · Project Routes · Recruiter Mode
+
+**slice:** S10-site-shell · **status:** DRAFT for Gate 1 (Murphy review) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-10-site-shell.md` (frozen brief v1 + pre-dispatch erratum `99a94f2`) · **branch:** `task/s10-site-shell` · **base:** `99a94f2` · **date:** 2026-11-02
+
+> This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§6).
+
+---
+
+## 1. Context (from the brief)
+
+- **Mission:** turn the S1 placeholder into the actual portfolio. That means a home page with a poster-first live hero, project cards, an about strip and a contact footer; a real `/projects/[slug]` teardown route with panels; and a recruiter path that needs no 3D. The finalized websocket-inspector content is wired in. Production routes get the same gates the dev playground already has.
+- **Live:** engine (S4/S5), blueprint theme (S6), panels/chips/tour (S7), a11y floor including the axe gate on the fixture export (S8), lockfile-gated CI (S3). Dev routes `/dev/engine` and `/fixtures/fps-calibration` are production-excluded and must stay so.
+- **Content (S9):** `.specify/content/websocket-inspector.json`, schema v1: `schemaVersion`, `meta`, `story`, `layers[5]` (16 components nested), `flows[2]`. It is converted to a zod-validated TS module, not hand-copied (authoring rule D-06 = the S2 site path: `defineProject(input, { registry })` evaluated at build time).
+- **Carry-over (from S5 F7):** a page-load CLS ≈ 0.0006 on the `/dev/engine` control row. S10 owns it.
+- **Budgets (unchanged):** LCP < 2.5 s, CLS = 0, mobile Lighthouse perf/a11y ≥ 95, home first load < 3 MB. Design target: mid-range Android on 4G.
+- **Murphy dependencies (resolved):** résumé = existing PDF at `apps/web/public/resume.pdf` (Murphy supplies it; a `TODO(résumé)` marker until it lands, plus a file-exists check at validation). Contact = `mailto:vibing.murphy@gmail.com` + GitHub/LinkedIn. No form.
+- **Non-goals (hard):** OG images (S11) · analytics · DNS/domain/cutover (S16) · content for other projects (S13/S15) · cross-project chip links (S14) · theme/engine/panel behaviour changes · pixel/papercraft theme · résumé redesign.
+
+### Acceptance criteria (verbatim, inviolable)
+
+| ID | Criterion |
+|---|---|
+| AC1 | `/` and `/projects/websocket-inspector` render entirely from the converted content module; the fidelity test (`module ≡ .specify/content/websocket-inspector.json`) is green; project cards show name, tagline, and ≤ 4 tech chips. |
+| AC2 | poster-first hero: first paint is the static poster; the 3D hydrates after without layout shift (CLS 0); ambient idle only; `prefers-reduced-motion` → static poster, no animation; no autoplay explosion. |
+| AC3 | recruiter path works without WebGL: `/projects` list reachable in ≤ 1 click from home; every card deep-links; unknown slug → 404; with JS disabled, home and project route show poster + readable list (evidence screenshots + DOM). |
+| AC4 | axe on both production routes, light + dark: 0 serious, 0 critical; landing keyboard drill passes (nav → cards → project route → back); reduced-motion matrix extended to the new surfaces. |
+| AC5 | mobile Lighthouse ≥ 95 perf / ≥ 95 a11y on both routes; LCP < 2.5 s; CLS = 0; home first load < 3 MB; evidence artifacts attached. |
+| AC6 | the dev-only routes remain production-excluded (404 on the prod URL); the S10 CLS carry-over is fixed or bounded with evidence. |
+| AC7 | full CI green (build/typecheck/lint/test, gitleaks, lighthouse, weight, fps calibration, fixture exclusion, axe gate extended); frozen-surface checks S2–S8 remain empty; 2 draw calls unchanged on the teardown. |
+
+### Starting point (checked on this branch at `99a94f2`)
+
+| Item | State |
+|---|---|
+| `app/page.tsx` | S1 placeholder: palette swatches, `ThemeToggle` inside a `flex` header, footer with the xploder version. Root `layout.tsx` = theme script + `paletteCss()+motionCss()` inline style + static `metadata`. |
+| Dev routes | `app/dev/engine/page.fixture.tsx`, `app/fixtures/fps-calibration/page.fixture.tsx`. The `.fixture.tsx` extension is compiled only in dev or with `PERF_FIXTURES=1` (`next.config.ts`). |
+| Viewer API (`xploder/react`) | `TeardownViewer` (`project`, `viewer`, `panels?`, `registry?`, `onStats?`, `onSettled?`, `className`, `aria-label`, `fallback?`), `useTeardownViewer({ initial?, project })` (default `initial` = `exploded` under reduced motion, else `imploded`), `useViewerPanels()`, `usePrefersReducedMotion()`. `hasWebgl` is **not** exported (S8 internal); the viewer's `CanvasBoundary` renders `fallback` when WebGL is unavailable. |
+| Engine idle | There is **no ambient/idle-motion mode** in the engine. At rest it renders on demand; motion only happens on explode/implode, rotate, zoom, hover, and the tour. |
+| Motion tokens | durations `explode, implode, hoverLift, hoverSettle, tourPulse, tourBeat, panelEnter, panelExit`. There is no hero/reveal token, and adding one changes the S2 tokens API (frozen). |
+| Content parse | `defineProject(input, { registry, source })` requires a registry. The only registry in the repo is the **test fixture** `xploder/fixtures` `techRegistryJson` (12 techs). It covers all 6 techs used by websocket-inspector: kotlin ×16, android ×6, coroutines ×6, jetpack-compose ×4, room ×3, websocket ×3. |
+| Seals | `frozen-surface.manifest.json` (S2+S4), `.s5`, `.s6`, `.s7`. **There is no S8 seal** (F1). |
+| Gates | `perf.yml`: Lighthouse + weight on the Vercel preview **root only**; the Lighthouse gate runs `categories: ['performance']` only, so a11y is not gated (F3). The axe + a11y-probe job runs on the **fixture export** `/dev/engine` only. Fixture exclusion asserts 404 for both dev routes on preview and production. |
+| 404 | `tools/perf` `serve.ts` serves `404.html` with status 404, like Vercel's static hosting. Next writes `404.html` from `app/not-found.tsx` (the default one today). |
+| Fonts | System stacks only (`globals.css`), so no web-font CLS risk. |
+| `apps/web/public/` | Does not exist yet. |
+
+### Environment facts checked 2026-11-02 (`evidence/RFC-log-baseline.txt`)
+
+| Item | Fact |
+|---|---|
+| Node / tools | v24.19.0 · Lighthouse 13.6.0 · Chromium 156 · Playwright 1.64.1 |
+| Tier-1 executor | `codex` at `/opt/homebrew/bin/codex` (DeepSeek Flash 4.1 profile) |
+| Tier 1.5 | `OPENROUTER_API_KEY` **unset** → DORMANT, skip-with-record |
+| Lighthouse mobile, `/dev/engine?fixture=a` (fixture export, local) | perf **0.99 / 1 / 1**, LCP ≈ 770 ms, TBT 58–114 ms, 471 KB total, but **CLS 4.3e-5 on every run → gate exit 6**. An eagerly loaded engine route already clears the perf budget. CLS is the blocker. |
+| Load CLS attribution, `/dev/engine` | One shift at ≈ 325 ms: the whole control-row flex line moves up 3 px (desktop 0.000637, mobile 0.000043). Cause: `ThemeToggle`'s pre-mount placeholder is an `inline-block` span in a block `div.ml-auto`. Its line box is taller than 44 px by the descender gap; the mounted `inline-flex` button is not. Same value and timing as S5 F7. |
+
+---
+
+## 2. Technical decisions
+
+Each decision gives a recommendation (**R**), the reason, and what was rejected.
+
+### D1 — Route tree and module layout (AC1, AC3)
+
+**R:** Site pages live in a **route group** with their own chrome, so the root layout and the dev routes stay untouched.
+
+```
+apps/web/
+  app/
+    layout.tsx                         root: theme script, palette+motion CSS, metadata default + title template (D7)
+    not-found.tsx                      NEW: 404 page (renders SiteChrome itself; links to / and /projects)
+    (site)/layout.tsx                  NEW: skip link · SiteNav · {children} · SiteFooter (contact)
+    (site)/page.tsx                    REWRITTEN landing (replaces app/page.tsx)
+    (site)/projects/page.tsx           NEW: recruiter list (no WebGL)
+    (site)/projects/[slug]/page.tsx    NEW: teardown route (generateStaticParams, dynamicParams = false, generateMetadata)
+    dev/…, fixtures/…                  UNCHANGED
+    theme-toggle.tsx                   CLS fix only (D10)
+  content/                             NEW: data layer (no React)
+    site.ts                            site copy: name, role line, about text, contact + social links, résumé path
+    tech-registry.ts                   defineTechRegistry({...}): the site registry (D2)
+    projects/websocket-inspector.source.ts   GENERATED by scripts/convert-content.ts (header: do not edit)
+    projects/websocket-inspector.ts    defineProject(source, { registry, source: 'websocket-inspector' })
+    projects/index.ts                  PROJECTS, PROJECT_SLUGS, getProject(slug), cardModel(project)
+  components/                          NEW: app-level UI (server unless marked)
+    site-nav.tsx · site-footer.tsx · about-strip.tsx · project-card.tsx · tech-chip-list.tsx
+    teardown-poster.tsx                server SVG poster from xploder/layout (D4)
+    project-outline.tsx                readable story + layers → components list (no-JS / no-WebGL)
+    hero/hero.tsx                      server shell: reserved box + poster + <HeroLive/>
+    hero/hero-live.tsx                 'use client' gate island (no three import)
+    hero/hero-stage.tsx                'use client' live viewer, loaded by dynamic import only
+    workbench/workbench.tsx            server shell: reserved stage + toolbar boxes + <noscript>
+    workbench/workbench-loader.tsx     'use client' next/dynamic(ssr:false)
+    workbench/workbench-client.tsx     'use client' viewer + panels + toolbar + tour
+  scripts/convert-content.ts           JSON → generated TS module (--check mode)
+  public/resume.pdf                    Murphy supplies (TODO(résumé) until then)
+```
+
+- `/` = nav · hero · project cards · about strip (`#about`) · footer contact (`#contact`).
+- `/projects` = recruiter list. It is linked from the nav, so it is **1 click from home**.
+- `/projects/[slug]`: `generateStaticParams()` returns `PROJECT_SLUGS`. With `dynamicParams = false`, the static export emits only known slugs, so an unknown slug gets the host's `404.html` with status 404 (Vercel and `serve.ts` behave the same). `notFound()` guards `getProject()` misses during the build.
+- **Rejected:** putting chrome in the root layout (that changes `/dev/engine`'s DOM, its axe baseline and its CLS) · `app/_components` (top-level `components/` + `content/` keep data and UI out of the route tree) · a `[...slug]` catch-all (unneeded).
+
+### D2 — Content module: JSON → generated TS → `defineProject` (AC1)
+
+**R:** A converter **generates** the TS module, `defineProject` validates it at build time, and a test proves it equals the canonical JSON.
+
+- `apps/web/scripts/convert-content.ts` (Node 24 type-stripping, same style as `tools/perf`) reads `.specify/content/websocket-inspector.json` and writes `content/projects/websocket-inspector.source.ts`:
+  `export const websocketInspectorSource = { …1:1 literal… } as const satisfies ProjectInput;` with a header naming the source file and saying "generated — do not edit; run `pnpm --filter web content:convert`". The output is Prettier-formatted, so `format:check` stays green.
+- `content/projects/websocket-inspector.ts`: `export const websocketInspector = defineProject(websocketInspectorSource, { registry: SITE_REGISTRY, source: 'websocket-inspector' })`. It evaluates during `next build` static generation, so invalid content or an unknown tech fails the build (S2 D3 path).
+- **Fidelity test** `apps/web/test/content-fidelity.test.ts`:
+  1. `websocketInspectorSource` `toStrictEqual` `JSON.parse(readFileSync(canonical))` (module ≡ JSON, the AC1 wording);
+  2. `websocketInspector` `toStrictEqual` `parseProject(json, { registry })` (the parsed module matches the parsed JSON, defaults included);
+  3. `convert-content --check` output is byte-equal to the committed file (catches edits to the generated file and canonical-JSON drift).
+- **Site registry:** `content/tech-registry.ts` = `defineTechRegistry({ schemaVersion: 1, techs: [...] })` holding the 6 techs the content uses, with ids, labels and categories copied from the fixture registry entries. Production code never imports `xploder/fixtures`. A source-scan test (`prod-imports.test.ts`) asserts that no non-`.fixture.tsx`, non-test file in `apps/web` imports `xploder/fixtures`.
+- **"Renders entirely from the module" guard:** `no-hand-copied-content.test.ts` scans `app/` and `components/` for any project string from the JSON (meta name/tagline/summary, story texts, component names) as a literal. The generated `.source.ts` is the only allowed location. Site chrome copy (name, about, contact) lives in `content/site.ts` (Q8).
+- **Rejected:** importing the JSON straight into `apps/web` (couples the build to `.specify/`, and "TS module" and "fidelity test" become vacuous) · a hand-written TS object (the brief forbids it) · reusing the fixture registry at runtime (test data in production).
+
+### D3 — Card model and tech chips (AC1)
+
+**R:** `cardModel(project)` returns `{ slug, name, tagline, chips }` derived only from the module. `chips` = registry techs ranked by **how many components use them** (ties broken by first appearance in layer/component order), **capped at 4**. For websocket-inspector that is **Kotlin · Android · Kotlin Coroutines · Jetpack Compose**.
+
+- The chips are **static** (`<ul aria-label="Tech">`, label + category text, colour dot from the `tech-*` palette tokens), mirroring the S7/S8 chip semantics (label + category) without importing the panel component. They are not links (S14 owns chip links).
+- A unit test (`content-model.test.ts`) covers the ranking, the tie-break, the cap of 4, and that every chip id resolves in the registry.
+- **Alternative (Q4):** use `meta.tags.slice(0, 4)` (Android · WebSocket · Compose · Room). That reads better for "WebSocket", but these are free-text tags, not registry techs with categories and colours.
+
+### D4 — Poster: server-rendered isometric SVG (AC2, AC3)
+
+**R:** `TeardownPoster` is a **server component** that projects `layoutProject(project)` slabs to an isometric SVG. It uses the same math as the S8 dev `EngineFallback` (cos/sin 30°, top + two side faces per slab), filled with `var(--bp-*)` so it follows the theme with no JS. `state` prop: `'exploded'` (default, D5) | `'imploded'`. It also takes `className` and an optional `title`.
+
+- **Inline in the HTML:** it is in the first paint by construction, with no request and no decode. An inline SVG is **not an LCP candidate**, so LCP stays on the hero's server-rendered text.
+- The S8 `EngineFallback` (dev route) is **not** refactored to use it. The dev route is an S8 surface, and a little duplicated projection math is cheaper than touching it.
+- Size: 5 layers + 16 components × 3 polygons ≈ 63 polygons, a few KB of HTML.
+- **Rejected:** a pre-rendered PNG/WebP poster (an extra request, becomes the LCP element, theme needs two files) · a canvas snapshot at build time (needs a headless GPU in the build).
+
+### D5 — Hero: poster-first, idle-gated live hydration, ambient idle (AC2, AC5)
+
+**R:** a reserved box, the poster underneath, and the live layer mounted later as an absolutely positioned layer over the poster. No box ever changes size.
+
+1. **Server shell** (`hero.tsx`): `<figure>` with a fixed **aspect-ratio** box (`aspect-[4/3] sm:aspect-[16/9]`, width-driven, so no `vh` jitter). Inside it: `TeardownPoster` (absolutely positioned, `aria-hidden`), the `<HeroLive>` island (absolutely positioned, empty at first), and a `<figcaption>` holding the project name + tagline from the module and a CTA "Open the teardown →" to `/projects/websocket-inspector`. The person headline (`h1`, from `content/site.ts`) sits above the box: that is the LCP element (server text).
+2. **Gate** (`hero-live.tsx`, a tiny client island that does not import three):
+   - `prefers-reduced-motion: reduce` (query from `motion.reducedMotion.query`) → **never mount**. Static poster, no animation (AC2). A live `change` to reduce unmounts the live layer and the poster shows again.
+   - `navigator.connection?.saveData === true` → never mount (4G courtesy).
+   - otherwise wait for `load`, then `requestIdleCallback` (fallback `requestAnimationFrame` where it is missing; no timeout literals), then `import('./hero-stage')`, a separate chunk with three/R3F/xploder-react.
+3. **Live layer** (`hero-stage.tsx`): `TeardownViewer` with `useTeardownViewer({ initial: 'exploded', project })`, **no panels, no tour, no toolbar**. It starts settled in the exploded state, which matches the poster, so nothing tweens on load (**no autoplay explosion**). It mounts at `opacity: 0`. On the first `onStats` callback (a frame has rendered), the live layer fades in and the poster fades out using the existing **`panelEnter`** duration/easing CSS variables from `motionCss()` (no literals, no new token; Q7). The canvas is transparent (S4), so the poster must fade out rather than stay underneath.
+4. **Ambient idle** = the live view at rest: rendered on demand, theme-following (toggling the palette re-renders it live), resize-correct, **no timed motion, no tour, no explode**. The layer is `inert` (Q1). It has no tab stops and no pointer capture, which keeps the landing drill nav → cards short and stops mobile touch gestures from landing in the hero.
+5. **WebGL unavailable / context loss** → `fallback={null}`. The first `onStats` never fires, so the poster simply stays.
+6. **Accessibility:** the `<figure>` is named by its `figcaption`. The poster and live layer are both `aria-hidden`/`inert`, so axe and screen readers see one stable figure, before and after hydration.
+
+- **CLS proof:** every box is reserved at SSR, and the live layer is `position:absolute; inset:0` in the reserved box, so opacity changes are not layout shifts. The site probe (D11) sums `layout-shift` from navigation to hydration + 3 s and must get exactly 0. Lighthouse checks CLS = 0 independently.
+- **LCP/TBT:** the 3D chunk downloads after `load` + idle. The engine route at full eager load already scores 0.99–1.0 (baseline), so the idle-deferred hero has headroom.
+- **Rejected:** mounting the live view at hydration (wasted main-thread time before the page is interactive) · IntersectionObserver gating (the hero is above the fold, so it adds nothing) · an interactive hero (Q1 alternative).
+
+### D6 — Project route `/projects/[slug]`: workbench (AC1, AC3, AC7)
+
+**R:** a server shell with reserved boxes, and a client workbench loaded eagerly (this route *is* the teardown).
+
+- **Header (server):** "← All projects" link, `h1` = `meta.name`, tagline, a meta line (`year · role`), and `meta.links` (Source).
+- **Workbench shell (server):** a stage box `h-[min(70svh,44rem)]` (`svh`: stable when the mobile URL bar collapses) holding `TeardownPoster` (exploded) + a loading placeholder, then a **toolbar box with a fixed block-size** (single row, `flex-nowrap`, horizontal scroll on narrow screens). The client workbench fills both boxes, so their sizes never change.
+- **Workbench client** (`next/dynamic`, `ssr:false`): `TeardownViewer` with `useTeardownViewer({ initial: 'exploded', project })` + `useViewerPanels()` + the site registry. The poster fades out on first `onStats`, as in D5. Toolbar: Implode/Explode · Rotate left/right · Zoom out/reset/in · **Case study** (`aria-expanded`/`aria-controls` = `panels.ids.caseStudy`, as the playground does), so the case study is reachable from the page · Tour: flow selector (2 flows) · Play/Pause · Step · Stop. The layer-focus row is omitted (Q12).
+- **Deep links:** the route itself is the deep link (a static `projects/websocket-inspector.html`, directly loadable, back/forward safe). No query/hash state is added (YAGNI; the probes drive states through the UI).
+- **No-WebGL:** `fallback={<ProjectOutline project message="WebGL is unavailable…" />}`. **No-JS:** `<noscript>` holds `<style>` (hides the loading placeholder and the empty toolbar box) + `<ProjectOutline>`. This mirrors S8 (D8).
+- **Draw calls:** the viewer is unchanged, so it renders 2 draw calls. This is measured on the production route by probe-side WebGL instrumentation (D11), so no debug data ships.
+- **Rejected:** SSR of the toolbar (the hooks come from `xploder/react`, which imports three, and SSR'ing them is unproven) · a `vh`/`dvh` stage (resize shifts on mobile) · `?panel=` deep links (the brief asks for route-level deep links only).
+
+### D7 — Per-route metadata (no OG images) (Deliverable 5)
+
+**R:** the root `metadata` = `{ title: { default: SITE.title, template: '%s · ' + SITE.name }, description: SITE.description }`.
+
+- `/` uses the default title.
+- `/projects`: title `Projects`, description from `content/site.ts`.
+- `/projects/[slug]`: `generateMetadata` → `title: meta.name`, `description: meta.tagline` (full sentence, < 160 chars; `meta.summary` is ≈ 230 chars).
+- **No `openGraph`/`twitter` blocks or images** (S11 owns them).
+- A unit test asserts the metadata for each route. The site probe checks the `<title>` and `<meta name=description>` in the exported HTML.
+- The dev routes inherit the default title.
+
+### D8 — Recruiter mode and no-JS fallbacks (AC3)
+
+**R:** `/projects` is fully static and has no client code apart from `ThemeToggle`.
+
+- Each project gets a `ProjectCard` in `list` variant: a small decorative poster thumbnail (`TeardownPoster`, `aria-hidden`) · name (an `<a>` to `/projects/<slug>` with the stretched-link pattern, so the whole card is clickable as one tab stop) · tagline · year · role · ≤ 4 chips · summary · "Source" (a secondary link, raised above the stretched link).
+- Home cards use the `compact` variant (no thumbnail, no summary).
+- **No-JS:** home is entirely server HTML (the poster stays, cards and about are readable). `/projects` is server HTML. The project route shows the poster + `<noscript>` `ProjectOutline`.
+- `ProjectOutline` = the story (headline, problem, approach, outcome, metrics `<dl>`) + layers → components (`<ul>`: name and summary). It is used for no-JS and no-WebGL. It mirrors the S8 pattern (poster + list + message).
+- **Evidence:** screenshots + DOM dumps with `javaScriptEnabled: false` and with WebGL disabled (D11).
+
+### D9 — Gate extensions: axe, Lighthouse, weight, routes (AC4, AC5, AC6, AC7)
+
+New modules only. The S8 tools are reused through their exports and are not rewritten.
+
+- **Axe on production routes:** a new `tools/perf/src/site-axe.ts` + CLI `cli/a11y-axe-site.ts` (`pnpm a11y:axe:site <url> | --serve <dir>`). It reuses `AXE_TAGS` and `verdict()` from `a11y-axe.ts`. Matrix: routes `/` (hero revealed; plus a reduced-motion poster-only state), `/projects`, `/projects/websocket-inspector` (idle · case study open · detail open via the S8 keyboard navigator · tour step 1 via Step · no-WebGL) × light/dark × desktop/mobile. 0 serious and 0 critical, otherwise exit 6. Output: one JSON per route × palette × viewport + `axe-site-summary.json`.
+- **Lighthouse:** `lighthouse-gate.ts` gets an opt-in `--categories performance,accessibility` flag. A new budget constant `A11Y_MIN_SCORE = 0.95` is asserted only when accessibility is requested, so the S3 default behaviour is unchanged. CI runs it on the preview root **and** on `projects/websocket-inspector`.
+- **Weight:** CI runs the existing weight gate on both routes. The AC binds home only; the project route is about 0.5 MB, so the 3 MB gate on it costs nothing.
+- **Routes:** the fixture-exclusion job adds `assert-absent "<preview>projects/does-not-exist"` (unknown slug → 404 on the real host). The existing dev-route asserts stay, for preview and production.
+- **CI wiring:** a **new job** `a11y: axe (production routes)` in `perf.yml`: `pnpm build` → `a11y:axe:site --serve apps/web/out` → `site:probe --serve apps/web/out --ci`. The existing fixture-export a11y job stays byte-identical (Q10).
+- **Regression proof** (as S8 R6): a deliberately broken commit in **app code only** (e.g. `aria-hidden="true"` on the nav containing links → `aria-hidden-focus`, serious) turns the new job red. The revert commit turns it green. Both run URLs go into the evidence.
+
+### D10 — CLS carry-over fix (AC6, AC5)
+
+**R:** fix it at the source: `ThemeToggle`'s placeholder and button get **one shared box-geometry class string** (`inline-flex h-11 w-11 shrink-0 items-center justify-center align-middle`). The pre-mount and post-mount boxes are then identical in any parent (block line box or flex item).
+
+- No dev-route file changes. The fix lands in `app/theme-toggle.tsx`, which is shared app code and not a frozen surface. Its behaviour, labels and storage logic are unchanged.
+- **Proof:** the site probe's `cls` group runs on `/dev/engine?fixture=a` (fixture export, desktop + mobile; before = 0.000637/0.000043 in `RFC-log-baseline.txt`, after must be **0**) and on every production route. A Lighthouse rerun on `/dev/engine` (evidence only) shows CLS 0.
+- The nav reuses `ThemeToggle`, so this fix is also a precondition for landing CLS = 0.
+- **Rejected:** bounding the shift as "dev-only" (the cause sits in a shared component the production nav needs) · changing the playground's wrapper `div` to `flex` (it fixes the symptom on one route only).
+
+### D11 — Site probe: drill, first paint, CLS, reduced motion, no-JS, routes, draw calls (AC2–AC7)
+
+A new `tools/perf/src/site-probe.ts` + CLI `cli/site-probe.ts` (`pnpm site:probe <url> | --serve <dir> [--group …] [--ci] [--out]`). It follows the S8 probe's exit-code contract, report shape and log lines.
+
+| Group | Checks | AC |
+|---|---|---|
+| `drill` | Tab from the document start: skip link → name → Projects → About → Contact → Résumé → GitHub → LinkedIn → theme toggle → hero CTA → card(s). No traps, Shift+Tab reverses. Enter on the card → URL `/projects/websocket-inspector`, viewer ready, `h1` = `meta.name`. `goBack()` → URL `/`, the card link is reachable again. Plus: nav "Projects" → `/projects` in **1 activation**, every card href resolves with 200. | AC3 AC4 |
+| `hero` | The SSR HTML contains the poster SVG inside the hero box (curl, no JS). Runtime: at FCP, the poster is visible and the live layer is absent or `opacity 0`. Live reveal happens after FCP. `data-xploder-state` stays `exploded` and the viewer is never `tweening` during 5 s idle. Lighthouse filmstrip frames saved. | AC2 |
+| `cls` | `layout-shift` sum (buffered, every entry, including `hadRecentInput`) from navigation to hydration + 3 s on `/`, `/projects`, `/projects/websocket-inspector` (and `/dev/engine` against the fixture export), desktop + mobile, light + dark. Must be exactly 0. Entries are listed with sources. | AC2 AC5 AC6 |
+| `reduced-motion` | With `reducedMotion: 'reduce'`: the hero never mounts a `<canvas>`, `document.getAnimations()` stays empty for 2 s, the poster is visible. On the project route: the S8 static twins (explode is instant), the poster swap uses no transition. App-surface matrix rows: hero reveal, poster fade, card hover. | AC4 AC2 |
+| `nojs` | `javaScriptEnabled: false`: screenshots + DOM dumps of `/` and `/projects/websocket-inspector`. Poster SVG present and the readable list present (cards / `ProjectOutline`). Also a WebGL-disabled variant of the project route (outline + message). | AC3 |
+| `routes` | `/projects/does-not-exist` → 404 with the not-found content. `/dev/engine` and `/fixtures/fps-calibration` → 404 on the production export. Each route's `<title>`/description matches the module. | AC3 AC6 D7 |
+| `draws` | `addInitScript` wraps the WebGL2 draw entry points and counts draws per animation frame. Project route idle + exploded → **2**. Hero → **2**. | AC7 |
+
+- **CI subset (`--ci`):** `drill`, `cls`, `routes`, `nojs`, `reduced-motion`. `hero` and `draws` run in the evidence pass; they need stable GPU timing.
+- **App reduced-motion matrix:** `apps/web/test/site-motion-matrix.test.ts` lists every app-level animation with its reduced-motion twin (hero reveal → no mount; poster fade → none; card hover → colour only, no transform). The `reduced-motion` probe group asserts it in the browser. The S8 xploder matrix is untouched.
+- Perf evidence uses the **dropped-frames** style only (`measureFps` `droppedFrames`/`intervalsMs` on a project-route explode toggle and on hero idle), reported, with **no new fps threshold**.
+
+### D12 — Nav, about, contact (Deliverable 2)
+
+- **Nav, single line at every width:** name (link `/`) · Projects (`/projects`) · About (`/#about`) · Contact (`/#contact`) · **Résumé** (`/resume.pdf`, styled as a button, `TODO(résumé)` until the file lands) · GitHub (icon link) · LinkedIn (icon link) · theme toggle. `flex-nowrap`. Below `sm`, the text-link group scrolls horizontally while the name and toggle stay pinned. Every target is ≥ 44 px. Icon links have `aria-label`s.
+- The current page is marked with `aria-current="page"` on Projects (`/projects*`).
+- A "Skip to content" link comes first. It is visually hidden until focused.
+- **About strip** (`#about`): 2–3 sentences from `content/site.ts` (Q5).
+- **Footer** (`#contact`): `mailto:vibing.murphy@gmail.com`, GitHub, LinkedIn, résumé. No form, no analytics, no third-party embeds.
+- **Copy and names** live in `content/site.ts`; there are no strings in components (Q5, Q6).
+
+### D13 — Frozen surfaces and seals (AC7)
+
+**R:** S10 changes **no xploder source**. The first task seals S8 the way S8 sealed S7.
+
+- **T1 = S8 seal:** `frozen-surface.s8.paths` + `.s8.manifest.json` + `generate-s8.sh` (base `99a94f2`) covering the S8 xploder files: `src/a11y/`, `src/react/a11y/`, `src/react/TeardownViewer.tsx`, `src/react/lettering/`, the S8-touched `src/react/panel/` files (`DetailPanel`, `PanelLayer`, `TechChips`, `useViewerPanels`), and the S8 tests (`a11y-*`, `lettering-face-names`). `frozen-surface.test.ts` gains the S8 block. Adding seal files under `packages/xploder/test/` is the established convention (S8 did the same for S7).
+- **Whole-package guard:** at every gate, `git diff --stat 99a94f2 -- packages/xploder/src packages/xploder/package.json` must be **empty**. Evidence log at G1 and G4.
+- Also untouched: `apps/web/app/dev/**`, `apps/web/app/fixtures/**`, `apps/web/test/xploder-dom/**`, the S8 `a11y-axe.ts` / `a11y-probe.ts` (imported, not edited), and the existing `perf.yml` jobs other than the lines added in D9.
+- Check `git log` for foreign commits on the brief before each gate (memory: Mercure may commit).
+
+---
+
+## 3. Design brief for the spec kit (Stage 2 input)
+
+- **spec.md:** user stories, one per deliverable cluster: US1 content module · US2 landing + hero · US3 project route · US4 recruiter list + no-JS · US5 metadata · US6 gates · US7 CLS carry-over. FRs map **1:1 to AC1–AC7**, with no invented acceptance criteria. Each FR has an independent test naming its executable check (test file or probe group).
+- **plan.md:** the D1 route tree, the data flow `JSON → convert-content → .source.ts → defineProject(+site registry) → PROJECTS → cardModel / pages`, the hydration sequence diagrams (hero: SSR poster → load → idle → chunk → first frame → crossfade; project: SSR poster → hydrate → viewer → first frame → swap), the test harness (vitest units in `apps/web/test`, the `tools/perf` site probe and site axe with their unit tests, CI wiring), seals, and the evidence map per AC.
+- **tasks.md:** one integration seam + one executable check per task, sized for Flash. Every task brief lists the forbidden paths (D13). Visual tasks attach mobile + desktop screenshots in light + dark. Perf tasks attach a Lighthouse summary + weight. Each task ends with WHAT MURPHY SHOULD TEST/VALIDATE + WHAT THE AGENT NEEDS FROM MURPHY (numbered, with defaults).
+- **Styling rules for executors:** Tailwind utilities on palette roles (`bg-bg`, `text-fg`, `border-line`, `bg-surface`, `text-muted`, `tech-*`). No colour literals (`no-color-literals.test.ts`) and no motion literals (`no-motion-literals.test.ts`). Transitions only via `--motion-*` variables. Blueprint grid backgrounds reuse the existing `GRID_STYLE` pattern. Mono uppercase micro-labels as in S1/S7.
+
+---
+
+## 4. Implementation checklist (task sketch, refined in Stage 2)
+
+| # | Seam | Executable check | AC |
+|---|---|---|---|
+| T1 | S8 seal (paths, manifest, generator, test block) + whole-package diff log | `pnpm --filter xploder test frozen-surface` green; diff log empty | AC7 |
+| T2 | `scripts/convert-content.ts` + generated `.source.ts` + `content-fidelity.test.ts` | `pnpm --filter web test content-fidelity` green; `content:convert --check` exit 0 | AC1 |
+| T3 | Site registry + `projects/index.ts` (`getProject`, `PROJECT_SLUGS`, `cardModel`) + `content-model.test.ts` + `prod-imports.test.ts` | web tests green (chip rank, cap of 4, no `xploder/fixtures` in prod) | AC1 |
+| T4 | `ThemeToggle` box fix (D10) + `site-probe` skeleton with the `cls` group | `pnpm site:probe --serve out-fixtures --group cls` → `/dev/engine` CLS 0 (desktop+mobile); before/after log | AC6 |
+| T5 | `(site)` layout: skip link, `SiteNav`, `SiteFooter`, `content/site.ts`, root metadata template, `not-found.tsx`; move `page.tsx` into `(site)` | build green; screenshots light/dark × mobile/desktop; `/dev/engine` DOM unchanged (snapshot) | D7 D12 |
+| T6 | `TeardownPoster` + `ProjectOutline` + `ProjectCard` + `TechChipList` (server) + unit tests | web tests green; build green | AC1 AC3 |
+| T7 | Landing: hero shell (poster, caption, CTA) + cards + about | screenshots; `site:probe --group cls,nojs` on `/` | AC1 AC2 AC3 |
+| T8 | `HeroLive` gate + `HeroStage` (idle import, first-frame crossfade, reduced-motion/saveData skip) + motion matrix test | `site:probe --group hero,cls,reduced-motion` on `/` | AC2 |
+| T9 | `/projects` list + `aria-current` | `site:probe --group drill,nojs` partial; screenshots | AC3 |
+| T10 | `/projects/[slug]`: static params, `dynamicParams=false`, `generateMetadata`, header, workbench shell, `<noscript>` | build output lists only the known slug; `site:probe --group routes,nojs` | AC3 D7 |
+| T11 | Workbench client: viewer + panels + toolbar + tour + case study + no-WebGL fallback | `site:probe --group cls,draws` on the project route; screenshots (exploded, case study, tour) | AC1 AC3 AC7 |
+| T12 | `site-axe` module + CLI + unit tests (recorded violation → exit 6) | `tools/perf` tests green; `pnpm a11y:axe:site --serve apps/web/out` exit 0 | AC4 |
+| T13 | `site-probe` remaining groups (`drill`, `hero`, `routes`, `draws`, `reduced-motion`, `nojs`) + unit tests | `tools/perf` tests green; full `site:probe --serve apps/web/out` exit 0 | AC2–AC7 |
+| T14 | Lighthouse `--categories` + `A11Y_MIN_SCORE` + tests; `perf.yml` wiring (Lighthouse ×2, weight ×2, new a11y job, unknown-slug assert) | `tools/perf` tests green; draft PR: all jobs green | AC5 AC7 |
+| T15 | Regression proof: broken app-only commit → new job red → revert → green | two run URLs | AC4 AC7 |
+| T16 | Evidence run (§7 map) + résumé file-exists check + frozen diff logs | all files committed per EVIDENCE.md naming | AC1–AC7 |
+| T17 | AC self-check table + PR ready for Murphy's validation | `evidence/AC-selfcheck.md`; CI green | AC1–AC7 |
+
+**Order:** T1 → T2 → T3 → T4 → T5 → T6 → (T7 → T8) ∥ T9 → T10 → T11 → (T12 ∥ T13) → T14 → T15 → T16 → T17.
+
+**Phase groups (Stage 3 STOP points):**
+- **G1 foundations:** T1–T4 → STOP (seal, content fidelity, CLS carry-over fixed with before/after)
+- **G2 site UI:** T5–T11 → STOP (Murphy click-through on `pnpm dev` in Orca's browser: nav, hero hydration, cards, `/projects`, the project route, both themes, reduced motion)
+- **G3 gates:** T12–T15 → STOP (draft PR, new CI job, regression proof)
+- **G4 evidence + ship:** T16–T17 → STOP + AC self-check
+
+---
+
+## 5. Risks
+
+| Risk | Mitigation |
+|---|---|
+| CI runners are slower than this Mac (benchmarkIndex ≈ 4200 locally), so TBT is higher on the hero/project route | hero 3D is idle-deferred; the project-route baseline has ~5 points of headroom; Lighthouse is measured on the Vercel preview (the real gate); escalate with the gate JSON if it fails, never retune the budget |
+| The poster's isometric projection differs slightly from the live camera, so the crossfade "jumps" | both are exploded and centred; the crossfade masks the difference; Murphy judges it at G2. Fallback: an instant swap (Q7) |
+| The hero's live layer flashes blank (transparent canvas before the first frame) | reveal only on the first `onStats` (a frame has rendered); the poster stays until then |
+| Next 16 static export + route group + `not-found.tsx` + `dynamicParams=false` behave differently than expected | T5/T10 checks inspect `apps/web/out` (`404.html`, only the known slug); `serve.ts` and Vercel both serve `404.html` with 404; the fixture-exclusion job asserts it on the preview |
+| A client-side navigation home → project → back leaves a WebGL context alive | R3F disposes on unmount; the `draws` + drill groups run across the back navigation; one context per page is asserted (`canvas` count) |
+| The nav does not fit one line at 360 px | the text-link group scrolls horizontally; a screenshot at 360 px; a probe assertion that the nav height equals one row |
+| Executors import `xploder/fixtures` or deep `xploder/src` in production | `prod-imports.test.ts` + the existing deep-import rules; listed as forbidden in every task brief |
+| The generated `.source.ts` is formatted differently from Prettier, so `format:check` goes red | the converter runs Prettier's API on its output; `--check` compares formatted bytes |
+| The S8 seal misses a file S8 changed | the seal paths come from `git diff --name-only 5b22987 99a94f2 -- packages/xploder/src packages/xploder/test`, a reproducible list in the generator comment |
+| Mercure/foreign commits on the brief | `git log` check on `.specify/slices/slice-10-site-shell.md` + `KICKOFF-S10.md` before each gate |
+| `public/resume.pdf` is still missing at the final gate | `TODO(résumé)` marker + a validation file-exists check listed for Murphy; the nav link renders regardless |
+
+---
+
+## 6. Findings and open questions (each with a recommended default)
+
+**Findings (facts, no decision needed):**
+- **F1:** There is no S8 seal, so "frozen-surface checks S2–S8 remain empty" needs one → T1 (D13).
+- **F2:** The S10 carry-over is caused by `ThemeToggle`'s placeholder box (`evidence/RFC-log-baseline.txt` §2). The current Lighthouse gate would **fail** the engine route on it (CLS 4.3e-5, exit 6). It is fixable at the source → D10.
+- **F3:** The Lighthouse gate runs only the performance category. AC5's a11y ≥ 95 is ungated today → D9.
+- **F4:** The engine has no ambient/idle-motion mode, and adding timed motion would need a new motion token (S2 frozen surface) → Q2.
+- **F5:** An eager engine route already scores perf 0.99–1.0 on simulated mobile (local) → AC5 is feasible. CLS is the only failing budget, and D10 fixes it.
+
+**Open questions (the default is applied unless Murphy says otherwise):**
+
+1. **Q1 — Hero interactivity.** **Default: `inert` ambient view** (no tab stops, no pointer; the CTA leads into the full teardown). Alternative: a fully interactive hero (hover highlight, arrows rotate, S8 navigator tab stops between the nav and the cards).
+2. **Q2 — Meaning of "ambient idle".** **Default: the live view at rest** (on-demand render, theme-live, no timed motion). Alternative: slow periodic rotation. That needs a new cadence token in `xploder/motion` (S2 frozen surface), so it would be a brief revision.
+3. **Q3 — Initial state on the hero and the project route.** **Default: `exploded` poster + live view starting exploded** (no explosion plays on load; Implode/Explode stays on the project toolbar). Alternative: imploded at rest with an Explode button. The poster would then show the imploded stack (less informative).
+4. **Q4 — Card chip rule.** **Default: the top-4 registry techs by component count** → Kotlin · Android · Kotlin Coroutines · Jetpack Compose. Alternative: `meta.tags[0..4]` → Android · WebSocket · Compose · Room.
+5. **Q5 — Site identity copy** (nav name, title, role line, about text). **Default: name "Murphy", role line "Android engineer"**, and a 2–3 sentence about text drafted by the orchestrator from the project's role/summary, all in `content/site.ts` for Murphy to edit at G2.
+6. **Q6 — LinkedIn URL** (the brief requires the link, but no URL is given). **Default: `content/site.ts` `linkedin` with a `TODO(linkedin)` marker** (same treatment as the résumé), plus a validation check that it is set before the final gate.
+7. **Q7 — Hero/project poster → live transition.** **Default: a crossfade on the existing `panelEnter` duration/easing variables** (no new token; skipped entirely under reduced motion, because the live view never mounts). Alternative: an instant swap on the first frame.
+8. **Q8 — AC1 "entirely from the converted content module".** **Default: every project-derived string and structure on both routes comes from the module.** Site chrome (name, about, contact, nav labels) comes from `content/site.ts`. The no-hand-copied-content test guards the boundary.
+9. **Q9 — Project-route readable content.** **Default: S8 mirror.** `ProjectOutline` appears only under `<noscript>` and as the no-WebGL fallback. With JS + WebGL, the case-study panel and the S8 navigator carry it. Alternative: an always-visible outline below the workbench (duplicates the panel text).
+10. **Q10 — CI shape.** **Default: a new job `a11y: axe (production routes)`.** The existing fixture-export job is left byte-identical. If branch protection lists required checks, Murphy adds the new job there.
+11. **Q11 — Lighthouse a11y gating.** **Default: an opt-in `--categories performance,accessibility` flag + `A11Y_MIN_SCORE 0.95`.** CI passes it for both routes, and the S3 default invocation is unchanged.
+12. **Q12 — Project toolbar scope.** **Default:** explode/implode · rotate · zoom · case study · tour (flow selector, play/pause, step, stop). The **layer-focus row is omitted** (not in the brief). Alternative: include it as in the playground.
+13. **Q13 — Thumbnails on `/projects`.** **Default: a small static poster thumbnail per card on `/projects` only** (home already shows the hero poster).
+
+---
+
+## 7. Evidence map (Stage 3 end-contract)
+
+| AC | Artifacts (in `.specify/features/site-shell/evidence/`) |
+|---|---|
+| AC1 | `T002-log-content-fidelity.txt` (vitest output + `--check`) · `T003-log-content-model.txt` · home/project screenshots |
+| AC2 | `T008-log-site-probe-hero.txt` (FCP vs reveal timestamps, idle state) · Lighthouse filmstrip frames · `T008-log-cls-home.json` · reduced-motion screenshots + `getAnimations` log |
+| AC3 | `T016-screenshot-nojs-{home,project}-{mobile,desktop}.png` + DOM dumps · no-WebGL screenshot · `routes` log (404s, card hrefs, 1-click path) |
+| AC4 | `T016-axe-{route}-{light,dark}-{mobile,desktop}.json` + summary · `T016-log-site-probe-drill.txt` · reduced-motion matrix log |
+| AC5 | `T016-lighthouse-summary-{home,project}.json` (median of 3, perf + a11y) · `T016-weight-{home,project}.json` |
+| AC6 | `T004-log-cls-carryover.txt` (before 0.000637/0.000043 → after 0) · fixture-exclusion CI log excerpt (preview + production) |
+| AC7 | CI run URLs (all jobs) · `T015-ci-regression-proof.txt` · `T016-log-frozen-diff.txt` (S2–S8 manifests + whole-package diff) · `T016-log-draws.txt` (2 draw calls on hero + project route) · dropped-frames `fps.json` |
+
+---
+
+## 8. Stage-1 hand-off
+
+**WHAT MURPHY SHOULD TEST/VALIDATE**
+1. The hero strategy (D5): poster first, idle-deferred live layer, `inert` ambient view, crossfade. Default: approve as written.
+2. The route tree and recruiter path (D1, D8): `/` → nav "Projects" → `/projects` → card → `/projects/websocket-inspector`. Default: approve.
+3. The CLS carry-over root cause and fix (`evidence/RFC-log-baseline.txt`, D10). Default: approve the source fix.
+4. Open questions Q1–Q13 (§6). Default: every default applies.
+
+**WHAT THE AGENT NEEDS FROM MURPHY**
+1. Display name, title and role line for the nav/header/metadata (Q5). Default: "Murphy" / "Android engineer"; editable at G2.
+2. LinkedIn profile URL (Q6). Default: a `TODO(linkedin)` marker until supplied, checked at final validation.
+3. `apps/web/public/resume.pdf`, before final validation (brief). Default: `TODO(résumé)` marker + a file-exists check in the validation list.
+4. If branch protection uses required checks: add `a11y: axe (production routes)` after G3 (Q10). Default: the job runs either way; no protection change by the agent.
+5. Gate 1 verdict: `approved` (with any Q overrides) or feedback. Default: none; the orchestrator waits.
+
+---
+
+## 9. Gate log
+
+_(empty: Gate 1 pending)_
