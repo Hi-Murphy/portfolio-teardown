@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "pnpm og:build && next dev",
+    "build": "pnpm og:build && next build",
+    "og:build": "tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts",
     "content:convert": "node scripts/convert-content.ts",
     "seo:expect": "SEO_EXPECT_OUT=out-seo-expect.json vitest run test/seo-expect.write.test.ts",
     "test": "vitest run",
@@ -31,6 +32,7 @@
     "postcss": "^8.5.31",
     "schema-dts": "2.1.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^5.0.5"
   }

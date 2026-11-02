@@ -329,4 +329,40 @@
   1. "merge" (the orchestrator merges only on Murphy's word).
   2. After merge: add `seo: meta + og` to the required checks; and in S16, set `SITE_URL=https://hi-murphy.me` on Vercel.
 
+### T011a [US4] AC6 fix: OG PNGs + apple-touch-icon generated outside the Next module graph (RFC §9 R3)
+
+- **Why:** T011 found +1 251 B client JS (`evidence/T011-log-bundle-finding.txt`). Any `next/og` import inside the Next module graph makes Turbopack add its async-module helper to the shared browser runtime (+1 225 B on every route), and the `/og/[...card]` route adds +26 B to `_ssgManifest.js`. Bisect: removing `next/og` from the graph restores the base runtime chunk byte-for-byte.
+- **Seam:** build pipeline ↔ `out/og/*.png`, `out/apple-touch-icon.png` (same URLs, same bytes; the renderer is unchanged).
+- **Files:**
+  - DELETE `apps/web/app/og/[...card]/route.ts` and `apps/web/app/apple-touch-icon.png/route.ts` (`app/icon.svg/route.ts` stays: it does not import `next/og`).
+  - NEW `apps/web/scripts/build-og.ts`: removes `public/og/` and `public/apple-touch-icon.png`, then for every `INDEXABLE_ROUTES` entry writes `renderPng(cardElement(cardModel(route)), { width: 1200, height: 630 })` to `public${route.ogImagePath}`, and `renderPng(appleIconElement(), { width: 180, height: 180 })` to `public/apple-touch-icon.png`. It prints one line per file: path, bytes, sha256. It exits non-zero on any error. It runs with cwd = `apps/web` (`seo/og/fonts.ts` resolves fonts from `process.cwd()`). The 1200/630/180 sizes move here from the deleted routes (named consts).
+  - NEW `apps/web/scripts/tsconfig.og.json`: `{ "extends": "../tsconfig.json", "compilerOptions": { "jsx": "react-jsx" } }`. The app tsconfig has `"jsx": "preserve"`, which `tsx` would leave untransformed.
+  - `apps/web/package.json`: devDep `tsx` exact (`pnpm add -D --save-exact tsx --filter web`); scripts `"og:build": "tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts"`, `"build": "pnpm og:build && next build"`, `"dev": "pnpm og:build && next dev"`.
+  - `.gitignore`: `apps/web/public/og/` and `apps/web/public/apple-touch-icon.png`.
+  - Tests: no test may import the deleted routes. Keep `seo-render`/`seo-card`/`seo-icon` as they are (they call `renderPng` directly). Update `tools/perf` or app tests only if they reference the deleted route files.
+- **Check:**
+  ```sh
+  set -euo pipefail; mkdir -p /tmp/s11-checks .specify/features/og-seo/evidence
+  export SITE_URL=https://hi-murphy.me
+  rm -rf apps/web/.next apps/web/out apps/web/public/og apps/web/public/apple-touch-icon.png; pnpm build 2>&1 | tail -30 | tee /tmp/s11-checks/t011a.txt
+  ls apps/web/out/_next/static/chunks/turbopack-* | tee -a /tmp/s11-checks/t011a.txt   # expect the base runtime turbopack-3-ry682tkyiqk.js
+  ! grep -l "turbopack queues" apps/web/out/_next/static/chunks/*.js && echo NO-ASYNC-RUNTIME | tee -a /tmp/s11-checks/t011a.txt
+  cat apps/web/out/_next/static/*/_ssgManifest.js | tee -a /tmp/s11-checks/t011a.txt; echo | tee -a /tmp/s11-checks/t011a.txt
+  pnpm bundle:manifest --out-dir apps/web/out --write /tmp/s11-checks/bundle-t011a.json
+  set +e; pnpm bundle:manifest --diff .specify/features/og-seo/evidence/T001-log-bundle-before.json /tmp/s11-checks/bundle-t011a.json 2>&1 | tee -a /tmp/s11-checks/t011a.txt; set -e
+  (cd apps/web/out && shasum -a 256 og/home.png og/projects.png og/projects/websocket-inspector.png apple-touch-icon.png) | tee -a /tmp/s11-checks/t011a.txt
+  # card bytes must be unchanged vs T010 CI: 56ae1db9…, 53c61f75…, 74e0a609…
+  pnpm --filter web seo:expect
+  pnpm seo:probe --out-dir apps/web/out --site-url "$SITE_URL" --expect apps/web/out-seo-expect.json --out /tmp/s11-checks/seo-t011a | tail -3 | tee -a /tmp/s11-checks/t011a.txt
+  pnpm --filter web exec vitest run test/fixture-exclusion.test.ts 2>&1 | tail -3 | tee -a /tmp/s11-checks/t011a.txt
+  bash .specify/features/og-seo/guards.sh | tee -a /tmp/s11-checks/t011a.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T011a-OK | tee -a /tmp/s11-checks/t011a.txt
+  ```
+  The bundle diff may still show one renamed same-size chunk (a module-id renumber, see the finding). Record the diff output as is. Do not change `tools/perf/src/bundle-manifest.ts`.
+- **Evidence:** `evidence/T011a-log-og-prebuild.txt`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Nothing hands-on (default: the log; same URLs, same card bytes, base runtime restored).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (default: RFC §9 R3).
+
 **G4 STOP:** end-contract per KICKOFF-S11 Stage 3; Murphy signals "S11 done".
