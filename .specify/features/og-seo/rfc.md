@@ -1,6 +1,6 @@
 # RFC — S11 OG Cards & SEO
 
-**slice:** S11-og-seo · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11-og-seo.md` (frozen brief v1) · **branch:** `task/s11-og-seo` · **base:** `3ba4c3b` · **date:** 2026-11-02
+**slice:** S11-og-seo · **status:** APPROVED at Gate 1 (2026-11-02): all §6 defaults accepted (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11-og-seo.md` (frozen brief v1) · **branch:** `task/s11-og-seo` · **base:** `3ba4c3b` · **date:** 2026-11-02
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§6).
 
@@ -319,4 +319,8 @@ Branch protection: the agent proposes `seo: meta + og` for the required set, and
 
 ## 9. Gate log
 
-_(empty: awaiting Gate 1)_
+1. **Gate 1 (Murphy, 2026-11-02, 5h 84%):** "approved all defaults". Every §6 default applies (Q1–Q15). Answers to §8:
+   1. **Q1:** the self-URL / content-traced reading of AC4 "every URL" and AC5 "any other origin" is **confirmed** (D9 step 6, D7). No brief revision.
+   2. **Q10:** one validator.schema.org submission of the public JSON-LD is allowed.
+   3. **Q14:** the agent proposes `seo: meta + og` for the required set; Murphy changes branch protection.
+   4. **Usage:** 5h 84% at Gate 1 (the usage file is stale, F8). Stage 3 pacing: no new task starts at ≥ 85% (tasks.md).
