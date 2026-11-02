@@ -1,0 +1,50 @@
+$ node tools/perf/src/cli/bundle-manifest.ts --diff .specify/features/og-seo/evidence/T001-log-bundle-before.json /tmp/s11-checks/bundle-after.json
+TOTAL-JS 1771865 -> 1771865 (0)
+ADDED-JS _next/static/chunks/1fzq_fvhhdbjt.js bytes=13822
+REMOVED-JS _next/static/chunks/2tvgabxz8mzxw.js bytes=13822
+ADDED-SCRIPT / /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT / /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /404 /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /404 /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /_not-found /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /_not-found /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /projects /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /projects /_next/static/chunks/2tvgabxz8mzxw.js
+ADDED-SCRIPT /projects/websocket-inspector /_next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED-SCRIPT /projects/websocket-inspector /_next/static/chunks/2tvgabxz8mzxw.js
+DIFF-FAIL
+[ELIFECYCLE] Command failed with exit code 6.
+
+BUNDLE-DIFF-EXIT=6
+NO-NEW-FONTS
+
+MODULE-LEVEL BREAKDOWN
+Pair: REMOVED _next/static/chunks/2tvgabxz8mzxw.js -> ADDED _next/static/chunks/1fzq_fvhhdbjt.js
+Sizes: 13822 == 13822 bytes; base sha256 6d460963200d8b4d4e0ff8a786a114449a73f2054b51432ebe12b8f7fc73752a; after sha256 f576f1745359986d59055470a442263c9ee7cdaaf50283d29c273632d47d0997
+Different offsets (1-based): 6209, 6211, 6212, 6213, 13364, 13366, 13367, 13368
+Substantive change: module id 28389 -> 58523 at both sites; no other bytes differ.
+
+offset 6209: base=0x32 after=0x35
+  base : e.r(82688),s=e.r(53678),f=e.r(28389),c=e.r(27275),p=e.r(5421
+  after: e.r(82688),s=e.r(53678),f=e.r(58523),c=e.r(27275),p=e.r(5421
+offset 6211: base=0x33 after=0x35
+  base : r(82688),s=e.r(53678),f=e.r(28389),c=e.r(27275),p=e.r(54215)
+  after: r(82688),s=e.r(53678),f=e.r(58523),c=e.r(27275),p=e.r(54215)
+offset 6212: base=0x38 after=0x32
+  base : (82688),s=e.r(53678),f=e.r(28389),c=e.r(27275),p=e.r(54215);
+  after: (82688),s=e.r(53678),f=e.r(58523),c=e.r(27275),p=e.r(54215);
+offset 6213: base=0x39 after=0x33
+  base : 82688),s=e.r(53678),f=e.r(28389),c=e.r(27275),p=e.r(54215);e
+  after: 82688),s=e.r(53678),f=e.r(58523),c=e.r(27275),p=e.r(54215);e
+offset 13364: base=0x32 after=0x35
+  base : meta",{name:"«nxt-icon»"})},28389,(e,t,r)=>{function n(e,t
+  after: meta",{name:"«nxt-icon»"})},58523,(e,t,r)=>{function n(e,t
+offset 13366: base=0x33 after=0x35
+  base : ta",{name:"«nxt-icon»"})},28389,(e,t,r)=>{function n(e,t={
+  after: ta",{name:"«nxt-icon»"})},58523,(e,t,r)=>{function n(e,t={
+offset 13367: base=0x38 after=0x32
+  base : a",{name:"«nxt-icon»"})},28389,(e,t,r)=>{function n(e,t={}
+  after: a",{name:"«nxt-icon»"})},58523,(e,t,r)=>{function n(e,t={}
+offset 13368: base=0x39 after=0x33
+  base : ",{name:"«nxt-icon»"})},28389,(e,t,r)=>{function n(e,t={})
+  after: ",{name:"«nxt-icon»"})},58523,(e,t,r)=>{function n(e,t={})

@@ -1,0 +1,165 @@
+{
+  "kind": "weight",
+  "version": 1,
+  "url": "https://portfolio-teardown.vercel.app/projects/websocket-inspector",
+  "budgetBytes": 3000000,
+  "profiles": {
+    "mobile": {
+      "totalBytes": 196458,
+      "requests": 20,
+      "byType": {
+        "document": 14517,
+        "stylesheet": 6175,
+        "script": 149531,
+        "fetch": 19656,
+        "other": 6579
+      },
+      "byOrigin": {
+        "first": 196458,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/1cfbq_yhitequ.js",
+          "type": "script",
+          "bytes": 73736,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "type": "script",
+          "bytes": 46641,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/projects/websocket-inspector",
+          "type": "document",
+          "bytes": 14517,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0rm1aed8pqyhm.js",
+          "type": "script",
+          "bytes": 9352,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/__next.!KHNpdGUp.__PAGE__.txt?_rsc=qKisLfSG0fR0gM7B",
+          "type": "fetch",
+          "bytes": 7544,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/favicon.ico",
+          "type": "other",
+          "bytes": 6579,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0y9f0opdkx4v9.css",
+          "type": "stylesheet",
+          "bytes": 6175,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/2gjzybnkjf2k5.js",
+          "type": "script",
+          "bytes": 4521,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "type": "script",
+          "bytes": 4353,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/__next._index.txt?_rsc=zN5PhndsjWR15-Mj",
+          "type": "fetch",
+          "bytes": 4219,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    },
+    "desktop": {
+      "totalBytes": 196466,
+      "requests": 20,
+      "byType": {
+        "document": 14517,
+        "stylesheet": 6175,
+        "script": 149533,
+        "fetch": 19661,
+        "other": 6580
+      },
+      "byOrigin": {
+        "first": 196466,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/1cfbq_yhitequ.js",
+          "type": "script",
+          "bytes": 73737,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "type": "script",
+          "bytes": 46663,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/projects/websocket-inspector",
+          "type": "document",
+          "bytes": 14517,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0rm1aed8pqyhm.js",
+          "type": "script",
+          "bytes": 9352,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/__next.!KHNpdGUp.__PAGE__.txt?_rsc=qKisLfSG0fR0gM7B",
+          "type": "fetch",
+          "bytes": 7545,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/favicon.ico",
+          "type": "other",
+          "bytes": 6580,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0y9f0opdkx4v9.css",
+          "type": "stylesheet",
+          "bytes": 6175,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/2gjzybnkjf2k5.js",
+          "type": "script",
+          "bytes": 4521,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "type": "script",
+          "bytes": 4325,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/__next._index.txt?_rsc=zN5PhndsjWR15-Mj",
+          "type": "fetch",
+          "bytes": 4219,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    }
+  },
+  "pass": true
+}
