@@ -1,6 +1,14 @@
 import { describe, expect, test } from 'vitest';
 
-import { evaluateCls, type ClsEntry, type ClsSource } from '../src/site-probe.ts';
+import { evaluateTabWalk, type FocusStep } from '../src/a11y-probe.ts';
+import {
+  evaluateCls,
+  evaluateDrawFrames,
+  evaluateFallbackHtml,
+  heroContainsPoster,
+  type ClsEntry,
+  type ClsSource,
+} from '../src/site-probe.ts';
 
 function source(text: string): ClsSource {
   return {
@@ -40,5 +48,125 @@ describe('evaluateCls', () => {
 
     expect(verdict.pass).toBe(false);
     expect(verdict.total).toBeCloseTo(0.000043, 12);
+  });
+});
+
+function tab(key: string): FocusStep {
+  return { key, role: 'link', name: key, panel: '' };
+}
+
+describe('evaluateTabWalk', () => {
+  const forward = [
+    tab('skip'),
+    tab('nav:home'),
+    tab('nav:projects'),
+    tab('nav:about'),
+    tab('nav:contact'),
+    tab('nav:github'),
+    tab('nav:linkedin'),
+    tab('nav:theme'),
+    tab('hero:primary'),
+    tab('hero:secondary'),
+    tab('card:websocket-inspector'),
+    tab('footer:home'),
+    tab('footer:email'),
+    tab('footer:github'),
+    tab('footer:linkedin'),
+    tab('footer:top'),
+  ];
+
+  test('accepts a complete forward walk whose Shift+Tab walk reverses it', () => {
+    const backward = [...forward].reverse().slice(1);
+    const verdict = evaluateTabWalk(
+      forward,
+      backward,
+      forward.map((step) => step.key),
+    );
+
+    expect(verdict.pass).toBe(true);
+    expect(verdict.reachedLast).toBe(true);
+    expect(verdict.trap).toBe(false);
+    expect(verdict.forwardMatches).toBe(true);
+    expect(verdict.backwardMatches).toBe(true);
+  });
+
+  test('reports a focus cycle that repeats before the last target', () => {
+    const expected = ['skip', 'nav:home', 'nav:projects', 'footer:top'];
+    const recorded = [tab('skip'), tab('nav:home'), tab('nav:home'), tab('nav:projects')];
+    const verdict = evaluateTabWalk(recorded, [], expected);
+
+    expect(verdict.pass).toBe(false);
+    expect(verdict.trap).toBe(true);
+    expect(verdict.repeated).toBe('nav:home');
+  });
+});
+
+describe('evaluateDrawFrames', () => {
+  test('takes the mode over rendered frames and ignores idle zero-draw frames', () => {
+    const frames = [
+      ...Array.from({ length: 30 }, () => ({ draws: 2 })),
+      ...Array.from({ length: 6 }, () => ({ draws: 0 })),
+    ];
+    const verdict = evaluateDrawFrames(frames);
+
+    expect(verdict.pass).toBe(true);
+    expect(verdict.mode).toBe(2);
+    expect(verdict.renderedFrames).toBe(30);
+    expect(verdict.totalFrames).toBe(36);
+    expect(verdict.counts).toEqual({ '2': 30 });
+  });
+
+  test('fails when fewer than 30 frames rendered', () => {
+    const verdict = evaluateDrawFrames(Array.from({ length: 29 }, () => ({ draws: 2 })));
+
+    expect(verdict.pass).toBe(false);
+    expect(verdict.renderedFrames).toBe(29);
+  });
+
+  test('fails when the rendered-frame mode is not two', () => {
+    const verdict = evaluateDrawFrames([
+      ...Array.from({ length: 30 }, () => ({ draws: 3 })),
+      ...Array.from({ length: 4 }, () => ({ draws: 2 })),
+    ]);
+
+    expect(verdict.pass).toBe(false);
+    expect(verdict.mode).toBe(3);
+  });
+});
+
+describe('HTML fallback assertions', () => {
+  const poster = '<svg data-site-poster="" viewBox="0 0 1 1"></svg>';
+  const cards =
+    '<article data-site-card="websocket-inspector"><a href="/project">Open</a></article>';
+  const outline = '<section data-site-outline=""><h2>Architecture</h2></section>';
+
+  test('finds the poster and card list in home HTML bytes', () => {
+    const verdict = evaluateFallbackHtml(
+      `<section data-site-hero="">${poster}</section>${cards}`,
+      'cards',
+    );
+
+    expect(verdict).toEqual({ pass: true, poster: true, list: true, listKind: 'cards' });
+  });
+
+  test('finds the poster and outline in project HTML bytes', () => {
+    const verdict = evaluateFallbackHtml(`<main>${poster}${outline}</main>`, 'outline');
+
+    expect(verdict).toEqual({ pass: true, poster: true, list: true, listKind: 'outline' });
+  });
+
+  test('rejects a missing poster or the wrong list kind', () => {
+    expect(evaluateFallbackHtml(outline, 'outline')).toEqual({
+      pass: false,
+      poster: false,
+      list: true,
+      listKind: 'outline',
+    });
+    expect(evaluateFallbackHtml(poster, 'cards').pass).toBe(false);
+  });
+
+  test('requires the poster to be inside the hero section', () => {
+    expect(heroContainsPoster(`<section data-site-hero="">${poster}</section>`)).toBe(true);
+    expect(heroContainsPoster(`<section data-site-hero=""></section>${poster}`)).toBe(false);
   });
 });
