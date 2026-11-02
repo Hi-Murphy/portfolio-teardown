@@ -38,7 +38,7 @@
 | T012d | ☑ (poster hit-through fixed: hover leaders, wheel scroll at max zoom, slab clicks; Exit tour; route header first → last + steps; explode-before-step; 50 smoke asserts) | 1 (Flash) + orchestrator review (poster hides after the fade) | evidence/T012d-* | 907c2d6 |
 | T012e | ☑ (S6 tour trail; 44 smoke asserts; S6 re-sealed at f65b13c; guards exit non-zero) | 1 (Flash; 1st launch was a runner quoting bug, not an attempt) + ⚑ orchestrator re-seal | evidence/{T012e-*,Q16-revision-note.md} | cfef420 |
 | T012f | ☑ (portal targets resolved after commit, scoped + rAF retry: 10× soft-nav/back/forward + 5× reload pass on export and next dev; centred transport Δ 0 px; CLS 0) | 1 (Flash) | evidence/T012f-* | (merge) |
-| T012g | ☐ | | | |
+| T012g | ☑ (Layers \| Flows tabs, layer focus chips + parts list, icon-only primary, Exit tour removed, fixed card height; 115 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (solid glyphs, layer parts list) | evidence/T012g-* | (merge) |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
