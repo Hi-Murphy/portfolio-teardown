@@ -1,8 +1,8 @@
 import type { TechCategory } from 'xploder';
 import { TECH_CATEGORIES, XPLODER_VERSION } from 'xploder';
 
-import { motionTokens } from './motion';
-import { ThemeToggle } from './theme-toggle';
+import { motionTokens } from '../motion';
+import { ThemeToggle } from '../theme-toggle';
 
 const ROLE_SWATCHES = [
   { role: 'paper', className: 'bg-bg' },
