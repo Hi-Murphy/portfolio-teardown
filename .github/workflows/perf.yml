@@ -165,6 +165,36 @@ jobs:
           path: .evidence/ci/
           retention-days: 14
 
+  a11y-site:
+    name: 'a11y: axe (production routes)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - run: pnpm build
+      - run: pnpm a11y:axe:site --serve apps/web/out --out .evidence/ci/axe-site
+      - run: pnpm site:probe --serve apps/web/out --ci --out .evidence/ci/site-probe
+      - name: Upload site a11y evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: a11y-site
+          path: .evidence/ci/
+          retention-days: 14
+
   fixture-exclusion:
     name: 'perf: fixture exclusion'
     runs-on: ubuntu-latest
