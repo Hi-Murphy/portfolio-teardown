@@ -1,0 +1,61 @@
+
+ RUN  v5.0.5 /private/tmp/s11-wt/T005/apps/web
+
+ ✓ test/seo-card.test.ts > OG card model > / uses the D5 content fields 2ms
+ ✓ test/seo-card.test.ts > OG card model > / draws only layer slabs 1ms
+ ✓ test/seo-card.test.ts > OG card model > /projects uses the D5 content fields 0ms
+ ✓ test/seo-card.test.ts > OG card model > /projects draws only layer slabs 0ms
+ ✓ test/seo-card.test.ts > OG card model > /projects/websocket-inspector uses the D5 content fields 0ms
+ ✓ test/seo-card.test.ts > OG card model > /projects/websocket-inspector draws only layer slabs 0ms
+ ✓ test/seo-card.test.ts > OG card model > the project silhouette contains its five layer slabs 1ms
+ ✓ test/seo-card.test.ts > OG card element > / uses only light blueprint colours 1ms
+ ✓ test/seo-card.test.ts > OG card element > / uses fonts that cover every rendered glyph 1ms
+ ✓ test/seo-card.test.ts > OG card element > /projects uses only light blueprint colours 0ms
+ ✓ test/seo-card.test.ts > OG card element > /projects uses fonts that cover every rendered glyph 1ms
+ ✓ test/seo-card.test.ts > OG card element > /projects/websocket-inspector uses only light blueprint colours 0ms
+ ✓ test/seo-card.test.ts > OG card element > /projects/websocket-inspector uses fonts that cover every rendered glyph 1ms
+ ✓ test/seo-card.test.ts > OG card element > long titles and subtitles clamp at two lines and title-block rows cap at six plus overflow 0ms
+stdout | test/seo-render.test.ts > OG renderer > next/og renders deterministic 1200x630 PNG bytes
+renderer=next/og ImageResponse
+first=sha256:4806791ce0678b075b3924bf81d45b500769fabcf7355130cad3cbb771540472 bytes=27921
+second=sha256:4806791ce0678b075b3924bf81d45b500769fabcf7355130cad3cbb771540472 bytes=27921
+dimensions=1200x630
+negative=sha256:8eaf6f81d348f2928714da0d24b712b1f7b8f263aa2b4f235c175e68990c7f1b bytes=28041
+
+ ✓ test/seo-render.test.ts > OG renderer > next/og renders deterministic 1200x630 PNG bytes 80ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  22:18:06
+   Duration  189ms (tests 50%, import 29%, transform 19%, worker 2%)
+
+HASHES-IDENTICAL
+c45444d365866c61423309e88cfd1d5b58f00a25b18a1904cb43bae3f0b6a757  ./home.png
+7551ba371c8450296f94c08565e235556efdd61ea05fb6cf5831e719b5489d85  ./projects.png
+a9da369530844d5bba1adbf9c1e6fc145cc46c262acfde1a094817ddf74e1d36  ./projects/websocket-inspector.png
+./home.png 1200 x 630 74365
+./projects.png 1200 x 630 69620
+./projects/websocket-inspector.png 1200 x 630 80245
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PERF-CI-OK
+SEO-SERVER-ONLY-OK
+GITLEAKS-OK
+
+--- build-1 hash manifest ---
+c45444d365866c61423309e88cfd1d5b58f00a25b18a1904cb43bae3f0b6a757  ./home.png
+7551ba371c8450296f94c08565e235556efdd61ea05fb6cf5831e719b5489d85  ./projects.png
+a9da369530844d5bba1adbf9c1e6fc145cc46c262acfde1a094817ddf74e1d36  ./projects/websocket-inspector.png
+
+--- build-2 hash manifest ---
+c45444d365866c61423309e88cfd1d5b58f00a25b18a1904cb43bae3f0b6a757  ./home.png
+7551ba371c8450296f94c08565e235556efdd61ea05fb6cf5831e719b5489d85  ./projects.png
+a9da369530844d5bba1adbf9c1e6fc145cc46c262acfde1a094817ddf74e1d36  ./projects/websocket-inspector.png
