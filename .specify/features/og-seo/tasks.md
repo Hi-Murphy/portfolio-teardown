@@ -38,7 +38,8 @@
 | T008 | ☑ (icon.svg light+dark, apple 180×180 opaque; 4/4 tags on all 5 HTML routes) | 1 (Flash, sandbox off) + orchestrator fixes for 2 plan defects (seo-metadata expectation outside file list; grep -c on one-line HTML) | evidence/T008-{log-icons.txt,log-icon.svg,screenshot-apple-touch-icon.png} | 6427a64 |
 | T009 | ☑ (6 steps PASS on 3 routes; 9/9 on all 5 HTML files; build-1 = build-2; neg control exit 6; vocab = schema.org V30.1) | 1 (Flash, sandbox off) + orchestrator vocab verification vs live schema.org | evidence/T009-log-{seo-probe.txt,seo-probe.json,seo-probe.md,schema-vocab-verify.txt} | ba8e204 |
 | T010 | ☑ (PR #15: 11/11 checks green incl. seo: meta + og; red proof PR #16 exit 6 then closed; CI x64 card hashes = local arm64) | 1 (Flash, sandbox off) for the job; orchestrator: push, PRs, red proof, eslint scope fix | evidence/T010-{ci-run.txt,ci-regression-proof.txt} | 3c2ca4e |
-| T011 | ☐ | | | |
+| T011 | ☑ (bundle 0 B delta, 1 renumbered same-size chunk; LH 1.00/1.00 both routes, CLS 0; validator.schema.org 0/0; self-check table) | 1 (Flash, sandbox off) measurement ×2; orchestrator: bisect, validator, self-check | evidence/T011-* | MERGE |
+| T011a | ☑ (AC6 fix: OG + apple icon pre-build; runtime chunk base-identical; card bytes unchanged; allowBuilds esbuild: false) | 1 (Flash, sandbox off) + orchestrator (spec, pnpm allowBuilds fix) | evidence/T011a-log-og-prebuild.txt | 46729d6 |
 
 ---
 

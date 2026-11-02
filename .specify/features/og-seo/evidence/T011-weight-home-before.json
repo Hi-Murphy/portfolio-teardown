@@ -1,0 +1,165 @@
+{
+  "kind": "weight",
+  "version": 1,
+  "url": "https://portfolio-teardown.vercel.app/",
+  "budgetBytes": 3000000,
+  "profiles": {
+    "mobile": {
+      "totalBytes": 203602,
+      "requests": 23,
+      "byType": {
+        "document": 14179,
+        "stylesheet": 6127,
+        "script": 149496,
+        "other": 6700,
+        "fetch": 27100
+      },
+      "byOrigin": {
+        "first": 203602,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/1cfbq_yhitequ.js",
+          "type": "script",
+          "bytes": 73719,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "type": "script",
+          "bytes": 46635,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/",
+          "type": "document",
+          "bytes": 14179,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0rm1aed8pqyhm.js",
+          "type": "script",
+          "bytes": 9352,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/__next.!KHNpdGUp.__PAGE__.txt?_rsc=gzSU19M5behYtFJ2",
+          "type": "fetch",
+          "bytes": 7569,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=lXgVy4icVkuKRDeA",
+          "type": "fetch",
+          "bytes": 6954,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/favicon.ico",
+          "type": "other",
+          "bytes": 6700,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0y9f0opdkx4v9.css",
+          "type": "stylesheet",
+          "bytes": 6127,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/2gjzybnkjf2k5.js",
+          "type": "script",
+          "bytes": 4521,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "type": "script",
+          "bytes": 4325,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    },
+    "desktop": {
+      "totalBytes": 203599,
+      "requests": 23,
+      "byType": {
+        "document": 14181,
+        "stylesheet": 6175,
+        "script": 149441,
+        "other": 6700,
+        "fetch": 27102
+      },
+      "byOrigin": {
+        "first": 203599,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/1cfbq_yhitequ.js",
+          "type": "script",
+          "bytes": 73735,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "type": "script",
+          "bytes": 46634,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/",
+          "type": "document",
+          "bytes": 14181,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0rm1aed8pqyhm.js",
+          "type": "script",
+          "bytes": 9352,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/__next.!KHNpdGUp.__PAGE__.txt?_rsc=gzSU19M5behYtFJ2",
+          "type": "fetch",
+          "bytes": 7544,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=lXgVy4icVkuKRDeA",
+          "type": "fetch",
+          "bytes": 6954,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/favicon.ico",
+          "type": "other",
+          "bytes": 6700,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/0y9f0opdkx4v9.css",
+          "type": "stylesheet",
+          "bytes": 6175,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/2gjzybnkjf2k5.js",
+          "type": "script",
+          "bytes": 4521,
+          "thirdParty": false
+        },
+        {
+          "url": "https://portfolio-teardown.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "type": "script",
+          "bytes": 4324,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    }
+  },
+  "pass": true
+}

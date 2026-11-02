@@ -1,0 +1,83 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown.vercel.app/",
+  "finalUrl": "https://portfolio-teardown.vercel.app/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 927.025,
+      "cls": 0,
+      "tbtMs": 10.5,
+      "fcpMs": 927.025,
+      "siMs": 927.025,
+      "totalByteWeight": 204109,
+      "benchmarkIndex": 4208
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 923.324,
+      "cls": 0,
+      "tbtMs": 1.5,
+      "fcpMs": 923.324,
+      "siMs": 923.324,
+      "totalByteWeight": 203948,
+      "benchmarkIndex": 4253
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 921.2139999999999,
+      "cls": 0,
+      "tbtMs": 6,
+      "fcpMs": 921.2139999999999,
+      "siMs": 921.2139999999999,
+      "totalByteWeight": 204031,
+      "benchmarkIndex": 4276.5
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 923.324,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
