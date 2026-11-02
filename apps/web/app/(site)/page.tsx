@@ -1,99 +1,96 @@
-import type { TechCategory } from 'xploder';
-import { TECH_CATEGORIES, XPLODER_VERSION } from 'xploder';
+import Link from 'next/link';
 
-import { motionTokens } from '../motion';
-import { ThemeToggle } from '../theme-toggle';
+import { AboutStrip } from '../../components/about-strip';
+import { ProjectCard } from '../../components/project-card';
+import { TeardownPoster } from '../../components/teardown-poster';
+import { PROJECTS, cardModel } from '../../content/projects';
+import { SITE } from '../../content/site';
 
-const ROLE_SWATCHES = [
-  { role: 'paper', className: 'bg-bg' },
-  { role: 'surface', className: 'bg-surface' },
-  { role: 'grid', className: 'bg-grid' },
-  { role: 'line', className: 'bg-line' },
-  { role: 'line-muted', className: 'bg-line-muted' },
-  { role: 'ink', className: 'bg-fg' },
-  { role: 'label', className: 'bg-muted' },
-  { role: 'accent', className: 'bg-accent' },
-  { role: 'steel', className: 'bg-steel' },
-] as const;
-
-const TECH_SWATCH_CLASSES: Record<TechCategory, string> = {
-  language: 'bg-tech-language',
-  platform: 'bg-tech-platform',
-  framework: 'bg-tech-framework',
-  library: 'bg-tech-library',
-  storage: 'bg-tech-storage',
-  network: 'bg-tech-network',
-  tooling: 'bg-tech-tooling',
-  ai: 'bg-tech-ai',
-};
-
-const GRID_STYLE = {
-  backgroundImage:
-    'linear-gradient(to right, var(--color-grid) 1px, transparent 1px), linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px)',
-  backgroundSize: '32px 32px',
-};
+const PRIMARY_CTA_CLASS =
+  'inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-semibold text-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+const SECONDARY_CTA_CLASS =
+  'inline-flex min-h-11 items-center justify-center rounded-sm border border-line px-5 text-sm font-medium text-fg hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 export default function HomePage() {
+  const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;
+  const heroProject = projects[0];
+
   return (
-    <div className="relative isolate mx-auto flex min-h-dvh max-w-3xl flex-col overflow-hidden px-5 sm:px-8">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-70"
-        style={GRID_STYLE}
-      />
-      <header className="relative flex justify-end py-4">
-        <ThemeToggle />
-      </header>
-      <main className="relative flex flex-1 flex-col justify-center gap-10 py-12">
-        <div className="flex flex-col gap-3">
-          <h1 className="font-semibold tracking-tight text-[clamp(2rem,8vw,4rem)] leading-[1.05]">
-            Portfolio Teardown
+    <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+      <section
+        data-site-hero=""
+        className="grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12"
+      >
+        <div className="flex flex-col items-start gap-5">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted">
+            {SITE.hero.eyebrow}
+          </p>
+          <h1 className="max-w-[13ch] text-[clamp(2.5rem,8vw,5.5rem)] font-semibold leading-[0.98] tracking-tight text-fg">
+            {SITE.hero.headline}
           </h1>
-          <p className="text-muted text-[clamp(1rem,3.5vw,1.25rem)]">
-            coming online slice by slice
+          <p className="max-w-[58ch] text-base leading-relaxed text-muted sm:text-lg">
+            {SITE.hero.subline}
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href={SITE.hero.primaryCta.href} className={PRIMARY_CTA_CLASS}>
+              {SITE.hero.primaryCta.label}
+            </Link>
+            <Link href={SITE.hero.secondaryCta.href} className={SECONDARY_CTA_CLASS}>
+              {SITE.hero.secondaryCta.label}
+            </Link>
+          </div>
         </div>
-        <section
-          aria-labelledby="palette-heading"
-          className="rounded-sm border border-line/30 bg-surface p-4 sm:p-5"
-        >
-          <p
-            id="palette-heading"
-            className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted"
-          >
-            palette · blueprint v1
-          </p>
-          <div aria-hidden="true" className="mt-4 flex flex-wrap gap-2">
-            {ROLE_SWATCHES.map(({ role, className }) => (
+
+        {heroProject === undefined ? null : (
+          <figure aria-labelledby="hero-caption" className="flex min-w-0 flex-col gap-3">
+            <div className="relative aspect-[4/3] overflow-hidden rounded border border-line/30 bg-surface sm:aspect-[16/9]">
+              <TeardownPoster
+                project={heroProject}
+                state="exploded"
+                className="absolute inset-0 h-full w-full"
+              />
               <div
-                key={role}
-                className="flex items-center gap-2 rounded-sm border border-line/20 bg-bg px-2 py-1"
-              >
-                <span className={`h-4 w-4 rounded-[2px] border border-line/30 ${className}`} />
-                <span className="font-mono text-[0.625rem] text-muted">{role}</span>
-              </div>
+                data-site-live=""
+                data-site-live-state="idle"
+                className="absolute inset-0"
+                inert
+                aria-hidden="true"
+              />
+            </div>
+            <figcaption id="hero-caption" className="text-sm leading-relaxed text-muted">
+              {heroProject.meta.name}
+              {heroProject.meta.tagline === undefined ? null : ` — ${heroProject.meta.tagline}`}
+            </figcaption>
+          </figure>
+        )}
+      </section>
+
+      <section
+        id="projects"
+        aria-labelledby="projects-title"
+        className="border-t border-line/30 py-10 sm:py-14"
+      >
+        <h2 id="projects-title" className="text-2xl leading-tight text-fg">
+          {SITE.projects.title}
+        </h2>
+        {projects.length === 0 ? (
+          <p className="mt-5 text-sm leading-relaxed text-muted">{SITE.projects.emptyNote}</p>
+        ) : (
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {projects.map((project) => (
+              <ProjectCard key={project.meta.slug} model={cardModel(project)} variant="compact" />
             ))}
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {TECH_CATEGORIES.map((category) => (
-              <div
-                key={category}
-                className="flex items-center gap-2 rounded-sm border border-line/20 bg-bg px-2.5 py-1.5"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`h-2.5 w-2.5 rounded-full ${TECH_SWATCH_CLASSES[category]}`}
-                />
-                <span className="font-mono text-[0.6875rem] text-fg">{category}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-      <footer
-        className="relative py-6 text-sm text-muted"
-        data-motion-tokens={Object.keys(motionTokens).length}
-      >{`renderer: xploder v${XPLODER_VERSION}`}</footer>
+        )}
+      </section>
+
+      <div className="border-t border-line/30 py-10 sm:py-14">
+        <AboutStrip
+          title={SITE.about.title}
+          paragraphs={SITE.about.paragraphs}
+          skillsNote={SITE.about.skillsNote}
+        />
+      </div>
     </div>
   );
 }
