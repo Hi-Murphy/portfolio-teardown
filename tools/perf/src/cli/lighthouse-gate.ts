@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { parseCli, parseUrl } from '../args.ts';
 import { LIGHTHOUSE_RUNS } from '../budgets.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
-import { runLighthouse, summarizeLighthouse } from '../lighthouse.ts';
+import { parseCategories, runLighthouse, summarizeLighthouse } from '../lighthouse.ts';
 import { run } from '../log.ts';
 import { assertReachable } from '../reach.ts';
 import { writeLighthouseStepSummary } from '../summary-md.ts';
@@ -12,12 +12,14 @@ import { writeLighthouseStepSummary } from '../summary-md.ts';
 interface LighthouseGateArgs {
   values: {
     out?: string;
+    categories?: string;
     help?: boolean;
   };
   positionals: string[];
 }
 
-const usage = 'Usage: pnpm perf:lighthouse <url> [--out directory]';
+const usage =
+  'Usage: pnpm perf:lighthouse <url> [--out directory] [--categories performance,accessibility]';
 
 function exitCodeTable(): string {
   return Object.entries(EXIT)
@@ -38,6 +40,7 @@ export async function main(argv: string[]): Promise<number> {
   const { values, positionals } = parseCli<LighthouseGateArgs>(argv, {
     options: {
       out: { type: 'string' },
+      categories: { type: 'string' },
       help: { type: 'boolean' },
     },
     allowPositionals: true,
@@ -49,6 +52,7 @@ export async function main(argv: string[]): Promise<number> {
     return EXIT.OK;
   }
 
+  const categories = parseCategories(values.categories);
   const url = parseUrl(positionals[0]);
   await assertReachable(url);
 
@@ -57,14 +61,16 @@ export async function main(argv: string[]): Promise<number> {
 
   const lhrs = await runLighthouse(url, {
     runs: LIGHTHOUSE_RUNS,
-    categories: ['performance'],
+    categories,
   });
 
   for (const [index, lhr] of lhrs.entries()) {
     await writeFile(`${out}/lighthouse-run-${index}.json`, `${JSON.stringify(lhr, null, 2)}\n`);
   }
 
-  const summary = summarizeLighthouse(lhrs);
+  const summary = summarizeLighthouse(lhrs, {
+    accessibility: categories.includes('accessibility'),
+  });
   await writeFile(`${out}/lighthouse-summary.json`, `${JSON.stringify(summary, null, 2)}\n`);
   await writeLighthouseStepSummary(summary);
 

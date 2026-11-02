@@ -44,7 +44,7 @@
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
 | T014 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
-| T015 | ☐ ⏸ executor unavailable (DeepSeek 402 Insufficient Balance; no attempt counted; RFC §9.14) | — | — | — |
+| T015 | ☑ (opt-in --categories; A11Y_MIN_SCORE 0.95; S3 default unchanged; local perf 1 / a11y 1 on / and project, LCP ~0.9 s, CLS 0) | ⚑ orchestrator (Murphy "go"; tier 1 unavailable, DeepSeek 402) | evidence/T015-* | (this commit) |
 | T016 | ☐ ⚑ | | | |
 | T017 | ☐ ⚑ | | | |
 | T018 | ☐ | | | |

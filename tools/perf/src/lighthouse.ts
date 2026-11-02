@@ -1,6 +1,6 @@
 import lighthouse from 'lighthouse';
 
-import { CLS_MAX, LCP_MAX_MS, PERF_MIN_SCORE } from './budgets.ts';
+import { A11Y_MIN_SCORE, CLS_MAX, LCP_MAX_MS, PERF_MIN_SCORE } from './budgets.ts';
 import { freePort, launch } from './browser.ts';
 import { CliError, EXIT } from './exit-codes.ts';
 
@@ -50,7 +50,7 @@ export interface LighthouseRun {
 }
 
 export interface Assertion {
-  id: 'performance' | 'lcp' | 'cls';
+  id: 'performance' | 'lcp' | 'cls' | 'accessibility';
   threshold: string;
   actual: number | number[];
   scope: 'median' | 'every-run';
@@ -199,13 +199,16 @@ export function pickMedianRun(lhrs: LHR[]): number {
   return median.index;
 }
 
-export function assertLighthouse(summary: LighthouseSummary): Assertion[] {
+export function assertLighthouse(
+  summary: LighthouseSummary,
+  options: { readonly accessibility?: boolean } = {},
+): Assertion[] {
   const median = summary.runs[summary.medianRun];
   if (!median) {
     throw new Error(`summary has no run at median index ${summary.medianRun}`);
   }
 
-  return [
+  const assertions: Assertion[] = [
     {
       id: 'performance',
       threshold: `>= ${PERF_MIN_SCORE}`,
@@ -228,9 +231,51 @@ export function assertLighthouse(summary: LighthouseSummary): Assertion[] {
       pass: summary.runs.every((run) => run.cls === CLS_MAX),
     },
   ];
+
+  // Asserted only when --categories requested it, so S3 runs keep their three assertions.
+  if (options.accessibility === true) {
+    assertions.push({
+      id: 'accessibility',
+      threshold: `>= ${A11Y_MIN_SCORE}`,
+      actual: median.accessibility ?? 0,
+      scope: 'median',
+      pass: median.accessibility !== null && median.accessibility >= A11Y_MIN_SCORE,
+    });
+  }
+
+  return assertions;
 }
 
-export function summarizeLighthouse(lhrs: LHR[]): LighthouseSummary {
+export const LIGHTHOUSE_CATEGORIES = [
+  'performance',
+  'accessibility',
+  'best-practices',
+  'seo',
+] as const;
+
+/** Parses a --categories list; performance is always included because the gate asserts it. */
+export function parseCategories(value: string | undefined): string[] {
+  if (value === undefined) return ['performance'];
+
+  const requested = value
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter((entry) => entry !== '');
+  const unknown = requested.filter(
+    (entry) => !(LIGHTHOUSE_CATEGORIES as readonly string[]).includes(entry),
+  );
+
+  if (unknown.length > 0) {
+    throw new CliError(EXIT.USAGE, `unknown Lighthouse category: ${unknown.join(', ')}`);
+  }
+
+  return [...new Set(['performance', ...requested])];
+}
+
+export function summarizeLighthouse(
+  lhrs: LHR[],
+  options: { readonly accessibility?: boolean } = {},
+): LighthouseSummary {
   if (lhrs.length === 0) {
     throw new Error('cannot summarize zero Lighthouse runs');
   }
@@ -256,7 +301,7 @@ export function summarizeLighthouse(lhrs: LHR[]): LighthouseSummary {
     pass: false,
   };
 
-  const assertions = assertLighthouse(summary);
+  const assertions = assertLighthouse(summary, options);
   return {
     ...summary,
     assertions,

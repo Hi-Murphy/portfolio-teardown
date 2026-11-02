@@ -1,0 +1,18 @@
+T015 (orchestrator tier, 2026-11-02; tier 1 unavailable: DeepSeek 402) — local export 127.0.0.1:4320, no CDN
+performance: 1 >= 0.95 (median) pass
+lcp: 907.3896 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s10-checks/t015-home/lighthouse-summary.json
+performance: 1 >= 0.95 (median) pass
+lcp: 903.9775 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s10-checks/t015-project/lighthouse-summary.json
+error: unknown Lighthouse category: acessibility
+[ELIFECYCLE] Command failed with exit code 2.
+usage exit=0
+
+unit: tools/perf 115/115 (lighthouse.test.ts +4: default unchanged incl. a fixture that carries an accessibility score, performance always included + de-dup, unknown category -> usage error, a11y >= 0.95 pass/fail)
+FROZEN-OK BRIEF-HISTORY-OK XPLODER-SRC-OK SURFACE-S2S4-OK SURFACE-S5-OK SURFACE-S6-OK SURFACE-S7-OK SURFACE-S8-OK DEV-ROUTES-OK S8-TOOLS-OK 
+T015-OK
