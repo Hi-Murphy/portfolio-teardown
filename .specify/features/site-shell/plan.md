@@ -229,7 +229,7 @@ SSR: <div data-site-workbench>
 
 ## Routes, metadata, nav (RFC D1, D7, D12, R4, R6)
 
-- **`app/layout.tsx` metadata:** `{ title: { default: 'Timur Haryo M — Android Engineer', template: '%s · Timur Haryo M' }, description: SITE.description }`.
+- **`app/layout.tsx` metadata:** `{ title: { default: SITE.meta.title, template: '%s · ' + SITE.meta.siteName }, description: SITE.meta.description }` (from `site.json`; RFC §9.5 C4/Q14)`.
 - **Route metadata:**
   - `/projects`: `{ title: 'Projects', description: SITE.projectsDescription }`;
   - `[slug]`: `generateMetadata({ params }) → { title: meta.name, description: meta.tagline }`. With Next 16, `params` is a Promise, so it is awaited.
@@ -238,7 +238,7 @@ SSR: <div data-site-workbench>
   - name → `/`;
   - `<div class="flex min-w-0 overflow-x-auto">` holding Projects (`aria-current="page"` on `/projects*`), About `/#about`, Contact `/#contact`, Résumé `/resume.pdf` (button style; sr-only " (PDF)"; `{/* TODO(résumé): Murphy places apps/web/public/resume.pdf */}`), GitHub and LinkedIn (icon links, `aria-label`);
   - `ThemeToggle`, pinned.
-- **Footer:** `id="contact"`: email `mailto:`, GitHub, LinkedIn, résumé; "© {year} Timur Haryo M" (year from the build date via `new Date().getFullYear()` at build, so static).
+- **Footer:** `id="contact"`: email `mailto:`, GitHub, LinkedIn, résumé; `SITE.footer.line` + "© {year} {SITE.identity.name}" (year from the build date via `new Date().getFullYear()` at build, so static).
 - **About:** `id="about"`: `SITE.about` paragraphs (orchestrator draft; Murphy edits at G2).
 - **`not-found.tsx` (R6):** `<SiteNav/>`, an `h1` "Page not found", compact cards for `PROJECTS`, links to `/` and `/projects`, `<SiteFooter/>`.
 - **Never** mention the dev route paths anywhere in site code (C3).

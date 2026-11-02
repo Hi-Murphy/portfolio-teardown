@@ -4,8 +4,9 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 xp() { sed 's#^#packages/xploder/#' "packages/xploder/test/$1"; }
 
-git diff --quiet 99a94f2 -- .specify/slices .specify/KICKOFF-S10.md .specify/content && echo FROZEN-OK
-test -z "$(git log --oneline 99a94f2..HEAD -- .specify/slices .specify/KICKOFF-S10.md .specify/content)" && echo BRIEF-HISTORY-OK
+# Brief/content base = 5aae743 (Merlin erratum + canonical site.json, merged at Stage 3 start; RFC §9.5 C4).
+git diff --quiet 5aae743 -- .specify/slices .specify/KICKOFF-S10.md .specify/content && echo FROZEN-OK
+test -z "$(git log --oneline 5aae743..HEAD -- .specify/slices .specify/KICKOFF-S10.md .specify/content)" && echo BRIEF-HISTORY-OK
 git diff --quiet 99a94f2 -- packages/xploder/src packages/xploder/package.json && echo XPLODER-SRC-OK
 git diff --quiet 53b2b2b -- $(xp frozen-surface.paths) && echo SURFACE-S2S4-OK
 git diff --quiet f31600e -- $(xp frozen-surface.s5.paths) && echo SURFACE-S5-OK

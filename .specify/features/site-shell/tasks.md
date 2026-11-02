@@ -23,6 +23,7 @@
 |---|---|---|---|---|
 | T001 | ☐ | | | |
 | T002 | ☐ | | | |
+| T002b | ☐ | | | |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
@@ -126,6 +127,27 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: the fixture registry's labels, e.g. "Kotlin Coroutines", "Jetpack Compose").
 
+### T002b [US1] Site copy converter + generated module + fidelity test (RFC §9.5 C4)
+
+- **Seam:** canonical `.specify/content/site.json` ↔ `apps/web/content/site.source.ts`.
+- **Files:**
+  - `apps/web/scripts/convert-content.ts`: generalise to a list of `{ source, target, exportName, typeImport }` entries. `websocket-inspector.json` → `projects/websocket-inspector.source.ts` (unchanged output); `site.json` → `site.source.ts` (`export const siteSource = { … } satisfies SiteCopy;`, header with sha256). `--check` covers both.
+  - `apps/web/content/site-copy.ts`: `export interface SiteCopy`. A strict TS shape of `site.json` (identity incl. `links[].url: string | null`, hero CTAs, about paragraphs, projects, footer, meta).
+  - `apps/web/test/site-copy-fidelity.test.ts`: strict equality with `JSON.parse(site.json)`, `--check` exit 0, sha stamp, negative control.
+- **Check:**
+  ```sh
+  set -euo pipefail
+  pnpm --filter web content:convert --check 2>&1 | tee /tmp/s10-checks/t002b.txt
+  pnpm --filter web exec vitest run test/site-copy-fidelity.test.ts test/content-fidelity.test.ts --reporter verbose 2>&1 | tee -a /tmp/s10-checks/t002b.txt
+  bash .specify/features/site-shell/guards.sh | tee -a /tmp/s10-checks/t002b.txt
+  pnpm typecheck && pnpm lint && pnpm test && echo T002b-OK
+  ```
+- **Evidence:** `evidence/T002b-log-site-copy-fidelity.txt`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Nothing hands-on (default: the agent log).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing for this task (Q14 is only consumed by T006).
+
 ### T003 [US1] Project index + card model + production-import guards
 
 - **Seam:** parsed project ↔ UI models (`cardModel`, `getProject`) + source scanners.
@@ -200,11 +222,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
 
 - **Seam:** route group ↔ chrome (`/` moves into `(site)`).
 - **Files:**
-  - `apps/web/content/site.ts` (RFC §9.1).
-    - `name: 'Timur Haryo M'`, `role: 'Android Engineer'`, `title: 'Timur Haryo M — Android Engineer'`, `email: 'vibing.murphy@gmail.com'`.
-    - `links: { github: 'https://github.com/TimurHaryo', linkedin: 'https://id.linkedin.com/in/timurharyo', resume: '/resume.pdf' }`.
-    - `description`, `projectsDescription`.
-    - `about: string[]`: an orchestrator draft of 2–3 sentences grounded in the module's role/summary, marked `// Draft — Murphy edits at G2`.
+  - `apps/web/content/site.ts` (**RFC §9.5 C4 + Q14 supersede §9.1**): `SITE` derived from `siteSource` (T002b): identity, hero, about, footer, meta. There is no hand-written copy; the one documented override is the LinkedIn URL per the Q14 resolution.
   - `apps/web/components/{skip-link,site-nav,site-footer}.tsx` (plan.md "Routes, metadata, nav"; R4).
   - `apps/web/app/(site)/layout.tsx`.
   - `apps/web/app/layout.tsx`: the metadata change only.
@@ -216,7 +234,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   pnpm build && (node tools/perf/src/cli/serve.ts --dir apps/web/out --port 4310 & echo $! > /tmp/s10-checks/serve.pid)
   until curl -sf -o /dev/null http://127.0.0.1:4310/; do sleep 0.5; done
   node /tmp/s10-checks/t006-smoke.mjs http://127.0.0.1:4310/ 2>&1 | tee /tmp/s10-checks/t006.txt
-  #   asserts: <title> = 'Timur Haryo M — Android Engineer'; nav one row at 360/412/1280 px (nav height = one target row);
+  #   asserts: <title> = site.json meta.title (per Q14); nav one row at 360/412/1280 px (nav height = one target row);
   #   the 8 nav items in order with names; every target ≥ 44×44; skip link first Tab stop and moves focus to #main;
   #   Résumé accessible name contains '(PDF)'; no target=_blank anywhere; footer has mailto + GitHub + LinkedIn;
   #   writes screenshots light/dark × 360/1280 + meta.json to .specify/features/site-shell/evidence/T006-*
@@ -329,7 +347,7 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4310/projects/does-not-exist)" = 404 && echo UNKNOWN-404
   test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4310/projects/websocket-inspector)" = 200 && echo DEEP-LINK-200
   node /tmp/s10-checks/t010-smoke.mjs http://127.0.0.1:4310/projects/websocket-inspector 2>&1 | tee /tmp/s10-checks/t010.txt
-  #   asserts: <title> 'Scarlet Inspector · Timur Haryo M', description = tagline; JS-disabled: poster + outline visible, loading/toolbar hidden;
+  #   asserts: <title> 'Scarlet Inspector · <siteName per Q14>', description = tagline; JS-disabled: poster + outline visible, loading/toolbar hidden;
   #   screenshots nojs light/dark × mobile/desktop + meta
   kill "$(cat /tmp/s10-checks/serve.pid)"
   bash .specify/features/site-shell/guards.sh | tee -a /tmp/s10-checks/t010.txt
