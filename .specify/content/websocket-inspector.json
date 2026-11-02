@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "slug": "websocket-inspector",
+    "name": "Scarlet Inspector",
+    "tagline": "Every WebSocket frame, captured and inspectable.",
+    "summary": "A drop-in Scarlet WebSocket decorator for Android: it records every frame into Room and exposes sessions in a Compose inspector launched from a persistent notification. Built as a reusable library with a deliberately thin sample host.",
+    "year": 2026,
+    "role": "Solo Android engineer — library design, Compose UI, Room persistence, benchmark integration",
+    "tags": [
+      "Android",
+      "WebSocket",
+      "Compose",
+      "Room",
+      "dev tools"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/TimurHaryo/websocket-inspector"
+      }
+    ]
+  },
+  "story": {
+    "headline": "An inspector for the invisible half of Android networking.",
+    "problem": "WebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blend together, and logcat gives you a wall of text with no notion of a session. Existing HTTP inspectors stop at request/response — they do not understand long-lived sockets.",
+    "approach": "Mirror the decorator idea onto Scarlet: a WebSocketFactory wrapper and a WebSocket decorator record each frame into Room, tag it with a session identity resolved by a tracker, and surface the result through a foreground-service notification that opens a Compose UI. The library keeps a four-file public surface so internals stay free to change, and skips DI frameworks entirely — constructor parameters instead.",
+    "outcome": "The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my JEV decision-hook research — fifteen refactor tasks across ten rule areas.",
+    "metrics": [
+      {
+        "label": "Public API surface",
+        "value": "4 files; everything else internal"
+      },
+      {
+        "label": "Concurrent sessions",
+        "value": "2 clients captured independently"
+      },
+      {
+        "label": "Storage",
+        "value": "Room — sessions + frames"
+      },
+      {
+        "label": "Inspector UI",
+        "value": "Compose — list → detail"
+      },
+      {
+        "label": "Second life",
+        "value": "JEV benchmark target — 15 tasks / 10 rule areas"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "id": "inspection-ui",
+      "name": "Inspection UI",
+      "description": "Compose screens launched from the notification.",
+      "components": [
+        {
+          "id": "inspector-ui",
+          "name": "Inspector UI",
+          "summary": "The inspection surface, launched from the notification.",
+          "description": "Hosts the Compose tree; receives the launcher intent and owns navigation between list and detail.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "android",
+            "jetpack-compose"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/ui/compose/InspectorComposeActivity.kt"
+            }
+          ]
+        },
+        {
+          "id": "list-screen",
+          "name": "List screen",
+          "summary": "Sessions, newest first.",
+          "description": "Renders recorded sessions with type and frame counts; selecting one opens the frame list.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "jetpack-compose"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/ui/compose/screen/SocketListScreen.kt"
+            }
+          ]
+        },
+        {
+          "id": "detail-screen",
+          "name": "Detail screen",
+          "summary": "Every frame in a session, in order.",
+          "description": "Shows sent and received frames with direction and payload preview; long sessions scroll through frame rows.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "jetpack-compose"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/ui/compose/screen/SocketDetailScreen.kt"
+            }
+          ]
+        },
+        {
+          "id": "frame-row",
+          "name": "Frame row",
+          "summary": "One frame, one line.",
+          "description": "Direction badge, timestamp, truncated payload; a compact row that keeps long sessions scannable.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "jetpack-compose"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/ui/compose/component/SocketFrameItemComponent.kt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "name": "Delivery & lifecycle",
+      "description": "What keeps inspection alive outside the foreground.",
+      "components": [
+        {
+          "id": "scarlet-inspector",
+          "name": "Inspector core",
+          "summary": "Entry point — one object holds the DB and the IO scope.",
+          "description": "Creates the Room database, owns the SupervisorJob IO scope, and exposes clearAllData(); everything else hangs off it.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "android",
+            "coroutines",
+            "room"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/ScarletInspector.kt"
+            }
+          ]
+        },
+        {
+          "id": "inspector-service",
+          "name": "Inspector svc",
+          "summary": "Keeps inspection alive while the app is backgrounded.",
+          "description": "Foreground service that owns the notification and the inspection lifecycle.",
+          "kind": "service",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "android"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/InspectorService.kt"
+            }
+          ]
+        },
+        {
+          "id": "inspector-notification",
+          "name": "Notification",
+          "summary": "The permanent doorway into the inspector.",
+          "description": "Persistent notification; tapping it launches the UI from anywhere in the app.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "android"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/InspectorNotificationManager.kt"
+            }
+          ]
+        },
+        {
+          "id": "inspector-launcher",
+          "name": "Launcher",
+          "summary": "Turns a notification tap into a Compose screen.",
+          "description": "Public helper that resolves the intent and starts the inspector activity.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "android"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/InspectorLauncher.kt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capture",
+      "name": "Capture",
+      "description": "Where frames are intercepted and tagged.",
+      "components": [
+        {
+          "id": "chucker-factory",
+          "name": "Factory wrap",
+          "summary": "Wraps Scarlet's WebSocketFactory.",
+          "description": "The install point: returns decorated WebSockets instead of raw OkHttp-backed ones, without touching client code.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "websocket"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/ChuckerWebSocketFactory.kt"
+            }
+          ]
+        },
+        {
+          "id": "chucker-socket",
+          "name": "Socket wrap",
+          "summary": "Records every frame as it passes.",
+          "description": "Delegates open(), wraps the event stream, and writes sent and received frames to the active session.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "websocket",
+            "coroutines"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/ChuckerScarletWebSocket.kt"
+            }
+          ]
+        },
+        {
+          "id": "session-tracker",
+          "name": "Session tags",
+          "summary": "Gives every connection an identity.",
+          "description": "Resolves and reuses session ids so two clients against one endpoint — or a reconnect — stay distinguishable.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "coroutines"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/SessionTracker.kt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "name": "Persistence",
+      "description": "Sessions and frames at rest.",
+      "components": [
+        {
+          "id": "inspector-dao",
+          "name": "InspectorDao",
+          "summary": "The query surface.",
+          "description": "Suspend functions for insert, read and clear; the only thing the capture layer and the UI are allowed to touch.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "room",
+            "coroutines"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/data/room/InspectorDao.kt"
+            }
+          ]
+        },
+        {
+          "id": "inspector-database",
+          "name": "Room store",
+          "summary": "Sessions and frames that survive process death.",
+          "description": "Room database with SocketSession and SocketFrame entities; the reason this beats logcat is that the history is still there tomorrow.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "room"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/inspector/src/main/java/com/murphy/scarlet/inspector/internal/data/room/InspectorDatabase.kt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "host",
+      "name": "Sample host",
+      "description": "The smallest possible integration, kept deliberately thin.",
+      "components": [
+        {
+          "id": "main-activity",
+          "name": "MainActivity",
+          "summary": "The thin host that proves the library.",
+          "description": "Wires two Scarlet clients, connect/disconnect/send controls, and installs the inspector.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "android"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/app/src/main/java/com/example/websocketinspector/MainActivity.kt"
+            }
+          ]
+        },
+        {
+          "id": "financial-api",
+          "name": "Financial API",
+          "summary": "A Flow-based Scarlet API surface.",
+          "description": "Sends subscribe payloads and receives protobuf channel messages as a Flow — representative app traffic to debug.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "websocket",
+            "coroutines"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/app/src/main/java/com/example/websocketinspector/WebSocketFinancialApi.kt"
+            }
+          ]
+        },
+        {
+          "id": "stream-adapter",
+          "name": "Stream adapter",
+          "summary": "Glue between Scarlet streams and Kotlin Flow.",
+          "description": "Bridges the library's stream types so the sample reads like ordinary coroutine code.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "kotlin",
+            "coroutines"
+          ],
+          "metrics": [],
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/websocket-inspector/blob/main/app/src/main/java/com/example/websocketinspector/FlowStreamAdapter.kt"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "capture-path",
+      "label": "Frames in",
+      "description": "An app message leaves the host, passes through the decorators, and lands in Room.",
+      "path": [
+        "main-activity",
+        "financial-api",
+        "chucker-factory",
+        "chucker-socket",
+        "session-tracker",
+        "inspector-dao",
+        "inspector-database"
+      ]
+    },
+    {
+      "id": "inspect-path",
+      "label": "Frames out",
+      "description": "The notification opens the inspector; list and detail read the same rows Room stored.",
+      "path": [
+        "inspector-notification",
+        "inspector-launcher",
+        "inspector-ui",
+        "list-screen",
+        "detail-screen",
+        "inspector-dao",
+        "inspector-database"
+      ]
+    }
+  ]
+}
