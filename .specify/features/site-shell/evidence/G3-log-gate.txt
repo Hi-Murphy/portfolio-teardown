@@ -1,0 +1,13 @@
+G3 gate (orchestrator, 2026-11-02) on task/s10-site-shell @ f0ab654 (PR #14)
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+PR #14 checks on f0ab654: all 10 pass (CI 41431456914, perf 41431456882) incl. lighthouse home 0.99 / project 1.0 (a11y 1, LCP ~0.91 s, CLS 0 on run 3), weight both routes, fixture exclusion + unknown slug 404, fps calibration, both a11y jobs, gitleaks.
+Regression proof: green -> red (aria-hidden-focus x32, exit 6) -> green (T017-ci-regression-proof.txt).

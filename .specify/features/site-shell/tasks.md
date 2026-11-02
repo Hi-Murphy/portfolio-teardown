@@ -47,7 +47,7 @@
 | T014 | ☑ (drill 13, hero 7, cls 16 incl. /dev/engine, routes 11, nojs 6, reduced-motion 5, draws: project 2 / hero 2) | 1 (Flash) | evidence/T014-log-site-probe.txt | 96d915b |
 | T015 | ☑ (opt-in --categories; A11Y_MIN_SCORE 0.95; S3 default unchanged; local perf 1 / a11y 1 on / and project, LCP ~0.9 s, CLS 0) | ⚑ orchestrator (Murphy "go"; tier 1 unavailable, DeepSeek 402) | evidence/T015-* | (this commit) |
 | T016 | ☑ ⚑ (perf.yml: Lighthouse a11y + project route, weight project route, unknown-slug 404, new job 'a11y: axe (production routes)'; draft PR #14; CI run 1 home 0.89 → A; run 2 project 0.87 → P1; run 3 pending) | ⚑ orchestrator | evidence/T016-* | 2845788 |
-| T017 | ☐ ⚑ | | | |
+| T017 | ☑ ⚑ (907849d red: aria-hidden-focus ×32, exit 6 → f0ab654 revert green) | ⚑ orchestrator | evidence/T017-ci-regression-proof.txt | f0ab654 |
 | T018 | ☐ | | | |
 | T019 | ☐ ⚑ | | | |
 
@@ -56,6 +56,8 @@
 **G2 gate (2026-11-02):** integrated `2df7796` (+ `7a49449` scanner S10 lists; `main` 72dc34a merged at G2 start, Q14 resolved in site.json), guards 10 OK, typecheck/lint green, tests tools/perf 111 · xploder 610 · web 103, build green (/, /projects, /projects/[slug]), strict CLS 0 on 3 routes × 2 viewports × 2 themes → `evidence/G2-log-gate.txt`.
 
 **G2 approved (2026-11-02, Murphy, 5h 71%)** after feedback rounds 1–5 (T012a–T012h); integrated `b006b1f`: guards 10 OK, tests 111/617/113, build green, strict CLS 0 (RFC §9.13).
+
+**G3 gate (2026-11-02):** PR #14 head `f0ab654`: all 10 checks green; Lighthouse (CI, preview) home 0.99 / project 1.0, a11y 1, LCP ~0.91 s, CLS 0; new job 'a11y: axe (production routes)' green and proven to bite (T017); guards 10 OK → `evidence/G3-log-gate.txt`. AC5 unblocked via A (home hero on first interaction) + P1 (workbench on first interaction / Explore in 3D) (RFC §9.15–9.18).
 
 Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specify/features/site-shell/tasks.md`; continue Stage 3 at the first ☐ task; 5h: N%."_
 
