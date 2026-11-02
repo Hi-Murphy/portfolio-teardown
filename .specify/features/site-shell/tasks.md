@@ -35,6 +35,7 @@
 | T011 | ☑ (toolbar/case study/tour; rects stable; no-WebGL outline; ONE 3D chunk R2; CLS 0 on 3 routes) | 1 (Flash) | evidence/T011-{log-workbench.txt,screenshot-*.png,meta.json} | 56f49cf |
 | T012a | ☑ (dock + Guided tour: route chooser w/ descriptions, transport, clickable step rail, hover highlight, Now line; pause-on-implode; 89 smoke asserts; CLS 0) | 1 (Flash) + orchestrator review (Case study text label ≥ sm) | evidence/T012a-{log-dock-tour.txt,screenshot-*.png,meta.json} | 3f93411 |
 | T012b | ☑ (header one line at 360 no overflow; footer two-column; Résumé links + public/resume.pdf removed; /resume.pdf 404) | 1 (Flash) + orchestrator review (nav server-side, only NavProjectsLink client; desktop right-aligned links) | evidence/T012b-{log-header-footer.txt,screenshot-*.png,cls.json,meta.json} | 4ed6c27 |
+| T012d | ☐ | | | |
 | T012c | ☑ (local LH single-run perf 1 on all 3 routes × 2 themes, CLS 0, home 479 KB) | 1 (Flash) | evidence/T012c-* | (merge) |
 | T012 | ☑ (3 routes × 2 themes; local LH single-run perf 0.99–1, CLS 0, home 476 KB; parity IoU 0.118 info, binarisation caught the box) | 1 (Flash) | evidence/T012-* | 2df7796 |
 | T013 | ☐ | | | |
@@ -431,6 +432,29 @@ Resume prompt for a fresh session: _"Read `.specify/KICKOFF-S10.md` and `.specif
   - screenshots of header + footer at 360/1280, light + dark.
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Header/footer look (default: as screenshotted).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Nothing.
+
+### T012d [US3, US5] G2 feedback round 2: poster hit-through, Exit tour, route header, explode-before-step (RFC §9.8)
+
+- **Seam:** workbench/hero app code (engine unchanged).
+- **Files:**
+  - `components/hero/hero-classes.ts` (poster: `pointer-events-none`; `invisible` once revealed);
+  - `components/workbench/workbench.tsx`;
+  - `components/workbench/tour-panel.tsx`, `tour-model.ts` (route title = first → last component name + step count; description; single-flow header; Exit tour);
+  - `components/workbench/workbench-client.tsx` (explode-before-step/prev/jump; Exit tour → `stop()`);
+  - `apps/web/test/tour-model.test.ts`.
+- **Check:** export smoke (port 4310). It asserts:
+  - after reveal, `elementFromPoint` at the stage centre is inside `[data-xploder-ready]` (not the poster), on the project page and the hero;
+  - hovering over a slab sets `data-xploder-highlight` and draws a leader (`[data-xploder-overlay]` leader stroke present);
+  - clicking a slab opens the detail panel;
+  - at max zoom, a wheel over the stage changes the viewer stage `scrollTop`;
+  - Start tour → Exit tour → `data-xploder-tour=idle` and `data-xploder-overlay=shown`;
+  - imploded + Next → `exploded` and step 1; imploded + rail chip 3 → `exploded` and step 3;
+  - the route options show "<first> → <last>" + "<n> steps" and no flow label text;
+  - a synthetic single-flow model renders a header without a chooser (unit test);
+  - strict CLS 0 (`site:probe --group cls`);
+  - screenshots (tour panel idle/playing, mobile + desktop, light + dark).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Hover/click parts, scroll at max zoom, Exit tour, step while imploded (default: as screenshotted).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Q16 (tour trail callouts): (A) brief revision or (B) defer (default B).
 
 ### T012c [US1–US5] G2 evidence refresh
 
