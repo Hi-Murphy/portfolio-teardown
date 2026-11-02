@@ -37,7 +37,7 @@ This is the brief's one human acceptance dependency (AC2's human leg): axe canno
 
 ## Result
 
-- Overall: ☐ pass ☐ pass with notes ☐ fail
-- Notes:
+- Overall: ☑ **pass** (Murphy, 2026-11-02: "VoiceOver pass"), Safari + VoiceOver on `pnpm dev` `/dev/engine?fixture=a`
+- Notes: none reported. Step 14 verbosity: keep (no change requested).
 
 Turn VoiceOver off with ⌘F5. Tell the agent the result. "VoiceOver pass" plus any notes is enough.

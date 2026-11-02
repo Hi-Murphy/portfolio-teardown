@@ -46,7 +46,7 @@
 | T014 | ☑ (8 groups PASS; drill 166 steps; contrast every non-exception glyph measured, pixel min 5.04) | 1 (Flash, sandbox off) + orchestrator review fixes (honest contrast rows, unmeasured recorded, 2.44× top/bottom sampling) | evidence/T014-log-probe-tool.txt | a2419f7 |
 | T015 | ☑ ⚑ draft PR #13; CI run 1 green → run 2 red on the broken commit (aria-hidden-focus ×32, exit 6) → run 3 green after revert | 1 (Flash: workflow file) + ⚑ orchestrator (push, PR, proof) | evidence/T015-{ci.txt,log-ci-job.txt} | 62cde32 / 42985ae / 1725d39 |
 | T016 | ☑ (axe 0/0 ×4, probe all groups, engine probe 198/198, contrast table, surface diff, fps 0 dropped) | 1 (Flash, sandbox off) + orchestrator no-WebGL DOM/screenshot capture | evidence/T016-* | 3c3a9eb |
-| T017 | ☑ ⚑ AC self-check + VoiceOver checklist; PR #13 ready; waiting for Murphy's VoiceOver pass + merge | ⚑ orchestrator | evidence/{AC-selfcheck.md,voiceover-checklist.md,T017-ci.txt} | (PR head) |
+| T017 | ☑ ⚑ AC self-check accepted; VoiceOver pass (Murphy, 2026-11-02); PR #13 merged on Murphy's command | ⚑ orchestrator | evidence/{AC-selfcheck.md,voiceover-checklist.md,T017-ci.txt} | (PR head) |
 
 **G1 gate (2026-11-01):** integrated `b81959d`, all 7 guards OK, typecheck/lint/test (595 + 4 expected-fail)/build green, unsandboxed → `evidence/G1-log-gate.txt`. Scanner-list merge conflicts were resolved by the orchestrator (union).
 
