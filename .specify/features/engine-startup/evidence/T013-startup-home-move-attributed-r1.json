@@ -1,0 +1,100 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2335,
+  "firstFrame": 2639.588,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": {
+      "ms": 26.559,
+      "mainThreadMs": 0
+    },
+    "P1": {
+      "ms": 89.145,
+      "mainThreadMs": 0,
+      "count": 6
+    },
+    "P2": {
+      "ms": 69.673,
+      "mainThreadMs": 2.167999877929688,
+      "count": 18
+    },
+    "P3": {
+      "ms": 59.00000011920929,
+      "mainThreadMs": 59.00000011920929,
+      "count": 7
+    },
+    "P4": {
+      "ms": 102.09999987792969,
+      "mainThreadMs": 40.01399987792969
+    },
+    "P5": {
+      "ms": 65.5,
+      "mainThreadMs": 65.281,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0,
+      "mainThreadMs": 0,
+      "count": 14
+    },
+    "P7": {
+      "ms": 3.399999976158142,
+      "mainThreadMs": 3.399999976158142,
+      "count": 6
+    },
+    "P8": {
+      "ms": 1.803000023841858,
+      "mainThreadMs": 1.803000023841858,
+      "count": 7,
+      "domLayoutMs": 1.703
+    },
+    "P9": {
+      "ms": 2.8880001220703124,
+      "mainThreadMs": 2.7990001220703125
+    }
+  },
+  "mainThreadCostMs": 279.45,
+  "attributedMs": 174.464999997139,
+  "otherMs": 104.985000002861,
+  "longTasks": [
+    {
+      "start": 2550.475,
+      "dur": 60.658,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 10.658000000000001,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0.10000002384185791,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 6
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}
