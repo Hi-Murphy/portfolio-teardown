@@ -1,0 +1,258 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "Unattributable",
+      "simulatedStartMs": 757.47535,
+      "simulatedMs": 68,
+      "observedStartMs": 14.604,
+      "observedMs": 16.945,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.3235294117647042,
+      "tbtMs": 18,
+      "tbtSharePct": 14.634146341463413,
+      "chunk": "(native)",
+      "module": null,
+      "topFunctions": [
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "module": null,
+          "selfMs": 10.61,
+          "selfPct": 94.98657117278424,
+          "lineNumber": null,
+          "columnNumber": null,
+          "snippet": null,
+          "stack": [
+            {
+              "fn": "(program)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            },
+            {
+              "fn": "(root)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            }
+          ]
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "_lighthouse-eval.js",
+          "module": null,
+          "selfMs": 0.56,
+          "selfPct": 5.013428827215757,
+          "lineNumber": 7,
+          "columnNumber": 7,
+          "snippet": null,
+          "stack": [
+            {
+              "fn": "(anonymous)",
+              "url": "_lighthouse-eval.js",
+              "chunk": "_lighthouse-eval.js",
+              "lineNumber": 7,
+              "columnNumber": 7,
+              "snippet": null
+            },
+            {
+              "fn": "(anonymous)",
+              "url": "_lighthouse-eval.js",
+              "chunk": "_lighthouse-eval.js",
+              "lineNumber": 0,
+              "columnNumber": 1,
+              "snippet": null
+            },
+            {
+              "fn": "(anonymous)",
+              "url": "_lighthouse-eval.js",
+              "chunk": "_lighthouse-eval.js",
+              "lineNumber": 0,
+              "columnNumber": 0,
+              "snippet": null
+            }
+          ]
+        }
+      ],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+      "simulatedStartMs": 873.47535,
+      "simulatedMs": 65.00000000000011,
+      "observedStartMs": 50.099,
+      "observedMs": 11.768,
+      "matched": true,
+      "matchQuality": "loose",
+      "matchErrorPct": 27.581538461538585,
+      "tbtMs": 15.000000000000114,
+      "tbtSharePct": 12.195121951219605,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2182.9507,
+      "simulatedMs": 173,
+      "observedStartMs": 115.368,
+      "observedMs": 43.236,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.03236994219653849,
+      "tbtMs": 123,
+      "tbtSharePct": 100,
+      "chunk": "turbopack-3-ry682tkyiqk.js",
+      "module": "_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+      "topFunctions": [
+        {
+          "fn": "I",
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "module": "_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+          "selfMs": 22.166,
+          "selfPct": 51.26746229993524,
+          "lineNumber": 0,
+          "columnNumber": 6194,
+          "snippet": "(e,t,r){let n=P.get(e);if(\"function\"!=typeof n)throw Error(function(e,t,r){let n;switch(t){case 0:n=`as a runtime entry",
+          "stack": [
+            {
+              "fn": "I",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6194,
+              "snippet": "(e,t,r){let n=P.get(e);if(\"function\"!=typeof n)throw Error(function(e,t,r){let n;switch(t){case 0:n=`as a runtime entry"
+            },
+            {
+              "fn": "B",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6094,
+              "snippet": "(e,t)=>{let r=L.get(e);if(r){if(r.error)throw r.error;return r}return I(e,o.Parent,t.id)};function I(e,t,r){let n=P.get("
+            },
+            {
+              "fn": "u.r",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 3629,
+              "snippet": "(e){return B(e,this.m).exports},u.f=function(e){function t(t){if(t=v(t),s.call(e,t))return e[t].module();let r=Error(`Ca"
+            }
+          ]
+        },
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "module": null,
+          "selfMs": 9.89,
+          "selfPct": 22.874456471458966,
+          "lineNumber": null,
+          "columnNumber": null,
+          "snippet": null,
+          "stack": [
+            {
+              "fn": "(program)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            },
+            {
+              "fn": "(root)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            }
+          ]
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "1kgrt2f4mrm63.js",
+          "module": "_next/static/chunks/1kgrt2f4mrm63.js",
+          "selfMs": 2.451,
+          "selfPct": 5.668887038578962,
+          "lineNumber": 0,
+          "columnNumber": 20127,
+          "snippet": "(e,t,n)=>{var r,l=e.i(29942),a=e.r(77816),o=e.r(50619),i=e.r(44559);function u(e){var t=\"https://react.dev/errors/\"+e;if",
+          "stack": [
+            {
+              "fn": "(anonymous)",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+              "chunk": "1kgrt2f4mrm63.js",
+              "lineNumber": 0,
+              "columnNumber": 20127,
+              "snippet": "(e,t,n)=>{var r,l=e.i(29942),a=e.r(77816),o=e.r(50619),i=e.r(44559);function u(e){var t=\"https://react.dev/errors/\"+e;if"
+            },
+            {
+              "fn": "I",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6194,
+              "snippet": "(e,t,r){let n=P.get(e);if(\"function\"!=typeof n)throw Error(function(e,t,r){let n;switch(t){case 0:n=`as a runtime entry"
+            },
+            {
+              "fn": "B",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6094,
+              "snippet": "(e,t)=>{let r=L.get(e);if(r){if(r.error)throw r.error;return r}return I(e,o.Parent,t.id)};function I(e,t,r){let n=P.get("
+            }
+          ]
+        }
+      ],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+    "route": "/projects/websocket-inspector",
+    "cpuMultiplier": 4,
+    "profileChunks": 195,
+    "simulatedTbtMs": 123,
+    "observedBlockingMs": 220.77599999999998,
+    "differenceMs": 97.77599999999998,
+    "differencePct": 79.49268292682925,
+    "pairs": [
+      {
+        "url": "Unattributable",
+        "simulatedStartMs": 757.47535,
+        "observedStartMs": 14.604,
+        "startGapMs": -742.87135,
+        "simulatedMs": 68,
+        "observedMs": 16.945,
+        "observedEquivalentMs": 67.78
+      },
+      {
+        "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+        "simulatedStartMs": 873.47535,
+        "observedStartMs": 50.099,
+        "startGapMs": -823.37635,
+        "simulatedMs": 65.00000000000011,
+        "observedMs": 11.768,
+        "observedEquivalentMs": 47.072
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+        "simulatedStartMs": 2182.9507,
+        "observedStartMs": 115.368,
+        "startGapMs": -2067.5827,
+        "simulatedMs": 173,
+        "observedMs": 43.236,
+        "observedEquivalentMs": 172.944
+      }
+    ]
+  }
+}
