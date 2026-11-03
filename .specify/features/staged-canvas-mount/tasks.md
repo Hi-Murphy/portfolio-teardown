@@ -59,7 +59,7 @@
 | T002 | ☑ (droppedFrameTimes = droppedFrames; tasksOver16ms via shared `findTasksOver`; fps-engine.test.ts unmodified) | 1 (Flash) ×2: orchestrator review revision (duplicated task selection, window bound); D-P2 found | evidence/T002-log-fps-timeline.txt | c608f82 |
 | T003 | ☑ (`--cpu-profile` with native-aware attribution; sequence: ready.raf = firstInstancedDraw.raf) | 1 (Flash) ×2: orchestrator review revision (url-less samples dropped); 1 re-dispatch after API stream disconnect (not counted); evidence note corrected by orchestrator | evidence/T003-log-profile-sequence.txt | ec3e1b6 |
 | T004 | ☑ AC1 re-baseline: max long task 57.7 / 56.9 / 54.2 ms (fps, home-move / project-move / project-click), dropped 1 / 6 / 6.5, cost 268 / 317 / 328 ms; no drift (parity 0 px vs T014, bytes identical); chain mount → first frame → post-frame commit holds every drop | 1 (Flash: measurements + tables) + orchestrator (task identity, §7 interpretation, lever order) | evidence/T004-log-rebaseline.md, T004-log-task-identity.txt | 607e919 |
-| T005 | ☐ | | | |
+| T005 | ☑ kept L1: long tasks 0 on all paths (max 57.7/56.9/54.2 → 0 ms); dropped frames 1→2 / 6→6 / 6.5→5.5; time to first content +2 / +10 / +15 ms (D-P3 fix; first pass was +275–285 ms); parity 0 px; bytes +722 raw / +307 gz (lazy scope; project initial gz +2) | 1 (Flash) ×2: orchestrator review revision (300 ms Suspense retry throttle, D-P3); frame diagnosis by orchestrator | evidence/T005-log-l1-ab.md, T005-log-frame-diagnosis.md | 992bd43 |
 | T006 | ☐ | | | |
 | T007 | ☐ (conditional) | | | |
 | T007b | ☐ (conditional, G1-approved L5) | | | |
