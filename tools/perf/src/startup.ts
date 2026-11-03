@@ -553,6 +553,27 @@ export function findLongTasks(
     }));
 }
 
+export function findTasksOver(
+  events: readonly TraceEvent[],
+  startUs: number,
+  endUs: number,
+  thresholdMs: number,
+  originUs = 0,
+  requireMetadata = false,
+): Array<{ start: number; dur: number }> {
+  return mainThreadTasks(events, requireMetadata)
+    .filter(
+      (task) =>
+        task.startUs >= startUs &&
+        task.startUs <= endUs &&
+        task.durUs > thresholdMs * MICROSECONDS_PER_MILLISECOND,
+    )
+    .map((task) => ({
+      start: toPageMs(task.startUs, originUs),
+      dur: task.durUs / MICROSECONDS_PER_MILLISECOND,
+    }));
+}
+
 export function countMainThreadTasks(
   events: readonly TraceEvent[],
   startUs: number,
