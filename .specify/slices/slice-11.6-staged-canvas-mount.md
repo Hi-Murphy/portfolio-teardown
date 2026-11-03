@@ -56,8 +56,8 @@ S11.5 made the 3D startup cheaper: −13 % main-thread time on the project route
 - Escalation: DeepSeek Flash 4.1 stuck ×2 → pause and report to Murphy with usage, then the orchestrator executes on "go"; tier 1.5 dormant.
 
 ## Murphy dependencies
-- **None blocking.** At G2 he reviews the re-baseline, the before/after table and the AC5 verdict; defaults ship if he says nothing.
-- He decides whether to retire D-19 after seeing AC5's numbers.
+- **None blocking.** At G2 Murphy reviews the re-baseline, the before/after table and the AC5 verdict; defaults ship if Murphy says nothing.
+- Murphy decides whether to retire D-19 after seeing AC5's numbers.
 
 ## Freeze protocol
 Frozen at commit; work only on `task/s11.6-staged-canvas-mount`; integration via PR after Murphy's final validation. Scope/AC changes = revision (counter 0 of 2). RFC (`.specify/features/staged-canvas-mount/rfc.md`) is orchestrator-authored and Murphy-reviewed before spec/plan/tasks and again before execution.

@@ -19,7 +19,7 @@
 5. Visual parity is an acceptance criterion: rest-state screenshots pixel-identical in light and dark; 2 draw calls; CLS 0. Any visible change = STOP.
 6. No new client library on the page bundle; patch-level `three` bumps only with a written reason; no budget may be lowered to pass.
 7. Evidence: every number (ms, dropped frames, long tasks, TBT, bytes) attaches its artifact per `.specify/EVIDENCE.md`; two runs per measurement, median reported.
-8. Escalation: executor (DeepSeek Flash 4.1) stuck ×2 → pause and report to Murphy with current usage; the orchestrator executes personally on his "go". Tier 1.5 dormant (skip-with-record). Report which tier finished each task.
+8. Escalation: executor (DeepSeek Flash 4.1) stuck ×2 → pause and report to Murphy with current usage; the orchestrator executes personally on Murphy's "go". Tier 1.5 dormant (skip-with-record). Report which tier finished each task.
 9. Every decomposition ends with: **WHAT MURPHY SHOULD TEST/VALIDATE** + **WHAT THE AGENT NEEDS FROM MURPHY** (numbered, with defaults).
 10. Commit at each stage boundary with message prefix `S11.6/stage-N:`.
 
