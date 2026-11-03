@@ -1,0 +1,153 @@
+name: eager-load
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    if: github.head_ref == 'task/s11.7-eager-load'
+    name: 'perf: eager-load (slow-class measurement) #${{ matrix.shard }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    env:
+      E: .evidence/ci/eager-load
+      SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - name: Record host metadata
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          code=0
+          pnpm perf:host --out "$E/host-meta.json" || code=$?
+          echo "perf-host exit=${code}" | tee -a "$E/exit-codes.txt"
+      - name: Build gated
+        run: pnpm build
+      - name: Record gated bundle manifest
+        run: pnpm bundle:manifest --out-dir apps/web/out --write "$E/gated-manifest.json"
+      - name: Measure gated build
+        env:
+          BUILD: gated
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          for route in home project; do
+            path=/
+            if [ "$route" = project ]; then
+              path=/projects/websocket-inspector
+            fi
+            url=http://127.0.0.1:4320$path
+            for invocation in 1 2; do
+              measure "${BUILD}-${route}-r${invocation}" pnpm perf:lighthouse "$url" --out "$E/${BUILD}-${route}-r${invocation}"
+            done
+            measure "profiled-${BUILD}-${route}" pnpm perf:lighthouse "$url" --profile --out "$E/profiled-${BUILD}-${route}"
+            measure "attribution-${BUILD}-${route}" pnpm perf:attribution --lhr "$E/profiled-${BUILD}-${route}/lighthouse-run-0.json" --trace "$E/profiled-${BUILD}-${route}/lighthouse-run-0.trace.json.gz" --manifest "$E/${BUILD}-manifest.json" --out "$E/attr-${BUILD}-${route}"
+          done
+          cleanup
+          trap - EXIT
+      - name: Build eager
+        run: pnpm build:eager
+      - name: Record eager bundle manifest
+        run: pnpm bundle:manifest --out-dir apps/web/out --write "$E/eager-manifest.json"
+      - name: Measure eager build
+        env:
+          BUILD: eager
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          for route in home project; do
+            path=/
+            if [ "$route" = project ]; then
+              path=/projects/websocket-inspector
+            fi
+            url=http://127.0.0.1:4320$path
+            for invocation in 1 2; do
+              measure "${BUILD}-${route}-r${invocation}" pnpm perf:lighthouse "$url" --out "$E/${BUILD}-${route}-r${invocation}"
+            done
+            measure "profiled-${BUILD}-${route}" pnpm perf:lighthouse "$url" --profile --out "$E/profiled-${BUILD}-${route}"
+            measure "startup-${BUILD}-${route}" pnpm perf:startup --serve apps/web/out --route "$path" --engage none --cpu-profile --runs 1 --out "$E/startup-${BUILD}-${route}"
+            for frames in trace-only recorder; do
+              for invocation in 1 2; do
+                measure "fps-${BUILD}-${route}-${frames}-r${invocation}" pnpm fps:engine --scenario load --route "$path" --frames "$frames" --no-build --out "$E/fps-${BUILD}-${route}-${frames}-r${invocation}"
+              done
+            done
+            measure "probe-${BUILD}-${route}" pnpm eager:probe --serve apps/web/out --route "$path" --runs 2 --out "$E/probe-${BUILD}-${route}"
+            measure "probe-${BUILD}-${route}-reduced" pnpm eager:probe --serve apps/web/out --route "$path" --runs 2 --reduced-motion --out "$E/probe-${BUILD}-${route}-reduced"
+            measure "attribution-${BUILD}-${route}" pnpm perf:attribution --lhr "$E/profiled-${BUILD}-${route}/lighthouse-run-0.json" --trace "$E/profiled-${BUILD}-${route}/lighthouse-run-0.trace.json.gz" --manifest "$E/${BUILD}-manifest.json" --out "$E/attr-${BUILD}-${route}"
+          done
+          cleanup
+          trap - EXIT
+      - name: Summarize eager-load results
+        if: always()
+        run: |
+          set -uo pipefail
+          mkdir -p "$E"
+          default_code=0
+          pnpm eager-verdict --dir "$E" > "$E/verdict-default.md" 2>&1 || default_code=$?
+          echo "eager-verdict-default exit=${default_code}" | tee -a "$E/exit-codes.txt"
+          cat "$E/verdict-default.md"
+          cat "$E/verdict-default.md" >> "$GITHUB_STEP_SUMMARY"
+          rule_code=0
+          pnpm eager-verdict --rule s11.7 --dir "$E" > "$E/verdict-s11.7.md" 2>&1 || rule_code=$?
+          echo "eager-verdict-s11.7 exit=${rule_code}" | tee -a "$E/exit-codes.txt"
+          cat "$E/verdict-s11.7.md"
+          cat "$E/verdict-s11.7.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload eager-load evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: eager-load-${{ github.run_id }}-${{ github.run_attempt }}-s${{ matrix.shard }}
+          path: .evidence/ci/eager-load
+          retention-days: 14
