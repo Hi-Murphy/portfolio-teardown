@@ -1,0 +1,91 @@
+{
+  "events": [
+    {
+      "name": "TracingStartedInBrowser",
+      "ph": "I",
+      "pid": 899,
+      "tid": 1,
+      "ts": 1000000000,
+      "args": { "data": { "frames": [{ "processId": 900, "isOutermostMainFrame": true }] } }
+    },
+    {
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1000000000,
+      "args": { "name": "CrRendererMain" }
+    },
+    {
+      "name": "ResourceSendRequest",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001050000,
+      "args": {
+        "data": {
+          "requestId": "window-chunk",
+          "url": "https://example.test/_next/static/chunks/window.js",
+          "resourceType": "Script"
+        }
+      }
+    },
+    {
+      "name": "ResourceFinish",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001080000,
+      "args": { "data": { "requestId": "window-chunk" } }
+    },
+    {
+      "name": "v8.compile",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001090000,
+      "dur": 5000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/window.js" } }
+    },
+    {
+      "name": "EvaluateScript",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001100000,
+      "dur": 5000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/window.js" } }
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001000000,
+      "dur": 20000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001100000,
+      "dur": 40000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1006500000,
+      "dur": 80000
+    }
+  ],
+  "spans": [],
+  "marks": {
+    "traceTimeOriginUs": 1000000000,
+    "loadMs": 500,
+    "engageMs": 1000,
+    "readyMs": 1200
+  }
+}

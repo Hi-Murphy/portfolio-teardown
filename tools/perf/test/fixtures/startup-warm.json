@@ -1,0 +1,132 @@
+{
+  "events": [
+    {
+      "name": "TracingStartedInBrowser",
+      "ph": "I",
+      "pid": 899,
+      "tid": 1,
+      "ts": 1000000000,
+      "args": { "data": { "frames": [{ "processId": 900, "isMainFrame": true }] } }
+    },
+    {
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1000000000,
+      "args": { "name": "CrRendererMain" }
+    },
+    {
+      "name": "FireIdleCallback",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1002010000,
+      "dur": 1000
+    },
+    {
+      "name": "ResourceSendRequest",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001800000,
+      "args": {
+        "data": {
+          "requestId": "warm-chunk",
+          "url": "https://example.test/_next/static/chunks/teardown.js",
+          "resourceType": "script"
+        }
+      }
+    },
+    {
+      "name": "ResourceFinish",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001850000,
+      "args": { "data": { "requestId": "warm-chunk" } }
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001600000,
+      "dur": 75000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001800000,
+      "dur": 150000
+    },
+    {
+      "name": "v8.compileModule",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001910000,
+      "dur": 10000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/teardown.js" } }
+    },
+    {
+      "name": "v8.evaluateModule",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001920000,
+      "dur": 20000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/teardown.js" } }
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1002000000,
+      "dur": 20000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1002030000,
+      "dur": 40000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1002080000,
+      "dur": 100000
+    },
+    {
+      "name": "DrawFrame",
+      "ph": "I",
+      "cat": "disabled-by-default-devtools.timeline.frame",
+      "pid": 899,
+      "tid": 902,
+      "ts": 1002200000
+    }
+  ],
+  "spans": [
+    { "name": "getContext", "start": 2085, "dur": 5 },
+    { "name": "createProgram", "start": 2095, "dur": 5 },
+    { "name": "bufferData", "start": 2100, "dur": 10 },
+    { "name": "compileShader", "start": 2110, "dur": 20 },
+    { "name": "linkProgram", "start": 2130, "dur": 3 },
+    { "name": "getProgramParameter", "start": 2133, "dur": 1 },
+    { "name": "texImage2D", "start": 2135, "dur": 2 },
+    { "name": "drawElementsInstanced", "start": 2180, "dur": 4 }
+  ],
+  "marks": {
+    "traceTimeOriginUs": 1000000000,
+    "loadMs": 500,
+    "engageMs": 2000,
+    "readyMs": 2200
+  }
+}

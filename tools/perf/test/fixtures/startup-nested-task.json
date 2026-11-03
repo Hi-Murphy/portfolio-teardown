@@ -1,0 +1,43 @@
+{
+  "events": [
+    {
+      "name": "TracingStartedInBrowser",
+      "ph": "I",
+      "pid": 899,
+      "tid": 1,
+      "ts": 1000000000,
+      "args": { "data": { "frames": [{ "processId": 900, "isMainFrame": true }] } }
+    },
+    {
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1000000000,
+      "args": { "name": "CrRendererMain" }
+    },
+    {
+      "name": "ThreadControllerImpl::RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001000000,
+      "dur": 70000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001010000,
+      "dur": 55000
+    }
+  ],
+  "spans": [],
+  "marks": {
+    "traceTimeOriginUs": 1000000000,
+    "loadMs": 500,
+    "engageMs": 1000,
+    "readyMs": 1100
+  }
+}
