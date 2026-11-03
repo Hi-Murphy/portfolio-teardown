@@ -108,9 +108,9 @@ export function HeroLive({ project }: HeroLiveProps) {
           setState('loading');
 
           try {
-            const { HeroStage: LoadedHeroStage } = await import('./hero-stage');
+            const { bootHeroStage } = await import('./hero-boot');
             if (signal.aborted) return;
-            setHeroStage(() => LoadedHeroStage);
+            await bootHeroStage(signal, setHeroStage);
           } catch {
             if (!signal.aborted) setState('skipped');
           }
