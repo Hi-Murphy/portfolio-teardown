@@ -102,7 +102,9 @@ export async function createStagedRenderer(
   defaults: StagedRendererDefaults,
 ): Promise<WebGLRenderer> {
   await idleSlice();
-  return new WebGLRenderer({ ...defaults, antialias: true, alpha: true });
+  const renderer = new WebGLRenderer({ ...defaults, antialias: true, alpha: true });
+  await nextTask();
+  return renderer;
 }
 
 type StagedRendererLifecycle = StagedRendererFactory & {
