@@ -71,6 +71,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-P1 (plan defect, T001):** `pnpm bundle:manifest` requires `--out-dir <out>`. Every check now calls `pnpm bundle:manifest --out-dir apps/web/out --write <file>`. Found by tier 1 in T001: the check stopped with exit 2 before `bundle-scopes.mjs` ran.
+- **D-P2 (plan defect, T002):** `pnpm fps:engine --scenario startup` exits 6 when the startup verdict fails, which is expected for every pre-lever state. Every check therefore runs it as `pnpm fps:engine … || echo "fps-engine exit $? (verdict recorded)"`, and the verdict is read from the JSON. Same for `pnpm perf:lighthouse` (gated or eager runs may fail a budget) and `pnpm perf:parity --compare` in T004's drift check (a drift diff is recorded, not fatal). In lever tasks a parity diff stays a STOP.
 
 ---
 
