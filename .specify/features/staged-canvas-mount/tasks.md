@@ -64,7 +64,7 @@
 | T007 | ⊘ skipped (evidence): program setup inside the first-frame task is ≈ 4–6 ms (T004 §3: `acquireProgram` 1.2, `setup` 1.7, `getParameters` 1.1 ms, plus uniforms) of a ≈ 32 ms task. Removing all of it leaves ≈ 26–28 ms, still above one frame, so no dropped frame moves under the AC2 harness (T005-log-frame-diagnosis.md). The rest of the frame (three render + overlay projection) must stay in the first content frame (AC4) | — | evidence/T004-log-rebaseline.md §3, T006-log-l4-ab.md §7 | — |
 | T007b | ↺ measured and reverted (keep rule: no metric beyond spread; project-move cost +4.7 ms; dropped frames 1.5→1 / 5→5.5 / 5.5→5, all within spread; only `setPhase` feeds the post-frame commit). Lever + re-seal reverted, evidence kept | 1 (Flash); revert by orchestrator | evidence/T007b-log-l5-ab.md | 7dbfebf |
 | T008 | ⊘ skipped (G1 decision; T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) | — | evidence/T004-log-rebaseline.md §7 | — |
-| T008b | ☐ (G2-added: bytes) | | | |
+| T008b | ☑ kept: vs T006 −477 B raw / −175 B gz total, behaviour within spread (long tasks 0, parity 0 px, AC4 sequence holds); residual vs T004: lazy/total +289 raw / +136 gz, project initial gz +2 (chunk-hash names) | 1 (Flash) | evidence/T008b-log-bytes.md | (this merge) |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
