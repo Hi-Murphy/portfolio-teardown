@@ -395,3 +395,12 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
      - The local A/B + non-goal checks are one standing `lever-block.sh`, written in T006 and sourced by every lever task.
      - CI-side steps (push, PR, reruns, downloads) are the orchestrator's; the executor writes tables from downloaded artifacts.
    - **R10 (post-eager parity needs a no-input mode).** `perf:parity` always engages with `page.mouse.move` (`cli/parity.ts` L314). D9's "post-eager frames with no interaction" therefore needs an additive `--no-engage`. The engaged default is byte-identical.
+4. **Stage 3 G1 (2026-11-04): AC1 baseline committed (T006 `adfe955`) before any app commit.**
+   - Attempt `41734234159-1-s3` is slow-class (every Lighthouse run 2,114–2,351). Shards s1/s2 are fast and not counted. The runner renders WebGL with SwiftShader on Vulkan, so F2 does not block.
+   - The ≈ 200 ms react-dom tasks are named (`evidence/T006-log-baseline.md` §4). On the project route it is the first content frame + the lettering label placement; on home it is the R3F commit → the camera-fit layout effect. Both are engine-owned. App-reachable cost is the module evaluation of the xploder and three chunks.
+   - F1 is confirmed in practice: observed × 4 = simulated, and the idle gaps collapse.
+   - **AC2 is escalated as blocked** for app-side work (§8.3).
+   - Proposed:
+     - lever order L0 → L3a (now also staging the xploder graph) → L1 → L2 (conditional);
+     - L3b, L4 and L5 pre-skipped with evidence;
+     - engine exceptions E1/E2 described, recommendation "decline now, re-ask at G2".

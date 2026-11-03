@@ -57,11 +57,11 @@
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
 | T001 | ☑ (11 guards; 5 negative controls bite incl. committed BASELINE-FIRST control; pre-slice bytes: gated total 1,581,847 raw / 459,233 gz = S11.6 final) | 1 (Flash) | evidence/T001-log-guard.txt, T001-log-bytes.txt | 72bc211 |
-| T002 | ☑ (`--profile` keeps trace + V8 samples; `--gl swiftshader`, `--cpu-multiplier`; attribution with served-chunk snippets + 3-frame stacks; URL-less matching) — local emulation smoke: project eager 634 ms observed task = `hasWebgl()` first context under SwiftShader (informational, not binding) | 1 (Flash) ×2: orchestrator review revision (D-P2) | evidence/T002-log-attribution-tool.txt | (this merge) |
+| T002 | ☑ (`--profile` keeps trace + V8 samples; `--gl swiftshader`, `--cpu-multiplier`; attribution with served-chunk snippets + 3-frame stacks; URL-less matching) — local emulation smoke: project eager 634 ms observed task = `hasWebgl()` first context under SwiftShader (informational, not binding) | 1 (Flash) ×2: orchestrator review revision (D-P2) | evidence/T002-log-attribution-tool.txt | 72afd4e |
 | T003 | ☑ (`fps:engine --scenario load --frames trace-only\|recorder`, recorder marked non-gated; `perf:startup --engage none`; existing fps tests unmodified) | 1 (Flash) | evidence/T003-log-load-harness.txt | ff9bc72 |
 | T004 | ☑ (`eager:probe`; `eager-verdict --rule s11.7`, default output golden = S11.6 byte-for-byte; `perf:parity --no-engage`) — local: project reduce 0/2 (RFC F4 confirmed pre-baseline) | 1 (Flash) | evidence/T004-log-probe-verdict-tools.txt | aa59034 |
-| T005 | ☑ (`perf:host`: local 4,354 ANGLE Metal / SwiftShader variant; `eager-load.yml` 3 shards) + orchestrator fix D-P1 | 1 (Flash) + orchestrator (D-P1) | evidence/T005-log-host-workflow.txt | (this merge) |
-| T006 | ☐ | | | |
+| T005 | ☑ (`perf:host`: local 4,354 ANGLE Metal / SwiftShader variant; `eager-load.yml` 3 shards) + orchestrator fix D-P1 | 1 (Flash) + orchestrator (D-P1) | evidence/T005-log-host-workflow.txt | 9f7280c |
+| T006 | ☑ AC1 baseline on `41734234159-1-s3` (24 LH runs, index 2,114–2,351; s1/s2 fast, not counted). GL = SwiftShader/Vulkan (F2 clear). Eager−gated TBT +137 home / +288 project. ≈200 ms react-dom tasks named: P13 first content frame + lettering placement (project), H10 R3F commit → camera-fit layout effect (home), both engine-owned. App-reachable: xploder + three module evaluation. AC2 baseline 93–117 ms max task, 11–13 dropped (blocked, §8.3). AC5 revealed ≤ 627 ms; F4 confirmed. Local emulation: native GL, M = 18.5 | 1 (Flash: copy, local baselines, drift, scripts) + orchestrator (CI, §4, §8) | evidence/T006-log-baseline.md | adfe955 |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
