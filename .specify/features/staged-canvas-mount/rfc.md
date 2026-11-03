@@ -359,4 +359,8 @@ Names follow the brief's list. Expected effects are **estimates** from the T010 
    - **AC2 dropped-frame half not met:** 2 / 5.5 / 5.5 dropped frames. The AC2 harness's own continuous rAF recorder keeps a frame due, and the remaining 25–33 ms tasks include three's unsplittable `WebGLRenderer` constructor and the first content frame, which must stay one frame (`T005-log-frame-diagnosis.md`, `T009-log-ac2.md`). → escalated (Hard Rule 2, RFC Q10).
    - **AC3:** parity 0 px, draws 2, CLS 0 hold. The byte clause is missed: lazy and total +289 B raw / +136 B gzip, and project initial gzip +2 B (only chunk-hash names changed). → escalated with the options in the G2 report.
    - **AC4:** pass.
+7. **G2 decision (Murphy, 2026-11-03, 5h 80%): "yes default all. go".**
+   - AC2's dropped-frame half is recorded as escalated and blocked by the harness rAF recorder + three's constructor; the long-task half is met.
+   - AC3's byte clause is recorded as missed by +289 B raw / +136 B gzip (lazy/total) and +2 B gzip (project initial). The levers are kept, and there is no offset task.
+   - G3 starts: push + draft PR approved (Q15).
 

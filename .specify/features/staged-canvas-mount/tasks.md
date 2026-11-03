@@ -13,7 +13,7 @@
 - Each ledger row states the finishing tier.
 
 **Usage pacing:**
-- Murphy states "5h: N%" at gates (Gate 1: 0%; G1: 47%).
+- Murphy states "5h: N%" at gates (Gate 1: 0%; G1: 47%; G2: 80%).
 - At ≥ 85% of the 5h window no new task starts: finish and commit the current task, tick the ledger, report, STOP.
 
 **Worktrees:** each task runs in a fresh worktree off `task/s11.6-staged-canvas-mount` on branch `task/s11.6-staged-canvas-mount-tNNN`. The orchestrator reviews it and merges it back with `--no-ff`. The worktree is removed only after its merge (global rule).
