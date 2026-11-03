@@ -1,0 +1,53 @@
+T012 frozen-surface diff audit
+Base B: 05e4e16
+
+===== (a) S2, S5, S7 path sets: must be empty =====
+
+===== S2 path set (.specify/features/staged-canvas-mount/s2.paths, packages/xploder-prefixed) =====
+$ git diff --stat 05e4e16 -- packages/xploder/package.json packages/xploder/src/index.ts packages/xploder/src/motion/index.ts packages/xploder/src/errors.ts packages/xploder/src/parse.ts packages/xploder/src/schema packages/xploder/src/theme packages/xploder/test/fixtures.test.ts packages/xploder/test/generality.test.ts packages/xploder/test/geometry-free.test.ts packages/xploder/test/helpers.ts packages/xploder/test/motion.test.ts packages/xploder/test/parse.test.ts packages/xploder/test/registry.test.ts packages/xploder/test/schema.test.ts packages/xploder/test/smoke.test.ts packages/xploder/test/theme.test.ts packages/xploder/test/fixtures/project-a-ui-app.json packages/xploder/test/fixtures/project-b-pipeline.json packages/xploder/test/fixtures/tech-registry.json packages/xploder/test/__snapshots__/generality.test.ts.snap
+(empty)
+RESULT: PASS (empty; frozen paths unchanged)
+
+===== S5 path set (frozen-surface.s5.paths, packages/xploder-prefixed) =====
+$ git diff --stat 05e4e16 -- packages/xploder/src/interaction packages/xploder/src/motion/emphasis.ts packages/xploder/src/react/scene/Emphasis.tsx packages/xploder/src/react/scene/PickBridge.tsx packages/xploder/src/react/scene/ViewScroll.tsx packages/xploder/src/react/overlay/TourCaption.tsx packages/xploder/src/react/usePointerPick.ts packages/xploder/src/react/useTourClock.ts packages/xploder/src/react/useTeardownViewer.ts packages/xploder/test/fixtures/project-c-lockerbay.json packages/xploder/test/pick.test.ts packages/xploder/test/pick-scene.test.tsx packages/xploder/test/pointer.test.ts packages/xploder/test/focus.test.ts packages/xploder/test/tour.test.ts packages/xploder/test/tour-clock.test.tsx packages/xploder/test/emphasis.test.ts packages/xploder/test/emphasis-scene.test.tsx packages/xploder/test/emphasis-tokens.test.ts packages/xploder/test/caption.test.ts packages/xploder/test/fixture-c.test.ts packages/xploder/test/scroll.test.ts packages/xploder/test/view-scroll.test.tsx packages/xploder/test/viewer-handle.test.tsx packages/xploder/test/__snapshots__/fixture-c.test.ts.snap
+(empty)
+RESULT: PASS (empty; frozen paths unchanged)
+
+===== S7 path set (frozen-surface.s7.paths, packages/xploder-prefixed) =====
+$ git diff --stat 05e4e16 -- packages/xploder/src/panel/ packages/xploder/src/lettering/ packages/xploder/src/react/panel/CaseStudyPanel.tsx packages/xploder/src/react/panel/executeTourCommand.ts packages/xploder/src/react/panel/pickAt.ts packages/xploder/src/react/panel/useSlabClick.ts packages/xploder/test/panel-content.test.ts packages/xploder/test/panel-motion.test.ts packages/xploder/test/panel-place.test.ts packages/xploder/test/panel-state.test.ts packages/xploder/test/panel-tour-click.test.ts packages/xploder/test/viewer-panels.test.tsx packages/xploder/test/lettering.test.ts packages/xploder/test/lettering-column.test.ts
+(empty)
+RESULT: PASS (empty; frozen paths unchanged)
+
+===== (b) S4, S6, S8 path sets: only packages/xploder/src/react/TeardownViewer.tsx may appear =====
+
+===== S4 path set (.specify/features/staged-canvas-mount/s4.paths, packages/xploder-prefixed) =====
+$ git diff --stat 05e4e16 -- packages/xploder/src/engine packages/xploder/src/layout packages/xploder/src/motion/ease.ts packages/xploder/src/react/env.ts packages/xploder/src/react/scene/CameraRig.tsx packages/xploder/src/react/scene/Lights.tsx packages/xploder/src/react/scene/Stats.tsx packages/xploder/src/react/usePalette.ts packages/xploder/src/react/useReducedMotion.ts packages/xploder/test/camera.test.ts packages/xploder/test/ease.test.ts packages/xploder/test/env.test.ts packages/xploder/test/explode.test.ts packages/xploder/test/exports.test.ts packages/xploder/test/layout.test.ts packages/xploder/test/scene.test.tsx packages/xploder/test/__snapshots__/layout.test.ts.snap
+(empty)
+RESULT: recorded for approved-change surfaces
+
+===== S6 path set (frozen-surface.s6.paths, packages/xploder-prefixed) =====
+$ git diff --stat 05e4e16 -- packages/xploder/src/look packages/xploder/src/overlay packages/xploder/src/react/overlay/BlueprintOverlay.tsx packages/xploder/src/react/overlay/CircuitTrace.tsx packages/xploder/src/react/scene/OverlayProjector.tsx packages/xploder/src/react/scene/Scene.tsx packages/xploder/src/react/scene/Slabs.tsx packages/xploder/src/react/scene/blueprintMaterial.ts packages/xploder/test/blueprint-scene.test.tsx packages/xploder/test/overlay-projector.test.tsx packages/xploder/test/look-fills.test.ts packages/xploder/test/look-tokens.test.ts packages/xploder/test/overlay-columns.test.ts packages/xploder/test/overlay-dimension.test.ts packages/xploder/test/overlay-model.test.ts packages/xploder/test/overlay-parts.test.ts packages/xploder/test/overlay-place.test.ts packages/xploder/test/overlay-project.test.ts packages/xploder/test/overlay-timing.test.ts packages/xploder/test/overlay-titleblock.test.ts packages/xploder/test/overlay-trace.test.ts packages/xploder/test/product-gap.test.ts
+(empty)
+RESULT: recorded for approved-change surfaces
+
+===== S8 path set (frozen-surface.s8.paths, packages/xploder-prefixed) =====
+$ git diff --stat 05e4e16 -- packages/xploder/src/a11y/ packages/xploder/src/react/a11y/ packages/xploder/src/react/TeardownViewer.tsx packages/xploder/src/react/lettering/PartLettering.tsx packages/xploder/src/react/lettering/faceNames.ts packages/xploder/src/react/panel/DetailPanel.tsx packages/xploder/src/react/panel/PanelLayer.tsx packages/xploder/src/react/panel/TechChips.tsx packages/xploder/src/react/panel/useViewerPanels.ts packages/xploder/test/a11y-announce.test.ts packages/xploder/test/a11y-contrast.test.ts packages/xploder/test/a11y-motion-matrix.json packages/xploder/test/a11y-motion-matrix.test.ts packages/xploder/test/a11y-navigator.test.ts packages/xploder/test/a11y-reveal.test.ts packages/xploder/test/lettering-face-names.test.ts
+ packages/xploder/src/react/TeardownViewer.tsx | 35 +++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
+RESULT: recorded for approved-change surfaces
+
+Changed files across S4/S6/S8 path sets:
+packages/xploder/src/react/TeardownViewer.tsx
+RESULT: PASS (only packages/xploder/src/react/TeardownViewer.tsx)
+
+===== (c) xploder source/package diff vs approved-xploder-src.txt =====
+
+$ git diff --name-only 05e4e16 -- packages/xploder/src packages/xploder/package.json
+packages/xploder/src/react/TeardownViewer.tsx
+
+Approved entries:
+packages/xploder/src/react/TeardownViewer.tsx
+
+Comparison:
+XPLODER-SRC-EXACT
+RESULT: PASS
