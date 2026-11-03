@@ -305,3 +305,8 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
    - **L2 and L5 are skipped**, so T007, T008 and T012 are not run. No S4 or S6 file is touched, `approved-xploder-src.txt` stays empty, and AC7's re-seal clause is met with zero touched files.
    - AC3 closes through its documented-shortfall clause if the final numbers stay under 40 %.
    - L4 and L3 A/B "before" = the T006 clean runs (the product tree is byte-identical to T006's, same host).
+5. **Stage 3 G2 (2026-11-03): levers done, at the G2 STOP.**
+   - Kept: L4 (T009) and L3 + staged evaluation (T010). Skipped: L2/L5 (G1), and L1 (T011) pending Murphy (it cannot move the remaining AC2 blocker).
+   - **AC2 blocked:** one 56–71 ms task remains on every path. It is the `<Canvas>` mount in frozen S8 `TeardownViewer` (three renderer construction 37–46 %, R3F root + first render 22–31 %, xploder scene 17–27 %), plus 1–7 dropped frames (`evidence/T010-log-longtask-profile.txt`, `T014-log-ac2.md`).
+   - **AC3 shortfall:** −13.4 % on the project paths and −1.5 % / −10.3 % on home, with the ceiling documented in `evidence/T013-log-before-after.md`.
+   - AC4 passes. AC5 = L3.
