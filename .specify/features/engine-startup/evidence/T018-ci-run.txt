@@ -1,0 +1,36 @@
+T018 CI run — PR 17
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/17
+PR head branch: task/s11.5-engine-startup
+PR headRefOid: e92c55c2cb786d3c29d4578f0d86051e7defbd63
+Local HEAD:    e92c55c2cb786d3c29d4578f0d86051e7defbd63 (match)
+Polling: every 60 s; all checks finished on poll 5 of 40.
+
+== gh pr checks 17
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/EACkKWi1JSyRF8V2PiozddRRm2K3	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	1m49s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974267	
+a11y: axe (production routes)	pass	2m55s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974499	
+build (typecheck, lint, test, build)	pass	1m21s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142452/job/125751974467	
+perf-gate: lighthouse (mobile)	pass	1m29s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974453	
+perf-gate: weight (< 3 MB)	pass	1m50s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974446	
+perf: eager-3d (measurement)	pass	4m12s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142430/job/125751974118	
+perf: fixture exclusion	pass	29s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974448	
+perf: fps calibration	pass	1m2s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974480	
+secrets (gitleaks)	pass	9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142452/job/125751974543	
+seo: meta + og	pass	1m0s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142452/job/125751974187	
+
+== gh pr checks 17 --required
+a11y: axe (production routes)	pass	2m55s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974499	
+build (typecheck, lint, test, build)	pass	1m21s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142452/job/125751974467	
+perf-gate: lighthouse (mobile)	pass	1m29s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974453	
+perf-gate: weight (< 3 MB)	pass	1m50s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974446	
+perf: fixture exclusion	pass	29s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142420/job/125751974448	
+secrets (gitleaks)	pass	9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142452/job/125751974543	
+seo: meta + og	pass	1m0s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142452/job/125751974187	
+
+eager-3d run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142430 (conclusion=success)
+
+PASS: seo: meta + og
+PASS: perf: fps calibration
+PASS: a11y: axe (engine fixture export)
+PASS: a11y: axe (production routes)
