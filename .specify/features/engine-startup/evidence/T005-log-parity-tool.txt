@@ -34,3 +34,4 @@ parity: PASS (8 shots, 0 px)
 parity: baseline parity.json
 parity: comparison /tmp/s115-checks/t005-b/parity-compare.json
 guards.sh not present; skipped per T005 dispatch note
+FROZEN-OK BRIEF-HISTORY-OK XPLODER-SRC-OK SURFACE-S2-OK SURFACE-S4-OK SURFACE-S5-OK SURFACE-S6-OK SURFACE-S7-OK SURFACE-S8-OK DEV-ROUTES-OK S8-TOOLS-OK CI-JOBS-OK VERSIONS-OK GITLEAKS-OK 
