@@ -1,0 +1,35 @@
+T001 check (orchestrator re-run after D-P1 fix; tier-1 implementation unchanged), 2026-11-03
+Reproduces S11.5 T014 corrected table exactly: home 583,343/180,606; project 581,795/180,044; total 1,581,558/459,097; non-initial 995,971/277,414.
+
+PARTITION-OK
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+SEALED-TESTS-OK
+RESEAL-NOTE-OK
+REBASELINE-FIRST-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+CI-JOBS-OK
+VERSIONS-OK
+GITLEAKS-OK
+neg packages/xploder/src/index.ts: FAIL XPLODER-SRC FAIL SURFACE-S2 
+neg packages/xploder/src/react/scene/Stats.tsx: FAIL XPLODER-SRC FAIL SURFACE-S4 
+neg packages/xploder/src/react/scene/Emphasis.tsx: FAIL XPLODER-SRC FAIL SURFACE-S5 
+neg packages/xploder/src/react/scene/Slabs.tsx: FAIL XPLODER-SRC FAIL SURFACE-S6 
+neg packages/xploder/src/react/a11y/webgl.ts: FAIL XPLODER-SRC FAIL SURFACE-S8 
+neg packages/xploder/test/view-scroll.test.tsx: FAIL SURFACE-S5 FAIL SEALED-TESTS 
+Bundle scopes: /tmp/s116-checks/t001-manifest.json + apps/web/out
+Scope             Files         Raw        Gzip
+home initial          9      583343      180606
+project initial       9      581795      180044
+total                22     1581558      459097
+non-initial 3D       12      995971      277414
+SCOPES-SELF-OK
+T001-OK
