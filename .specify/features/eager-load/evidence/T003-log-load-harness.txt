@@ -1,0 +1,78 @@
+T003 — load scenario + `perf:startup --engage none`
+Evidence: local emulation, tool check only. Check block from .specify/features/eager-load/tasks.md §T003.
+Worktree: .
+Date: 2026-11-04
+
+EXISTING-FPS-TESTS-UNMODIFIED
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/fps-engine-load.test.ts > load scenario > uses the production route and requires an absolute path 2ms
+ ✓ test/fps-engine-load.test.ts > load scenario > adds the load categories without changing the base trace categories 0ms
+ ✓ test/fps-engine-load.test.ts > load scenario > partitions intersecting and wholly pre-load tasks relative to load 1ms
+ ✓ test/fps-engine-load.test.ts > load scenario > finds the last load mark and maps it onto the trace clock 0ms
+ ✓ test/fps-engine-load.test.ts > load scenario > gates only trace-only runs and applies both AC2 boundaries 0ms
+ ✓ test/fps-engine-load.test.ts > load scenario > reports the load schema and marks recorder output as excluded 1ms
+ ✓ test/fps-engine-load.test.ts > load scenario > rejects an unmounted load run as an internal failure 0ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > includes both edges of the configured liveness band 1ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > rejects readings outside the configured liveness band 0ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > rejects any dropped frame even when the measured rate is live 0ms
+ ✓ test/fps-engine.test.ts > scenarioUrl > keeps the S4 explode route 0ms
+ ✓ test/fps-engine.test.ts > scenarioUrl > builds the looping live-update tour route 0ms
+ ✓ test/fps-engine.test.ts > buildFpsReport > reports the dropped-frames verdict and tour details without a legacy key 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > appends optional trace categories only when provided 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > uses the production route instead of the fixture route 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > requires an absolute route 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > applies the dropped-frame and 50 ms long-task rules independently 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > finds long tasks in the kept trace and excludes the 50 ms boundary 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > counts metadata main-thread tasks and ignores the draw-frame fallback pid 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > fails internals when the long-task check would be vacuous 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > reports one dropped-frame timestamp per counted dropped frame 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > includes main-thread tasks strictly above the 16.7 ms boundary 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > keeps the startup timeline fields out of explode and tour reports 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > adds startup fields without retaining the trace or a liveness verdict 0ms
+ ✓ test/startup.test.ts > analyzeStartup > attributes a baseline-like startup to P0-P9 and keeps other cost visible 3ms
+ ✓ test/startup.test.ts > analyzeStartup > reports post-engagement CLS raw and without recent input 0ms
+ ✓ test/startup.test.ts > analyzeStartup > includes a pre-engagement warm task in cost but not in the long-task window 0ms
+ ✓ test/startup.test.ts > analyzeStartup > treats 51 ms as a long task and 50 ms as the boundary 0ms
+ ✓ test/startup.test.ts > analyzeStartup > keeps P5-P9 null for a clean trace while still computing cost from the ready mark 0ms
+ ✓ test/startup.test.ts > analyzeStartup > excludes main-thread work outside the cost and long-task windows 0ms
+ ✓ test/startup.test.ts > analyzeStartup > ignores main-thread-shaped tasks on non-main renderer threads 0ms
+ ✓ test/startup.test.ts > analyzeStartup > counts only the outer task when RunTask records are nested 0ms
+ ✓ test/startup.test.ts > analyzeStartup > ignores GL spans that start after the first content frame 0ms
+ ✓ test/startup.test.ts > analyzeStartup > attributes phase time exclusively at nested compile and layout boundaries 0ms
+ ✓ test/startup.test.ts > analyzeStartup > starts P5 at the connected canvas and reports detached probes separately 0ms
+ ✓ test/startup.test.ts > analyzeStartup > defines P3 from depth-0 chunk module evaluation and P2 from compile/parse 0ms
+ ✓ test/startup.test.ts > analyzeStartup > reports an inconsistent phase model by phase 0ms
+ ✓ test/startup.test.ts > analyzeStartup > keeps attributed main-thread time within cost for every fixture 1ms
+ ✓ test/startup.test.ts > load-anchored startup > keeps move and click defaults and accepts none 0ms
+ ✓ test/startup.test.ts > load-anchored startup > anchors t0 at the load performance mark 0ms
+ ✓ test/startup.test.ts > startup attribution init script > records wrapped GL spans, per-rAF draw counts and the extension list 37ms
+ ✓ test/startup.test.ts > startup attribution init script > leaves GL calls unwrapped without --attribute 5ms
+ ✓ test/startup.test.ts > startup attribution init script > records detached probes with their connection state and context type 5ms
+ ✓ test/startup.test.ts > startup attribution init script > times Turbopack factories in both registry phases and preserves call semantics 3ms
+ ✓ test/startup.test.ts > startup attribution init script > records the first instanced draw, ready flip and live-state changes by rAF 12ms
+
+ Test Files  4 passed (4)
+      Tests  45 passed (45)
+   Start at  05:38:34
+   Duration  595ms (import 89%, tests 7%, transform 3%, worker 1%)
+
+LOAD-OK trace-only 0 1
+LOAD-OK recorder 0 1
+startup: /tmp/s117-checks/t003-startup/startup-home-none-profiled-r1.json
+cpu profile: /tmp/s117-checks/t003-startup/cpuprofile-summary-home-none-r1.json
+summary: /tmp/s117-checks/t003-startup/summary.json (mainThreadCostMs=400.2, spreadFlagged=false)
+OK FROZEN
+OK BRIEF-HISTORY
+OK XPLODER-EMPTY
+OK APP-TOUCH
+OK BASELINE-FIRST
+OK DEV-ROUTES
+OK CI-JOBS
+OK FLAG-DEFAULT
+OK VERSIONS
+OK BUDGETS
+OK GITLEAKS
+
+Check final line: T003-OK
