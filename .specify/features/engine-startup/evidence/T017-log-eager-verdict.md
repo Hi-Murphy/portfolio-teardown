@@ -1,93 +1,36 @@
-# T017 — Eager Lighthouse verdict
+# T017 — AC6 eager-hydration verdict
 
-Date: 2026-11-03
+**Verdict:** keep the gate
 
-## CI runner status
+Binding host: the GitHub Actions runner (`ubuntu-latest`, benchmarkIndex ≈ 2,200–2,340, the slower
+host where S10's load-time hydration failed). Run: `perf: eager-3d (measurement)`,
+https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093379 (head `d753931`, PR #17).
+Each build is served on the runner (`serve:out`, 127.0.0.1:4320). `perf:lighthouse` mobile is run
+×2 per route, each a median of 3. Rule (AC6 + RFC Q7): eager perf ≥ 0.95 **and** TBT ≤ 200 ms
+(two-invocation median) on **both** `/` and `/projects/websocket-inspector`.
 
-The dispatch explicitly prohibits pushing the branch or opening a PR. The workflow has therefore
-not run on the CI runner yet, and no runner URL or artifact exists to report. The binding AC6
-verdict remains pending that run.
+| Host | Build | Route | Perf | TBT ms | LCP ms | CLS | Pass AC6 rule |
+|---|---|---|---:|---:|---:|---:|---|
+| CI runner | eager | `/` | 0.955 | **248.5** | 910.6 | 0 | no (TBT) |
+| CI runner | eager | project | **0.89** | **441.5** | 910.3 | 0 | no (perf, TBT) |
+| CI runner | gated (reference) | `/` | 0.995 | 96.75 | 909.3 | 0 | — |
+| CI runner | gated (reference) | project | 1.00 | 88.5 | 906.9 | 0 | — |
+| local (T016) | eager | `/` | 1.00 | 2 | 905.0 | 0 | yes |
+| local (T016) | eager | project | 1.00 | 3 | 904.7 | 0 | yes |
 
-## Local dry run
+Eager hydration adds ≈ 150 ms (home) and ≈ 350 ms (project) of TBT on the runner over the gated
+build. The 3D startup's remaining long work (the frozen S8 `<Canvas>` mount, and eval stages that
+fall under 50 ms locally but exceed it at the runner's ~2× slower CPU under Lighthouse's 4×
+simulation) lands inside Lighthouse's TBT window. For reference, S10's load + idle hydration on
+the runner scored home perf 0.89 with TBT 426–639 ms (S10 RFC §9.15). This slice's levers moved the
+home route from failing to perf 0.955, but TBT is still above the 200 ms reference, and the project
+route still fails both criteria.
 
-The T016 local summaries were copied into the CI directory naming (`<build>-<route>-r<N>`) and
-rendered by the new CLI:
+**Recommendation (per AC6): keep D-19's interaction gate.** The flag stays in the build, off by
+default (`NEXT_PUBLIC_EAGER_3D`, `pnpm build:eager`), so the experiment can be re-run after a
+future slice that may touch the S8 Canvas mount.
 
-```sh
-node tools/perf/src/cli/eager-verdict.ts --dir <temp-dir>
-```
-
-```text
-# Eager 3D Lighthouse
-
-AC6 uses the eager two-invocation median on both routes: performance >= 0.95 and TBT <= 200 ms.
-
-## gated / home
-
-| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
-|---:|---:|---:|---:|---:|---:|
-| r1-1 | 1 | 0.5 | 904.5077 | 0 | 4199.5 |
-| r1-2 | 1 | 1 | 904.5358 | 0 | 4198.5 |
-| r1-3 | 1 | 1 | 903.3284 | 0 | 4170 |
-| r1 median | 1 | 1 | 904.5077 | 0 | 4198.5 |
-| r2-1 | 1 | 2 | 904.2539 | 0 | 4195.5 |
-| r2-2 | 1 | 0 | 903.3584 | 0 | 4179 |
-| r2-3 | 1 | 0.5 | 903.2461 | 0 | 4180.5 |
-| r2 median | 1 | 0.5 | 903.3584 | 0 | 4180.5 |
-| two-invocation median | 1 | 0.75 | 903.9331 | 0 | 4189.5 |
-
-Median runs: r1 #1, r2 #2.
-
-## gated / project
-
-| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
-|---:|---:|---:|---:|---:|---:|
-| r1-1 | 1 | 1 | 903.3156 | 0 | 4183.5 |
-| r1-2 | 1 | 1 | 903.0999 | 0 | 4181.5 |
-| r1-3 | 1 | 1.5 | 903.8901 | 0 | 4101.5 |
-| r1 median | 1 | 1 | 903.3156 | 0 | 4181.5 |
-| r2-1 | 1 | 1.5 | 903.2264 | 0 | 4169.5 |
-| r2-2 | 1 | 1 | 903.0787 | 0 | 4180.5 |
-| r2-3 | 1 | 1 | 903.0831 | 0 | 4151.5 |
-| r2 median | 1 | 1 | 903.0831 | 0 | 4169.5 |
-| two-invocation median | 1 | 1 | 903.1994 | 0 | 4175.5 |
-
-Median runs: r1 #1, r2 #3.
-
-## eager / home
-
-| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
-|---:|---:|---:|---:|---:|---:|
-| r1-1 | 1 | 9 | 904.6646 | 0 | 4169.5 |
-| r1-2 | 1 | 2 | 905.8378 | 0 | 4188.5 |
-| r1-3 | 1 | 1 | 903.2056 | 0 | 4195.5 |
-| r1 median | 1 | 2 | 904.6646 | 0 | 4188.5 |
-| r2-1 | 1 | 2 | 906.3628 | 0 | 4159 |
-| r2-2 | 1 | 2.5 | 905.3667 | 0 | 4097 |
-| r2-3 | 1 | 1.5 | 903.8307 | 0 | 4197.5 |
-| r2 median | 1 | 2 | 905.3667 | 0 | 4159 |
-| two-invocation median | 1 | 2 | 905.0157 | 0 | 4173.75 |
-
-Median runs: r1 #1, r2 #2.
-
-## eager / project
-
-| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
-|---:|---:|---:|---:|---:|---:|
-| r1-1 | 1 | 3 | 905.679 | 0 | 4173 |
-| r1-2 | 1 | 1.5 | 904.8241 | 0 | 4178 |
-| r1-3 | 1 | 2.5 | 905.9731 | 0 | 4193.5 |
-| r1 median | 1 | 2.5 | 905.679 | 0 | 4178 |
-| r2-1 | 1 | 2 | 906.0339 | 0 | 4175.5 |
-| r2-2 | 1 | 3.5 | 903.8186 | 0 | 4183 |
-| r2-3 | 1 | 3.5 | 903.6347 | 0 | 4202 |
-| r2 median | 1 | 3.5 | 903.8186 | 0 | 4183 |
-| two-invocation median | 1 | 3 | 904.7488 | 0 | 4180.5 |
-
-Median runs: r1 #1, r2 #2.
-
-**Verdict:** recommend retiring D-19
-```
-
-This is the local-host reading only. It does not replace the CI runner measurement required by AC6.
-
+Artifacts: `T017-lighthouse-summary-ci-{gated,eager}-{home,project}-r{1,2}.json` (copied from the
+run's `eager-3d` artifact). Per-run tables: `T017-log-eager-verdict-ci-tables.md` (output of
+`node tools/perf/src/cli/eager-verdict.ts --dir <artifact>`). Exit codes from the job:
+eager-project r1/r2 = 6 (budget, recorded; the job never fails on budget), all others 0.

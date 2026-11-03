@@ -315,3 +315,8 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
    - **L1 (T011) is skipped.**
    - G3 starts. Pushing the branch and opening a **draft PR** at T017 is approved.
    - **T015 constraint:** home initial JS has only 25 B of headroom against T006. The flag is therefore an inline build-time check at the two call sites, which compiles away to the T014 code when off. The flag-off build's initial route chunks must be byte-identical to T014's.
+7. **Stage 3 G3 (2026-11-03): eager-hydration experiment done, at the G3 STOP.**
+   - Flag `NEXT_PUBLIC_EAGER_3D` → `compiler.define __XP_EAGER_3D__`, off by default, compiling away to byte-identical output.
+   - Local result: eager perf 1.00 and TBT 2–3 ms on both routes.
+   - **Binding result (CI runner, run 41583093379):** eager home perf 0.955 / TBT 248.5 ms, eager project perf 0.89 / TBT 441.5 ms → **AC6 verdict: keep the gate** (D-19 stays).
+   - Draft PR #17 is open, and all 12 checks are green on `d753931`.

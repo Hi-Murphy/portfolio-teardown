@@ -55,7 +55,7 @@
 | T014 | ☑ AC2 FAIL all paths (one 56–71 ms Canvas-mount task, 1–7 dropped frames) → escalated; AC4 PASS (parity 0 px ×8, draws 2, CLS 0, bytes ≤ T006 raw + gzip) | 1 (Flash); orchestrator gzip-method correction | evidence/T014-log-ac2.md, T014-log-bundle-diff.txt | de7a417 |
 | T015 | ☑ (flag off: initial chunks byte-identical to T014, 0 B; eager: no-touch 3D ready ≈ 190 ms on both routes; default stays gated) | 1 (Flash) ×2: orchestrator-review revision (inline process.env left a runtime lookup → compiler.define bare constant) | evidence/T015-log-flag.txt | e42dc30 |
 | T016 | ☑ LOCAL: eager perf 1.00 / TBT 2–3 ms / CLS 0 on both routes (3D load captured: +238 / +279 KB) → local verdict "recommend retiring D-19" | 1 (Flash); orchestrator capture check | evidence/T016-log-eager-local.md | 9ac9bbc |
-| T017 | ☐ | | | |
+| T017 | ☑ AC6 verdict **keep the gate** (CI runner: eager home perf 0.955 / TBT 248.5 ms; eager project perf 0.89 / TBT 441.5 ms; gated 0.995–1.00 / TBT 88–97 ms); local passes (T016) | 1 (Flash: workflow + verdict CLI); orchestrator: push, draft PR #17, CI artifact + verdict | evidence/T017-log-eager-verdict.md, T017-ci-run.txt | d753931 (+ evidence commit) |
 | T018 | ☐ | | | |
 
 ## G2 amendments (orchestrator, after G1 "all defaults. go")
