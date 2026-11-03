@@ -1,37 +1,49 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { startTransition, useEffect, useRef, useState } from 'react';
 
 import { waitForFirstInteraction, waitForIdle } from '../interaction-gate';
-
-const WorkbenchClient = dynamic(
-  () => import('./workbench-client').then((module) => module.WorkbenchClient),
-  { ssr: false, loading: () => null },
-);
+import type { WorkbenchClientComponent } from './workbench-boot';
 
 export function WorkbenchLoader({ slug }: { readonly slug: string }) {
   const rootRef = useRef<HTMLSpanElement>(null);
   const startedRef = useRef(false);
-  const [mounted, setMounted] = useState(false);
+  const [WorkbenchClient, setWorkbenchClient] = useState<WorkbenchClientComponent | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     const root = rootRef.current?.closest<HTMLElement>('[data-site-workbench]') ?? null;
     const control = root?.querySelector<HTMLButtonElement>('[data-site-control="explore-3d"]');
+    const label = control?.querySelector<HTMLElement>('[data-site-control-label]');
+    const originalLabel = label?.textContent ?? '';
 
     const start = () => {
       if (signal.aborted || startedRef.current) return;
 
       startedRef.current = true;
-      setMounted(true);
+      void (async () => {
+        try {
+          const { bootWorkbench } = await import('./workbench-boot');
+          if (signal.aborted) return;
+
+          const LoadedWorkbenchClient = await bootWorkbench(signal);
+          if (LoadedWorkbenchClient === null || signal.aborted) return;
+
+          startTransition(() => setWorkbenchClient(() => LoadedWorkbenchClient));
+        } catch {
+          if (!signal.aborted) {
+            startedRef.current = false;
+            control?.removeAttribute('aria-busy');
+            if (label !== null && label !== undefined) label.textContent = originalLabel;
+          }
+        }
+      })();
     };
     const onClick = () => {
       if (signal.aborted || startedRef.current) return;
 
       control?.setAttribute('aria-busy', 'true');
-      const label = control?.querySelector<HTMLElement>('[data-site-control-label]');
       if (label !== null && label !== undefined) label.textContent = 'Loading 3D…';
       start();
     };
@@ -60,7 +72,7 @@ export function WorkbenchLoader({ slug }: { readonly slug: string }) {
   return (
     <>
       <span ref={rootRef} hidden />
-      {mounted ? <WorkbenchClient slug={slug} /> : null}
+      {WorkbenchClient === null ? null : <WorkbenchClient slug={slug} />}
     </>
   );
 }
