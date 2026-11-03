@@ -310,3 +310,8 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
    - **AC2 blocked:** one 56–71 ms task remains on every path. It is the `<Canvas>` mount in frozen S8 `TeardownViewer` (three renderer construction 37–46 %, R3F root + first render 22–31 %, xploder scene 17–27 %), plus 1–7 dropped frames (`evidence/T010-log-longtask-profile.txt`, `T014-log-ac2.md`).
    - **AC3 shortfall:** −13.4 % on the project paths and −1.5 % / −10.3 % on home, with the ceiling documented in `evidence/T013-log-before-after.md`.
    - AC4 passes. AC5 = L3.
+6. **G2 decision (Murphy, 2026-11-03, 5h 42%): "accept defaults. go".**
+   - AC2 is recorded as **blocked by frozen S8 `<Canvas>` mount + dependency internals**, with the evidence. The real fix would be a brief revision allowing S8/Canvas changes; none is requested.
+   - **L1 (T011) is skipped.**
+   - G3 starts. Pushing the branch and opening a **draft PR** at T017 is approved.
+   - **T015 constraint:** home initial JS has only 25 B of headroom against T006. The flag is therefore an inline build-time check at the two call sites, which compiles away to the T014 code when off. The flag-off build's initial route chunks must be byte-identical to T014's.
