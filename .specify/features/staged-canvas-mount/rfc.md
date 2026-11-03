@@ -1,6 +1,6 @@
 # RFC — S11.6 Staged Canvas Mount
 
-**slice:** S11.6-staged-canvas-mount · **status:** DRAFT for Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.6-staged-canvas-mount.md` (frozen brief v1) · **branch:** `task/s11.6-staged-canvas-mount` · **base:** `05e4e16` (product tree = S11.5 final `66a021f`) · **date:** 2026-11-03
+**slice:** S11.6-staged-canvas-mount · **status:** APPROVED at Gate 1 (2026-11-03): all §7 defaults accepted; refinements R1–R9 recorded (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.6-staged-canvas-mount.md` (frozen brief v1) · **branch:** `task/s11.6-staged-canvas-mount` · **base:** `05e4e16` (product tree = S11.5 final `66a021f`) · **date:** 2026-11-03
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§7). **Nothing was profiled or built for this RFC.** The AC1 re-baseline is Stage 3's first task by design. The only inputs are S11.5's committed evidence and a static source read (`evidence/RFC-log-static-read.txt`). Every number below that is not from S11.5's evidence is labelled **estimate**.
 
@@ -330,3 +330,18 @@ Names follow the brief's list. Expected effects are **estimates** from the T010 
 ## 9. Gate log
 
 1. **Stage 1 (2026-11-03):** RFC drafted on `task/s11.6-staged-canvas-mount` (F1 branch fix before any commit). Awaiting Gate 1.
+2. **Gate 1 (Murphy, 2026-11-03, 5h 0%):** "defaults. approved". Q1–Q18 = the §7 defaults.
+3. **Stage-2 re-check of the defaults against the code.** These are refinements R1–R9. None of them changes an AC.
+   - **R1 (L2 must not touch sealed tests):** `scene.test.tsx` (S4), `view-scroll`/`pick-scene`/`emphasis-scene` (S5) and `blueprint-scene`/`overlay-projector` (S6) render `<Scene>` with the R3F test renderer and expect a frame after `advanceFrames(1)`. So L2 is **opt-in**: `Scene` (internal, not a package export) gains an optional `stage?: () => Promise<void>`. When it is absent, the mount is today's synchronous one. `TeardownViewer` passes its own `nextTask`. No yield helper is duplicated in `Scene.tsx`, and tests can inject a controllable promise. A new guard `SEALED-TESTS-OK` keeps every sealed test file unmodified.
+   - **R2 (L1 testability):** the `xploder-dom` tests make `getContext` throw, so `hasWebgl()` is false and `<Canvas>` never renders in jsdom. `createStagedRenderer` is therefore exported from the `TeardownViewer.tsx` **module** for a new unit test (`staged-mount.test.tsx`). `src/react/index.ts` is unchanged, so it is not a package export. The R3F wiring is proven in the browser by the A/B, parity and draw checks.
+   - **R3 (L2 first frame):** Stats requests no frame on mount, so `Scene` calls `invalidate()` when Stats' step arrives (S11.5 C1). PickBridge's step is scheduled from the **first `onStats`**, so it provably mounts after the first content frame.
+   - **R4 (guards):**
+     - `SURFACE-S4/S6/S8-OK` compare against `B` with git `:(exclude)` pathspecs for the approved files. That proves nothing else moved; the manifests pin the hashes.
+     - New: `RESEAL-NOTE-OK`, and `REBASELINE-FIRST-OK`, anchored on `evidence/T004-log-rebaseline.md`.
+     - `CI-JOBS-OK` also covers `eager-3d.yml`, which this slice does not edit.
+   - **R5 (re-seal cadence):** `frozen-surface.test.ts` pins each manifest's `base`/`note`. So every kept lever on a sealed file is a lever commit + re-seal commit pair inside one task, and every commit's suite stays green.
+   - **R6 (parity directories):** `perf:parity --compare` resolves shots by the `screenshot-<id>.png` suffix and refuses ambiguity, and an evidence dir that holds several shot sets is ambiguous. Compares therefore run against single-set temp dirs: the slice baseline = T004 shots + manifest; the drift check = S11.5 T014 shots + T006 manifest.
+   - **R7 (bytes):** a feature-dir `bundle-scopes.mjs` computes the four scopes in raw and gzip with S11.5's corrected method (node zlib level 9, per file). `bundle:manifest --diff` stays informational only (S11.5 D-P1). A growth is recorded at each lever and becomes a gate at T009.
+   - **R8 (AC5 mechanics):** one `eager-3d` run already measures gated + eager ×2 per route. Run 2 = `gh run rerun`. Long tasks come from the LHR `long-tasks` audit, whose durations are simulated under `throttling: simulate`, so they are the TBT-relevant ones.
+   - **R9 (task numbering):** the RFC §5 sketch becomes T001–T012. The Lighthouse attribution moves to G3 (T010). Each lever task carries its own re-seal commit, so T011 (RFC) = T012 (tasks) is the final audit.
+
