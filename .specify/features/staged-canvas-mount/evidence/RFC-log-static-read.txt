@@ -1,0 +1,83 @@
+RFC static read (orchestrator, Stage 1, 2026-11-03). Branch task/s11.6-staged-canvas-mount at 05e4e16.
+Nothing was profiled or built for this log. Source-only reads; line numbers refer to the files as installed
+by the lockfile (three 0.186.1, @react-three/fiber 9.8.2, react 19.3.1). Paths are repository-relative
+(R3F = node_modules/.pnpm/@react-three+fiber@9.8.2_*/node_modules/@react-three/fiber/dist).
+
+0) Product tree = S11.5 final
+   $ git diff --stat 66a021f 05e4e16 -- apps packages tools .github
+   (empty) -> the re-baseline measures exactly the merged S11.5 product (#17, 66a021f).
+
+1) Who owns the <Canvas> mount
+   packages/xploder/src/react/TeardownViewer.tsx (S8, frozen-surface.s8.paths line 3)
+     :147   const [webgl] = useState(() => hasWebgl());           <- probe in render (P4), cached per page
+     :675   <Canvas orthographic frameloop="demand" dpr={[1, 2]} gl={{ antialias: true, alpha: true }} ...>
+     :683     <Scene ... 19 props ... />                             <- S6
+   packages/xploder/src/react/a11y/webgl.ts (S8 via "src/react/a11y/" in frozen-surface.s8.paths)
+     :9-21  detached canvas, getContext('webgl2') ?? getContext('webgl'), WEBGL_lose_context.loseContext()
+   Consumers of hasWebgl: TeardownViewer.tsx only (grep over packages/xploder/src, apps/web).
+
+2) R3F 9.8.2 Canvas -> one synchronous task today (R3F/react-three-fiber.esm.js, events-e51d7528.esm.js)
+   react-three-fiber.esm.js:42   useMeasure() -> containerRect is 0 on first commit; the size arrives in a
+                                  later ResizeObserver-driven re-render, whose layout effect does everything below
+   react-three-fiber.esm.js:81   createRoot(canvas)       (store + reconciler.createContainer)
+   react-three-fiber.esm.js:82   root.configure({ gl, ... })
+     events:17346  gl = createRenderer(canvas, props.gl); if isPromiseLike(gl) -> .then(apply) else apply(gl)
+     events:1085   createRenderer: function gl -> gl(defaults); renderer instance -> as is;
+                   else new THREE.WebGLRenderer({ canvas, powerPreference: 'high-performance',
+                   antialias: true, alpha: true, ...gl })
+     apply -> applyRootConfiguration (events:1553): Raycaster, OrthographicCamera, Scene, state.setSize
+              -> store subscription (events:1354-1356) gl.setPixelRatio(dpr) + gl.setSize(w, h)
+     events:1736   glProps = plain-object gl only (a factory/instance skips applyProps(gl, glProps))
+   react-three-fiber.esm.js:122  if ready fulfilled: root.render(<Bridge><ErrorBoundary><Suspense>{children}...)
+     events:17384  first mount = reconciler.updateContainerSync(...) + flushSyncWork()  (scene mounts synchronously
+                   inside the Canvas layout effect)
+   react-three-fiber.esm.js:134  if ready pending: waitFor(root.current.ready) -> useGate (events:47) suspends a
+                   null sibling subtree (the canvas stays visible), re-renders Canvas when the promise settles;
+                   the layout effect then calls root.render.
+   => Built-in seam: an async `gl` factory makes configuration asynchronous. R3F calls it once per root
+      ("R3F owns what it builds, a factory's result included", events:17329-17331), so dispose stays R3F's job.
+
+3) three 0.186.1 WebGLRenderer constructor (three/src/renderers/WebGLRenderer.js)
+   :372/:411  getContext (S11.5 T010: 2.8 ms of the long task)
+   :442-:478  initGLContext: WebGLExtensions, WebGLCapabilities (parameter queries), WebGLState (state reset,
+              default textures: the 7 texImage2D seen in S11.5), info, properties, textures, attributes,
+              geometries, objects, bindingStates, programCache, renderLists, renderStates,
+              WebGLBackground, WebGLShadowMap, buffer renderers
+   :573       new WebXRManager
+   :640/:671  setPixelRatio / setSize (called later by R3F's store subscription, not by the constructor)
+   S11.5 T010 profile names setSize, tr, ti and state init inside the 37-46 % "renderer construction/setup" share.
+
+4) Scene children (packages/xploder/src/react/scene/Scene.tsx, S6) and what each contributes to the FIRST frame
+   | Child                      | Seal | Runs in first frame?                                                | First-frame pixels/DOM?            |
+   |----------------------------|------|---------------------------------------------------------------------|------------------------------------|
+   | useEmphasisDriver (hook)   | S5   | Slabs useFrame -> emphasis.sample + writeColors (Slabs.tsx:338, :362) | yes: instance colours + lift        |
+   | Slabs                      | S6   | geometry/material/instances, layout effects write matrices          | yes: the drawing                    |
+   | CameraRig                  | S4   | camera framing, layout effects                                      | yes: the projection                 |
+   | ViewScroll                 | S5   | layout effect sync(): camera.setViewOffset(...) (ViewScroll.tsx:117)    | yes: vertical framing + spacer      |
+   | PickBridge                 | S5   | bridge refs for picking                                             | no                                  |
+   | OverlayProjector           | S6   | useFrame projects overlay/lettering positions (OverlayProjector:433)| yes: overlay/lettering DOM          |
+   | Lights                     | S4   | ambient + directional                                               | yes: shading                        |
+   | Stats                      | S4   | useFrame priority 1: gl.render + gl.info -> onStats -> ready        | the render itself                   |
+   (seal = the frozen-surface *.paths file listing the component's source; of these files only Scene.tsx,
+    Slabs.tsx and Stats.tsx are in this slice's allowed list. Emphasis/PickBridge/ViewScroll are S5 = must stay empty.)
+   => Only PickBridge can be mounted after the first content frame without changing that frame.
+      Deferring ViewScroll, OverlayProjector or the emphasis driver past it would change the first frame's
+      pixels or the overlay at reveal time (AC3/AC4, non-goal "no change to the first-content-frame meaning").
+
+5) Ready / reveal chain
+   Stats useFrame(priority 1) -> onStats -> TeardownViewer.onStatsChange: wrapper.dataset.xploderReady = 'true'
+   -> apps/web/components/viewer/live-viewer.tsx onStats -> onFirstFrame
+   -> hero-live.tsx reveal() (data-site-live-state 'revealed') / workbench-client.tsx reveal() ('revealed').
+   R3F skips its own gl.render while a priority > 0 subscriber exists (S11.5 RFC §9 R3), so no frame is drawn
+   before Stats is mounted.
+
+6) Constraints found in the code
+   - apps/web/test/package-consumer.test.ts + prod-imports.test.ts forbid three / @react-three imports in app
+     code (S11.5 R4) -> the renderer can only be built inside xploder (TeardownViewer.tsx).
+   - apps/web/test/no-motion-literals.test.ts scans packages/xploder/src and rejects setTimeout(..., <digit>)
+     (S11.5 §9) -> yields use scheduler.yield() / MessageChannel / requestIdleCallback without a numeric timeout.
+   - XPLODER-SRC-OK must equal the touched list -> no new xploder source file and no new export.
+   - Stats.tsx is in the combined S2/S4 manifest (frozen-surface.paths, base 53b2b2b); touching it forces an S4
+     re-seal with S2-hash identity proof. Scene.tsx/Slabs.tsx: S6 (base f65b13c). TeardownViewer.tsx +
+     a11y/webgl.ts: S8 (base 99a94f2).
+   - .github/workflows/eager-3d.yml runs on pull_request (measurement-only, not required).
