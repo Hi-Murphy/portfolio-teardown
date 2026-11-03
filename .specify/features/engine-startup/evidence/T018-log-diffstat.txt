@@ -1,0 +1,92 @@
+T018 branch diffstat
+BASE=92a8d24 HEAD=e92c55c2cb786d3c29d4578f0d86051e7defbd63
+
+== git diff --stat 92a8d24..HEAD -- . :(exclude).specify
+ .github/workflows/eager-3d.yml                     | 106 +++
+ apps/web/build/stage-3d.ts                         |   5 +
+ apps/web/build/three-surface.ts                    |  60 ++
+ apps/web/components/boot-3d.ts                     |  36 +
+ apps/web/components/hero/hero-boot.ts              |  23 +
+ apps/web/components/hero/hero-live.tsx             |   9 +-
+ apps/web/components/workbench/workbench-boot.ts    |  16 +
+ apps/web/components/workbench/workbench-loader.tsx |  67 +-
+ apps/web/eager-3d.d.ts                             |   1 +
+ apps/web/next.config.ts                            |  11 +
+ apps/web/test/boot-3d.test.ts                      | 120 +++
+ apps/web/test/eager-flag.test.ts                   |  72 ++
+ apps/web/test/interaction-gate.test.ts             |  13 +
+ apps/web/test/stage-3d.test.ts                     |  34 +
+ apps/web/test/three-surface.test.ts                | 165 ++++
+ package.json                                       |   5 +-
+ tools/perf/src/cli/eager-verdict.ts                | 279 ++++++
+ tools/perf/src/cli/fps-engine.ts                   | 483 +++++++++--
+ tools/perf/src/cli/parity.ts                       | 551 ++++++++++++
+ tools/perf/src/cli/startup-profile.ts              | 896 +++++++++++++++++++
+ tools/perf/src/fps.ts                              |   9 +-
+ tools/perf/src/png.ts                              | 304 +++++++
+ tools/perf/src/startup-attribution.ts              | 344 ++++++++
+ tools/perf/src/startup.ts                          | 951 +++++++++++++++++++++
+ tools/perf/test/eager-verdict.test.ts              | 134 +++
+ .../test/fixtures/eager-verdict-summary-pass.json  |  50 ++
+ .../test/fixtures/eager-verdict-summary-slow.json  |  50 ++
+ tools/perf/test/fixtures/startup-baseline.json     | 152 ++++
+ .../test/fixtures/startup-detached-context.json    | 108 +++
+ tools/perf/test/fixtures/startup-exclusive-p4.json | 116 +++
+ tools/perf/test/fixtures/startup-long-50.json      |  83 ++
+ tools/perf/test/fixtures/startup-long-51.json      |  83 ++
+ tools/perf/test/fixtures/startup-module-eval.json  | 137 +++
+ tools/perf/test/fixtures/startup-nested-task.json  |  43 +
+ tools/perf/test/fixtures/startup-no-gl.json        |  99 +++
+ .../perf/test/fixtures/startup-outside-window.json |  91 ++
+ .../perf/test/fixtures/startup-post-frame-gl.json  |  97 +++
+ tools/perf/test/fixtures/startup-warm.json         | 132 +++
+ tools/perf/test/fps-engine-startup.test.ts         | 177 ++++
+ tools/perf/test/parity.test.ts                     |  33 +
+ tools/perf/test/png.test.ts                        | 161 ++++
+ tools/perf/test/startup.test.ts                    | 452 ++++++++++
+ 42 files changed, 6687 insertions(+), 71 deletions(-)
+
+== changed product files
+git diff --name-only 92a8d24..HEAD -- apps/web tools/perf .github package.json pnpm-lock.yaml
+.github/workflows/eager-3d.yml
+apps/web/build/stage-3d.ts
+apps/web/build/three-surface.ts
+apps/web/components/boot-3d.ts
+apps/web/components/hero/hero-boot.ts
+apps/web/components/hero/hero-live.tsx
+apps/web/components/workbench/workbench-boot.ts
+apps/web/components/workbench/workbench-loader.tsx
+apps/web/eager-3d.d.ts
+apps/web/next.config.ts
+apps/web/test/boot-3d.test.ts
+apps/web/test/eager-flag.test.ts
+apps/web/test/interaction-gate.test.ts
+apps/web/test/stage-3d.test.ts
+apps/web/test/three-surface.test.ts
+package.json
+tools/perf/src/cli/eager-verdict.ts
+tools/perf/src/cli/fps-engine.ts
+tools/perf/src/cli/parity.ts
+tools/perf/src/cli/startup-profile.ts
+tools/perf/src/fps.ts
+tools/perf/src/png.ts
+tools/perf/src/startup-attribution.ts
+tools/perf/src/startup.ts
+tools/perf/test/eager-verdict.test.ts
+tools/perf/test/fixtures/eager-verdict-summary-pass.json
+tools/perf/test/fixtures/eager-verdict-summary-slow.json
+tools/perf/test/fixtures/startup-baseline.json
+tools/perf/test/fixtures/startup-detached-context.json
+tools/perf/test/fixtures/startup-exclusive-p4.json
+tools/perf/test/fixtures/startup-long-50.json
+tools/perf/test/fixtures/startup-long-51.json
+tools/perf/test/fixtures/startup-module-eval.json
+tools/perf/test/fixtures/startup-nested-task.json
+tools/perf/test/fixtures/startup-no-gl.json
+tools/perf/test/fixtures/startup-outside-window.json
+tools/perf/test/fixtures/startup-post-frame-gl.json
+tools/perf/test/fixtures/startup-warm.json
+tools/perf/test/fps-engine-startup.test.ts
+tools/perf/test/parity.test.ts
+tools/perf/test/png.test.ts
+tools/perf/test/startup.test.ts
