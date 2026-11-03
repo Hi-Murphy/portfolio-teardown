@@ -1,0 +1,44 @@
+FPS-ENGINE-TEST-UNMODIFIED
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/fps.test.ts > analyzeTrace > clips to the window and selects the busiest DrawFrame pid when metadata is absent 2ms
+ ✓ test/fps.test.ts > analyzeTrace > uses the main-frame renderer pid from TracingStartedInBrowser metadata 0ms
+ ✓ test/fps.test.ts > analyzeTrace > counts only DrawFrame events in the frame category 0ms
+ ✓ test/fps.test.ts > analyzeTrace > keeps the recorded fixture at 200 events or fewer and local-only 1ms
+ ✓ test/fps.test.ts > inBand > includes both edges of the 60 fps ±10% band 0ms
+ ✓ test/fps.test.ts > inBand > rejects values outside the band 0ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > includes both edges of the configured liveness band 0ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > rejects readings outside the liveness band 0ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > rejects any dropped frame even when the measured rate is live 0ms
+ ✓ test/fps-engine.test.ts > scenarioUrl > keeps the S4 explode route 0ms
+ ✓ test/fps-engine.test.ts > scenarioUrl > builds the looping live-update tour route 0ms
+ ✓ test/fps-engine.test.ts > buildFpsReport > reports the dropped-frames verdict and tour details without a legacy key 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > appends optional trace categories only when provided 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > uses the production route instead of the fixture route 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > requires an absolute route 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > applies the dropped-frame and 50 ms long-task rules independently 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > finds long tasks in the kept trace and excludes the 50 ms boundary 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > counts metadata main-thread tasks and ignores the draw-frame fallback pid 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > fails internals when the long-task check would be vacuous 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > reports one dropped-frame timestamp per counted dropped frame 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > includes main-thread tasks strictly above the 16.7 ms boundary 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > keeps the startup timeline fields out of explode and tour reports 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > adds startup fields without retaining the trace or a liveness verdict 0ms
+
+ Test Files  3 passed (3)
+      Tests  23 passed (23)
+   Start at  17:05:37
+   Duration  278ms (import 87%, transform 10%, tests 2%, worker 1%)
+
+TIMELINE-OK 8 7
+GUARDS-SKIPPED (guards.sh not present; T001 runs in parallel)
+
+Real startup run
+route: /projects/websocket-inspector
+engage: move
+droppedFrames: 8
+droppedFrameTimes: [203.641,220.307,236.973,253.639,270.305,303.637,320.303,336.969]
+tasksOver16ms: [{"start":7.99,"dur":31.864},{"start":49.463,"dur":37.349},{"start":87.876,"dur":17.811},{"start":113.81,"dur":24.846},{"start":194.721,"dur":69.023},{"start":263.75,"dur":36.68},{"start":302.498,"dur":39.742}]
+fps-engine exit: 6 (pre-lever startup verdict: 8 dropped frames, max long task 69.023 ms)
+post-check: pnpm build passed; pnpm typecheck && pnpm lint && pnpm test passed; T002-OK

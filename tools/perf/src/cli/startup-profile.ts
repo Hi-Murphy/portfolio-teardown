@@ -9,16 +9,24 @@ import type { BrowserContext, Page } from 'playwright';
 
 import { parseCli, parseUrl } from '../args.ts';
 import { chromiumVersion, freePort, launch, PROFILES } from '../browser.ts';
+import {
+  PROFILE_TASK_THRESHOLD_MS,
+  summarizeCpuProfile,
+  type CpuProfile,
+  type CpuProfileSummary,
+} from '../cpu-profile.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
 import { run } from '../log.ts';
 import { serveDir, type ServedDir } from '../serve.ts';
 import { startupAttributionScript, type StartupAttributionState } from '../startup-attribution.ts';
 import {
   analyzeStartup,
+  findStartupTaskWindows,
   phaseModelError,
   type GlSpan,
   type PageMarks,
   type PhaseId,
+  type SequenceRecord,
   type StartupReport,
   type TraceEvent,
 } from '../startup.ts';
@@ -30,6 +38,7 @@ interface StartupArgs {
     engage?: string;
     runs?: string;
     attribute?: boolean;
+    'cpu-profile'?: boolean;
     cpu?: string;
     out?: string;
     'keep-trace'?: boolean;
@@ -40,7 +49,7 @@ interface StartupArgs {
 }
 
 type Engage = 'move' | 'click';
-type RunKind = 'clean' | 'attributed';
+type RunKind = 'clean' | 'attributed' | 'profiled';
 type GlCounts = Record<string, number>;
 
 interface StartupRunArtifact extends StartupReport {
@@ -61,6 +70,7 @@ interface RunSummary {
   readonly clsFiltered: number;
   readonly textureMs: number;
   readonly textureCount: number;
+  readonly sequence: SequenceRecord | null;
 }
 
 interface RunMeta {
@@ -131,6 +141,8 @@ interface RunResult {
   readonly benchmarkIndex: number;
   readonly trace: TraceEvent[];
   readonly origin: string;
+  readonly cpuProfile: CpuProfile | null;
+  readonly cpuProfileSummary: CpuProfileSummary | null;
 }
 
 interface TraceDataPayload {
@@ -194,6 +206,7 @@ Options:
   --engage <kind>     move or click (default: move)
   --runs <n>          measured runs (default: 2)
   --attribute         install the GL attribution wrappers
+  --cpu-profile       record a CPU profile and per-task attribution
   --cpu <rate>        CPU throttling rate (default: 4)
   --out <dir>         output directory (default: .evidence/startup-<timestamp>)
   --keep-trace        write the sanitized, gzipped Chromium trace
@@ -483,6 +496,12 @@ function findEngageMark(events: readonly TraceEvent[], engageMs: number): TraceE
   return mark;
 }
 
+function sequenceFromState(state: StartupAttributionState): SequenceRecord | null {
+  const { firstInstancedDraw, ready, liveStates } = state.sequence;
+  if (firstInstancedDraw === null || ready === null) return null;
+  return { firstInstancedDraw, ready, liveStates };
+}
+
 async function captureRun(
   context: BrowserContext,
   page: Page,
@@ -491,8 +510,10 @@ async function captureRun(
     readonly route: string;
     readonly engage: Engage;
     readonly attribute: boolean;
+    readonly cpuProfile: boolean;
     readonly observers: boolean;
     readonly cpu: number;
+    readonly run: number;
   },
 ): Promise<RunResult> {
   let lastRequestAt = Date.now();
@@ -543,6 +564,9 @@ async function captureRun(
 
   let tracingStarted = false;
   let tracingEnded = false;
+  let profilerStarted = false;
+  let profilerStopped = false;
+  let capturedCpuProfile: CpuProfile | null = null;
   try {
     await cdp.send('Tracing.start', {
       categories: TRACE_CATEGORIES,
@@ -551,9 +575,21 @@ async function captureRun(
     tracingStarted = true;
 
     const engageMs = await markEngagement(page);
+    if (options.cpuProfile) {
+      await cdp.send('Profiler.enable');
+      await cdp.send('Profiler.setSamplingInterval', { interval: 100 });
+      await cdp.send('Profiler.start');
+      profilerStarted = true;
+    }
     await engage(page, options.engage);
     const readyMs = await waitForReady(page, options.observers);
     await waitForWindow(page, engageMs);
+
+    if (profilerStarted) {
+      const stopped = (await cdp.send('Profiler.stop')) as { profile: CpuProfile };
+      capturedCpuProfile = stopped.profile;
+      profilerStopped = true;
+    }
 
     await cdp.send('Tracing.end');
     tracingEnded = true;
@@ -587,7 +623,8 @@ async function captureRun(
       readyMs,
       layoutShifts: state.layoutShifts,
     };
-    const report = analyzeStartup(traceEvents, state.spans, marks);
+    const sequence = options.attribute ? sequenceFromState(state) : null;
+    const report = analyzeStartup(traceEvents, state.spans, marks, sequence);
     const inconsistency = phaseModelError(report);
     if (inconsistency !== null) {
       throw new CliError(EXIT.INTERNAL, inconsistency);
@@ -596,6 +633,24 @@ async function captureRun(
       ...report,
       glCounts: countGlCalls(state.spans, engageMs, report.firstFrame),
     };
+    const cpuProfileSummary =
+      capturedCpuProfile === null
+        ? null
+        : summarizeCpuProfile(
+            capturedCpuProfile,
+            findStartupTaskWindows(
+              traceEvents,
+              mark.ts,
+              mark.ts + WINDOW_MS * 1000,
+              PROFILE_TASK_THRESHOLD_MS,
+            ),
+            {
+              route: options.route,
+              engage: options.engage,
+              run: options.run,
+              traceTimeOriginUs: marks.traceTimeOriginUs,
+            },
+          );
 
     return {
       artifact,
@@ -604,8 +659,18 @@ async function captureRun(
       benchmarkIndex,
       trace: traceEvents,
       origin: url.origin,
+      cpuProfile: capturedCpuProfile,
+      cpuProfileSummary,
     };
   } finally {
+    if (profilerStarted && !profilerStopped) {
+      try {
+        await cdp.send('Profiler.stop');
+      } catch {
+        // Preserve the original error.
+      }
+    }
+    if (profilerStarted) await cdp.send('Profiler.disable').catch(() => undefined);
     if (tracingStarted && !tracingEnded) {
       try {
         await cdp.send('Tracing.end');
@@ -644,6 +709,7 @@ function summarize(
     clsFiltered: report.cls.filtered,
     textureMs: report.textures.ms,
     textureCount: report.textures.count,
+    sequence: report.sequence,
   }));
 
   const phases = Object.fromEntries(
@@ -745,6 +811,7 @@ export async function main(argv: string[]): Promise<number> {
       engage: { type: 'string' },
       runs: { type: 'string' },
       attribute: { type: 'boolean' },
+      'cpu-profile': { type: 'boolean' },
       cpu: { type: 'string' },
       out: { type: 'string' },
       'keep-trace': { type: 'boolean' },
@@ -771,9 +838,13 @@ export async function main(argv: string[]): Promise<number> {
   const runs = parseRuns(values.runs);
   const cpu = parsePositiveNumber(values.cpu, 4, '--cpu');
   const attribute = values.attribute ?? false;
+  const cpuProfile = values['cpu-profile'] ?? false;
+  if (attribute && cpuProfile) {
+    throw new CliError(EXIT.USAGE, '--attribute and --cpu-profile cannot be combined');
+  }
   const observers = !(values['no-observers'] ?? false);
   const keepTrace = values['keep-trace'] ?? false;
-  const kindOfRun: RunKind = attribute ? 'attributed' : 'clean';
+  const kindOfRun: RunKind = cpuProfile ? 'profiled' : attribute ? 'attributed' : 'clean';
   const outDir = values.out ?? defaultOutDir();
 
   await ensureOutputDir(outDir);
@@ -828,8 +899,10 @@ export async function main(argv: string[]): Promise<number> {
             route,
             engage,
             attribute,
+            cpuProfile,
             observers,
             cpu,
+            run,
           });
           reports.push(result.artifact);
           metaRuns.push({
@@ -844,6 +917,12 @@ export async function main(argv: string[]): Promise<number> {
           await writeJson(join(outDir, file), result.artifact);
           printRun(result.artifact, join(outDir, file));
 
+          if (result.cpuProfileSummary !== null) {
+            const profileFile = `cpuprofile-summary-${labelFor(route)}-${engage}-r${run}.json`;
+            await writeJson(join(outDir, profileFile), result.cpuProfileSummary);
+            console.log(`cpu profile: ${join(outDir, profileFile)}`);
+          }
+
           if (keepTrace) {
             const traceFile = `trace-${labelFor(route)}-${engage}-${kindOfRun}-r${run}.json.gz`;
             const sanitized = {
@@ -853,6 +932,15 @@ export async function main(argv: string[]): Promise<number> {
               join(outDir, traceFile),
               gzipSync(Buffer.from(`${JSON.stringify(sanitized)}\n`), { level: 9 }),
             );
+
+            if (result.cpuProfile !== null) {
+              const profileFile = `cpuprofile-${labelFor(route)}-${engage}-r${run}.cpuprofile.gz`;
+              const sanitizedProfile = sanitizeValue(result.cpuProfile, result.origin);
+              await writeFile(
+                join(outDir, profileFile),
+                gzipSync(Buffer.from(`${JSON.stringify(sanitizedProfile)}\n`), { level: 9 }),
+              );
+            }
           }
         } finally {
           await context.close().catch(() => undefined);

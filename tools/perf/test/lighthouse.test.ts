@@ -102,6 +102,45 @@ describe('Lighthouse summary', () => {
     ]);
     expect(summary.pass).toBe(false);
   });
+
+  test('copies long-task details into every run and defaults to an empty list', async () => {
+    const lhrs = await passingLhrs();
+    const first = lhrs[0];
+    if (first) {
+      first.audits = {
+        ...first.audits,
+        'long-tasks': {
+          details: {
+            items: [
+              {
+                url: 'http://127.0.0.1:4173/_next/static/chunks/main.js',
+                startTime: 1250,
+                duration: 75,
+              },
+              {
+                url: 'http://127.0.0.1:4173/_next/static/chunks/scene.js',
+                startTime: 2400,
+                duration: 42.5,
+              },
+            ],
+          },
+        },
+      };
+    }
+
+    const summary = summarizeLighthouse(lhrs);
+
+    expect(summary.runs[0]?.longTasks).toEqual([
+      { url: 'http://127.0.0.1:4173/_next/static/chunks/main.js', startMs: 1250, durMs: 75 },
+      {
+        url: 'http://127.0.0.1:4173/_next/static/chunks/scene.js',
+        startMs: 2400,
+        durMs: 42.5,
+      },
+    ]);
+    expect(summary.runs[1]?.longTasks).toEqual([]);
+    expect(summary.assertions.map((assertion) => assertion.pass)).toEqual([true, true, true]);
+  });
 });
 
 describe('Lighthouse Markdown', () => {

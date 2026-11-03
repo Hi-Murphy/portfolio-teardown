@@ -1,16 +1,18 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, type GLProps } from '@react-three/fiber';
 import {
   useCallback,
   useEffect,
   useId,
   useLayoutEffect,
   useMemo,
+  useReducer,
   useRef,
   useState,
   type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react';
+import { WebGLRenderer } from 'three';
 
 import { announce, type AnnounceEvent } from '../a11y/announce';
 import { PAN_PAGE_FRACTION, PAN_STEP_PX } from '../a11y/look';
@@ -63,6 +65,26 @@ import {
 type ViewerComponent = ViewerProject['layers'][number]['components'][number] & {
   readonly kind?: ComponentKind;
 };
+
+type StagedRendererFactory = Extract<GLProps, (defaults: never) => Promise<unknown>>;
+type StagedRendererDefaults = Parameters<StagedRendererFactory>[0];
+
+type SchedulingWindow = Window & { scheduler?: { yield?: () => Promise<void> } };
+
+function nextTask(): Promise<void> {
+  const scheduler = (window as SchedulingWindow).scheduler;
+  if (typeof scheduler?.yield === 'function') return scheduler.yield();
+  return new Promise((resolve) => setTimeout(resolve));
+}
+
+export async function createStagedRenderer(
+  defaults: StagedRendererDefaults,
+): Promise<WebGLRenderer> {
+  await nextTask();
+  const renderer = new WebGLRenderer({ ...defaults, antialias: true, alpha: true });
+  await nextTask();
+  return renderer;
+}
 
 export interface TeardownViewerProps {
   project: ViewerProject;
@@ -145,6 +167,14 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
+  const [, rerender] = useReducer((n: number) => n + 1, 0);
+  const [stagedGl] = useState<StagedRendererFactory>(
+    () => (defaults: StagedRendererDefaults) =>
+      createStagedRenderer(defaults).then((renderer) => {
+        rerender();
+        return renderer;
+      }),
+  );
   const keysHelpId = useId();
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
@@ -177,6 +207,7 @@ export function TeardownViewer({
     () => resolveViewerLayoutOptions(layoutOptions),
     [layoutOptions],
   );
+
   const layout = useMemo(
     () => layoutProject(project, resolvedLayoutOptions),
     [project, resolvedLayoutOptions],
@@ -676,7 +707,7 @@ export function TeardownViewer({
                   orthographic
                   frameloop="demand"
                   dpr={[1, 2]}
-                  gl={{ antialias: true, alpha: true }}
+                  gl={stagedGl}
                   style={CANVAS_STYLE}
                   fallback={webglFallback}
                 >

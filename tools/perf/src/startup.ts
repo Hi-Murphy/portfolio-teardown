@@ -105,6 +105,23 @@ export interface LongTask {
   phase: StartupPhase;
 }
 
+export interface SequenceMark {
+  /** Page `performance.now()` timestamp, in milliseconds. */
+  t: number;
+  /** Monotonically increasing rAF index. */
+  raf: number;
+}
+
+export interface LiveStateChange extends SequenceMark {
+  value: string;
+}
+
+export interface SequenceRecord {
+  firstInstancedDraw: SequenceMark;
+  ready: SequenceMark;
+  liveStates: LiveStateChange[];
+}
+
 export interface StartupReport {
   kind: 'startup';
   version: 1;
@@ -129,6 +146,7 @@ export interface StartupReport {
     count: number;
   };
   probeContexts: ProbeContexts;
+  sequence: SequenceRecord | null;
 }
 
 interface ResourceRequest {
@@ -142,6 +160,11 @@ interface ResourceRequest {
 interface TaskTiming {
   startUs: number;
   endUs: number;
+  durUs: number;
+}
+
+export interface StartupTaskWindow {
+  startUs: number;
   durUs: number;
 }
 
@@ -553,6 +576,27 @@ export function findLongTasks(
     }));
 }
 
+export function findTasksOver(
+  events: readonly TraceEvent[],
+  startUs: number,
+  endUs: number,
+  thresholdMs: number,
+  originUs = 0,
+  requireMetadata = false,
+): Array<{ start: number; dur: number }> {
+  return mainThreadTasks(events, requireMetadata)
+    .filter(
+      (task) =>
+        task.startUs >= startUs &&
+        task.startUs <= endUs &&
+        task.durUs > thresholdMs * MICROSECONDS_PER_MILLISECOND,
+    )
+    .map((task) => ({
+      start: toPageMs(task.startUs, originUs),
+      dur: task.durUs / MICROSECONDS_PER_MILLISECOND,
+    }));
+}
+
 export function countMainThreadTasks(
   events: readonly TraceEvent[],
   startUs: number,
@@ -562,6 +606,19 @@ export function countMainThreadTasks(
   return mainThreadTasks(events, requireMetadata).filter(
     (task) => task.startUs >= startUs && task.startUs <= endUs,
   ).length;
+}
+
+export function findStartupTaskWindows(
+  events: readonly TraceEvent[],
+  startUs: number,
+  endUs: number,
+  minDurMs: number,
+  requireMetadata = false,
+): StartupTaskWindow[] {
+  const minDurUs = minDurMs * MICROSECONDS_PER_MILLISECOND;
+  return mainThreadTasks(events, requireMetadata)
+    .filter((task) => task.startUs >= startUs && task.startUs <= endUs && task.durUs > minDurUs)
+    .map((task) => ({ startUs: task.startUs, durUs: task.durUs }));
 }
 
 export function phaseModelError(report: StartupReport): string | null {
@@ -604,6 +661,7 @@ export function analyzeStartup(
   events: readonly TraceEvent[],
   spans: readonly GlSpan[],
   marks: PageMarks,
+  sequence: SequenceRecord | null = null,
 ): StartupReport {
   if (!Number.isFinite(marks.traceTimeOriginUs)) {
     throw new Error('marks.traceTimeOriginUs must be finite');
@@ -947,5 +1005,6 @@ export function analyzeStartup(
       count: textureSpans.length,
     },
     probeContexts,
+    sequence,
   };
 }

@@ -1,4 +1,4 @@
-import type { GlSpan, LayoutShiftEntry } from './startup.ts';
+import type { GlSpan, LayoutShiftEntry, LiveStateChange, SequenceMark } from './startup.ts';
 
 export interface StartupAttributionOptions {
   attribute: boolean;
@@ -18,6 +18,11 @@ export interface StartupAttributionState {
   loadMs: number | null;
   readyMs: number | null;
   layoutShifts: LayoutShiftEntry[];
+  sequence: {
+    firstInstancedDraw: SequenceMark | null;
+    ready: SequenceMark | null;
+    liveStates: LiveStateChange[];
+  };
 }
 
 function installStartupAttribution(config: StartupAttributionOptions): void {
@@ -32,6 +37,11 @@ function installStartupAttribution(config: StartupAttributionOptions): void {
     loadMs: null as number | null,
     readyMs: null as number | null,
     layoutShifts: [] as LayoutShiftEntry[],
+    sequence: {
+      firstInstancedDraw: null as SequenceMark | null,
+      ready: null as SequenceMark | null,
+      liveStates: [] as LiveStateChange[],
+    },
   };
 
   scope.__xpPerf = state;
@@ -43,6 +53,18 @@ function installStartupAttribution(config: StartupAttributionOptions): void {
   scope.__xpPerfLoadAt = state.loadMs;
   scope.__xpPerfLayoutShifts = state.layoutShifts;
 
+  let rafIndex = 0;
+  let rafTimestamp: number | null = null;
+  let activeRaf = 0;
+  const enterFrame = (timestamp: number): number => {
+    if (rafTimestamp !== timestamp) {
+      rafTimestamp = timestamp;
+      rafIndex += 1;
+    }
+    activeRaf = rafIndex;
+    return activeRaf;
+  };
+
   const recordLoad = (): void => {
     state.loadMs = performance.now();
     scope.__xpPerfLoadAt = state.loadMs;
@@ -53,8 +75,10 @@ function installStartupAttribution(config: StartupAttributionOptions): void {
   if (config.observers) {
     const markReady = (): void => {
       if (state.readyMs !== null) return;
-      state.readyMs = performance.now();
+      const t = performance.now();
+      state.readyMs = t;
       scope.__xpPerfReadyAt = state.readyMs;
+      if (config.attribute) state.sequence.ready = { t, raf: activeRaf };
     };
     const checkReady = (): void => {
       if (document.querySelector('[data-xploder-ready="true"]') !== null) markReady();
@@ -66,6 +90,44 @@ function installStartupAttribution(config: StartupAttributionOptions): void {
       attributeFilter: ['data-xploder-ready'],
     });
     checkReady();
+
+    if (config.attribute) {
+      const seen = new WeakMap<Element, string>();
+      const recordLiveState = (element: Element): void => {
+        const value = element.getAttribute('data-site-live-state');
+        if (value === null || seen.get(element) === value) return;
+
+        seen.set(element, value);
+        state.sequence.liveStates.push({ value, t: performance.now(), raf: activeRaf });
+      };
+      const recordSubtree = (node: Node): void => {
+        if (!(node instanceof Element)) return;
+        if (node.hasAttribute('data-site-live-state')) recordLiveState(node);
+        for (const element of node.querySelectorAll('[data-site-live-state]')) {
+          recordLiveState(element);
+        }
+      };
+      const liveObserver = new MutationObserver((records) => {
+        for (const record of records) {
+          if (
+            record.type === 'attributes' &&
+            record.attributeName === 'data-site-live-state' &&
+            record.target instanceof Element
+          ) {
+            recordLiveState(record.target);
+            continue;
+          }
+          for (const node of record.addedNodes) recordSubtree(node);
+        }
+      });
+      liveObserver.observe(document, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+        attributeFilter: ['data-site-live-state'],
+      });
+      recordSubtree(document);
+    }
 
     if (typeof PerformanceObserver === 'function') {
       const layoutObserver = new PerformanceObserver((list) => {
@@ -182,6 +244,7 @@ function installStartupAttribution(config: StartupAttributionOptions): void {
     const requestFrame = requestAnimationFrame.bind(window);
     window.requestAnimationFrame = (callback: FrameRequestCallback): number =>
       requestFrame((time) => {
+        enterFrame(time);
         bucket(time);
         return callback(time);
       });
@@ -222,6 +285,9 @@ function installStartupAttribution(config: StartupAttributionOptions): void {
         name,
         () => {
           if (isDraw) (currentFrame ?? bucket(performance.now())).draws += 1;
+          if (name === 'drawElementsInstanced' && state.sequence.firstInstancedDraw === null) {
+            state.sequence.firstInstancedDraw = { t: performance.now(), raf: activeRaf };
+          }
         },
         () => undefined,
       );

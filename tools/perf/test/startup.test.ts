@@ -244,6 +244,7 @@ function attributedWindow(options: StartupAttributionOptions): {
   context: Record<string, (...args: unknown[]) => unknown>;
   calls: string[];
   runFrame(time: number): void;
+  setNow(value: number): void;
 } {
   const dom = new JSDOM('<!doctype html><html><body><canvas id="viewer"></canvas></body></html>', {
     pretendToBeVisual: true,
@@ -252,6 +253,8 @@ function attributedWindow(options: StartupAttributionOptions): {
   const window = dom.window as unknown as Window & typeof globalThis;
   const target = window as unknown as Record<string, unknown>;
   const calls: string[] = [];
+  let now = 0;
+  window.performance.now = (() => now) as typeof window.performance.now;
 
   class FakeWebGLContext {
     getSupportedExtensions(): string[] {
@@ -300,6 +303,9 @@ function attributedWindow(options: StartupAttributionOptions): {
     calls,
     runFrame: (time: number) => {
       frame?.(time);
+    },
+    setNow: (value: number) => {
+      now = value;
     },
   };
 }
@@ -448,5 +454,47 @@ describe('startup attribution init script', () => {
       { src, depth: 0 },
       { src, depth: 0 },
     ]);
+  });
+
+  test('records the first instanced draw, ready flip and live-state changes by rAF', async () => {
+    const { window, context, runFrame, setNow } = attributedWindow({
+      attribute: true,
+      observers: true,
+    });
+    const live = window.document.createElement('div');
+    live.setAttribute('data-site-live-state', 'idle');
+    setNow(10);
+    window.document.body.append(live);
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+
+    setNow(20);
+    live.setAttribute('data-site-live-state', 'loading');
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+
+    setNow(50);
+    window.requestAnimationFrame(() => {
+      setNow(60);
+      context.drawElementsInstanced?.();
+      setNow(70);
+      window.document.body.setAttribute('data-xploder-ready', 'true');
+    });
+    runFrame(123.5);
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+
+    setNow(80);
+    live.setAttribute('data-site-live-state', 'revealed');
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+
+    const state = (window as unknown as Record<string, StartupAttributionState>).__xpPerf;
+    if (state === undefined) throw new Error('attribution state missing');
+    expect(state.sequence).toEqual({
+      firstInstancedDraw: { t: 60, raf: 1 },
+      ready: { t: 70, raf: 1 },
+      liveStates: [
+        { value: 'idle', t: 10, raf: 0 },
+        { value: 'loading', t: 20, raf: 0 },
+        { value: 'revealed', t: 80, raf: 1 },
+      ],
+    });
   });
 });
