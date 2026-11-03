@@ -293,3 +293,10 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
    - **R7:** the AC1 baseline task (T006) also records gated-build Lighthouse on both routes. That is the TBT reference for L1's "no TBT regression" rule and the gated column of the AC6 table.
    - **R8:** `XPLODER-SRC-OK` compares against `approved-xploder-src.txt`. That list starts empty and gains a file only in the lever task that touches it (T007: `Scene.tsx`; T012 only if L5 runs).
    - **Also found:** `no-motion-literals`' `TIMER` rule rejects `setTimeout(…, <digit>)`, so L3's `yieldToMain` falls back to a `MessageChannel` hop, not `setTimeout(r, 0)`.
+3. **Stage 3 G1 (2026-11-03): baseline committed (T006), before any product change.**
+   - **C2 (measurement GPU):** headless Playwright Chromium on this host renders WebGL with **ANGLE Metal on the Apple M4 GPU**, not SwiftShader as D2/Q5 assumed (renderer string in `evidence/T006-meta.json`). The GPU caveat still applies, in the other direction: desktop-class shader compile is far cheaper than on mobile GPUs.
+   - **Harness corrections at review (no AC change):** T002, T003 and T004 each needed one orchestrator-review revision.
+     - Nested tasks, GL windowing, exclusive accounting.
+     - P3 from timed Turbopack module factories, P5 anchored on the connected viewer canvas because xploder's `hasWebgl()` probe creates a detached context first.
+     - The `toplevel` trace category was missing from `measureFps` (the long-task check was vacuous).
+   - **G1 escalation (Hard Rule 2, evidence `evidence/T006-log-baseline-profile.md` § Interpretation):** AC3's 40 % is very likely unreachable within the frozen-surface rules (estimated ceiling ≈ 7–21 %). L2 has no measurable payoff on this host (P7 = 2–3 ms). The recommended lever order is L4 → L3 (+ staged module evaluation) → app post-first-frame work → L1 (conditional), with L2/L5 skipped. Awaiting Murphy at the G1 STOP.

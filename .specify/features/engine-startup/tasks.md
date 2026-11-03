@@ -44,7 +44,7 @@
 | T003 | ☑ (3 paths run; P5 on connected canvas, hasWebgl probe = probeContexts; P3 from timed Turbopack factories) | 1 (Flash) ×2: orchestrator review revision (P4 < 0 / P2 = 0 defects); orchestrator merge-conflict resolution + merged re-check | evidence/T003-log-startup-cli.txt | 1a67538 |
 | T004 | ☑ (startup scenario; explode unchanged; fps-engine.test.ts unmodified) | 1 (Flash) ×2: orchestrator review revision (toplevel category missing → vacuous long tasks; guard added) | evidence/T004-log-fps-startup.txt | 9ba7878 |
 | T005 | ☑ (8 shots; same build twice → 0 px on all 8) | 1 (Flash, sandbox off); guards re-run by orchestrator after T001 merge | evidence/T005-log-parity-tool.txt | 17b72e9 |
-| T006 | ☐ | | | |
+| T006 | ☑ (AC1 baseline: cost 317 / 376 / 392 ms home-move / project-move / project-click; max long task 103 / 134 / 141 ms; 2–7 dropped frames; P3 module eval dominant; P7 2–3 ms; KHR_parallel present; ANGLE Metal M4) | 1 (Flash, measurements + tables) + orchestrator (task breakdown + interpretation) | evidence/T006-* | a08f0a5 |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
