@@ -72,6 +72,11 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-P1 (plan defect, T001):** `pnpm bundle:manifest` requires `--out-dir <out>`. Every check now calls `pnpm bundle:manifest --out-dir apps/web/out --write <file>`. Found by tier 1 in T001: the check stopped with exit 2 before `bundle-scopes.mjs` ran.
+- **D-P3 (review finding, T005):**
+  - **Finding:** an async `gl` factory makes R3F suspend a null `useGate` subtree. When the factory settles, React retries that subtree on a *retry lane*, and React 19.3 throttles retry commits to 300 ms after the most recent fallback commit (`react-dom` `globalMostRecentFallbackTime + 300`).
+  - **Effect:** the first content frame moved +275–285 ms after engagement on all paths (T005 first pass, `firstFrame − t0`).
+  - **Rule from now on:** every lever A/B also reports **time to first content frame** (`firstFrame − t0` from the clean `perf:startup` runs). A lever must not delay it beyond the run spread without Murphy's explicit OK. That would be a behaviour change (non-goal), even though `data-xploder-ready` keeps its meaning.
+  - **L1 fix:** a default-lane re-render of the viewer when the factory settles. This is not throttled, and it re-runs R3F's Canvas layout effect, which then renders the root.
 - **D-P2 (plan defect, T002):** `pnpm fps:engine --scenario startup` exits 6 when the startup verdict fails, which is expected for every pre-lever state. Every check therefore runs it as `pnpm fps:engine … || echo "fps-engine exit $? (verdict recorded)"`, and the verdict is read from the JSON. Same for `pnpm perf:lighthouse` (gated or eager runs may fail a budget) and `pnpm perf:parity --compare` in T004's drift check (a drift diff is recorded, not fatal). In lever tasks a parity diff stays a STOP.
 
 ---
