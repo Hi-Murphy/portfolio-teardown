@@ -404,3 +404,8 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
      - lever order L0 → L3a (now also staging the xploder graph) → L1 → L2 (conditional);
      - L3b, L4 and L5 pre-skipped with evidence;
      - engine exceptions E1/E2 described, recommendation "decline now, re-ask at G2".
+5. **G1 decision (Murphy, 2026-11-04, 5h 37%): "defaults. go".**
+   - Lever order L0 → L3a (incl. staging the xploder graph) → L1 → L2 (conditional). L3b, L4 and L5 are skipped with evidence (T006 §8.1).
+   - `app-touch.txt` gains `apps/web/build/xploder-stage-{a,b}.ts` for the L3a scope refinement.
+   - E1/E2 are **declined for now**, to be re-asked at G2 with the measured remainder.
+   - AC2 is recorded as **blocked** for app-side work, with T006 §8.3 as evidence (not reworded).

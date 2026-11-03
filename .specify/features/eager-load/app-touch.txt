@@ -15,3 +15,5 @@ apps/web/test/interaction-gate.test.ts
 apps/web/test/eager-guards.test.tsx
 apps/web/test/eager-render-lanes.test.tsx
 apps/web/test/eager-staged-portals.test.tsx
+apps/web/build/xploder-stage-a.ts
+apps/web/build/xploder-stage-b.ts

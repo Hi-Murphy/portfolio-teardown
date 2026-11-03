@@ -66,8 +66,8 @@
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
-| T011 | ☐ (conditional) | | | |
-| T012 | ☐ (conditional) | | | |
+| T011 | ⊘ skipped (G1: real-time separation already exists; Lantern collapses gaps — T006 §8.1.6) | — | evidence/T006-log-baseline.md §5, §8 | — |
+| T012 | ⊘ skipped (G1: no app-component hydration task > 12.5 ms observed — T006 §4.1) | — | evidence/T006-log-baseline.md §4.1 | — |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
@@ -76,6 +76,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-P1 (review finding, T005):** the workflow called `pnpm eager-verdict`, which is not a root script. It now calls `node tools/perf/src/cli/eager-verdict.ts` as `eager-3d.yml` does, and passes `--out-dir apps/web/out` to `perf:attribution` (D-P2). Verified locally on a workflow-shaped directory: the default and `--rule s11.7` outputs parse correctly, and S11.6's run-2 summaries yield AC3 FAIL.
+- **D-P3 (G1 decision):** T010 (L3a) runs **before** T008 (L1). L3a also stages the xploder graph through `apps/web/build/xploder-stage-{a,b}.ts`. L3b is pre-skipped: there is no TBT effect, and AC5 has ≈ 1.9 s of headroom. The A/B "before" of each lever is the previous accepted lever's after-run directory (`/tmp/s117-checks/<tid>/`, copied to `evidence/<TID>-ab/` without traces).
 - **D-P2 (review finding, T002):** minified frames (`(anonymous)`) cannot meet AC1's "named by function". `perf:attribution --out-dir` now records, for each hot frame, its callFrame line:column, a 120-character snippet from the served chunk, and its parent/grandparent frames. URL-less Lighthouse long tasks are matched to URL-less `RunTask`s (±25 %, chronological), with a `loose` ±50 % fallback. The AC1 log resolves each snippet to its source function by hand (Turbopack production chunks carry no module paths or source maps).
 
 ---
