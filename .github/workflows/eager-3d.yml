@@ -1,0 +1,106 @@
+name: eager-3d
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  eager:
+    name: 'perf: eager-3d (measurement)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - name: Build gated
+        run: pnpm build
+      - name: Measure gated build
+        env:
+          BUILD: gated
+        run: |
+          set -uo pipefail
+          mkdir -p .evidence/ci/eager-3d
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          measure() {
+            local route=$1
+            local invocation=$2
+            local url=http://127.0.0.1:4320/
+            if [ "$route" = project ]; then
+              url=http://127.0.0.1:4320/projects/websocket-inspector
+            fi
+            local out=.evidence/ci/eager-3d/${BUILD}-${route}-r${invocation}
+            local code=0
+            pnpm perf:lighthouse "$url" --out "$out" || code=$?
+            echo "${BUILD}-${route}-r${invocation} exit=${code}" >> .evidence/ci/eager-3d/exit-codes.txt
+          }
+          measure home 1
+          measure home 2
+          measure project 1
+          measure project 2
+          cleanup
+          trap - EXIT
+      - name: Build eager
+        run: pnpm build:eager
+      - name: Measure eager build
+        env:
+          BUILD: eager
+        run: |
+          set -uo pipefail
+          mkdir -p .evidence/ci/eager-3d
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          measure() {
+            local route=$1
+            local invocation=$2
+            local url=http://127.0.0.1:4320/
+            if [ "$route" = project ]; then
+              url=http://127.0.0.1:4320/projects/websocket-inspector
+            fi
+            local out=.evidence/ci/eager-3d/${BUILD}-${route}-r${invocation}
+            local code=0
+            pnpm perf:lighthouse "$url" --out "$out" || code=$?
+            echo "${BUILD}-${route}-r${invocation} exit=${code}" >> .evidence/ci/eager-3d/exit-codes.txt
+          }
+          measure home 1
+          measure home 2
+          measure project 1
+          measure project 2
+          cleanup
+          trap - EXIT
+      - name: Summarize eager-3d results
+        if: always()
+        run: node tools/perf/src/cli/eager-verdict.ts --dir .evidence/ci/eager-3d | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Upload eager-3d evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: eager-3d
+          path: .evidence/ci/eager-3d
+          retention-days: 14

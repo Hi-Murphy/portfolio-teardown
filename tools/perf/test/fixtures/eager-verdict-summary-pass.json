@@ -1,0 +1,50 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/",
+  "finalUrl": "http://127.0.0.1:4320/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.9,
+      "accessibility": null,
+      "lcpMs": 1000,
+      "cls": 0,
+      "tbtMs": 10,
+      "fcpMs": 900,
+      "siMs": 1000,
+      "totalByteWeight": 200000,
+      "benchmarkIndex": 3000
+    },
+    {
+      "performance": 0.96,
+      "accessibility": null,
+      "lcpMs": 1100,
+      "cls": 0,
+      "tbtMs": 40,
+      "fcpMs": 950,
+      "siMs": 1050,
+      "totalByteWeight": 200000,
+      "benchmarkIndex": 3400
+    },
+    {
+      "performance": 0.97,
+      "accessibility": null,
+      "lcpMs": 1200,
+      "cls": 0,
+      "tbtMs": 100,
+      "fcpMs": 1000,
+      "siMs": 1100,
+      "totalByteWeight": 200000,
+      "benchmarkIndex": 3200
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [],
+  "pass": true
+}
