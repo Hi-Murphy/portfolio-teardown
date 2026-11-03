@@ -1,0 +1,75 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://localhost/projects/websocket-inspector",
+  "scenario": "startup",
+  "route": "/projects/websocket-inspector",
+  "engage": "click",
+  "cpuThrottle": 4,
+  "fps": 4.565416060260317,
+  "frames": 23,
+  "droppedFrames": 6,
+  "windowMs": 5037.876,
+  "intervalsMs": {
+    "p50": 16.781,
+    "p95": 47.239,
+    "max": 307.035
+  },
+  "rafFps": 59.002360094403784,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 49922,
+  "pidSource": "trace-metadata",
+  "longTasks": [],
+  "droppedFrameTimes": [
+    227.929,
+    244.595,
+    261.261,
+    277.927,
+    311.259,
+    327.925
+  ],
+  "tasksOver16ms": [
+    {
+      "start": 15.134,
+      "dur": 24.396
+    },
+    {
+      "start": 48.113,
+      "dur": 26.56
+    },
+    {
+      "start": 83.514,
+      "dur": 32.692
+    },
+    {
+      "start": 137.7,
+      "dur": 21.004
+    },
+    {
+      "start": 223.76,
+      "dur": 26.388
+    },
+    {
+      "start": 250.15,
+      "dur": 25.534
+    },
+    {
+      "start": 275.692,
+      "dur": 32.237
+    },
+    {
+      "start": 309.633,
+      "dur": 33.132
+    }
+  ],
+  "maxLongTaskMs": 0,
+  "mainThreadTaskCount": 840,
+  "liveness": "not-applicable",
+  "verdict": {
+    "rule": "startup",
+    "droppedFrames0": false,
+    "longTask50": true,
+    "pass": false
+  }
+}
