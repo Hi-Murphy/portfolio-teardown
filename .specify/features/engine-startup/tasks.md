@@ -39,11 +39,11 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
+| T001 | ☑ (14 guards + PARTITION-OK; 4 negative controls fail XPLODER-SRC + S2/S4/S6/S8) | 1 (Flash, sandbox off) | evidence/T001-log-guard.txt | af5b004 |
+| T002 | ☑ (pure phase model; 9 synthetic fixtures; attributed ≤ cost invariant) | 1 (Flash) ×2: orchestrator review revision (top-level tasks, GL window, exclusive accounting) | evidence/T002-log-startup-model.txt | 23b569c |
+| T003 | ☑ (3 paths run; P5 on connected canvas, hasWebgl probe = probeContexts; P3 from timed Turbopack factories) | 1 (Flash) ×2: orchestrator review revision (P4 < 0 / P2 = 0 defects); orchestrator merge-conflict resolution + merged re-check | evidence/T003-log-startup-cli.txt | 1a67538 |
+| T004 | ☑ (startup scenario; explode unchanged; fps-engine.test.ts unmodified) | 1 (Flash) ×2: orchestrator review revision (toplevel category missing → vacuous long tasks; guard added) | evidence/T004-log-fps-startup.txt | 9ba7878 |
+| T005 | ☑ (8 shots; same build twice → 0 px on all 8) | 1 (Flash, sandbox off); guards re-run by orchestrator after T001 merge | evidence/T005-log-parity-tool.txt | 17b72e9 |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
