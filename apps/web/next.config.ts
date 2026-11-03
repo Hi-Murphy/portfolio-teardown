@@ -14,6 +14,11 @@ export default function nextConfig(phase: string): NextConfig {
 
   return {
     output: 'export',
+    turbopack: {
+      resolveAlias: {
+        three: './build/three-surface.ts',
+      },
+    },
     images: { unoptimized: true },
     reactStrictMode: true,
     transpilePackages: ['xploder'],
