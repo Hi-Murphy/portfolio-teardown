@@ -1,0 +1,105 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2331.2000000476837,
+  "firstFrame": 2662.528,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": {
+      "ms": 29.398,
+      "mainThreadMs": 0
+    },
+    "P1": {
+      "ms": 28.821,
+      "mainThreadMs": 0,
+      "count": 2
+    },
+    "P2": {
+      "ms": 113.242,
+      "mainThreadMs": 1.9150001220703103,
+      "count": 6
+    },
+    "P3": {
+      "ms": 101.69999992847443,
+      "mainThreadMs": 101.69999992847443,
+      "count": 1
+    },
+    "P4": {
+      "ms": 90.9,
+      "mainThreadMs": 45.04
+    },
+    "P5": {
+      "ms": 66.80000012207032,
+      "mainThreadMs": 65.86400012207031,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0,
+      "mainThreadMs": 0,
+      "count": 14
+    },
+    "P7": {
+      "ms": 3,
+      "mainThreadMs": 3,
+      "count": 6
+    },
+    "P8": {
+      "ms": 2.829,
+      "mainThreadMs": 2.829,
+      "count": 7,
+      "domLayoutMs": 2.829
+    },
+    "P9": {
+      "ms": 2.6279998779296876,
+      "mainThreadMs": 2.5289998779296874
+    }
+  },
+  "mainThreadCostMs": 316.834,
+  "attributedMs": 222.87700005054475,
+  "otherMs": 93.95699994945525,
+  "longTasks": [
+    {
+      "start": 2390.324,
+      "dur": 103.625,
+      "phase": "P2"
+    },
+    {
+      "start": 2574.243,
+      "dur": 59.821,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 63.446,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 4.800000071525574
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}

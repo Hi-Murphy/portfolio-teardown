@@ -1,0 +1,105 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2305.100000023842,
+  "firstFrame": 2635.811,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": {
+      "ms": 26.483,
+      "mainThreadMs": 0
+    },
+    "P1": {
+      "ms": 30.614,
+      "mainThreadMs": 0,
+      "count": 2
+    },
+    "P2": {
+      "ms": 112.428,
+      "mainThreadMs": 0.862000000000009,
+      "count": 6
+    },
+    "P3": {
+      "ms": 102.79999995231628,
+      "mainThreadMs": 102.79999995231628,
+      "count": 1
+    },
+    "P4": {
+      "ms": 89.7,
+      "mainThreadMs": 43.171
+    },
+    "P5": {
+      "ms": 68.9,
+      "mainThreadMs": 67.98300012207032,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0.10000002384185791,
+      "mainThreadMs": 0.10000002384185791,
+      "count": 14
+    },
+    "P7": {
+      "ms": 2.9999998807907104,
+      "mainThreadMs": 2.9999998807907104,
+      "count": 6
+    },
+    "P8": {
+      "ms": 2.7239999284744263,
+      "mainThreadMs": 2.7239999284744263,
+      "count": 7,
+      "domLayoutMs": 2.024
+    },
+    "P9": {
+      "ms": 2.811,
+      "mainThreadMs": 2.717
+    }
+  },
+  "mainThreadCostMs": 309.275,
+  "attributedMs": 223.35699990749364,
+  "otherMs": 85.91800009250633,
+  "longTasks": [
+    {
+      "start": 2362.848,
+      "dur": 103.717,
+      "phase": "P2"
+    },
+    {
+      "start": 2546.365,
+      "dur": 61.58,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 65.297,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0.6999999284744263,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 4.299999952316284
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}

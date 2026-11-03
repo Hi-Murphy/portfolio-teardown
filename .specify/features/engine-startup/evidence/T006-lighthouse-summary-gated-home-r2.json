@@ -1,0 +1,76 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/",
+  "finalUrl": "http://127.0.0.1:4320/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 903.5509999999999,
+      "cls": 0,
+      "tbtMs": 0.5,
+      "fcpMs": 903.5509999999999,
+      "siMs": 903.5509999999999,
+      "totalByteWeight": 198624,
+      "benchmarkIndex": 4226
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 903.2076,
+      "cls": 0,
+      "tbtMs": 0.5,
+      "fcpMs": 903.2076,
+      "siMs": 903.2076,
+      "totalByteWeight": 198611,
+      "benchmarkIndex": 4232.5
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 902.7713000000001,
+      "cls": 0,
+      "tbtMs": 0,
+      "fcpMs": 902.7713000000001,
+      "siMs": 902.7713000000001,
+      "totalByteWeight": 198611,
+      "benchmarkIndex": 4208.5
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.2076,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
