@@ -55,14 +55,14 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
+| T001 | ☑ (17 guards + PARTITION-OK; 6 negative controls bite; four-scope bytes reproduce S11.5 T014 exactly) | 1 (Flash); check re-run by orchestrator after plan defect D-P1 | evidence/T001-log-guard.txt | b835614 |
+| T002 | ☑ (droppedFrameTimes = droppedFrames; tasksOver16ms via shared `findTasksOver`; fps-engine.test.ts unmodified) | 1 (Flash) ×2: orchestrator review revision (duplicated task selection, window bound); D-P2 found | evidence/T002-log-fps-timeline.txt | c608f82 |
+| T003 | ☑ (`--cpu-profile` with native-aware attribution; sequence: ready.raf = firstInstancedDraw.raf) | 1 (Flash) ×2: orchestrator review revision (url-less samples dropped); 1 re-dispatch after API stream disconnect (not counted); evidence note corrected by orchestrator | evidence/T003-log-profile-sequence.txt | ec3e1b6 |
+| T004 | ☑ AC1 re-baseline: max long task 57.7 / 56.9 / 54.2 ms (fps, home-move / project-move / project-click), dropped 1 / 6 / 6.5, cost 268 / 317 / 328 ms; no drift (parity 0 px vs T014, bytes identical); chain mount → first frame → post-frame commit holds every drop | 1 (Flash: measurements + tables) + orchestrator (task identity, §7 interpretation, lever order) | evidence/T004-log-rebaseline.md, T004-log-task-identity.txt | 607e919 |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ (conditional) | | | |
-| T008 | ☐ (conditional) | | | |
+| T008 | ⊘ pre-skipped at G1 (T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) — pending Murphy's G1 answer | — | evidence/T004-log-rebaseline.md §7 | — |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
