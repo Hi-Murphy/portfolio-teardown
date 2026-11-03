@@ -1,0 +1,97 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2258.399999976158,
+  "firstFrame": 2623.402,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": null,
+    "P1": {
+      "ms": 113.248,
+      "mainThreadMs": 0,
+      "count": 7
+    },
+    "P2": {
+      "ms": 92.496,
+      "mainThreadMs": 3.0000001220703183,
+      "count": 21
+    },
+    "P3": {
+      "ms": 81.10000002384186,
+      "mainThreadMs": 81.10000002384186,
+      "count": 7
+    },
+    "P4": {
+      "ms": 102.1,
+      "mainThreadMs": 49.007
+    },
+    "P5": {
+      "ms": 67.5,
+      "mainThreadMs": 67.369,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0,
+      "mainThreadMs": 0,
+      "count": 14
+    },
+    "P7": {
+      "ms": 3,
+      "mainThreadMs": 3,
+      "count": 6
+    },
+    "P8": {
+      "ms": 5.721,
+      "mainThreadMs": 5.721,
+      "count": 7,
+      "domLayoutMs": 5.721
+    },
+    "P9": {
+      "ms": 3.1019998779296873,
+      "mainThreadMs": 2.5429998779296876
+    }
+  },
+  "mainThreadCostMs": 334.124,
+  "attributedMs": 211.74000002384184,
+  "otherMs": 122.38399997615818,
+  "longTasks": [
+    {
+      "start": 2534.432,
+      "dur": 56.549,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 6.5489999999999995,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 4.399999976158142
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}
