@@ -15,6 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "evidence": "node tools/perf/src/cli/evidence.ts",
+    "perf:startup": "node tools/perf/src/cli/startup-profile.ts",
     "perf:lighthouse": "node tools/perf/src/cli/lighthouse-gate.ts",
     "perf:weight": "node tools/perf/src/cli/weight-gate.ts",
     "perf:parity": "node tools/perf/src/cli/parity.ts",

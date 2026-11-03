@@ -1,15 +1,22 @@
 import { readdir, readFile } from 'node:fs/promises';
 
+import { JSDOM } from 'jsdom';
 import { describe, expect, test } from 'vitest';
 
 import {
   analyzeStartup,
   findLongTasks,
+  phaseModelError,
   type GlSpan,
   type PageMarks,
   type StartupReport,
   type TraceEvent,
 } from '../src/startup.ts';
+import {
+  startupAttributionScript,
+  type StartupAttributionOptions,
+  type StartupAttributionState,
+} from '../src/startup-attribution.ts';
 
 interface StartupFixture {
   events: TraceEvent[];
@@ -47,7 +54,7 @@ describe('analyzeStartup', () => {
     expect(result.phases).toMatchObject({
       P0: { ms: 10, mainThreadMs: 0 },
       P1: { ms: 100, mainThreadMs: 0, count: 1 },
-      P2: { ms: 10, mainThreadMs: 10, count: 1 },
+      P2: { ms: 30, mainThreadMs: 10, count: 2 },
       P3: { ms: 20, mainThreadMs: 20, count: 1 },
       P4: { ms: 65, mainThreadMs: 55 },
       P5: { ms: 10, mainThreadMs: 10, count: 1 },
@@ -101,6 +108,8 @@ describe('analyzeStartup', () => {
       textures: { ms: 0, count: 0 },
     });
     expect(result.phases.P5).toBeNull();
+    expect(result.phases.P3).toBeNull();
+    expect(result.phases.P4).toBeNull();
     expect(result.phases.P6).toBeNull();
     expect(result.phases.P7).toBeNull();
     expect(result.phases.P8).toBeNull();
@@ -148,12 +157,45 @@ describe('analyzeStartup', () => {
   test('attributes phase time exclusively at nested compile and layout boundaries', async () => {
     const result = await report('startup-exclusive-p4.json');
 
-    expect(result.phases.P2).toMatchObject({ ms: 20, mainThreadMs: 20, count: 2 });
-    expect(result.phases.P3).toMatchObject({ ms: 30, mainThreadMs: 20, count: 1 });
+    expect(result.phases.P2).toMatchObject({ ms: 50, mainThreadMs: 10, count: 3 });
+    expect(result.phases.P3).toMatchObject({ ms: 30, mainThreadMs: 30, count: 1 });
     expect(result.phases.P4).toMatchObject({ ms: 140, mainThreadMs: 125 });
     expect(result.phases.P5).toMatchObject({ ms: 10, mainThreadMs: 10 });
     expect(result.phases.P8).toMatchObject({ ms: 7, mainThreadMs: 7, domLayoutMs: 5 });
     expect(result.phases.P9).toMatchObject({ ms: 70, mainThreadMs: 40 });
+  });
+
+  test('starts P5 at the connected canvas and reports detached probes separately', async () => {
+    const result = await report('startup-detached-context.json');
+
+    expect(result.probeContexts).toEqual({ count: 1, ms: 7 });
+    expect(result.phases.P3).toMatchObject({ ms: 60, mainThreadMs: 60, count: 1 });
+    expect(result.phases.P4).toMatchObject({ ms: 20 });
+    expect(result.phases.P5).toMatchObject({ ms: 10, mainThreadMs: 10, count: 1 });
+  });
+
+  test('defines P3 from depth-0 chunk module evaluation and P2 from compile/parse', async () => {
+    const result = await report('startup-module-eval.json');
+
+    expect(result.phases.P2).toMatchObject({ ms: 90, mainThreadMs: 30, count: 3 });
+    expect(result.phases.P3).toMatchObject({ ms: 30, mainThreadMs: 30, count: 1 });
+    expect(result.phases.P4).toMatchObject({ ms: 170 });
+  });
+
+  test('reports an inconsistent phase model by phase', async () => {
+    const result = await report('startup-baseline.json');
+    const inconsistent: StartupReport = {
+      ...result,
+      phases: {
+        ...result.phases,
+        P4: { ms: -1, mainThreadMs: 0 },
+      },
+    };
+
+    expect(phaseModelError(inconsistent)).toBe('phase model inconsistent: P4');
+    expect(phaseModelError({ ...result, attributedMs: result.mainThreadCostMs + 1 })).toBe(
+      'phase model inconsistent: attributedMs',
+    );
   });
 
   test('keeps attributed main-thread time within cost for every fixture', async () => {
@@ -175,5 +217,236 @@ describe('analyzeStartup', () => {
     }
 
     expect(violations).toEqual([]);
+  });
+});
+
+const GL_METHODS = [
+  'compileShader',
+  'linkProgram',
+  'getProgramParameter',
+  'getShaderParameter',
+  'getUniformLocation',
+  'getProgramInfoLog',
+  'bufferData',
+  'bufferSubData',
+  'texImage2D',
+  'texStorage2D',
+  'texSubImage2D',
+  'drawArrays',
+  'drawElements',
+  'drawArraysInstanced',
+  'drawElementsInstanced',
+  'createProgram',
+] as const;
+
+function attributedWindow(options: StartupAttributionOptions): {
+  window: Window & typeof globalThis;
+  context: Record<string, (...args: unknown[]) => unknown>;
+  calls: string[];
+  runFrame(time: number): void;
+} {
+  const dom = new JSDOM('<!doctype html><html><body><canvas id="viewer"></canvas></body></html>', {
+    pretendToBeVisual: true,
+    runScripts: 'outside-only',
+  });
+  const window = dom.window as unknown as Window & typeof globalThis;
+  const target = window as unknown as Record<string, unknown>;
+  const calls: string[] = [];
+
+  class FakeWebGLContext {
+    getSupportedExtensions(): string[] {
+      return ['EXT_color_buffer_float', 'WEBGL_debug_renderer_info'];
+    }
+
+    getExtension(name: string): { UNMASKED_RENDERER_WEBGL: number } | null {
+      return name === 'WEBGL_debug_renderer_info' ? { UNMASKED_RENDERER_WEBGL: 0x9246 } : null;
+    }
+
+    getParameter(parameter: number): string | null {
+      return parameter === 0x9246 ? 'Fake Renderer' : null;
+    }
+  }
+
+  for (const name of GL_METHODS) {
+    (FakeWebGLContext.prototype as unknown as Record<string, (...args: unknown[]) => unknown>)[
+      name
+    ] = (...args: unknown[]) => {
+      void args;
+      calls.push(name);
+      return name === 'createProgram' ? { program: true } : null;
+    };
+  }
+
+  target.WebGL2RenderingContext = FakeWebGLContext;
+  target.WebGLRenderingContext = FakeWebGLContext;
+  const fakeContext = new FakeWebGLContext();
+  const context = fakeContext as unknown as Record<string, (...args: unknown[]) => unknown>;
+  window.HTMLCanvasElement.prototype.getContext = ((...args: unknown[]): FakeWebGLContext => {
+    void args;
+    return fakeContext;
+  }) as unknown as typeof window.HTMLCanvasElement.prototype.getContext;
+
+  let frame: FrameRequestCallback | undefined;
+  window.requestAnimationFrame = ((callback: FrameRequestCallback): number => {
+    frame = callback;
+    return 1;
+  }) as typeof window.requestAnimationFrame;
+
+  window.eval(startupAttributionScript(options));
+
+  return {
+    window,
+    context,
+    calls,
+    runFrame: (time: number) => {
+      frame?.(time);
+    },
+  };
+}
+
+describe('startup attribution init script', () => {
+  test('records wrapped GL spans, per-rAF draw counts and the extension list', () => {
+    const { window, context, calls, runFrame } = attributedWindow({
+      attribute: true,
+      observers: false,
+    });
+    const canvas = window.document.querySelector('canvas');
+    if (canvas === null) throw new Error('canvas missing');
+
+    canvas.getContext('webgl2');
+    context.createProgram?.();
+    context.linkProgram?.();
+    window.requestAnimationFrame(() => {
+      context.drawElements?.();
+      context.drawElements?.();
+      context.drawArrays?.();
+    });
+    runFrame(123.5);
+
+    const state = (window as unknown as Record<string, StartupAttributionState>).__xpPerf;
+    if (state === undefined) throw new Error('attribution state missing');
+    expect(calls).toEqual([
+      'createProgram',
+      'linkProgram',
+      'drawElements',
+      'drawElements',
+      'drawArrays',
+    ]);
+    expect(state.spans.map((span) => span.name)).toEqual(
+      expect.arrayContaining(['getContext', 'createProgram', 'linkProgram', 'drawElements']),
+    );
+    expect(state.spans.find((span) => span.name === 'getContext')).toMatchObject({
+      connected: true,
+      contextType: 'webgl2',
+    });
+    expect(state.spans.every((span) => Number.isFinite(span.start) && span.dur >= 0)).toBe(true);
+    expect(state.draws).toEqual([{ time: 123.5, draws: 3 }]);
+    expect(state.extensions).toEqual(['EXT_color_buffer_float', 'WEBGL_debug_renderer_info']);
+    expect(state.renderer).toBe('Fake Renderer');
+  });
+
+  test('leaves GL calls unwrapped without --attribute', () => {
+    const { window, context, calls } = attributedWindow({
+      attribute: false,
+      observers: false,
+    });
+    const canvas = window.document.querySelector('canvas');
+    if (canvas === null) throw new Error('canvas missing');
+
+    canvas.getContext('webgl2');
+    context.createProgram?.();
+    const state = (window as unknown as Record<string, StartupAttributionState>).__xpPerf;
+    if (state === undefined) throw new Error('attribution state missing');
+
+    expect(calls).toEqual(['createProgram']);
+    expect(state.spans).toEqual([]);
+  });
+
+  test('records detached probes with their connection state and context type', () => {
+    const { window } = attributedWindow({ attribute: true, observers: false });
+    const detached = window.document.createElement('canvas');
+    const connected = window.document.querySelector('canvas');
+    if (connected === null) throw new Error('canvas missing');
+
+    detached.getContext('webgl2');
+    connected.getContext('webgl');
+
+    const state = (window as unknown as Record<string, StartupAttributionState>).__xpPerf;
+    if (state === undefined) throw new Error('attribution state missing');
+    expect(
+      state.spans
+        .filter((span) => span.name === 'getContext')
+        .map((span) => ({ connected: span.connected, contextType: span.contextType })),
+    ).toEqual([
+      { connected: false, contextType: 'webgl2' },
+      { connected: true, contextType: 'webgl' },
+    ]);
+  });
+
+  test('times Turbopack factories in both registry phases and preserves call semantics', () => {
+    const { window } = attributedWindow({ attribute: true, observers: false });
+    const target = window as unknown as {
+      TURBOPACK: { push: (entry: unknown) => unknown };
+    };
+    const src = 'https://example.test/_next/static/chunks/turbopack.js';
+    const script = { src };
+    const calls: string[] = [];
+    const entry: unknown[] = [
+      script,
+      7,
+      function (this: unknown, value: number): unknown {
+        calls.push('outer');
+        return Reflect.apply(entry[4] as (...args: unknown[]) => unknown, this, [value + 1]);
+      },
+      8,
+      function (this: unknown, value: number): { value: number; self: unknown } {
+        calls.push('inner');
+        return { value, self: this };
+      },
+    ];
+
+    const pending = target.TURBOPACK as unknown as {
+      push: (entry: unknown) => unknown;
+      forEach: (callback: (entry: unknown) => unknown) => void;
+    };
+    pending.push(entry);
+    const registered: unknown[] = [];
+    const register = (value: unknown): unknown => {
+      registered.push(value);
+      return value;
+    };
+    target.TURBOPACK = { push: register };
+    pending.forEach(register);
+
+    const context = { marker: true };
+    const result = Reflect.apply(entry[2] as (...args: unknown[]) => unknown, context, [3]) as {
+      value: number;
+      self: unknown;
+    };
+    expect(result).toEqual({ value: 4, self: context });
+    expect(calls).toEqual(['outer', 'inner']);
+    expect(registered).toEqual([entry]);
+
+    const throwing: unknown[] = [
+      script,
+      9,
+      function (): never {
+        throw new Error('boom');
+      },
+    ];
+    target.TURBOPACK.push(throwing);
+    expect(() => (throwing[2] as () => unknown)()).toThrow('boom');
+
+    const state = (window as unknown as Record<string, StartupAttributionState>).__xpPerf;
+    if (state === undefined) throw new Error('attribution state missing');
+    expect(
+      state.spans
+        .filter((span) => span.name === 'moduleEval')
+        .map((span) => ({ src: span.src, depth: span.depth })),
+    ).toEqual([
+      { src, depth: 1 },
+      { src, depth: 0 },
+      { src, depth: 0 },
+    ]);
   });
 });
