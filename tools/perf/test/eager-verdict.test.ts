@@ -42,7 +42,7 @@ async function fixture(url: URL): Promise<LighthouseSummary> {
 
 async function writeSummaries(
   root: string,
-  override?: (build: string, route: string, summary: LighthouseSummary) => void,
+  override?: (build: string, route: string, summary: LighthouseSummary, invocation: number) => void,
 ): Promise<void> {
   const pass = await fixture(passFixture);
 
@@ -50,7 +50,7 @@ async function writeSummaries(
     for (const route of ['home', 'project']) {
       for (const invocation of [1, 2]) {
         const summary = structuredClone(pass);
-        override?.(build, route, summary);
+        override?.(build, route, summary, invocation);
 
         const dir = join(root, `${build}-${route}-r${invocation}`);
         await mkdir(dir, { recursive: true });
@@ -115,6 +115,86 @@ describe('eager-verdict', () => {
 
       expect(result.code).toBe(0);
       expect(result.stdout).toMatch(/\*\*Verdict:\*\* keep the gate\n$/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('prints the five longest long tasks per build and route', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'eager-verdict-'));
+
+    try {
+      await writeSummaries(dir, (build, route, summary, invocation) => {
+        if (build !== 'eager' || route !== 'project') return;
+        summary.runs[0]!.longTasks = [
+          {
+            url: `http://127.0.0.1:4320/_next/static/chunks/r${invocation}-first.js`,
+            startMs: 100,
+            durMs: invocation === 1 ? 120 : 110,
+          },
+          {
+            url: `http://127.0.0.1:4320/_next/static/chunks/r${invocation}-second.js`,
+            startMs: 200,
+            durMs: invocation === 1 ? 100 : 90,
+          },
+        ];
+        summary.runs[1]!.longTasks = [
+          {
+            url: `http://127.0.0.1:4320/_next/static/chunks/r${invocation}-third.js`,
+            startMs: 300,
+            durMs: invocation === 1 ? 80 : 70,
+          },
+          {
+            url: `http://127.0.0.1:4320/_next/static/chunks/r${invocation}-fourth.js`,
+            startMs: 400,
+            durMs: invocation === 1 ? 60 : 50,
+          },
+        ];
+        summary.runs[2]!.longTasks = [
+          {
+            url: `http://127.0.0.1:4320/_next/static/chunks/r${invocation}-fifth.js`,
+            startMs: 500,
+            durMs: invocation === 1 ? 40 : 30,
+          },
+        ];
+      });
+
+      const result = await runCli(['--dir', dir]);
+      const section = result.stdout.split('## eager / project')[1]?.split('**Verdict:**')[0];
+
+      expect(result.code).toBe(0);
+      expect(section).toContain(
+        [
+          '| r1-1 | r1-first.js | 100 | 120 |',
+          '| r2-1 | r2-first.js | 100 | 110 |',
+          '| r1-1 | r1-second.js | 200 | 100 |',
+          '| r2-1 | r2-second.js | 200 | 90 |',
+          '| r1-2 | r1-third.js | 300 | 80 |',
+        ].join('\n'),
+      );
+      expect(section).not.toContain('r2-third.js');
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('accepts an eager-only artifact directory', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'eager-verdict-'));
+
+    try {
+      await writeSummaries(dir);
+      for (const route of ['home', 'project']) {
+        for (const invocation of [1, 2]) {
+          await rm(join(dir, `gated-${route}-r${invocation}`), { recursive: true, force: true });
+        }
+      }
+
+      const result = await runCli(['--dir', dir]);
+
+      expect(result.code).toBe(0);
+      expect(result.stdout).toContain('## eager / home');
+      expect(result.stdout).toContain('## eager / project');
+      expect(result.stdout).not.toContain('## gated /');
     } finally {
       await rm(dir, { recursive: true, force: true });
     }

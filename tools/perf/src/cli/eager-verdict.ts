@@ -1,9 +1,9 @@
 import { readFile, readdir } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 
 import { parseCli } from '../args.ts';
 import { CliError, EXIT } from '../exit-codes.ts';
-import type { LighthouseRun, LighthouseSummary } from '../lighthouse.ts';
+import type { LighthouseLongTask, LighthouseRun, LighthouseSummary } from '../lighthouse.ts';
 import { run } from '../log.ts';
 
 interface EagerVerdictArgs {
@@ -36,6 +36,10 @@ interface Metrics {
   lcpMs: number;
   cls: number;
   benchmarkIndex: number;
+}
+
+interface AttributedLongTask extends LighthouseLongTask {
+  run: string;
 }
 
 const BUILD_ORDER: readonly Build[] = ['gated', 'eager'];
@@ -112,6 +116,59 @@ function runMetrics(run: LighthouseRun): Metrics {
   };
 }
 
+function longTasks(run: LighthouseRun): LighthouseLongTask[] {
+  return Array.isArray(run.longTasks) ? run.longTasks : [];
+}
+
+function taskUrl(url: string): string {
+  try {
+    return basename(new URL(url).pathname) || '/';
+  } catch {
+    return basename(url) || '/';
+  }
+}
+
+function longestTasks(group: SummaryGroup): AttributedLongTask[] {
+  return group.invocations
+    .flatMap(({ invocation, summary }) =>
+      summary.runs.flatMap((summaryRun, index) =>
+        longTasks(summaryRun).map((task) => ({
+          ...task,
+          run: `r${invocation}-${index + 1}`,
+        })),
+      ),
+    )
+    .sort(
+      (left, right) =>
+        right.durMs - left.durMs ||
+        left.startMs - right.startMs ||
+        left.run.localeCompare(right.run),
+    )
+    .slice(0, 5);
+}
+
+function renderLongestTasks(group: SummaryGroup): string {
+  const tasks = longestTasks(group);
+  const lines = [
+    '**Five longest tasks**',
+    '',
+    '| Run | URL | Start (ms) | Duration (ms) |',
+    '|---:|---|---:|---:|',
+  ];
+
+  if (tasks.length === 0) {
+    lines.push('', 'None recorded.');
+  } else {
+    for (const task of tasks) {
+      lines.push(
+        `| ${task.run} | ${taskUrl(task.url)} | ${formatMetric(task.startMs)} | ${formatMetric(task.durMs)} |`,
+      );
+    }
+  }
+
+  return lines.join('\n');
+}
+
 function renderGroup(group: SummaryGroup): string {
   const lines = [
     `## ${group.build} / ${group.route}`,
@@ -133,6 +190,8 @@ function renderGroup(group: SummaryGroup): string {
     `Median runs: ${group.invocations
       .map(({ invocation, summary }) => `r${invocation} #${summary.medianRun + 1}`)
       .join(', ')}.`,
+    '',
+    renderLongestTasks(group),
     '',
   );
 
@@ -233,9 +292,12 @@ async function readGroups(dir: string): Promise<SummaryGroup[]> {
 
   const groups: SummaryGroup[] = [];
   for (const build of BUILD_ORDER) {
+    const buildSummaries = summaries.filter((summary) => summary.build === build);
+    if (buildSummaries.length === 0) continue;
+
     for (const route of ROUTE_ORDER) {
-      const invocations = summaries
-        .filter((summary) => summary.build === build && summary.route === route)
+      const invocations = buildSummaries
+        .filter((summary) => summary.route === route)
         .sort((left, right) => left.invocation - right.invocation);
 
       if (
