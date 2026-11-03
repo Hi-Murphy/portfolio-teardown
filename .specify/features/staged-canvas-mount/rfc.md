@@ -344,4 +344,12 @@ Names follow the brief's list. Expected effects are **estimates** from the T010 
    - **R7 (bytes):** a feature-dir `bundle-scopes.mjs` computes the four scopes in raw and gzip with S11.5's corrected method (node zlib level 9, per file). `bundle:manifest --diff` stays informational only (S11.5 D-P1). A growth is recorded at each lever and becomes a gate at T009.
    - **R8 (AC5 mechanics):** one `eager-3d` run already measures gated + eager ×2 per route. Run 2 = `gh run rerun`. Long tasks come from the LHR `long-tasks` audit, whose durations are simulated under `throttling: simulate`, so they are the TBT-relevant ones.
    - **R9 (task numbering):** the RFC §5 sketch becomes T001–T012. The Lighthouse attribution moves to G3 (T010). Each lever task carries its own re-seal commit, so T011 (RFC) = T012 (tasks) is the final audit.
+4. **Stage 3 G1 (2026-11-03): re-baseline committed (T004 `c4d71ae`) before any xploder commit.**
+   - No drift vs S11.5: parity 0 px, bytes identical.
+   - Every dropped frame sits in the chain mount → first frame → post-frame commit (`evidence/T004-log-rebaseline.md` §7).
+   - Proposed: L1 → L4 → L2 as a precompile step (conditional), and the new L5, a post-frame commit as a transition (conditional). L3 skipped.
+5. **G1 decision (Murphy, 2026-11-03, 5h 47%): "all defaults accepted. go".**
+   - **L5 approved** as T007b: `TeardownViewer.tsx` only, the same lever discipline, conditional on T006/T007 evidence.
+   - **L3 skipped** (T008 ⊘).
+   - **Lever-task commit mechanics:** the executor makes the lever commit on its task branch, then the re-seal commit, so the re-seal can name the lever SHA (RFC R5).
 

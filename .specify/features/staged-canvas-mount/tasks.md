@@ -13,7 +13,7 @@
 - Each ledger row states the finishing tier.
 
 **Usage pacing:**
-- Murphy states "5h: N%" at gates (Gate 1: 0%).
+- Murphy states "5h: N%" at gates (Gate 1: 0%; G1: 47%).
 - At ≥ 85% of the 5h window no new task starts: finish and commit the current task, tick the ledger, report, STOP.
 
 **Worktrees:** each task runs in a fresh worktree off `task/s11.6-staged-canvas-mount` on branch `task/s11.6-staged-canvas-mount-tNNN`. The orchestrator reviews it and merges it back with `--no-ff`. The worktree is removed only after its merge (global rule).
@@ -62,7 +62,8 @@
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ (conditional) | | | |
-| T008 | ⊘ pre-skipped at G1 (T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) — pending Murphy's G1 answer | — | evidence/T004-log-rebaseline.md §7 | — |
+| T007b | ☐ (conditional, G1-approved L5) | | | |
+| T008 | ⊘ skipped (G1 decision; T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) | — | evidence/T004-log-rebaseline.md §7 | — |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
@@ -287,6 +288,21 @@
   1. Optional: on the hero, the overlay lettering appears together with the teardown, not a frame later (Orca browser, `pnpm serve:out`).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: the step grouping in the log).
+
+### T007b [US1] L5 — post-first-frame commit as a transition (`TeardownViewer.tsx`, S8) — CONDITIONAL (G1-approved)
+
+- **Runs only if** the T006 (or T007) state still shows dropped frames inside the post-frame commit (T004 §7.2 task e). Otherwise `⊘ skipped (evidence)`.
+- **Seam:** first-frame callbacks (`onPhase`, `onScrollExtent`) ↔ React update priority.
+- **Files:**
+  - `TeardownViewer.tsx`: `setPhase` and `setScrollExtentPx` are called inside `startTransition`, so React time-slices the resulting viewer re-render. The `data-xploder-state` attribute write in `onPhase` stays synchronous. Nothing else changes;
+  - `staged-mount.test.tsx`: + a case asserting both updates go through a transition (spy on `startTransition` or a React act/lanes check);
+  - **re-seal commit:** S8, cumulative note "+ frame-driven viewer state updates as transitions (S11.6 L5)".
+- **Check:** T005's check with `t007b` paths, plus the attributed `perf:startup` ×1 on both routes with the AC4 sequence assertion vs T004.
+- **Evidence:** `evidence/T007b-log-l5-ab.md` (+ JSONs, `T007b-log-reseal-s8.txt`).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Optional: the overlay title block and lettering still appear with the teardown (Orca browser).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (approved at G1).
 
 ### T008 [US1] L3 — cheaper `hasWebgl()` probe (`a11y/webgl.ts`, S8) — CONDITIONAL
 
