@@ -241,9 +241,9 @@ describe('frozen S8 surface', () => {
     const manifest = manifestS8Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('99a94f2');
+    expect(manifest.base).toBe('405bca1');
     expect(manifest.note).toBe(
-      'S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+      'S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(16);
 
