@@ -48,9 +48,9 @@
 | T007 | ⊘ skipped (G1 decision: L2 has no measurable payoff on this host, P7 = 2.3–3.0 ms < run spread; T006 evidence) | — | evidence/T006-log-baseline-profile.md | — |
 | T008 | ⊘ skipped (no S6 file touched → no re-seal) | — | — | — |
 | T009 | ☑ kept (3D chunk −201,716 B raw / −48,631 B gz; project/move P3 −22.4 ms; max long task −21…−28 ms; parity 0 px; draws 2) | 1 (Flash); literal check blocked by 2 plan defects (D-P1, D-P2), remainder run and passed | evidence/T009-log-l4-ab.md | c9aea35 |
-| T010 | ☐ | | | |
-| T011 | ☐ (conditional) | | | |
-| T012 | ☐ (conditional) | | | |
+| T010 | ☑ kept (max long task 113→57 ms project / 80→61 ms hero; cost −34…−49 ms; blocking −75…−90 %; initial JS −25 / −4,406 B vs T006; parity 0 px; AC2 still fails: one 56–62 ms mount task) | 1 (Flash) ×3: 2 orchestrator-review revisions (initial-JS regression), final 45 B fix by orchestrator; long-task attribution by orchestrator | evidence/T010-log-l3-ab.md, T010-log-longtask-profile.txt | cc1c89f |
+| T011 | ⊘ skipped pending G2 (orchestrator judgement): the remaining AC2 blocker is the Canvas-mount task, which L1 cannot move; L1 would only shift 24–33 ms eval tasks pre-engagement and make non-engaging visitors download ~1 MB — asked at the G2 STOP | — | evidence/T010-log-longtask-profile.txt | — |
+| T012 | ⊘ skipped (G1 decision) | — | — | — |
 | T013 | ☐ | | | |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |

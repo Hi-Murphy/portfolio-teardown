@@ -1,0 +1,60 @@
+T010 follow-up (orchestrator, 2026-11-03T04:13Z): what is the remaining 56–62 ms long task? Merged state cc1c89f, project route, pointer move, 4x CPU.
+
+1) perf:startup --attribute: long task start 2566.8 ms dur 57.8 ms, phase P5 (between the connected getContext and the first createProgram).
+   GL spans inside it: getContext (connected, webgl2) 2.80 ms; texImage2D x7 (three's empty default textures) 0.00 ms. The detached hasWebgl() probe context (4.70 ms) is earlier, in P4.
+
+2) Sampled CPU profile (CDP Profiler, 100 us, same profile/throttle; one-off script, not committed). Self-time by chunk in busy stretches > 15 ms (idle gaps < 2 ms merged):
+busy stretches > 15 ms (start relative to first, dur):
+
+== stretch +46.1 ms, 52.1 ms
+   60% self  turbopack-3-ry682tkyiqk.js
+   14% self  1d5kkip1hlg-o.js
+   12% self  3vnmkhfgdnq2d.js
+   12% self  (native)
+    1% self  1kgrt2f4mrm63.js
+         58%  turbopack-3-ry682tkyiqk.js I:0:6194
+         13%  1d5kkip1hlg-o.js push.n.unstable_now:0:143
+          3%  (native) appendChild:-1:-1
+          3%  (native) query:5815:20
+          2%  3vnmkhfgdnq2d.js (anon):0:1
+          2%  turbopack-3-ry682tkyiqk.js c:0:524
+          2%  (native) (garbage collector):-1:-1
+          2%  3vnmkhfgdnq2d.js b:0:12538
+
+== stretch +101.3 ms, 83.5 ms
+   26% self  1y81jgf1iz4ib.js
+   25% self  1kgrt2f4mrm63.js
+   18% self  turbopack-3-ry682tkyiqk.js
+   18% self  1i-prr2ae20oj.js
+    6% self  (native)
+    5% self  1d5kkip1hlg-o.js
+    1% self  1jr83020c6cbx.js
+    0% self  0dagpsll3o5r2.js
+         18%  turbopack-3-ry682tkyiqk.js I:0:6194
+         10%  1i-prr2ae20oj.js (anon):48:19444
+          8%  1kgrt2f4mrm63.js ax:0:74320
+          3%  1y81jgf1iz4ib.js compile:0:33003
+          2%  1y81jgf1iz4ib.js (anon):0:117
+          2%  1d5kkip1hlg-o.js e:11:30170
+          2%  1kgrt2f4mrm63.js iE:0:113573
+          2%  1y81jgf1iz4ib.js s:0:13931
+
+== stretch +241.2 ms, 148.5 ms
+   37% self  3vnmkhfgdnq2d.js
+   27% self  1i-prr2ae20oj.js
+   22% self  1d5kkip1hlg-o.js
+    8% self  1kgrt2f4mrm63.js
+    5% self  (native)
+    1% self  1jr83020c6cbx.js
+          5%  1i-prr2ae20oj.js H:0:6300
+          4%  3vnmkhfgdnq2d.js setSize:8:86608
+          3%  3vnmkhfgdnq2d.js tr:8:84492
+          3%  3vnmkhfgdnq2d.js ti:8:83634
+          3%  3vnmkhfgdnq2d.js i:6986:2065
+          3%  1i-prr2ae20oj.js O:0:5652
+          2%  (native) (garbage collector):-1:-1
+          2%  3vnmkhfgdnq2d.js R:7054:937
+
+Chunk map (bundle-after manifest): 3vnmkhfgdnq2d.js = curated three (stage 1); 1d5kkip1hlg-o.js = @react-three/fiber + reconciler (stage 2); 1i-prr2ae20oj.js = xploder react / viewer (stage 3); 1kgrt2f4mrm63.js = react-dom; turbopack-3-*.js = Turbopack runtime (module factory dispatch).
+
+Reading: across two profile runs the busy stretch containing the long task (it merges the 57 ms task with the adjacent first-frame task) is 37–46 % three.js renderer construction/setup (setSize, state init), 22–31 % R3F root + first scene render, 17–27 % xploder scene components (S4/S5/S6/S7/S8 code); it is triggered by the <Canvas> mount in S8 TeardownViewer.tsx (frozen). No app-side or S4/S6 seam can split it. AC2 (no task > 50 ms) is therefore blocked by frozen S8 + dependency internals; escalated at the G2 STOP.
