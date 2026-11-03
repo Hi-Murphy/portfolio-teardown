@@ -51,11 +51,34 @@ export function WorkbenchLoader({ slug }: { readonly slug: string }) {
     control?.addEventListener('click', onClick);
 
     void (async () => {
-      const interacted = await waitForFirstInteraction(
-        signal,
-        (event) => event.target instanceof Node && control?.contains(event.target) === true,
-      );
-      if (!interacted || signal.aborted || startedRef.current) return;
+      if (__XP_EAGER_3D__) {
+        const loaded = await new Promise<boolean>((resolve) => {
+          if (signal.aborted) {
+            resolve(false);
+            return;
+          }
+
+          const finish = (result: boolean) => {
+            window.removeEventListener('load', onLoad);
+            signal.removeEventListener('abort', abort);
+            resolve(result);
+          };
+          const onLoad = () => finish(true);
+          const abort = () => finish(false);
+
+          window.addEventListener('load', onLoad, { once: true });
+          signal.addEventListener('abort', abort, { once: true });
+
+          if (document.readyState === 'complete') finish(true);
+        });
+        if (!loaded || signal.aborted || startedRef.current) return;
+      } else {
+        const interacted = await waitForFirstInteraction(
+          signal,
+          (event) => event.target instanceof Node && control?.contains(event.target) === true,
+        );
+        if (!interacted || signal.aborted || startedRef.current) return;
+      }
 
       const idle = await waitForIdle(signal);
       if (!idle || signal.aborted || startedRef.current) return;
