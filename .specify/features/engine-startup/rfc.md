@@ -1,6 +1,6 @@
 # RFC — S11.5 Engine Startup Performance
 
-**slice:** S11.5-engine-startup · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.5-engine-startup.md` (frozen brief v1) · **branch:** `task/s11.5-engine-startup` · **base:** `92a8d24` · **date:** 2026-11-03
+**slice:** S11.5-engine-startup · **status:** APPROVED at Gate 1 (2026-11-03): all §6 defaults accepted, refinements R1–R8 and correction C1 recorded (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.5-engine-startup.md` (frozen brief v1) · **branch:** `task/s11.5-engine-startup` · **base:** `92a8d24` · **date:** 2026-11-03
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§6). **Nothing was profiled for this RFC:** the AC1 baseline is Stage 3's first task by design. The only numbers here are byte counts from a static build read (`evidence/RFC-log-static-read.txt`).
 
@@ -281,4 +281,15 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
 
 ## 9. Gate log
 
-*(empty — Gate 1 pending)*
+1. **Gate 1 (Murphy, 2026-11-03, 5h 62%):** "all defaults. approved". Q1–Q15 = the §6 defaults.
+2. **Stage-2 re-check of the defaults against the code.** These are refinements R1–R8 and one correction, C1. None of them changes an AC.
+   - **C1 (L2 mechanism):** `Stats.tsx` (S4) already owns rendering through a priority-1 `useFrame` that calls `gl.render`. So D5's "Scene takes over the render with a priority-1 `useFrame`" is replaced: `Scene.tsx` (S6) mounts a priority-1 no-op `RenderHold` until `compileAsync` resolves, then mounts `Stats` and calls `invalidate()`. `Stats` stays byte-identical, and S4 is not touched.
+   - **R1:** with C1, `data-xploder-ready` and the reveal keep meaning "first content frame" without any S4/S8 edit (Q13 holds).
+   - **R2:** L2 uses `compileAsync` **only when `KHR_parallel_shader_compile` is reported**. Otherwise `compiled` starts `true`, which is exactly today's path. That keeps the test-renderer scene tests and non-supporting browsers unchanged. T006 records whether headless Chromium exposes the extension. If it doesn't, the G1 STOP offers: drop L2, measure the no-extension variant (default), or add one headed GPU run.
+   - **R3 (facts checked in three 0.186.1 source):** `compile()` prepares materials for every mesh via `scene.traverse`, not only visible ones. `WebGLProgram.isReady()` polls `COMPLETION_STATUS_KHR` without blocking, and without the extension it reports ready immediately (the stall moves to first use). R3F 9.8.2 skips its own `gl.render` while any priority > 0 subscriber exists.
+   - **R4 (L4 placement):** `apps/web/test/package-consumer.test.ts` and `prod-imports.test.ts` forbid `three`/`three/*`/`@react-three/*` imports under `app/`, `components/`, `content/`, `scripts/` and `seo/`. The shim therefore lives at `apps/web/build/three-surface.ts`. It is a bundling alias target, not app code. The scanners stay unchanged, and a new test asserts the shim is referenced only by `next.config.ts`. T009 starts with a decision gate: Turbopack must alias bare `three` exactly, without catching `three/src/*`, or L4 is dropped.
+   - **R5 (Q8 mechanics):** a `workflow_dispatch` workflow can only be dispatched once the file exists on the default branch. So the runner measurement is a new **`eager-3d.yml` on `pull_request`**. It is measurement-only: it never fails on a budget, it is not required, and `perf.yml`/`ci.yml` stay byte-identical.
+   - **R6:** the S2/S4 split of the combined manifest is kept as feature-dir lists (`s2.paths`, `s4.paths`), derived from each path's adding commit. S01-created `package.json`, `src/index.ts` and `motion/index.ts` count as S2 (the stricter side). T001 asserts that the two lists partition `frozen-surface.paths` exactly. No xploder test file changes for this.
+   - **R7:** the AC1 baseline task (T006) also records gated-build Lighthouse on both routes. That is the TBT reference for L1's "no TBT regression" rule and the gated column of the AC6 table.
+   - **R8:** `XPLODER-SRC-OK` compares against `approved-xploder-src.txt`. That list starts empty and gains a file only in the lever task that touches it (T007: `Scene.tsx`; T012 only if L5 runs).
+   - **Also found:** `no-motion-literals`' `TIMER` rule rejects `setTimeout(…, <digit>)`, so L3's `yieldToMain` falls back to a `MessageChannel` hop, not `setTimeout(r, 0)`.
