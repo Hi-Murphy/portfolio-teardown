@@ -1,0 +1,52 @@
+{
+  "kind": "staged-canvas-mount-t004-meta",
+  "version": 1,
+  "date": "2026-11-03",
+  "git": {
+    "head": "ec3e1b6e770295c50e9eafac0e3fa0458cdde4e6",
+    "product": "66a021f",
+    "sliceBase": "05e4e16",
+    "productCheck": "git diff --quiet 66a021f -- apps/web packages"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "pnpm": "12.15.0",
+    "next": "16.4.3",
+    "chromium": "156.0.8078.4",
+    "profile": "mobile",
+    "cpuThrottle": 4,
+    "benchmarkIndex": {
+      "min": 4196.5,
+      "max": 4253
+    }
+  },
+  "server": "http://127.0.0.1",
+  "routes": [
+    "/",
+    "/projects/websocket-inspector"
+  ],
+  "commands": [
+    "pnpm build",
+    "pnpm perf:startup --serve apps/web/out --route <route> --engage <move|click> --runs 2 --keep-trace --out /tmp/s116-checks/t004/<path>-clean",
+    "pnpm perf:startup --serve apps/web/out --route <route> --engage <move|click> --runs 2 --keep-trace --attribute --out /tmp/s116-checks/t004/<path>-attributed",
+    "pnpm perf:startup --serve apps/web/out --route <route> --engage <move|click> --runs 2 --keep-trace --cpu-profile --out /tmp/s116-checks/t004/<path>-profiled",
+    "pnpm fps:engine --scenario startup --route <route> --engage <move|click> --no-build --out /tmp/s116-checks/t004/fps-<path>-r<N>",
+    "pnpm perf:parity --serve apps/web/out --write /tmp/s116-checks/t004/parity-write-1",
+    "pnpm perf:parity --serve apps/web/out --compare /tmp/s116-checks/s115-shots --out /tmp/s116-checks/t004/parity-drift-compare-1",
+    "pnpm site:probe --serve apps/web/out --group draws --out /tmp/s116-checks/t004/site-draws",
+    "pnpm site:probe --serve apps/web/out --group hero --out /tmp/s116-checks/t004/site-hero",
+    "pnpm bundle:manifest --out-dir apps/web/out --write .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json",
+    "node .specify/features/staged-canvas-mount/bundle-scopes.mjs .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json apps/web/out",
+    "pnpm perf:lighthouse http://127.0.0.1:4321/ --out /tmp/s116-checks/t004/lighthouse-home-r<N>",
+    "pnpm perf:lighthouse http://127.0.0.1:4321/projects/websocket-inspector --out /tmp/s116-checks/t004/lighthouse-project-r<N>",
+    "pnpm build:fixtures",
+    "pnpm engine:probe http://127.0.0.1:4321/ --scope s4 --out /tmp/s116-checks/t004/engine-probe",
+    "pnpm build"
+  ],
+  "notes": [
+    "Measurements ran one at a time on the quiet host.",
+    "The home-move clean pair was repeated after the first pair exceeded the 20% spread rule; both pairs are retained.",
+    "The fixture export was used only for engine:probe; the final pnpm build restored the production export.",
+    "perf:lighthouse, fps:engine and parity comparison exit 6 was recorded under D-P2 where applicable."
+  ]
+}

@@ -1,0 +1,32 @@
+T004 task identity (orchestrator, G1): top-level main-thread tasks > 16.7 ms after engagement, with child trace events
+Source: T004-trace-<path>-clean-r1.json.gz (clean runs, no GL wrappers, no profiler). t = ms from the xp-perf:engage mark.
+FunctionCall 'z' = React scheduler task (MessageChannel); FireAnimationFrame = rAF (R3F loop); EvaluateScript = staged 3D module evaluation (S11.5).
+
+== home-move
+t      3.7  dur   33.7  lead EventDispatch:pointerover children [('EventDispatch', 6.2), ('v8.callFunction', 5.3), ('FunctionCall', 3.2), ('RunMicrotasks', 1.5), ('PrePaint', 0.7)]
+t     60.8  dur   23.8  lead EvaluateScript:          children [('EvaluateScript', 23.7), ('v8.run', 23.7), ('RunMicrotasks', 23.7), ('V8.BytecodeBudgetInterrupt', 0.5), ('EventDispatch', 0.0)]
+t     98.9  dur   26.3  lead EvaluateScript:          children [('EvaluateScript', 26.3), ('v8.run', 26.3), ('RunMicrotasks', 26.2), ('EventDispatch', 0.0), ('v8.callFunction', 0.0)]
+t    138.2  dur   28.9  lead FunctionCall:z           children [('v8.callFunction', 28.7), ('FunctionCall', 28.7), ('V8.BytecodeBudgetInterrupt', 0.8), ('V8.StackGuard', 0.0), ('V8.HandleInterrupts', 0.0)]
+t    246.2  dur   69.1  lead FunctionCall:z           children [('v8.callFunction', 69.5), ('FunctionCall', 69.1), ('RunMicrotasks', 0.4), ('V8.BytecodeBudgetInterrupt', 0.4), ('V8.StackGuard', 0.1)]
+t    315.4  dur   33.4  lead FireAnimationFrame:      children [('v8.callFunction', 32.8), ('FireAnimationFrame', 32.1), ('FunctionCall', 32.1), ('V8.BytecodeBudgetInterrupt', 1.0), ('V8.StackGuard', 0.9)]
+t    350.2  dur   32.9  lead FunctionCall:z           children [('v8.callFunction', 32.9), ('FunctionCall', 32.9), ('MinorGC', 2.5), ('V8.GCScavenger', 2.4), ('V8.GC_SCAVENGER', 1.3)]
+
+== project-move
+t      2.1  dur   21.7  lead EventDispatch:pointerover children [('EventDispatch', 2.8), ('v8.callFunction', 2.7), ('FunctionCall', 2.1), ('RunMicrotasks', 0.6), ('PrePaint', 0.1)]
+t     42.4  dur   22.7  lead EvaluateScript:          children [('EvaluateScript', 22.6), ('v8.run', 22.6), ('RunMicrotasks', 22.6), ('EventDispatch', 0.0), ('v8.callFunction', 0.0)]
+t     75.6  dur   26.6  lead EvaluateScript:          children [('EvaluateScript', 26.2), ('v8.run', 26.2), ('RunMicrotasks', 26.2), ('EventDispatch', 0.4), ('v8.callFunction', 0.4)]
+t    110.1  dur   33.8  lead EvaluateScript:          children [('EvaluateScript', 32.9), ('v8.run', 32.9), ('RunMicrotasks', 32.5), ('V8.BytecodeBudgetInterrupt', 1.2), ('EventDispatch', 0.9)]
+t    165.6  dur   19.4  lead FunctionCall:z           children [('v8.callFunction', 19.4), ('FunctionCall', 19.4), ('UpdateLayoutTree', 1.8), ('V8.StackGuard', 0.1), ('V8.HandleInterrupts', 0.1)]
+t    239.4  dur   56.6  lead FunctionCall:z           children [('v8.callFunction', 57.5), ('FunctionCall', 56.6), ('V8.StackGuard', 1.1), ('V8.HandleInterrupts', 1.0), ('RunMicrotasks', 0.9)]
+t    296.0  dur   30.7  lead FireAnimationFrame:      children [('v8.callFunction', 28.2), ('FireAnimationFrame', 28.2), ('FunctionCall', 28.1), ('Layerize', 0.9), ('V8.StackGuard', 0.5)]
+t    327.8  dur   35.1  lead FunctionCall:z           children [('v8.callFunction', 35.1), ('FunctionCall', 35.1), ('MinorGC', 1.9), ('V8.GCScavenger', 1.9), ('V8.StackGuard', 1.6)]
+
+== project-click
+t     38.0  dur   18.9  lead                          children [('Layerize', 0.8), ('Paint', 0.2), ('Commit', 0.1), ('HitTest', 0.0), ('IntersectionObserverController::computeIntersections', 0.0)]
+t     73.4  dur   23.6  lead EvaluateScript:          children [('EvaluateScript', 23.4), ('v8.run', 23.4), ('RunMicrotasks', 23.3), ('EventDispatch', 0.2), ('v8.callFunction', 0.2)]
+t    105.1  dur   25.8  lead EvaluateScript:          children [('EvaluateScript', 25.8), ('v8.run', 25.8), ('RunMicrotasks', 25.7), ('EventDispatch', 0.0), ('v8.callFunction', 0.0)]
+t    142.0  dur   31.1  lead EvaluateScript:          children [('EvaluateScript', 31.1), ('v8.run', 31.1), ('RunMicrotasks', 31.1), ('V8.BytecodeBudgetInterrupt', 0.1), ('V8.StackGuard', 0.1)]
+t    194.1  dur   20.1  lead FunctionCall:z           children [('v8.callFunction', 20.1), ('FunctionCall', 20.1), ('UpdateLayoutTree', 1.8), ('V8.BytecodeBudgetInterruptWithStackCheck', 0.8), ('V8.StackGuard', 0.1)]
+t    269.9  dur   53.6  lead FunctionCall:z           children [('v8.callFunction', 53.7), ('FunctionCall', 53.6), ('V8.BytecodeBudgetInterrupt', 1.1), ('RunMicrotasks', 0.1), ('Layout', 0.1)]
+t    323.5  dur   30.4  lead FireAnimationFrame:      children [('v8.callFunction', 28.4), ('FireAnimationFrame', 28.2), ('FunctionCall', 28.2), ('V8.BytecodeBudgetInterrupt', 0.9), ('Layerize', 0.5)]
+t    355.7  dur   35.5  lead FunctionCall:z           children [('v8.callFunction', 35.5), ('FunctionCall', 35.4), ('MinorGC', 2.6), ('V8.GCScavenger', 2.6), ('V8.GC_SCAVENGER', 1.4)]

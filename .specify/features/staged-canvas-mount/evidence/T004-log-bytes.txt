@@ -1,0 +1,13 @@
+$ pnpm bundle:manifest --out-dir apps/web/out --write .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json
+bundle-manifest: 22 JS files, 1581558 bytes
+routes: 5
+wrote: ./.specify/features/staged-canvas-mount/evidence/T004-log-bundle.json
+
+$ node .specify/features/staged-canvas-mount/bundle-scopes.mjs .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json apps/web/out
+Bundle scopes: .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json + apps/web/out
+Scope             Files         Raw        Gzip
+home initial          9      583343      180606
+project initial       9      581795      180044
+total                22     1581558      459097
+non-initial 3D       12      995971      277414
