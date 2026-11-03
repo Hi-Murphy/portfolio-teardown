@@ -34,3 +34,9 @@ Artifacts: `T017-lighthouse-summary-ci-{gated,eager}-{home,project}-r{1,2}.json`
 run's `eager-3d` artifact). Per-run tables: `T017-log-eager-verdict-ci-tables.md` (output of
 `node tools/perf/src/cli/eager-verdict.ts --dir <artifact>`). Exit codes from the job:
 eager-project r1/r2 = 6 (budget, recorded; the job never fails on budget), all others 0.
+
+## Confirmation run (T018, head `e92c55c`)
+
+Second `eager-3d` run, https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41586142430
+(same protocol): eager `/` perf 0.96 / TBT 232.75 ms; eager project perf 0.905 / TBT 397.65 ms;
+gated `/` 1.00 / 83.5 ms, gated project 1.00 / 88.5 ms. **Verdict unchanged: keep the gate.**

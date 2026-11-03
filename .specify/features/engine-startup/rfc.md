@@ -321,3 +321,8 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
    - **Binding result (CI runner, run 41583093379):** eager home perf 0.955 / TBT 248.5 ms, eager project perf 0.89 / TBT 441.5 ms → **AC6 verdict: keep the gate** (D-19 stays).
    - Draft PR #17 is open, and all 12 checks are green on `d753931`.
 8. **G3 decision (Murphy, 2026-11-03): "defaults all. go".** AC6 verdict accepted (keep the gate; the D-19 decision stays with Murphy outside the slice). `eager-3d.yml` is kept until Murphy decides on D-19, then removed. G4 starts.
+9. **Stage 3 G4 (2026-11-03): end-contract.** `evidence/AC-selfcheck.md`:
+   - **Met:** AC1, AC4, AC5, AC6 (keep the gate, confirmed by a second runner run), AC7.
+   - **AC3:** shortfall documented (−13.4 % on the project route).
+   - **AC2:** blocked by the frozen S8 `<Canvas>` mount, accepted at G2.
+   - PR #17 is a draft, awaiting Murphy's validation and "merge".
