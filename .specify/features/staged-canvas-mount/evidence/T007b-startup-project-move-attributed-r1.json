@@ -1,0 +1,116 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2234,
+  "firstFrame": 2577.6,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": {
+      "ms": 24.203,
+      "mainThreadMs": 0
+    },
+    "P1": {
+      "ms": 88.852,
+      "mainThreadMs": 0,
+      "count": 7
+    },
+    "P2": {
+      "ms": 94.269,
+      "mainThreadMs": 1.9869998779296907,
+      "count": 21
+    },
+    "P3": {
+      "ms": 83.00000011920929,
+      "mainThreadMs": 83.00000011920929,
+      "count": 7
+    },
+    "P4": {
+      "ms": 104.6,
+      "mainThreadMs": 51.88600012207031
+    },
+    "P5": {
+      "ms": 71.2999998779297,
+      "mainThreadMs": 70.03499987792969,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0.10000002384185791,
+      "mainThreadMs": 0.10000002384185791,
+      "count": 14
+    },
+    "P7": {
+      "ms": 2.8999998569488525,
+      "mainThreadMs": 2.8999998569488525,
+      "count": 6
+    },
+    "P8": {
+      "ms": 8.375,
+      "mainThreadMs": 8.375,
+      "count": 7,
+      "domLayoutMs": 8.375
+    },
+    "P9": {
+      "ms": 12.699999877929688,
+      "mainThreadMs": 9.565999877929688
+    }
+  },
+  "mainThreadCostMs": 336.55,
+  "attributedMs": 227.84899975585938,
+  "otherMs": 108.70100024414063,
+  "longTasks": [],
+  "blockingMs": 0,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 5.5
+  },
+  "sequence": {
+    "firstInstancedDraw": {
+      "t": 2564.9000000953674,
+      "raf": 15
+    },
+    "ready": {
+      "t": 2565.5,
+      "raf": 15
+    },
+    "liveStates": [
+      {
+        "value": "loading",
+        "t": 2417.9000000953674,
+        "raf": 9
+      },
+      {
+        "value": "revealed",
+        "t": 2572.3000000715256,
+        "raf": 15
+      }
+    ]
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}

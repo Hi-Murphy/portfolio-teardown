@@ -1,0 +1,21 @@
+diff --git a/packages/xploder/test/frozen-surface.s8.manifest.json b/packages/xploder/test/frozen-surface.s8.manifest.json
+index 5f2b971..25ba9cf 100644
+--- a/packages/xploder/test/frozen-surface.s8.manifest.json
++++ b/packages/xploder/test/frozen-surface.s8.manifest.json
+@@ -1,13 +1,13 @@
+ {
+-  "base": "0ac2148",
+-  "note": "S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md. Fixed at 1a99569: default-lane re-render when the staged renderer settles (S11.6 L1, D-P3). L4 at 0ac2148: R3F configuration in the next task (S11.6 L4).",
++  "base": "3ea2588",
++  "note": "S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md. Fixed at 1a99569: default-lane re-render when the staged renderer settles (S11.6 L1, D-P3). L4 at 0ac2148: R3F configuration in the next task (S11.6 L4). L5 at 3ea2588: frame-driven viewer state updates as transitions (S11.6 L5).",
+   "files": {
+     "src/a11y/announce.ts": "005c6582369764846c7339bffb9f090d338896284104faa6242a124cb32c386d",
+     "src/a11y/contrast.ts": "589f7df5f4e5fd84d9e39fe4bd618beb7c0d16d946a2e6b4acd9c731cd072e86",
+     "src/a11y/look.ts": "5dd0b6bd77a30e1cedb7f0ca4a45bc1f67512e738afbe1341daa8858f7279167",
+     "src/a11y/navigator.ts": "c52064532eec64f2b73a9d6b5e0f761cf49949f94edc816ebc681f94171579a1",
+     "src/a11y/reveal.ts": "ccc24e4b6d931bb48c612eab4e3e6ba5aeb664dc47f64560a2ef712cdf8a1ea8",
+-    "src/react/TeardownViewer.tsx": "48ec0b70e544573d43850dc2bafbe8d7c66c0b5578ed74dc4e956eb5fbe3aef8",
++    "src/react/TeardownViewer.tsx": "10381a444fa11cc9f1340cee04e786015c34b51c46adc46faceea7c8bb9b370c",
+     "src/react/a11y/CanvasBoundary.tsx": "c8fc939ba76e63ab6e9a4a8646dc17f353b91bb0c350fdb2c992d3652a6f953c",
+     "src/react/a11y/ComponentNavigator.tsx": "255a6bb359efa21675032a62801d85452c62122ac96a795709d606244f373920",
+     "src/react/a11y/LiveRegion.tsx": "c822135d2378a0e73ac084ac22bf7435c1f968cce1b5e1c0d87a92e5a9fd4591",
