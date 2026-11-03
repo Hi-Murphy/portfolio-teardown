@@ -2,16 +2,32 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { launch } from '../src/browser.ts';
 import {
   assertLighthouse,
   parseCategories,
   pickMedianRun,
+  runLighthouse,
   summarizeLighthouse,
   type LHR,
 } from '../src/lighthouse.ts';
 import { renderLighthouseMarkdown, writeLighthouseStepSummary } from '../src/summary-md.ts';
+
+const mocks = vi.hoisted(() => ({
+  lighthouse: vi.fn(),
+  launch: vi.fn(),
+}));
+
+vi.mock('lighthouse', () => ({ default: mocks.lighthouse }));
+vi.mock('playwright', () => ({ chromium: { launch: mocks.launch } }));
+
+beforeEach(() => {
+  mocks.lighthouse.mockReset();
+  mocks.launch.mockReset();
+  mocks.launch.mockResolvedValue({ close: vi.fn() });
+});
 
 async function fixture(name: string): Promise<LHR> {
   const contents = await readFile(new URL(`./fixtures/${name}.json`, import.meta.url), 'utf8');
@@ -213,5 +229,127 @@ describe('Lighthouse categories (S10 T015)', () => {
     expect(passing.pass).toBe(true);
     expect(failing.assertions.at(-1)).toMatchObject({ id: 'accessibility', pass: false });
     expect(failing.pass).toBe(false);
+  });
+});
+
+describe('Lighthouse profile and emulation flags (S11.7 T002)', () => {
+  test('keeps the default Lighthouse call and summary shape byte-identical', async () => {
+    const lhr = await fixture('lhr-pass-a');
+    mocks.lighthouse.mockResolvedValue({
+      lhr,
+      report: '',
+      artifacts: { Trace: { traceEvents: [] }, DevtoolsLog: [] },
+    });
+
+    const url = new URL('http://127.0.0.1:4321/projects/example');
+    const runs = await runLighthouse(url, {
+      runs: 1,
+      categories: ['performance'],
+    });
+
+    expect(runs).toEqual([lhr]);
+    const flags = mocks.lighthouse.mock.calls[0]?.[1] as Record<string, unknown>;
+    expect(mocks.lighthouse).toHaveBeenCalledWith(url.href, {
+      port: expect.any(Number),
+      hostname: '127.0.0.1',
+      output: 'json',
+      logLevel: 'error',
+      onlyCategories: ['performance'],
+      formFactor: 'mobile',
+    });
+    expect(Object.keys(flags)).toEqual([
+      'port',
+      'hostname',
+      'output',
+      'logLevel',
+      'onlyCategories',
+      'formFactor',
+    ]);
+
+    const port = flags.port;
+    expect(mocks.launch).toHaveBeenCalledWith({
+      channel: 'chromium',
+      headless: true,
+      args: [`--remote-debugging-port=${String(port)}`],
+    });
+    expect(Object.keys(summarizeLighthouse(runs))).toEqual([
+      'kind',
+      'version',
+      'url',
+      'finalUrl',
+      'tools',
+      'formFactor',
+      'throttling',
+      'runs',
+      'medianRun',
+      'assertions',
+      'pass',
+    ]);
+  });
+
+  test('appends GL arguments after the existing browser arguments', async () => {
+    await launch({
+      cdpPort: 9333,
+      args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+    });
+
+    expect(mocks.launch).toHaveBeenCalledWith({
+      channel: 'chromium',
+      headless: true,
+      args: [
+        '--remote-debugging-port=9333',
+        '--use-angle=swiftshader',
+        '--enable-unsafe-swiftshader',
+      ],
+    });
+  });
+
+  test('captures trace and DevTools artifacts only for profiled runs', async () => {
+    const lhr = await fixture('lhr-pass-a');
+    const trace = { traceEvents: [{ name: 'ProfileChunk', ph: 'P' }] };
+    const devtoolsLog = [{ method: 'Page.enable', params: {} }];
+    mocks.lighthouse.mockResolvedValue({
+      lhr,
+      report: '',
+      artifacts: { Trace: trace, DevtoolsLog: devtoolsLog },
+    });
+
+    const url = new URL('http://127.0.0.1:4321/projects/example');
+    const runs = await runLighthouse(url, {
+      runs: 1,
+      categories: ['performance'],
+      profile: true,
+      cpuMultiplier: 4,
+      gl: 'swiftshader',
+    });
+
+    expect(runs).toEqual([{ lhr, trace, devtoolsLog }]);
+    expect(mocks.lighthouse).toHaveBeenCalledWith(url.href, {
+      port: expect.any(Number),
+      hostname: '127.0.0.1',
+      output: 'json',
+      logLevel: 'error',
+      onlyCategories: ['performance'],
+      formFactor: 'mobile',
+      additionalTraceCategories: 'disabled-by-default-v8.cpu_profiler',
+      throttling: { cpuSlowdownMultiplier: 4 },
+    });
+    const flags = mocks.lighthouse.mock.calls[0]?.[1] as { port: number };
+    expect(mocks.launch).toHaveBeenCalledWith({
+      channel: 'chromium',
+      headless: true,
+      args: [
+        `--remote-debugging-port=${String(flags.port)}`,
+        '--use-angle=swiftshader',
+        '--enable-unsafe-swiftshader',
+      ],
+    });
+  });
+
+  test('marks profiled summaries and refuses to gate them', async () => {
+    const summary = summarizeLighthouse([await fixture('lhr-pass-a')], { profiled: true });
+
+    expect(summary.profiled).toBe(true);
+    expect(() => assertLighthouse(summary)).toThrow(/profiled/);
   });
 });

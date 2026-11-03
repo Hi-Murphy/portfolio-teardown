@@ -18,6 +18,7 @@
     "perf:startup": "node tools/perf/src/cli/startup-profile.ts",
     "perf:host": "node tools/perf/src/cli/host-meta.ts",
     "perf:lighthouse": "node tools/perf/src/cli/lighthouse-gate.ts",
+    "perf:attribution": "node tools/perf/src/cli/attribution.ts",
     "perf:weight": "node tools/perf/src/cli/weight-gate.ts",
     "perf:parity": "node tools/perf/src/cli/parity.ts",
     "fps": "node tools/perf/src/cli/fps.ts",

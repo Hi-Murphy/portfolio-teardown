@@ -44,11 +44,12 @@ export const PROFILES: { mobile: Profile; desktop: Profile } = {
   desktop: profile('desktop'),
 };
 
-export async function launch(opts: { cdpPort?: number; args?: string[] } = {}): Promise<Browser> {
+export async function launch(
+  opts: { cdpPort?: number; args?: readonly string[] } = {},
+): Promise<Browser> {
   try {
     const args = opts.cdpPort === undefined ? [] : [`--remote-debugging-port=${opts.cdpPort}`];
     args.push(...(opts.args ?? []));
-
     return await chromium.launch({
       channel: 'chromium',
       headless: true,

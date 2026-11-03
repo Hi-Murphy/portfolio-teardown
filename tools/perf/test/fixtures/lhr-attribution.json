@@ -1,0 +1,47 @@
+{
+  "requestedUrl": "http://127.0.0.1:4321/projects/websocket-inspector",
+  "mainDocumentUrl": "http://127.0.0.1:4321/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4321/projects/websocket-inspector",
+  "finalDisplayedUrl": "http://127.0.0.1:4321/projects/websocket-inspector",
+  "lighthouseVersion": "13.6.0",
+  "userAgent": "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/156.0.8078.4 Mobile Safari/537.36",
+  "environment": {
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "benchmarkIndex": 2200
+  },
+  "configSettings": {
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate"
+  },
+  "categories": {
+    "performance": {
+      "score": 0.5
+    }
+  },
+  "audits": {
+    "long-tasks": {
+      "details": {
+        "items": [
+          {
+            "url": "http://127.0.0.1:4321/_next/static/chunks/main.js",
+            "startTime": 1000,
+            "duration": 200
+          },
+          {
+            "url": "http://127.0.0.1:4321/_next/static/chunks/viewer.js",
+            "startTime": 1800,
+            "duration": 120
+          },
+          {
+            "url": "http://127.0.0.1:4321/_next/static/chunks/unmatched.js",
+            "startTime": 2600,
+            "duration": 80
+          }
+        ]
+      }
+    },
+    "total-blocking-time": {
+      "numericValue": 250
+    }
+  }
+}

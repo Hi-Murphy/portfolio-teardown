@@ -86,7 +86,25 @@ export interface LighthouseSummary {
   medianRun: number;
   assertions: Assertion[];
   pass: boolean;
+  profiled?: true;
 }
+
+export interface LighthouseProfiledRun {
+  lhr: LHR;
+  trace: { traceEvents: unknown[] };
+  devtoolsLog: unknown[];
+}
+
+export interface LighthouseRunOptions {
+  runs: number;
+  categories: string[];
+  profile?: boolean;
+  cpuMultiplier?: number;
+  gl?: 'swiftshader';
+}
+
+const PROFILE_TRACE_CATEGORY = 'disabled-by-default-v8.cpu_profiler';
+const SWIFTSHADER_ARGS = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] as const;
 
 function auditValue(lhr: LHR, id: string): number {
   const value = lhr.audits?.[id]?.numericValue;
@@ -118,7 +136,7 @@ function chromiumVersion(lhrs: LHR[]): string {
   return 'unknown';
 }
 
-function longTasksFrom(lhr: LHR): LighthouseLongTask[] {
+export function longTasksFrom(lhr: LHR): LighthouseLongTask[] {
   const details = lhr.audits?.['long-tasks']?.details;
   if (typeof details !== 'object' || details === null || !('items' in details)) return [];
 
@@ -165,10 +183,18 @@ function finalUrlFrom(lhrs: LHR[]): string {
   );
 }
 
+export function runLighthouse(
+  url: URL,
+  opts: LighthouseRunOptions & { profile: true },
+): Promise<LighthouseProfiledRun[]>;
+export function runLighthouse(
+  url: URL,
+  opts: LighthouseRunOptions & { profile?: false },
+): Promise<LHR[]>;
 export async function runLighthouse(
   url: URL,
-  opts: { runs: number; categories: string[] },
-): Promise<LHR[]> {
+  opts: LighthouseRunOptions,
+): Promise<LHR[] | LighthouseProfiledRun[]> {
   if (!Number.isInteger(opts.runs) || opts.runs < 1) {
     throw new CliError(EXIT.USAGE, 'runs must be a positive integer');
   }
@@ -177,10 +203,22 @@ export async function runLighthouse(
     throw new CliError(EXIT.USAGE, 'at least one Lighthouse category is required');
   }
 
+  if (
+    opts.cpuMultiplier !== undefined &&
+    (!Number.isFinite(opts.cpuMultiplier) || opts.cpuMultiplier <= 0)
+  ) {
+    throw new CliError(EXIT.USAGE, 'cpuMultiplier must be a positive number');
+  }
+
   const lhrs: LHR[] = [];
+  const profiledRuns: LighthouseProfiledRun[] = [];
   for (let run = 0; run < opts.runs; run += 1) {
     const port = await freePort();
-    const browser = await launch({ cdpPort: port });
+    const browser = await launch(
+      opts.gl === 'swiftshader'
+        ? { cdpPort: port, args: [...SWIFTSHADER_ARGS] }
+        : { cdpPort: port },
+    );
 
     try {
       const result = await lighthouse(url.href, {
@@ -190,6 +228,10 @@ export async function runLighthouse(
         logLevel: 'error',
         onlyCategories: opts.categories,
         formFactor: 'mobile',
+        ...(opts.profile === true ? { additionalTraceCategories: PROFILE_TRACE_CATEGORY } : {}),
+        ...(opts.cpuMultiplier === undefined
+          ? {}
+          : { throttling: { cpuSlowdownMultiplier: opts.cpuMultiplier } }),
       });
 
       if (!result) {
@@ -204,13 +246,22 @@ export async function runLighthouse(
         );
       }
 
-      lhrs.push(result.lhr);
+      if (opts.profile === true) {
+        const trace = result.artifacts.Trace;
+        const devtoolsLog = result.artifacts.DevtoolsLog;
+        if (!Array.isArray(trace.traceEvents) || !Array.isArray(devtoolsLog)) {
+          throw new Error('Lighthouse did not retain the trace and DevTools log');
+        }
+        profiledRuns.push({ lhr: result.lhr, trace, devtoolsLog });
+      } else {
+        lhrs.push(result.lhr);
+      }
     } finally {
       await browser.close();
     }
   }
 
-  return lhrs;
+  return opts.profile === true ? profiledRuns : lhrs;
 }
 
 export function pickMedianRun(lhrs: LHR[]): number {
@@ -239,7 +290,7 @@ export function pickMedianRun(lhrs: LHR[]): number {
   return median.index;
 }
 
-export function assertLighthouse(
+function lighthouseAssertions(
   summary: LighthouseSummary,
   options: { readonly accessibility?: boolean } = {},
 ): Assertion[] {
@@ -286,6 +337,17 @@ export function assertLighthouse(
   return assertions;
 }
 
+export function assertLighthouse(
+  summary: LighthouseSummary,
+  options: { readonly accessibility?: boolean } = {},
+): Assertion[] {
+  if (summary.profiled === true) {
+    throw new Error('cannot gate a profiled Lighthouse summary');
+  }
+
+  return lighthouseAssertions(summary, options);
+}
+
 export const LIGHTHOUSE_CATEGORIES = [
   'performance',
   'accessibility',
@@ -314,7 +376,7 @@ export function parseCategories(value: string | undefined): string[] {
 
 export function summarizeLighthouse(
   lhrs: LHR[],
-  options: { readonly accessibility?: boolean } = {},
+  options: { readonly accessibility?: boolean; readonly profiled?: boolean } = {},
 ): LighthouseSummary {
   if (lhrs.length === 0) {
     throw new Error('cannot summarize zero Lighthouse runs');
@@ -339,9 +401,10 @@ export function summarizeLighthouse(
     medianRun,
     assertions: [],
     pass: false,
+    ...(options.profiled === true ? { profiled: true as const } : {}),
   };
 
-  const assertions = assertLighthouse(summary, options);
+  const assertions = lighthouseAssertions(summary, options);
   return {
     ...summary,
     assertions,
