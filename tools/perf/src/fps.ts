@@ -9,6 +9,9 @@ const DEFAULT_DURATION_MS = 5000;
 const RAF_WARNING_RATIO = 0.1;
 const RAF_RECORDER_KEY = '__perfFpsRafRecorder';
 
+export const LOAD_MARK = 'xp-perf:load';
+export const LOAD_MARK_INIT_SCRIPT = `window.addEventListener('load', () => performance.mark(${JSON.stringify(LOAD_MARK)}), { once: true });`;
+
 interface TraceFrame {
   processId?: unknown;
   isMainFrame?: unknown;
@@ -37,6 +40,7 @@ export interface FpsOptions {
   trigger?: (page: Page) => Promise<void>;
   keepTrace?: boolean;
   extraCategories?: readonly string[];
+  traceStartMark?: string;
 }
 
 export interface FpsIntervals {
@@ -298,6 +302,9 @@ export async function measureFps(page: Page, opts: FpsOptions = {}): Promise<Fps
       transferMode: 'ReportEvents',
     });
     tracingStarted = true;
+    if (opts.traceStartMark !== undefined) {
+      await page.evaluate((name) => performance.mark(name), opts.traceStartMark);
+    }
     await startRafRecorder(page);
 
     await page.waitForTimeout(durationMs);

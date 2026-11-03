@@ -6,23 +6,37 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { Page, Request } from 'playwright';
 
 import { parseCli } from '../args.ts';
-import { freePort, launch, PROFILES } from '../browser.ts';
+import { chromiumVersion, freePort, launch, PROFILES } from '../browser.ts';
 import { FPS_NOMINAL, FPS_TOLERANCE } from '../budgets.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
-import { droppedFrameTimesFromTrace, inBand, measureFps, type FpsResult } from '../fps.ts';
+import {
+  analyzeTrace,
+  droppedFrameTimesFromTrace,
+  inBand,
+  LOAD_MARK,
+  measureFps,
+  traceCategories,
+  type FpsResult,
+  type TraceEvent as FpsTraceEvent,
+} from '../fps.ts';
 import { run } from '../log.ts';
 import { serveDir } from '../serve.ts';
 import {
   countMainThreadTasks,
+  findPerformanceMark,
   findLongTasks,
+  findTasksIntersectingWindow,
   findTasksOver,
+  traceTimeOriginFromMark,
   type LongTask,
+  type TaskWindowEntry,
   type TraceEvent as StartupTraceEvent,
 } from '../startup.ts';
 
 type FixtureScenario = 'explode' | 'tour';
-type Scenario = FixtureScenario | 'startup';
+type Scenario = FixtureScenario | 'startup' | 'load';
 export type Engagement = 'move' | 'click';
+export type LoadFrameMode = 'trace-only' | 'recorder';
 
 interface FpsEngineArgs {
   values: {
@@ -30,6 +44,8 @@ interface FpsEngineArgs {
     out?: string;
     route?: string;
     engage?: string;
+    frames?: string;
+    cpu?: string;
     'no-build'?: boolean;
     help?: boolean;
   };
@@ -84,6 +100,35 @@ export interface FpsEngineStartupReport extends Omit<
   verdict: FpsEngineStartupVerdict;
 }
 
+export interface FpsEngineLoadVerdict {
+  longTask50: boolean;
+  droppedFramesLe2: boolean;
+  gated: boolean;
+}
+
+export interface FpsEngineLoadReport extends Omit<
+  FpsResult,
+  'trace' | 'expect' | 'tolerance' | 'pass' | 'frames'
+> {
+  kind: 'fps-engine';
+  version: 1;
+  url: string;
+  scenario: 'load';
+  route: string;
+  frames: LoadFrameMode;
+  frameCount: number;
+  cpuThrottle: number;
+  loadMs: number;
+  longTasks: TaskWindowEntry[];
+  maxLongTaskMs: number;
+  preLoadTasks: TaskWindowEntry[];
+  droppedFrameTimes: number[];
+  mounted: boolean;
+  readyMs: number | null;
+  verdict: FpsEngineLoadVerdict;
+  exclusionNote?: string;
+}
+
 interface TourResult {
   result: FpsResult;
   tourStepsAdvanced: number;
@@ -104,6 +149,15 @@ const STARTUP_WINDOW_MS = 5_000;
 const STARTUP_CPU_THROTTLE = 4;
 const LONG_TASK_THRESHOLD_MS = 50;
 const TASK_TIMELINE_THRESHOLD_MS = 16.7;
+const LOAD_WINDOW_MS = 5_000;
+const LOAD_CPU_THROTTLE = 4;
+const LOAD_DROPPED_FRAME_LIMIT = 2;
+export const LOAD_TRACE_CATEGORIES = [
+  'toplevel',
+  'disabled-by-default-devtools.timeline',
+  'blink.user_timing',
+  'loading',
+] as const;
 export const STARTUP_TRACE_CATEGORIES = [
   'toplevel',
   'disabled-by-default-devtools.timeline',
@@ -112,8 +166,38 @@ export const STARTUP_TRACE_CATEGORIES = [
 const TOUR_SELECTOR = '[data-xploder-ready="true"][data-xploder-tour="playing"]';
 const TOUR_COUNTER_KEY = '__perfFpsEngineTourCounter';
 const EXPLORE_3D_SELECTOR = '[data-site-control="explore-3d"]';
+const LOAD_OBSERVER_KEY = '__xpPerfLoad';
+const LOAD_RECORDER_START_MARK = 'xp-perf:load-recorder-start';
+const RECORDER_EXCLUSION =
+  'the harness rAF recorder adds a frame demand on every vsync; this count is excluded from AC2.';
 
-const usage = `Usage: pnpm fps:engine [--scenario explode|tour|startup] [options]
+const LOAD_OBSERVER_INIT_SCRIPT = `(() => {
+  const key = ${JSON.stringify(LOAD_OBSERVER_KEY)};
+  const markName = ${JSON.stringify(LOAD_MARK)};
+  const state = { loadMs: null, mounted: false, readyMs: null };
+  window[key] = state;
+
+  const recordLoad = () => {
+    performance.mark(markName);
+    const entry = performance.getEntriesByName(markName).at(-1);
+    state.loadMs = entry?.startTime ?? performance.now();
+  };
+  window.addEventListener('load', recordLoad, { once: true });
+
+  const checkReady = () => {
+    if (document.querySelector('[data-xploder-ready="true"]') === null) return;
+    state.mounted = true;
+    state.readyMs ??= performance.now();
+  };
+  new MutationObserver(checkReady).observe(document, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ['data-xploder-ready'],
+  });
+  checkReady();
+})();`;
+
+const usage = `Usage: pnpm fps:engine [--scenario explode|tour|startup|load] [options]
 
 Builds the fixture or production export, serves it on 127.0.0.1, and runs the
 S3 FPS harness.
@@ -122,11 +206,14 @@ Scenarios:
   explode         /dev/engine?fixture=a&cycle=1 via pnpm fps (default)
   tour            live-update tour via in-process Playwright
   startup         production route under the mobile profile and 4x CPU throttle
+  load            eager production route from load through load + 5 s, with no input
 
 Options:
-  --scenario <name>  explode, tour, or startup (default: explode)
-  --route <path>     production route for startup (required with startup)
+  --scenario <name>  explode, tour, startup, or load (default: explode)
+  --route <path>     production route for startup or load
   --engage <action>  startup engagement: move or click (default: move)
+  --frames <mode>    load frame mode: trace-only or recorder (default: trace-only)
+  --cpu <rate>       load CPU throttling rate (default: 4)
   --no-build         use an existing export
   --out <dir>        output directory for fps.json
   --help             show this help`;
@@ -257,10 +344,22 @@ export function evaluateStartupVerdict(
   };
 }
 
+export function evaluateLoadVerdict(
+  maxLongTaskMs: number,
+  droppedFrames: number,
+  frames: LoadFrameMode,
+): FpsEngineLoadVerdict {
+  return {
+    longTask50: maxLongTaskMs <= LONG_TASK_THRESHOLD_MS,
+    droppedFramesLe2: droppedFrames <= LOAD_DROPPED_FRAME_LIMIT,
+    gated: frames === 'trace-only',
+  };
+}
+
 export function scenarioUrl(base: URL, scenario: Scenario, route?: string): URL {
-  if (scenario === 'startup') {
+  if (scenario === 'startup' || scenario === 'load') {
     if (route === undefined) {
-      throw new CliError(EXIT.USAGE, '--route is required with --scenario startup');
+      throw new CliError(EXIT.USAGE, `--route is required with --scenario ${scenario}`);
     }
     if (!route.startsWith('/') || route.startsWith('//')) {
       throw new CliError(EXIT.USAGE, `--route must be an absolute path: ${route}`);
@@ -337,6 +436,61 @@ export function buildStartupReport(
     liveness: 'not-applicable',
     verdict: evaluateStartupVerdict(result.droppedFrames, maxLongTaskMs),
   };
+}
+
+export function buildLoadReport(
+  result: FpsResult,
+  measurementUrl: string,
+  route: string,
+  frames: LoadFrameMode,
+  cpuThrottle: number,
+  loadMs: number,
+  mounted: boolean,
+  readyMs: number | null,
+  longTasks: readonly TaskWindowEntry[],
+  preLoadTasks: readonly TaskWindowEntry[],
+  droppedFrameTimes: readonly number[],
+): FpsEngineLoadReport {
+  const maxLongTaskMs = longTasks.reduce((maximum, task) => Math.max(maximum, task.dur), 0);
+  const droppedFrames = droppedFrameTimes.length;
+
+  return {
+    kind: 'fps-engine',
+    version: 1,
+    url: measurementUrl,
+    scenario: 'load',
+    route,
+    frames,
+    cpuThrottle,
+    loadMs,
+    fps: result.fps,
+    frameCount: result.frames,
+    droppedFrames,
+    windowMs: LOAD_WINDOW_MS,
+    intervalsMs: result.intervalsMs,
+    rafFps: result.rafFps,
+    source: result.source,
+    chromium: result.chromium,
+    pid: result.pid,
+    pidSource: result.pidSource,
+    longTasks: [...longTasks],
+    maxLongTaskMs,
+    preLoadTasks: [...preLoadTasks],
+    droppedFrameTimes: [...droppedFrameTimes],
+    mounted,
+    readyMs,
+    verdict: evaluateLoadVerdict(maxLongTaskMs, droppedFrames, frames),
+    ...(frames === 'recorder' ? { exclusionNote: RECORDER_EXCLUSION } : {}),
+  };
+}
+
+export function assertLoadMounted(mounted: boolean): void {
+  if (!mounted) {
+    throw new CliError(
+      EXIT.INTERNAL,
+      'load run did not mount: data-xploder-ready was not observed',
+    );
+  }
 }
 
 function traceWindowStart(events: readonly StartupTraceEvent[]): number | null {
@@ -422,12 +576,13 @@ function parseScenario(value: string | undefined): Scenario {
   if (value === undefined || value === 'explode') return 'explode';
   if (value === 'tour') return 'tour';
   if (value === 'startup') return 'startup';
-  throw new CliError(EXIT.USAGE, `--scenario must be explode, tour, or startup: ${value}`);
+  if (value === 'load') return 'load';
+  throw new CliError(EXIT.USAGE, `--scenario must be explode, tour, startup, or load: ${value}`);
 }
 
-function requiredRoute(value: string | undefined): string {
+function requiredRoute(value: string | undefined, scenario: 'startup' | 'load'): string {
   if (value === undefined) {
-    throw new CliError(EXIT.USAGE, '--route is required with --scenario startup');
+    throw new CliError(EXIT.USAGE, `--route is required with --scenario ${scenario}`);
   }
   if (!value.startsWith('/') || value.startsWith('//')) {
     throw new CliError(EXIT.USAGE, `--route must be an absolute path: ${value}`);
@@ -439,6 +594,21 @@ function parseEngagement(value: string | undefined): Engagement {
   if (value === undefined || value === 'move') return 'move';
   if (value === 'click') return 'click';
   throw new CliError(EXIT.USAGE, `--engage must be move or click: ${value}`);
+}
+
+function parseFrames(value: string | undefined): LoadFrameMode {
+  if (value === undefined || value === 'trace-only') return 'trace-only';
+  if (value === 'recorder') return 'recorder';
+  throw new CliError(EXIT.USAGE, `--frames must be trace-only or recorder: ${value}`);
+}
+
+function parseCpu(value: string | undefined): number {
+  if (value === undefined) return LOAD_CPU_THROTTLE;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    throw new CliError(EXIT.USAGE, '--cpu must be a positive number');
+  }
+  return parsed;
 }
 
 interface NetworkWatcher {
@@ -640,6 +810,228 @@ async function measureStartup(url: URL, engage: Engagement): Promise<StartupMeas
   }
 }
 
+interface LoadObserverState {
+  loadMs: number | null;
+  mounted: boolean;
+  readyMs: number | null;
+}
+
+interface LoadMeasurement {
+  result: FpsResult;
+  loadMs: number;
+  mounted: boolean;
+  readyMs: number | null;
+  longTasks: TaskWindowEntry[];
+  preLoadTasks: TaskWindowEntry[];
+  droppedFrameTimes: number[];
+}
+
+async function readLoadObserver(page: Page): Promise<LoadObserverState> {
+  return await page.evaluate((key) => {
+    const state = (window as unknown as Record<string, LoadObserverState | undefined>)[key];
+    if (state === undefined) throw new Error('load observer was not installed');
+    return state;
+  }, LOAD_OBSERVER_KEY);
+}
+
+async function waitForLoadRecorded(page: Page): Promise<number> {
+  await page.waitForFunction(
+    (key) => {
+      const state = (window as unknown as Record<string, LoadObserverState | undefined>)[key];
+      return state?.loadMs !== null && state?.loadMs !== undefined;
+    },
+    LOAD_OBSERVER_KEY,
+    { timeout: NAVIGATION_TIMEOUT_MS },
+  );
+  const state = await readLoadObserver(page);
+  if (state.loadMs === null) throw new Error('load timestamp was not recorded');
+  return state.loadMs;
+}
+
+async function waitForLoadWindow(page: Page, loadMs: number): Promise<void> {
+  const remainder = await page.evaluate(
+    ({ start, duration }) => Math.max(0, start + duration - performance.now()),
+    { start: loadMs, duration: LOAD_WINDOW_MS },
+  );
+  if (remainder > 0) await page.waitForTimeout(remainder);
+}
+
+function loadWindowDetails(
+  trace: readonly StartupTraceEvent[],
+  loadUs: number,
+): Pick<LoadMeasurement, 'longTasks' | 'preLoadTasks' | 'droppedFrameTimes'> {
+  const endUs = loadUs + LOAD_WINDOW_MS * 1_000;
+  const tasks = findTasksIntersectingWindow(
+    trace,
+    loadUs,
+    endUs,
+    LONG_TASK_THRESHOLD_MS,
+    loadUs,
+    true,
+  );
+  return {
+    longTasks: tasks.intersecting,
+    preLoadTasks: tasks.preLoad,
+    droppedFrameTimes: droppedFrameTimesFromTrace(trace, loadUs, endUs),
+  };
+}
+
+async function measureLoadTraceOnly(url: URL, cpu: number): Promise<LoadMeasurement> {
+  const browser = await launch();
+  try {
+    const screen = PROFILES.mobile.screenEmulation;
+    const context = await browser.newContext({
+      viewport: { width: screen.width, height: screen.height },
+      screen: { width: screen.width, height: screen.height },
+      deviceScaleFactor: screen.deviceScaleFactor,
+      isMobile: screen.mobile,
+      userAgent: PROFILES.mobile.userAgent,
+    });
+    await context.addInitScript({ content: LOAD_OBSERVER_INIT_SCRIPT });
+    const page = await context.newPage();
+    const cdp = await context.newCDPSession(page);
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
+
+    const trace: StartupTraceEvent[] = [];
+    const traceComplete = new Promise<void>((resolveTrace) => {
+      cdp.once('Tracing.tracingComplete', () => resolveTrace());
+    });
+    cdp.on('Tracing.dataCollected', (payload: { value: StartupTraceEvent[] }) => {
+      trace.push(...payload.value);
+    });
+
+    let tracingStarted = false;
+    let tracingEnded = false;
+    try {
+      await cdp.send('Tracing.start', {
+        categories: traceCategories(LOAD_TRACE_CATEGORIES),
+        transferMode: 'ReportEvents',
+      });
+      tracingStarted = true;
+
+      try {
+        await page.goto(url.href, { waitUntil: 'load', timeout: NAVIGATION_TIMEOUT_MS });
+      } catch (error) {
+        const detail = error instanceof Error ? error.message : String(error);
+        throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: ${detail}`);
+      }
+
+      const initial = await waitForLoadRecorded(page);
+      await waitForLoadWindow(page, initial);
+      const state = await readLoadObserver(page);
+      if (state.loadMs === null) throw new Error('load timestamp was not recorded');
+
+      await cdp.send('Tracing.end');
+      tracingEnded = true;
+      await traceComplete;
+
+      const loadMark = findPerformanceMark(trace, LOAD_MARK);
+      if (loadMark === null) {
+        throw new CliError(EXIT.INTERNAL, `trace did not contain the ${LOAD_MARK} mark`);
+      }
+      const traceOriginUs = traceTimeOriginFromMark(loadMark, state.loadMs);
+      const loadUs = traceOriginUs + state.loadMs * 1_000;
+      const endUs = loadUs + LOAD_WINDOW_MS * 1_000;
+      const analyzed = analyzeTrace(trace as unknown as FpsTraceEvent[], loadUs, endUs);
+      const details = loadWindowDetails(trace, loadUs);
+
+      return {
+        result: {
+          ...analyzed,
+          rafFps: 0,
+          chromium: chromiumVersion(browser),
+          trace,
+        },
+        loadMs: state.loadMs,
+        mounted: state.mounted,
+        readyMs: state.readyMs,
+        ...details,
+      };
+    } finally {
+      if (tracingStarted && !tracingEnded) {
+        try {
+          await cdp.send('Tracing.end');
+        } catch {
+          // Preserve the original measurement error.
+        }
+      }
+      await cdp.detach().catch(() => undefined);
+    }
+  } finally {
+    await browser.close();
+  }
+}
+
+async function measureLoadRecorder(url: URL, cpu: number): Promise<LoadMeasurement> {
+  const browser = await launch();
+  try {
+    const screen = PROFILES.mobile.screenEmulation;
+    const context = await browser.newContext({
+      viewport: { width: screen.width, height: screen.height },
+      screen: { width: screen.width, height: screen.height },
+      deviceScaleFactor: screen.deviceScaleFactor,
+      isMobile: screen.mobile,
+      userAgent: PROFILES.mobile.userAgent,
+    });
+    await context.addInitScript({ content: LOAD_OBSERVER_INIT_SCRIPT });
+    const page = await context.newPage();
+    const cdp = await context.newCDPSession(page);
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
+
+    try {
+      await page.goto(url.href, { waitUntil: 'load', timeout: NAVIGATION_TIMEOUT_MS });
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: ${detail}`);
+    }
+
+    await waitForLoadRecorded(page);
+    const result = await measureFps(page, {
+      warmupMs: 0,
+      durationMs: LOAD_WINDOW_MS,
+      keepTrace: true,
+      extraCategories: LOAD_TRACE_CATEGORIES,
+      traceStartMark: LOAD_RECORDER_START_MARK,
+    });
+    if (result.trace === undefined) throw new Error('load recorder trace was not retained');
+
+    const state = await readLoadObserver(page);
+    if (state.loadMs === null) throw new Error('load timestamp was not recorded');
+    const trace = result.trace as StartupTraceEvent[];
+    const anchor = findPerformanceMark(trace, LOAD_RECORDER_START_MARK);
+    if (anchor === null) {
+      throw new CliError(
+        EXIT.INTERNAL,
+        `trace did not contain the ${LOAD_RECORDER_START_MARK} mark`,
+      );
+    }
+    const anchorMs = await page.evaluate((name) => {
+      const entry = performance.getEntriesByName(name).at(-1);
+      return entry?.startTime ?? null;
+    }, LOAD_RECORDER_START_MARK);
+    if (anchorMs === null) throw new Error('recorder trace anchor was not recorded');
+
+    const traceOriginUs = traceTimeOriginFromMark(anchor, anchorMs);
+    const loadUs = traceOriginUs + state.loadMs * 1_000;
+    const details = loadWindowDetails(trace, loadUs);
+    return {
+      result,
+      loadMs: state.loadMs,
+      mounted: state.mounted,
+      readyMs: state.readyMs,
+      ...details,
+    };
+  } finally {
+    await browser.close();
+  }
+}
+
+async function measureLoad(url: URL, frames: LoadFrameMode, cpu: number): Promise<LoadMeasurement> {
+  return frames === 'trace-only'
+    ? await measureLoadTraceOnly(url, cpu)
+    : await measureLoadRecorder(url, cpu);
+}
+
 async function measureTour(url: URL): Promise<TourResult> {
   const browser = await launch();
   try {
@@ -703,6 +1095,33 @@ function printStartupReport(report: FpsEngineStartupReport, artifact: string): v
   console.log(`fps.json: ${artifact}`);
 }
 
+function printLoadReport(report: FpsEngineLoadReport, artifact: string): void {
+  console.log(`scenario: ${report.scenario}`);
+  console.log(`route: ${report.route}`);
+  console.log(`frames: ${report.frames}`);
+  console.log(`cpuThrottle: ${report.cpuThrottle}x`);
+  console.log(`loadMs: ${report.loadMs.toFixed(1)}`);
+  console.log(`windowMs: ${report.windowMs}`);
+  console.log(`longTasks: ${report.longTasks.length}`);
+  console.log(`maxLongTaskMs: ${report.maxLongTaskMs.toFixed(1)}`);
+  console.log(`preLoadTasks: ${report.preLoadTasks.length}`);
+  console.log(`droppedFrames: ${report.droppedFrames}`);
+  console.log(`mounted: ${report.mounted}`);
+  console.log(`readyMs: ${report.readyMs === null ? 'null' : report.readyMs.toFixed(1)}`);
+  console.log(`gated: ${report.verdict.gated}`);
+  console.log(
+    `verdict: ${
+      report.verdict.gated
+        ? report.verdict.longTask50 && report.verdict.droppedFramesLe2
+          ? 'pass'
+          : 'fail'
+        : 'informational (not gated)'
+    }`,
+  );
+  if (report.exclusionNote !== undefined) console.log(`exclusion: ${report.exclusionNote}`);
+  console.log(`fps.json: ${artifact}`);
+}
+
 export async function main(argv: string[]): Promise<number> {
   const { values } = parseCli<FpsEngineArgs>(argv, {
     options: {
@@ -710,6 +1129,8 @@ export async function main(argv: string[]): Promise<number> {
       out: { type: 'string' },
       route: { type: 'string' },
       engage: { type: 'string' },
+      frames: { type: 'string' },
+      cpu: { type: 'string' },
       'no-build': { type: 'boolean' },
       help: { type: 'boolean' },
     },
@@ -722,19 +1143,32 @@ export async function main(argv: string[]): Promise<number> {
   }
 
   const scenario = parseScenario(values.scenario);
-  if (scenario !== 'startup' && values.route !== undefined) {
-    throw new CliError(EXIT.USAGE, '--route is only valid with --scenario startup');
+  const production = scenario === 'startup' || scenario === 'load';
+  if (!production && values.route !== undefined) {
+    throw new CliError(EXIT.USAGE, '--route is only valid with --scenario startup or load');
   }
   if (scenario !== 'startup' && values.engage !== undefined) {
     throw new CliError(EXIT.USAGE, '--engage is only valid with --scenario startup');
   }
+  if (scenario !== 'load' && values.frames !== undefined) {
+    throw new CliError(EXIT.USAGE, '--frames is only valid with --scenario load');
+  }
+  if (scenario !== 'load' && values.cpu !== undefined) {
+    throw new CliError(EXIT.USAGE, '--cpu is only valid with --scenario load');
+  }
 
-  const production = scenario === 'startup';
   const exportDir = production ? WEB_OUT_DIR : FIXTURE_DIR;
 
   if (!values['no-build']) {
-    console.log(production ? 'building production export...' : 'building fixture export...');
-    const buildScript = production ? 'build' : 'build:fixtures';
+    console.log(
+      scenario === 'load'
+        ? 'building eager export...'
+        : production
+          ? 'building production export...'
+          : 'building fixture export...',
+    );
+    const buildScript =
+      scenario === 'load' ? 'build:eager' : production ? 'build' : 'build:fixtures';
     const buildCode = await runCommand('pnpm', [buildScript]);
     if (buildCode !== 0) {
       throw new CliError(
@@ -757,10 +1191,10 @@ export async function main(argv: string[]): Promise<number> {
   const port = await freePort();
   const server = await serveDir(exportDir, { port });
 
-  let report: FpsEngineReport | FpsEngineStartupReport;
+  let report: FpsEngineReport | FpsEngineStartupReport | FpsEngineLoadReport;
   try {
     if (scenario === 'startup') {
-      const route = requiredRoute(values.route);
+      const route = requiredRoute(values.route, scenario);
       const engage = parseEngagement(values.engage);
       const url = scenarioUrl(server.url, scenario, route);
       console.log(`production: ${url.href}`);
@@ -773,6 +1207,27 @@ export async function main(argv: string[]): Promise<number> {
         engage,
         measurement.longTasks,
         measurement.mainThreadTaskCount,
+      );
+    } else if (scenario === 'load') {
+      const route = requiredRoute(values.route, scenario);
+      const frames = parseFrames(values.frames);
+      const cpu = parseCpu(values.cpu);
+      const url = scenarioUrl(server.url, scenario, route);
+      console.log(`eager: ${url.href}`);
+
+      const measurement = await measureLoad(url, frames, cpu);
+      report = buildLoadReport(
+        measurement.result,
+        url.href,
+        route,
+        frames,
+        cpu,
+        measurement.loadMs,
+        measurement.mounted,
+        measurement.readyMs,
+        measurement.longTasks,
+        measurement.preLoadTasks,
+        measurement.droppedFrameTimes,
       );
     } else {
       const url = scenarioUrl(server.url, scenario);
@@ -817,6 +1272,12 @@ export async function main(argv: string[]): Promise<number> {
   if (report.scenario === 'startup') {
     printStartupReport(report, artifact);
     assertLongTaskCheckIsNotVacuous(report.mainThreadTaskCount);
+  } else if (report.scenario === 'load') {
+    printLoadReport(report, artifact);
+    assertLoadMounted(report.mounted);
+    return report.verdict.gated && (!report.verdict.longTask50 || !report.verdict.droppedFramesLe2)
+      ? EXIT.BUDGET
+      : EXIT.OK;
   } else {
     printReport(report, artifact);
   }

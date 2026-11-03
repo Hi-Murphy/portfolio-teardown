@@ -3,6 +3,7 @@ import { constants } from 'node:fs';
 import { access, mkdir, stat, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { gzipSync } from 'node:zlib';
 
 import type { BrowserContext, Page } from 'playwright';
@@ -16,13 +17,16 @@ import {
   type CpuProfileSummary,
 } from '../cpu-profile.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
+import { LOAD_MARK, LOAD_MARK_INIT_SCRIPT } from '../fps.ts';
 import { run } from '../log.ts';
 import { serveDir, type ServedDir } from '../serve.ts';
 import { startupAttributionScript, type StartupAttributionState } from '../startup-attribution.ts';
 import {
   analyzeStartup,
+  findPerformanceMark,
   findStartupTaskWindows,
   phaseModelError,
+  traceTimeOriginFromMark,
   type GlSpan,
   type PageMarks,
   type PhaseId,
@@ -48,7 +52,7 @@ interface StartupArgs {
   positionals: string[];
 }
 
-type Engage = 'move' | 'click';
+export type Engage = 'move' | 'click' | 'none';
 type RunKind = 'clean' | 'attributed' | 'profiled';
 type GlCounts = Record<string, number>;
 
@@ -198,12 +202,12 @@ const lighthousePageFunctions = require('lighthouse/core/lib/page-functions.js')
 
 const usage = `Usage: pnpm perf:startup <url> | --serve <dir> --route <path> [options]
 
-Measures engagement-driven 3D startup on the mobile profile with 4x CPU throttling.
+Measures 3D startup on the mobile profile with 4x CPU throttling.
 
 Options:
   --serve <dir>       serve a static export on a free local port
   --route <path>      route to open (default: /)
-  --engage <kind>     move or click (default: move)
+  --engage <kind>     move, click, or none (default: move; none anchors t0 at load)
   --runs <n>          measured runs (default: 2)
   --attribute         install the GL attribution wrappers
   --cpu-profile       record a CPU profile and per-task attribution
@@ -230,10 +234,11 @@ function isDirectory(path: string): Promise<boolean> {
   );
 }
 
-function parseEngage(raw: string | undefined): Engage {
+export function parseEngage(raw: string | undefined): Engage {
   if (raw === undefined || raw === 'move') return 'move';
   if (raw === 'click') return 'click';
-  throw new CliError(EXIT.USAGE, `--engage must be move or click: ${raw}`);
+  if (raw === 'none') return 'none';
+  throw new CliError(EXIT.USAGE, `--engage must be move, click, or none: ${raw}`);
 }
 
 function parsePositiveNumber(raw: string | undefined, fallback: number, option: string): number {
@@ -453,6 +458,7 @@ async function waitForReady(page: Page, observers: boolean): Promise<number> {
 }
 
 async function engage(page: Page, kind: Engage): Promise<void> {
+  if (kind === 'none') return;
   if (kind === 'move') {
     const viewport = page.viewportSize();
     if (viewport === null) throw new CliError(EXIT.INTERNAL, 'page has no viewport size');
@@ -529,31 +535,6 @@ async function captureRun(
   const cdp = await context.newCDPSession(page);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: options.cpu });
 
-  let response;
-  try {
-    response = await page.goto(url.href, {
-      waitUntil: 'load',
-      timeout: NAVIGATION_TIMEOUT_MS,
-    });
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: ${detail}`);
-  }
-  if (response === null) {
-    throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: no response`);
-  }
-  if (response.status() >= 400) {
-    throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: HTTP ${response.status()}`);
-  }
-
-  await waitForVisible(page);
-  await waitForNetworkQuiet(() => lastRequestAt);
-  if (options.engage === 'click') {
-    await page
-      .locator('[data-site-control="explore-3d"]')
-      .waitFor({ state: 'visible', timeout: READY_TIMEOUT_MS });
-  }
-
   const traceEvents: TraceEvent[] = [];
   const traceComplete = new Promise<void>((resolveTrace) => {
     cdp.once('Tracing.tracingComplete', () => resolveTrace());
@@ -567,20 +548,72 @@ async function captureRun(
   let profilerStarted = false;
   let profilerStopped = false;
   let capturedCpuProfile: CpuProfile | null = null;
-  try {
+  const noEngage = options.engage === 'none';
+
+  const startTracing = async (): Promise<void> => {
     await cdp.send('Tracing.start', {
       categories: TRACE_CATEGORIES,
       transferMode: 'ReportEvents',
     });
     tracingStarted = true;
-
-    const engageMs = await markEngagement(page);
-    if (options.cpuProfile) {
-      await cdp.send('Profiler.enable');
-      await cdp.send('Profiler.setSamplingInterval', { interval: 100 });
-      await cdp.send('Profiler.start');
-      profilerStarted = true;
+  };
+  const startProfiler = async (): Promise<void> => {
+    if (!options.cpuProfile) return;
+    await cdp.send('Profiler.enable');
+    await cdp.send('Profiler.setSamplingInterval', { interval: 100 });
+    await cdp.send('Profiler.start');
+    profilerStarted = true;
+  };
+  const navigate = async (): Promise<void> => {
+    let response;
+    try {
+      response = await page.goto(url.href, {
+        waitUntil: 'load',
+        timeout: NAVIGATION_TIMEOUT_MS,
+      });
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: ${detail}`);
     }
+    if (response === null) {
+      throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: no response`);
+    }
+    if (response.status() >= 400) {
+      throw new CliError(EXIT.UNREACHABLE, `unreachable: ${url.href}: HTTP ${response.status()}`);
+    }
+  };
+
+  try {
+    if (noEngage) {
+      await startTracing();
+      await startProfiler();
+    }
+
+    await navigate();
+    await waitForVisible(page);
+
+    let engageMs: number;
+    if (noEngage) {
+      const loadMs = await page.evaluate(
+        (name) => performance.getEntriesByName(name).at(-1)?.startTime ?? null,
+        LOAD_MARK,
+      );
+      if (!finite(loadMs)) {
+        throw new CliError(EXIT.INTERNAL, `${LOAD_MARK} mark was not recorded`);
+      }
+      engageMs = loadMs;
+    } else {
+      await waitForNetworkQuiet(() => lastRequestAt);
+      if (options.engage === 'click') {
+        await page
+          .locator('[data-site-control="explore-3d"]')
+          .waitFor({ state: 'visible', timeout: READY_TIMEOUT_MS });
+      }
+      await startTracing();
+      engageMs = await markEngagement(page);
+      await startProfiler();
+    }
+
     await engage(page, options.engage);
     const readyMs = await waitForReady(page, options.observers);
     await waitForWindow(page, engageMs);
@@ -611,13 +644,21 @@ async function captureRun(
           PerformanceNavigationTiming | undefined;
         return navigation?.loadEventEnd ?? performance.now();
       }));
-    const mark = findEngageMark(traceEvents, engageMs);
+    const mark = noEngage
+      ? findPerformanceMark(traceEvents, LOAD_MARK)
+      : findEngageMark(traceEvents, engageMs);
+    if (mark === null) {
+      throw new CliError(EXIT.INTERNAL, `trace did not contain the ${LOAD_MARK} mark`);
+    }
     if (!finite(mark.ts)) {
-      throw new CliError(EXIT.INTERNAL, `${ENGAGE_MARK} mark had no trace timestamp`);
+      throw new CliError(
+        EXIT.INTERNAL,
+        `${noEngage ? LOAD_MARK : ENGAGE_MARK} mark had no trace timestamp`,
+      );
     }
 
     const marks: PageMarks = {
-      traceTimeOriginUs: mark.ts - engageMs * 1000,
+      traceTimeOriginUs: traceTimeOriginFromMark(mark, engageMs),
       loadMs,
       engageMs,
       readyMs,
@@ -890,6 +931,9 @@ export async function main(argv: string[]): Promise<number> {
         });
 
         try {
+          if (engage === 'none') {
+            await context.addInitScript({ content: LOAD_MARK_INIT_SCRIPT });
+          }
           await context.addInitScript({
             content: startupAttributionScript({ attribute, observers }),
           });
@@ -981,4 +1025,7 @@ export async function main(argv: string[]): Promise<number> {
   }
 }
 
-await run(main);
+const entrypoint = process.argv[1];
+if (entrypoint !== undefined && import.meta.url === pathToFileURL(entrypoint).href) {
+  await run(main);
+}
