@@ -47,7 +47,7 @@
 | T006 | ☑ (AC1 baseline: cost 317 / 376 / 392 ms home-move / project-move / project-click; max long task 103 / 134 / 141 ms; 2–7 dropped frames; P3 module eval dominant; P7 2–3 ms; KHR_parallel present; ANGLE Metal M4) | 1 (Flash, measurements + tables) + orchestrator (task breakdown + interpretation) | evidence/T006-* | a08f0a5 |
 | T007 | ⊘ skipped (G1 decision: L2 has no measurable payoff on this host, P7 = 2.3–3.0 ms < run spread; T006 evidence) | — | evidence/T006-log-baseline-profile.md | — |
 | T008 | ⊘ skipped (no S6 file touched → no re-seal) | — | — | — |
-| T009 | ☐ | | | |
+| T009 | ☑ kept (3D chunk −201,716 B raw / −48,631 B gz; project/move P3 −22.4 ms; max long task −21…−28 ms; parity 0 px; draws 2) | 1 (Flash); literal check blocked by 2 plan defects (D-P1, D-P2), remainder run and passed | evidence/T009-log-l4-ab.md | c9aea35 |
 | T010 | ☐ | | | |
 | T011 | ☐ (conditional) | | | |
 | T012 | ☐ (conditional) | | | |
@@ -57,6 +57,18 @@
 | T016 | ☐ | | | |
 | T017 | ☐ | | | |
 | T018 | ☐ | | | |
+
+## G2 amendments (orchestrator, after G1 "all defaults. go")
+
+- **D-P1 (plan defect, T009):** `bundle:manifest --diff` is S11's "no new JS file" rule. It flags content-hash renames (exit 6) even when bytes shrink. AC4's bundle rule is **bytes ≤ baseline per scope** (initial JS per route, total JS; raw + gzip). From T010 on, checks compare byte totals of two manifests with `node -e` over `--write` outputs, and `--diff` output is kept as information only.
+- **D-P2 (plan defect, T009):** `pnpm a11y:axe:site` needs `--serve apps/web/out`.
+- **T010 scope (G1-approved "L3 + staged module evaluation"):**
+  - New `apps/web/build/stage-3d.ts` exports `STAGES_3D = [() => import('three'), () => import('@react-three/fiber')]`. It holds bare dynamic imports only and **no three/R3F API use**. It lives outside the scanner roots, like the L4 shim (R4).
+  - A new test asserts the file holds only those `import()` calls and that it is imported only by `components/interaction-gate.ts`.
+  - `interaction-gate.ts`: `loadStaged(stages, signal)` runs `await stage(); await yieldToMain();` per stage and honours abort.
+  - `hero-live.tsx`: `loadStaged(STAGES_3D)` → `import('./hero-stage')` → `yieldToMain()` → `startTransition(setHeroStage)`.
+  - `workbench-loader.tsx`: `start()` keeps the click feedback (aria-busy + label) **synchronous**, then `loadStaged` → `import('./workbench-client')` (the same specifier as the `next/dynamic` loader, so it is warm) → `yieldToMain()` → `startTransition(() => setMounted(true))`.
+  - **A/B "before"** = T009's after-runs (same host). Add one attributed project/move run and the T006 task-breakdown dump for the after state. The "app post-first-frame work" bucket is reported, not changed, in T010.
 
 ---
 
