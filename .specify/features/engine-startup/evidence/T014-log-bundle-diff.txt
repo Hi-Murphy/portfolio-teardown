@@ -1,0 +1,37 @@
+T014 bundle byte totals vs T006
+
+Command: pnpm bundle:manifest --out-dir apps/web/out --write .specify/features/engine-startup/evidence/T014-log-bundle-final.json
+Baseline: .specify/features/engine-startup/evidence/T006-log-bundle-before.json
+Final:    .specify/features/engine-startup/evidence/T014-log-bundle-final.json
+
+Method: raw bytes are summed per scope from the manifests. Gzip is `gzip -9` per file, summed
+per scope. The T006 gzip totals are the T006 values recorded in evidence/T009-log-l4-ab.md;
+the T006 manifest contains hashes and byte counts, not the emitted bytes. The 3D row is the lazy
+chunk containing both MeshLambertMaterial and WebGLRenderer, so it is the non-initial 3D payload.
+
+| Scope | T006 raw | T006 gzip | T014 raw | T014 gzip | Raw delta | Gzip delta |
+|---|---:|---:|---:|---:|---:|---:|
+| home initial JS (9 files) | 583,368 | 180,618 | 583,343 | 180,769 | -25 (-0.00%) | +151 (+0.08%) |
+| project initial JS (9 files) | 586,201 | 181,497 | 581,795 | 180,207 | -4,406 (-0.75%) | -1,290 (-0.71%) |
+| total emitted JS | 1,771,865 | 501,942 | 1,581,558 | 459,493 | -190,307 (-10.74%) | -42,449 (-8.46%) |
+| 3D lazy chunk (non-initial) | 1,035,388 | 277,455 | 545,967 | 138,955 | -489,421 (-47.27%) | -138,500 (-49.92%) |
+
+Raw gates:
+- home initial: PASS (583,343 <= 583,368)
+- project initial: PASS (581,795 <= 586,201)
+- total JS: PASS (1,581,558 <= 1,771,865)
+
+RESULT: PASS (both initial scopes and total JS are <= the T006 raw baseline).
+The home scope's gzip size is 151 B above its T006 gzip size; the AC4 gate is the raw-byte rule.
+
+== Orchestrator review correction (single gzip method) ==
+The gzip column above mixed methods (gzip CLI headers carry name/mtime) and the '3D lazy chunk' row compared one stage chunk with the former single chunk. Recomputed for both builds with one method: node zlib gzip level 9 (no name/mtime header), per file, summed; T006 rebuilt from a08f0a5 (raw totals reproduce T006-log-bundle-before.json exactly).
+
+| Scope | T006 files | T006 raw | T006 gzip | Final files | Final raw | Final gzip | Raw delta | Gzip delta |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| home initial JS | 9 | 583,368 | 180,618 | 9 | 583,343 | 180,606 | −25 | −12 |
+| project initial JS | 9 | 586,201 | 181,497 | 9 | 581,795 | 180,044 | −4,406 | −1,453 |
+| total emitted JS | 17 | 1,771,865 | 501,942 | 22 | 1,581,558 | 459,097 | −190,307 | −42,845 |
+| non-initial (3D) JS | 7 | 1,181,847 | 318,794 | 12 | 995,971 | 277,414 | −185,876 | −41,380 |
+
+RESULT (corrected): PASS — every scope is <= the T006 baseline in raw AND gzip bytes.
