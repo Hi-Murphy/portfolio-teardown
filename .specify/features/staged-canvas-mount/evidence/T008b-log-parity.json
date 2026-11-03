@@ -1,0 +1,72 @@
+{
+  "kind": "parity-compare",
+  "version": 1,
+  "pass": true,
+  "totalDifferingPixels": 0,
+  "shots": [
+    {
+      "id": "home-mobile-light",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-home-mobile-light.png",
+      "currentFile": "screenshot-home-mobile-light.png",
+      "diffMaskFile": "diff-home-mobile-light.png"
+    },
+    {
+      "id": "home-mobile-dark",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-home-mobile-dark.png",
+      "currentFile": "screenshot-home-mobile-dark.png",
+      "diffMaskFile": "diff-home-mobile-dark.png"
+    },
+    {
+      "id": "home-desktop-light",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-home-desktop-light.png",
+      "currentFile": "screenshot-home-desktop-light.png",
+      "diffMaskFile": "diff-home-desktop-light.png"
+    },
+    {
+      "id": "home-desktop-dark",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-home-desktop-dark.png",
+      "currentFile": "screenshot-home-desktop-dark.png",
+      "diffMaskFile": "diff-home-desktop-dark.png"
+    },
+    {
+      "id": "project-mobile-light",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-project-mobile-light.png",
+      "currentFile": "screenshot-project-mobile-light.png",
+      "diffMaskFile": "diff-project-mobile-light.png"
+    },
+    {
+      "id": "project-mobile-dark",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-project-mobile-dark.png",
+      "currentFile": "screenshot-project-mobile-dark.png",
+      "diffMaskFile": "diff-project-mobile-dark.png"
+    },
+    {
+      "id": "project-desktop-light",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-project-desktop-light.png",
+      "currentFile": "screenshot-project-desktop-light.png",
+      "diffMaskFile": "diff-project-desktop-light.png"
+    },
+    {
+      "id": "project-desktop-dark",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-project-desktop-dark.png",
+      "currentFile": "screenshot-project-desktop-dark.png",
+      "diffMaskFile": "diff-project-desktop-dark.png"
+    }
+  ]
+}
