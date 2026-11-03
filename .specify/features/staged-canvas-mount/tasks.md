@@ -68,6 +68,11 @@
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 
+## Stage-3 amendments (orchestrator)
+
+- **D-P1 (plan defect, T001):** `pnpm bundle:manifest` requires `--out-dir <out>`. Every check now calls `pnpm bundle:manifest --out-dir apps/web/out --write <file>`. Found by tier 1 in T001: the check stopped with exit 2 before `bundle-scopes.mjs` ran.
+- **D-P2 (plan defect, T002):** `pnpm fps:engine --scenario startup` exits 6 when the startup verdict fails, which is expected for every pre-lever state. Every check therefore runs it as `pnpm fps:engine … || echo "fps-engine exit $? (verdict recorded)"`, and the verdict is read from the JSON. Same for `pnpm perf:lighthouse` (gated or eager runs may fail a budget) and `pnpm perf:parity --compare` in T004's drift check (a drift diff is recorded, not fatal). In lever tasks a parity diff stays a STOP.
+
 ---
 
 ## Phase G1 — Re-baseline (STOP after T004)
@@ -92,7 +97,7 @@
     if bash $F/guards.sh > /tmp/s116-checks/t001-neg.txt 2>&1; then echo "NEG-CONTROL-FAILED $f"; exit 1; fi
     git checkout -- $f; echo "neg $f: $(grep FAIL /tmp/s116-checks/t001-neg.txt | tr '\n' ' ')" | tee -a /tmp/s116-checks/t001.txt
   done
-  pnpm build && pnpm bundle:manifest --write /tmp/s116-checks/t001-manifest.json
+  pnpm build && pnpm bundle:manifest --out-dir apps/web/out --write /tmp/s116-checks/t001-manifest.json
   node $F/bundle-scopes.mjs /tmp/s116-checks/t001-manifest.json apps/web/out | tee -a /tmp/s116-checks/t001.txt
   node $F/bundle-scopes.mjs /tmp/s116-checks/t001-manifest.json apps/web/out /tmp/s116-checks/t001-manifest.json apps/web/out && echo SCOPES-SELF-OK | tee -a /tmp/s116-checks/t001.txt
   pnpm typecheck && pnpm lint && pnpm test && echo T001-OK
@@ -175,7 +180,7 @@
      - Drift: `/tmp/s116-checks/s115-shots` = `T014-screenshot-*` + `T006-log-parity-baseline.json` from `engine-startup/evidence`.
      - Slice baseline: `/tmp/s116-checks/baseline-shots` = `T004-screenshot-*` + `T004-log-parity-baseline.json`, rebuilt by each lever task from the committed evidence;
   4. `site:probe --serve apps/web/out --group draws`, and `engine:probe --scope s4` on the fixture export (as in S11.5 T014);
-  5. `bundle:manifest --write $F/evidence/T004-log-bundle.json` + `bundle-scopes.mjs` → `evidence/T004-log-bytes.txt`;
+  5. `bundle:manifest --out-dir apps/web/out --write $F/evidence/T004-log-bundle.json` + `bundle-scopes.mjs` → `evidence/T004-log-bytes.txt`;
   6. gated `perf:lighthouse` ×2 on both routes;
   7. `site:probe --group hero`.
 - **Files:** evidence only, plus the ledger:
@@ -233,7 +238,7 @@
   rm -rf /tmp/s116-checks/baseline-shots && mkdir -p /tmp/s116-checks/baseline-shots && cp $F/evidence/T004-screenshot-*.png $F/evidence/T004-log-parity-baseline.json /tmp/s116-checks/baseline-shots/
   pnpm perf:parity --serve apps/web/out --compare /tmp/s116-checks/baseline-shots 2>&1 | tee -a /tmp/s116-checks/t005.txt      # must be 0 px on all 8 (Hard Rule 5)
   pnpm site:probe --serve apps/web/out --group draws --group hero 2>&1 | tail -5 | tee -a /tmp/s116-checks/t005.txt
-  pnpm bundle:manifest --write /tmp/s116-checks/t005-manifest.json
+  pnpm bundle:manifest --out-dir apps/web/out --write /tmp/s116-checks/t005-manifest.json
   node $F/bundle-scopes.mjs $F/evidence/T004-log-bundle.json /tmp/s116-checks/base-out /tmp/s116-checks/t005-manifest.json apps/web/out | tee -a /tmp/s116-checks/t005.txt || echo BYTES-GREW-RECORDED
   bash $F/guards.sh | tee -a /tmp/s116-checks/t005.txt
   pnpm typecheck && pnpm lint && pnpm test && echo T005-OK

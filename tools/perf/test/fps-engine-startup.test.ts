@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import {
   assertLongTaskCheckIsNotVacuous,
+  buildFpsReport,
   buildStartupReport,
   evaluateStartupVerdict,
   longTasksFromTrace,
@@ -10,11 +11,17 @@ import {
   STARTUP_TRACE_CATEGORIES,
 } from '../src/cli/fps-engine.ts';
 import { CliError, EXIT } from '../src/exit-codes.ts';
-import { traceCategories, type FpsResult } from '../src/fps.ts';
+import {
+  analyzeTrace,
+  droppedFrameTimesFromTrace,
+  traceCategories,
+  type FpsResult,
+} from '../src/fps.ts';
 import type { TraceEvent } from '../src/startup.ts';
 
 const BASE_URL = new URL('http://127.0.0.1:4199/');
 const WINDOW_START_US = 1_000_000;
+const FRAME_CATEGORY = 'disabled-by-default-devtools.timeline.frame';
 
 function fpsResult(overrides: Partial<FpsResult> = {}): FpsResult {
   return {
@@ -32,7 +39,7 @@ function fpsResult(overrides: Partial<FpsResult> = {}): FpsResult {
   };
 }
 
-function traceWithTask(startOffsetMs: number, durationMs: number): TraceEvent[] {
+function traceWithTasks(tasks: ReadonlyArray<{ startMs: number; durMs: number }>): TraceEvent[] {
   return [
     {
       cat: 'disabled-by-default-devtools.timeline',
@@ -52,15 +59,33 @@ function traceWithTask(startOffsetMs: number, durationMs: number): TraceEvent[] 
       ts: WINDOW_START_US,
       args: { name: 'CrRendererMain' },
     },
-    {
+    ...tasks.map(({ startMs, durMs }) => ({
       cat: 'devtools.timeline',
       name: 'RunTask',
       ph: 'X',
       pid: 1,
       tid: 1,
-      ts: WINDOW_START_US + startOffsetMs * 1_000,
-      dur: durationMs * 1_000,
-    },
+      ts: WINDOW_START_US + startMs * 1_000,
+      dur: durMs * 1_000,
+    })),
+  ];
+}
+
+function traceWithTask(startOffsetMs: number, durationMs: number): TraceEvent[] {
+  return traceWithTasks([{ startMs: startOffsetMs, durMs: durationMs }]);
+}
+
+function traceWithDroppedFrames(events: TraceEvent[], offsetsMs: readonly number[]): TraceEvent[] {
+  return [
+    ...events,
+    ...offsetsMs.map((offsetMs) => ({
+      cat: FRAME_CATEGORY,
+      name: 'DroppedFrame',
+      ph: 'I',
+      pid: 1,
+      tid: 1,
+      ts: WINDOW_START_US + offsetMs * 1_000,
+    })),
   ];
 }
 
@@ -137,6 +162,74 @@ describe('startup scenario', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(CliError);
       expect((error as CliError).code).toBe(EXIT.INTERNAL);
+    }
+  });
+
+  test('reports one dropped-frame timestamp per counted dropped frame', () => {
+    const trace: TraceEvent[] = [
+      ...traceWithDroppedFrames(traceWithTask(10, 20), [-1, 5, 12, 5_000, 5_001]),
+      {
+        cat: 'devtools.timeline',
+        name: 'DroppedFrame',
+        ph: 'I',
+        pid: 1,
+        tid: 1,
+        ts: WINDOW_START_US + 30_000,
+      },
+      {
+        cat: FRAME_CATEGORY,
+        name: 'DroppedFrame',
+        ph: 'I',
+        pid: 1,
+        tid: 1,
+      },
+    ];
+    const analyzed = analyzeTrace(trace, WINDOW_START_US, WINDOW_START_US + 5_000_000);
+    const report = buildStartupReport(
+      fpsResult({ ...analyzed, trace }),
+      'http://127.0.0.1:4199/projects/websocket-inspector',
+      '/projects/websocket-inspector',
+      'move',
+      [],
+      mainThreadTaskCountFromTrace(trace),
+    );
+
+    expect(report.droppedFrames).toBe(3);
+    expect(report.droppedFrameTimes).toEqual([5, 12, 5_000]);
+    expect(report.droppedFrameTimes).toHaveLength(report.droppedFrames);
+    expect(droppedFrameTimesFromTrace(trace, WINDOW_START_US, WINDOW_START_US + 5_000_000)).toEqual(
+      [5, 12, 5_000],
+    );
+  });
+
+  test('includes main-thread tasks strictly above the 16.7 ms boundary', () => {
+    const trace = traceWithTasks([
+      { startMs: 10, durMs: 16.7 },
+      { startMs: 50, durMs: 16.701 },
+      { startMs: 80, durMs: 17 },
+    ]);
+    const report = buildStartupReport(
+      fpsResult({ trace }),
+      'http://127.0.0.1:4199/projects/websocket-inspector',
+      '/projects/websocket-inspector',
+      'move',
+      [],
+      mainThreadTaskCountFromTrace(trace),
+    );
+
+    expect(report.tasksOver16ms).toEqual([
+      { start: 50, dur: 16.701 },
+      { start: 80, dur: 17 },
+    ]);
+  });
+
+  test('keeps the startup timeline fields out of explode and tour reports', () => {
+    const trace = traceWithDroppedFrames(traceWithTask(10, 20), [5]);
+
+    for (const scenario of ['explode', 'tour'] as const) {
+      const report = buildFpsReport(fpsResult({ trace }), scenario, 'http://example.test');
+      expect(report).not.toHaveProperty('droppedFrameTimes');
+      expect(report).not.toHaveProperty('tasksOver16ms');
     }
   });
 
