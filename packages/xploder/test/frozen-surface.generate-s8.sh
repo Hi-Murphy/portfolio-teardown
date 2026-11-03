@@ -7,7 +7,7 @@ package_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_root=$(CDPATH= cd -- "$package_dir/../.." && pwd)
 paths_file="$script_dir/frozen-surface.s8.paths"
 manifest_file="$script_dir/frozen-surface.s8.manifest.json"
-base=0ac2148
+base=470acd8
 package_prefix=packages/xploder/
 
 cd "$repo_root"
@@ -24,7 +24,7 @@ trap 'rm -f "$tmp_file"' EXIT
 {
   printf '{\n'
   printf '  "base": "%s",\n' "$base"
-  printf '  "note": "S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md. Fixed at 1a99569: default-lane re-render when the staged renderer settles (S11.6 L1, D-P3). L4 at 0ac2148: R3F configuration in the next task (S11.6 L4).",\n'
+  printf '  "note": "S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md. Fixed at 1a99569: default-lane re-render when the staged renderer settles (S11.6 L1, D-P3). L4 at 0ac2148: R3F configuration in the next task (S11.6 L4). Compacted at 470acd8 (S11.6 T008b, bytes).",\n'
   printf '  "files": {\n'
 
   first=true
