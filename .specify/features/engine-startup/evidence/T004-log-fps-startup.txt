@@ -1,0 +1,60 @@
+FPS-ENGINE-TEST-UNCHANGED
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/fps-engine.test.ts > evaluateVerdict > includes both edges of the configured liveness band 1ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > rejects readings outside the configured liveness band 0ms
+ ✓ test/fps-engine.test.ts > evaluateVerdict > rejects any dropped frame even when the measured rate is live 0ms
+ ✓ test/fps-engine.test.ts > scenarioUrl > keeps the S4 explode route 0ms
+ ✓ test/fps-engine.test.ts > scenarioUrl > builds the looping live-update tour route 0ms
+ ✓ test/fps-engine.test.ts > buildFpsReport > reports the dropped-frames verdict and tour details without a legacy key 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > appends optional trace categories only when provided 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > uses the production route instead of the fixture route 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > requires an absolute route 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > applies the dropped-frame and 50 ms long-task rules independently 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > finds long tasks in the kept trace and excludes the 50 ms boundary 1ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > counts metadata main-thread tasks and ignores the draw-frame fallback pid 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > fails internals when the long-task check would be vacuous 0ms
+ ✓ test/fps-engine-startup.test.ts > startup scenario > adds startup fields without retaining the trace or a liveness verdict 0ms
+
+ Test Files  2 passed (2)
+      Tests  14 passed (14)
+   Start at  08:02:29
+   Duration  259ms (import 87%, transform 11%, tests 2%, worker 1%)
+
+$ node tools/perf/src/cli/fps-engine.ts --scenario startup --route / --engage move --no-build --out /tmp/s115-checks/t004-hero
+production: http://127.0.0.1:53815/
+warning: trace FPS 4.25 and rAF FPS 58.60 differ by more than 10%
+scenario: startup
+route: /
+engage: move
+cpuThrottle: 4x
+fps: 4.25 (22 frames / 5177 ms)
+droppedFrames: 3
+longTasks: 1
+maxLongTaskMs: 70.4
+mainThreadTaskCount: 741
+pidSource: trace-metadata
+liveness: not-applicable
+verdict: fail (startup)
+fps.json: /tmp/s115-checks/t004-hero/fps.json
+[ELIFECYCLE] Command failed with exit code 6.
+fps: 59.67 (301 frames / 5044 ms)
+droppedFrames: 0
+liveness: true
+verdict: pass (dropped-frames)
+fps.json: /tmp/s115-checks/t004-explode/fps.json
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+CI-JOBS-OK
+VERSIONS-OK
+GITLEAKS-OK

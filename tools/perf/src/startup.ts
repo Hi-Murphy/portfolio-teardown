@@ -217,8 +217,10 @@ function addressableProcessId(events: readonly TraceEvent[]): number | null {
   return events.find((event) => threadName(event) === 'CrRendererMain')?.pid ?? null;
 }
 
-function mainThread(events: readonly TraceEvent[]): { pid: number | null; tid: number | null } {
-  const pid = addressableProcessId(events);
+function mainThreadForProcess(
+  events: readonly TraceEvent[],
+  pid: number | null,
+): { pid: number | null; tid: number | null } {
   if (pid === null) return { pid: null, tid: null };
 
   const namedMainThread = events.find(
@@ -247,6 +249,14 @@ function mainThread(events: readonly TraceEvent[]): { pid: number | null; tid: n
   return { pid, tid };
 }
 
+function mainThread(
+  events: readonly TraceEvent[],
+  requireMetadata: boolean,
+): { pid: number | null; tid: number | null } {
+  const pid = requireMetadata ? metadataProcessId(events) : addressableProcessId(events);
+  return mainThreadForProcess(events, pid);
+}
+
 function onMainThread(
   event: TraceEvent,
   thread: { pid: number | null; tid: number | null },
@@ -256,8 +266,9 @@ function onMainThread(
   return thread.tid === null || event.tid === thread.tid;
 }
 
-function mainThreadTasks(events: readonly TraceEvent[]): TaskTiming[] {
-  const thread = mainThread(events);
+function mainThreadTasks(events: readonly TraceEvent[], requireMetadata: boolean): TaskTiming[] {
+  const thread = mainThread(events, requireMetadata);
+  if (requireMetadata && thread.pid === null) return [];
   const tasks = new Map<string, ThreadTaskTiming>();
 
   for (const event of events) {
@@ -499,8 +510,9 @@ export function findLongTasks(
   endUs: number,
   phaseAt: (startUs: number, durUs: number) => StartupPhase = () => 'other',
   originUs = 0,
+  requireMetadata = false,
 ): LongTask[] {
-  return mainThreadTasks(events)
+  return mainThreadTasks(events, requireMetadata)
     .filter(
       (task) =>
         task.startUs >= startUs &&
@@ -512,6 +524,17 @@ export function findLongTasks(
       dur: task.durUs / MICROSECONDS_PER_MILLISECOND,
       phase: phaseAt(task.startUs, task.durUs),
     }));
+}
+
+export function countMainThreadTasks(
+  events: readonly TraceEvent[],
+  startUs: number,
+  endUs: number,
+  requireMetadata = false,
+): number {
+  return mainThreadTasks(events, requireMetadata).filter(
+    (task) => task.startUs >= startUs && task.startUs <= endUs,
+  ).length;
 }
 
 function phaseIntervals(
@@ -545,8 +568,8 @@ export function analyzeStartup(
   const chunkUrls = new Set(requests.map((request) => request.url));
   const compileEvents = chunkEvents(events, COMPILE_NAMES, chunkUrls);
   const evaluateEvents = chunkEvents(events, EVALUATE_NAMES, chunkUrls);
-  const tasks = mainThreadTasks(events);
-  const thread = mainThread(events);
+  const tasks = mainThreadTasks(events, false);
+  const thread = mainThread(events, false);
   const allSpans = spans
     .filter((span) => Number.isFinite(span.start) && Number.isFinite(span.dur))
     .slice()
