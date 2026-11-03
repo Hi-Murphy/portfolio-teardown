@@ -22,6 +22,7 @@
     "fps": "node tools/perf/src/cli/fps.ts",
     "fps:calibrate": "node tools/perf/src/cli/fps-calibrate.ts",
     "engine:probe": "node tools/perf/src/cli/engine-probe.ts",
+    "eager:probe": "node tools/perf/src/cli/eager-probe.ts",
     "a11y:probe": "node tools/perf/src/cli/a11y-probe.ts",
     "fps:engine": "node tools/perf/src/cli/fps-engine.ts",
     "a11y:axe": "node tools/perf/src/cli/a11y-axe.ts",
