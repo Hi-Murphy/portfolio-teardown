@@ -77,7 +77,7 @@ jobs:
               measure "${BUILD}-${route}-r${invocation}" pnpm perf:lighthouse "$url" --out "$E/${BUILD}-${route}-r${invocation}"
             done
             measure "profiled-${BUILD}-${route}" pnpm perf:lighthouse "$url" --profile --out "$E/profiled-${BUILD}-${route}"
-            measure "attribution-${BUILD}-${route}" pnpm perf:attribution --lhr "$E/profiled-${BUILD}-${route}/lighthouse-run-0.json" --trace "$E/profiled-${BUILD}-${route}/lighthouse-run-0.trace.json.gz" --manifest "$E/${BUILD}-manifest.json" --out "$E/attr-${BUILD}-${route}"
+            measure "attribution-${BUILD}-${route}" pnpm perf:attribution --lhr "$E/profiled-${BUILD}-${route}/lighthouse-run-0.json" --trace "$E/profiled-${BUILD}-${route}/lighthouse-run-0.trace.json.gz" --manifest "$E/${BUILD}-manifest.json" --out-dir apps/web/out --out "$E/attr-${BUILD}-${route}"
           done
           cleanup
           trap - EXIT
@@ -125,7 +125,7 @@ jobs:
             done
             measure "probe-${BUILD}-${route}" pnpm eager:probe --serve apps/web/out --route "$path" --runs 2 --out "$E/probe-${BUILD}-${route}"
             measure "probe-${BUILD}-${route}-reduced" pnpm eager:probe --serve apps/web/out --route "$path" --runs 2 --reduced-motion --out "$E/probe-${BUILD}-${route}-reduced"
-            measure "attribution-${BUILD}-${route}" pnpm perf:attribution --lhr "$E/profiled-${BUILD}-${route}/lighthouse-run-0.json" --trace "$E/profiled-${BUILD}-${route}/lighthouse-run-0.trace.json.gz" --manifest "$E/${BUILD}-manifest.json" --out "$E/attr-${BUILD}-${route}"
+            measure "attribution-${BUILD}-${route}" pnpm perf:attribution --lhr "$E/profiled-${BUILD}-${route}/lighthouse-run-0.json" --trace "$E/profiled-${BUILD}-${route}/lighthouse-run-0.trace.json.gz" --manifest "$E/${BUILD}-manifest.json" --out-dir apps/web/out --out "$E/attr-${BUILD}-${route}"
           done
           cleanup
           trap - EXIT
@@ -135,12 +135,12 @@ jobs:
           set -uo pipefail
           mkdir -p "$E"
           default_code=0
-          pnpm eager-verdict --dir "$E" > "$E/verdict-default.md" 2>&1 || default_code=$?
+          node tools/perf/src/cli/eager-verdict.ts --dir "$E" > "$E/verdict-default.md" 2>&1 || default_code=$?
           echo "eager-verdict-default exit=${default_code}" | tee -a "$E/exit-codes.txt"
           cat "$E/verdict-default.md"
           cat "$E/verdict-default.md" >> "$GITHUB_STEP_SUMMARY"
           rule_code=0
-          pnpm eager-verdict --rule s11.7 --dir "$E" > "$E/verdict-s11.7.md" 2>&1 || rule_code=$?
+          node tools/perf/src/cli/eager-verdict.ts --rule s11.7 --dir "$E" > "$E/verdict-s11.7.md" 2>&1 || rule_code=$?
           echo "eager-verdict-s11.7 exit=${rule_code}" | tee -a "$E/exit-codes.txt"
           cat "$E/verdict-s11.7.md"
           cat "$E/verdict-s11.7.md" >> "$GITHUB_STEP_SUMMARY"

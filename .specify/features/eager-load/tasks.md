@@ -56,11 +56,11 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
+| T001 | ☑ (11 guards; 5 negative controls bite incl. committed BASELINE-FIRST control; pre-slice bytes: gated total 1,581,847 raw / 459,233 gz = S11.6 final) | 1 (Flash) | evidence/T001-log-guard.txt, T001-log-bytes.txt | 72bc211 |
+| T002 | ☑ (`--profile` keeps trace + V8 samples; `--gl swiftshader`, `--cpu-multiplier`; attribution with served-chunk snippets + 3-frame stacks; URL-less matching) — local emulation smoke: project eager 634 ms observed task = `hasWebgl()` first context under SwiftShader (informational, not binding) | 1 (Flash) ×2: orchestrator review revision (D-P2) | evidence/T002-log-attribution-tool.txt | (this merge) |
+| T003 | ☑ (`fps:engine --scenario load --frames trace-only\|recorder`, recorder marked non-gated; `perf:startup --engage none`; existing fps tests unmodified) | 1 (Flash) | evidence/T003-log-load-harness.txt | ff9bc72 |
+| T004 | ☑ (`eager:probe`; `eager-verdict --rule s11.7`, default output golden = S11.6 byte-for-byte; `perf:parity --no-engage`) — local: project reduce 0/2 (RFC F4 confirmed pre-baseline) | 1 (Flash) | evidence/T004-log-probe-verdict-tools.txt | aa59034 |
+| T005 | ☑ (`perf:host`: local 4,354 ANGLE Metal / SwiftShader variant; `eager-load.yml` 3 shards) + orchestrator fix D-P1 | 1 (Flash) + orchestrator (D-P1) | evidence/T005-log-host-workflow.txt | (this merge) |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
@@ -75,7 +75,8 @@
 
 ## Stage-3 amendments (orchestrator)
 
-_None yet._
+- **D-P1 (review finding, T005):** the workflow called `pnpm eager-verdict`, which is not a root script. It now calls `node tools/perf/src/cli/eager-verdict.ts` as `eager-3d.yml` does, and passes `--out-dir apps/web/out` to `perf:attribution` (D-P2). Verified locally on a workflow-shaped directory: the default and `--rule s11.7` outputs parse correctly, and S11.6's run-2 summaries yield AC3 FAIL.
+- **D-P2 (review finding, T002):** minified frames (`(anonymous)`) cannot meet AC1's "named by function". `perf:attribution --out-dir` now records, for each hot frame, its callFrame line:column, a 120-character snippet from the served chunk, and its parent/grandparent frames. URL-less Lighthouse long tasks are matched to URL-less `RunTask`s (±25 %, chronological), with a `loose` ±50 % fallback. The AC1 log resolves each snippet to its source function by hand (Turbopack production chunks carry no module paths or source maps).
 
 ---
 
