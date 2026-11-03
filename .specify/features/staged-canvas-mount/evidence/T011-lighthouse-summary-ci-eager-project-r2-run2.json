@@ -1,0 +1,277 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.87,
+      "accessibility": null,
+      "lcpMs": 916.6194,
+      "cls": 0,
+      "tbtMs": 500.6548499999999,
+      "fcpMs": 916.6194,
+      "siMs": 1227.9174839902846,
+      "totalByteWeight": 471393,
+      "benchmarkIndex": 2214.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4010.9291,
+          "durMs": 208.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2177.6194000000005,
+          "durMs": 154
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3324.9291,
+          "durMs": 147
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4218.9291,
+          "durMs": 126
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3820.9291,
+          "durMs": 83
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 994.3097,
+          "durMs": 78
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 864.3097,
+          "durMs": 70
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 758.3097,
+          "durMs": 61
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3949.9291,
+          "durMs": 61
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2331.6194000000005,
+          "durMs": 60.999999999999545
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3760.9291,
+          "durMs": 60
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 934.3097,
+          "durMs": 60
+        }
+      ]
+    },
+    {
+      "performance": 0.85,
+      "accessibility": null,
+      "lcpMs": 908.0733,
+      "cls": 0,
+      "tbtMs": 575.518325,
+      "fcpMs": 908.0733,
+      "siMs": 1317.70903389061,
+      "totalByteWeight": 471393,
+      "benchmarkIndex": 2161,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3381.10995,
+          "durMs": 202
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4090.10995,
+          "durMs": 179
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2233.0733,
+          "durMs": 153
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4269.10995,
+          "durMs": 118
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 1056.03665,
+          "durMs": 100
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3811.10995,
+          "durMs": 82
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 974.03665,
+          "durMs": 82
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3893.10995,
+          "durMs": 79
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 754.03665,
+          "durMs": 72
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 880.03665,
+          "durMs": 67
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 4026.10995,
+          "durMs": 64
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2386.0733,
+          "durMs": 61
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3972.10995,
+          "durMs": 54
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 826.03665,
+          "durMs": 53
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4387.10995,
+          "durMs": 53
+        }
+      ]
+    },
+    {
+      "performance": 0.87,
+      "accessibility": null,
+      "lcpMs": 913.6225999999999,
+      "cls": 0,
+      "tbtMs": 494.99999999999955,
+      "fcpMs": 913.6225999999999,
+      "siMs": 1284.5721662179174,
+      "totalByteWeight": 471393,
+      "benchmarkIndex": 2135,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4003.433899999999,
+          "durMs": 211
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3306.433899999999,
+          "durMs": 148
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2168.6225999999997,
+          "durMs": 144
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4214.433899999999,
+          "durMs": 130
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3806.433899999999,
+          "durMs": 79
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3932.433899999999,
+          "durMs": 71
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 1002.8112999999998,
+          "durMs": 71
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3741.433899999999,
+          "durMs": 65
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 856.8113,
+          "durMs": 61.999999999999886
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2312.6225999999997,
+          "durMs": 58.999999999999545
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 945.8112999999998,
+          "durMs": 57
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 756.8113,
+          "durMs": 55
+        }
+      ]
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.87,
+      "scope": "median",
+      "pass": false
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 913.6225999999999,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": false
+}

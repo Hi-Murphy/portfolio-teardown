@@ -1,0 +1,37 @@
+T011 CI run record (orchestrator, 2026-11-03)
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/18 (draft)
+eager-3d run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668830 (attempt 1 = run 1, attempt 2 = run 2)
+{"attempt":2,"conclusion":"success","headSha":"515d58731bac8c05b64531ebfc8441f93c4fb798","url":"https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668830"}
+
+Exit codes run 1:
+gated-home-r1 exit=0
+gated-home-r2 exit=0
+gated-project-r1 exit=0
+gated-project-r2 exit=0
+eager-home-r1 exit=0
+eager-home-r2 exit=0
+eager-project-r1 exit=0
+eager-project-r2 exit=0
+Exit codes run 2:
+gated-home-r1 exit=0
+gated-home-r2 exit=0
+gated-project-r1 exit=0
+gated-project-r2 exit=0
+eager-home-r1 exit=0
+eager-home-r2 exit=0
+eager-project-r1 exit=6
+eager-project-r2 exit=6
+
+PR checks at head 515d587:
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/3Cg6sBeDEy32wAABPZ9AzvVvSLzP	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	2m10s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668969/job/125922858537	
+a11y: axe (production routes)	pass	2m40s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668969/job/125922858222	
+build (typecheck, lint, test, build)	pass	1m38s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668877/job/125922858083	
+perf-gate: lighthouse (mobile)	pass	1m26s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668969/job/125922858632	
+perf-gate: weight (< 3 MB)	pass	1m49s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668969/job/125922858444	
+perf: eager-3d (measurement)	pass	4m55s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668830/job/125925041009	
+perf: fixture exclusion	pass	21s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668969/job/125922858474	
+perf: fps calibration	pass	1m21s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668969/job/125922858465	
+secrets (gitleaks)	pass	8s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668877/job/125922858460	
+seo: meta + og	pass	1m3s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41637668877/job/125922858398	

@@ -363,4 +363,9 @@ Names follow the brief's list. Expected effects are **estimates** from the T010 
    - AC2's dropped-frame half is recorded as escalated and blocked by the harness rAF recorder + three's constructor; the long-task half is met.
    - AC3's byte clause is recorded as missed by +289 B raw / +136 B gzip (lazy/total) and +2 B gzip (project initial). The levers are kept, and there is no offset task.
    - G3 starts: push + draft PR approved (Q15).
+8. **Stage 3 G3 (2026-11-03): eager re-run done, at the G3 STOP.**
+   - Draft PR #18, `eager-3d` run 41637668830, attempts 1 and 2.
+   - Run 1 (fast runner) passes. Run 2 (slow runner, the same host class as S11.5 T017) fails: project 0.87 / 506 ms.
+   - **AC5 verdict: keep the gate** (`evidence/T011-log-eager-verdict.md`).
+   - The slow-runner eager TBT is dominated by ≈ 200 ms react-dom tasks on the load path, which this slice's engagement-path levers do not address. Recorded as a follow-up item.
 
