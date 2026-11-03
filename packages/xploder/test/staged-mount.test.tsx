@@ -271,4 +271,12 @@ describe('staged renderer', () => {
     expect(source).toContain('createStagedRendererFactory(');
     expect(source).toContain('gl={stagedGl}');
   });
+
+  test('TeardownViewer schedules frame-driven state updates through a transition', () => {
+    expect(source).toContain('startTransition(() => setScrollExtentPx(extent));');
+    expect(source).toMatch(/startTransition\(\(\) => setPhase\(phase\)\);/);
+    expect(source.indexOf('wrapperRef.current.dataset.xploderState = phase')).toBeLessThan(
+      source.indexOf('startTransition(() => setPhase(phase));'),
+    );
+  });
 });
