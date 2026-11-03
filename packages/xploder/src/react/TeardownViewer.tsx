@@ -88,6 +88,7 @@ function nextTask(): Promise<void> {
 
 function idleSlice(): Promise<void> {
   const scheduler = (window as SchedulingWindow).scheduler;
+  // scheduler.yield first: the continuous rAF loop starves requestIdleCallback in startup runs.
   if (typeof scheduler?.yield === 'function') return scheduler.yield();
   const idle = (window as SchedulingWindow).requestIdleCallback;
   return typeof idle === 'function'
@@ -102,6 +103,32 @@ export async function createStagedRenderer(
 ): Promise<WebGLRenderer> {
   await idleSlice();
   return new WebGLRenderer({ ...defaults, antialias: true, alpha: true });
+}
+
+type StagedRendererLifecycle = StagedRendererFactory & {
+  setMounted: (mounted: boolean) => void;
+};
+
+export function createStagedRendererFactory(onSettled: () => void): StagedRendererLifecycle {
+  let mounted = false;
+  const factory: StagedRendererFactory = async (defaults) => {
+    const renderer = await createStagedRenderer(defaults);
+
+    // Let the factory settle and R3F fulfill root.ready before the default-lane re-render.
+    void Promise.resolve().then(() =>
+      Promise.resolve().then(() => {
+        if (mounted) onSettled();
+      }),
+    );
+
+    return renderer;
+  };
+
+  return Object.assign(factory, {
+    setMounted(value: boolean) {
+      mounted = value;
+    },
+  });
 }
 
 export interface TeardownViewerProps {
@@ -185,6 +212,10 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
+  const [, setRenderGeneration] = useState(0);
+  const [stagedGl] = useState(() =>
+    createStagedRendererFactory(() => setRenderGeneration((generation) => generation + 1)),
+  );
   const keysHelpId = useId();
   const publishedExtentRef = useRef(0);
   const adjustedExtentRef = useRef(0);
@@ -217,6 +248,14 @@ export function TeardownViewer({
     () => resolveViewerLayoutOptions(layoutOptions),
     [layoutOptions],
   );
+
+  useEffect(() => {
+    stagedGl.setMounted(true);
+    return () => {
+      stagedGl.setMounted(false);
+    };
+  }, [stagedGl]);
+
   const layout = useMemo(
     () => layoutProject(project, resolvedLayoutOptions),
     [project, resolvedLayoutOptions],
@@ -716,7 +755,7 @@ export function TeardownViewer({
                   orthographic
                   frameloop="demand"
                   dpr={[1, 2]}
-                  gl={createStagedRenderer}
+                  gl={stagedGl}
                   style={CANVAS_STYLE}
                   fallback={webglFallback}
                 >

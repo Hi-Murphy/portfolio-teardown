@@ -4,7 +4,7 @@ import { WebGLRenderer } from 'three';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 import { CanvasBoundary } from '../src/react/a11y/CanvasBoundary';
-import { createStagedRenderer } from '../src/react/TeardownViewer';
+import { createStagedRenderer, createStagedRendererFactory } from '../src/react/TeardownViewer';
 // @ts-expect-error Vitest's Vite loader handles ?raw; the package tsconfig has no vite/client types.
 import source from '../src/react/TeardownViewer.tsx?raw';
 
@@ -175,7 +175,69 @@ describe('staged renderer', () => {
     expect(fallbackRendered).toBe(true);
   });
 
+  test('bumps after the factory promise resolves', async () => {
+    const idleCallbacks: Array<() => void> = [];
+    const events: string[] = [];
+    setWindow({
+      requestIdleCallback: (callback) => {
+        idleCallbacks.push(callback);
+        return 1;
+      },
+    });
+    mocks.renderer.mockImplementationOnce(() => {
+      events.push('renderer');
+    });
+
+    let factoryResolved = false;
+    const factory = createStagedRendererFactory(() =>
+      events.push(factoryResolved ? 'bump-after-resolve' : 'bump-before-resolve'),
+    );
+    factory.setMounted(true);
+    const pending = factory(rendererDefaults());
+    void pending.then(() => {
+      factoryResolved = true;
+    });
+
+    const idle = idleCallbacks[0];
+    if (idle === undefined) throw new Error('idle callback was not scheduled');
+    idle();
+    await pending;
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(events).toEqual(['renderer', 'bump-after-resolve']);
+  });
+
+  test('does not bump after unmount', async () => {
+    const idleCallbacks: Array<() => void> = [];
+    const onSettled = vi.fn();
+    let mounted = true;
+    setWindow({
+      requestIdleCallback: (callback) => {
+        idleCallbacks.push(callback);
+        return 1;
+      },
+    });
+
+    const factory = createStagedRendererFactory(onSettled);
+    factory.setMounted(mounted);
+    const pending = factory(rendererDefaults());
+    mounted = false;
+    factory.setMounted(mounted);
+
+    const idle = idleCallbacks[0];
+    if (idle === undefined) throw new Error('idle callback was not scheduled');
+    idle();
+    await pending;
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(onSettled).not.toHaveBeenCalled();
+  });
+
   test('TeardownViewer passes the staged renderer factory to Canvas', () => {
-    expect(source).toContain('gl={createStagedRenderer}');
+    expect(source).toContain('const [stagedGl] = useState(() =>');
+    expect(source).toContain('createStagedRendererFactory(');
+    expect(source).toContain('gl={stagedGl}');
   });
 });
