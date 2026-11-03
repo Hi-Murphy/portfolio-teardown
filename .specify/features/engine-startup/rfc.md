@@ -300,3 +300,8 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
      - P3 from timed Turbopack module factories, P5 anchored on the connected viewer canvas because xploder's `hasWebgl()` probe creates a detached context first.
      - The `toplevel` trace category was missing from `measureFps` (the long-task check was vacuous).
    - **G1 escalation (Hard Rule 2, evidence `evidence/T006-log-baseline-profile.md` § Interpretation):** AC3's 40 % is very likely unreachable within the frozen-surface rules (estimated ceiling ≈ 7–21 %). L2 has no measurable payoff on this host (P7 = 2–3 ms). The recommended lever order is L4 → L3 (+ staged module evaluation) → app post-first-frame work → L1 (conditional), with L2/L5 skipped. Awaiting Murphy at the G1 STOP.
+4. **G1 decision (Murphy, 2026-11-03): "all defaults. go".**
+   - The new lever order applies: L4 → L3 + staged module evaluation → app post-first-frame work (only if the traces show it) → L1 (conditional).
+   - **L2 and L5 are skipped**, so T007, T008 and T012 are not run. No S4 or S6 file is touched, `approved-xploder-src.txt` stays empty, and AC7's re-seal clause is met with zero touched files.
+   - AC3 closes through its documented-shortfall clause if the final numbers stay under 40 %.
+   - L4 and L3 A/B "before" = the T006 clean runs (the product tree is byte-identical to T006's, same host).

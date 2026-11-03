@@ -45,8 +45,8 @@
 | T004 | ☑ (startup scenario; explode unchanged; fps-engine.test.ts unmodified) | 1 (Flash) ×2: orchestrator review revision (toplevel category missing → vacuous long tasks; guard added) | evidence/T004-log-fps-startup.txt | 9ba7878 |
 | T005 | ☑ (8 shots; same build twice → 0 px on all 8) | 1 (Flash, sandbox off); guards re-run by orchestrator after T001 merge | evidence/T005-log-parity-tool.txt | 17b72e9 |
 | T006 | ☑ (AC1 baseline: cost 317 / 376 / 392 ms home-move / project-move / project-click; max long task 103 / 134 / 141 ms; 2–7 dropped frames; P3 module eval dominant; P7 2–3 ms; KHR_parallel present; ANGLE Metal M4) | 1 (Flash, measurements + tables) + orchestrator (task breakdown + interpretation) | evidence/T006-* | a08f0a5 |
-| T007 | ☐ | | | |
-| T008 | ☐ | | | |
+| T007 | ⊘ skipped (G1 decision: L2 has no measurable payoff on this host, P7 = 2.3–3.0 ms < run spread; T006 evidence) | — | evidence/T006-log-baseline-profile.md | — |
+| T008 | ⊘ skipped (no S6 file touched → no re-seal) | — | — | — |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ (conditional) | | | |
