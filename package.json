@@ -17,6 +17,7 @@
     "evidence": "node tools/perf/src/cli/evidence.ts",
     "perf:lighthouse": "node tools/perf/src/cli/lighthouse-gate.ts",
     "perf:weight": "node tools/perf/src/cli/weight-gate.ts",
+    "perf:parity": "node tools/perf/src/cli/parity.ts",
     "fps": "node tools/perf/src/cli/fps.ts",
     "fps:calibrate": "node tools/perf/src/cli/fps-calibrate.ts",
     "engine:probe": "node tools/perf/src/cli/engine-probe.ts",
