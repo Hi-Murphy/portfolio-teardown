@@ -53,8 +53,8 @@
 | T012 | ⊘ skipped (G1 decision) | — | — | — |
 | T013 | ☑ (cost −13.4 % project move / −13.4 % click / −1.5 % home protocol pair, −10.3 % home extra pair; AC3 < 40 % → shortfall clause with ceiling; AC5 dominant = L3, LOO −29…−31 ms cost / −55 ms max long task on project paths) | 1 (Flash, measurements + tables); orchestrator home noise pair | evidence/T013-log-before-after.md | 806fe37 |
 | T014 | ☑ AC2 FAIL all paths (one 56–71 ms Canvas-mount task, 1–7 dropped frames) → escalated; AC4 PASS (parity 0 px ×8, draws 2, CLS 0, bytes ≤ T006 raw + gzip) | 1 (Flash); orchestrator gzip-method correction | evidence/T014-log-ac2.md, T014-log-bundle-diff.txt | de7a417 |
-| T015 | ☐ | | | |
-| T016 | ☐ | | | |
+| T015 | ☑ (flag off: initial chunks byte-identical to T014, 0 B; eager: no-touch 3D ready ≈ 190 ms on both routes; default stays gated) | 1 (Flash) ×2: orchestrator-review revision (inline process.env left a runtime lookup → compiler.define bare constant) | evidence/T015-log-flag.txt | e42dc30 |
+| T016 | ☑ LOCAL: eager perf 1.00 / TBT 2–3 ms / CLS 0 on both routes (3D load captured: +238 / +279 KB) → local verdict "recommend retiring D-19" | 1 (Flash); orchestrator capture check | evidence/T016-log-eager-local.md | 9ac9bbc |
 | T017 | ☐ | | | |
 | T018 | ☐ | | | |
 
