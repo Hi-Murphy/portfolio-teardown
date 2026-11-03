@@ -66,7 +66,7 @@
 | T008 | ⊘ skipped (G1 decision; T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) | — | evidence/T004-log-rebaseline.md §7 | — |
 | T008b | ☑ kept: vs T006 −477 B raw / −175 B gz total, behaviour within spread (long tasks 0, parity 0 px, AC4 sequence holds); residual vs T004: lazy/total +289 raw / +136 gz, project initial gz +2 (chunk-hash names) | 1 (Flash) | evidence/T008b-log-bytes.md | (this merge) |
 | T009 | ☑ final (L1 + L4 + compaction): max long task 0 ms on all paths (T004: 57.7/56.9/54.2); dropped frames 2 / 5.5 / 5.5 (T004: 1 / 6 / 6.5) → **AC2 FAIL** (long-task half met, dropped-frame half not); parity 0 px ×8, draws 2, CLS 0; bytes vs T004: total/lazy +289 raw / +136 gz, project initial gz +2 → **AC3 byte clause FAIL**; AC4 PASS; first content +5.6 / +8.8 / +8.0 ms | 1 (Flash) | evidence/T009-log-before-after.md, T009-log-ac2.md, T009-log-bytes.txt, T009-log-ready-reveal.md | 2324a3a |
-| T010 | ☐ | | | |
+| T010 | ☑ (`runs[].longTasks` from the LHR long-tasks audit, additive; eager-verdict prints the top 5) LOCAL eager: perf 1.00 / TBT 0.75 ms home, 1.00 / 1 ms project, CLS 0 (informational) | 1 (Flash); commit by orchestrator | evidence/T010-log-eager-local.md | (this merge) |
 | T011 | ☐ | | | |
 | T012 | ☐ | | | |
 
