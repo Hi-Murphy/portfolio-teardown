@@ -148,10 +148,14 @@ export function summarizeCpuProfile(
           Math.min(sample.endUs, taskEndUs) - Math.max(sample.startUs, task.startUs);
         if (overlapUs <= 0) continue;
 
-        const chunk = chunkName(sample.node.callFrame.url);
+        const functionName = sample.node.callFrame.functionName.trim();
+        if (functionName === '(idle)') continue;
+
+        const url = sample.node.callFrame.url;
+        const chunk = url.length === 0 ? '(native)' : chunkName(url);
         if (chunk === null) continue;
 
-        const fn = sample.node.callFrame.functionName.trim() || '(anonymous)';
+        const fn = functionName || (chunk === '(native)' ? '(native)' : '(anonymous)');
         addSelfTime(byChunk, chunk, overlapUs);
         const functionKey = `${chunk}\0${fn}`;
         const functionEntry = byFunction.get(functionKey);

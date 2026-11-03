@@ -76,4 +76,63 @@ describe('summarizeCpuProfile', () => {
       { fn: 'chunkB', chunk: 'b.js', selfMs: 10, pct: 50 },
     ]);
   });
+
+  test('attributes url-less samples to native with their own function names', () => {
+    const summary = summarizeCpuProfile(
+      {
+        nodes: [
+          { id: 1, callFrame: { functionName: 'getContext', url: '' } },
+          { id: 2, callFrame: { functionName: '(garbage collector)', url: '' } },
+          { id: 3, callFrame: { functionName: '(program)', url: '' } },
+          { id: 4, callFrame: { functionName: '', url: '' } },
+        ],
+        startTime: 1_000_000,
+        endTime: 1_020_000,
+        samples: [1, 2, 3, 4],
+        timeDeltas: [2000, 4000, 6000, 8000],
+      },
+      [{ startUs: 1_000_000, durUs: 20_000 }],
+      {
+        route: '/projects/example',
+        engage: 'move',
+        run: 1,
+        traceTimeOriginUs: 900_000,
+      },
+    );
+
+    expect(summary.tasks[0]?.byChunk).toEqual([{ chunk: '(native)', selfMs: 20, pct: 100 }]);
+    expect(summary.tasks[0]?.topFunctions).toEqual([
+      { fn: '(native)', chunk: '(native)', selfMs: 8, pct: 40 },
+      { fn: '(program)', chunk: '(native)', selfMs: 6, pct: 30 },
+      { fn: '(garbage collector)', chunk: '(native)', selfMs: 4, pct: 20 },
+      { fn: 'getContext', chunk: '(native)', selfMs: 2, pct: 10 },
+    ]);
+  });
+
+  test('excludes idle samples only', () => {
+    const summary = summarizeCpuProfile(
+      {
+        nodes: [
+          { id: 1, callFrame: { functionName: '(idle)', url: '' } },
+          { id: 2, callFrame: { functionName: 'getContext', url: '' } },
+        ],
+        startTime: 1_000_000,
+        endTime: 1_020_000,
+        samples: [1, 2],
+        timeDeltas: [5000, 15_000],
+      },
+      [{ startUs: 1_000_000, durUs: 20_000 }],
+      {
+        route: '/projects/example',
+        engage: 'move',
+        run: 1,
+        traceTimeOriginUs: 900_000,
+      },
+    );
+
+    expect(summary.tasks[0]?.byChunk).toEqual([{ chunk: '(native)', selfMs: 15, pct: 75 }]);
+    expect(summary.tasks[0]?.topFunctions).toEqual([
+      { fn: 'getContext', chunk: '(native)', selfMs: 15, pct: 75 },
+    ]);
+  });
 });
