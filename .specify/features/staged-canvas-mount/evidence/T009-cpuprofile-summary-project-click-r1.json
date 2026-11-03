@@ -1,0 +1,608 @@
+{
+  "route": "/projects/websocket-inspector",
+  "engage": "click",
+  "run": 1,
+  "tasks": [
+    {
+      "start": 2246.622,
+      "dur": 121.116,
+      "byChunk": [
+        {
+          "chunk": "(native)",
+          "selfMs": 121.045,
+          "pct": 99.94137851316094
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "selfMs": 121.045,
+          "pct": 99.94137851316094
+        }
+      ]
+    },
+    {
+      "start": 2408.069,
+      "dur": 20.526,
+      "byChunk": [
+        {
+          "chunk": "(native)",
+          "selfMs": 20.211,
+          "pct": 98.46536100555393
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "selfMs": 20.164,
+          "pct": 98.23638312384293
+        },
+        {
+          "fn": "requestAnimationFrame",
+          "chunk": "(native)",
+          "selfMs": 0.047,
+          "pct": 0.2289778817110007
+        }
+      ]
+    },
+    {
+      "start": 2445.396,
+      "dur": 28.18,
+      "byChunk": [
+        {
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "selfMs": 20.618,
+          "pct": 73.1653655074521
+        },
+        {
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 4.958,
+          "pct": 17.59403832505323
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 2.321,
+          "pct": 8.236337828246985
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "I",
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "selfMs": 20.065,
+          "pct": 71.20298083747339
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 2.785,
+          "pct": 9.88289567068843
+        },
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "selfMs": 2.321,
+          "pct": 8.236337828246985
+        },
+        {
+          "fn": "w",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 0.928,
+          "pct": 3.2931156848828955
+        },
+        {
+          "fn": "b",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 0.53,
+          "pct": 1.8807665010645847
+        },
+        {
+          "fn": "d",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 0.457,
+          "pct": 1.6217175301632363
+        },
+        {
+          "fn": "m",
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "selfMs": 0.427,
+          "pct": 1.5152590489709012
+        },
+        {
+          "fn": "g",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 0.14,
+          "pct": 0.49680624556423
+        }
+      ]
+    },
+    {
+      "start": 2506.076,
+      "dur": 36.616,
+      "byChunk": [
+        {
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 19.523,
+          "pct": 53.31822154249508
+        },
+        {
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "selfMs": 15.335,
+          "pct": 41.880598645400916
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 0.758,
+          "pct": 2.0701332750710075
+        },
+        {
+          "chunk": "26_4n5uwbtczc.js",
+          "selfMs": 0.498,
+          "pct": 1.3600611754424297
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "I",
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "selfMs": 15.247,
+          "pct": 41.640266550142016
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 7.197,
+          "pct": 19.655341927026438
+        },
+        {
+          "fn": "s",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 3.311,
+          "pct": 9.042495084116235
+        },
+        {
+          "fn": "e._zod.parse",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 1.925,
+          "pct": 5.2572645837885075
+        },
+        {
+          "fn": "compile",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 1.739,
+          "pct": 4.749289927900372
+        },
+        {
+          "fn": "eq",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 1.362,
+          "pct": 3.7196853834389336
+        },
+        {
+          "fn": "e._zod.check",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 1.179,
+          "pct": 3.219903867161896
+        },
+        {
+          "fn": "eM",
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 1.099,
+          "pct": 3.0014201441992574
+        }
+      ]
+    },
+    {
+      "start": 2565.858,
+      "dur": 20.319,
+      "byChunk": [
+        {
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 10.587,
+          "pct": 52.10394212313598
+        },
+        {
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 3.104,
+          "pct": 15.27634233968207
+        },
+        {
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 3.023,
+          "pct": 14.87770067424578
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 2.49,
+          "pct": 12.254540085634137
+        },
+        {
+          "chunk": "1jr83020c6cbx.js",
+          "selfMs": 0.799,
+          "pct": 3.932280131896255
+        },
+        {
+          "chunk": "1y81jgf1iz4ib.js",
+          "selfMs": 0.316,
+          "pct": 1.555194645405778
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "ax",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 2.484,
+          "pct": 12.225011073379594
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 2.26,
+          "pct": 11.122594615876766
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 1.76,
+          "pct": 8.661843594665092
+        },
+        {
+          "fn": "setAttribute",
+          "chunk": "(native)",
+          "selfMs": 1.759,
+          "pct": 8.656922092622668
+        },
+        {
+          "fn": "e",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.721,
+          "pct": 8.469905015010582
+        },
+        {
+          "fn": "iE",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 1.275,
+          "pct": 6.274915104089768
+        },
+        {
+          "fn": "l",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 0.988,
+          "pct": 4.862444017914267
+        },
+        {
+          "fn": "y",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 0.951,
+          "pct": 4.680348442344603
+        }
+      ]
+    },
+    {
+      "start": 2652.618,
+      "dur": 18.679,
+      "byChunk": [
+        {
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 15.743,
+          "pct": 84.28181380159538
+        },
+        {
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 2.073,
+          "pct": 11.098024519513892
+        },
+        {
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 0.715,
+          "pct": 3.8278280421864124
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 0.148,
+          "pct": 0.7923336367043204
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "tr",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 5.704,
+          "pct": 30.536966647036778
+        },
+        {
+          "fn": "i",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 3.993,
+          "pct": 21.376947374056428
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 3.349,
+          "pct": 17.929225333261954
+        },
+        {
+          "fn": "ti",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 2.514,
+          "pct": 13.458964612666632
+        },
+        {
+          "fn": "nq",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 2.073,
+          "pct": 11.098024519513892
+        },
+        {
+          "fn": "uC",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 0.669,
+          "pct": 3.581562182129664
+        },
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "selfMs": 0.148,
+          "pct": 0.7923336367043204
+        },
+        {
+          "fn": "copy",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 0.122,
+          "pct": 0.6531398897157236
+        }
+      ]
+    },
+    {
+      "start": 2682.824,
+      "dur": 34.561,
+      "byChunk": [
+        {
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 17.656,
+          "pct": 51.0864847660658
+        },
+        {
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 7.266,
+          "pct": 21.0236972309829
+        },
+        {
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 6.061,
+          "pct": 17.537108301264432
+        },
+        {
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 2.596,
+          "pct": 7.511356731576053
+        },
+        {
+          "chunk": "1jr83020c6cbx.js",
+          "selfMs": 0.602,
+          "pct": 1.741847747461011
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 0.38,
+          "pct": 1.0995052226498077
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "(anonymous)",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 5.097,
+          "pct": 14.747837157489657
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 4.106,
+          "pct": 11.880443274210815
+        },
+        {
+          "fn": "e7",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.568,
+          "pct": 4.53690576082868
+        },
+        {
+          "fn": "li",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.412,
+          "pct": 4.085529932582969
+        },
+        {
+          "fn": "uf",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 1.32,
+          "pct": 3.819333931309858
+        },
+        {
+          "fn": "U",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.239,
+          "pct": 3.584965712797662
+        },
+        {
+          "fn": "nO",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.158,
+          "pct": 3.3505974942854664
+        },
+        {
+          "fn": "ev",
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.097,
+          "pct": 3.1740979717022078
+        }
+      ]
+    },
+    {
+      "start": 2717.393,
+      "dur": 35.912,
+      "byChunk": [
+        {
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 20.093,
+          "pct": 55.95065716195143
+        },
+        {
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 10.519,
+          "pct": 29.291044776119403
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 3.723,
+          "pct": 10.36700824237024
+        },
+        {
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.297,
+          "pct": 3.6116061483626645
+        },
+        {
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 0.28,
+          "pct": 0.7796836711962576
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 6.957,
+          "pct": 19.37235464468701
+        },
+        {
+          "fn": "R",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 3.99,
+          "pct": 11.11049231454667
+        },
+        {
+          "fn": "render",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 2.77,
+          "pct": 7.713299175762976
+        },
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "selfMs": 2.062,
+          "pct": 5.741813321452439
+        },
+        {
+          "fn": "tx",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 1.448,
+          "pct": 4.032078413900646
+        },
+        {
+          "fn": "RegExp: ^[ \\t]*#include +<([\\w\\d./]+)>",
+          "chunk": "(native)",
+          "selfMs": 1.412,
+          "pct": 3.931833370461127
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vnmkhfgdnq2d.js",
+          "selfMs": 1.388,
+          "pct": 3.865003341501448
+        },
+        {
+          "fn": "eT",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 1.12,
+          "pct": 3.1187346847850304
+        }
+      ]
+    },
+    {
+      "start": 2755.027,
+      "dur": 41.246,
+      "byChunk": [
+        {
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 29.738,
+          "pct": 72.09911264122582
+        },
+        {
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 5.732,
+          "pct": 13.897105173835039
+        },
+        {
+          "chunk": "(native)",
+          "selfMs": 4.211,
+          "pct": 10.209474858168065
+        },
+        {
+          "chunk": "1d5kkip1hlg-o.js",
+          "selfMs": 1.512,
+          "pct": 3.665810017941134
+        },
+        {
+          "chunk": "1jr83020c6cbx.js",
+          "selfMs": 0.053,
+          "pct": 0.12849730882994714
+        }
+      ],
+      "topFunctions": [
+        {
+          "fn": "G",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 10.346,
+          "pct": 25.083644474615717
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 5.83,
+          "pct": 14.134703971294185
+        },
+        {
+          "fn": "O",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 3.281,
+          "pct": 7.954710759831256
+        },
+        {
+          "fn": "N",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 2.994,
+          "pct": 7.2588857101294675
+        },
+        {
+          "fn": "Y",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 2.807,
+          "pct": 6.805508412937013
+        },
+        {
+          "fn": "(garbage collector)",
+          "chunk": "(native)",
+          "selfMs": 2.799,
+          "pct": 6.7861125927362655
+        },
+        {
+          "fn": "q",
+          "chunk": "3vwpvuyn90046.js",
+          "selfMs": 1.617,
+          "pct": 3.9203801580759348
+        },
+        {
+          "fn": "tN",
+          "chunk": "1kgrt2f4mrm63.js",
+          "selfMs": 1.612,
+          "pct": 3.9082577704504677
+        }
+      ]
+    }
+  ]
+}
