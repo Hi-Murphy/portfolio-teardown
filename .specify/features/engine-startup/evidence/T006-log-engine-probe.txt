@@ -1,0 +1,25 @@
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4321/ --scope s4 --out /tmp/s115-checks/t006-engine-probe-s4
+PASS fixture-a-instances: expected {"layers":4,"components":8} actual {"layers":4,"components":8}
+PASS fixture-a-draw-calls: expected 2 actual 2
+PASS fixture-b-instances: expected {"layers":4,"components":5} actual {"layers":4,"components":5}
+PASS fixture-b-draw-calls: expected 2 actual 2
+PASS fixture-c-instances: expected {"layers":5,"components":13} actual {"layers":5,"components":13}
+PASS fixture-c-draw-calls: expected 2 actual 2
+PASS camera-default-azimuth: expected 45 actual 45
+PASS camera-after-button-right: expected 135 actual 135
+PASS camera-after-arrow-right: expected 225 actual 225
+PASS camera-zoom-after-20-in: expected 3 actual 3
+PASS camera-zoom-after-20-out: expected 1 actual 1
+PASS camera-zoom-after-reset: expected 1 actual 1
+PASS camera-zoom-out-disabled-at-default: expected true actual true
+PASS camera-zoom-reset-disabled-at-default: expected true actual true
+PASS camera-zoom-in-disabled-at-max: expected true actual true
+PASS motion-explode-phases: expected ["exploding","exploded"] actual ["exploding","exploded"]
+PASS motion-implode-phases: expected ["imploding","imploded"] actual ["imploding","imploded"]
+PASS reduced-motion-initial-state: expected "exploded" actual "exploded"
+PASS reduced-motion-toggle-phases: expected ["imploded"] actual ["imploded"]
+PASS reduced-motion-toggle-frames: expected "<= 2" actual 2
+PASS reduced-motion-toggle-back-phases: expected ["exploded"] actual ["exploded"]
+PASS reduced-motion-toggle-back-frames: expected "<= 2" actual 2
+pass: true
+engine-probe.json: /tmp/s115-checks/t006-engine-probe-s4/engine-probe.json

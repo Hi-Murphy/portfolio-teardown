@@ -1,0 +1,39 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:54705/",
+  "scenario": "startup",
+  "route": "/",
+  "engage": "move",
+  "cpuThrottle": 4,
+  "fps": 4.268671752336321,
+  "frames": 22,
+  "droppedFrames": 2,
+  "windowMs": 5153.828,
+  "intervalsMs": {
+    "p50": 16.728,
+    "p95": 18.663,
+    "max": 44.151
+  },
+  "rafFps": 58.99941803295138,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 50628,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 89.861,
+      "dur": 60.804,
+      "phase": "other"
+    }
+  ],
+  "maxLongTaskMs": 60.804,
+  "mainThreadTaskCount": 739,
+  "liveness": "not-applicable",
+  "verdict": {
+    "rule": "startup",
+    "droppedFrames0": false,
+    "longTask50": false,
+    "pass": false
+  }
+}
