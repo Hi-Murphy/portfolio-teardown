@@ -1,0 +1,168 @@
+{
+  "traceEvents": [
+    {
+      "cat": "__metadata",
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 100,
+      "tid": 1,
+      "ts": 1900000,
+      "args": {
+        "name": "CrRendererMain"
+      }
+    },
+    {
+      "cat": "disabled-by-default-devtools.timeline",
+      "name": "TracingStartedInBrowser",
+      "ph": "I",
+      "pid": 100,
+      "tid": 1,
+      "ts": 1900000,
+      "args": {
+        "data": {
+          "frames": [
+            {
+              "processId": 100,
+              "isMainFrame": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cat": "toplevel",
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 100,
+      "tid": 1,
+      "ts": 2000000,
+      "dur": 50000,
+      "args": {
+        "data": {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/main.js"
+        }
+      }
+    },
+    {
+      "cat": "toplevel",
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 100,
+      "tid": 1,
+      "ts": 2100000,
+      "dur": 30000,
+      "args": {
+        "data": {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/viewer.js"
+        }
+      }
+    },
+    {
+      "cat": "toplevel",
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 100,
+      "tid": 1,
+      "ts": 2200000,
+      "dur": 20000,
+      "args": {
+        "data": {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/other.js"
+        }
+      }
+    },
+    {
+      "cat": "toplevel",
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 200,
+      "tid": 2,
+      "ts": 2300000,
+      "dur": 100000,
+      "args": {
+        "data": {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/worker.js"
+        }
+      }
+    },
+    {
+      "cat": "disabled-by-default-v8.cpu_profiler",
+      "name": "Profile",
+      "ph": "P",
+      "id": "0x1",
+      "pid": 100,
+      "tid": 1,
+      "ts": 1990000,
+      "args": {
+        "data": {
+          "startTime": 1990000,
+          "cpuProfile": {
+            "nodes": [],
+            "samples": [],
+            "timeDeltas": []
+          }
+        }
+      }
+    },
+    {
+      "cat": "disabled-by-default-v8.cpu_profiler",
+      "name": "ProfileChunk",
+      "ph": "P",
+      "id": "0x1",
+      "pid": 100,
+      "tid": 3,
+      "ts": 1990000,
+      "args": {
+        "data": {
+          "cpuProfile": {
+            "nodes": [
+              {
+                "id": 1,
+                "callFrame": {
+                  "functionName": "(root)"
+                }
+              },
+              {
+                "id": 2,
+                "callFrame": {
+                  "functionName": "(idle)",
+                  "url": ""
+                }
+              },
+              {
+                "id": 3,
+                "callFrame": {
+                  "functionName": "performWorkOnRoot",
+                  "url": "http://127.0.0.1:4321/_next/static/chunks/main.js"
+                }
+              },
+              {
+                "id": 4,
+                "callFrame": {
+                  "functionName": "renderMain",
+                  "url": "http://127.0.0.1:4321/_next/static/chunks/main.js"
+                }
+              },
+              {
+                "id": 5,
+                "callFrame": {
+                  "functionName": "hasWebgl",
+                  "url": "http://127.0.0.1:4321/_next/static/chunks/viewer.js"
+                }
+              },
+              {
+                "id": 6,
+                "callFrame": {
+                  "functionName": "moduleEval",
+                  "url": "http://127.0.0.1:4321/_next/static/chunks/viewer.js"
+                }
+              }
+            ],
+            "samples": [2, 3, 4, 2, 5, 6]
+          },
+          "timeDeltas": [10000, 30000, 20000, 50000, 15000, 15000]
+        }
+      }
+    }
+  ]
+}

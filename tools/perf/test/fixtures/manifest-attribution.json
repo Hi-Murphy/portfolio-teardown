@@ -1,0 +1,29 @@
+{
+  "kind": "bundle-manifest",
+  "version": 1,
+  "files": [
+    {
+      "path": "_next/static/chunks/main.js",
+      "bytes": 1200,
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "path": "_next/static/chunks/other.js",
+      "bytes": 300,
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "path": "_next/static/chunks/viewer.js",
+      "bytes": 800,
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+    }
+  ],
+  "routes": [
+    {
+      "route": "/projects/websocket-inspector",
+      "html": "projects/websocket-inspector.html",
+      "scripts": ["/_next/static/chunks/main.js"]
+    }
+  ],
+  "totalJsBytes": 2300
+}
