@@ -1,0 +1,117 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 908.1728,
+      "cls": 0,
+      "tbtMs": 89,
+      "fcpMs": 908.1728,
+      "siMs": 908.1728,
+      "totalByteWeight": 191440,
+      "benchmarkIndex": 2260.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2108.1728,
+          "durMs": 139
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 754.0864,
+          "durMs": 69
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 823.0864,
+          "durMs": 53
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 906.2105999999999,
+      "cls": 0,
+      "tbtMs": 85,
+      "fcpMs": 906.2105999999999,
+      "siMs": 906.2105999999999,
+      "totalByteWeight": 191440,
+      "benchmarkIndex": 2321,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2106.2106,
+          "durMs": 135
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 754.1052999999999,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 905.4347,
+      "cls": 0,
+      "tbtMs": 86,
+      "fcpMs": 905.4347,
+      "siMs": 905.4347,
+      "totalByteWeight": 191440,
+      "benchmarkIndex": 2301,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2105.4347,
+          "durMs": 136
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 753.71735,
+          "durMs": 68
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 906.2105999999999,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

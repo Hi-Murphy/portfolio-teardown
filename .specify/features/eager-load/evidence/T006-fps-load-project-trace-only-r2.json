@@ -1,0 +1,95 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "scenario": "load",
+  "route": "/projects/websocket-inspector",
+  "frames": "trace-only",
+  "cpuThrottle": 4,
+  "loadMs": 532.4000000000233,
+  "fps": 4.6,
+  "frameCount": 23,
+  "droppedFrames": 13,
+  "windowMs": 5000,
+  "intervalsMs": {
+    "p50": 16.701,
+    "p95": 394.985,
+    "max": 722.72
+  },
+  "rafFps": 0,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 10851,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 310.455,
+      "dur": 70.494
+    },
+    {
+      "start": 400.809,
+      "dur": 84.999
+    },
+    {
+      "start": 507.769,
+      "dur": 116.758
+    },
+    {
+      "start": 699.604,
+      "dur": 53.858
+    },
+    {
+      "start": 917.37,
+      "dur": 76.509
+    },
+    {
+      "start": 997.681,
+      "dur": 99.694
+    },
+    {
+      "start": 1097.383,
+      "dur": 97.085
+    },
+    {
+      "start": 1196.811,
+      "dur": 115.392
+    }
+  ],
+  "maxLongTaskMs": 116.758,
+  "preLoadTasks": [
+    {
+      "start": -489.072,
+      "dur": 81.278
+    },
+    {
+      "start": -304.044,
+      "dur": 74.093
+    },
+    {
+      "start": -204.943,
+      "dur": 189.724
+    }
+  ],
+  "droppedFrameTimes": [
+    1088.399,
+    1105.065,
+    1121.731,
+    1138.397,
+    1155.063,
+    1171.729,
+    1188.395,
+    1205.061,
+    1221.727,
+    1238.393,
+    1255.059,
+    1271.725,
+    1288.391
+  ],
+  "mounted": true,
+  "readyMs": 1624.9000000000233,
+  "verdict": {
+    "longTask50": false,
+    "droppedFramesLe2": false,
+    "gated": true
+  }
+}

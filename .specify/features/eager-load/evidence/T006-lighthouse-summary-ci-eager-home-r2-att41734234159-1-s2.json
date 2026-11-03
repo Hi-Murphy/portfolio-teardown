@@ -1,0 +1,132 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "finalUrl": "http://127.0.0.1:PORT/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 904.1049,
+      "cls": 0,
+      "tbtMs": 66.49999999999977,
+      "fcpMs": 904.1049,
+      "siMs": 1027.1843746367615,
+      "totalByteWeight": 436182,
+      "benchmarkIndex": 3813,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2104.1049,
+          "durMs": 88
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3525.26225,
+          "durMs": 84
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4060.26225,
+          "durMs": 72.99999999999955
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 905.4024,
+      "cls": 0,
+      "tbtMs": 78.49999999999977,
+      "fcpMs": 905.4024,
+      "siMs": 1214.2941458227476,
+      "totalByteWeight": 436182,
+      "benchmarkIndex": 3792.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2105.4024,
+          "durMs": 97
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3534.506,
+          "durMs": 90
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4063.506,
+          "durMs": 72.99999999999955
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 906.2216000000001,
+      "cls": 0,
+      "tbtMs": 74.5,
+      "fcpMs": 906.2216000000001,
+      "siMs": 1032.1703949466807,
+      "totalByteWeight": 436182,
+      "benchmarkIndex": 3515.5,
+      "longTasks": [
+        {
+          "url": "Unattributable",
+          "startMs": 753.1108,
+          "durMs": 111
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2106.2216,
+          "durMs": 95
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3383.5539999999996,
+          "durMs": 88
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 3915.5539999999996,
+          "durMs": 71
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 905.4024,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
