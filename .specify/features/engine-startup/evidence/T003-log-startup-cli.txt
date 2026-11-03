@@ -129,3 +129,23 @@ delta (off - on): -5.552 ms (-1.461%) — recorded, not gated
 
 The kept attributed trace is gzip-compressed; the CLI normalized the local served origin and
 the path sanitizer removed absolute worktree/home paths and file:// URLs.
+
+== orchestrator re-check on the merged slice branch (after resolving the T003/T004 startup.ts merge) ==
+$ node tools/perf/src/cli/startup-profile.ts --help
+HELP-OK
+cost: 373.0 ms; attributed: 267.4 ms; other: 105.6 ms; blocking: 86.8 ms
+glCounts: createProgram=1 linkProgram=1
+startup: /tmp/s115-checks/t003r-attr/startup-project-move-attributed-r1.json
+summary: /tmp/s115-checks/t003r-attr/summary.json (mainThreadCostMs=373.0, spreadFlagged=false)
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s115-checks/t003r-hero/startup-home-move-clean-r1.json
+summary: /tmp/s115-checks/t003r-hero/summary.json (mainThreadCostMs=307.7, spreadFlagged=false)
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s115-checks/t003r-click/startup-project-click-clean-r1.json
+summary: /tmp/s115-checks/t003r-click/summary.json (mainThreadCostMs=406.7, spreadFlagged=false)
+FROZEN-OK BRIEF-HISTORY-OK XPLODER-SRC-OK SURFACE-S2-OK SURFACE-S4-OK SURFACE-S5-OK SURFACE-S6-OK SURFACE-S7-OK SURFACE-S8-OK DEV-ROUTES-OK S8-TOOLS-OK CI-JOBS-OK VERSIONS-OK GITLEAKS-OK 
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+$ pnpm -r --if-present test
+T003-RECHECK-OK
