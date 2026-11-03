@@ -4,7 +4,7 @@ import { WebGLRenderer } from 'three';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 import { CanvasBoundary } from '../src/react/a11y/CanvasBoundary';
-import { createStagedRenderer, createStagedRendererFactory } from '../src/react/TeardownViewer';
+import { createStagedRenderer } from '../src/react/TeardownViewer';
 // @ts-expect-error Vitest's Vite loader handles ?raw; the package tsconfig has no vite/client types.
 import source from '../src/react/TeardownViewer.tsx?raw';
 
@@ -22,21 +22,23 @@ vi.mock('three', async (importOriginal) => {
   return { ...actual, WebGLRenderer: MockWebGLRenderer };
 });
 
-type TestWindow = Omit<Window, 'requestIdleCallback'> & {
-  requestIdleCallback?: (callback: () => void) => number;
-  scheduler?: { yield?: () => Promise<void> };
-};
-
-interface FakeMessageChannel {
-  readonly port1: {
-    close: () => void;
-    onmessage: (() => void) | null;
-  };
-  readonly port2: { postMessage: (value: unknown) => void };
-}
+type TestWindow = Window & { scheduler?: { yield?: () => Promise<void> } };
 
 function setWindow(value: Partial<TestWindow>): void {
   Object.defineProperty(globalThis, 'window', { configurable: true, value });
+}
+
+function controlledYields(): Array<() => void> {
+  const yields: Array<() => void> = [];
+  setWindow({
+    scheduler: {
+      yield: () =>
+        new Promise((resolve) => {
+          yields.push(resolve);
+        }),
+    },
+  });
+  return yields;
 }
 
 function rendererDefaults(): Parameters<typeof createStagedRenderer>[0] {
@@ -54,15 +56,14 @@ afterEach(() => {
 
 describe('staged renderer', () => {
   test('constructs the renderer with the R3F defaults and today flags', async () => {
-    setWindow({
-      requestIdleCallback: (callback) => {
-        callback();
-        return 1;
-      },
-    });
-
+    const yields = controlledYields();
     const defaults = rendererDefaults();
-    const renderer = await createStagedRenderer(defaults);
+    const pending = createStagedRenderer(defaults);
+
+    yields.shift()?.();
+    await Promise.resolve();
+    yields.shift()?.();
+    const renderer = await pending;
 
     expect(renderer).toBeInstanceOf(WebGLRenderer);
     expect(mocks.renderer).toHaveBeenCalledTimes(1);
@@ -74,45 +75,28 @@ describe('staged renderer', () => {
     });
   });
 
-  test('waits for the idle callback before constructing the renderer', async () => {
-    const idleCallbacks: Array<() => void> = [];
-    setWindow({
-      requestIdleCallback: (callback) => {
-        idleCallbacks.push(callback);
-        return 1;
-      },
-    });
-
+  test('waits for a task before constructing the renderer', async () => {
+    const yields = controlledYields();
     const pending = createStagedRenderer(rendererDefaults());
-    const idle = idleCallbacks[0];
 
     expect(mocks.renderer).not.toHaveBeenCalled();
-    if (idle === undefined) throw new Error('idle callback was not scheduled');
-
-    idle();
-    await pending;
+    expect(yields).toHaveLength(1);
+    yields.shift()?.();
+    await Promise.resolve();
 
     expect(mocks.renderer).toHaveBeenCalledTimes(1);
+    yields.shift()?.();
+    await pending;
   });
 
   test('stays pending for one more task after construction', async () => {
-    const yields: Array<() => void> = [];
-    setWindow({
-      scheduler: {
-        yield: () =>
-          new Promise((resolve) => {
-            yields.push(resolve);
-          }),
-      },
-    });
-
+    const yields = controlledYields();
     const pending = createStagedRenderer(rendererDefaults());
     let resolved = false;
     void pending.then(() => {
       resolved = true;
     });
 
-    expect(yields).toHaveLength(1);
     yields.shift()?.();
     await Promise.resolve();
 
@@ -126,40 +110,25 @@ describe('staged renderer', () => {
     expect(resolved).toBe(true);
   });
 
-  test('falls back to message tasks when requestIdleCallback is unavailable', async () => {
-    let idleHandler: (() => void) | null = null;
-    const close = vi.fn();
-    const postMessage = vi.fn(() => idleHandler?.());
-    const channel: FakeMessageChannel = {
-      port1: {
-        close,
-        set onmessage(handler: (() => void) | null) {
-          idleHandler = handler;
-        },
-        get onmessage() {
-          return idleHandler;
-        },
-      },
-      port2: { postMessage },
-    };
-
+  test('falls back to timer tasks when scheduler.yield is unavailable', async () => {
+    const timers: Array<() => void> = [];
+    const timerCalls: unknown[][] = [];
+    vi.stubGlobal('setTimeout', (...args: unknown[]) => {
+      timerCalls.push(args);
+      timers.push(args[0] as () => void);
+      return 0;
+    });
     setWindow({});
-    vi.stubGlobal(
-      'MessageChannel',
-      class {
-        readonly port1 = channel.port1;
-        readonly port2 = channel.port2;
-      },
-    );
-
     const pending = createStagedRenderer(rendererDefaults());
 
     expect(mocks.renderer).not.toHaveBeenCalled();
+    timers.shift()?.();
+    await Promise.resolve();
+    expect(mocks.renderer).toHaveBeenCalledTimes(1);
+    timers.shift()?.();
     await pending;
 
-    expect(postMessage).toHaveBeenCalledWith(null);
-    expect(close).toHaveBeenCalledTimes(2);
-    expect(mocks.renderer).toHaveBeenCalledTimes(1);
+    expect(timerCalls.map(([, delay]) => delay)).toEqual([undefined, undefined]);
   });
 
   test('a renderer rejection reaches the CanvasBoundary fallback', async () => {
@@ -169,14 +138,10 @@ describe('staged renderer', () => {
     mocks.renderer.mockImplementationOnce(() => {
       throw failure;
     });
-    setWindow({
-      requestIdleCallback: (callback) => {
-        callback();
-        return 1;
-      },
-    });
+    const yields = controlledYields();
 
     const pending = createStagedRenderer(rendererDefaults());
+    yields.shift()?.();
     await expect(pending).rejects.toBe(failure);
 
     function RendererConsumer({ renderer }: { renderer: Promise<WebGLRenderer> }) {
@@ -206,69 +171,16 @@ describe('staged renderer', () => {
     expect(fallbackRendered).toBe(true);
   });
 
-  test('bumps after the factory promise resolves', async () => {
-    const idleCallbacks: Array<() => void> = [];
-    const events: string[] = [];
-    setWindow({
-      requestIdleCallback: (callback) => {
-        idleCallbacks.push(callback);
-        return 1;
-      },
-    });
-    mocks.renderer.mockImplementationOnce(() => {
-      events.push('renderer');
-    });
-
-    let factoryResolved = false;
-    const factory = createStagedRendererFactory(() =>
-      events.push(factoryResolved ? 'bump-after-resolve' : 'bump-before-resolve'),
+  test('TeardownViewer schedules the re-render after the factory resolves', () => {
+    expect(source).toMatch(/const \[, rerender\] = useReducer\(\(n: number\) => n \+ 1, 0\);/);
+    expect(source).toMatch(
+      /createStagedRenderer\(defaults\)\.then\(\(renderer\) => \{[\s\S]*?rerender\(\);[\s\S]*?return renderer;/,
     );
-    factory.setMounted(true);
-    const pending = factory(rendererDefaults());
-    void pending.then(() => {
-      factoryResolved = true;
-    });
-
-    const idle = idleCallbacks[0];
-    if (idle === undefined) throw new Error('idle callback was not scheduled');
-    idle();
-    await pending;
-    await Promise.resolve();
-    await Promise.resolve();
-
-    expect(events).toEqual(['renderer', 'bump-after-resolve']);
+    expect(source).not.toContain('createStagedRendererFactory');
   });
 
-  test('does not bump after unmount', async () => {
-    const idleCallbacks: Array<() => void> = [];
-    const onSettled = vi.fn();
-    let mounted = true;
-    setWindow({
-      requestIdleCallback: (callback) => {
-        idleCallbacks.push(callback);
-        return 1;
-      },
-    });
-
-    const factory = createStagedRendererFactory(onSettled);
-    factory.setMounted(mounted);
-    const pending = factory(rendererDefaults());
-    mounted = false;
-    factory.setMounted(mounted);
-
-    const idle = idleCallbacks[0];
-    if (idle === undefined) throw new Error('idle callback was not scheduled');
-    idle();
-    await pending;
-    await Promise.resolve();
-    await Promise.resolve();
-
-    expect(onSettled).not.toHaveBeenCalled();
-  });
-
-  test('TeardownViewer passes the staged renderer factory to Canvas', () => {
-    expect(source).toContain('const [stagedGl] = useState(() =>');
-    expect(source).toContain('createStagedRendererFactory(');
+  test('TeardownViewer passes the staged renderer to Canvas', () => {
+    expect(source).toMatch(/const \[stagedGl\] = useState<StagedRendererFactory>\(/);
     expect(source).toContain('gl={stagedGl}');
   });
 });

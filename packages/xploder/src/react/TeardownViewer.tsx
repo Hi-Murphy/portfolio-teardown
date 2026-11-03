@@ -5,6 +5,7 @@ import {
   useId,
   useLayoutEffect,
   useMemo,
+  useReducer,
   useRef,
   useState,
   type CSSProperties,
@@ -68,69 +69,21 @@ type ViewerComponent = ViewerProject['layers'][number]['components'][number] & {
 type StagedRendererFactory = Extract<GLProps, (defaults: never) => Promise<unknown>>;
 type StagedRendererDefaults = Parameters<StagedRendererFactory>[0];
 
-type SchedulingWindow = Window & {
-  requestIdleCallback?: (callback: () => void) => number;
-  scheduler?: { yield?: () => Promise<void> };
-};
+type SchedulingWindow = Window & { scheduler?: { yield?: () => Promise<void> } };
 
 function nextTask(): Promise<void> {
   const scheduler = (window as SchedulingWindow).scheduler;
   if (typeof scheduler?.yield === 'function') return scheduler.yield();
-  return new Promise((resolve) => {
-    const channel = new MessageChannel();
-    channel.port1.onmessage = () => {
-      channel.port1.close();
-      resolve();
-    };
-    channel.port2.postMessage(null);
-  });
-}
-
-function idleSlice(): Promise<void> {
-  const scheduler = (window as SchedulingWindow).scheduler;
-  // scheduler.yield first: the continuous rAF loop starves requestIdleCallback in startup runs.
-  if (typeof scheduler?.yield === 'function') return scheduler.yield();
-  const idle = (window as SchedulingWindow).requestIdleCallback;
-  return typeof idle === 'function'
-    ? new Promise((resolve) => {
-        idle(() => resolve());
-      })
-    : nextTask();
+  return new Promise((resolve) => setTimeout(resolve));
 }
 
 export async function createStagedRenderer(
   defaults: StagedRendererDefaults,
 ): Promise<WebGLRenderer> {
-  await idleSlice();
+  await nextTask();
   const renderer = new WebGLRenderer({ ...defaults, antialias: true, alpha: true });
   await nextTask();
   return renderer;
-}
-
-type StagedRendererLifecycle = StagedRendererFactory & {
-  setMounted: (mounted: boolean) => void;
-};
-
-export function createStagedRendererFactory(onSettled: () => void): StagedRendererLifecycle {
-  let mounted = false;
-  const factory: StagedRendererFactory = async (defaults) => {
-    const renderer = await createStagedRenderer(defaults);
-
-    // Let the factory settle and R3F fulfill root.ready before the default-lane re-render.
-    void Promise.resolve().then(() =>
-      Promise.resolve().then(() => {
-        if (mounted) onSettled();
-      }),
-    );
-
-    return renderer;
-  };
-
-  return Object.assign(factory, {
-    setMounted(value: boolean) {
-      mounted = value;
-    },
-  });
 }
 
 export interface TeardownViewerProps {
@@ -214,9 +167,13 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
-  const [, setRenderGeneration] = useState(0);
-  const [stagedGl] = useState(() =>
-    createStagedRendererFactory(() => setRenderGeneration((generation) => generation + 1)),
+  const [, rerender] = useReducer((n: number) => n + 1, 0);
+  const [stagedGl] = useState<StagedRendererFactory>(
+    () => (defaults: StagedRendererDefaults) =>
+      createStagedRenderer(defaults).then((renderer) => {
+        rerender();
+        return renderer;
+      }),
   );
   const keysHelpId = useId();
   const publishedExtentRef = useRef(0);
@@ -250,13 +207,6 @@ export function TeardownViewer({
     () => resolveViewerLayoutOptions(layoutOptions),
     [layoutOptions],
   );
-
-  useEffect(() => {
-    stagedGl.setMounted(true);
-    return () => {
-      stagedGl.setMounted(false);
-    };
-  }, [stagedGl]);
 
   const layout = useMemo(
     () => layoutProject(project, resolvedLayoutOptions),
