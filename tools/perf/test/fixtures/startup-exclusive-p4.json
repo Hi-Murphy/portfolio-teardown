@@ -91,6 +91,13 @@
     }
   ],
   "spans": [
+    {
+      "name": "moduleEval",
+      "start": 1080,
+      "dur": 30,
+      "src": "https://example.test/_next/static/chunks/exclusive.js",
+      "depth": 0
+    },
     { "name": "getContext", "start": 1250, "dur": 5 },
     { "name": "createProgram", "start": 1260, "dur": 5 },
     { "name": "bufferData", "start": 1270, "dur": 10 },

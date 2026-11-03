@@ -8,7 +8,8 @@ const FRAME_CATEGORY = 'disabled-by-default-devtools.timeline.frame';
 
 const RUN_TASK_NAMES = new Set(['RunTask', 'ThreadControllerImpl::RunTask']);
 const COMPILE_NAMES = new Set(['v8.compile', 'v8.compileModule', 'V8.CompileCode']);
-const EVALUATE_NAMES = new Set(['EvaluateScript', 'v8.evaluateModule', 'FunctionCall']);
+const EVALUATE_SCRIPT_NAMES = new Set(['EvaluateScript', 'v8.evaluateModule']);
+const BACKGROUND_PARSE_NAMES = new Set(['v8.parseOnBackground']);
 const IDLE_NAMES = new Set(['FireIdleCallback', 'RunIdleCallback']);
 const GEOMETRY_NAMES = new Set(['bufferData', 'bufferSubData']);
 const PROGRAM_NAMES = new Set(['createProgram']);
@@ -58,6 +59,15 @@ export interface GlSpan {
   name: string;
   start: number;
   dur: number;
+  connected?: boolean;
+  contextType?: string | null;
+  src?: string | null;
+  depth?: number;
+}
+
+export interface ProbeContexts {
+  count: number;
+  ms: number;
 }
 
 export interface LayoutShiftEntry {
@@ -118,6 +128,7 @@ export interface StartupReport {
     ms: number;
     count: number;
   };
+  probeContexts: ProbeContexts;
 }
 
 interface ResourceRequest {
@@ -381,6 +392,22 @@ function spansNamed(spans: readonly GlSpan[], names: ReadonlySet<string>): GlSpa
     .sort((left, right) => left.start - right.start);
 }
 
+function moduleEvalSpans(spans: readonly GlSpan[], chunkUrls: ReadonlySet<string>): GlSpan[] {
+  return spans
+    .filter(
+      (span) =>
+        span.name === 'moduleEval' &&
+        (span.depth ?? 0) === 0 &&
+        typeof span.src === 'string' &&
+        chunkUrls.has(span.src),
+    )
+    .sort((left, right) => left.start - right.start);
+}
+
+function detachedContextSpans(spans: readonly GlSpan[]): GlSpan[] {
+  return spans.filter((span) => span.name === 'getContext' && span.connected === false);
+}
+
 function firstSyncQueries(programs: readonly GlSpan[], queries: readonly GlSpan[]): GlSpan[] {
   const selected: GlSpan[] = [];
 
@@ -537,6 +564,30 @@ export function countMainThreadTasks(
   ).length;
 }
 
+export function phaseModelError(report: StartupReport): string | null {
+  for (const phase of PHASE_IDS) {
+    const value = report.phases[phase];
+    if (value === null) continue;
+    if (
+      !Number.isFinite(value.ms) ||
+      value.ms < 0 ||
+      !Number.isFinite(value.mainThreadMs) ||
+      value.mainThreadMs < 0
+    ) {
+      return `phase model inconsistent: ${phase}`;
+    }
+  }
+
+  if (
+    !Number.isFinite(report.attributedMs) ||
+    report.attributedMs > report.mainThreadCostMs + 0.5
+  ) {
+    return 'phase model inconsistent: attributedMs';
+  }
+
+  return null;
+}
+
 function phaseIntervals(
   phaseRanges: Partial<Record<StartupPhase, Array<{ startUs: number; endUs: number }>>>,
 ): PhaseInterval[] {
@@ -567,13 +618,16 @@ export function analyzeStartup(
   const requests = resourceRequests(events, loadUs);
   const chunkUrls = new Set(requests.map((request) => request.url));
   const compileEvents = chunkEvents(events, COMPILE_NAMES, chunkUrls);
-  const evaluateEvents = chunkEvents(events, EVALUATE_NAMES, chunkUrls);
+  const evaluateScriptEvents = chunkEvents(events, EVALUATE_SCRIPT_NAMES, chunkUrls);
+  const backgroundParseEvents = chunkEvents(events, BACKGROUND_PARSE_NAMES, chunkUrls);
+  const p2Events = [...compileEvents, ...evaluateScriptEvents, ...backgroundParseEvents];
   const tasks = mainThreadTasks(events, false);
   const thread = mainThread(events, false);
   const allSpans = spans
     .filter((span) => Number.isFinite(span.start) && Number.isFinite(span.dur))
     .slice()
     .sort((left, right) => left.start - right.start);
+  const moduleSpans = moduleEvalSpans(allSpans, chunkUrls);
 
   const idleEvent = events
     .filter(
@@ -628,8 +682,8 @@ export function analyzeStartup(
   }, null);
   const attributableMoments = [
     chunkFirstRequestUs,
-    ...compileEvents.map((event) => event.ts ?? Number.POSITIVE_INFINITY),
-    ...evaluateEvents.map((event) => event.ts ?? Number.POSITIVE_INFINITY),
+    ...p2Events.map((event) => event.ts ?? Number.POSITIVE_INFINITY),
+    ...moduleSpans.map((span) => spanStartUs(span, originUs)),
     ...preFrameSpans.map((span) => spanStartUs(span, originUs)),
   ].filter((moment): moment is number => finite(moment));
   const containingTask = tasks.find((task) =>
@@ -653,8 +707,14 @@ export function analyzeStartup(
           return startUs >= costStartUs && startUs <= firstFrameUs;
         });
 
-  const contextSpan = orderedSpans.find((span) => span.name === 'getContext');
+  const contextSpans = orderedSpans.filter((span) => span.name === 'getContext');
+  const contextSpan = contextSpans.find((span) => span.connected !== false);
   const contextUs = contextSpan === undefined ? null : spanStartUs(contextSpan, originUs);
+  const probeSpans = detachedContextSpans(allSpans);
+  const probeContexts: ProbeContexts = {
+    count: probeSpans.length,
+    ms: probeSpans.reduce((sum, span) => sum + Math.max(0, span.dur), 0),
+  };
   const programSpans = spansNamed(orderedSpans, PROGRAM_NAMES);
   const firstProgram = programSpans.find(
     (span) => contextUs === null || spanStartUs(span, originUs) >= contextUs,
@@ -674,9 +734,9 @@ export function analyzeStartup(
   const firstDrawUs = firstDraw === undefined ? null : spanStartUs(firstDraw, originUs);
 
   const p3EndUs =
-    evaluateEvents.length === 0
+    moduleSpans.length === 0
       ? null
-      : Math.max(...evaluateEvents.map((event) => eventEndUs(event) ?? event.ts ?? 0));
+      : Math.max(...moduleSpans.map((span) => spanEndUs(span, originUs)));
 
   const phases: Record<PhaseId, StartupPhaseReport | null> = {
     P0: null,
@@ -706,12 +766,14 @@ export function analyzeStartup(
     };
   }
 
-  const mainCompileEvents = compileEvents.filter((event) => onMainThread(event, thread));
-  const mainCompileIntervals = mergeIntervals(
-    mainCompileEvents
+  const mainP2Intervals = mergeIntervals(
+    p2Events
+      .filter((event) => onMainThread(event, thread))
       .map(eventInterval)
       .filter((interval): interval is TimeInterval => interval !== null),
   );
+  const moduleIntervals = moduleSpans.map((span) => spanInterval(span, originUs));
+  const nestedModuleMs = intervalIntersectionMs(mainP2Intervals, moduleIntervals);
   const geometryIntervals = geometrySpans.map((span) => spanInterval(span, originUs));
   const shaderIntervals = shaderWorkSpans.map((span) => spanInterval(span, originUs));
   const textureIntervals = textureSpans.map((span) => spanInterval(span, originUs));
@@ -733,33 +795,27 @@ export function analyzeStartup(
       .filter((interval): interval is TimeInterval => interval !== null),
   );
   const segmentExclusions = [
-    ...mainCompileIntervals,
+    ...mainP2Intervals,
     ...geometryIntervals,
     ...shaderIntervals,
     ...textureIntervals,
     ...domLayoutIntervals,
   ];
 
-  if (compileEvents.length > 0) {
+  if (p2Events.length > 0) {
     phases.P2 = {
-      ms: sumEventUs(compileEvents) / MICROSECONDS_PER_MILLISECOND,
-      mainThreadMs: intervalDurationMs(mainCompileIntervals),
-      count: compileEvents.length,
+      ms: sumEventUs(p2Events) / MICROSECONDS_PER_MILLISECOND,
+      mainThreadMs: Math.max(0, intervalDurationMs(mainP2Intervals) - nestedModuleMs),
+      count: p2Events.length,
     };
   }
 
-  if (evaluateEvents.length > 0) {
-    const mainEvaluateIntervals = mergeIntervals(
-      evaluateEvents
-        .filter((event) => onMainThread(event, thread))
-        .map(eventInterval)
-        .filter((interval): interval is TimeInterval => interval !== null),
-    );
-    const nestedCompileMs = intervalIntersectionMs(mainEvaluateIntervals, mainCompileIntervals);
+  if (moduleSpans.length > 0) {
+    const moduleMs = moduleSpans.reduce((sum, span) => sum + Math.max(0, span.dur), 0);
     phases.P3 = {
-      ms: sumEventUs(evaluateEvents) / MICROSECONDS_PER_MILLISECOND,
-      mainThreadMs: Math.max(0, intervalDurationMs(mainEvaluateIntervals) - nestedCompileMs),
-      count: evaluateEvents.length,
+      ms: moduleMs,
+      mainThreadMs: moduleMs,
+      count: moduleSpans.length,
     };
   }
 
@@ -817,8 +873,10 @@ export function analyzeStartup(
   };
 
   if (idleUs !== null) addRange('P0', t0Us, idleUs);
-  for (const event of compileEvents) addRange('P2', event.ts ?? 0, eventEndUs(event) ?? 0);
-  for (const event of evaluateEvents) addRange('P3', event.ts ?? 0, eventEndUs(event) ?? 0);
+  for (const event of p2Events) addRange('P2', event.ts ?? 0, eventEndUs(event) ?? 0);
+  for (const span of moduleSpans) {
+    addRange('P3', spanStartUs(span, originUs), spanEndUs(span, originUs));
+  }
   if (p3EndUs !== null && contextUs !== null) addRange('P4', p3EndUs, contextUs);
   if (contextUs !== null && firstProgramUs !== null) addRange('P5', contextUs, firstProgramUs);
   for (const span of geometrySpans) {
@@ -888,5 +946,6 @@ export function analyzeStartup(
       ms: textureSpans.reduce((sum, span) => sum + Math.max(0, span.dur), 0),
       count: textureSpans.length,
     },
+    probeContexts,
   };
 }

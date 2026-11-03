@@ -122,6 +122,13 @@
     }
   ],
   "spans": [
+    {
+      "name": "moduleEval",
+      "start": 1220,
+      "dur": 20,
+      "src": "https://example.test/_next/static/chunks/hero.js",
+      "depth": 0
+    },
     { "name": "getContext", "start": 1305, "dur": 5 },
     { "name": "createProgram", "start": 1315, "dur": 5 },
     { "name": "bufferData", "start": 1320, "dur": 10 },
