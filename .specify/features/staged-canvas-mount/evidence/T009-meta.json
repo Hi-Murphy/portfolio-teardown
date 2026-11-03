@@ -1,0 +1,314 @@
+{
+  "kind": "t009-meta",
+  "version": 1,
+  "slice": "S11.6",
+  "task": "T009",
+  "date": "2026-11-03",
+  "branch": "task/s11.6-staged-canvas-mount-t009",
+  "worktree": ".",
+  "headAtMeasurementStart": "b430039d692d60ca4ab3ece5b737494579d64e70",
+  "gitDirtyAtMeasurementStart": false,
+  "finalLevers": [
+    "T005 L1 async staged renderer",
+    "T006 L4 configuration split",
+    "T008b compaction"
+  ],
+  "skipped": [
+    "T007 L2",
+    "T008 L3"
+  ],
+  "reverted": [
+    "T007b L5"
+  ],
+  "sourceChangesInThisTask": false,
+  "sourceChanged": false,
+  "protocol": {
+    "build": "pnpm build",
+    "export": "apps/web/out",
+    "browser": "Playwright Chromium 156.0.8078.4",
+    "formFactor": "mobile",
+    "cpuThrottle": 4,
+    "cleanAndFpsRunsPerPath": 2,
+    "attributedRunsPerPath": 2,
+    "profiledRunsPerPath": 2,
+    "median": "mean of two runs",
+    "homeMoveCleanAcceptedPair": "repeat r1/r2; the first pair is retained"
+  },
+  "tools": {
+    "node": "v24.19.0",
+    "pnpm": "12.15.0",
+    "next": "16.4.3",
+    "lighthouse": "13.6.0"
+  },
+  "startup": {
+    "home-move-clean": {
+      "kindOfRun": "clean",
+      "route": "/",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4202.5,
+        4220.5
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "home-move-clean-repeat": {
+      "kindOfRun": "clean",
+      "route": "/",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4229.5,
+        4256.5
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "project-move-clean": {
+      "kindOfRun": "clean",
+      "route": "/projects/websocket-inspector",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4249,
+        4257
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "project-click-clean": {
+      "kindOfRun": "clean",
+      "route": "/projects/websocket-inspector",
+      "engage": "click",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4249,
+        4230
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "home-move-attributed": {
+      "kindOfRun": "attributed",
+      "route": "/",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4222,
+        4262
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "project-move-attributed": {
+      "kindOfRun": "attributed",
+      "route": "/projects/websocket-inspector",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4244.5,
+        4236.5
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "project-click-attributed": {
+      "kindOfRun": "attributed",
+      "route": "/projects/websocket-inspector",
+      "engage": "click",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4227,
+        4157.5
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "home-move-profiled": {
+      "kindOfRun": "profiled",
+      "route": "/",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4221.5,
+        4210
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "project-move-profiled": {
+      "kindOfRun": "profiled",
+      "route": "/projects/websocket-inspector",
+      "engage": "move",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4220,
+        4228.5
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    },
+    "project-click-profiled": {
+      "kindOfRun": "profiled",
+      "route": "/projects/websocket-inspector",
+      "engage": "click",
+      "chromium": "156.0.8078.4",
+      "cpuThrottle": 4,
+      "benchmarkIndex": [
+        4241,
+        4222
+      ],
+      "git": {
+        "sha": "b430039d692d60ca4ab3ece5b737494579d64e70",
+        "dirty": false
+      }
+    }
+  },
+  "lighthouse": {
+    "home": {
+      "r1": {
+        "pass": true,
+        "benchmarkIndex": [
+          4251.5,
+          4237.5,
+          4237
+        ],
+        "performance": 1,
+        "lcpMs": 903.4297999999999,
+        "cls": [
+          0,
+          0,
+          0
+        ],
+        "tbtMs": [
+          1,
+          0.5,
+          0.5
+        ]
+      },
+      "r2": {
+        "pass": true,
+        "benchmarkIndex": [
+          4240,
+          4244,
+          4270
+        ],
+        "performance": 1,
+        "lcpMs": 903.1908000000001,
+        "cls": [
+          0,
+          0,
+          0
+        ],
+        "tbtMs": [
+          0.5,
+          0,
+          0
+        ]
+      }
+    },
+    "project": {
+      "r1": {
+        "pass": true,
+        "benchmarkIndex": [
+          4255.5,
+          4234,
+          4233
+        ],
+        "performance": 1,
+        "lcpMs": 903.1398999999999,
+        "cls": [
+          0,
+          0,
+          0
+        ],
+        "tbtMs": [
+          0,
+          0.5,
+          0
+        ]
+      },
+      "r2": {
+        "pass": true,
+        "benchmarkIndex": [
+          4255.5,
+          4236.5,
+          4240.5
+        ],
+        "performance": 1,
+        "lcpMs": 903.1424999999999,
+        "cls": [
+          0,
+          0,
+          0
+        ],
+        "tbtMs": [
+          0.5,
+          0,
+          1.5
+        ]
+      }
+    }
+  },
+  "finalChecks": {
+    "parity": "PASS: 0 differing pixels, 8/8 shots",
+    "draws": "PASS: project 32/32 frames at 2; hero 40/40 frames at 2; fixtures a/b/c at 2",
+    "cls": "0 in every clean and Lighthouse run",
+    "ac2": "FAIL: dropped frames remain on all paths; max long task 0.000 ms in every run",
+    "ac3": "FAIL: byte growth remains versus T004 (parity/draws/CLS pass)",
+    "ac4": "PASS: ready.raf === firstInstancedDraw.raf, no draw before ready, liveStates match T004; hero probe 7/7"
+  },
+  "artifacts": {
+    "parityShots": 8,
+    "traces": 6,
+    "startupReports": 20,
+    "cpuprofileSummaries": 6,
+    "fpsReports": 6,
+    "lighthouseSummaries": 4
+  },
+  "commands": [
+    "pnpm build",
+    "pnpm perf:startup --serve apps/web/out --route <route> --engage <move|click> --runs 2 --keep-trace",
+    "pnpm perf:startup --serve apps/web/out --route <route> --engage <move|click> --runs 2 --keep-trace --attribute",
+    "pnpm perf:startup --serve apps/web/out --route <route> --engage <move|click> --runs 2 --cpu-profile",
+    "pnpm fps:engine --scenario startup --route <route> --engage <move|click> --no-build",
+    "pnpm perf:parity --serve apps/web/out --write <temp-dir>",
+    "pnpm perf:parity --serve apps/web/out --compare /tmp/s116-checks/baseline-shots --out <temp-dir>",
+    "pnpm site:probe --serve apps/web/out --group draws",
+    "pnpm site:probe --serve apps/web/out --group hero",
+    "PERF_FIXTURES=1 pnpm --filter web build",
+    "pnpm engine:probe http://127.0.0.1:4321/ --scope s4",
+    "pnpm build",
+    "pnpm bundle:manifest --out-dir apps/web/out --write evidence/T009-log-bundle.json",
+    "node .specify/features/staged-canvas-mount/bundle-scopes.mjs evidence/T004-log-bundle.json /tmp/s116-checks/base-out evidence/T009-log-bundle.json apps/web/out",
+    "pnpm perf:lighthouse <route-url> --out <temp-dir> (x2 per route)"
+  ]
+}

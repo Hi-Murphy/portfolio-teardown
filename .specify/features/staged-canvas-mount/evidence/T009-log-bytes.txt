@@ -1,0 +1,31 @@
+# T009 — AC3 client-JS byte gate
+
+Baseline: `evidence/T004-log-bundle.json` + `/tmp/s116-checks/base-out` (T004 export).  
+Final: `evidence/T009-log-bundle.json` + `apps/web/out`.
+
+| Scope | T004 raw | T009 raw | Raw Δ | T004 gzip | T009 gzip | Gzip Δ | Result |
+|---|---:|---:|---:|---:|---:|---:|---|
+| home initial | 583343 | 583343 | +0 | 180606 | 180606 | +0 | PASS |
+| project initial | 581795 | 581795 | +0 | 180044 | 180046 | +2 | FAIL |
+| total | 1581558 | 1581847 | +289 | 459097 | 459233 | +136 | FAIL |
+| non-initial 3D | 995971 | 996260 | +289 | 277414 | 277548 | +134 | FAIL |
+
+**AC3 byte verdict: FAIL.** `home initial` passes; `project initial` fails on gzip (+2 B); `total` and `non-initial 3D` fail on raw (+289 B) and gzip (+136 B and +134 B). The growth is 0.018% raw / 0.030% gzip of the total scope. It is recorded, not waived; the task's rule is STOP/escalate because T009 may not change source.
+
+## Command output
+
+```text
+$ pnpm bundle:manifest --out-dir apps/web/out --write /tmp/s116-checks/t009/bundle.json
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write /tmp/s116-checks/t009/bundle.json
+bundle-manifest: 22 JS files, 1581847 bytes
+routes: 5
+wrote: /tmp/s116-checks/t009/bundle.json
+Bundle scope delta: .specify/features/staged-canvas-mount/evidence/T004-log-bundle.json + /tmp/s116-checks/base-out -> /tmp/s116-checks/t009/bundle.json + apps/web/out
+Scope              Before raw   After raw   Raw delta Before gzip  After gzip  Gzip delta
+home initial           583343      583343           0      180606      180606           0
+project initial        581795      581795           0      180044      180046           2
+total                 1581558     1581847         289      459097      459233         136
+non-initial 3D         995971      996260         289      277414      277548         134
+RESULT: FAIL (at least one scope grew in raw or gzip bytes)
+bundle-scopes exit 1 (recorded)
+```
