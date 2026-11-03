@@ -1,54 +1,54 @@
 {
   "kind": "fps-engine",
   "version": 1,
-  "url": "http://127.0.0.1:49304/",
+  "url": "http://localhost/",
   "scenario": "startup",
   "route": "/",
   "engage": "move",
   "cpuThrottle": 4,
-  "fps": 4.358996661999237,
+  "fps": 4.358400807651292,
   "frames": 22,
   "droppedFrames": 2,
-  "windowMs": 5047.033,
+  "windowMs": 5047.723,
   "intervalsMs": {
-    "p50": 16.744,
-    "p95": 19.041,
-    "max": 366.649
+    "p50": 16.608,
+    "p95": 19.804,
+    "max": 41.556
   },
-  "rafFps": 59.400774618209546,
+  "rafFps": 58.99941803295138,
   "source": "trace:DrawFrame",
   "chromium": "156.0.8078.4",
-  "pid": 46651,
+  "pid": 49695,
   "pidSource": "trace-metadata",
   "longTasks": [],
   "droppedFrameTimes": [
-    497.819,
-    514.485
+    224.575,
+    241.241
   ],
   "tasksOver16ms": [
     {
-      "start": 8.353,
-      "dur": 26.498
+      "start": 7.533,
+      "dur": 26.665
     },
     {
-      "start": 146.664,
-      "dur": 26.26
+      "start": 141.496,
+      "dur": 26.152
     },
     {
-      "start": 446.006,
-      "dur": 25.464
+      "start": 168.203,
+      "dur": 25.931
     },
     {
-      "start": 471.491,
-      "dur": 29.881
+      "start": 194.149,
+      "dur": 28.128
     },
     {
-      "start": 503.056,
-      "dur": 29.386
+      "start": 224.408,
+      "dur": 29.729
     }
   ],
   "maxLongTaskMs": 0,
-  "mainThreadTaskCount": 804,
+  "mainThreadTaskCount": 789,
   "liveness": "not-applicable",
   "verdict": {
     "rule": "startup",

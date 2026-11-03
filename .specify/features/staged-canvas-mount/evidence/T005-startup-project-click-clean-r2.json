@@ -1,19 +1,19 @@
 {
   "kind": "startup",
   "version": 1,
-  "t0": 2315.399999976158,
-  "firstFrame": 2945.4,
+  "t0": 2216.600000023842,
+  "firstFrame": 2580,
   "firstFrameSource": "ready-mark",
   "phases": {
     "P0": null,
     "P1": {
-      "ms": 111.103,
+      "ms": 117.271,
       "mainThreadMs": 0,
       "count": 7
     },
     "P2": {
-      "ms": 95.668,
-      "mainThreadMs": 83.877,
+      "ms": 94.946,
+      "mainThreadMs": 86.533,
       "count": 21
     },
     "P3": null,
@@ -24,9 +24,9 @@
     "P8": null,
     "P9": null
   },
-  "mainThreadCostMs": 328.223,
-  "attributedMs": 83.877,
-  "otherMs": 244.346,
+  "mainThreadCostMs": 336.484,
+  "attributedMs": 86.533,
+  "otherMs": 249.95099999999996,
   "longTasks": [],
   "blockingMs": 0,
   "cls": {

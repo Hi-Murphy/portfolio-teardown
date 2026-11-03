@@ -1,68 +1,66 @@
 {
   "kind": "fps-engine",
   "version": 1,
-  "url": "http://127.0.0.1:49342/projects/websocket-inspector",
+  "url": "http://localhost/projects/websocket-inspector",
   "scenario": "startup",
   "route": "/projects/websocket-inspector",
   "engage": "move",
   "cpuThrottle": 4,
-  "fps": 4.358127978012848,
+  "fps": 4.356064731121904,
   "frames": 22,
-  "droppedFrames": 4,
-  "windowMs": 5048.039,
+  "droppedFrames": 6,
+  "windowMs": 5050.43,
   "intervalsMs": {
-    "p50": 16.649,
-    "p95": 18.766,
-    "max": 369.373
+    "p50": 16.791,
+    "p95": 18.313,
+    "max": 45.944
   },
-  "rafFps": 59.20236809472379,
+  "rafFps": 59.002360094403784,
   "source": "trace:DrawFrame",
   "chromium": "156.0.8078.4",
-  "pid": 46735,
+  "pid": 49778,
   "pidSource": "trace-metadata",
   "longTasks": [],
   "droppedFrameTimes": [
-    176.521,
-    526.507,
-    543.173,
-    559.839
+    183.687,
+    200.353,
+    217.019,
+    233.685,
+    267.017,
+    283.683
   ],
   "tasksOver16ms": [
     {
-      "start": 7.427,
-      "dur": 26.424
+      "start": 7.56,
+      "dur": 26.742
     },
     {
-      "start": 42.032,
-      "dur": 32.216
+      "start": 42.536,
+      "dur": 32.352
     },
     {
-      "start": 74.423,
-      "dur": 17.305
+      "start": 98.143,
+      "dur": 19.218
     },
     {
-      "start": 97.572,
-      "dur": 19.974
+      "start": 182.329,
+      "dur": 26.796
     },
     {
-      "start": 181.745,
-      "dur": 26.58
+      "start": 209.128,
+      "dur": 24.833
     },
     {
-      "start": 480.365,
-      "dur": 24.08
+      "start": 233.969,
+      "dur": 31.661
     },
     {
-      "start": 505.029,
-      "dur": 30.829
-    },
-    {
-      "start": 535.926,
-      "dur": 33.41
+      "start": 267.425,
+      "dur": 32.311
     }
   ],
   "maxLongTaskMs": 0,
-  "mainThreadTaskCount": 822,
+  "mainThreadTaskCount": 808,
   "liveness": "not-applicable",
   "verdict": {
     "rule": "startup",
