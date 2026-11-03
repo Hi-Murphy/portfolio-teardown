@@ -9,12 +9,13 @@ import { parseCli } from '../args.ts';
 import { freePort, launch, PROFILES } from '../browser.ts';
 import { FPS_NOMINAL, FPS_TOLERANCE } from '../budgets.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
-import { inBand, measureFps, type FpsResult } from '../fps.ts';
+import { droppedFrameTimesFromTrace, inBand, measureFps, type FpsResult } from '../fps.ts';
 import { run } from '../log.ts';
 import { serveDir } from '../serve.ts';
 import {
   countMainThreadTasks,
   findLongTasks,
+  findTasksOver,
   type LongTask,
   type TraceEvent as StartupTraceEvent,
 } from '../startup.ts';
@@ -74,6 +75,8 @@ export interface FpsEngineStartupReport extends Omit<
   engage: Engagement;
   cpuThrottle: number;
   longTasks: LongTask[];
+  droppedFrameTimes: number[];
+  tasksOver16ms: Array<{ start: number; dur: number }>;
   maxLongTaskMs: number;
   /** Main-thread tasks from the TracingStartedInBrowser metadata pid; never a DrawFrame fallback. */
   mainThreadTaskCount: number;
@@ -100,6 +103,7 @@ const QUIET_MS = 2_000;
 const STARTUP_WINDOW_MS = 5_000;
 const STARTUP_CPU_THROTTLE = 4;
 const LONG_TASK_THRESHOLD_MS = 50;
+const TASK_TIMELINE_THRESHOLD_MS = 16.7;
 export const STARTUP_TRACE_CATEGORIES = [
   'toplevel',
   'disabled-by-default-devtools.timeline',
@@ -288,6 +292,24 @@ export function buildStartupReport(
   mainThreadTaskCount: number,
 ): FpsEngineStartupReport {
   const maxLongTaskMs = longTasks.reduce((maximum, task) => Math.max(maximum, task.dur), 0);
+  const trace = (result.trace ?? []) as StartupTraceEvent[];
+  const traceStartUs = traceWindowStart(trace);
+  const traceEndUs = traceStartUs === null ? null : traceStartUs + STARTUP_WINDOW_MS * 1000;
+  const droppedFrameTimes =
+    traceStartUs === null || traceEndUs === null
+      ? []
+      : droppedFrameTimesFromTrace(trace, traceStartUs, traceEndUs);
+  const tasksOver16ms =
+    traceStartUs === null
+      ? []
+      : findTasksOver(
+          trace,
+          traceStartUs,
+          traceStartUs + STARTUP_WINDOW_MS * 1000,
+          TASK_TIMELINE_THRESHOLD_MS,
+          traceStartUs,
+          true,
+        );
 
   return {
     kind: 'fps-engine',
@@ -308,6 +330,8 @@ export function buildStartupReport(
     pid: result.pid,
     pidSource: result.pidSource,
     longTasks: [...longTasks],
+    droppedFrameTimes,
+    tasksOver16ms,
     maxLongTaskMs,
     mainThreadTaskCount,
     liveness: 'not-applicable',

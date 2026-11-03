@@ -192,6 +192,33 @@ export function analyzeTrace(
   };
 }
 
+export function droppedFrameTimesFromTrace(
+  events: readonly TraceEvent[],
+  t0Us: number,
+  endUs: number,
+): number[] {
+  if (!Number.isFinite(t0Us) || !Number.isFinite(endUs)) {
+    throw new Error('dropped-frame timeline must use finite microsecond timestamps');
+  }
+  if (endUs < t0Us) {
+    throw new Error('dropped-frame timeline end must not precede its start');
+  }
+
+  const times: number[] = [];
+  for (const event of events) {
+    if (
+      !isFrameEvent(event, 'DroppedFrame') ||
+      typeof event.ts !== 'number' ||
+      event.ts < t0Us ||
+      event.ts > endUs
+    ) {
+      continue;
+    }
+    times.push((event.ts - t0Us) / 1000);
+  }
+  return times.sort((left, right) => left - right);
+}
+
 export function inBand(fps: number, expect: number, tolerance: number): boolean {
   const lower = expect * (1 - tolerance);
   const upper = expect * (1 + tolerance);
