@@ -320,3 +320,4 @@ Phase groups follow the kickoff (Stage 3 stops at each boundary):
    - Local result: eager perf 1.00 and TBT 2–3 ms on both routes.
    - **Binding result (CI runner, run 41583093379):** eager home perf 0.955 / TBT 248.5 ms, eager project perf 0.89 / TBT 441.5 ms → **AC6 verdict: keep the gate** (D-19 stays).
    - Draft PR #17 is open, and all 12 checks are green on `d753931`.
+8. **G3 decision (Murphy, 2026-11-03): "defaults all. go".** AC6 verdict accepted (keep the gate; the D-19 decision stays with Murphy outside the slice). `eager-3d.yml` is kept until Murphy decides on D-19, then removed. G4 starts.
