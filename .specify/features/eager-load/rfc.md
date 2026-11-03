@@ -1,6 +1,6 @@
 # RFC — S11.7 Eager Load Path
 
-**slice:** S11.7-eager-load · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.7-eager-load.md` (frozen brief v1) · **branch:** `task/s11.7-eager-load` · **base:** `7833b28` (product tree = S11.6 final `2fd19f0`) · **date:** 2026-11-03
+**slice:** S11.7-eager-load · **status:** APPROVED at Gate 1 (2026-11-03): all §7 defaults accepted; refinements R1–R10 recorded (§9) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.7-eager-load.md` (frozen brief v1) · **branch:** `task/s11.7-eager-load` · **base:** `7833b28` (product tree = S11.6 final `2fd19f0`) · **date:** 2026-11-03
 
 > This RFC records design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins and the conflict is raised as an open question (§7). **Nothing was built, run or profiled for this RFC.** AC1 profiling is Stage 3's first measurement task, by design. The only inputs are S11.5/S11.6 committed evidence and a static source read (`evidence/RFC-log-static-read.txt`). Every number below that does not come from that evidence is labelled **estimate**.
 
@@ -375,4 +375,23 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
 
 ## 9. Gate log
 
-1. **Stage 1 (2026-11-03):** RFC drafted on `task/s11.7-eager-load` (F7 branch rename before any commit). Awaiting Gate 1.
+1. **Stage 1 (2026-11-03):** RFC drafted on `task/s11.7-eager-load` (F7 branch rename before any commit).
+2. **Gate 1 (Murphy, 2026-11-03, 5h 58%):** "all defaults. approved". Q1–Q15 = the §7 defaults.
+3. **Stage-2 re-check of the defaults against the code.** These are refinements R1–R10. None of them changes an AC.
+   - **R1 (F1 confirmed in the Lighthouse source).** Lantern scales every CPU node by the multiplier (`@paulirish/trace_engine` `lantern/simulation/Simulator.js` L244: `duration × multiplier`, capped at 10 s). It links `TimerInstall`/`TimerFire` as graph edges with no delay (`lantern/graph/PageDependencyGraph.js` L252-269). So F1 is a source fact, not an assumption. D5's Lantern check stays as empirical confirmation on the AC1 attempt.
+   - **R2 (profiler category).** LH 13.6 ships `disabled-by-default-v8.cpu_profiler` commented out ("TODO: Re-enable after investigating b/325659693", `core/gather/gatherers/trace.js` L67-70). `additionalTraceCategories` is a supported setting (`core/config/constants.js` L83). **Fallback:** if profiled runs fail or carry no `ProfileChunk`, the per-task table uses `perf:startup --engage none --cpu-profile` from the same attempt, joined by URL and order. The log names the source.
+   - **R3 (cross-check tool).** `perf:startup` already has CPU-profile attribution, `benchmarkIndex` and the WebGL renderer in its meta. It gains `--engage none` (t0 = the `load` mark) as the AC1 cross-check / R2 fallback, instead of a new profiler in `fps:engine`.
+   - **R4 (eager-verdict contract).** `eager-3d.yml` pipes `eager-verdict`'s default output into the step summary, so that output stays byte-identical (golden test on S11.6 T011 run-2 summaries). The S11.7 rule lives behind `--rule s11.7`. The **first two qualifying attempts in time order** decide AC3, so that no attempt can be cherry-picked.
+   - **R5 (byte helper).** S11.6's `bundle-scopes.mjs` exits 1 on any growth (S11.6's "≤ previous" rule). The S11.7 copy gains `--budget`: initial gzip Δ ≤ 2,000 B per route, total Δ ≤ 1 % raw and gzip. Non-initial 3D is reported, informational.
+   - **R6 (structural app tests).** `stage-3d.test.ts` pins `STAGES_3D` to exactly `three` + R3F, and `eager-flag.test.ts` pins the eager branch's shape. L3 and L0 update them **in the lever commit**, keeping their intent: `stage-3d` imported only by `boot-3d`, the flag read only by `next.config.ts`, the gated branch unchanged. They are not frozen surfaces.
+   - **R7 (L1 is feasible app-side).** `useTeardownViewer` and `useViewerPanels` return memoised handles (`useTeardownViewer.ts` L262-304, `useViewerPanels.ts` L97-104). So a memoised `<LiveViewer>` element bails out on the reveal update. The portal targets can be resolved by `WorkbenchLoader`, which already locates `[data-site-workbench]` (L16), and passed down, which removes the layout-effect `setState`.
+   - **R8 (harness + guards).**
+     - `fps:engine --scenario load` builds with `pnpm build:eager` unless `--no-build`. A run whose page never sets `data-xploder-ready` is invalid (exit 1), because it measured no eager path.
+     - Guards add `APP-TOUCH-OK` (an allowlist of the app files the levers may touch, `app-touch.txt`), `FLAG-DEFAULT-OK` (AC6: gated stays default unless retired), `BUDGETS-OK` and `XPLODER-EMPTY-OK`.
+     - `BASELINE-FIRST-OK` is anchored on `evidence/T006-log-baseline.md`.
+   - **R9 (task structure).**
+     - The RFC §5 sketch becomes T001–T015 (+ T015b, only on "retire").
+     - Host meta is a small `perf:host` CLI (it also reports what `--gl swiftshader` yields locally).
+     - The local A/B + non-goal checks are one standing `lever-block.sh`, written in T006 and sourced by every lever task.
+     - CI-side steps (push, PR, reruns, downloads) are the orchestrator's; the executor writes tables from downloaded artifacts.
+   - **R10 (post-eager parity needs a no-input mode).** `perf:parity` always engages with `page.mouse.move` (`cli/parity.ts` L314). D9's "post-eager frames with no interaction" therefore needs an additive `--no-engage`. The engaged default is byte-identical.
