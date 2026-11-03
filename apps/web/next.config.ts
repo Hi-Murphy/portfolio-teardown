@@ -5,6 +5,7 @@ const DEFAULT_PAGE_EXTENSIONS = ['tsx', 'ts', 'jsx', 'js'];
 
 export default function nextConfig(phase: string): NextConfig {
   const fixtureBuild = process.env.PERF_FIXTURES === '1';
+  const eager3d = process.env.NEXT_PUBLIC_EAGER_3D === '1';
 
   if (fixtureBuild && process.env.VERCEL) {
     throw new Error('PERF_FIXTURES must never be set on Vercel');
@@ -14,6 +15,11 @@ export default function nextConfig(phase: string): NextConfig {
 
   return {
     output: 'export',
+    compiler: {
+      define: {
+        __XP_EAGER_3D__: eager3d,
+      },
+    },
     turbopack: {
       resolveAlias: {
         three: './build/three-surface.ts',

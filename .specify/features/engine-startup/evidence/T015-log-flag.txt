@@ -1,0 +1,257 @@
+T015 — NEXT_PUBLIC_EAGER_3D flag
+Date: 2026-11-03
+Result: PASS
+
+Implementation
+--------------
+`apps/web/next.config.ts` reads `process.env.NEXT_PUBLIC_EAGER_3D` once and exposes it as the bare
+compile-time constant `__XP_EAGER_3D__`. `apps/web/eager-3d.d.ts` declares the constant as boolean.
+The hero and workbench use it only around their passive interaction wait; the click path, reduced
+motion and saveData handling are unchanged.
+
+The string-valued `compiler.define` form recommended in the revision was tried first
+(`'true'` / `'false'`), but Next 16.4.3 JSON-serializes define values, making `'false'` a truthy
+string at runtime. A plain boolean define is therefore used; Turbopack 16.4.3 honours it
+(`build/turbopack-build/impl.js` passes `createDefineEnv` into `createProject`). The flag-off build
+folds to the exact T014 route chunks.
+
+Proof 1 — flag-off initial files vs T014
+----------------------------------------
+$ pnpm bundle:manifest --diff .specify/features/engine-startup/evidence/T014-log-bundle-final.json /tmp/s115-checks/t015-flag-off.json
+TOTAL-JS 1581558 -> 1581558 (0)
+DIFF-PASS
+
+SCOPE / raw=583343 T014=583343 T006=583368 INITIAL-IDENTICAL <=T006
+SCOPE /projects/websocket-inspector raw=581795 T014=581795 T006=586201 INITIAL-IDENTICAL <=T006
+TOTAL raw=1581558 T014=1581558 T006=1771865 <=T006
+
+Proof 2 — eager build
+---------------------
+EAGER-BUILD-OK
+
+Proof 3 — default site probe
+----------------------------
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+site-probe: PASS
+
+Proof 4 — no-touch readiness
+----------------------------
+EAGER   /                                   ready=191ms
+EAGER   /projects/websocket-inspector       ready=190ms
+DEFAULT /                                   not-ready-after=10003ms
+DEFAULT /projects/websocket-inspector       not-ready-after=10002ms
+
+Default site probe passed in the check log below. The eager site probe is informational by task
+design and was allowed to fail without affecting the gate.
+
+Check log
+---------
+Command basis
+-------------
+Task T015 check, with the orchestrator revision's eager-flag test added to the focused test run.
+
+
+ RUN  v5.0.5 ./apps/web
+
+ ✓ test/interaction-gate.test.ts > interaction gates > return false when the signal is already aborted 1ms
+ ✓ test/eager-flag.test.ts > eager 3D build flag > the hero gates only its interaction wait behind the flag 1ms
+ ✓ test/eager-flag.test.ts > eager 3D build flag > the workbench gates only its interaction wait behind the flag 0ms
+ ✓ test/eager-flag.test.ts > eager 3D build flag > only the Next config reads the eager environment flag 8ms
+ ✓ test/eager-flag.test.ts > eager 3D build flag > both call sites use the bare build-time define 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > apps/web contains no motion literals 11ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > xploder source outside motion/ contains no motion literals 5ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > source outside motion/ contains no bare CSS timing shorthands 4ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner roots include engine sources 3ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > scanner root includes the engine playground 1ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-time catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > css-easing catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > gsap-ease catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > motion-key catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > tw-utility catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > timer catches its negative control 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: motion.durations.explode 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: transition-duration: var(--motion-duration-hover-lift) 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: className="ease-explode transition-colors" 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: <p>the 1990s</p> 0ms
+ ✓ test/no-motion-literals.test.ts > motion-literal scanner > accepts content, tokens and token-backed utilities: { label: 'p95', value: '120 ms' } 0ms
+
+ Test Files  3 passed (3)
+      Tests  21 passed (21)
+   Start at  12:00:13
+   Duration  101ms (tests 44%, transform 31%, import 19%, worker 7%)
+
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 222ms
+  Running TypeScript ...
+  Finished TypeScript in 827ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 275ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write /tmp/s115-checks/t015-flag-off.json
+bundle-manifest: 22 JS files, 1581558 bytes
+routes: 5
+wrote: /tmp/s115-checks/t015-flag-off.json
+$ node tools/perf/src/cli/bundle-manifest.ts --diff .specify/features/engine-startup/evidence/T014-log-bundle-final.json /tmp/s115-checks/t015-flag-off.json
+TOTAL-JS 1581558 -> 1581558 (0)
+DIFF-PASS
+$ NEXT_PUBLIC_EAGER_3D=1 pnpm --filter web build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 183ms
+  Running TypeScript ...
+  Finished TypeScript in 785ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 274ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+EAGER-BUILD-OK
+Eager no-touch readiness
+EAGER   /                                   ready=191ms
+EAGER   /projects/websocket-inspector       ready=190ms
+Eager site probe (informational)
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+site-probe: FAIL
+artifacts: ./.evidence/site-probe
+[ELIFECYCLE] Command failed with exit code 6.
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 189ms
+  Running TypeScript ...
+  Finished TypeScript in 809ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 278ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+Default no-touch readiness
+DEFAULT /                                   not-ready-after=10003ms
+DEFAULT /projects/websocket-inspector       not-ready-after=10002ms
+Default site probe
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+site-probe: PASS
+artifacts: ./.evidence/site-probe
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+CI-JOBS-OK
+VERSIONS-OK
+GITLEAKS-OK
+T015-OK
