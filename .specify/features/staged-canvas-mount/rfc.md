@@ -352,4 +352,11 @@ Names follow the brief's list. Expected effects are **estimates** from the T010 
    - **L5 approved** as T007b: `TeardownViewer.tsx` only, the same lever discipline, conditional on T006/T007 evidence.
    - **L3 skipped** (T008 ⊘).
    - **Lever-task commit mechanics:** the executor makes the lever commit on its task branch, then the re-seal commit, so the re-seal can name the lever SHA (RFC R5).
+6. **Stage 3 G2 (2026-11-03): levers done, at the G2 STOP** (`evidence/T009-*`).
+   - **Kept:** L1 (T005, with the D-P3 fix for React's 300 ms Suspense retry throttle), L4 (T006), and the compaction (T008b).
+   - **Skipped with evidence:** L2 (T007) and L3 (T008). **Reverted:** L5 (T007b, no measurable win).
+   - **AC2 long-task half met:** 0 tasks above 50 ms on every path.
+   - **AC2 dropped-frame half not met:** 2 / 5.5 / 5.5 dropped frames. The AC2 harness's own continuous rAF recorder keeps a frame due, and the remaining 25–33 ms tasks include three's unsplittable `WebGLRenderer` constructor and the first content frame, which must stay one frame (`T005-log-frame-diagnosis.md`, `T009-log-ac2.md`). → escalated (Hard Rule 2, RFC Q10).
+   - **AC3:** parity 0 px, draws 2, CLS 0 hold. The byte clause is missed: lazy and total +289 B raw / +136 B gzip, and project initial gzip +2 B (only chunk-hash names changed). → escalated with the options in the G2 report.
+   - **AC4:** pass.
 
