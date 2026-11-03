@@ -1,0 +1,41 @@
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/cpu-profile.test.ts > summarizeCpuProfile > attributes only tasks above 16.7 ms and keeps self time within task duration 7ms
+ ✓ test/startup.test.ts > analyzeStartup > attributes a baseline-like startup to P0-P9 and keeps other cost visible 2ms
+ ✓ test/startup.test.ts > analyzeStartup > reports post-engagement CLS raw and without recent input 0ms
+ ✓ test/startup.test.ts > analyzeStartup > includes a pre-engagement warm task in cost but not in the long-task window 0ms
+ ✓ test/startup.test.ts > analyzeStartup > treats 51 ms as a long task and 50 ms as the boundary 0ms
+ ✓ test/startup.test.ts > analyzeStartup > keeps P5-P9 null for a clean trace while still computing cost from the ready mark 0ms
+ ✓ test/startup.test.ts > analyzeStartup > excludes main-thread work outside the cost and long-task windows 0ms
+ ✓ test/startup.test.ts > analyzeStartup > ignores main-thread-shaped tasks on non-main renderer threads 0ms
+ ✓ test/startup.test.ts > analyzeStartup > counts only the outer task when RunTask records are nested 0ms
+ ✓ test/startup.test.ts > analyzeStartup > ignores GL spans that start after the first content frame 0ms
+ ✓ test/startup.test.ts > analyzeStartup > attributes phase time exclusively at nested compile and layout boundaries 0ms
+ ✓ test/startup.test.ts > analyzeStartup > starts P5 at the connected canvas and reports detached probes separately 0ms
+ ✓ test/startup.test.ts > analyzeStartup > defines P3 from depth-0 chunk module evaluation and P2 from compile/parse 0ms
+ ✓ test/startup.test.ts > analyzeStartup > reports an inconsistent phase model by phase 0ms
+ ✓ test/startup.test.ts > analyzeStartup > keeps attributed main-thread time within cost for every fixture 1ms
+ ✓ test/startup.test.ts > startup attribution init script > records wrapped GL spans, per-rAF draw counts and the extension list 33ms
+ ✓ test/startup.test.ts > startup attribution init script > leaves GL calls unwrapped without --attribute 5ms
+ ✓ test/startup.test.ts > startup attribution init script > records detached probes with their connection state and context type 4ms
+ ✓ test/startup.test.ts > startup attribution init script > times Turbopack factories in both registry phases and preserves call semantics 3ms
+ ✓ test/startup.test.ts > startup attribution init script > records the first instanced draw, ready flip and live-state changes by rAF 10ms
+
+ Test Files  2 passed (2)
+      Tests  20 passed (20)
+   Start at  17:04:59
+   Duration  301ms (import 70%, tests 27%, transform 3%, worker 1%)
+
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s116-checks/t003/startup-project-move-clean-r1.json
+summary: /tmp/s116-checks/t003/summary.json (mainThreadCostMs=378.6, spreadFlagged=false)
+glCounts: createProgram=1 linkProgram=1
+startup: /tmp/s116-checks/t003--attribute/startup-project-move-attributed-r1.json
+summary: /tmp/s116-checks/t003--attribute/summary.json (mainThreadCostMs=313.1, spreadFlagged=false)
+startup: /tmp/s116-checks/t003--cpu-profile/startup-project-move-profiled-r1.json
+cpu profile: /tmp/s116-checks/t003--cpu-profile/cpuprofile-summary-project-move-r1.json
+summary: /tmp/s116-checks/t003--cpu-profile/summary.json (mainThreadCostMs=463.7, spreadFlagged=false)
+SEQUENCE-OK loading>revealed
+PROFILE-OK
+GUARDS-SKIPPED guards.sh not present in this worktree
