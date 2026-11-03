@@ -6,7 +6,6 @@ import {
   useLayoutEffect,
   useMemo,
   useRef,
-  startTransition,
   useState,
   type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
@@ -289,7 +288,7 @@ export function TeardownViewer({
     if (extent === publishedExtentRef.current) return;
 
     publishedExtentRef.current = extent;
-    startTransition(() => setScrollExtentPx(extent));
+    setScrollExtentPx(extent);
   }, []);
 
   const onOverlay = useCallback((event: OverlayEvent) => {
@@ -503,7 +502,7 @@ export function TeardownViewer({
   const onPhase = useCallback((phase: Phase) => {
     if (wrapperRef.current !== null) wrapperRef.current.dataset.xploderState = phase;
 
-    startTransition(() => setPhase(phase));
+    setPhase(phase);
   }, []);
 
   const onEmphasisPhase = useCallback((phase: EmphasisPhase) => {
