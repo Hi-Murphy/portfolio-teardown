@@ -1,0 +1,28 @@
+PRODUCT-IS-BASE
+Bundle scopes: .specify/features/eager-load/evidence/T001-log-bundle-gated.json + /tmp/s117-checks/base-gated
+Scope             Files         Raw        Gzip
+home initial          9      583343      180606
+project initial       9      581795      180046
+total                22     1581847      459233
+non-initial 3D       12      996260      277548
+BUDGET-SELF-OK gated
+Bundle scopes: .specify/features/eager-load/evidence/T001-log-bundle-eager.json + /tmp/s117-checks/base-eager
+Scope             Files         Raw        Gzip
+home initial          9      582918      180465
+project initial       9      581604      179960
+total                22     1581231      459006
+non-initial 3D       12      996260      277548
+BUDGET-SELF-OK eager
+
+# Budget negative control (3000 random bytes appended to a home initial script)
+Bundle scope budget: .specify/features/eager-load/evidence/T001-log-bundle-gated.json + /tmp/s117-checks/base-gated -> .specify/features/eager-load/evidence/T001-log-bundle-gated.json + /tmp/s117-checks/budget-neg-gated
+Metric                        Before       After       Delta       Limit Result
+home initial raw              583343      586343        3000           - INFO
+home initial gzip             180606      184300        3694      2000 B FAIL
+project initial raw           581795      584795        3000           - INFO
+project initial gzip          180046      183740        3694      2000 B FAIL
+total raw                    1581847     1584847        3000          1% PASS
+total gzip                    459233      462927        3694          1% PASS
+non-initial 3D raw            996260      996260           0           - INFO
+non-initial 3D gzip           277548      277548           0           - INFO
+RESULT: FAIL (a budgeted scope exceeded its byte budget)

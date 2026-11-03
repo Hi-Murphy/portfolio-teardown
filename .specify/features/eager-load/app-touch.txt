@@ -1,0 +1,17 @@
+apps/web/components/workbench/workbench-loader.tsx
+apps/web/components/workbench/workbench-client.tsx
+apps/web/components/hero/hero-live.tsx
+apps/web/components/boot-3d.ts
+apps/web/build/stage-3d.ts
+apps/web/build/three-stage-a.ts
+apps/web/build/three-stage-b.ts
+apps/web/build/three-stage-c.ts
+apps/web/components/hero/hero-boot.ts
+apps/web/components/workbench/workbench-boot.ts
+apps/web/test/eager-flag.test.ts
+apps/web/test/stage-3d.test.ts
+apps/web/test/boot-3d.test.ts
+apps/web/test/interaction-gate.test.ts
+apps/web/test/eager-guards.test.tsx
+apps/web/test/eager-render-lanes.test.tsx
+apps/web/test/eager-staged-portals.test.tsx

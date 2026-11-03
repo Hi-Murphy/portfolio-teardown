@@ -1,0 +1,65 @@
+OK FROZEN
+OK BRIEF-HISTORY
+OK XPLODER-EMPTY
+OK APP-TOUCH
+OK BASELINE-FIRST
+OK DEV-ROUTES
+OK CI-JOBS
+OK FLAG-DEFAULT
+OK VERSIONS
+OK BUDGETS
+OK GITLEAKS
+neg packages/xploder/src/index.ts: FAIL XPLODER-EMPTY 
+neg apps/web/components/site-nav.tsx: FAIL APP-TOUCH 
+neg .github/workflows/eager-3d.yml: FAIL CI-JOBS 
+neg tools/perf/src/budgets.ts: FAIL BUDGETS 
+PRODUCT-IS-BASE
+Bundle scopes: .specify/features/eager-load/evidence/T001-log-bundle-gated.json + /tmp/s117-checks/base-gated
+Scope             Files         Raw        Gzip
+home initial          9      583343      180606
+project initial       9      581795      180046
+total                22     1581847      459233
+non-initial 3D       12      996260      277548
+BUDGET-SELF-OK gated
+Bundle scopes: .specify/features/eager-load/evidence/T001-log-bundle-eager.json + /tmp/s117-checks/base-eager
+Scope             Files         Raw        Gzip
+home initial          9      582918      180465
+project initial       9      581604      179960
+total                22     1581231      459006
+non-initial 3D       12      996260      277548
+BUDGET-SELF-OK eager
+
+# Fifth negative control: throwaway branch with an allowlisted app change and no T006 anchor
+OK FROZEN
+OK BRIEF-HISTORY
+OK XPLODER-EMPTY
+OK APP-TOUCH
+FAIL BASELINE-FIRST
+OK DEV-ROUTES
+OK CI-JOBS
+OK FLAG-DEFAULT
+OK VERSIONS
+OK BUDGETS
+OK GITLEAKS
+
+# Final typecheck / lint / test tail
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:30368) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:30370) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  32 passed | 1 skipped (33)
+apps/web test:       Tests  182 passed | 2 skipped (184)
+apps/web test:    Start at  05:27:35
+apps/web test:    Duration  1.11s (import 31%, tests 28%, environment 27%, transform 12%, worker 2%)
+apps/web test: 
+apps/web test:     Isolate  33 workers spawned · ~128ms startup each (spawn + environment, per file)
+apps/web test:              at least ~341ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+T001-OK
