@@ -1,0 +1,39 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:59123/projects/websocket-inspector",
+  "scenario": "startup",
+  "route": "/projects/websocket-inspector",
+  "engage": "click",
+  "cpuThrottle": 4,
+  "fps": 4.36373128380776,
+  "frames": 22,
+  "droppedFrames": 7,
+  "windowMs": 5041.557,
+  "intervalsMs": {
+    "p50": 16.69,
+    "p95": 18.968,
+    "max": 47.858
+  },
+  "rafFps": 58.803528211692694,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 81007,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 179.249,
+      "dur": 59.957,
+      "phase": "other"
+    }
+  ],
+  "maxLongTaskMs": 59.957,
+  "mainThreadTaskCount": 810,
+  "liveness": "not-applicable",
+  "verdict": {
+    "rule": "startup",
+    "droppedFrames0": false,
+    "longTask50": false,
+    "pass": false
+  }
+}

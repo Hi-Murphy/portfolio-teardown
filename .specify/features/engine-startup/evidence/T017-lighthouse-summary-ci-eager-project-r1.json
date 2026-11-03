@@ -1,0 +1,76 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.9,
+      "accessibility": null,
+      "lcpMs": 907.075,
+      "cls": 0,
+      "tbtMs": 420.2312500000003,
+      "fcpMs": 907.075,
+      "siMs": 1213.9153385785778,
+      "totalByteWeight": 471230,
+      "benchmarkIndex": 2306.5
+    },
+    {
+      "performance": 0.89,
+      "accessibility": null,
+      "lcpMs": 912.7841000000001,
+      "cls": 0,
+      "tbtMs": 433,
+      "fcpMs": 912.7841000000001,
+      "siMs": 1282.7341838733448,
+      "totalByteWeight": 471272,
+      "benchmarkIndex": 2280.5
+    },
+    {
+      "performance": 0.89,
+      "accessibility": null,
+      "lcpMs": 912.9670000000001,
+      "cls": 0,
+      "tbtMs": 433.51649999999995,
+      "fcpMs": 912.9670000000001,
+      "siMs": 1295.3731681284694,
+      "totalByteWeight": 471272,
+      "benchmarkIndex": 2310
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.89,
+      "scope": "median",
+      "pass": false
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 912.9670000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": false
+}

@@ -1,0 +1,100 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2334.6999999284744,
+  "firstFrame": 2666.1909998779297,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": {
+      "ms": 25.587,
+      "mainThreadMs": 0
+    },
+    "P1": {
+      "ms": 87.203,
+      "mainThreadMs": 0,
+      "count": 7
+    },
+    "P2": {
+      "ms": 95.364,
+      "mainThreadMs": 2.8349998779296897,
+      "count": 21
+    },
+    "P3": {
+      "ms": 82.50000011920929,
+      "mainThreadMs": 82.50000011920929,
+      "count": 7
+    },
+    "P4": {
+      "ms": 103.10000012207031,
+      "mainThreadMs": 50.316000122070314
+    },
+    "P5": {
+      "ms": 68.5,
+      "mainThreadMs": 68.381,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0,
+      "mainThreadMs": 0,
+      "count": 14
+    },
+    "P7": {
+      "ms": 3.100000023841858,
+      "mainThreadMs": 3.100000023841858,
+      "count": 6
+    },
+    "P8": {
+      "ms": 4.939,
+      "mainThreadMs": 4.939,
+      "count": 7,
+      "domLayoutMs": 4.939
+    },
+    "P9": {
+      "ms": 2.7909998779296874,
+      "mainThreadMs": 2.583999877929687
+    }
+  },
+  "mainThreadCostMs": 337.348,
+  "attributedMs": 214.65500002098085,
+  "otherMs": 122.69299997901916,
+  "longTasks": [
+    {
+      "start": 2577.0049998779295,
+      "dur": 58.319,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 8.319000000000003,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 6.600000023841858
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}

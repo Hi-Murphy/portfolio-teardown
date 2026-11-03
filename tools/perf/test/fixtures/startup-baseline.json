@@ -1,0 +1,152 @@
+{
+  "events": [
+    {
+      "name": "TracingStartedInBrowser",
+      "ph": "I",
+      "pid": 899,
+      "tid": 1,
+      "ts": 1000000000,
+      "args": { "data": { "frames": [{ "processId": 900, "isOutermostMainFrame": true }] } }
+    },
+    {
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1000000000,
+      "args": { "name": "CrRendererMain" }
+    },
+    {
+      "name": "FireIdleCallback",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001010000,
+      "dur": 1000
+    },
+    {
+      "name": "ResourceSendRequest",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001100000,
+      "args": {
+        "data": {
+          "requestId": "chunk-3d",
+          "url": "https://example.test/_next/static/chunks/hero.js",
+          "resourceType": "Script"
+        }
+      }
+    },
+    {
+      "name": "ResourceFinish",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001200000,
+      "args": { "data": { "requestId": "chunk-3d" } }
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001000000,
+      "dur": 10000
+    },
+    {
+      "name": "ThreadControllerImpl::RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001200000,
+      "dur": 50000
+    },
+    {
+      "name": "v8.compile",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001205000,
+      "dur": 10000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/hero.js" } }
+    },
+    {
+      "name": "EvaluateScript",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001220000,
+      "dur": 20000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/hero.js" } }
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001250000,
+      "dur": 40000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001300000,
+      "dur": 45000
+    },
+    {
+      "name": "Layout",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001335000,
+      "dur": 5000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001350000,
+      "dur": 45000
+    },
+    {
+      "name": "DrawFrame",
+      "ph": "I",
+      "cat": "disabled-by-default-devtools.timeline.frame",
+      "pid": 899,
+      "tid": 902,
+      "ts": 1001400000
+    }
+  ],
+  "spans": [
+    {
+      "name": "moduleEval",
+      "start": 1220,
+      "dur": 20,
+      "src": "https://example.test/_next/static/chunks/hero.js",
+      "depth": 0
+    },
+    { "name": "getContext", "start": 1305, "dur": 5 },
+    { "name": "createProgram", "start": 1315, "dur": 5 },
+    { "name": "bufferData", "start": 1320, "dur": 10 },
+    { "name": "compileShader", "start": 1355, "dur": 20 },
+    { "name": "linkProgram", "start": 1375, "dur": 3 },
+    { "name": "getProgramParameter", "start": 1378, "dur": 1 },
+    { "name": "texImage2D", "start": 1380, "dur": 2 },
+    { "name": "drawElementsInstanced", "start": 1390, "dur": 4 }
+  ],
+  "marks": {
+    "traceTimeOriginUs": 1000000000,
+    "loadMs": 500,
+    "engageMs": 1000,
+    "readyMs": 1400,
+    "layoutShifts": [
+      { "startTime": 900, "value": 0.2, "hadRecentInput": false },
+      { "startTime": 1100, "value": 0.05, "hadRecentInput": true },
+      { "startTime": 1200, "value": 0.03, "hadRecentInput": false }
+    ]
+  }
+}

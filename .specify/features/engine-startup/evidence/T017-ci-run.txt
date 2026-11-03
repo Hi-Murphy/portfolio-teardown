@@ -1,0 +1,27 @@
+T017 CI run (orchestrator, 2026-11-03T05:23Z)
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/17 (draft), head d753931
+eager-3d run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093379 conclusion=success
+
+== artifact exit-codes.txt
+gated-home-r1 exit=0
+gated-home-r2 exit=0
+gated-project-r1 exit=0
+gated-project-r2 exit=0
+eager-home-r1 exit=0
+eager-home-r2 exit=0
+eager-project-r1 exit=6
+eager-project-r2 exit=6
+
+== gh pr checks 17
+Vercel	pass	https://vercel.com/murphy-3c4d/portfolio-teardown/81Tb1yxLFQc4JUmS3cYxTxzz89oP
+Vercel Preview Comments	pass	https://vercel.com/github
+a11y: axe (engine fixture export)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093475/job/125742189873
+a11y: axe (production routes)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093475/job/125742189858
+build (typecheck, lint, test, build)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093382/job/125742189819
+perf-gate: lighthouse (mobile)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093475/job/125742189933
+perf-gate: weight (< 3 MB)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093475/job/125742189554
+perf: eager-3d (measurement)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093379/job/125742188996
+perf: fixture exclusion	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093475/job/125742189863
+perf: fps calibration	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093475/job/125742189881
+secrets (gitleaks)	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093382/job/125742189466
+seo: meta + og	pass	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41583093382/job/125742189768

@@ -36,6 +36,7 @@ export interface FpsOptions {
   durationMs?: number;
   trigger?: (page: Page) => Promise<void>;
   keepTrace?: boolean;
+  extraCategories?: readonly string[];
 }
 
 export interface FpsIntervals {
@@ -85,6 +86,12 @@ function isFrameEvent(event: TraceEvent, name: 'DrawFrame' | 'DroppedFrame'): bo
 
 function timestampInWindow(event: TraceEvent, windowStartUs: number, windowEndUs: number): boolean {
   return typeof event.ts === 'number' && event.ts >= windowStartUs && event.ts <= windowEndUs;
+}
+
+export function traceCategories(extraCategories?: readonly string[]): string {
+  return extraCategories === undefined
+    ? TRACE_CATEGORIES
+    : [TRACE_CATEGORIES, ...extraCategories].join(',');
 }
 
 function metadataProcessId(events: TraceEvent[]): number | null {
@@ -260,7 +267,7 @@ export async function measureFps(page: Page, opts: FpsOptions = {}): Promise<Fps
     });
 
     await session.send('Tracing.start', {
-      categories: TRACE_CATEGORIES,
+      categories: traceCategories(opts.extraCategories),
       transferMode: 'ReportEvents',
     });
     tracingStarted = true;

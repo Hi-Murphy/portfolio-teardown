@@ -1,0 +1,158 @@
+T002 — startup trace model evidence
+Date: 2026-11-03
+Worktree: .
+Check: focused startup suite; guards.sh skipped (absent in this worktree, created by T001 on the slice branch); pnpm typecheck && pnpm lint && pnpm test
+
+--- CHECK OUTPUT ---
+
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/startup.test.ts > analyzeStartup > attributes a baseline-like startup to P0-P9 and keeps other cost visible 2ms
+ ✓ test/startup.test.ts > analyzeStartup > reports post-engagement CLS raw and without recent input 1ms
+ ✓ test/startup.test.ts > analyzeStartup > includes a pre-engagement warm task in cost but not in the long-task window 0ms
+ ✓ test/startup.test.ts > analyzeStartup > treats 51 ms as a long task and 50 ms as the boundary 0ms
+ ✓ test/startup.test.ts > analyzeStartup > keeps P5-P9 null for a clean trace while still computing cost from the ready mark 0ms
+ ✓ test/startup.test.ts > analyzeStartup > excludes main-thread work outside the cost and long-task windows 0ms
+ ✓ test/startup.test.ts > analyzeStartup > ignores main-thread-shaped tasks on non-main renderer threads 0ms
+ ✓ test/startup.test.ts > analyzeStartup > counts only the outer task when RunTask records are nested 0ms
+ ✓ test/startup.test.ts > analyzeStartup > ignores GL spans that start after the first content frame 0ms
+ ✓ test/startup.test.ts > analyzeStartup > attributes phase time exclusively at nested compile and layout boundaries 0ms
+ ✓ test/startup.test.ts > analyzeStartup > keeps attributed main-thread time within cost for every fixture 1ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  07:52:36
+   Duration  82ms (transform 51%, tests 25%, import 18%, worker 5%)
+
+SKIP guards.sh (absent in this worktree; created on the slice branch by T001)
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:38860) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38863) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38864) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38867) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38865) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38869) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38868) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:38874) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  21 passed (21)
+tools/perf test:       Tests  160 passed (160)
+tools/perf test:    Start at  07:52:43
+tools/perf test:    Duration  1.89s (import 87%, tests 8%, transform 4%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:38878) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  60 passed (60)
+packages/xploder test:       Tests  617 passed (617)
+packages/xploder test:    Start at  07:52:43
+packages/xploder test:    Duration  6.93s (tests 75%, import 18%, transform 6%, worker 1%)
+packages/xploder test: 
+packages/xploder test:     Isolate  60 workers spawned · ~104ms startup each (spawn + environment, per file)
+packages/xploder test:              at least ~591ms faster with isolate: false — reuses workers across files instead of one per file
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:38947) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:38946) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  26 passed | 2 skipped (28)
+apps/web test:       Tests  166 passed | 3 skipped (169)
+apps/web test:    Start at  07:52:50
+apps/web test:    Duration  994ms (import 35%, environment 27%, tests 26%, transform 10%, worker 2%)
+apps/web test: 
+apps/web test:     Isolate  28 workers spawned · ~138ms startup each (spawn + environment, per file)
+apps/web test:              at least ~292ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+T002-OK
+orchestrator re-run on merged branch: FROZEN-OK BRIEF-HISTORY-OK XPLODER-SRC-OK SURFACE-S2-OK SURFACE-S4-OK SURFACE-S5-OK SURFACE-S6-OK SURFACE-S7-OK SURFACE-S8-OK DEV-ROUTES-OK S8-TOOLS-OK CI-JOBS-OK VERSIONS-OK GITLEAKS-OK 

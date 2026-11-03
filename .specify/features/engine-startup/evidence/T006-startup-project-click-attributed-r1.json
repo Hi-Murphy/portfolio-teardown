@@ -1,0 +1,102 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2360.100000023842,
+  "firstFrame": 2858.974,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": null,
+    "P1": {
+      "ms": 44.039,
+      "mainThreadMs": 0,
+      "count": 3
+    },
+    "P2": {
+      "ms": 159.798,
+      "mainThreadMs": 0.3299999999999841,
+      "count": 9
+    },
+    "P3": {
+      "ms": 138.29999995231628,
+      "mainThreadMs": 138.29999995231628,
+      "count": 1
+    },
+    "P4": {
+      "ms": 197.2,
+      "mainThreadMs": 52.171
+    },
+    "P5": {
+      "ms": 69,
+      "mainThreadMs": 68.221,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0,
+      "mainThreadMs": 0,
+      "count": 14
+    },
+    "P7": {
+      "ms": 2.5,
+      "mainThreadMs": 2.5,
+      "count": 6
+    },
+    "P8": {
+      "ms": 6.619000047683715,
+      "mainThreadMs": 6.619000047683715,
+      "count": 7,
+      "domLayoutMs": 6.419
+    },
+    "P9": {
+      "ms": 2.774,
+      "mainThreadMs": 1.8559999999999999
+    }
+  },
+  "mainThreadCostMs": 390.282,
+  "attributedMs": 269.99699999999996,
+  "otherMs": 120.28500000000003,
+  "longTasks": [
+    {
+      "start": 2442.443,
+      "dur": 138.584,
+      "phase": "P2"
+    },
+    {
+      "start": 2771.426,
+      "dur": 57.448,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 96.03200000000001,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0.20000004768371582,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 5.600000023841858
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}

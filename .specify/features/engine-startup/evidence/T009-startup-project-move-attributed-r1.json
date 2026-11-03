@@ -1,0 +1,105 @@
+{
+  "kind": "startup",
+  "version": 1,
+  "t0": 2330.399999976158,
+  "firstFrame": 2822.53,
+  "firstFrameSource": "draw-frame",
+  "phases": {
+    "P0": {
+      "ms": 27.4,
+      "mainThreadMs": 0
+    },
+    "P1": {
+      "ms": 27.359,
+      "mainThreadMs": 0,
+      "count": 3
+    },
+    "P2": {
+      "ms": 124.029,
+      "mainThreadMs": 1.1289999999999907,
+      "count": 9
+    },
+    "P3": {
+      "ms": 114.20000004768372,
+      "mainThreadMs": 114.20000004768372,
+      "count": 1
+    },
+    "P4": {
+      "ms": 240.6,
+      "mainThreadMs": 59.674
+    },
+    "P5": {
+      "ms": 66.3,
+      "mainThreadMs": 65.973,
+      "count": 1
+    },
+    "P6": {
+      "ms": 0.20000004768371582,
+      "mainThreadMs": 0.20000004768371582,
+      "count": 14
+    },
+    "P7": {
+      "ms": 3.5,
+      "mainThreadMs": 3.5,
+      "count": 6
+    },
+    "P8": {
+      "ms": 4.063,
+      "mainThreadMs": 4.063,
+      "count": 7,
+      "domLayoutMs": 4.063
+    },
+    "P9": {
+      "ms": 2.63,
+      "mainThreadMs": 2.533
+    }
+  },
+  "mainThreadCostMs": 356.475,
+  "attributedMs": 251.27200009536742,
+  "otherMs": 105.2029999046326,
+  "longTasks": [
+    {
+      "start": 2388.25,
+      "dur": 114.379,
+      "phase": "P2"
+    },
+    {
+      "start": 2737.052,
+      "dur": 53.716,
+      "phase": "P5"
+    }
+  ],
+  "blockingMs": 68.095,
+  "cls": {
+    "raw": 0,
+    "filtered": 0,
+    "entries": []
+  },
+  "textures": {
+    "ms": 0,
+    "count": 7
+  },
+  "probeContexts": {
+    "count": 1,
+    "ms": 5.899999976158142
+  },
+  "glCounts": {
+    "getContext": 2,
+    "compileShader": 2,
+    "linkProgram": 1,
+    "getProgramParameter": 3,
+    "getShaderParameter": 0,
+    "getUniformLocation": 15,
+    "getProgramInfoLog": 1,
+    "bufferData": 14,
+    "bufferSubData": 0,
+    "texImage2D": 7,
+    "texStorage2D": 0,
+    "texSubImage2D": 0,
+    "drawArrays": 0,
+    "drawElements": 0,
+    "drawArraysInstanced": 0,
+    "drawElementsInstanced": 2,
+    "createProgram": 1
+  }
+}

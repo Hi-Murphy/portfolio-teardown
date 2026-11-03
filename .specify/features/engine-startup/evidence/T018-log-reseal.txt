@@ -1,0 +1,35 @@
+T018 frozen-surface re-seal proof
+HEAD=e92c55c2cb786d3c29d4578f0d86051e7defbd63
+
+== S2: git diff --stat 92a8d24 -- <.specify/features/engine-startup/s2.paths>
+(empty)
+== S4: git diff --stat 92a8d24 -- <.specify/features/engine-startup/s4.paths>
+(empty)
+== S5: git diff --stat f31600e -- <packages/xploder/test/frozen-surface.s5.paths>
+(empty)
+== S6: git diff --stat f65b13c -- <packages/xploder/test/frozen-surface.s6.paths>
+(empty)
+== S7: git diff --stat 5b22987 -- <packages/xploder/test/frozen-surface.s7.paths>
+(empty)
+== S8: git diff --stat 99a94f2 -- <packages/xploder/test/frozen-surface.s8.paths>
+(empty)
+
+== pnpm --filter xploder exec vitest run test/frozen-surface.test.ts
+
+ RUN  v5.0.5 ./packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  12:50:28
+   Duration  262ms (transform 79%, import 16%, tests 4%, worker 1%)
+
+
+== git diff --name-only 92a8d24 -- packages/xploder (expected: empty)
+(end)
+
+== approved-xploder-src.txt
+# Approved xploder source paths for S11.5.
+# One repository-relative path per line. Empty until T007.
+
+No S4/S6 file was touched, so no manifest was regenerated.

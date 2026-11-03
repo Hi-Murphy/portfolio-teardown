@@ -1,0 +1,37 @@
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/parity.test.ts > RGBA parity > identical images have zero differing pixels 1ms
+ ✓ test/parity.test.ts > RGBA parity > a one-pixel change has one differing pixel 0ms
+ ✓ test/parity.test.ts > RGBA parity > a size mismatch is an error 0ms
+ ✓ test/png.test.ts > PNG decode > decodes all five filters for RGB and RGBA 3ms
+ ✓ test/png.test.ts > PNG decode > round-trips known pixels through the zlib encoder 0ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  07:45:42
+   Duration  70ms (import 44%, tests 24%, transform 17%, worker 15%)
+
+home-mobile-light: 721x1440 screenshot-home-mobile-light.png
+home-mobile-dark: 721x1440 screenshot-home-mobile-dark.png
+home-desktop-light: 1350x940 screenshot-home-desktop-light.png
+home-desktop-dark: 1350x940 screenshot-home-desktop-dark.png
+project-mobile-light: 721x1440 screenshot-project-mobile-light.png
+project-mobile-dark: 721x1440 screenshot-project-mobile-dark.png
+project-desktop-light: 1350x940 screenshot-project-desktop-light.png
+project-desktop-dark: 1350x940 screenshot-project-desktop-dark.png
+parity: WROTE 8 shots
+parity: baseline /tmp/s115-checks/t005-a/parity.json
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison /tmp/s115-checks/t005-b/parity-compare.json
+guards.sh not present; skipped per T005 dispatch note
+FROZEN-OK BRIEF-HISTORY-OK XPLODER-SRC-OK SURFACE-S2-OK SURFACE-S4-OK SURFACE-S5-OK SURFACE-S6-OK SURFACE-S7-OK SURFACE-S8-OK DEV-ROUTES-OK S8-TOOLS-OK CI-JOBS-OK VERSIONS-OK GITLEAKS-OK 

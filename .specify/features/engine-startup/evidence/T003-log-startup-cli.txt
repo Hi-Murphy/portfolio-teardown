@@ -1,0 +1,151 @@
+T003 — perf:startup CLI + GL attribution (revision)
+Worktree path is normalized to .; timings are local smoke values, not AC1 results.
+
+Exit codes:
+  help: 0
+  clean smoke: 0
+  attributed smoke: 0
+  --no-observers smoke: 0
+  guards/typecheck/lint/test: 0 (T003-OK)
+
+== Help ==
+Usage: pnpm perf:startup <url> | --serve <dir> --route <path> [options]
+
+Measures engagement-driven 3D startup on the mobile profile with 4x CPU throttling.
+
+Options:
+  --serve <dir>       serve a static export on a free local port
+  --route <path>      route to open (default: /)
+  --engage <kind>     move or click (default: move)
+  --runs <n>          measured runs (default: 2)
+  --attribute         install the GL attribution wrappers
+  --cpu <rate>        CPU throttling rate (default: 4)
+  --out <dir>         output directory (default: .evidence/startup-<timestamp>)
+  --keep-trace        write the sanitized, gzipped Chromium trace
+  --no-observers      disable the ready and layout-shift observers
+  --help              show this help
+
+Exit codes:
+0 success: every artifact written / every gate assertion passed
+1 internal error (bug, unexpected exception)
+2 usage error: missing/invalid args, URL not `http(s)`, `--out` not writable
+3 target unreachable: DNS/TLS/connection failure, document HTTP status >= 400, or preview not resolvable
+4 browser unavailable: Chromium missing or failed to launch (message prints the install command)
+5 partial evidence (evidence CLI only): at least one artifact step failed; `meta.json.steps` says which; other artifacts still written
+6 budget violated (gates and `fps --expect` only)
+
+== Exact T003 check output ==
+HELP-OK
+$ node tools/perf/src/cli/startup-profile.ts --serve apps/web/out --route /projects/websocket-inspector --engage move --runs 1 --out /tmp/s115-checks/t003
+run 1/1: project move clean
+phases: P0=27.3 P1=31.5 P2=145.8 P3=null P4=null P5=null P6=null P7=null P8=null P9=null
+cost: 379.9 ms; attributed: 135.8 ms; other: 244.1 ms; blocking: 90.2 ms
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s115-checks/t003/startup-project-move-clean-r1.json
+summary: /tmp/s115-checks/t003/summary.json (mainThreadCostMs=379.9, spreadFlagged=false)
+$ node tools/perf/src/cli/startup-profile.ts --serve apps/web/out --route /projects/websocket-inspector --engage move --runs 1 --attribute --out /tmp/s115-checks/t003--attribute
+run 1/1: project move attributed
+phases: P0=28.6 P1=29.0 P2=145.5 P3=134.2 P4=218.1 P5=65.8 P6=0.0 P7=3.0 P8=5.3 P9=2.8
+cost: 375.1 ms; attributed: 270.1 ms; other: 105.0 ms; blocking: 89.3 ms
+glCounts: createProgram=1 linkProgram=1
+startup: /tmp/s115-checks/t003--attribute/startup-project-move-attributed-r1.json
+summary: /tmp/s115-checks/t003--attribute/summary.json (mainThreadCostMs=375.1, spreadFlagged=false)
+PHASES-OK
+run 1/1: project move clean
+phases: P0=25.6 P1=32.0 P2=144.7 P3=null P4=null P5=null P6=null P7=null P8=null P9=null
+cost: 374.4 ms; attributed: 133.9 ms; other: 240.5 ms; blocking: 89.0 ms
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s115-checks/t003-noobs/startup-project-move-clean-r1.json
+summary: /tmp/s115-checks/t003-noobs/summary.json (mainThreadCostMs=374.4, spreadFlagged=false)
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-SRC-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+DEV-ROUTES-OK
+S8-TOOLS-OK
+CI-JOBS-OK
+VERSIONS-OK
+GITLEAKS-OK
+
+== Final verification tail ==
+tools/perf: 172 tests passed; packages/xploder: 617 tests passed; apps/web: 167 passed, 2 skipped.
+T003-OK
+
+== Attribute run phase table ==
+One attributed run from the exact check (`startup-project-move-attributed-r1.json`, 4x CPU, move):
+
+| phase | ms | mainThreadMs | count | domLayoutMs |
+|---|---:|---:|---:|---:|
+| P0 | 28.588 | 0.000 |  |  |
+| P1 | 29.015 | 0.000 | 3 |  |
+| P2 | 145.517 | 1.082 | 9 |  |
+| P3 | 134.200 | 134.200 | 1 |  |
+| P4 | 218.100 | 59.037 |  |  |
+| P5 | 65.800 | 64.989 | 1 |  |
+| P6 | 0.000 | 0.000 | 14 |  |
+| P7 | 3.000 | 3.000 | 6 |  |
+| P8 | 5.296 | 5.296 | 7 | 4.996 |
+| P9 | 2.825 | 2.511 |  |  |
+
+cost=375.066 ms; attributed=270.115 ms; other=104.951 ms; blocking=89.336 ms
+probeContexts={"count":1,"ms":5.6}; firstFrame=2827.33 ms
+P5 starts at the connected viewer canvas. The detached `hasWebgl()` getContext probe is reported only in `probeContexts`; its time stays inside P4. P3 and P4 are null in clean runs (see the clean rows above).
+
+== P2 trace event names (one real attributed trace) ==
+Trace: `trace-project-move-attributed-r1.json.gz` from the final-build attributed run.
+Distinct names whose args carry a chunk URL, or that are V8 compile/parse events on any thread:
+
+```
+ResourceSendRequest              chunkUrl=true   v8CompileParse=false
+v8.parseOnBackground             chunkUrl=true   v8CompileParse=true
+v8.parseOnBackgroundParsing      chunkUrl=false  v8CompileParse=true
+EvaluateScript                   chunkUrl=true   v8CompileParse=false
+v8.compile                       chunkUrl=true   v8CompileParse=true
+FunctionCall                     chunkUrl=true   v8CompileParse=false
+```
+
+P2 matches `EvaluateScript`, `v8.compile`, `v8.evaluateModule`, `v8.compileModule`,
+`V8.CompileCode`, and `v8.parseOnBackground` (9 events in this run = 3 + 3 + 3).
+`v8.parseOnBackgroundParsing` is nested under `v8.parseOnBackground` on the same worker
+thread, so it is not summed separately. Background parse contributes to P2.ms but not
+P2.mainThreadMs. `FunctionCall` is not a P2 or P3 phase event: chunk FunctionCalls include
+React render callbacks after mount, so P3 is defined only by depth-0 `moduleEval` spans from
+the init script.
+
+== Observer overhead ==
+
+clean run with observers: 379.922 ms
+
+clean run with --no-observers: 374.370 ms
+
+delta (off - on): -5.552 ms (-1.461%) — recorded, not gated
+
+== Trace sanitization ==
+
+The kept attributed trace is gzip-compressed; the CLI normalized the local served origin and
+the path sanitizer removed absolute worktree/home paths and file:// URLs.
+
+== orchestrator re-check on the merged slice branch (after resolving the T003/T004 startup.ts merge) ==
+$ node tools/perf/src/cli/startup-profile.ts --help
+HELP-OK
+cost: 373.0 ms; attributed: 267.4 ms; other: 105.6 ms; blocking: 86.8 ms
+glCounts: createProgram=1 linkProgram=1
+startup: /tmp/s115-checks/t003r-attr/startup-project-move-attributed-r1.json
+summary: /tmp/s115-checks/t003r-attr/summary.json (mainThreadCostMs=373.0, spreadFlagged=false)
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s115-checks/t003r-hero/startup-home-move-clean-r1.json
+summary: /tmp/s115-checks/t003r-hero/summary.json (mainThreadCostMs=307.7, spreadFlagged=false)
+glCounts: createProgram=0 linkProgram=0
+startup: /tmp/s115-checks/t003r-click/startup-project-click-clean-r1.json
+summary: /tmp/s115-checks/t003r-click/summary.json (mainThreadCostMs=406.7, spreadFlagged=false)
+FROZEN-OK BRIEF-HISTORY-OK XPLODER-SRC-OK SURFACE-S2-OK SURFACE-S4-OK SURFACE-S5-OK SURFACE-S6-OK SURFACE-S7-OK SURFACE-S8-OK DEV-ROUTES-OK S8-TOOLS-OK CI-JOBS-OK VERSIONS-OK GITLEAKS-OK 
+$ pnpm -r --if-present typecheck
+$ pnpm -r --if-present lint && pnpm format:check
+$ prettier --check .
+$ pnpm -r --if-present test
+T003-RECHECK-OK

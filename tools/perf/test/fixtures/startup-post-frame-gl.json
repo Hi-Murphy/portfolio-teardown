@@ -1,0 +1,97 @@
+{
+  "events": [
+    {
+      "name": "TracingStartedInBrowser",
+      "ph": "I",
+      "pid": 899,
+      "tid": 1,
+      "ts": 1000000000,
+      "args": { "data": { "frames": [{ "processId": 900, "isOutermostMainFrame": true }] } }
+    },
+    {
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1000000000,
+      "args": { "name": "CrRendererMain" }
+    },
+    {
+      "name": "ResourceSendRequest",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001050000,
+      "args": {
+        "data": {
+          "requestId": "post-frame-chunk",
+          "url": "https://example.test/_next/static/chunks/post-frame.js",
+          "resourceType": "Script"
+        }
+      }
+    },
+    {
+      "name": "ResourceFinish",
+      "ph": "I",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001080000,
+      "args": { "data": { "requestId": "post-frame-chunk" } }
+    },
+    {
+      "name": "v8.compile",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001060000,
+      "dur": 5000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/post-frame.js" } }
+    },
+    {
+      "name": "EvaluateScript",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001070000,
+      "dur": 5000,
+      "args": { "data": { "url": "https://example.test/_next/static/chunks/post-frame.js" } }
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001000000,
+      "dur": 20000
+    },
+    {
+      "name": "RunTask",
+      "ph": "X",
+      "pid": 900,
+      "tid": 901,
+      "ts": 1001100000,
+      "dur": 350000
+    },
+    {
+      "name": "DrawFrame",
+      "ph": "I",
+      "cat": "disabled-by-default-devtools.timeline.frame",
+      "pid": 899,
+      "tid": 902,
+      "ts": 1001400000
+    }
+  ],
+  "spans": [
+    { "name": "getContext", "start": 1100, "dur": 5 },
+    { "name": "createProgram", "start": 1110, "dur": 5 },
+    { "name": "bufferData", "start": 1120, "dur": 10 },
+    { "name": "drawElementsInstanced", "start": 1390, "dur": 4 },
+    { "name": "bufferSubData", "start": 1450, "dur": 30 }
+  ],
+  "marks": {
+    "traceTimeOriginUs": 1000000000,
+    "loadMs": 500,
+    "engageMs": 1000,
+    "readyMs": 1400
+  }
+}
