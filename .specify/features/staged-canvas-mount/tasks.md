@@ -60,9 +60,9 @@
 | T003 | ☑ (`--cpu-profile` with native-aware attribution; sequence: ready.raf = firstInstancedDraw.raf) | 1 (Flash) ×2: orchestrator review revision (url-less samples dropped); 1 re-dispatch after API stream disconnect (not counted); evidence note corrected by orchestrator | evidence/T003-log-profile-sequence.txt | ec3e1b6 |
 | T004 | ☑ AC1 re-baseline: max long task 57.7 / 56.9 / 54.2 ms (fps, home-move / project-move / project-click), dropped 1 / 6 / 6.5, cost 268 / 317 / 328 ms; no drift (parity 0 px vs T014, bytes identical); chain mount → first frame → post-frame commit holds every drop | 1 (Flash: measurements + tables) + orchestrator (task identity, §7 interpretation, lever order) | evidence/T004-log-rebaseline.md, T004-log-task-identity.txt | 607e919 |
 | T005 | ☑ kept L1: long tasks 0 on all paths (max 57.7/56.9/54.2 → 0 ms); dropped frames 1→2 / 6→6 / 6.5→5.5; time to first content +2 / +10 / +15 ms (D-P3 fix; first pass was +275–285 ms); parity 0 px; bytes +722 raw / +307 gz (lazy scope; project initial gz +2) | 1 (Flash) ×2: orchestrator review revision (300 ms Suspense retry throttle, D-P3); frame diagnosis by orchestrator | evidence/T005-log-l1-ab.md, T005-log-frame-diagnosis.md | 992bd43 |
-| T006 | ☐ | | | |
+| T006 | ☑ kept L4 (keep rule met only by project-move cost −3.2 ms vs 1.5 ms spread; long tasks stay 0; dropped frames 2→1.5 / 6→5 / 5.5→5.5 within spread; first content −0.4 / −9.2 ms project, home +28.5 within its 47.9 ms pair spread); bytes +766 raw / +311 gz total; some drops fall outside any > 16.7 ms task | 1 (Flash) | evidence/T006-log-l4-ab.md | (this merge) |
 | T007 | ☐ (conditional) | | | |
-| T007b | ☐ (conditional, G1-approved L5) | | | |
+| T007b | ☐ (conditional, G1-approved L5) — runs BEFORE T007: both conditions met by T006 §7 (drops inside the ≈ 32 ms first-frame and post-frame tasks); L5 is single-file S8 with lower risk, and the two have comparable expected payoff | | | |
 | T008 | ⊘ skipped (G1 decision; T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) | — | evidence/T004-log-rebaseline.md §7 | — |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
