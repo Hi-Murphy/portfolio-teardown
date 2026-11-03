@@ -95,7 +95,38 @@ describe('staged renderer', () => {
     expect(mocks.renderer).toHaveBeenCalledTimes(1);
   });
 
-  test('falls back to a message task when requestIdleCallback is unavailable', async () => {
+  test('stays pending for one more task after construction', async () => {
+    const yields: Array<() => void> = [];
+    setWindow({
+      scheduler: {
+        yield: () =>
+          new Promise((resolve) => {
+            yields.push(resolve);
+          }),
+      },
+    });
+
+    const pending = createStagedRenderer(rendererDefaults());
+    let resolved = false;
+    void pending.then(() => {
+      resolved = true;
+    });
+
+    expect(yields).toHaveLength(1);
+    yields.shift()?.();
+    await Promise.resolve();
+
+    expect(mocks.renderer).toHaveBeenCalledTimes(1);
+    expect(resolved).toBe(false);
+    expect(yields).toHaveLength(1);
+
+    yields.shift()?.();
+    await pending;
+
+    expect(resolved).toBe(true);
+  });
+
+  test('falls back to message tasks when requestIdleCallback is unavailable', async () => {
     let idleHandler: (() => void) | null = null;
     const close = vi.fn();
     const postMessage = vi.fn(() => idleHandler?.());
@@ -127,7 +158,7 @@ describe('staged renderer', () => {
     await pending;
 
     expect(postMessage).toHaveBeenCalledWith(null);
-    expect(close).toHaveBeenCalledTimes(1);
+    expect(close).toHaveBeenCalledTimes(2);
     expect(mocks.renderer).toHaveBeenCalledTimes(1);
   });
 
