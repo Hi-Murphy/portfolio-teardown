@@ -61,9 +61,10 @@
 | T004 | ☑ AC1 re-baseline: max long task 57.7 / 56.9 / 54.2 ms (fps, home-move / project-move / project-click), dropped 1 / 6 / 6.5, cost 268 / 317 / 328 ms; no drift (parity 0 px vs T014, bytes identical); chain mount → first frame → post-frame commit holds every drop | 1 (Flash: measurements + tables) + orchestrator (task identity, §7 interpretation, lever order) | evidence/T004-log-rebaseline.md, T004-log-task-identity.txt | 607e919 |
 | T005 | ☑ kept L1: long tasks 0 on all paths (max 57.7/56.9/54.2 → 0 ms); dropped frames 1→2 / 6→6 / 6.5→5.5; time to first content +2 / +10 / +15 ms (D-P3 fix; first pass was +275–285 ms); parity 0 px; bytes +722 raw / +307 gz (lazy scope; project initial gz +2) | 1 (Flash) ×2: orchestrator review revision (300 ms Suspense retry throttle, D-P3); frame diagnosis by orchestrator | evidence/T005-log-l1-ab.md, T005-log-frame-diagnosis.md | 992bd43 |
 | T006 | ☑ kept L4 (keep rule met only by project-move cost −3.2 ms vs 1.5 ms spread; long tasks stay 0; dropped frames 2→1.5 / 6→5 / 5.5→5.5 within spread; first content −0.4 / −9.2 ms project, home +28.5 within its 47.9 ms pair spread); bytes +766 raw / +311 gz total; some drops fall outside any > 16.7 ms task | 1 (Flash) | evidence/T006-log-l4-ab.md | (this merge) |
-| T007 | ☐ (conditional) | | | |
-| T007b | ☐ (conditional, G1-approved L5) — runs BEFORE T007: both conditions met by T006 §7 (drops inside the ≈ 32 ms first-frame and post-frame tasks); L5 is single-file S8 with lower risk, and the two have comparable expected payoff | | | |
+| T007 | ⊘ skipped (evidence): program setup inside the first-frame task is ≈ 4–6 ms (T004 §3: `acquireProgram` 1.2, `setup` 1.7, `getParameters` 1.1 ms, plus uniforms) of a ≈ 32 ms task. Removing all of it leaves ≈ 26–28 ms, still above one frame, so no dropped frame moves under the AC2 harness (T005-log-frame-diagnosis.md). The rest of the frame (three render + overlay projection) must stay in the first content frame (AC4) | — | evidence/T004-log-rebaseline.md §3, T006-log-l4-ab.md §7 | — |
+| T007b | ↺ measured and reverted (keep rule: no metric beyond spread; project-move cost +4.7 ms; dropped frames 1.5→1 / 5→5.5 / 5.5→5, all within spread; only `setPhase` feeds the post-frame commit). Lever + re-seal reverted, evidence kept | 1 (Flash); revert by orchestrator | evidence/T007b-log-l5-ab.md | 7dbfebf |
 | T008 | ⊘ skipped (G1 decision; T004 §4/§7: probe in a < 50 ms task with no frame pending, no drop) | — | evidence/T004-log-rebaseline.md §7 | — |
+| T008b | ☐ (G2-added: bytes) | | | |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
@@ -324,6 +325,18 @@
   1. Nothing hands-on (default: the log).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing.
+
+### T008b [US3] Lever code compaction for AC3 bytes (`TeardownViewer.tsx`, S8) — added in G2
+
+- **Why:** after T006, the lazy and total scopes are +766 B raw / +311 B gzip over S11.5 final. AC3 needs ≤ in every scope.
+- **Change:** same behaviour, less code.
+  - One `nextTask()` helper: `scheduler.yield()`, else a macrotask without a numeric delay. No `requestIdleCallback` path: rIC starved in T005 and was already bypassed in Chromium.
+  - The D-P3 settle re-render as a `useReducer` bump called after the factory resolves. React schedules it in a later task, so it lands after R3F's `apply`, and React ignores updates after unmount, so no mounted flag is needed.
+  - `createStagedRenderer` stays the module export for tests.
+- **Tests:** `staged-mount.test.tsx` adapts to the new shape (same assertions: constructor args, construction after a yield, config after one more task, re-render after settle, rejection to the boundary).
+- **Check:** bytes vs T004 (`bundle-scopes.mjs`, all four scopes, raw + gzip), plus a behaviour A/B vs T006 (clean ×2 + fps ×2 on 3 paths, attributed ×1 with the AC4 sequence, parity 0 px, draws, hero). Keep if bytes shrink and no metric regresses beyond spread.
+- **Commits:** the lever-style commit + S8 re-seal.
+- **Evidence:** `evidence/T008b-log-bytes.md`.
 
 ### T009 [US1, US3] Final AC2/AC3/AC4 + before/after table
 
