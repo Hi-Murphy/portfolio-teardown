@@ -223,3 +223,115 @@ Median runs: r1 #1, r2 #3.
 | r1-1 | 1kgrt2f4mrm63.js | 4013.3559 | 198 |
 
 **Verdict:** keep the gate
+
+## Run 3 — https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41639534169 (triggered by the T011 push, head f8f937d)
+
+# Eager 3D Lighthouse
+
+AC6 uses the eager two-invocation median on both routes: performance >= 0.95 and TBT <= 200 ms.
+
+## gated / home
+
+| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
+|---:|---:|---:|---:|---:|---:|
+| r1-1 | 1 | 37 | 905.9046 | 0 | 3874 |
+| r1-2 | 1 | 43 | 905.8946 | 0 | 3973.5 |
+| r1-3 | 1 | 41 | 906.0614 | 0 | 3796 |
+| r1 median | 1 | 41 | 905.9046 | 0 | 3874 |
+| r2-1 | 1 | 37 | 904.478 | 0 | 3626 |
+| r2-2 | 1 | 38 | 906.912 | 0 | 3761.5 |
+| r2-3 | 1 | 42 | 906.3991 | 0 | 3802 |
+| r2 median | 1 | 38 | 906.3991 | 0 | 3761.5 |
+| two-invocation median | 1 | 39.5 | 906.1519 | 0 | 3817.75 |
+
+Median runs: r1 #1, r2 #3.
+
+**Five longest tasks**
+
+| Run | URL | Start (ms) | Duration (ms) |
+|---:|---|---:|---:|
+| r2-3 | Unattributable | 753.1996 | 100 |
+| r2-1 | Unattributable | 752.239 | 96 |
+| r1-2 | 10kujx8nsd3ck.js | 2105.8946 | 93 |
+| r2-3 | 10kujx8nsd3ck.js | 2106.3991 | 92 |
+| r1-3 | 10kujx8nsd3ck.js | 2106.0614 | 91 |
+
+## gated / project
+
+| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
+|---:|---:|---:|---:|---:|---:|
+| r1-1 | 1 | 38 | 906.1169 | 0 | 3835.5 |
+| r1-2 | 1 | 41 | 909.9989 | 0 | 3758.5 |
+| r1-3 | 1 | 41 | 905.1119 | 0 | 3722 |
+| r1 median | 1 | 41 | 906.1169 | 0 | 3758.5 |
+| r2-1 | 1 | 36 | 906.0802 | 0 | 3932.5 |
+| r2-2 | 1 | 38 | 905.2484 | 0 | 4012.5 |
+| r2-3 | 1 | 38 | 904.031 | 0 | 3793.5 |
+| r2 median | 1 | 38 | 905.2484 | 0 | 3932.5 |
+| two-invocation median | 1 | 39.5 | 905.6827 | 0 | 3845.5 |
+
+Median runs: r1 #1, r2 #2.
+
+**Five longest tasks**
+
+| Run | URL | Start (ms) | Duration (ms) |
+|---:|---|---:|---:|
+| r2-2 | Unattributable | 753.6242 | 106 |
+| r1-2 | Unattributable | 754.9995 | 101 |
+| r1-3 | Unattributable | 752.556 | 100 |
+| r1-3 | 10kujx8nsd3ck.js | 2105.1119 | 91 |
+| r1-2 | 10kujx8nsd3ck.js | 2109.9989 | 91 |
+
+## eager / home
+
+| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
+|---:|---:|---:|---:|---:|---:|
+| r1-1 | 1 | 62.5 | 908.6341 | 0 | 3650 |
+| r1-2 | 1 | 63 | 905.7011 | 0 | 3545 |
+| r1-3 | 1 | 62.5 | 905.7297 | 0 | 3732.5 |
+| r1 median | 1 | 62.5 | 905.7297 | 0 | 3650 |
+| r2-1 | 1 | 54.5 | 906.9417 | 0 | 4122 |
+| r2-2 | 1 | 62.5 | 905.4118 | 0 | 3677.5 |
+| r2-3 | 1 | 69.5 | 905.6019 | 0 | 4006.5 |
+| r2 median | 1 | 62.5 | 905.6019 | 0 | 4006.5 |
+| two-invocation median | 1 | 62.5 | 905.6658 | 0 | 3828.25 |
+
+Median runs: r1 #3, r2 #3.
+
+**Five longest tasks**
+
+| Run | URL | Start (ms) | Duration (ms) |
+|---:|---|---:|---:|
+| r2-3 | 1kgrt2f4mrm63.js | 3379.0048 | 92 |
+| r2-3 | 10kujx8nsd3ck.js | 2105.6019 | 89 |
+| r1-3 | 10kujx8nsd3ck.js | 2105.7297 | 88 |
+| r1-1 | 10kujx8nsd3ck.js | 2108.6341 | 88 |
+| r1-2 | 10kujx8nsd3ck.js | 2105.7011 | 86 |
+
+## eager / project
+
+| Run | Performance | TBT (ms) | LCP (ms) | CLS | benchmarkIndex |
+|---:|---:|---:|---:|---:|---:|
+| r1-1 | 0.99 | 98.5 | 905.4981 | 0 | 4128 |
+| r1-2 | 0.99 | 101 | 905.2723 | 0 | 3835 |
+| r1-3 | 0.99 | 112.5 | 906.2425 | 0 | 4030.5 |
+| r1 median | 0.99 | 101 | 905.4981 | 0 | 4030.5 |
+| r2-1 | 0.99 | 99 | 905.49 | 0 | 3984 |
+| r2-2 | 0.99 | 105.5 | 905.6759 | 0 | 3854 |
+| r2-3 | 0.99 | 94 | 904.7893 | 0 | 3746 |
+| r2 median | 0.99 | 99 | 905.49 | 0 | 3854 |
+| two-invocation median | 0.99 | 100 | 905.4941 | 0 | 3942.25 |
+
+Median runs: r1 #1, r2 #1.
+
+**Five longest tasks**
+
+| Run | URL | Start (ms) | Duration (ms) |
+|---:|---|---:|---:|
+| r2-2 | Unattributable | 752.838 | 133 |
+| r1-2 | 1kgrt2f4mrm63.js | 3680.1807 | 109 |
+| r1-1 | 1kgrt2f4mrm63.js | 3729.7452 | 107 |
+| r2-1 | 1kgrt2f4mrm63.js | 3678.725 | 105 |
+| r1-3 | 1kgrt2f4mrm63.js | 3730.6063 | 102 |
+
+**Verdict:** recommend retiring D-19

@@ -49,3 +49,16 @@
 ## Recommendation (per AC5)
 
 **Keep D-19's interaction gate.** The flag stays off by default and `eager-3d.yml` stays until Murphy's D-19 decision. Retiring D-19 on run 1 alone would depend on CI hardware luck. Run 2, on the same host class as S11.5's binding measurement, fails both criteria on the project route.
+
+## Addendum: run 3 (T012, informational)
+
+Pushing the T011 commit triggered a third `eager-3d` run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41639534169, head `f8f937d`, the same product code. It landed on a fast runner (benchmarkIndex ≈ 3,800–3,950):
+
+| Route | Eager perf / TBT | Gated perf / TBT |
+|---|---|---|
+| `/` | 1.00 / 62.5 ms | 1.00 / 39.5 ms |
+| project | 0.99 / 100 ms | 1.00 / 39.5 ms |
+
+That is a pass, like run 1.
+
+**Picture across three runs:** the eager build passes on every fast runner (2/2) and fails on the one slow runner, the host class S11.5 was judged on. The two-binding-run rule (RFC Q12) already decided **keep the gate**, and run 3 does not change it. It does confirm that the outcome tracks runner speed, which is why retiring D-19 needs the slow-host load path fixed first. Raw summaries: `T011-lighthouse-summary-ci-*-run3.json`.

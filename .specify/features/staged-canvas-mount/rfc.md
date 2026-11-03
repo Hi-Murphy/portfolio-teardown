@@ -368,4 +368,11 @@ Names follow the brief's list. Expected effects are **estimates** from the T010 
    - Run 1 (fast runner) passes. Run 2 (slow runner, the same host class as S11.5 T017) fails: project 0.87 / 506 ms.
    - **AC5 verdict: keep the gate** (`evidence/T011-log-eager-verdict.md`).
    - The slow-runner eager TBT is dominated by ≈ 200 ms react-dom tasks on the load path, which this slice's engagement-path levers do not address. Recorded as a follow-up item.
+9. **G3 decision (Murphy, 2026-11-03, 5h 0%): "go".** G4 runs T012.
+10. **Stage 3 G4 (2026-11-03): end-contract** (`evidence/AC-selfcheck.md`).
+    - **Met:** AC1, AC4, AC5 (verdict: keep the gate), AC6.
+    - **AC2:** long-task half met; dropped-frame half escalated.
+    - **AC3:** parity, draw calls and CLS met; byte clause missed by +289 B raw / +136 B gzip, escalated.
+    - Both escalations were accepted at G2.
+    - PR #18 is a draft, awaiting Murphy's validation and "merge".
 
