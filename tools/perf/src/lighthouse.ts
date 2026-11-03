@@ -6,6 +6,13 @@ import { CliError, EXIT } from './exit-codes.ts';
 
 export interface LighthouseAudit {
   numericValue?: number | null;
+  details?: unknown;
+}
+
+export interface LighthouseAuditItem {
+  url?: string;
+  startTime?: number;
+  duration?: number;
 }
 
 export interface LighthouseCategory {
@@ -37,6 +44,12 @@ export interface LighthouseLhr {
 
 export type LHR = LighthouseLhr;
 
+export interface LighthouseLongTask {
+  url: string;
+  startMs: number;
+  durMs: number;
+}
+
 export interface LighthouseRun {
   performance: number;
   accessibility: number | null;
@@ -47,6 +60,7 @@ export interface LighthouseRun {
   siMs: number;
   totalByteWeight: number;
   benchmarkIndex: number;
+  longTasks: LighthouseLongTask[];
 }
 
 export interface Assertion {
@@ -104,6 +118,31 @@ function chromiumVersion(lhrs: LHR[]): string {
   return 'unknown';
 }
 
+function longTasksFrom(lhr: LHR): LighthouseLongTask[] {
+  const details = lhr.audits?.['long-tasks']?.details;
+  if (typeof details !== 'object' || details === null || !('items' in details)) return [];
+
+  const items = details.items;
+  if (!Array.isArray(items)) return [];
+
+  return items.flatMap((item) => {
+    if (typeof item !== 'object' || item === null) return [];
+
+    const { url, startTime, duration } = item as LighthouseAuditItem;
+    if (
+      typeof url !== 'string' ||
+      typeof startTime !== 'number' ||
+      !Number.isFinite(startTime) ||
+      typeof duration !== 'number' ||
+      !Number.isFinite(duration)
+    ) {
+      return [];
+    }
+
+    return [{ url, startMs: startTime, durMs: duration }];
+  });
+}
+
 function runFromLhr(lhr: LHR): LighthouseRun {
   return {
     performance: performanceScore(lhr),
@@ -115,6 +154,7 @@ function runFromLhr(lhr: LHR): LighthouseRun {
     siMs: auditValue(lhr, 'speed-index'),
     totalByteWeight: auditValue(lhr, 'total-byte-weight'),
     benchmarkIndex: lhr.environment?.benchmarkIndex ?? 0,
+    longTasks: longTasksFrom(lhr),
   };
 }
 
