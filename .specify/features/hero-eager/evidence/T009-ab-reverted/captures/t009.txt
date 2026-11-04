@@ -1,0 +1,83 @@
+BLUEPRINT-SCENE-UNCHANGED
+VITEST_EXIT=1
+ ❯ test/frozen-surface.test.ts:205:47
+    203|       if (workingCopy === undefined) throw new Error(`Missing working …
+    204|
+    205|       expect(await sha256(workingCopy), path).toBe(expected);
+       |                                               ^
+    206|     }
+    207|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  1 failed | 70 passed (71)
+   Start at  13:34:40
+   Duration  832ms (tests 42%, transform 26%, import 19%, environment 12%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in ./packages/xploder
+
+BUILD_EAGER_EXIT=0
+LEVER_BLOCK_EXIT=0
+GUARDS_EXIT=1
+FROZEN-OK
+BRIEF-HISTORY-OK
+G1-LIST-OK
+FAIL XPLODER-SRC
+XPLODER-TEST-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+FAIL SURFACE-S6
+SURFACE-S7-OK
+SURFACE-S8-OK
+SEALED-TESTS-OK
+RESEAL-NOTE-OK
+BASELINE-FIRST-OK
+APP-TOUCH-OK
+DEV-ROUTES-OK
+CI-JOBS-OK
+FLAG-DEFAULT-OK
+VERSIONS-OK
+BUDGETS-OK
+GITLEAKS-OK
+TYPECHECK_EXIT=0
+LINT_EXIT=0
+TEST_EXIT=1
+packages/xploder test: Received: "e773c68d547dae4b959cc3e8e8a937de063cc440bc962c1bedc9fb7da1827e4c"
+packages/xploder test: 
+packages/xploder test:  ❯ test/frozen-surface.test.ts:205:47
+packages/xploder test:     203|       if (workingCopy === undefined) throw new Error(`Missing working …
+packages/xploder test:     204|
+packages/xploder test:     205|       expect(await sha256(workingCopy), path).toBe(expected);
+packages/xploder test:        |                                               ^
+packages/xploder test:     206|     }
+packages/xploder test:     207|   });
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+packages/xploder test: 
+packages/xploder test: 
+packages/xploder test:  Test Files  1 failed | 62 passed (63)
+packages/xploder test:       Tests  1 failed | 625 passed (626)
+packages/xploder test:    Start at  13:38:40
+packages/xploder test:    Duration  78.58s (tests 91%, import 6%, transform 2%, environment 1%)
+packages/xploder test: 
+packages/xploder test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in ./packages/xploder
+
+[ELIFECYCLE] Test failed. See above for more details.
+BUILD_EXIT=0
+T009-NOT-OK: expected pre-re-seal failures; T009-OK not emitted
+GUARDS_FINAL_EXIT=1
+FAIL XPLODER-SRC
+XPLODER-TEST-OK
+FAIL SURFACE-S6
+SEALED-TESTS-OK
+GITLEAKS-OK
+LINT_FINAL_EXIT=0

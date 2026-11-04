@@ -1,0 +1,6 @@
+$ pnpm perf:lighthouse PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-project-r1
+$ node tools/perf/src/cli/lighthouse-gate.ts PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-project-r1
+performance: 1 >= 0.95 (median) pass
+lcp: 903.3131000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t009/lh-project-r1/lighthouse-summary.json
