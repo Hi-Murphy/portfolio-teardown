@@ -89,6 +89,16 @@ interface LabelOption {
   readonly fellBack: boolean;
 }
 
+interface PreparedObstacle {
+  readonly minX: number;
+  readonly maxX: number;
+  readonly minY: number;
+  readonly maxY: number;
+  readonly axes: Float64Array;
+  readonly hullMin: Float64Array;
+  readonly hullMax: Float64Array;
+}
+
 function orderKey(label: PlacementLabel): readonly [number, number, number] {
   if (label.kind === 'layer') return [0, label.layerIndex ?? 0, 0];
   if (label.kind === 'part' || label.kind === 'tag') {
@@ -147,15 +157,6 @@ function clampToViewport(
       VIEWPORT_INSET_PX,
       Math.min(candidateBox.y, viewport.height - VIEWPORT_INSET_PX - candidateBox.h),
     ),
-  };
-}
-
-function inflate(rect: Rect, amount: number): Rect {
-  return {
-    x: rect.x - amount,
-    y: rect.y - amount,
-    w: rect.w + 2 * amount,
-    h: rect.h + 2 * amount,
   };
 }
 
@@ -256,30 +257,101 @@ function rectsOverlap(left: Rect, right: Rect): boolean {
   );
 }
 
-function rectOverlapsPolygon(rect: Rect, polygon: readonly Vec2[]): boolean {
-  if (polygon.length === 0) return false;
+function prepareObstacles(obstacles: readonly (readonly Vec2[])[]): PreparedObstacle[] {
+  return obstacles.map((polygon) => {
+    let edgeCount = 0;
 
-  const axes: Vec2[] = [
-    [1, 0],
-    [0, 1],
-  ];
+    for (let index = 0; index < polygon.length; index += 1) {
+      const from = polygon[index];
+      const to = polygon[(index + 1) % polygon.length];
 
-  for (let index = 0; index < polygon.length; index += 1) {
-    const from = polygon[index];
-    const to = polygon[(index + 1) % polygon.length];
+      if (from === undefined || to === undefined) continue;
+      if (to[0] - from[0] !== 0 || to[1] - from[1] !== 0) edgeCount += 1;
+    }
 
-    if (from === undefined || to === undefined) continue;
+    const axes = new Float64Array(edgeCount * 2);
+    let axisIndex = 0;
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minY = Infinity;
+    let maxY = -Infinity;
 
-    const edge: Vec2 = [to[0] - from[0], to[1] - from[1]];
+    for (const point of polygon) {
+      minX = Math.min(minX, point[0]);
+      maxX = Math.max(maxX, point[0]);
+      minY = Math.min(minY, point[1]);
+      maxY = Math.max(maxY, point[1]);
+    }
 
-    if (edge[0] !== 0 || edge[1] !== 0) axes.push([-edge[1], edge[0]]);
-  }
+    for (let index = 0; index < polygon.length; index += 1) {
+      const from = polygon[index];
+      const to = polygon[(index + 1) % polygon.length];
 
-  for (const axis of axes) {
-    const [rectMin, rectMax] = rectProjection(rect, axis);
-    const [polygonMin, polygonMax] = polygonProjection(polygon, axis);
+      if (from === undefined || to === undefined) continue;
 
-    if (rectMax <= polygonMin || polygonMax <= rectMin) return false;
+      const edgeX = to[0] - from[0];
+      const edgeY = to[1] - from[1];
+
+      if (edgeX === 0 && edgeY === 0) continue;
+
+      axes[axisIndex] = -edgeY;
+      axes[axisIndex + 1] = edgeX;
+      axisIndex += 2;
+    }
+
+    const hullMin = new Float64Array(edgeCount);
+    const hullMax = new Float64Array(edgeCount);
+
+    for (let index = 0; index < axes.length; index += 2) {
+      const axisX = axes[index] ?? 0;
+      const axisY = axes[index + 1] ?? 0;
+      let min = Infinity;
+      let max = -Infinity;
+
+      for (const point of polygon) {
+        const value = axisX * point[0] + axisY * point[1];
+        min = Math.min(min, value);
+        max = Math.max(max, value);
+      }
+
+      hullMin[index / 2] = min;
+      hullMax[index / 2] = max;
+    }
+
+    return { minX, maxX, minY, maxY, axes, hullMin, hullMax };
+  });
+}
+
+function rectOverlapsPrepared(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  obstacle: PreparedObstacle,
+): boolean {
+  const maxX = x + w;
+  const maxY = y + h;
+
+  if (maxX <= obstacle.minX || obstacle.maxX <= x) return false;
+  if (maxY <= obstacle.minY || obstacle.maxY <= y) return false;
+
+  for (let index = 0; index < obstacle.axes.length; index += 2) {
+    const axisX = obstacle.axes[index] ?? 0;
+    const axisY = obstacle.axes[index + 1] ?? 0;
+    const topLeft = axisX * x + axisY * y;
+    const topRight = axisX * maxX + axisY * y;
+    const bottomRight = axisX * maxX + axisY * maxY;
+    const bottomLeft = axisX * x + axisY * maxY;
+    const rectMin = Math.min(topLeft, topRight, bottomRight, bottomLeft);
+    const rectMax = Math.max(topLeft, topRight, bottomRight, bottomLeft);
+    const projectionIndex = index / 2;
+
+    if (
+      rectMax <= (obstacle.hullMin[projectionIndex] ?? 0) ||
+      (obstacle.hullMax[projectionIndex] ?? 0) <= rectMin
+    ) {
+      return false;
+    }
   }
 
   return true;
@@ -292,22 +364,22 @@ function nearestPoint(rect: Rect, point: Vec2): Vec2 {
   ];
 }
 
-function placementsForText(
+function* candidates(
   label: PlacementLabel,
   text: string,
   box: { readonly w: number; readonly h: number },
-  obstacles: readonly (readonly Vec2[])[],
+  obstacles: readonly PreparedObstacle[],
   placed: readonly Rect[],
   viewport: { readonly width: number; readonly height: number },
   gapPx: number,
-): LabelPlacement[] {
-  const placements: LabelPlacement[] = [];
-  const excluded = new Set(label.excludeObstacles ?? []);
-  const labelObstacles = obstacles.filter((_, index) => !excluded.has(index));
+): Generator<LabelPlacement> {
+  const anchorCount = 1 + (label.anchors?.length ?? 0);
 
-  const anchors = [label.anchor, ...(label.anchors ?? [])];
+  for (let anchorIndex = 0; anchorIndex < anchorCount; anchorIndex += 1) {
+    const anchor = anchorIndex === 0 ? label.anchor : label.anchors?.[anchorIndex - 1];
 
-  for (const anchor of anchors) {
+    if (anchor === undefined) continue;
+
     if (label.kind === 'tag') {
       const centered: Candidate = {
         x: anchor[0] - box.w / 2,
@@ -318,12 +390,21 @@ function placementsForText(
         radius: 0,
       };
 
+      const inflatedX = centered.x - gapPx;
+      const inflatedY = centered.y - gapPx;
+      const inflatedW = centered.w + 2 * gapPx;
+      const inflatedH = centered.h + 2 * gapPx;
+
       if (
         insideViewport(centered, viewport) &&
-        !labelObstacles.some((hull) => rectOverlapsPolygon(inflate(centered, gapPx), hull)) &&
-        !placed.some((rect) => rectsOverlap(inflate(centered, gapPx), rect))
+        !obstacles.some((obstacle) =>
+          rectOverlapsPrepared(inflatedX, inflatedY, inflatedW, inflatedH, obstacle),
+        ) &&
+        !placed.some((rect) =>
+          rectsOverlap({ x: inflatedX, y: inflatedY, w: inflatedW, h: inflatedH }, rect),
+        )
       ) {
-        placements.push({
+        yield {
           key: label.key,
           kind: label.kind,
           anchor,
@@ -335,20 +416,36 @@ function placementsForText(
           direction: centered.direction,
           radius: centered.radius,
           leader: null,
-        });
+        };
       }
     }
 
     for (const radius of PLACEMENT_RADII) {
       for (const direction of PREFERENCES[label.kind]) {
         const next = clampToViewport(candidate(anchor, box, radius, direction), viewport);
-        const inflated = inflate(next, gapPx);
 
         if (!insideViewport(next, viewport)) continue;
-        if (labelObstacles.some((hull) => rectOverlapsPolygon(inflated, hull))) continue;
-        if (placed.some((rect) => rectsOverlap(inflated, rect))) continue;
+        const inflatedX = next.x - gapPx;
+        const inflatedY = next.y - gapPx;
+        const inflatedW = next.w + 2 * gapPx;
+        const inflatedH = next.h + 2 * gapPx;
 
-        placements.push({
+        if (
+          obstacles.some((obstacle) =>
+            rectOverlapsPrepared(inflatedX, inflatedY, inflatedW, inflatedH, obstacle),
+          )
+        ) {
+          continue;
+        }
+        if (
+          placed.some((rect) =>
+            rectsOverlap({ x: inflatedX, y: inflatedY, w: inflatedW, h: inflatedH }, rect),
+          )
+        ) {
+          continue;
+        }
+
+        yield {
           key: label.key,
           kind: label.kind,
           anchor,
@@ -363,46 +460,47 @@ function placementsForText(
             next.radius > PLACEMENT_RADII[0]
               ? { from: anchor, to: nearestPoint(next, anchor) }
               : null,
-        });
+        };
       }
     }
   }
-
-  return placements;
 }
 
-function labelOptions(
+function* labelOptions(
   label: PlacementLabel,
-  obstacles: readonly (readonly Vec2[])[],
+  obstacles: readonly PreparedObstacle[],
   placed: readonly Rect[],
   viewport: { readonly width: number; readonly height: number },
   look: Pick<LookTokens, 'annotation'>,
-): LabelOption[] {
-  const options = placementsForText(
+): Generator<LabelOption> {
+  const excluded = new Set(label.excludeObstacles ?? []);
+  const labelObstacles = obstacles.filter((_, index) => !excluded.has(index));
+
+  for (const placement of candidates(
     label,
     label.text,
     labelBox(label.text, look.annotation),
-    obstacles,
+    labelObstacles,
     placed,
     viewport,
     look.annotation.gapPx,
-  ).map((placement) => ({ placement, fellBack: false }));
-
-  if (label.kind === 'part' && label.shortText !== undefined && label.shortText !== label.text) {
-    options.push(
-      ...placementsForText(
-        label,
-        label.shortText,
-        labelBox(label.shortText, look.annotation),
-        obstacles,
-        placed,
-        viewport,
-        look.annotation.gapPx,
-      ).map((placement) => ({ placement, fellBack: true })),
-    );
+  )) {
+    yield { placement, fellBack: false };
   }
 
-  return options;
+  if (label.kind === 'part' && label.shortText !== undefined && label.shortText !== label.text) {
+    for (const placement of candidates(
+      label,
+      label.shortText,
+      labelBox(label.shortText, look.annotation),
+      labelObstacles,
+      placed,
+      viewport,
+      look.annotation.gapPx,
+    )) {
+      yield { placement, fellBack: true };
+    }
+  }
 }
 
 function isOffscreen(
@@ -416,7 +514,7 @@ function isOffscreen(
 
 function firstFit(
   ordered: readonly OrderedLabel[],
-  obstacles: readonly (readonly Vec2[])[],
+  obstacles: readonly PreparedObstacle[],
   viewport: { readonly width: number; readonly height: number },
   look: Pick<LookTokens, 'annotation'>,
 ): PlacementResult {
@@ -431,7 +529,12 @@ function firstFit(
       continue;
     }
 
-    const option = labelOptions(label, obstacles, placements, viewport, look)[0];
+    let option: LabelOption | undefined;
+
+    for (const candidateOption of labelOptions(label, obstacles, placements, viewport, look)) {
+      option = candidateOption;
+      break;
+    }
 
     if (option === undefined) {
       hidden.push(label.key);
@@ -448,7 +551,7 @@ function firstFit(
 
 function completeSearch(
   ordered: readonly OrderedLabel[],
-  obstacles: readonly (readonly Vec2[])[],
+  obstacles: readonly PreparedObstacle[],
   viewport: { readonly width: number; readonly height: number },
   look: Pick<LookTokens, 'annotation'>,
   offscreen: readonly string[],
@@ -493,9 +596,10 @@ export function placeLabels(
   look: Pick<LookTokens, 'annotation'>,
 ): PlacementResult {
   const ordered = labels.map((label, inputIndex) => ({ label, inputIndex })).sort(compareLabels);
-  const first = firstFit(ordered, obstacles, viewport, look);
+  const prepared = prepareObstacles(obstacles);
+  const first = firstFit(ordered, prepared, viewport, look);
 
   if (first.hidden.length === 0) return first;
 
-  return completeSearch(ordered, obstacles, viewport, look, first.offscreen) ?? first;
+  return completeSearch(ordered, prepared, viewport, look, first.offscreen) ?? first;
 }
