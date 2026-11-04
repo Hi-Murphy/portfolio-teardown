@@ -1,0 +1,262 @@
+{
+  "kind": "eager-probe",
+  "version": 1,
+  "route": "/",
+  "routeName": "home",
+  "motion": "normal",
+  "run": 2,
+  "url": "http://127.0.0.1:PORT/",
+  "chromium": "156.0.8078.4",
+  "profile": "mobile",
+  "reducedMotion": "no-preference",
+  "deadlineMs": 2500,
+  "restWindowMs": 2000,
+  "reducedSettleMs": null,
+  "atDeadline": {
+    "observedAtMs": 2508.600000023842,
+    "timeOriginMs": 1793772041597.3,
+    "loadAtMs": 48.10000002384186,
+    "readyAtMs": 203.80000007152557,
+    "liveStates": [
+      {
+        "value": "idle",
+        "t": 10.899999976158142
+      },
+      {
+        "value": "loading",
+        "t": 56.89999997615814
+      },
+      {
+        "value": "revealed",
+        "t": 207.70000004768372
+      }
+    ],
+    "eventCounts": {
+      "pointerdown": 0,
+      "pointermove": 0,
+      "pointerup": 0,
+      "mousedown": 0,
+      "mousemove": 0,
+      "mouseup": 0,
+      "click": 0,
+      "touchstart": 0,
+      "touchmove": 0,
+      "wheel": 0,
+      "scroll": 0,
+      "keydown": 0,
+      "focusin": 0
+    },
+    "trustedEvents": 0,
+    "canvasCount": 1,
+    "canvasRect": {
+      "x": 21,
+      "y": 450.375,
+      "width": 370,
+      "height": 277
+    },
+    "liveState": "revealed",
+    "liveOpacity": "1",
+    "posterPresent": true,
+    "posterOpacity": "0",
+    "posterVisibility": "hidden",
+    "tour": "idle",
+    "tweening": "false",
+    "backgroundRgb": "rgb(246, 243, 234)",
+    "readyAttribute": true
+  },
+  "afterRest": {
+    "observedAtMs": 4509.200000047684,
+    "timeOriginMs": 1793772041597.3,
+    "loadAtMs": 48.10000002384186,
+    "readyAtMs": 203.80000007152557,
+    "liveStates": [
+      {
+        "value": "idle",
+        "t": 10.899999976158142
+      },
+      {
+        "value": "loading",
+        "t": 56.89999997615814
+      },
+      {
+        "value": "revealed",
+        "t": 207.70000004768372
+      }
+    ],
+    "eventCounts": {
+      "pointerdown": 0,
+      "pointermove": 0,
+      "pointerup": 0,
+      "mousedown": 0,
+      "mousemove": 0,
+      "mouseup": 0,
+      "click": 0,
+      "touchstart": 0,
+      "touchmove": 0,
+      "wheel": 0,
+      "scroll": 0,
+      "keydown": 0,
+      "focusin": 0
+    },
+    "trustedEvents": 0,
+    "canvasCount": 1,
+    "canvasRect": {
+      "x": 21,
+      "y": 450.375,
+      "width": 370,
+      "height": 277
+    },
+    "liveState": "revealed",
+    "liveOpacity": "1",
+    "posterPresent": true,
+    "posterOpacity": "0",
+    "posterVisibility": "hidden",
+    "tour": "idle",
+    "tweening": "false",
+    "backgroundRgb": "rgb(246, 243, 234)",
+    "readyAttribute": true
+  },
+  "screenshot": {
+    "file": "eager-probe-home-normal-r2.deadline.png",
+    "width": 648,
+    "height": 487,
+    "colours": 4796,
+    "nonBlank": true
+  },
+  "threeRequested": {
+    "requested": true,
+    "chunks": [
+      "/_next/static/chunks/1d5kkip1hlg-o.js",
+      "/_next/static/chunks/3vnmkhfgdnq2d.js"
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": [
+      {
+        "name": "canvas-present",
+        "pass": true,
+        "expected": true,
+        "actual": {
+          "x": 21,
+          "y": 450.375,
+          "width": 370,
+          "height": 277
+        }
+      },
+      {
+        "name": "ready-by-deadline",
+        "pass": true,
+        "expected": 2500,
+        "actual": 203.80000007152557
+      },
+      {
+        "name": "revealed-by-deadline",
+        "pass": true,
+        "expected": 2500,
+        "actual": [
+          {
+            "value": "idle",
+            "t": 10.899999976158142
+          },
+          {
+            "value": "loading",
+            "t": 56.89999997615814
+          },
+          {
+            "value": "revealed",
+            "t": 207.70000004768372
+          }
+        ]
+      },
+      {
+        "name": "live-opacity",
+        "pass": true,
+        "expected": "1",
+        "actual": "1"
+      },
+      {
+        "name": "poster-hidden",
+        "pass": true,
+        "expected": "hidden",
+        "actual": "hidden"
+      },
+      {
+        "name": "no-trusted-events",
+        "pass": true,
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "canvas-non-blank",
+        "pass": true,
+        "expected": true,
+        "actual": {
+          "file": "eager-probe-home-normal-r2.deadline.png",
+          "width": 648,
+          "height": 487,
+          "colours": 4796,
+          "nonBlank": true
+        }
+      },
+      {
+        "name": "ambient-idle",
+        "pass": true,
+        "expected": true,
+        "actual": {
+          "observedAtMs": 4509.200000047684,
+          "timeOriginMs": 1793772041597.3,
+          "loadAtMs": 48.10000002384186,
+          "readyAtMs": 203.80000007152557,
+          "liveStates": [
+            {
+              "value": "idle",
+              "t": 10.899999976158142
+            },
+            {
+              "value": "loading",
+              "t": 56.89999997615814
+            },
+            {
+              "value": "revealed",
+              "t": 207.70000004768372
+            }
+          ],
+          "eventCounts": {
+            "pointerdown": 0,
+            "pointermove": 0,
+            "pointerup": 0,
+            "mousedown": 0,
+            "mousemove": 0,
+            "mouseup": 0,
+            "click": 0,
+            "touchstart": 0,
+            "touchmove": 0,
+            "wheel": 0,
+            "scroll": 0,
+            "keydown": 0,
+            "focusin": 0
+          },
+          "trustedEvents": 0,
+          "canvasCount": 1,
+          "canvasRect": {
+            "x": 21,
+            "y": 450.375,
+            "width": 370,
+            "height": 277
+          },
+          "liveState": "revealed",
+          "liveOpacity": "1",
+          "posterPresent": true,
+          "posterOpacity": "0",
+          "posterVisibility": "hidden",
+          "tour": "idle",
+          "tweening": "false",
+          "backgroundRgb": "rgb(246, 243, 234)",
+          "readyAttribute": true
+        }
+      }
+    ]
+  },
+  "pass": true
+}
