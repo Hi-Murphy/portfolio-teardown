@@ -1,0 +1,6 @@
+$ pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out <local-path>/s118-checks/t008/probe-home-reduce
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --runs 2 --reduced-motion --out <local-path>/s118-checks/t008/probe-home-reduce
+eager-probe: home/reduce r1 PASS
+eager-probe: home/reduce r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t008/probe-home-reduce
