@@ -51,6 +51,21 @@ describe('Lighthouse per-task attribution', () => {
     expect(shares[2]).toBeCloseTo(12);
   });
 
+  test('matches with the CPU multiplier of the run (local --cpu-multiplier runs)', async () => {
+    const input = await inputs();
+    const lhr = structuredClone(input.lhr) as LHR & {
+      audits: { 'long-tasks': { details: { items: Array<{ duration: number }> } } };
+    };
+    lhr.configSettings = { ...lhr.configSettings, throttling: { cpuSlowdownMultiplier: 8 } };
+    for (const item of lhr.audits['long-tasks'].details.items) item.duration *= 2;
+
+    const report = analyzeAttribution(lhr, input.events, input.manifest);
+
+    expect(report.lantern.cpuMultiplier).toBe(8);
+    expect(report.tasks.map((task) => task.matched)).toEqual([true, true, false]);
+    expect(report.tasks.map((task) => task.observedMs)).toEqual([50, 30, null]);
+  });
+
   test('attributes functions, chunks, modules, and hypotheses', async () => {
     const input = await inputs();
     const report = analyzeAttribution(input.lhr, input.events, input.manifest);

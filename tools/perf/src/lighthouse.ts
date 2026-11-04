@@ -33,6 +33,7 @@ export interface LighthouseLhr {
   configSettings?: {
     formFactor?: 'mobile' | 'desktop';
     throttlingMethod?: string;
+    throttling?: { cpuSlowdownMultiplier?: number };
   };
   categories?: Record<string, LighthouseCategory>;
   audits?: Record<string, LighthouseAudit>;

@@ -3,7 +3,7 @@ import { summarizeCpuProfile, type CpuProfile, type CpuProfileFunction } from '.
 import { longTasksFrom, type LHR } from './lighthouse.ts';
 
 const MICROSECONDS_PER_MILLISECOND = 1000;
-const CPU_MULTIPLIER = 4;
+const DEFAULT_CPU_MULTIPLIER = 4;
 const MATCH_TOLERANCE_PCT = 25;
 const LOOSE_MATCH_TOLERANCE_PCT = 50;
 const TOP_FUNCTION_SHARE_PCT = 5;
@@ -708,15 +708,16 @@ function isUrlLess(url: string): boolean {
   return value === '' || value.toLowerCase() === 'unattributable';
 }
 
-function durationErrorPct(task: ObservedTask, simulatedMs: number): number {
+function durationErrorPct(task: ObservedTask, simulatedMs: number, multiplier: number): number {
   if (simulatedMs === 0) return Number.POSITIVE_INFINITY;
-  return (Math.abs(task.durMs * CPU_MULTIPLIER - simulatedMs) / simulatedMs) * 100;
+  return (Math.abs(task.durMs * multiplier - simulatedMs) / simulatedMs) * 100;
 }
 
 function candidatesFor(
   longTask: { url: string; durMs: number },
   tasks: readonly ObservedTask[],
   tolerancePct: number,
+  multiplier: number,
 ): Array<{ task: ObservedTask; errorPct: number }> {
   const urlLess = isUrlLess(longTask.url);
   return tasks
@@ -725,7 +726,7 @@ function candidatesFor(
         ? task.runTaskUrls.size === 0
         : [...task.urls].some((taskUrl) => sameUrl(taskUrl, longTask.url)),
     )
-    .map((task) => ({ task, errorPct: durationErrorPct(task, longTask.durMs) }))
+    .map((task) => ({ task, errorPct: durationErrorPct(task, longTask.durMs, multiplier) }))
     .filter((candidate) => candidate.errorPct <= tolerancePct)
     .sort(
       (left, right) => left.errorPct - right.errorPct || left.task.startUs - right.task.startUs,
@@ -735,12 +736,13 @@ function candidatesFor(
 function matchTask(
   longTask: { url: string; durMs: number },
   tasks: readonly ObservedTask[],
+  multiplier: number,
 ): TaskMatch | undefined {
-  const exact = candidatesFor(longTask, tasks, MATCH_TOLERANCE_PCT)[0];
+  const exact = candidatesFor(longTask, tasks, MATCH_TOLERANCE_PCT, multiplier)[0];
   if (exact !== undefined) return { ...exact, quality: 'exact' };
   if (isUrlLess(longTask.url)) return undefined;
 
-  const loose = candidatesFor(longTask, tasks, LOOSE_MATCH_TOLERANCE_PCT)[0];
+  const loose = candidatesFor(longTask, tasks, LOOSE_MATCH_TOLERANCE_PCT, multiplier)[0];
   return loose === undefined ? undefined : { ...loose, quality: 'loose' };
 }
 
@@ -752,6 +754,9 @@ export function analyzeAttribution(
 ): AttributionReport {
   const url =
     lhr.finalDisplayedUrl ?? lhr.mainDocumentUrl ?? lhr.finalUrl ?? lhr.requestedUrl ?? '';
+  // Lantern scales observed tasks by the run's own multiplier (4 by default; --cpu-multiplier locally).
+  const multiplier =
+    lhr.configSettings?.throttling?.cpuSlowdownMultiplier ?? DEFAULT_CPU_MULTIPLIER;
   const pid = pageProcessId(events);
   const tid = pid === null ? null : mainThreadId(events, pid);
   const tasks = pid === null || tid === null ? [] : observedTasks(events, pid, tid);
@@ -769,7 +774,7 @@ export function analyzeAttribution(
   const readChunkSource = chunkSourceReader(options);
 
   for (const longTask of longTasks) {
-    const match = matchTask(longTask, unmatched);
+    const match = matchTask(longTask, unmatched, multiplier);
     if (match !== undefined) {
       unmatched.splice(unmatched.indexOf(match.task), 1);
     }
@@ -820,7 +825,7 @@ export function analyzeAttribution(
   }
 
   const observedBlockingMs = tasks.reduce(
-    (sum, task) => sum + Math.max(0, task.durMs * CPU_MULTIPLIER - 50),
+    (sum, task) => sum + Math.max(0, task.durMs * multiplier - 50),
     0,
   );
   const differenceMs = observedBlockingMs - simulatedTbtMs;
@@ -833,7 +838,7 @@ export function analyzeAttribution(
     lantern: {
       url,
       route: route(manifest, url),
-      cpuMultiplier: CPU_MULTIPLIER,
+      cpuMultiplier: multiplier,
       profileChunks,
       simulatedTbtMs,
       observedBlockingMs,
@@ -850,7 +855,7 @@ export function analyzeAttribution(
                 startGapMs: task.observedStartMs - task.simulatedStartMs,
                 simulatedMs: task.simulatedMs,
                 observedMs: task.observedMs,
-                observedEquivalentMs: task.observedMs * CPU_MULTIPLIER,
+                observedEquivalentMs: task.observedMs * multiplier,
               },
             ],
       ),
