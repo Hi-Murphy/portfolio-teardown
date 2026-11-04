@@ -409,3 +409,10 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
    - `app-touch.txt` gains `apps/web/build/xploder-stage-{a,b}.ts` for the L3a scope refinement.
    - E1/E2 are **declined for now**, to be re-asked at G2 with the measured remainder.
    - AC2 is recorded as **blocked** for app-side work, with T006 §8.3 as evidence (not reworded).
+6. **Stage 3 G2 (2026-11-04): levers done, at the G2 STOP** (`evidence/T013-*`).
+   - **Kept:** L0 (correctness: project reduced motion 0/2 → 2/2) and L1 (project reveal interval 40.9 → 2.3 ms observed; home dropped frames 2 → 1).
+   - **Measured and reverted:** L3a. The real three split gave −111 / −52 ms local TBT, but +2.3 % / +2.9 % total JS, over AC4's 1 % (not relaxed). Split-free variants are no-ops.
+   - **Skipped with evidence:** L2, L3b, L4, L5.
+   - **Non-goals hold:** parity 0 px, 2 draws, CLS 0, sequence unchanged, bytes within budget.
+   - **App-side work is exhausted** within AC4. The local-emulation TBT movement is inside the run spread.
+   - **Re-asked per G1:** the engine exceptions E1/E2 (T006 §8.4).

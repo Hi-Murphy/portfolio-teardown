@@ -68,7 +68,7 @@
 | T010 | ↺ measured and reverted: a real three split gives local simulated TBT −111 (home) / −52 ms (project), but total JS +36,197 raw / +13,327 gzip (+2.3 % / +2.9 %) > AC4's 1 %. Side-effect-only variants are tree-shaken to empty chunks (no split); xploder-only staging cannot split the 116.6 KB viewer chunk. `apps/web/build` = base | 1 (Flash) ×2: orchestrator review revision (bytes variants) + orchestrator decision | evidence/T010-log-l3-ab.md, T010-log-l3-variants.md, T010-log-chunks.txt | c8d8cda |
 | T011 | ⊘ skipped (G1: real-time separation already exists; Lantern collapses gaps — T006 §8.1.6) | — | evidence/T006-log-baseline.md §5, §8 | — |
 | T012 | ⊘ skipped (G1: no app-component hydration task > 12.5 ms observed — T006 §4.1) | — | evidence/T006-log-baseline.md §4.1 | — |
-| T013 | ☐ | | | |
+| T013 | ☑ final local state (= L0 + L1): parity 0 px ×16, draws 2, CLS 0, reveal sequence unchanged, bytes PASS (gated total +279 raw / +76 gz; eager +518 / +152; project initial gz +50 / +522). Local emulation TBT: home 278 → 244 (spread 101), project 338 → 354 (within spread) | 1 (Flash) | evidence/T013-log-before-after.md, T013-log-*.txt | (this merge) |
 | T014 | ☐ | | | |
 | T015 | ☐ | | | |
 | T015b | ☐ (only on Murphy's "retire") | | | |
