@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Project } from 'xploder';
 import { motion } from 'xploder/motion';
 
@@ -52,6 +52,10 @@ export function HeroLive({ project }: HeroLiveProps) {
     revealedRef.current = true;
     setState((current) => (current === 'skipped' ? current : 'revealed'));
   }, []);
+  const stage = useMemo(
+    () => (HeroStage === null ? null : <HeroStage project={project} onFirstFrame={reveal} />),
+    [HeroStage, project, reveal],
+  );
 
   useEffect(() => {
     if (inFlightRef.current) return;
@@ -134,7 +138,7 @@ export function HeroLive({ project }: HeroLiveProps) {
       inert
       aria-hidden="true"
     >
-      {HeroStage === null ? null : <HeroStage project={project} onFirstFrame={reveal} />}
+      {stage}
     </div>
   );
 }
