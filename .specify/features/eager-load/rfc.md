@@ -420,3 +420,8 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
    - E1/E2 are **declined**; no engine change lands in this slice.
    - G3 starts: T014 runs the verdict on the final product state (L0 + L1).
    - The note for Merlin (a total-JS budget for splitting three) goes into the end-contract.
+8. **Stage 3 G3 (2026-11-04): verdict done, at the G3 STOP** (`evidence/T014-log-verdict.md`).
+   - Run 41750211660 (product = final lever state). Shards s1 and s3 are the deciding slow-class attempts, on distinct runners.
+   - **AC3 fails on both routes on both attempts → verdict: keep gate (AC6).** The default build stays gated, and the eager path stays flag-only.
+   - **AC5 passes on both attempts:** revealed ≤ 616 ms, zero interaction; reduced motion is poster-only on both routes.
+   - **AC2 fails as escalated at G1:** the trace-only max task is 86–111 ms, with 9.5–13 dropped frames.
