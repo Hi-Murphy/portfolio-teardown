@@ -94,6 +94,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-P1 (review, T001):** `xploder_test_ok` no longer allows `frozen-surface*.paths` edits; `bundle-scopes --budget s11.8` budgets total **gzip** only (raw INFO), per AC4. S11.7's `--budget` mode unchanged.
+- **D-P2 (pre-dispatch, T002):** `--names` identifies the three named tasks by **timestamp containment**, not by minified frame names. In `--names` mode only, the load init script records `performance.now()` at (1) the first `getContext('webgl2'|'webgl')` on a **connected** canvas (the R3F canvas; `hasWebgl()`'s probe canvas is detached) → `renderer-constructor`, (2) the first `linkProgram` call on a WebGL(2) context → `program-compile`, (3) the existing `readyMs` → `first-content-frame`. Each timestamp is mapped onto the trace clock with the existing load mark, and the top-level task containing it gets the name. V8 samples (the profiler category) supply each named / long task's `topFunctions`. The default init script and report are byte-identical.
 
 ---
 
