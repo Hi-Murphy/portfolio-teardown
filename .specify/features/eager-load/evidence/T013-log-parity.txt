@@ -1,0 +1,24 @@
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --compare /tmp/s117-checks/baseline-shots-gated --out /tmp/s117-checks/t013/parity-gated
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison /tmp/s117-checks/t013/parity-gated/parity-compare.json
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --no-engage --compare /tmp/s117-checks/baseline-shots-eager --out /tmp/s117-checks/t013/parity-eager
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison /tmp/s117-checks/t013/parity-eager/parity-compare.json

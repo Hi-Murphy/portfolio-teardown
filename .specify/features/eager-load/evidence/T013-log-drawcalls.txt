@@ -1,0 +1,41 @@
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group draws --group hero --out /tmp/s117-checks/t013/site-draws
+draws project: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":40,"loadAt":44.59999990463257,"liveStateAtFcp":"idle","liveStateAtLoad":"idle"}
+PASS hero-poster-no-interaction: expected {"liveState":"idle","canvases":0,"posterWidthPositive":true} actual {"liveState":"idle","canvases":0,"posterWidth":570,"posterOpacity":"1"}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":40,"loadAt":44.59999990463257,"liveStateAtFcp":"idle","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-idle-exploded: expected {"state":"exploded","tweening":"false"} actual {"state":"exploded","tweening":"false","canvases":1}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (7 checks)
+site-probe: PASS
+artifacts: /tmp/s117-checks/t013/site-draws
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:4321/ --scope s4 --out /tmp/s117-checks/t013/engine-probe
+PASS fixture-a-instances: expected {"layers":4,"components":8} actual {"layers":4,"components":8}
+PASS fixture-a-draw-calls: expected 2 actual 2
+PASS fixture-b-instances: expected {"layers":4,"components":5} actual {"layers":4,"components":5}
+PASS fixture-b-draw-calls: expected 2 actual 2
+PASS fixture-c-instances: expected {"layers":5,"components":13} actual {"layers":5,"components":13}
+PASS fixture-c-draw-calls: expected 2 actual 2
+PASS camera-default-azimuth: expected 45 actual 45
+PASS camera-after-button-right: expected 135 actual 135
+PASS camera-after-arrow-right: expected 225 actual 225
+PASS camera-zoom-after-20-in: expected 3 actual 3
+PASS camera-zoom-after-20-out: expected 1 actual 1
+PASS camera-zoom-after-reset: expected 1 actual 1
+PASS camera-zoom-out-disabled-at-default: expected true actual true
+PASS camera-zoom-reset-disabled-at-default: expected true actual true
+PASS camera-zoom-in-disabled-at-max: expected true actual true
+PASS motion-explode-phases: expected ["exploding","exploded"] actual ["exploding","exploded"]
+PASS motion-implode-phases: expected ["imploding","imploded"] actual ["imploding","imploded"]
+PASS reduced-motion-initial-state: expected "exploded" actual "exploded"
+PASS reduced-motion-toggle-phases: expected ["imploded"] actual ["imploded"]
+PASS reduced-motion-toggle-frames: expected "<= 2" actual 2
+PASS reduced-motion-toggle-back-phases: expected ["exploded"] actual ["exploded"]
+PASS reduced-motion-toggle-back-frames: expected "<= 2" actual 2
+pass: true
+engine-probe.json: /tmp/s117-checks/t013/engine-probe/engine-probe.json
