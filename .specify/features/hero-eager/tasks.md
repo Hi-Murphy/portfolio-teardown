@@ -85,7 +85,7 @@
 | T007 | ↺ measured and reverted (D-P8): trigger met, identity 16/16, parity 0 px; model self time 5.13 → 3.88 ms inside spread 1.46; adjacent task Δ 0.944 vs spread 0.902 (noise floor); sim. TBT −13 inside spread. `model.ts` untouched | 1 (Flash) + orchestrator (decision) | evidence/T007-log-e1b-ab.md, T007-ab-reverted/ | e11e8b7 |
 | T008 | ↺ measured and reverted (D-P9): split worked at `--cpu 1` (first frame 11.1 → 3.0 ms) but at `--cpu 4` the compile task grew to 46.3/44.2 ms vs the 33.3/34.0 ms pre-lever task (+36 %, AC2 cap risk); sim. TBT unchanged. `Stats.tsx` untouched | 1 (Flash) + orchestrator (decision) | evidence/T008-log-e1c-ab.md, T008-ab-reverted/ | 4826c8b |
 | T009 | ↺ measured and reverted (D-P8): trigger met by the letter (slow-host first frame ~132 ms sim; projection 191.75 > 185); the overlay model did not leave the first-content-frame task at `--cpu 4` (7.79 → 8.48 ms inside it), target Δ 1.23 inside spread 3.31; parity 0 px. `BlueprintOverlay.tsx` untouched | 1 (Flash) + orchestrator (decision) | evidence/T009-log-e1d-ab.md, T009-ab-reverted/ | 6ce084e |
-| T010 | ☐ | | | |
+| T010 | ☑ E1 final local state = A1 + E1a. vs T004 (local emulation): sim. TBT 221.5 → 193.7 ms (inside spread 62.3), placement task gone at `--cpu 4`, probes PASS, parity 0 px, bytes PASS (hero-eager total gz +512 B / 2,295 budget; gated +364 B). E2 go restated | 1 (Flash) | evidence/T010-log-before-after.md, T010-ab/ | e393048 |
 | T011 | ☐ (conditional) | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
