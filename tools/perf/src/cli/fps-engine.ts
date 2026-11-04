@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import type { Page, Request } from 'playwright';
@@ -9,6 +9,7 @@ import { parseCli } from '../args.ts';
 import { chromiumVersion, freePort, launch, PROFILES } from '../browser.ts';
 import { FPS_NOMINAL, FPS_TOLERANCE } from '../budgets.ts';
 import { CliError, EXIT, EXIT_DESCRIPTIONS } from '../exit-codes.ts';
+import { samplesInWindow, type CpuProfileTraceEvent } from '../cpu-profile.ts';
 import {
   analyzeTrace,
   droppedFrameTimesFromTrace,
@@ -37,6 +38,53 @@ type FixtureScenario = 'explode' | 'tour';
 type Scenario = FixtureScenario | 'startup' | 'load';
 export type Engagement = 'move' | 'click';
 export type LoadFrameMode = 'trace-only' | 'recorder';
+export type NamedTaskName =
+  'renderer-constructor' | 'program-compile' | 'first-content-frame' | 'unnamed';
+
+export interface NamedFunction {
+  fn: string;
+  url: string;
+  selfMs: number;
+  pct: number;
+}
+
+export interface NamedTask {
+  name: NamedTaskName;
+  startMs: number;
+  durMs: number;
+  topFunctions: NamedFunction[];
+  containsReady: boolean;
+}
+
+export interface NamedException {
+  durMs: number | null;
+  cap?: number;
+  pass?: boolean;
+}
+
+export type NamedExceptions = Record<Exclude<NamedTaskName, 'unnamed'>, NamedException>;
+
+export interface NamedCaps {
+  'renderer-constructor'?: number;
+  'program-compile'?: number;
+  'first-content-frame'?: number;
+}
+
+export interface NamedLoadOptions {
+  trace: readonly StartupTraceEvent[];
+  traceTimeOriginUs: number;
+  rendererConstructorMs: number | null;
+  programCompileMs: number | null;
+  readyMs: number | null;
+  caps?: NamedCaps;
+}
+
+export interface NamedLoadReport {
+  names: NamedTask[];
+  namedExceptions: NamedExceptions;
+  unnamedMaxMs: number;
+  namedWithinCaps?: boolean;
+}
 
 interface FpsEngineArgs {
   values: {
@@ -46,6 +94,8 @@ interface FpsEngineArgs {
     engage?: string;
     frames?: string;
     cpu?: string;
+    names?: boolean;
+    caps?: string;
     'no-build'?: boolean;
     help?: boolean;
   };
@@ -104,6 +154,7 @@ export interface FpsEngineLoadVerdict {
   longTask50: boolean;
   droppedFramesLe2: boolean;
   gated: boolean;
+  namedWithinCaps?: boolean;
 }
 
 export interface FpsEngineLoadReport extends Omit<
@@ -127,6 +178,9 @@ export interface FpsEngineLoadReport extends Omit<
   readyMs: number | null;
   verdict: FpsEngineLoadVerdict;
   exclusionNote?: string;
+  names?: NamedTask[];
+  namedExceptions?: NamedExceptions;
+  unnamedMaxMs?: number;
 }
 
 interface TourResult {
@@ -157,6 +211,10 @@ export const LOAD_TRACE_CATEGORIES = [
   'disabled-by-default-devtools.timeline',
   'blink.user_timing',
   'loading',
+] as const;
+export const LOAD_NAMED_TRACE_CATEGORIES = [
+  ...LOAD_TRACE_CATEGORIES,
+  'disabled-by-default-v8.cpu_profiler',
 ] as const;
 export const STARTUP_TRACE_CATEGORIES = [
   'toplevel',
@@ -197,6 +255,68 @@ const LOAD_OBSERVER_INIT_SCRIPT = `(() => {
   checkReady();
 })();`;
 
+const LOAD_OBSERVER_NAMED_INIT_SCRIPT = `(() => {
+  const key = ${JSON.stringify(LOAD_OBSERVER_KEY)};
+  const markName = ${JSON.stringify(LOAD_MARK)};
+  const state = {
+    loadMs: null,
+    mounted: false,
+    readyMs: null,
+    rendererConstructorMs: null,
+    programCompileMs: null
+  };
+  window[key] = state;
+
+  const recordLoad = () => {
+    performance.mark(markName);
+    const entry = performance.getEntriesByName(markName).at(-1);
+    state.loadMs = entry?.startTime ?? performance.now();
+  };
+  window.addEventListener('load', recordLoad, { once: true });
+
+  const checkReady = () => {
+    if (document.querySelector('[data-xploder-ready="true"]') === null) return;
+    state.mounted = true;
+    state.readyMs ??= performance.now();
+  };
+  new MutationObserver(checkReady).observe(document, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ['data-xploder-ready'],
+  });
+  checkReady();
+
+  const originalGetContext = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, ...args) {
+    const context = Reflect.apply(originalGetContext, this, [type, ...args]);
+    if (
+      state.rendererConstructorMs === null &&
+      (type === 'webgl2' || type === 'webgl') &&
+      this.isConnected
+    ) {
+      state.rendererConstructorMs = performance.now();
+    }
+    return context;
+  };
+
+  for (const contextType of [globalThis.WebGLRenderingContext, globalThis.WebGL2RenderingContext]) {
+    const originalLinkProgram = contextType?.prototype.linkProgram;
+    if (typeof originalLinkProgram !== 'function') continue;
+    contextType.prototype.linkProgram = function (...args) {
+      state.programCompileMs ??= performance.now();
+      return Reflect.apply(originalLinkProgram, this, args);
+    };
+  }
+})();`;
+
+function loadObserverInitScript(names: boolean): string {
+  return names ? LOAD_OBSERVER_NAMED_INIT_SCRIPT : LOAD_OBSERVER_INIT_SCRIPT;
+}
+
+function loadTraceCategories(names: boolean): readonly string[] {
+  return names ? LOAD_NAMED_TRACE_CATEGORIES : LOAD_TRACE_CATEGORIES;
+}
+
 const usage = `Usage: pnpm fps:engine [--scenario explode|tour|startup|load] [options]
 
 Builds the fixture or production export, serves it on 127.0.0.1, and runs the
@@ -214,6 +334,8 @@ Options:
   --engage <action>  startup engagement: move or click (default: move)
   --frames <mode>    load frame mode: trace-only or recorder (default: trace-only)
   --cpu <rate>       load CPU throttling rate (default: 4)
+  --names            add V8 samples and name the load exceptions
+  --caps <json>      named-task caps: {"renderer-constructor": ms, ...}
   --no-build         use an existing export
   --out <dir>        output directory for fps.json
   --help             show this help`;
@@ -438,6 +560,180 @@ export function buildStartupReport(
   };
 }
 
+const NAMED_EXCEPTION_NAMES = [
+  'renderer-constructor',
+  'program-compile',
+  'first-content-frame',
+] as const;
+
+interface NamedTaskRecord {
+  startUs: number;
+  endUs: number;
+  names: Set<(typeof NAMED_EXCEPTION_NAMES)[number]>;
+  containsReady: boolean;
+}
+
+function namedTopFunctions(
+  trace: readonly StartupTraceEvent[],
+  task: NamedTaskRecord,
+): NamedFunction[] {
+  const functions = new Map<string, { fn: string; url: string; selfUs: number }>();
+  for (const sample of samplesInWindow(
+    trace as readonly CpuProfileTraceEvent[],
+    task.startUs,
+    task.endUs,
+  )) {
+    const overlapUs = Math.min(sample.endUs, task.endUs) - Math.max(sample.startUs, task.startUs);
+    if (overlapUs <= 0) continue;
+
+    const functionName = sample.node.callFrame.functionName.trim();
+    if (functionName === '(idle)') continue;
+    const url = sample.node.callFrame.url;
+    const fn = functionName || (url === '' ? '(native)' : '(anonymous)');
+    const key = `${url}\0${fn}`;
+    const prior = functions.get(key);
+    if (prior === undefined) functions.set(key, { fn, url, selfUs: overlapUs });
+    else prior.selfUs += overlapUs;
+  }
+
+  const durationUs = task.endUs - task.startUs;
+  return [...functions.values()]
+    .sort(
+      (left, right) =>
+        right.selfUs - left.selfUs ||
+        left.fn.localeCompare(right.fn) ||
+        left.url.localeCompare(right.url),
+    )
+    .slice(0, 8)
+    .map((entry) => ({
+      fn: entry.fn,
+      url: entry.url,
+      selfMs: entry.selfUs / 1_000,
+      pct: durationUs === 0 ? 0 : (entry.selfUs / durationUs) * 100,
+    }));
+}
+
+export function buildNamedLoadReport(loadMs: number, options: NamedLoadOptions): NamedLoadReport {
+  const loadUs = options.traceTimeOriginUs + loadMs * 1_000;
+  const endUs = loadUs + LOAD_WINDOW_MS * 1_000;
+  const records: NamedTaskRecord[] = findTasksIntersectingWindow(
+    options.trace,
+    loadUs,
+    endUs,
+    0,
+    options.traceTimeOriginUs,
+    true,
+  ).intersecting.map((task) => ({
+    startUs: options.traceTimeOriginUs + task.start * 1_000,
+    endUs: options.traceTimeOriginUs + (task.start + task.dur) * 1_000,
+    names: new Set(),
+    containsReady: false,
+  }));
+
+  const timestamps = {
+    'renderer-constructor': options.rendererConstructorMs,
+    'program-compile': options.programCompileMs,
+    'first-content-frame': options.readyMs,
+  } satisfies Record<(typeof NAMED_EXCEPTION_NAMES)[number], number | null>;
+
+  for (const name of NAMED_EXCEPTION_NAMES) {
+    const timestampMs = timestamps[name];
+    if (timestampMs === null || !Number.isFinite(timestampMs)) continue;
+    const timestampUs = options.traceTimeOriginUs + timestampMs * 1_000;
+    let task = records.find(
+      (candidate) => timestampUs >= candidate.startUs && timestampUs < candidate.endUs,
+    );
+    if (task === undefined) {
+      const containing = findTasksIntersectingWindow(
+        options.trace,
+        timestampUs,
+        timestampUs,
+        0,
+        options.traceTimeOriginUs,
+        true,
+      ).intersecting[0];
+      if (containing !== undefined) {
+        task = {
+          startUs: options.traceTimeOriginUs + containing.start * 1_000,
+          endUs: options.traceTimeOriginUs + (containing.start + containing.dur) * 1_000,
+          names: new Set(),
+          containsReady: false,
+        };
+        records.push(task);
+      }
+    }
+    if (task !== undefined) task.names.add(name);
+  }
+
+  if (options.readyMs !== null) {
+    const readyUs = options.traceTimeOriginUs + options.readyMs * 1_000;
+    for (const task of records) {
+      task.containsReady = readyUs >= task.startUs && readyUs <= task.endUs;
+    }
+  }
+
+  records.sort((left, right) => left.startUs - right.startUs || right.endUs - left.endUs);
+  const names: NamedTask[] = [];
+  for (const record of records) {
+    const durMs = (record.endUs - record.startUs) / 1_000;
+    const selected = NAMED_EXCEPTION_NAMES.filter((name) => record.names.has(name));
+    if (selected.length > 0) {
+      for (const name of selected) {
+        names.push({
+          name,
+          startMs: (record.startUs - options.traceTimeOriginUs) / 1_000,
+          durMs,
+          topFunctions: namedTopFunctions(options.trace, record),
+          containsReady: record.containsReady,
+        });
+      }
+    } else if (durMs > LONG_TASK_THRESHOLD_MS) {
+      names.push({
+        name: 'unnamed',
+        startMs: (record.startUs - options.traceTimeOriginUs) / 1_000,
+        durMs,
+        topFunctions: namedTopFunctions(options.trace, record),
+        containsReady: record.containsReady,
+      });
+    }
+  }
+
+  const namedExceptions = Object.fromEntries(
+    NAMED_EXCEPTION_NAMES.map((name) => {
+      const match = names.find((task) => task.name === name);
+      const cap = options.caps?.[name];
+      return [
+        name,
+        match === undefined
+          ? { durMs: null, ...(cap === undefined ? {} : { cap, pass: false }) }
+          : {
+              durMs: match.durMs,
+              ...(cap === undefined ? {} : { cap, pass: match.durMs <= cap }),
+            },
+      ];
+    }),
+  ) as NamedExceptions;
+  const namedWithinCaps =
+    options.caps === undefined
+      ? undefined
+      : NAMED_EXCEPTION_NAMES.every((name) => {
+          const cap = options.caps?.[name];
+          if (cap === undefined) return true;
+          return namedExceptions[name].pass === true;
+        });
+  const unnamedMaxMs = records.reduce((maximum, record) => {
+    if (record.names.size > 0) return maximum;
+    return Math.max(maximum, (record.endUs - record.startUs) / 1_000);
+  }, 0);
+
+  return {
+    names,
+    namedExceptions,
+    unnamedMaxMs,
+    ...(namedWithinCaps === undefined ? {} : { namedWithinCaps }),
+  };
+}
+
 export function buildLoadReport(
   result: FpsResult,
   measurementUrl: string,
@@ -450,11 +746,12 @@ export function buildLoadReport(
   longTasks: readonly TaskWindowEntry[],
   preLoadTasks: readonly TaskWindowEntry[],
   droppedFrameTimes: readonly number[],
+  named?: NamedLoadOptions,
 ): FpsEngineLoadReport {
   const maxLongTaskMs = longTasks.reduce((maximum, task) => Math.max(maximum, task.dur), 0);
   const droppedFrames = droppedFrameTimes.length;
 
-  return {
+  const report: FpsEngineLoadReport = {
     kind: 'fps-engine',
     version: 1,
     url: measurementUrl,
@@ -481,6 +778,19 @@ export function buildLoadReport(
     readyMs,
     verdict: evaluateLoadVerdict(maxLongTaskMs, droppedFrames, frames),
     ...(frames === 'recorder' ? { exclusionNote: RECORDER_EXCLUSION } : {}),
+  };
+  if (named === undefined) return report;
+
+  const namedReport = buildNamedLoadReport(loadMs, named);
+  return {
+    ...report,
+    names: namedReport.names,
+    namedExceptions: namedReport.namedExceptions,
+    unnamedMaxMs: namedReport.unnamedMaxMs,
+    verdict:
+      namedReport.namedWithinCaps === undefined
+        ? report.verdict
+        : { ...report.verdict, namedWithinCaps: namedReport.namedWithinCaps },
   };
 }
 
@@ -609,6 +919,32 @@ function parseCpu(value: string | undefined): number {
     throw new CliError(EXIT.USAGE, '--cpu must be a positive number');
   }
   return parsed;
+}
+
+async function readNamedCaps(path: string): Promise<NamedCaps> {
+  const resolved = resolve(process.cwd(), path);
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(await readFile(resolved, 'utf8')) as unknown;
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new CliError(EXIT.USAGE, `could not read --caps ${resolved}: ${detail}`);
+  }
+  if (!isRecord(parsed)) {
+    throw new CliError(EXIT.USAGE, '--caps must contain a JSON object');
+  }
+
+  const caps: NamedCaps = {};
+  for (const [name, value] of Object.entries(parsed)) {
+    if (!NAMED_EXCEPTION_NAMES.includes(name as (typeof NAMED_EXCEPTION_NAMES)[number])) {
+      throw new CliError(EXIT.USAGE, `unknown --caps name: ${name}`);
+    }
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+      throw new CliError(EXIT.USAGE, `--caps ${name} must be a non-negative number`);
+    }
+    caps[name as keyof NamedCaps] = value;
+  }
+  return caps;
 }
 
 interface NetworkWatcher {
@@ -814,6 +1150,8 @@ interface LoadObserverState {
   loadMs: number | null;
   mounted: boolean;
   readyMs: number | null;
+  rendererConstructorMs?: number | null;
+  programCompileMs?: number | null;
 }
 
 interface LoadMeasurement {
@@ -824,6 +1162,9 @@ interface LoadMeasurement {
   longTasks: TaskWindowEntry[];
   preLoadTasks: TaskWindowEntry[];
   droppedFrameTimes: number[];
+  rendererConstructorMs?: number | null;
+  programCompileMs?: number | null;
+  traceOriginUs: number;
 }
 
 async function readLoadObserver(page: Page): Promise<LoadObserverState> {
@@ -876,7 +1217,11 @@ function loadWindowDetails(
   };
 }
 
-async function measureLoadTraceOnly(url: URL, cpu: number): Promise<LoadMeasurement> {
+async function measureLoadTraceOnly(
+  url: URL,
+  cpu: number,
+  names: boolean,
+): Promise<LoadMeasurement> {
   const browser = await launch();
   try {
     const screen = PROFILES.mobile.screenEmulation;
@@ -887,7 +1232,7 @@ async function measureLoadTraceOnly(url: URL, cpu: number): Promise<LoadMeasurem
       isMobile: screen.mobile,
       userAgent: PROFILES.mobile.userAgent,
     });
-    await context.addInitScript({ content: LOAD_OBSERVER_INIT_SCRIPT });
+    await context.addInitScript({ content: loadObserverInitScript(names) });
     const page = await context.newPage();
     const cdp = await context.newCDPSession(page);
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
@@ -904,7 +1249,7 @@ async function measureLoadTraceOnly(url: URL, cpu: number): Promise<LoadMeasurem
     let tracingEnded = false;
     try {
       await cdp.send('Tracing.start', {
-        categories: traceCategories(LOAD_TRACE_CATEGORIES),
+        categories: traceCategories(loadTraceCategories(names)),
         transferMode: 'ReportEvents',
       });
       tracingStarted = true;
@@ -945,6 +1290,9 @@ async function measureLoadTraceOnly(url: URL, cpu: number): Promise<LoadMeasurem
         loadMs: state.loadMs,
         mounted: state.mounted,
         readyMs: state.readyMs,
+        rendererConstructorMs: state.rendererConstructorMs,
+        programCompileMs: state.programCompileMs,
+        traceOriginUs,
         ...details,
       };
     } finally {
@@ -962,7 +1310,11 @@ async function measureLoadTraceOnly(url: URL, cpu: number): Promise<LoadMeasurem
   }
 }
 
-async function measureLoadRecorder(url: URL, cpu: number): Promise<LoadMeasurement> {
+async function measureLoadRecorder(
+  url: URL,
+  cpu: number,
+  names: boolean,
+): Promise<LoadMeasurement> {
   const browser = await launch();
   try {
     const screen = PROFILES.mobile.screenEmulation;
@@ -973,7 +1325,7 @@ async function measureLoadRecorder(url: URL, cpu: number): Promise<LoadMeasureme
       isMobile: screen.mobile,
       userAgent: PROFILES.mobile.userAgent,
     });
-    await context.addInitScript({ content: LOAD_OBSERVER_INIT_SCRIPT });
+    await context.addInitScript({ content: loadObserverInitScript(names) });
     const page = await context.newPage();
     const cdp = await context.newCDPSession(page);
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
@@ -990,7 +1342,7 @@ async function measureLoadRecorder(url: URL, cpu: number): Promise<LoadMeasureme
       warmupMs: 0,
       durationMs: LOAD_WINDOW_MS,
       keepTrace: true,
-      extraCategories: LOAD_TRACE_CATEGORIES,
+      extraCategories: loadTraceCategories(names),
       traceStartMark: LOAD_RECORDER_START_MARK,
     });
     if (result.trace === undefined) throw new Error('load recorder trace was not retained');
@@ -1019,6 +1371,9 @@ async function measureLoadRecorder(url: URL, cpu: number): Promise<LoadMeasureme
       loadMs: state.loadMs,
       mounted: state.mounted,
       readyMs: state.readyMs,
+      rendererConstructorMs: state.rendererConstructorMs,
+      programCompileMs: state.programCompileMs,
+      traceOriginUs,
       ...details,
     };
   } finally {
@@ -1026,10 +1381,15 @@ async function measureLoadRecorder(url: URL, cpu: number): Promise<LoadMeasureme
   }
 }
 
-async function measureLoad(url: URL, frames: LoadFrameMode, cpu: number): Promise<LoadMeasurement> {
+async function measureLoad(
+  url: URL,
+  frames: LoadFrameMode,
+  cpu: number,
+  names: boolean,
+): Promise<LoadMeasurement> {
   return frames === 'trace-only'
-    ? await measureLoadTraceOnly(url, cpu)
-    : await measureLoadRecorder(url, cpu);
+    ? await measureLoadTraceOnly(url, cpu, names)
+    : await measureLoadRecorder(url, cpu, names);
 }
 
 async function measureTour(url: URL): Promise<TourResult> {
@@ -1131,6 +1491,8 @@ export async function main(argv: string[]): Promise<number> {
       engage: { type: 'string' },
       frames: { type: 'string' },
       cpu: { type: 'string' },
+      names: { type: 'boolean' },
+      caps: { type: 'string' },
       'no-build': { type: 'boolean' },
       help: { type: 'boolean' },
     },
@@ -1155,6 +1517,12 @@ export async function main(argv: string[]): Promise<number> {
   }
   if (scenario !== 'load' && values.cpu !== undefined) {
     throw new CliError(EXIT.USAGE, '--cpu is only valid with --scenario load');
+  }
+  if (scenario !== 'load' && values.names !== undefined) {
+    throw new CliError(EXIT.USAGE, '--names is only valid with --scenario load');
+  }
+  if (values.caps !== undefined && values.names !== true) {
+    throw new CliError(EXIT.USAGE, '--caps requires --names');
   }
 
   const exportDir = production ? WEB_OUT_DIR : FIXTURE_DIR;
@@ -1212,10 +1580,26 @@ export async function main(argv: string[]): Promise<number> {
       const route = requiredRoute(values.route, scenario);
       const frames = parseFrames(values.frames);
       const cpu = parseCpu(values.cpu);
+      const names = values.names === true;
+      const caps = values.caps === undefined ? undefined : await readNamedCaps(values.caps);
       const url = scenarioUrl(server.url, scenario, route);
       console.log(`eager: ${url.href}`);
 
-      const measurement = await measureLoad(url, frames, cpu);
+      const measurement = await measureLoad(url, frames, cpu, names);
+      let namedLoad: NamedLoadOptions | undefined;
+      if (names) {
+        const trace = (measurement.result.trace ?? []) as unknown as StartupTraceEvent[];
+        namedLoad = {
+          trace,
+          // Each measurement maps performance.now() onto the trace clock with its own anchor:
+          // the load mark (trace-only) or the recorder-start mark (recorder).
+          traceTimeOriginUs: measurement.traceOriginUs,
+          rendererConstructorMs: measurement.rendererConstructorMs ?? null,
+          programCompileMs: measurement.programCompileMs ?? null,
+          readyMs: measurement.readyMs,
+          ...(caps === undefined ? {} : { caps }),
+        };
+      }
       report = buildLoadReport(
         measurement.result,
         url.href,
@@ -1228,6 +1612,7 @@ export async function main(argv: string[]): Promise<number> {
         measurement.longTasks,
         measurement.preLoadTasks,
         measurement.droppedFrameTimes,
+        namedLoad,
       );
     } else {
       const url = scenarioUrl(server.url, scenario);

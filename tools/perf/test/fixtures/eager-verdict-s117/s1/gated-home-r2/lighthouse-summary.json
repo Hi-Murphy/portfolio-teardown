@@ -1,0 +1,113 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/",
+  "finalUrl": "http://127.0.0.1:4320/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 907.4861000000001,
+      "cls": 0,
+      "tbtMs": 84,
+      "fcpMs": 907.4861000000001,
+      "siMs": 907.4861000000001,
+      "totalByteWeight": 197443,
+      "benchmarkIndex": 2314.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2149.4861000000005,
+          "durMs": 134
+        },
+        {
+          "url": "http://127.0.0.1:4320/",
+          "startMs": 796.74305,
+          "durMs": 60
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 907.6261,
+      "cls": 0,
+      "tbtMs": 87,
+      "fcpMs": 907.6261,
+      "siMs": 907.6261,
+      "totalByteWeight": 197443,
+      "benchmarkIndex": 2319,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2107.6261,
+          "durMs": 137
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 753.81305,
+          "durMs": 71
+        },
+        {
+          "url": "http://127.0.0.1:4320/",
+          "startMs": 825.81305,
+          "durMs": 53
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 906.0766000000001,
+      "cls": 0,
+      "tbtMs": 86.00000000000023,
+      "fcpMs": 906.0766000000001,
+      "siMs": 906.0766000000001,
+      "totalByteWeight": 197443,
+      "benchmarkIndex": 2315.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2147.0766,
+          "durMs": 136.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4320/",
+          "startMs": 795.0383,
+          "durMs": 54
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 907.4861000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [0, 0, 0],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

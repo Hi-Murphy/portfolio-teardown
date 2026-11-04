@@ -2,8 +2,10 @@ import { describe, expect, test } from 'vitest';
 
 import {
   PROFILE_TASK_THRESHOLD_MS,
+  samplesInWindow,
   summarizeCpuProfile,
   type CpuProfile,
+  type CpuProfileTraceEvent,
   type CpuProfileTask,
 } from '../src/cpu-profile.ts';
 
@@ -133,6 +135,88 @@ describe('summarizeCpuProfile', () => {
     expect(summary.tasks[0]?.byChunk).toEqual([{ chunk: '(native)', selfMs: 15, pct: 75 }]);
     expect(summary.tasks[0]?.topFunctions).toEqual([
       { fn: 'getContext', chunk: '(native)', selfMs: 15, pct: 75 },
+    ]);
+  });
+});
+
+describe('samplesInWindow', () => {
+  test('merges ProfileChunks and returns only samples overlapping the window', () => {
+    const trace: CpuProfileTraceEvent[] = [
+      {
+        name: 'TracingStartedInBrowser',
+        pid: 1,
+        ts: 900_000,
+        args: {
+          data: { frames: [{ processId: 1, isMainFrame: true }] },
+        } as CpuProfileTraceEvent['args'],
+      },
+      {
+        name: 'Profile',
+        id: '0x1',
+        pid: 1,
+        ts: 1_000_000,
+        args: {
+          data: {
+            startTime: 1_000_000,
+            cpuProfile: { nodes: [], samples: [], timeDeltas: [] },
+          },
+        },
+      },
+      {
+        name: 'ProfileChunk',
+        id: '0x1',
+        pid: 1,
+        ts: 1_000_000,
+        args: {
+          data: {
+            cpuProfile: {
+              nodes: [
+                { id: 1, callFrame: { functionName: 'before', url: 'http://local/a.js' } },
+                { id: 2, callFrame: { functionName: 'inside', url: 'http://local/a.js' } },
+              ],
+              samples: [1, 2],
+            },
+            timeDeltas: [1_000, 2_000],
+          },
+        },
+      },
+      {
+        name: 'ProfileChunk',
+        id: '0x1',
+        pid: 1,
+        ts: 1_003_000,
+        args: {
+          data: {
+            cpuProfile: { nodes: [], samples: [2] },
+            timeDeltas: [3_000],
+          },
+        },
+      },
+      {
+        name: 'ProfileChunk',
+        id: 'browser',
+        pid: 2,
+        ts: 1_000_000,
+        args: {
+          data: {
+            cpuProfile: {
+              nodes: [{ id: 3, callFrame: { functionName: 'browser', url: '' } }],
+              samples: [3],
+            },
+            timeDeltas: [10_000],
+          },
+        },
+      },
+    ];
+
+    expect(
+      samplesInWindow(trace, 1_001_000, 1_005_000).map((sample) => ({
+        fn: sample.node.callFrame.functionName,
+        startUs: sample.startUs,
+      })),
+    ).toEqual([
+      { fn: 'inside', startUs: 1_001_000 },
+      { fn: 'inside', startUs: 1_003_000 },
     ]);
   });
 });
