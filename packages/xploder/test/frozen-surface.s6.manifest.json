@@ -1,6 +1,6 @@
 {
-  "base": "f65b13c",
-  "note": "S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why.",
+  "base": "057d89a",
+  "note": "S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md.",
   "files": {
     "src/look/fills.ts": "3a53ce1ccc51b4a95fefac2c8845072a5f0372b8336d17cabbd6b155f73a526b",
     "src/look/product.ts": "6a4d6f52f4ba390ed7ca6557194539f686688d0c187fe1fd3b137af61a9c113a",
@@ -9,7 +9,7 @@
     "src/overlay/dimension.ts": "1dab5964ac53587eed5f8113e65f9ca8bbe4a08ff1bb9c4ab7fc2080f63d9b0f",
     "src/overlay/model.ts": "63427b9eed60ea9fc07eae2b55214be66bc37bbeb736d3a6cff4f1e767d77117",
     "src/overlay/parts.ts": "747984c0c25294a953cc01d40c15899a0d9fdb24f18fdd9dac0ce348e296b4e3",
-    "src/overlay/place.ts": "135d4d48195dcc46544da3b90caaed6ab473d2c2e129825bda1ee78e7533ab49",
+    "src/overlay/place.ts": "0b3588f2b32e7781e5563bd3850fd7fd6d9e956fe7bc62b976514af2bf40e00a",
     "src/overlay/project.ts": "19f36bb65ef0b1dc2ea4931c15a608acd8c4b0934f055a90cfa4bddf0efbeb87",
     "src/overlay/timing.ts": "cce80acdd6b1c1c7eb4eb02a587464dacd01587a59b9db0fabc46ce0320351ca",
     "src/overlay/titleBlock.ts": "93f4220940de2bef805ead952a9f91761e2b13aa5e090889780816e02d10f819",

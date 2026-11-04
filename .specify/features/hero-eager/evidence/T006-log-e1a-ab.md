@@ -124,3 +124,10 @@ GITLEAKS-OK
 `XPLODER-SRC` and `SURFACE-S6` are expected before the orchestrator's re-seal. `RESEAL-NOTE` is observed OK in this pre-approval state, not the expected FAIL; the guard has no approved path to check yet.
 
 Repo-wide checks: `pnpm typecheck` and `pnpm lint` pass; `pnpm build` passes. `pnpm test` has exactly the same single expected S6 failure: 61 files and 624 tests pass, 1 file and 1 test fail. Therefore the final `T006-OK` marker cannot be reached until the orchestrator commits the lever SHA and performs the re-seal. No re-seal files were touched here, as instructed.
+
+## Orchestrator decision (T006): KEEP (D-P7)
+
+- The keep rule's purpose is the targeted task's observed ms (S11.7 D4). AC1 §4 shows E1a's placement work either merged into the first-content-frame task (s1, S11.7 T014) or as its own adjacent task (s2 host-native, and here locally). In this A/B it is the adjacent task: **32.14 / 32.55 ms with 16.30 / 16.53 ms placement self time before → no unnamed task ≥ 16.7 ms carrying placement after** (Δ ≥ 15.4 ms vs spread 0.41 ms) at `--cpu 4 --names`. The oracle fixture-set time is 13.515 → 0.461 ms.
+- Local emulation simulated TBT moved 202.75 → 175.25 ms, inside its 80.5 ms spread: not claimed as a win. The binding TBT effect is measured only in the verdict (T012).
+- Identity: 2,030 cases, 0 mismatches (oracle = verbatim pre-slice `place.ts`; `T006-log-oracle-pre.txt` shows the same test passing on the unchanged file at `2d7cada`). Non-goals: parity 0 px (4 + 8), draws 2, CLS 0, reveal sequence unchanged, bytes PASS.
+- Re-seal: `frozen-surface.generate-s6.sh` base `f65b13c` → `057d89a` + note; `frozen-surface.s6.manifest.json` regenerated (only `src/overlay/place.ts` changed hash); `frozen-surface.test.ts` S6 literals; `approved-xploder-src.txt` += `place.ts`.

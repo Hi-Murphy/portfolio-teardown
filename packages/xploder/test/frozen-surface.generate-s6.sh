@@ -7,7 +7,7 @@ package_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_root=$(CDPATH= cd -- "$package_dir/../.." && pwd)
 paths_file="$script_dir/frozen-surface.s6.paths"
 manifest_file="$script_dir/frozen-surface.s6.manifest.json"
-base=f65b13c
+base=057d89a
 package_prefix=packages/xploder/
 
 cd "$repo_root"
@@ -24,7 +24,7 @@ trap 'rm -f "$tmp_file"' EXIT
 {
   printf '{\n'
   printf '  "base": "%s",\n' "$base"
-  printf '  "note": "%s",\n' 'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why.'
+  printf '  "note": "%s",\n' 'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md.'
   printf '  "files": {\n'
 
   first=true
