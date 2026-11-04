@@ -9,9 +9,9 @@ if [ -n "$GLFLAG" ]; then GL_ARGS=(--gl "$GLFLAG"); fi
 O=/tmp/s117-checks/$T; mkdir -p $O
 pnpm build:eager && pnpm bundle:manifest --out-dir apps/web/out --write $O/eager-manifest.json
 for r in home:/ project:/projects/websocket-inspector; do n=${r%%:*}; p=${r#*:}
-  (pnpm serve:out --port 4321 & echo $! > $O/srv.pid); sleep 2
-  for i in 1 2; do pnpm perf:lighthouse http://127.0.0.1:4321$p "${GL_ARGS[@]}" --cpu-multiplier $M --out $O/lh-$n-r$i || echo "exit $? (verdict recorded)"; done
-  pnpm perf:lighthouse http://127.0.0.1:4321$p --profile "${GL_ARGS[@]}" --cpu-multiplier $M --out $O/lhp-$n || echo "exit $? (verdict recorded)"
+  node tools/perf/src/cli/serve.ts --port 4321 & echo $! > $O/srv.pid; sleep 2   # node directly, so the recorded PID is the listener (D-P5)
+  for i in 1 2; do pnpm perf:lighthouse http://127.0.0.1:4321$p ${GL_ARGS[@]+"${GL_ARGS[@]}"} --cpu-multiplier $M --out $O/lh-$n-r$i || echo "exit $? (verdict recorded)"; done
+  pnpm perf:lighthouse http://127.0.0.1:4321$p --profile ${GL_ARGS[@]+"${GL_ARGS[@]}"} --cpu-multiplier $M --out $O/lhp-$n || echo "exit $? (verdict recorded)"
   kill "$(cat $O/srv.pid)"
   pnpm perf:attribution --lhr $O/lhp-$n/lighthouse-run-0.json --trace $O/lhp-$n/lighthouse-run-0.trace.json.gz --manifest $O/eager-manifest.json --out $O/attr-$n
   for i in 1 2; do pnpm fps:engine --scenario load --route $p --no-build --out $O/fps-$n-r$i || echo "exit $? (verdict recorded)"; done
