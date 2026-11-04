@@ -1,0 +1,85 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "finalUrl": "http://127.0.0.1:PORT/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.87,
+      "accessibility": null,
+      "lcpMs": 903.9084,
+      "cls": 0,
+      "tbtMs": 517.5458000000003,
+      "fcpMs": 903.9084,
+      "siMs": 1323.1705352955853,
+      "totalByteWeight": 436001,
+      "benchmarkIndex": 4216.5,
+      "longTasks": [
+        {
+          "url": "Unattributable",
+          "startMs": 1056.9542000000001,
+          "durMs": 390
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 751.9542,
+          "durMs": 305.0000000000001
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4456.725200000001,
+          "durMs": 237
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2798.9084000000003,
+          "durMs": 229.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 1447.9542000000001,
+          "durMs": 102
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 4088.8626000000004,
+          "durMs": 86
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.87,
+      "scope": "median",
+      "pass": false
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.9084,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": false,
+  "profiled": true
+}

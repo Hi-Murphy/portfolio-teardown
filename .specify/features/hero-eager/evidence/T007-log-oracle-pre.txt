@@ -1,0 +1,14 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+stdout | test/overlay-model-equivalence.test.ts > overlay base model equivalence > matches the S11.7 oracle on fixture projects at mobile and desktop viewports
+cases=16 fixtures=16 mismatches=0
+median fixture-set old=7.002 ms new=0.767 ms
+
+ ✓ test/overlay-model-equivalence.test.ts > overlay base model equivalence > matches the S11.7 oracle on fixture projects at mobile and desktop viewports 64ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  12:58:32
+   Duration  232ms (tests 38%, transform 35%, import 26%, worker 1%)
+

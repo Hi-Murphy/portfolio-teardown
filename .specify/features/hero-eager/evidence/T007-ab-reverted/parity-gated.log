@@ -1,0 +1,13 @@
+$ pnpm perf:parity --serve apps/web/out --compare <local-path>/s118-checks/t007/parity-baseline-gated --out <local-path>/s118-checks/t007/parity-gated
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --compare <local-path>/s118-checks/t007/parity-baseline-gated --out <local-path>/s118-checks/t007/parity-gated
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t007/parity-gated/parity-compare.json
