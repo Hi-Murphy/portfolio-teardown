@@ -1,0 +1,109 @@
+{
+  "kind": "eager-probe",
+  "version": 1,
+  "route": "/",
+  "routeName": "home",
+  "motion": "reduce",
+  "run": 2,
+  "url": "http://127.0.0.1:61803/",
+  "chromium": "156.0.8078.4",
+  "profile": "mobile",
+  "reducedMotion": "reduce",
+  "deadlineMs": 5000,
+  "restWindowMs": null,
+  "reducedSettleMs": 5000,
+  "atDeadline": {
+    "observedAtMs": 5056.700000047684,
+    "timeOriginMs": 1793751080682.3,
+    "loadAtMs": 50.60000002384186,
+    "readyAtMs": null,
+    "liveStates": [
+      {
+        "value": "idle",
+        "t": 11.200000047683716
+      },
+      {
+        "value": "skipped",
+        "t": 52.200000047683716
+      }
+    ],
+    "eventCounts": {
+      "pointerdown": 0,
+      "pointermove": 0,
+      "pointerup": 0,
+      "mousedown": 0,
+      "mousemove": 0,
+      "mouseup": 0,
+      "click": 0,
+      "touchstart": 0,
+      "touchmove": 0,
+      "wheel": 0,
+      "scroll": 0,
+      "keydown": 0,
+      "focusin": 0
+    },
+    "trustedEvents": 0,
+    "canvasCount": 0,
+    "canvasRect": null,
+    "liveState": "skipped",
+    "liveOpacity": "0",
+    "posterPresent": true,
+    "posterOpacity": "1",
+    "posterVisibility": "visible",
+    "tour": null,
+    "tweening": null,
+    "backgroundRgb": "rgb(246, 243, 234)",
+    "readyAttribute": false
+  },
+  "afterRest": null,
+  "screenshot": {
+    "file": "eager-probe-home-reduce-r2.deadline.png",
+    "width": 721,
+    "height": 1440,
+    "colours": 826,
+    "nonBlank": true
+  },
+  "threeRequested": {
+    "requested": false,
+    "chunks": []
+  },
+  "verdict": {
+    "pass": true,
+    "checks": [
+      {
+        "name": "canvas-absent",
+        "pass": true,
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "ready-absent",
+        "pass": true,
+        "expected": null,
+        "actual": {
+          "readyAtMs": null,
+          "readyAttribute": false
+        }
+      },
+      {
+        "name": "poster-visible",
+        "pass": true,
+        "expected": {
+          "opacity": "1",
+          "visibility": "visible"
+        },
+        "actual": {
+          "opacity": "1",
+          "visibility": "visible"
+        }
+      },
+      {
+        "name": "no-trusted-events",
+        "pass": true,
+        "expected": 0,
+        "actual": 0
+      }
+    ]
+  },
+  "pass": true
+}

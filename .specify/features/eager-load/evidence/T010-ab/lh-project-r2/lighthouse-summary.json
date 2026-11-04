@@ -1,0 +1,152 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4321/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4321/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.96,
+      "accessibility": null,
+      "lcpMs": 903.664,
+      "cls": 0,
+      "tbtMs": 215,
+      "fcpMs": 903.664,
+      "siMs": 1122.1943770919484,
+      "totalByteWeight": 484719,
+      "benchmarkIndex": 4229,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4107.159999999999,
+          "durMs": 251
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2103.6639999999998,
+          "durMs": 235
+        },
+        {
+          "url": "http://127.0.0.1:4321/projects/websocket-inspector",
+          "startMs": 752.832,
+          "durMs": 104
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 4013.159999999999,
+          "durMs": 94
+        }
+      ]
+    },
+    {
+      "performance": 0.94,
+      "accessibility": null,
+      "lcpMs": 903.1454000000001,
+      "cls": 0,
+      "tbtMs": 282.00000000000045,
+      "fcpMs": 903.1454000000001,
+      "siMs": 1128.0215222088834,
+      "totalByteWeight": 484719,
+      "benchmarkIndex": 4223,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4195.008900000001,
+          "durMs": 247
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2103.1454,
+          "durMs": 233.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1y81jgf1iz4ib.js",
+          "startMs": 3911.0089000000003,
+          "durMs": 191.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4321/projects/websocket-inspector",
+          "startMs": 752.5727,
+          "durMs": 109
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 4102.008900000001,
+          "durMs": 93
+        }
+      ]
+    },
+    {
+      "performance": 0.95,
+      "accessibility": null,
+      "lcpMs": 903.6863000000001,
+      "cls": 0,
+      "tbtMs": 271.00000000000045,
+      "fcpMs": 903.6863000000001,
+      "siMs": 1129.9203893566419,
+      "totalByteWeight": 484719,
+      "benchmarkIndex": 4232.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2103.6863,
+          "durMs": 233.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4198.902050000001,
+          "durMs": 223
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1y81jgf1iz4ib.js",
+          "startMs": 3912.90205,
+          "durMs": 193.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4321/projects/websocket-inspector",
+          "startMs": 752.84315,
+          "durMs": 108
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 4105.902050000001,
+          "durMs": 93
+        }
+      ]
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.95,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.6863000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
