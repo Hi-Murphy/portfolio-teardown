@@ -243,7 +243,13 @@ async function readSnapshot(page: Page): Promise<EagerProbeSnapshot> {
     const live = document.querySelector('[data-site-live]');
     const canvas = live?.querySelector('canvas') ?? null;
     const rect = canvas?.getBoundingClientRect() ?? null;
-    const poster = document.querySelector('[data-site-live] + [data-site-poster]');
+    // The project route mounts no live layer until the workbench boots (none under reduced motion),
+    // so fall back to the poster inside the stage or hero figure.
+    const poster =
+      document.querySelector('[data-site-live] + [data-site-poster]') ??
+      document.querySelector(
+        '[data-site-stage] [data-site-poster], [data-site-hero] [data-site-poster]',
+      );
     const viewer = document.querySelector('[data-xploder-ready="true"]');
     const liveStyle = live === null ? null : getComputedStyle(live);
     const posterStyle = poster === null ? null : getComputedStyle(poster);

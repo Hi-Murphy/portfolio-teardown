@@ -1,6 +1,7 @@
 'use client';
 
 import { startTransition, useEffect, useRef, useState } from 'react';
+import { motion } from 'xploder/motion';
 
 import { waitForFirstInteraction, waitForIdle } from '../interaction-gate';
 import type { WorkbenchClientComponent } from './workbench-boot';
@@ -52,6 +53,20 @@ export function WorkbenchLoader({ slug }: { readonly slug: string }) {
 
     void (async () => {
       if (__XP_EAGER_3D__) {
+        const media = window.matchMedia(motion.reducedMotion.query);
+        const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+          .connection;
+
+        if (media.matches || connection?.saveData === true) return;
+
+        const onMotionChange = () => {
+          if (media.matches) controller.abort();
+        };
+        const removeMotionListener = () => media.removeEventListener('change', onMotionChange);
+
+        media.addEventListener('change', onMotionChange);
+        signal.addEventListener('abort', removeMotionListener, { once: true });
+
         const loaded = await new Promise<boolean>((resolve) => {
           if (signal.aborted) {
             resolve(false);
