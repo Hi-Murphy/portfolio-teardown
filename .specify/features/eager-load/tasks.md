@@ -69,9 +69,9 @@
 | T011 | ⊘ skipped (G1: real-time separation already exists; Lantern collapses gaps — T006 §8.1.6) | — | evidence/T006-log-baseline.md §5, §8 | — |
 | T012 | ⊘ skipped (G1: no app-component hydration task > 12.5 ms observed — T006 §4.1) | — | evidence/T006-log-baseline.md §4.1 | — |
 | T013 | ☑ final local state (= L0 + L1): parity 0 px ×16, draws 2, CLS 0, reveal sequence unchanged, bytes PASS (gated total +279 raw / +76 gz; eager +518 / +152; project initial gz +50 / +522). Local emulation TBT: home 278 → 244 (spread 101), project 338 → 354 (within spread) | 1 (Flash) | evidence/T013-log-before-after.md, T013-log-*.txt | f6b342a |
-| T014 | ☑ **verdict: keep gate.** Run 41750211660 (head f6b342a = final product): s1 (index 2,248–2,590) and s3 (2,020–2,541) qualify on distinct runners; s2 (2,698–3,029) does not. AC3 FAIL on both routes on both attempts: home eager 209 / 210 vs gated 83 / 86 ms; project 350.5 / 380.5 vs 83 / 87 ms. AC5 PASS 16/16 (revealed ≤ 616 ms, 0 trusted events; reduced motion poster-only on both routes). AC2 FAIL (max task 86–111 ms, 9.5–13 dropped frames trace-only), escalated at G1 | 1 (Flash: tables) + orchestrator (CI, qualification) | evidence/T014-log-{ac2,ac3,ac5,verdict}.md | (this merge) |
-| T015 | ☐ | | | |
-| T015b | ☐ (only on Murphy's "retire") | | | |
+| T014 | ☑ **verdict: keep gate.** Run 41750211660 (head f6b342a = final product): s1 (index 2,248–2,590) and s3 (2,020–2,541) qualify on distinct runners; s2 (2,698–3,029) does not. AC3 FAIL on both routes on both attempts: home eager 209 / 210 vs gated 83 / 86 ms; project 350.5 / 380.5 vs 83 / 87 ms. AC5 PASS 16/16 (revealed ≤ 616 ms, 0 trusted events; reduced motion poster-only on both routes). AC2 FAIL (max task 86–111 ms, 9.5–13 dropped frames trace-only), escalated at G1 | 1 (Flash: tables) + orchestrator (CI, qualification) | evidence/T014-log-{ac2,ac3,ac5,verdict}.md | 17e06c0 |
+| T015 | ☑ guards 11/11 OK; `packages/xploder`, ci.yml, perf.yml, eager-3d.yml diffs empty; eager-load.yml the only new workflow; 6 app paths, all allowlisted; AC self-check: AC1/4/5/6/7 met, AC2/AC3 not met (verdict: keep gate); CI on the PR head in T015-ci-run.txt | 1 (Flash: evidence) + orchestrator (CI) | evidence/AC-selfcheck.md, T015-log-*.txt, T015-ci-run.txt | (this merge) |
+| T015b | ⊘ not run (AC3 failed on both attempts, so the gate is kept per AC6) | — | evidence/T014-log-verdict.md | — |
 
 ## Stage-3 amendments (orchestrator)
 
