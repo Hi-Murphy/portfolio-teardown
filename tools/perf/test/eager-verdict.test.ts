@@ -11,6 +11,8 @@ import type { LighthouseSummary } from '../src/lighthouse.ts';
 const cli = fileURLToPath(new URL('../src/cli/eager-verdict.ts', import.meta.url));
 const passFixture = new URL('./fixtures/eager-verdict-summary-pass.json', import.meta.url);
 const slowFixture = new URL('./fixtures/eager-verdict-summary-slow.json', import.meta.url);
+const s116FixtureDir = fileURLToPath(new URL('./fixtures/eager-verdict-s116', import.meta.url));
+const s116Golden = new URL('./fixtures/eager-verdict-s116/expected.txt', import.meta.url);
 
 interface CliResult {
   code: number | null;
@@ -60,7 +62,36 @@ async function writeSummaries(
   }
 }
 
+async function writeAttempt(
+  root: string,
+  name: string,
+  runnerName: string | null,
+  capturedAt: string,
+  override?: (build: string, route: string, summary: LighthouseSummary, invocation: number) => void,
+): Promise<string> {
+  const dir = join(root, name);
+  await writeSummaries(dir, (build, route, summary, invocation) => {
+    for (const summaryRun of summary.runs) summaryRun.benchmarkIndex = 2_200;
+    override?.(build, route, summary, invocation);
+  });
+  if (runnerName !== null) {
+    await writeFile(join(dir, 'host-meta.json'), `${JSON.stringify({ runnerName, capturedAt })}\n`);
+  }
+  return dir;
+}
+
 describe('eager-verdict', () => {
+  test('keeps the default S11.6 output byte-identical', async () => {
+    const [golden, result] = await Promise.all([
+      readFile(s116Golden, 'utf8'),
+      runCli(['--dir', s116FixtureDir]),
+    ]);
+
+    expect(result.code).toBe(0);
+    expect(result.stderr).toBe('');
+    expect(result.stdout).toBe(golden);
+  });
+
   test('prints every run, both medians, and the AC6 pass verdict', async () => {
     const dir = await mkdtemp(join(tmpdir(), 'eager-verdict-'));
 
@@ -209,6 +240,143 @@ describe('eager-verdict', () => {
       expect(result.stderr).toContain('error: no Lighthouse summaries found under:');
     } finally {
       await rm(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('eager-verdict --rule s11.7', () => {
+  test('passes AC3 only on two qualifying attempts with distinct runners', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'eager-verdict-s117-'));
+
+    try {
+      const first = await writeAttempt(root, 'a', 'runner-a', '2026-11-04T01:00:00Z');
+      const second = await writeAttempt(root, 'b', 'runner-b', '2026-11-04T02:00:00Z');
+      const result = await runCli(['--rule', 's11.7', '--dir', first, second]);
+      const artifact = JSON.parse(await readFile(join(root, 'ac3-verdict.json'), 'utf8')) as {
+        pass: boolean;
+        attempts: Array<{ runnerName: string; counted: boolean; qualifying: boolean }>;
+      };
+
+      expect(result.code).toBe(0);
+      expect(result.stdout).toContain('**AC3:** PASS');
+      expect(artifact.pass).toBe(true);
+      expect(artifact.attempts.map((attempt) => attempt.runnerName)).toEqual([
+        'runner-a',
+        'runner-b',
+      ]);
+      expect(artifact.attempts.every((attempt) => attempt.qualifying)).toBe(true);
+      expect(artifact.attempts.every((attempt) => attempt.counted)).toBe(true);
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  test('fails when runner names are equal or unavailable', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'eager-verdict-s117-'));
+
+    try {
+      const first = await writeAttempt(root, 'a', 'runner-a', '2026-11-04T01:00:00Z');
+      const second = await writeAttempt(root, 'b', 'runner-a', '2026-11-04T02:00:00Z');
+      const sameRunner = await runCli(['--rule', 's11.7', '--dir', first, second]);
+      expect(sameRunner.code).toBe(0);
+      expect(sameRunner.stdout).toContain('**AC3:** FAIL');
+      expect(sameRunner.stdout).toContain('do not have distinct runner names');
+
+      const unknown = await writeAttempt(root, 'c', null, '2026-11-04T03:00:00Z');
+      const missingRunner = await runCli(['--rule', 's11.7', '--dir', first, unknown]);
+      expect(missingRunner.stdout).toContain('**AC3:** FAIL');
+      expect(missingRunner.stdout).toContain('unknown');
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  test('requires every Lighthouse run to be in the slow-class index range', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'eager-verdict-s117-'));
+
+    try {
+      const first = await writeAttempt(
+        root,
+        'a',
+        'runner-a',
+        '2026-11-04T01:00:00Z',
+        (build, route, summary, invocation) => {
+          if (build === 'eager' && route === 'home' && invocation === 1) {
+            summary.runs[0]!.benchmarkIndex = 2_601;
+          }
+        },
+      );
+      const second = await writeAttempt(root, 'b', 'runner-b', '2026-11-04T02:00:00Z');
+      const result = await runCli(['--rule', 's11.7', '--dir', first, second]);
+
+      expect(result.stdout).toContain('| no | no |');
+      expect(result.stdout).toContain('fewer than two qualifying attempts');
+      expect(result.stdout).toContain('**AC3:** FAIL');
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  test('uses the first two qualifying attempts in time order', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'eager-verdict-s117-'));
+
+    try {
+      const first = await writeAttempt(
+        root,
+        'a',
+        'runner-a',
+        '2026-11-04T01:00:00Z',
+        (build, _route, summary) => {
+          if (build !== 'eager') return;
+          for (const summaryRun of summary.runs) summaryRun.tbtMs = 500;
+        },
+      );
+      const second = await writeAttempt(root, 'b', 'runner-b', '2026-11-04T02:00:00Z');
+      const later = await writeAttempt(root, 'c', 'runner-c', '2026-11-04T03:00:00Z');
+      const result = await runCli(['--rule', 's11.7', '--dir', later, second, first]);
+      const artifact = JSON.parse(await readFile(join(root, 'ac3-verdict.json'), 'utf8')) as {
+        pass: boolean;
+        attempts: Array<{ dir: string; counted: boolean }>;
+      };
+
+      expect(result.stdout).toContain('**AC3:** FAIL');
+      expect(artifact.pass).toBe(false);
+      expect(
+        artifact.attempts.filter((attempt) => attempt.counted).map((attempt) => attempt.dir),
+      ).toEqual([first, second]);
+      expect(artifact.attempts.find((attempt) => attempt.dir === later)?.counted).toBe(false);
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  test('accepts rule B when eager TBT is within 50 ms of gated', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'eager-verdict-s117-'));
+
+    try {
+      const first = await writeAttempt(
+        root,
+        'a',
+        'runner-a',
+        '2026-11-04T01:00:00Z',
+        (build, _route, summary) => {
+          if (build !== 'eager') return;
+          for (const summaryRun of summary.runs) {
+            summaryRun.performance = 0.9;
+            summaryRun.tbtMs = 40;
+          }
+        },
+      );
+      const second = await writeAttempt(root, 'b', 'runner-b', '2026-11-04T02:00:00Z');
+      const result = await runCli(['--rule', 's11.7', '--dir', first, second]);
+      const artifact = JSON.parse(await readFile(join(root, 'ac3-verdict.json'), 'utf8')) as {
+        attempts: Array<{ routes: { home: { ruleA: boolean; ruleB: boolean } } }>;
+      };
+
+      expect(result.stdout).toContain('**AC3:** PASS');
+      expect(artifact.attempts[0]?.routes.home).toMatchObject({ ruleA: false, ruleB: true });
+    } finally {
+      await rm(root, { recursive: true, force: true });
     }
   });
 });

@@ -1,0 +1,84 @@
+# T005 host metadata and workflow check
+
+## Check output
+
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/host-meta.test.ts > host meta > summarises the three benchmark samples 1ms
+ ✓ test/host-meta.test.ts > host meta > classifies SwiftShader, ANGLE vendor backends, and no WebGL 0ms
+ ✓ test/host-meta.test.ts > host meta > sanitises runner and local home paths 0ms
+ ✓ test/host-meta.test.ts > host meta > builds an attempt id only when run id, attempt and shard are present 0ms
+ ✓ test/host-meta.test.ts > host meta > parses a complete host-meta file and rejects an invalid backend 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  05:31:42
+   Duration  217ms (import 95%, transform 3%, tests 1%, worker 1%)
+
+t005-host 4354 angle-apple ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)
+t005-host-ss 4251 swiftshader ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)
+WORKFLOW-SHAPE-OK
+OK FROZEN
+OK BRIEF-HISTORY
+OK XPLODER-EMPTY
+OK APP-TOUCH
+OK BASELINE-FIRST
+OK DEV-ROUTES
+OK CI-JOBS
+OK FLAG-DEFAULT
+OK VERSIONS
+OK BUDGETS
+OK GITLEAKS
+
+T005-OK (observed after the full typecheck, lint and test tail)
+
+## Local host meta (ANGLE Metal)
+
+```json
+{
+  "attemptId": "local",
+  "runnerName": "local",
+  "imageVersion": "local",
+  "chromium": "156.0.8078.4",
+  "benchmarkIndex": {
+    "min": 4285,
+    "median": 4354,
+    "max": 4356.5
+  },
+  "webgl": {
+    "available": true,
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "vendor": "Google Inc. (Apple)",
+    "backend": "angle-apple"
+  },
+  "git": {
+    "sha": "72bc21177ff553147a64150575847b457131fe22"
+  }
+}
+```
+
+## Local host meta (SwiftShader)
+
+```json
+{
+  "attemptId": "local",
+  "runnerName": "local",
+  "imageVersion": "local",
+  "chromium": "156.0.8078.4",
+  "benchmarkIndex": {
+    "min": 4202,
+    "median": 4251,
+    "max": 4346
+  },
+  "webgl": {
+    "available": true,
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "backend": "swiftshader"
+  },
+  "git": {
+    "sha": "72bc21177ff553147a64150575847b457131fe22"
+  }
+}
+```

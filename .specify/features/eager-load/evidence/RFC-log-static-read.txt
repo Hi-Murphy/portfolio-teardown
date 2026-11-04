@@ -1,0 +1,94 @@
+S11.7 RFC — static read of the eager load path (orchestrator, 2026-11-03)
+Tree: task/s11.7-eager-load @ 7833b28. `git diff --stat 44d025b 7833b28 -- apps packages tools .github` is empty,
+so the product is S11.6's merged state (2fd19f0 + handoff note). Nothing was built, run or profiled for this log.
+
+1. Eager boot order, hero (apps/web/components/hero/hero-live.tsx)
+   - L56-127: one useEffect. It runs only after HeroLive's hydration commit (effects are post-commit).
+   - L74-81: reduced motion -> skip (state 'skipped', no import); saveData -> skip.
+   - L84-98: waits for document.readyState === 'complete' (load), then visibilityState === 'visible'.
+   - L102-104: only the gated build waits for the first interaction (`if (!__XP_EAGER_3D__)`).
+   - L106: waitForIdle (requestIdleCallback, rAF fallback; interaction-gate.ts L41-67).
+   - L109: setState('loading')  -> a default-lane re-render of HeroLive (small: one div).
+   - L112-114: import('./hero-boot') -> bootHeroStage: loadStaged(STAGES_3D) = import('three') ->
+     yield -> import('@react-three/fiber') -> yield (boot-3d.ts L27-36, build/stage-3d.ts) ->
+     import('./hero-stage') -> yieldToMain -> startTransition(mount) (hero-boot.ts L9-23).
+   - L49-54 + L137: `reveal` (passed as onFirstFrame) calls setState('revealed') from the first-frame
+     callback (R3F rAF). That is a default-lane update. HeroLive re-renders and creates a new <HeroStage>
+     element, so HeroStage -> LiveViewer -> LiveViewerOwned (useTeardownViewer) -> TeardownViewer
+     re-render. TeardownViewer is a plain function component, not memo (TeardownViewer.tsx L145).
+     React 19 renders default (blocking) lanes without time-slicing, so this re-render is one
+     synchronous task.
+
+2. Eager boot order, project route (apps/web/components/workbench/workbench-loader.tsx)
+   - L53-74: eager branch waits for `load` only. **No reduced-motion check, no saveData check.**
+     The hero has both (hero-live.tsx L62-81); the workbench gated path does not need them because the
+     visitor's click is the request. -> finding F4: in an eager build, AC5's "prefers-reduced-motion ->
+     poster remains, no canvas mounts" fails on /projects/websocket-inspector today (static read; the
+     probe confirms or refutes in AC1).
+   - L83-86: waitForIdle -> start(): import('./workbench-boot') -> bootWorkbench = loadStaged(STAGES_3D)
+     -> import('./workbench-client') -> yieldToMain (workbench-boot.ts L5-16) ->
+     startTransition(setWorkbenchClient) (L33).
+   - workbench-client.tsx: useLayoutEffect -> resolveTargets() -> setPortalTargets(...) inside
+     the mount commit (L37-59). A setState in a layout effect is a sync-lane re-render in the same task as the
+     commit, so the dock (WorkbenchDock) and ExplorePanel portals render and commit synchronously,
+     together with the transition's commit of the whole viewer tree (L128-152, L153-194).
+   - L61-67: useEffect for the webgl-unavailable reveal (rAF).
+   - L35 + L148: `reveal` = setLiveState('revealed') from onFirstFrame (rAF) -> default-lane sync
+     re-render of the whole WorkbenchClient: viewer + dock + explore panel (props are new objects or
+     closures each render; nothing is memoised).
+
+3. What is already split (S11.5 / S11.6; S8 TeardownViewer.tsx, sealed)
+   - L169: `const [webgl] = useState(() => hasWebgl())`: the probe runs inside TeardownViewer's first
+     render, i.e. inside the transition render task (a11y/webgl.ts: getContext('webgl2') ->
+     loseContext(), cached per page). hasWebgl is not exported from xploder/react (index.ts), so the
+     app cannot warm it without an engine change.
+   - L74-87 + L171-177: async `gl` factory. nextTask -> new WebGLRenderer -> nextTask, then rerender()
+     (useReducer, default lane = one sync re-render of TeardownViewer, S11.6 D-P3) to avoid React's
+     300 ms Suspense retry throttle.
+   - L708: frameloop="demand": no continuous loop. After the first content frame the view is at rest.
+
+4. Hydration surface (what the gated build also pays)
+   - 'use client' modules in the two routes: theme-toggle, nav-projects-link, hero-live (home);
+     workbench-loader (project). ExploreView, Workbench, TeardownPoster, cards and outline are server
+     components. Hydration of app code is small on both routes; the framework/router runtime is the
+     bulk (to be confirmed by AC1 attribution).
+   - S11.6 T011 run 2 (slow runner): `10kujx8nsd3ck.js` is 103 ms blocking in eager and 107 ms in gated
+     on the project route, so it is common to both builds (not the 3D path).
+
+5. Lighthouse simulate (Lantern) vs real time (reasoning, to be verified in AC1)
+   - perf:lighthouse uses LH 13 defaults: formFactor mobile, throttlingMethod 'simulate'
+     (tools/perf/src/lighthouse.ts L183-197). Lantern replays the observed trace as a dependency graph
+     and multiplies each observed main-thread task by cpuSlowdownMultiplier = 4.
+   - Timer/idle waits are causal edges, not durations, in that graph. So a mount that waits for
+     load + idle in real time is packed next to hydration in simulated time ("coinciding at ≈ 4 s"),
+     and a task contributes TBT iff 4 × (observed duration) > 50 ms, i.e. observed > 12.5 ms **on the
+     measuring host**.
+   - S11.6 T011 run 2: react-dom tasks of 198-212 ms simulated -> ≈ 50 ms observed on a slow-class
+     runner. Locally (T010) eager TBT ≤ 1 ms -> every observed local task < 12.5 ms. A 4× gap between
+     hosts whose benchmarkIndex differs only 1.85× points to host-specific work inside those tasks
+     (candidate: software WebGL on the GPU-less runner; the local host uses ANGLE Metal, S11.5 C2).
+     The runner's WebGL renderer string has never been recorded.
+
+6. Ambient idle (S10 site-shell rfc.md Q2, spec.md L53)
+   - "ambient idle" = the live view at rest: on-demand render, theme-live, no timed motion. The view
+     stays `exploded`, never tweens, and runs no tour. A periodic motion would need a new xploder/motion
+     token (S2 frozen).
+
+7. Reveal visuals (apps/web/components/hero/hero-classes.ts)
+   - LIVE_CLASS: opacity 0 -> 1 on data-site-live-state=revealed, transition --motion-duration-panel-enter.
+   - POSTER_FADE_CLASS: poster -> opacity 0 + visibility hidden on the same signal.
+   - Both routes use the same classes (workbench-client.tsx L131).
+
+8. Measurement tooling available today (tools/perf/src)
+   - perf:startup (cli/startup-profile.ts): engagement-driven only (--engage move|click), 4× CPU,
+     --cpu-profile per-task chunk/function attribution, benchmarkIndex via LH computeBenchmarkIndex,
+     WebGL renderer string in meta.
+   - fps:engine --scenario startup (cli/fps-engine.ts): measureFps() WITH its continuous rAF recorder
+     (fps.ts L245-247); droppedFrameTimesFromTrace() reads Compositor DroppedFrame events from the trace.
+     No load-path (no-engagement) scenario exists. No recorder-free mode exists (S11.6 T005 used a
+     one-off script).
+   - eager-verdict (cli/eager-verdict.ts): per-route aggregation of the eager-3d.yml summaries
+     (median of 3 per invocation, mean of two invocations), LH long-task lists. No host-class
+     qualification and no eager − gated rule.
+   - eager-3d.yml: one job, gated then eager build, perf:lighthouse ×2 per route, uploads summaries
+     only (no traces).

@@ -1,0 +1,90 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4321/",
+  "finalUrl": "http://127.0.0.1:4321/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.84,
+      "accessibility": null,
+      "lcpMs": 903.4181000000001,
+      "cls": 0,
+      "tbtMs": 643.7909500000001,
+      "fcpMs": 903.4181000000001,
+      "siMs": 1331.5028992835616,
+      "totalByteWeight": 435794,
+      "benchmarkIndex": 4240,
+      "longTasks": [
+        {
+          "url": "Unattributable",
+          "startMs": 1060.7090500000002,
+          "durMs": 386
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 751.70905,
+          "durMs": 309.0000000000001
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4455.2543000000005,
+          "durMs": 272
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2798.4181,
+          "durMs": 262
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 4224.12715,
+          "durMs": 212
+        },
+        {
+          "url": "http://127.0.0.1:4321/",
+          "startMs": 1447.7090500000002,
+          "durMs": 113
+        },
+        {
+          "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 4123.12715,
+          "durMs": 101
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.84,
+      "scope": "median",
+      "pass": false
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.4181000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": false,
+  "profiled": true
+}

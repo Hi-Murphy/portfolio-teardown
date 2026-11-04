@@ -576,6 +576,56 @@ export function findLongTasks(
     }));
 }
 
+export interface TaskWindowEntry {
+  start: number;
+  dur: number;
+}
+
+export interface TaskWindowPartition {
+  intersecting: TaskWindowEntry[];
+  preLoad: TaskWindowEntry[];
+}
+
+export function findTasksIntersectingWindow(
+  events: readonly TraceEvent[],
+  startUs: number,
+  endUs: number,
+  thresholdMs: number,
+  originUs = 0,
+  requireMetadata = false,
+): TaskWindowPartition {
+  const thresholdUs = thresholdMs * MICROSECONDS_PER_MILLISECOND;
+  const tasks = mainThreadTasks(events, requireMetadata).filter((task) => task.durUs > thresholdUs);
+  const entry = (task: TaskTiming): TaskWindowEntry => ({
+    start: toPageMs(task.startUs, originUs),
+    dur: task.durUs / MICROSECONDS_PER_MILLISECOND,
+  });
+
+  return {
+    intersecting: tasks.filter((task) => task.startUs <= endUs && task.endUs >= startUs).map(entry),
+    preLoad: tasks.filter((task) => task.endUs < startUs).map(entry),
+  };
+}
+
+export function findPerformanceMark(
+  events: readonly TraceEvent[],
+  name: string,
+): TraceEvent | null {
+  return (
+    events
+      .filter(
+        (event) => finite(event.ts) && (event.name === name || event.args?.data?.name === name),
+      )
+      .at(-1) ?? null
+  );
+}
+
+export function traceTimeOriginFromMark(mark: TraceEvent, markMs: number): number {
+  if (!finite(mark.ts)) throw new Error('performance mark has no trace timestamp');
+  if (!Number.isFinite(markMs)) throw new Error('performance mark time must be finite');
+  return mark.ts - markMs * MICROSECONDS_PER_MILLISECOND;
+}
+
 export function findTasksOver(
   events: readonly TraceEvent[],
   startUs: number,

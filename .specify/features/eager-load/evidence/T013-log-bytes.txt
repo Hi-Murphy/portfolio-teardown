@@ -1,0 +1,22 @@
+Bundle scope budget: .specify/features/eager-load/evidence/T001-log-bundle-gated.json + /tmp/s117-checks/base-gated -> .specify/features/eager-load/evidence/T013-log-bundle-gated.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              583343      583374          31           - INFO
+home initial gzip             180606      180622          16      2000 B PASS
+project initial raw           581795      581945         150           - INFO
+project initial gzip          180046      180096          50      2000 B PASS
+total raw                    1581847     1582126         279          1% PASS
+total gzip                    459233      459309          76          1% PASS
+non-initial 3D raw            996260      996358          98           - INFO
+non-initial 3D gzip           277548      277558          10           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 1% of before)
+Bundle scope budget: .specify/features/eager-load/evidence/T001-log-bundle-eager.json + /tmp/s117-checks/base-eager -> .specify/features/eager-load/evidence/T013-log-bundle-eager.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              582918      582949          31           - INFO
+home initial gzip             180465      180481          16      2000 B PASS
+project initial raw           581604      583043        1439           - INFO
+project initial gzip          179960      180482         522      2000 B PASS
+total raw                    1581231     1581749         518          1% PASS
+total gzip                    459006      459158         152          1% PASS
+non-initial 3D raw            996260      995308        -952           - INFO
+non-initial 3D gzip           277548      277162        -386           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 1% of before)

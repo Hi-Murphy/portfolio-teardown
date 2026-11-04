@@ -5,13 +5,17 @@ import { describe, expect, test } from 'vitest';
 
 import {
   analyzeStartup,
+  findPerformanceMark,
   findLongTasks,
   phaseModelError,
+  traceTimeOriginFromMark,
   type GlSpan,
   type PageMarks,
   type StartupReport,
   type TraceEvent,
 } from '../src/startup.ts';
+import { LOAD_MARK } from '../src/fps.ts';
+import { parseEngage } from '../src/cli/startup-profile.ts';
 import {
   startupAttributionScript,
   type StartupAttributionOptions,
@@ -217,6 +221,30 @@ describe('analyzeStartup', () => {
     }
 
     expect(violations).toEqual([]);
+  });
+});
+
+describe('load-anchored startup', () => {
+  test('keeps move and click defaults and accepts none', () => {
+    expect(parseEngage(undefined)).toBe('move');
+    expect(parseEngage('move')).toBe('move');
+    expect(parseEngage('click')).toBe('click');
+    expect(parseEngage('none')).toBe('none');
+    expect(() => parseEngage('invalid')).toThrow('--engage must be move, click, or none');
+  });
+
+  test('anchors t0 at the load performance mark', () => {
+    const mark = {
+      cat: 'blink.user_timing',
+      name: LOAD_MARK,
+      ph: 'I',
+      pid: 1,
+      tid: 1,
+      ts: 1_125_000,
+    } satisfies TraceEvent;
+
+    expect(findPerformanceMark([mark], LOAD_MARK)).toBe(mark);
+    expect(traceTimeOriginFromMark(mark, 125)).toBe(1_000_000);
   });
 });
 

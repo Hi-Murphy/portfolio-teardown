@@ -1,0 +1,26 @@
+$ git diff --stat 7833b28 -- packages/xploder
+(empty)
+
+$ git diff --stat 7833b28 -- .github/workflows/ci.yml .github/workflows/perf.yml .github/workflows/eager-3d.yml
+(empty)
+
+$ git diff --name-only --diff-filter=A 7833b28 -- .github/workflows
+.github/workflows/eager-load.yml
+ADDED-WORKFLOW-OK: eager-load.yml only
+
+$ git diff --name-only 7833b28 -- apps/web
+apps/web/components/hero/hero-live.tsx
+apps/web/components/workbench/workbench-client.tsx
+apps/web/components/workbench/workbench-loader.tsx
+apps/web/test/eager-flag.test.ts
+apps/web/test/eager-guards.test.tsx
+apps/web/test/eager-render-lanes.test.tsx
+
+Allowlist comparison against .specify/features/eager-load/app-touch.txt:
+ALLOWED apps/web/components/hero/hero-live.tsx
+ALLOWED apps/web/components/workbench/workbench-client.tsx
+ALLOWED apps/web/components/workbench/workbench-loader.tsx
+ALLOWED apps/web/test/eager-flag.test.ts
+ALLOWED apps/web/test/eager-guards.test.tsx
+ALLOWED apps/web/test/eager-render-lanes.test.tsx
+APP-TOUCH-OK: every changed apps/web path is in app-touch.txt

@@ -1,0 +1,222 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.91,
+      "accessibility": null,
+      "lcpMs": 910.6339,
+      "cls": 0,
+      "tbtMs": 374.5,
+      "fcpMs": 910.6339,
+      "siMs": 1195.5694557666957,
+      "totalByteWeight": 471394,
+      "benchmarkIndex": 2305,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3924.9508500000006,
+          "durMs": 178.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2152.6339000000003,
+          "durMs": 142.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4113.267800000001,
+          "durMs": 119
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3268.9508500000006,
+          "durMs": 118
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3761.9508500000006,
+          "durMs": 60
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 880.31695,
+          "durMs": 56
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3707.9508500000006,
+          "durMs": 54
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3870.9508500000006,
+          "durMs": 54
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 828.31695,
+          "durMs": 52
+        }
+      ]
+    },
+    {
+      "performance": 0.92,
+      "accessibility": null,
+      "lcpMs": 909.2397000000001,
+      "cls": 0,
+      "tbtMs": 348.690075,
+      "fcpMs": 909.2397000000001,
+      "siMs": 1141.1146267707995,
+      "totalByteWeight": 471394,
+      "benchmarkIndex": 2319,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3868.85955,
+          "durMs": 164
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2109.2397,
+          "durMs": 136
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3323.09925,
+          "durMs": 114
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4073.09925,
+          "durMs": 113
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 852.61985,
+          "durMs": 74
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3709.85955,
+          "durMs": 66
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3654.85955,
+          "durMs": 55
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3815.85955,
+          "durMs": 53
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 802.61985,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 0.91,
+      "accessibility": null,
+      "lcpMs": 908.0367000000001,
+      "cls": 0,
+      "tbtMs": 364.98164999999995,
+      "fcpMs": 908.0367000000001,
+      "siMs": 1152.7382199066035,
+      "totalByteWeight": 471394,
+      "benchmarkIndex": 2266,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3907.0550499999995,
+          "durMs": 173
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2151.0367,
+          "durMs": 138
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3259.0550499999995,
+          "durMs": 118
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4109.073399999999,
+          "durMs": 110
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 903.01835,
+          "durMs": 65
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 3750.0550499999995,
+          "durMs": 58
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3851.0550499999995,
+          "durMs": 56
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 797.01835,
+          "durMs": 54
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3698.0550499999995,
+          "durMs": 52
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 851.01835,
+          "durMs": 52
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.91,
+      "scope": "median",
+      "pass": false
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 910.6339,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": false
+}

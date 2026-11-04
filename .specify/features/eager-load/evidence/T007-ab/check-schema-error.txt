@@ -1,0 +1,18 @@
+[eval]:1
+const fs=require("fs");const d="/tmp/s117-checks/t007-reduce";const rs=fs.readdirSync(d).filter(f=>f.endsWith(".json")).map(f=>JSON.parse(fs.readFileSync(d+"/"+f)));if(rs.length!==4||!rs.every(r=>r.pass&&!r.canvas.present))throw new Error("reduce fail");console.log("REDUCE-POSTER-ONLY-OK")
+                                                                                                                                                                                                                      ^
+
+TypeError: Cannot read properties of undefined (reading 'present')
+    at [eval]:1:215
+    at Array.every (<anonymous>)
+    at [eval]:1:188
+    at runScriptInThisContext (node:internal/vm:219:10)
+    at node:internal/process/execution:451:12
+    at [eval]-wrapper:6:24
+    at runScriptInContext (node:internal/process/execution:449:60)
+    at evalFunction (node:internal/process/execution:283:30)
+    at evalTypeScript (node:internal/process/execution:295:3)
+    at node:internal/main/eval_string:71:3
+
+Node.js v24.19.0
+exit 1

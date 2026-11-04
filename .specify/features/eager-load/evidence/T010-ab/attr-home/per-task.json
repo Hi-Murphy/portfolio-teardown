@@ -1,0 +1,80 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "http://127.0.0.1:4321/",
+      "simulatedStartMs": 752.79085,
+      "simulatedMs": 117,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 67,
+      "tbtSharePct": 30.87557603686639,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2103.5816999999997,
+      "simulatedMs": 270.99999999999955,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 220.99999999999955,
+      "tbtSharePct": 101.84331797235014,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+      "simulatedStartMs": 3912.5359499999986,
+      "simulatedMs": 95,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 45,
+      "tbtSharePct": 20.737327188940114,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/1kgrt2f4mrm63.js",
+      "simulatedStartMs": 4007.5359499999986,
+      "simulatedMs": 218,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 168,
+      "tbtSharePct": 77.41935483870976,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "http://127.0.0.1:4321/",
+    "route": "/",
+    "cpuMultiplier": 4,
+    "profileChunks": 243,
+    "simulatedTbtMs": 216.99999999999977,
+    "observedBlockingMs": 9.292000000000002,
+    "differenceMs": -207.70799999999977,
+    "differencePct": 95.71797235023041,
+    "pairs": []
+  }
+}

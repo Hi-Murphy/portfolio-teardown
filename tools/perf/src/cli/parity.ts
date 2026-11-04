@@ -67,6 +67,7 @@ interface ParityArgs {
     write?: string;
     compare?: string;
     out?: string;
+    'no-engage'?: boolean;
     help?: boolean;
   };
   positionals: string[];
@@ -102,6 +103,7 @@ Options:
   --write <dir>     capture the baseline PNGs and parity.json
   --compare <dir>   compare fresh captures against a baseline manifest and PNGs
   --out <dir>       comparison output directory (default: .evidence/parity-compare)
+  --no-engage       capture from load only, without pointer engagement
   --help            show this help`;
 
 function exitCodeTable(): string {
@@ -280,6 +282,7 @@ async function captureShot(
   browser: Browser,
   base: URL,
   shot: ShotDefinition,
+  engage: boolean,
 ): Promise<{ screenshot: Buffer; image: RgbaImage }> {
   const profile = PROFILES[shot.viewport];
   const context = await browser.newContext({
@@ -311,6 +314,8 @@ async function captureShot(
     }
 
     await waitForHydration(page);
+    // prettier-ignore
+    if (engage)
     await page.mouse.move(16, 16);
 
     try {
@@ -332,12 +337,17 @@ async function captureShot(
   }
 }
 
-async function writeParity(browser: Browser, base: URL, outDir: string): Promise<number> {
+async function writeParity(
+  browser: Browser,
+  base: URL,
+  outDir: string,
+  engage: boolean,
+): Promise<number> {
   await mkdir(outDir, { recursive: true });
   const shots: ParityShot[] = [];
 
   for (const shot of SHOTS) {
-    const { screenshot, image } = await captureShot(browser, base, shot);
+    const { screenshot, image } = await captureShot(browser, base, shot, engage);
     const file = `screenshot-${shot.id}.png`;
     await writeFile(join(outDir, file), screenshot);
 
@@ -369,6 +379,7 @@ async function compareParity(
   base: URL,
   baselineDir: string,
   outDir: string,
+  engage: boolean,
 ): Promise<number> {
   const { manifestPath, manifest } = await loadBaseline(baselineDir);
   const expectedIds = new Set(SHOTS.map((shot) => shot.id));
@@ -407,7 +418,7 @@ async function compareParity(
     const baseline = baselines.get(shot.id);
     if (baseline === undefined) throw new Error(`missing baseline for ${shot.id}`);
 
-    const { screenshot, image } = await captureShot(browser, base, shot);
+    const { screenshot, image } = await captureShot(browser, base, shot, engage);
     const currentFile = `screenshot-${shot.id}.png`;
     await writeFile(join(outDir, currentFile), screenshot);
 
@@ -473,6 +484,7 @@ export async function main(argv: string[]): Promise<number> {
       write: { type: 'string' },
       compare: { type: 'string' },
       out: { type: 'string' },
+      'no-engage': { type: 'boolean' },
       help: { type: 'boolean' },
     },
     allowPositionals: true,
@@ -535,11 +547,12 @@ export async function main(argv: string[]): Promise<number> {
 
     const browser = await launch();
     try {
-      if (writeDir !== undefined) return await writeParity(browser, base, writeDir);
+      const engage = values['no-engage'] !== true;
+      if (writeDir !== undefined) return await writeParity(browser, base, writeDir, engage);
       if (baselineDir === undefined || outDir === undefined) {
         throw new Error('missing comparison directories');
       }
-      return await compareParity(browser, base, baselineDir, outDir);
+      return await compareParity(browser, base, baselineDir, outDir, engage);
     } finally {
       await browser.close().catch(() => undefined);
     }

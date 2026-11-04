@@ -1,0 +1,59 @@
+T002 — Lighthouse attribution tool
+
+Local emulation, tool check only.
+The exact amended T002 Check block (with `--out-dir apps/web/out`) exited 0 with T002-OK.
+The profiler category produced ProfileChunk events: source=lighthouse-profile, 309 ProfileChunk events.
+Attribution shape: 8 tasks, 7 matched; all 3 URL-less long tasks matched; four of five top functions include served-source snippets with callFrame line/column and three-frame stacks.
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/lighthouse.test.ts > Lighthouse summary > summarizes all runs and picks the median by score with LCP tie-break 2ms
+ ✓ test/lighthouse.test.ts > Lighthouse summary > uses raw inclusive/exclusive budget thresholds 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse summary > reports every failed assertion on the median run 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse summary > copies long-task details into every run and defaults to an empty list 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse Markdown > renders thresholds, all runs, and the median marker 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse Markdown > writes a step summary only when GITHUB_STEP_SUMMARY is set 1ms
+ ✓ test/lighthouse.test.ts > Lighthouse categories (S10 T015) > defaults to performance only, so S3 runs keep their three assertions 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse categories (S10 T015) > always keeps performance and de-duplicates the list 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse categories (S10 T015) > rejects an unknown category as a usage error 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse categories (S10 T015) > asserts accessibility >= 0.95 on the median when it was scored 1ms
+ ✓ test/lighthouse.test.ts > Lighthouse profile and emulation flags (S11.7 T002) > keeps the default Lighthouse call and summary shape byte-identical 3ms
+ ✓ test/lighthouse.test.ts > Lighthouse profile and emulation flags (S11.7 T002) > appends GL arguments after the existing browser arguments 0ms
+ ✓ test/lighthouse.test.ts > Lighthouse profile and emulation flags (S11.7 T002) > captures trace and DevTools artifacts only for profiled runs 2ms
+ ✓ test/lighthouse.test.ts > Lighthouse profile and emulation flags (S11.7 T002) > marks profiled summaries and refuses to gate them 0ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > matches RunTask events by URL and observed-to-simulated duration 5ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > attributes functions, chunks, modules, and hypotheses 3ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > compares observed Lantern blocking totals with the LHR TBT 1ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > keeps unmatched long tasks with null observed timing 1ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > matches URL-less long tasks to RunTasks without an attributable script URL 0ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > falls back to the nearest URL candidate within 50% and marks it loose 1ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > records callFrame positions and source snippets for the top three inclusive frames 1ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > names the fallback when the trace has no ProfileChunk events 0ms
+ ✓ test/attribution.test.ts > Lighthouse per-task attribution > renders the per-task and Lantern tables 0ms
+
+ Test Files  2 passed (2)
+      Tests  23 passed (23)
+   Start at  05:46:42
+   Duration  334ms (import 89%, tests 7%, transform 3%, worker 1%)
+
+TRACE-KEPT
+source: lighthouse-profile (309 ProfileChunk events)
+tasks: 8; matched: 7
+per-task.json: /tmp/s117-checks/t002-attr/per-task.json
+per-task.md: /tmp/s117-checks/t002-attr/per-task.md
+ATTR-SHAPE-OK 8 lighthouse-profile
+OK FROZEN
+OK BRIEF-HISTORY
+OK XPLODER-EMPTY
+OK APP-TOUCH
+OK BASELINE-FIRST
+OK DEV-ROUTES
+OK CI-JOBS
+OK FLAG-DEFAULT
+OK VERSIONS
+OK BUDGETS
+OK GITLEAKS
+
+Exact Check tail:
+pnpm typecheck && pnpm lint && pnpm test && echo T002-OK
+T002-OK
