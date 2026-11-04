@@ -19,7 +19,7 @@ jobs:
     env:
       E: .evidence/ci/hero-eager
       SHARD: ${{ matrix.shard }}
-      EAGER_BUILD: build:eager
+      EAGER_BUILD: build:eager-hero
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
