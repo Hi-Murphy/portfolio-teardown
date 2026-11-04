@@ -98,6 +98,7 @@
 - **D-P3 (review, T002):** recorder-mode `--names` anchored the hooks with the recorder-start mark but the load timestamp. Each load measurement now returns its own `traceOriginUs`; both frame modes name the same tasks.
 - **D-P4 (AC1 run 41774295096, tool defects):** (1) `--rule s11.8` required eager/project summaries, contrary to R5; project eager is now an optional group (a partial group is still an error). (2) The `**AC1:**` line required two deciding attempts; AC1 needs one, so the first qualifying attempt in time order decides. (3) `perf:host` meta carries no timestamp, so attempt order fell back to file mtimes. `hero-eager.yml` now stamps `startedAt` into `host-meta.json`; for run 41774295096 the order is taken from the GitHub jobs API (`startedAt`: s2 04:37:09Z, s3 04:37:09Z, s1 04:37:19Z) → **the AC1 attempt is `41774295096-1-s2`**; `s1` (also slow-class, also reproduced) is corroborating; `s3` does not qualify (max index 2,603.5).
 - **D-P5 (AC1 finding, harness):** in the host-native named runs the first-content-frame task holds program setup + the draw (`getProgramInfoLog` 22 %), and a separate 37–39 ms unnamed task follows it; `--names` listed unnamed tasks only above 50 ms, so that task had no attribution. `--names` now lists every unnamed task ≥ 16.7 ms with its top functions (the AC2 gate, `unnamedMaxMs` vs 50 ms, is unchanged). The binding AC1 attribution stays the profiled Lighthouse runs of s2 and s1.
+- **D-P6 (review, T004):** (1) check-script `cmd && echo OK` lines are not fatal under `set -e`; T004's check now exits on each failed condition (and on any open orchestrator section); later checks follow the same `|| { echo X; exit 1; }` form. (2) `lever-block.sh`: local emulation `M` = 16.4 (T004 §9; 18.5 missed the s2 target by 26 %); the `--cpu 4` load runs also carry `--names` (local `--cpu 1` tasks are too small to split); `BEFORE` = the most recent earlier `T0NN-ab` (skipped levers leave none; T010 compares against T004); evidence copies exclude full LHRs, devtools logs and traces (they stay in `/tmp/s118-checks/<tid>`). (3) `ab-table.mjs` splits the first-content-frame task and every unnamed task ≥ 16.7 ms within 120 ms **on either side** (the E2 commit precedes it, the placement task follows), for both `--cpu 1` and `--cpu 4`.
 
 ---
 
@@ -257,8 +258,12 @@
   ```sh
   set -euo pipefail; F=.specify/features/hero-eager
   git diff --quiet 0fcd243 -- apps packages && echo PRODUCT-IS-BASE | tee /tmp/s118-checks/t004.txt
-  test -s $F/evidence/T004-log-baseline.md && grep -q 'REPRODUCED' $F/evidence/T004-log-baseline.md && ! grep -q 'NOT REPRODUCED' $F/evidence/T004-log-baseline.md
-  grep -Eq 'E2 (go|skip)' $F/evidence/T004-log-baseline.md && echo E2-DECIDED | tee -a /tmp/s118-checks/t004.txt
+  test -s $F/evidence/T004-log-baseline.md || { echo NO-BASELINE-LOG; exit 1; }
+  grep -q 'REPRODUCED' $F/evidence/T004-log-baseline.md || { echo NOT-REPRODUCED; exit 1; }
+  if grep -q 'NOT REPRODUCED' $F/evidence/T004-log-baseline.md; then echo NOT-REPRODUCED; exit 1; fi
+  if grep -q 'ORCHESTRATOR: written at review' $F/evidence/T004-log-baseline.md; then echo SECTIONS-OPEN; exit 1; fi
+  grep -Eq 'E2 (go|skip)' $F/evidence/T004-log-baseline.md || { echo E2-NOT-DECIDED; exit 1; }
+  echo E2-DECIDED | tee -a /tmp/s118-checks/t004.txt
   node -e 'const c=require(process.argv[1]);for(const k of ["renderer-constructor","program-compile","first-content-frame"])if(!(c[k]>0))throw new Error("cap "+k);console.log("CAPS-OK",JSON.stringify(c))' $PWD/$F/evidence/T004-ac2-caps.json | tee -a /tmp/s118-checks/t004.txt
   test "$(ls $F/evidence/T004-trace-*.json.gz | wc -l)" -eq 2 && test "$(ls $F/evidence/T004-per-task-*.json | wc -l)" -eq 2 && echo ARTIFACTS-OK | tee -a /tmp/s118-checks/t004.txt
   bash $F/guards.sh | tee -a /tmp/s118-checks/t004.txt

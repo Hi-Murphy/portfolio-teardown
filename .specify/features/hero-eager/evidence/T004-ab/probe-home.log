@@ -1,0 +1,6 @@
+$ pnpm eager:probe --serve apps/web/out --route / --runs 2 --out <local-path>/s118-checks/t004/probe-home
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --runs 2 --out <local-path>/s118-checks/t004/probe-home
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t004/probe-home

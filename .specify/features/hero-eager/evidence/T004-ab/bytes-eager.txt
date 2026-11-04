@@ -1,0 +1,11 @@
+Bundle scope budget: .specify/features/hero-eager/evidence/T001-log-bundle-eager.json + <local-path>/s118-checks/base-eager -> <local-path>/s118-checks/t004/eager-manifest.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              582949      582949           0           - INFO
+home initial gzip             180481      180481           0      2000 B PASS
+project initial raw           583043      583043           0           - INFO
+project initial gzip          180482      180482           0      2000 B PASS
+total raw                    1581749     1581749           0           - INFO
+total gzip                    459158      459158           0        0.5% PASS
+non-initial 3D raw            995308      995308           0           - INFO
+non-initial 3D gzip           277162      277162           0           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 0.5% of before)
