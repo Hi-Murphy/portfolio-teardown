@@ -1,0 +1,80 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:34743/",
+  "scenario": "load",
+  "route": "/",
+  "frames": "recorder",
+  "cpuThrottle": 4,
+  "loadMs": 495.80000000004657,
+  "fps": 4.52533380239402,
+  "frameCount": 23,
+  "droppedFrames": 18,
+  "windowMs": 5000,
+  "intervalsMs": {
+    "p50": 16.863,
+    "p95": 364.393,
+    "max": 663.38
+  },
+  "rafFps": 53.64487095428265,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 8264,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 387.179,
+      "dur": 73.543
+    },
+    {
+      "start": 482.605,
+      "dur": 79.814
+    },
+    {
+      "start": 880.649,
+      "dur": 82.144
+    },
+    {
+      "start": 963.307,
+      "dur": 88.84
+    },
+    {
+      "start": 1056.895,
+      "dur": 99.391
+    },
+    {
+      "start": 1156.365,
+      "dur": 87.432
+    }
+  ],
+  "maxLongTaskMs": 99.391,
+  "preLoadTasks": [],
+  "droppedFrameTimes": [
+    773.994,
+    790.66,
+    807.326,
+    823.992,
+    840.658,
+    857.324,
+    1040.65,
+    1057.316,
+    1073.982,
+    1090.648,
+    1107.314,
+    1123.98,
+    1140.646,
+    1157.312,
+    1173.978,
+    1190.644,
+    1207.31,
+    1223.976
+  ],
+  "mounted": true,
+  "readyMs": 1542.6000000000931,
+  "verdict": {
+    "longTask50": false,
+    "droppedFramesLe2": false,
+    "gated": false
+  },
+  "exclusionNote": "the harness rAF recorder adds a frame demand on every vsync; this count is excluded from AC2."
+}
