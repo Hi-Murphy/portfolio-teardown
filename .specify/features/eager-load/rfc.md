@@ -425,3 +425,7 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
    - **AC3 fails on both routes on both attempts → verdict: keep gate (AC6).** The default build stays gated, and the eager path stays flag-only.
    - **AC5 passes on both attempts:** revealed ≤ 616 ms, zero interaction; reduced motion is poster-only on both routes.
    - **AC2 fails as escalated at G1:** the trace-only max task is 86–111 ms, with 9.5–13 dropped frames.
+9. **Stage 3 G4 (2026-11-04): end-contract** (`evidence/AC-selfcheck.md`).
+   - **Met:** AC1, AC4, AC5, AC6 (verdict: keep gate) and AC7 (all checks green on `c484b26`, frozen surfaces empty).
+   - **Not met:** AC2 (escalated at G1) and AC3 (fails on both slow-class attempts).
+   - PR #20 is a draft, awaiting Murphy's validation and "merge".

@@ -1,0 +1,22 @@
+T015 — CI on PR #20 (https://github.com/Hi-Murphy/portfolio-teardown/pull/20)
+Verified head: c484b26955eb8c3897a77e3746d8acba33ce46f9 (all T001–T015 work; later commits are evidence-only)
+Recorded: 2026-11-04
+
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/Dz9ApdKVXW3xq57K66E4ER574eY3	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	1m48s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711127/job/126324689204	
+a11y: axe (production routes)	pass	3m14s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711127/job/126324689048	
+build (typecheck, lint, test, build)	pass	1m37s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711158/job/126324689260	
+perf-gate: lighthouse (mobile)	pass	1m24s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711127/job/126324688745	
+perf-gate: weight (< 3 MB)	pass	1m50s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711127/job/126324689060	
+perf: eager-3d (measurement)	pass	4m9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711108/job/126324688790	
+perf: eager-load (slow-class measurement) #1	pass	7m4s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711123/job/126324689091	
+perf: eager-load (slow-class measurement) #2	pass	7m17s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711123/job/126324689267	
+perf: eager-load (slow-class measurement) #3	pass	7m2s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711123/job/126324688878	
+perf: fixture exclusion	pass	19s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711127/job/126324689136	
+perf: fps calibration	pass	50s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711127/job/126324689097	
+secrets (gitleaks)	pass	13s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711158/job/126324689310	
+seo: meta + og	pass	56s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/41753711158/job/126324688850	
+
+
+Result: every check passes, incl. seo: meta + og, both axe jobs, perf gates (lighthouse, weight), perf: eager-3d (measurement), fps calibration, gitleaks. eager-load shards are measurement-only (not required).
