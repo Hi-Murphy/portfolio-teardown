@@ -1,0 +1,60 @@
+T010 eager bundle chunk map
+Build: apps/web/out (NEXT_PUBLIC_EAGER_3D=1)
+Manifest: T010-ab/eager-manifest.json
+Total: 31 JS files, 1,617,428 bytes
+
+Stage allocation (loaded by the ordered STAGES_3D import entries):
+
+  order  stage                 entry chunk                 bytes   newly loaded dependency chunks
+  1      three-stage-a         41_nv2rd_1mc0.js               688   2cmb3hh2qt4ru.js 83,162
+                                                                    2c6ejsunauw91.js 14,467
+  2      three-stage-b         35-o31wt_-fi0.js              5,453   43c0tgtm5fya-.js 50,735
+  3      three-stage-c         40t85hbp2bgnv.js              7,781   3rtgqd1wp9qbj.js 390,554
+  4      three                 1p0s0u1en1zzu.js             20,009   graph already evaluated
+  5      xploder-stage-a       0pb67l6o_2foa.js               3,372   public layout/motion/theme
+  6      xploder-stage-b       0wryfjqvjmyv2.js                 179   public core marker
+  7      @react-three/fiber   4388rdi57woly.js                 536   graph already evaluated
+
+Shared chunks are listed once in the closure above. The stage entry files are separate files and
+each is reached through its own import() in apps/web/build/stage-3d.ts.
+
+Post-stage client chunks:
+
+    3,489  _next/static/chunks/0gi51jqiq5o0-.js       hero stage
+    3,530  _next/static/chunks/18jpa178m80gm.js       workbench stage
+  116,597  _next/static/chunks/235_4bwr5p062.js       xploder viewer
+  144,243  _next/static/chunks/1y81jgf1iz4ib.js       workbench content
+
+All eager JS files:
+
+      219  _next/static/<build-id>/_buildManifest.js
+       96  _next/static/<build-id>/_clientMiddlewareManifest.js
+      108  _next/static/<build-id>/_ssgManifest.js
+    2,386  _next/static/chunks/0bsy_ghm81y_t.js
+  112,594  _next/static/chunks/0cz1d0mv5g_q7.js
+    3,489  _next/static/chunks/0gi51jqiq5o0-.js
+    5,361  _next/static/chunks/0iw9shbiu44o8.js
+    3,372  _next/static/chunks/0pb67l6o_2foa.js
+      179  _next/static/chunks/0wryfjqvjmyv2.js
+  164,984  _next/static/chunks/10kujx8nsd3ck.js
+    3,530  _next/static/chunks/18jpa178m80gm.js
+  181,183  _next/static/chunks/1d5kkip1hlg-o.js
+   13,822  _next/static/chunks/1fzq_fvhhdbjt.js
+   10,209  _next/static/chunks/1hfwib_xdo335.js
+   32,732  _next/static/chunks/1jr83020c6cbx.js
+  229,819  _next/static/chunks/1kgrt2f4mrm63.js
+   20,009  _next/static/chunks/1p0s0u1en1zzu.js
+  144,243  _next/static/chunks/1y81jgf1iz4ib.js
+    2,381  _next/static/chunks/20puemmua5y2h.js
+  116,597  _next/static/chunks/235_4bwr5p062.js
+   14,467  _next/static/chunks/2c6ejsunauw91.js
+   83,162  _next/static/chunks/2cmb3hh2qt4ru.js
+    5,453  _next/static/chunks/35-o31wt_-fi0.js
+    3,367  _next/static/chunks/3ob0k3a-j8sb1.js
+  390,554  _next/static/chunks/3rtgqd1wp9qbj.js
+    7,781  _next/static/chunks/40t85hbp2bgnv.js
+      688  _next/static/chunks/41_nv2rd_1mc0.js
+    3,342  _next/static/chunks/42-42no5bkbs-.js
+      536  _next/static/chunks/4388rdi57woly.js
+   50,735  _next/static/chunks/43c0tgtm5fya-.js
+   10,030  _next/static/chunks/turbopack-3-ry682tkyiqk.js
