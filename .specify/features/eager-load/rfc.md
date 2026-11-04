@@ -416,3 +416,7 @@ The design target per task is **≤ 12.5 ms observed on a slow-class host**, i.e
    - **Non-goals hold:** parity 0 px, 2 draws, CLS 0, sequence unchanged, bytes within budget.
    - **App-side work is exhausted** within AC4. The local-emulation TBT movement is inside the run spread.
    - **Re-asked per G1:** the engine exceptions E1/E2 (T006 §8.4).
+7. **G2 decision (Murphy, 2026-11-04, 5h 60%): "default. go".**
+   - E1/E2 are **declined**; no engine change lands in this slice.
+   - G3 starts: T014 runs the verdict on the final product state (L0 + L1).
+   - The note for Merlin (a total-JS budget for splitting three) goes into the end-contract.
