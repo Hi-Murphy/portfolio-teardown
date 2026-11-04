@@ -1,0 +1,86 @@
+S11.8 RFC — static read (no build, no run, no profile)
+Base: 0fcd243 (brief + kickoff freeze). Product tree = S11.7 final 7df1b6d:
+  $ git diff --stat 7df1b6d 0fcd243 -- apps packages tools .github   -> (empty)
+
+Inputs read (committed S11.7 evidence, .specify/features/eager-load/evidence/):
+  T006-log-baseline.md §4 (per-task attribution), §6 (AC2/AC5/bytes), §8.3/§8.4 (E1/E2 request)
+  T014-log-verdict.md (209.25/82.75 ms s1, 210/86 ms s3 home; 350.50/83, 380.53/87 project)
+  T014-log-ac2.md (trace-only at CDP 4x: home max task 85.8-109.5 ms, 9.5-13 dropped frames)
+  T014-per-task-eager-home-att41750211660-1-{s1,s3}.md (final-state home profiles)
+  T006-per-task-eager-home.md task 10 (H10 stack)
+
+1. Final-state home: the largest eager-only task is the first content frame
+   T014 s1 task 6: 156.0 ms simulated / 39.0 ms observed / TBT 106 ms
+   T014 s3 task 8: 161.0 ms simulated / 40.3 ms observed / TBT 111 ms
+   Top self time (s3): GC 15.2 %, G 14.0 %, (anon 45004) 13.3 %, O 11.5 %, q 10.3 %, R 7.2 %, Y 6.7 %
+   Top self time (s1): G 17.1 %, GC 16.1 %, O 16.0 %, R 9.8 %, (anon 7348) 9.6 %
+   Minified -> source (resolved from the served-chunk snippets):
+     q   (e,t,n,r,l,o,a){...new Set(e.excludeObstacles??[])...}  = placementsForText   overlay/place.ts:295
+     U   q(e,e.text,F(e.text,l.annotation),...gapPx)              = labelOptions        overlay/place.ts:374
+     (e,t,n,r){...for(let{label:u}of e){...offscreen...}           = firstFit            overlay/place.ts:417
+     G   (e,t){if(0===t.length)return!1;let n=[[1,0],[0,1]];...    = rectOverlapsPolygon overlay/place.ts:259
+     Y   corners [[e.x,e.y],...]                                   = rectProjection      overlay/place.ts:182
+     N   (e,t){let n=1/0,r=-1/0;for(let l of e)...}                 = polygonProjection   overlay/place.ts:201
+     O   (e,t){return e[0]*t[0]+e[1]*t[1]}                          = projection          overlay/place.ts:174
+     anon 7348  e=>G(f,e) ... i.push({key,kind,anchor,text,...})    = placementsForText's candidate loop
+     anon 45004 (e,t,n,r,l,o){...e.layers.forEach...n.layers.findIndex} = tagsModel/tagLabels overlay/model.ts:548/372
+     anon 42206 ({frame,layout,project,viewport,offsetY,target,look}) = overlayBaseModel   overlay/model.ts:600
+     R   if(e.debug.checkShaderErrors){getProgramInfoLog...}, parent getUniforms
+                                                                   = three WebGLProgram first use (program setup)
+   => placement + overlay model ≈ 55-65 % of the task; three program setup 7-10 %; GC 15-16 %.
+
+2. Why it is one task (source path)
+   OverlayProjector.tsx:469  first frame (previousSignature === null) -> projectOverlayFrameBuffer
+   OverlayProjector.tsx:482  onOverlay({ kind: 'settled', ... })
+   BlueprintOverlay.tsx:284  baseModel = useMemo(... overlayBaseModel(...)) on the settled state
+   model.ts:573              tagsModel -> placeLabels(labels, hulls, viewport, look)   (narrow viewport = tags mode)
+   columns.ts:330            placeColumns -> placeLabels (wide viewport, columns mode)
+   Stats.tsx:31              useFrame(..., 1): gl.render(scene, camera) -> first program setup (three R/getUniforms)
+   TeardownViewer.tsx:469    data-xploder-ready = 'true' on the first onStats (first drawn frame)
+
+3. Placement work that is computed and discarded
+   place.ts:434  firstFit: labelOptions(label, obstacles, placements, viewport, look)[0]
+                 -> builds EVERY candidate (anchors x 6 radii x 8 directions, + shortText set for parts,
+                    + centred tag candidate), each SAT-tested against every hull, then keeps index 0.
+   place.ts:259  rectOverlapsPolygon allocates an axes array per call; rectProjection (182) allocates a
+                 4-corner array per axis; inflate (153) allocates per candidate -> GC share.
+   place.ts:306  excluded-obstacle filter recomputed per text (twice per part label).
+   place.ts:449  completeSearch (look-ahead) runs only when first-fit hides a label; it consumes options
+                 in order, so a lazy generator in the same order is result-identical.
+   Axes [1,0] and [0,1] are tested first; projection(axis=[1,0], p) = p[0] for finite p, so a hull
+   AABB pre-reject is exactly equivalent to the first two SAT axes.
+
+4. E2 (T006 H10) source
+   T006 task 10 stack: (anon) ()=>{...h=a.height;if(h<=0||a.width<=0)return;...}
+                       parent ()=>{f()},[t.turns,t.zoomFactor,a.height,a.width,f]  grandparent R3F nK
+   = ViewScroll.tsx:124-126  useLayoutEffect(() => sync(), [rig.turns, rig.zoomFactor, size.height, size.width, sync])
+   sync -> ViewScroll.tsx:96 onExtentRef.current?.(extent) -> TeardownViewer.tsx:241 setScrollExtentPx(extent)
+        -> TeardownViewer.tsx:486-500 scrollTop = extent / 2 + dispatch 'scroll' -> sync again
+        -> TeardownViewer.tsx:770 spacer height from state (needs a TeardownViewer re-render)
+   CameraRig.tsx:50-59 (fitZoom) has deps [camera, distance, invalidate, bounds, zoomFactor, size]: NOT the H10 frame.
+   T014 final-state home profiles (s1, s3): no task resolves to this effect (not in the TBT window at S11.7 final).
+
+5. Eager flag is shared by both routes
+   next.config.ts:8,20         NEXT_PUBLIC_EAGER_3D === '1' -> define __XP_EAGER_3D__
+   hero-live.tsx:106           if (!__XP_EAGER_3D__) await waitForFirstInteraction
+   workbench-loader.tsx:65     if (__XP_EAGER_3D__) eager branch
+   -> "hero-only eager" needs a hero-only define; the workbench keeps reading __XP_EAGER_3D__ only.
+
+6. Harness already present (S11.7, tools/perf)
+   fps:engine --scenario load --frames trace-only|recorder --cpu <rate>   (cpu default 4; --cpu 1 = host-native)
+   eager-verdict --rule s11.7 (ruleA perf>=0.95 && TBT<=200; ruleB eager-gated<=50), both routes
+   eager:probe [--reduced-motion]; perf:lighthouse --profile; perf:attribution; perf:host; bundle:manifest
+   .github/workflows/eager-load.yml:11  if: github.head_ref == 'task/s11.7-eager-load'  (does not run on this branch)
+
+7. Seal mechanics
+   packages/xploder/test/frozen-surface{,.s5,.s6,.s7,.s8}.paths + *.manifest.json + generate*.sh
+   Manifests hash each listed file at the generator's `base` commit; frozen-surface.test.ts checks them.
+   place.ts, model.ts, BlueprintOverlay.tsx -> S6 (generate-s6.sh, note already carries the S10 Q16 re-seal)
+   Stats.tsx -> S2/S4 (frozen-surface.paths, generate.sh)
+   ViewScroll.tsx -> S5 (generate-s5.sh)
+   TeardownViewer.tsx -> S8 (generate-s8.sh, note carries the S11.6 re-seals)
+   Sealed tests (e.g. test/overlay-place.test.ts, S6) stay byte-identical; new tests go in new files.
+
+8. three
+   node_modules/.pnpm/three@0.186.1 -> WebGLRenderer.compileAsync(scene, camera) available
+   (uses KHR_parallel_shader_compile when present; otherwise compiles, then resolves).
