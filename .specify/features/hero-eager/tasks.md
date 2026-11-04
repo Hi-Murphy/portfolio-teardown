@@ -76,7 +76,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
+| T001 | ☑ 21 guards OK; 7 uncommitted + 1 committed negative controls bite (incl. G1-list edit); pre-slice bytes gated total 1,582,126 raw / 459,309 gz = S11.7 T013 manifest (`cmp`); budget 0.5 % = 2,296 B gz | 1 (Flash) + orchestrator review (paths-list guard tightened; total raw INFO in s11.8 mode; committed control) | evidence/T001-log-guard.txt, T001-log-bytes.txt | e902c12 |
 | T002 | ☐ | | | |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
@@ -93,7 +93,7 @@
 
 ## Stage-3 amendments (orchestrator)
 
-_(none yet)_
+- **D-P1 (review, T001):** `xploder_test_ok` no longer allows `frozen-surface*.paths` edits; `bundle-scopes --budget s11.8` budgets total **gzip** only (raw INFO), per AC4. S11.7's `--budget` mode unchanged.
 
 ---
 
