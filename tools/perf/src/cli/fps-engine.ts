@@ -687,7 +687,7 @@ export function buildNamedLoadReport(loadMs: number, options: NamedLoadOptions):
           containsReady: record.containsReady,
         });
       }
-    } else if (durMs > LONG_TASK_THRESHOLD_MS) {
+    } else if (durMs >= TASK_TIMELINE_THRESHOLD_MS) {
       names.push({
         name: 'unnamed',
         startMs: (record.startUs - options.traceTimeOriginUs) / 1_000,

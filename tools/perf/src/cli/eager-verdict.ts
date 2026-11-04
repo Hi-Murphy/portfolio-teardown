@@ -351,7 +351,12 @@ async function readSummary(path: string): Promise<LighthouseSummary> {
   }
 }
 
-async function readGroups(dir: string): Promise<SummaryGroup[]> {
+// `optionalRoutes`: (build, route) groups that may be absent entirely (S11.8 R5: project eager
+// is informational). A partial group (one invocation) is still an input error.
+async function readGroups(
+  dir: string,
+  optionalRoutes: readonly string[] = [],
+): Promise<SummaryGroup[]> {
   let entries;
   try {
     entries = await readdir(dir, { withFileTypes: true });
@@ -388,6 +393,8 @@ async function readGroups(dir: string): Promise<SummaryGroup[]> {
       const invocations = buildSummaries
         .filter((summary) => summary.route === route)
         .sort((left, right) => left.invocation - right.invocation);
+
+      if (invocations.length === 0 && optionalRoutes.includes(`${build}/${route}`)) continue;
 
       if (
         invocations.length !== 2 ||
@@ -462,11 +469,15 @@ function hostTimestamp(meta: HostMeta | null): number | null {
   return null;
 }
 
-async function readAttempt(rawDir: string, index: number): Promise<S117AttemptInput> {
+async function readAttempt(
+  rawDir: string,
+  index: number,
+  optionalRoutes: readonly string[] = [],
+): Promise<S117AttemptInput> {
   const dir = resolve(rawDir);
   const [hostMeta, groups, details] = await Promise.all([
     readHostMeta(dir),
-    readGroups(dir),
+    readGroups(dir, optionalRoutes),
     stat(dir).catch(() => null),
   ]);
   return {
@@ -753,12 +764,10 @@ export function renderS118Markdown(
     deciding.length === 2 && deciding.every((attempt) => attempt.projectGated.inBand);
   lines.push(`**AC5 project gated:** ${projectPass ? 'PASS' : 'FAIL'}`);
   if (reproduce) {
+    // AC1 needs one slow-class attempt: the first qualifying attempt in time order decides.
+    const first = deciding[0];
     const reproduced =
-      deciding.length === 2 &&
-      deciding.every(
-        (attempt) =>
-          attempt.reproduction?.eagerInBand === true && attempt.reproduction.gatedInBand === true,
-      );
+      first?.reproduction?.eagerInBand === true && first.reproduction.gatedInBand === true;
     lines.push(`**AC1:** ${reproduced ? 'REPRODUCED' : 'NOT REPRODUCED'}`);
   }
   lines.push('');
@@ -768,11 +777,8 @@ export function renderS118Markdown(
 export function s118Json(result: S118Verdict, reproduce = false): string {
   const deciding = result.attempts.filter((attempt) => attempt.qualifies).slice(0, 2);
   const reproduced = reproduce
-    ? deciding.length === 2 &&
-      deciding.every(
-        (attempt) =>
-          attempt.reproduction?.eagerInBand === true && attempt.reproduction.gatedInBand === true,
-      )
+    ? deciding[0]?.reproduction?.eagerInBand === true &&
+      deciding[0].reproduction.gatedInBand === true
     : undefined;
   return `${JSON.stringify(
     {
@@ -847,7 +853,10 @@ export async function main(argv: string[]): Promise<number> {
     return inputError(`unknown rule: ${values.rule}`);
   }
 
-  const attempts = await Promise.all(dirs.map(readAttempt));
+  const optionalRoutes = values.rule === 's11.8' ? ['eager/project'] : [];
+  const attempts = await Promise.all(
+    dirs.map((dir, index) => readAttempt(dir, index, optionalRoutes)),
+  );
   const outputDir = commonDirectory(dirs);
   if (values.rule === 's11.7') {
     const result = evaluateS117Attempts(attempts);
