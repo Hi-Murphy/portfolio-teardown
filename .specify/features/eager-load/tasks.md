@@ -77,6 +77,7 @@
 
 - **D-P1 (review finding, T005):** the workflow called `pnpm eager-verdict`, which is not a root script. It now calls `node tools/perf/src/cli/eager-verdict.ts` as `eager-3d.yml` does, and passes `--out-dir apps/web/out` to `perf:attribution` (D-P2). Verified locally on a workflow-shaped directory: the default and `--rule s11.7` outputs parse correctly, and S11.6's run-2 summaries yield AC3 FAIL.
 - **D-P3 (G1 decision):** T010 (L3a) runs **before** T008 (L1). L3a also stages the xploder graph through `apps/web/build/xploder-stage-{a,b}.ts`. L3b is pre-skipped: there is no TBT effect, and AC5 has ≈ 1.9 s of headroom. The A/B "before" of each lever is the previous accepted lever's after-run directory (`/tmp/s117-checks/<tid>/`, copied to `evidence/<TID>-ab/` without traces).
+- **D-P4 (review finding, T007):** the eager-probe poster locator assumed a live layer, which the project route does not have before the workbench boots. The locator now falls back to the stage/hero poster (tool fix). The executor's DOM marker on the loader was reverted. The T007 check reads `r.atDeadline.canvasCount` (the probe schema), not `r.canvas.present`.
 - **D-P2 (review finding, T002):** minified frames (`(anonymous)`) cannot meet AC1's "named by function". `perf:attribution --out-dir` now records, for each hot frame, its callFrame line:column, a 120-character snippet from the served chunk, and its parent/grandparent frames. URL-less Lighthouse long tasks are matched to URL-less `RunTask`s (±25 %, chronological), with a `loose` ±50 % fallback. The AC1 log resolves each snippet to its source function by hand (Turbopack production chunks carry no module paths or source maps).
 
 ---
@@ -343,7 +344,7 @@ node $F/ab-table.mjs <before-dir> $O > $O/ab.md       # medians, spreads, keep-r
   pnpm --filter web exec vitest run test/eager-flag.test.ts test/eager-guards.test.tsx --reporter verbose 2>&1 | tee /tmp/s117-checks/t007.txt
   pnpm build:eager
   for r in / /projects/websocket-inspector; do pnpm eager:probe --serve apps/web/out --route $r --runs 2 --reduced-motion --out /tmp/s117-checks/t007-reduce || echo "exit $? (verdict recorded)"; done
-  node -e 'const fs=require("fs");const d="/tmp/s117-checks/t007-reduce";const rs=fs.readdirSync(d).filter(f=>f.endsWith(".json")).map(f=>JSON.parse(fs.readFileSync(d+"/"+f)));if(rs.length!==4||!rs.every(r=>r.pass&&!r.canvas.present))throw new Error("reduce fail");console.log("REDUCE-POSTER-ONLY-OK")' | tee -a /tmp/s117-checks/t007.txt
+  node -e 'const fs=require("fs");const d="/tmp/s117-checks/t007-reduce";const rs=fs.readdirSync(d).filter(f=>f.endsWith(".json")).map(f=>JSON.parse(fs.readFileSync(d+"/"+f)));if(rs.length!==4||!rs.every(r=>r.pass&&r.atDeadline.canvasCount===0))throw new Error("reduce fail");console.log("REDUCE-POSTER-ONLY-OK")' | tee -a /tmp/s117-checks/t007.txt
   T=t007; source $F/lever-block.sh          # includes the gated hero probe, parity, bytes
   bash $F/guards.sh | tee -a /tmp/s117-checks/t007.txt
   pnpm typecheck && pnpm lint && pnpm test && echo T007-OK
