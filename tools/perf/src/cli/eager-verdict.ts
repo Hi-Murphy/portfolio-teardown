@@ -10,6 +10,7 @@ interface EagerVerdictArgs {
   values: {
     dir?: string | string[];
     rule?: string;
+    reproduce?: boolean;
     help?: boolean;
   };
   positionals: string[];
@@ -32,6 +33,7 @@ interface SummaryGroup {
 }
 
 interface HostMeta {
+  readonly attemptId?: unknown;
   readonly runnerName?: unknown;
   readonly capturedAt?: unknown;
   readonly timestamp?: unknown;
@@ -73,6 +75,38 @@ export interface S117Attempt {
   readonly pass: boolean;
 }
 
+export interface S118Attempt {
+  readonly attemptId: string;
+  readonly qualifies: boolean;
+  readonly benchmarkIndex: {
+    readonly min: number;
+    readonly max: number;
+    readonly median: number;
+  };
+  readonly home: {
+    readonly eager: { readonly perf: number; readonly tbtMs: number };
+    readonly gated: { readonly perf: number; readonly tbtMs: number };
+    readonly deltaTbtMs: number;
+    readonly ruleA: boolean;
+    readonly ruleB: boolean;
+    readonly pass: boolean;
+  };
+  readonly projectGated: {
+    readonly tbtMs: number;
+    readonly inBand: boolean;
+  };
+  readonly reproduction?: {
+    readonly eagerInBand: boolean;
+    readonly gatedInBand: boolean;
+  };
+}
+
+export interface S118Verdict {
+  readonly attempts: S118Attempt[];
+  readonly pass: boolean;
+  readonly reasons: string[];
+}
+
 interface Metrics {
   performance: number;
   tbtMs: number;
@@ -90,8 +124,17 @@ const ROUTE_ORDER: readonly Route[] = ['home', 'project'];
 const SUMMARY_NAME = /^(eager|gated)-(home|project)-r([1-9]\d*)$/;
 const SLOW_CLASS_MIN = 1_900;
 const SLOW_CLASS_MAX = 2_600;
+// rfc.md Q3: AC1 uses the union of the two S11.7 attempts at ±10%.
+const AC1_EAGER_MIN = 188.33;
+const AC1_EAGER_MAX = 231;
+const AC1_GATED_MIN = 74.48;
+const AC1_GATED_MAX = 94.6;
+// rfc.md Q3: AC5 checks the project-gated TBT band at ±5% of 83/87 ms.
+const PROJECT_GATED_MIN = 78.85;
+const PROJECT_GATED_MAX = 91.35;
 const usage = `Usage: node tools/perf/src/cli/eager-verdict.ts --dir <artifact-directory>
-       node tools/perf/src/cli/eager-verdict.ts --rule s11.7 --dir <attempt-directory>...`;
+       node tools/perf/src/cli/eager-verdict.ts --rule s11.7 --dir <attempt-directory>...
+       node tools/perf/src/cli/eager-verdict.ts --rule s11.8 [--reproduce] --dir <attempt-directory>...`;
 
 function inputError(message: string): never {
   throw new CliError(EXIT.UNREACHABLE, message);
@@ -402,6 +445,13 @@ function hostRunnerName(meta: HostMeta | null): string | null {
   return name.length === 0 ? null : name;
 }
 
+function hostAttemptId(meta: HostMeta | null, rawDir: string): string {
+  if (meta !== null && typeof meta.attemptId === 'string' && meta.attemptId.trim() !== '') {
+    return meta.attemptId.trim();
+  }
+  return basename(resolve(rawDir));
+}
+
 function hostTimestamp(meta: HostMeta | null): number | null {
   if (meta === null) return null;
   for (const value of [meta.capturedAt, meta.timestamp, meta.startedAt]) {
@@ -572,6 +622,176 @@ export function s117Json(result: {
   )}\n`;
 }
 
+function inBand(value: number, minimum: number, maximum: number): boolean {
+  return value >= minimum && value <= maximum;
+}
+
+export function evaluateS118Attempts(
+  inputs: readonly S117AttemptInput[],
+  reproduce = false,
+): S118Verdict {
+  const ordered = [...inputs].sort(
+    (left, right) =>
+      (left.timestampMs ?? Number.POSITIVE_INFINITY) -
+        (right.timestampMs ?? Number.POSITIVE_INFINITY) || left.index - right.index,
+  );
+  const attempts = ordered.map((input) => {
+    const benchmarkIndex = benchmarkRange(input.groups);
+    const eager = twoInvocationMedian(groupFor(input.groups, 'eager', 'home').invocations);
+    const gated = twoInvocationMedian(groupFor(input.groups, 'gated', 'home').invocations);
+    const projectGated = twoInvocationMedian(
+      groupFor(input.groups, 'gated', 'project').invocations,
+    );
+    const ruleA = eager.performance >= 0.95 && eager.tbtMs <= 200;
+    const ruleB = eager.tbtMs - gated.tbtMs <= 50;
+    const attempt: S118Attempt = {
+      attemptId: hostAttemptId(input.hostMeta, input.rawDir),
+      qualifies: benchmarkIndex.min >= SLOW_CLASS_MIN && benchmarkIndex.max <= SLOW_CLASS_MAX,
+      benchmarkIndex,
+      home: {
+        eager: { perf: eager.performance, tbtMs: eager.tbtMs },
+        gated: { perf: gated.performance, tbtMs: gated.tbtMs },
+        deltaTbtMs: eager.tbtMs - gated.tbtMs,
+        ruleA,
+        ruleB,
+        pass: ruleA || ruleB,
+      },
+      projectGated: {
+        tbtMs: projectGated.tbtMs,
+        inBand: inBand(projectGated.tbtMs, PROJECT_GATED_MIN, PROJECT_GATED_MAX),
+      },
+      ...(reproduce
+        ? {
+            reproduction: {
+              eagerInBand: inBand(eager.tbtMs, AC1_EAGER_MIN, AC1_EAGER_MAX),
+              gatedInBand: inBand(gated.tbtMs, AC1_GATED_MIN, AC1_GATED_MAX),
+            },
+          }
+        : {}),
+    };
+    return attempt;
+  });
+
+  const qualifying = attempts.filter((attempt) => attempt.qualifies);
+  const deciding = qualifying.slice(0, 2);
+  const runnerNames = new Map(
+    ordered.map((input, index) => [attempts[index], hostRunnerName(input.hostMeta)] as const),
+  );
+  const distinctRunners =
+    deciding.length === 2 &&
+    runnerNames.get(deciding[0] as S118Attempt) !== null &&
+    runnerNames.get(deciding[1] as S118Attempt) !== null &&
+    runnerNames.get(deciding[0] as S118Attempt) !== runnerNames.get(deciding[1] as S118Attempt);
+  const homePasses = deciding.length === 2 && deciding.every((attempt) => attempt.home.pass);
+  const reasons: string[] = [];
+  if (qualifying.length < 2) reasons.push('fewer than two qualifying attempts');
+  if (deciding.length === 2 && !distinctRunners) {
+    reasons.push('the first two qualifying attempts do not have distinct runner names');
+  }
+  if (deciding.length === 2 && !homePasses) {
+    reasons.push('home must pass on the first two qualifying attempts');
+  }
+
+  return {
+    attempts,
+    pass: distinctRunners && homePasses,
+    reasons,
+  };
+}
+
+function s118HomeCell(attempt: S118Attempt): string {
+  return `${attempt.home.pass ? 'PASS' : 'FAIL'} (a:${attempt.home.ruleA ? 'Y' : 'N'} b:${attempt.home.ruleB ? 'Y' : 'N'}; eager ${formatMetric(attempt.home.eager.tbtMs)}, gated ${formatMetric(attempt.home.gated.tbtMs)})`;
+}
+
+function reproductionCell(attempt: S118Attempt): string {
+  if (attempt.reproduction === undefined) return '-';
+  return attempt.reproduction.eagerInBand && attempt.reproduction.gatedInBand
+    ? 'REPRODUCED'
+    : 'NOT REPRODUCED';
+}
+
+export function renderS118Markdown(
+  result: S118Verdict,
+  runnerNames: ReadonlyMap<string, string | null>,
+  reproduce = false,
+): string {
+  const headers = [
+    'Attempt',
+    'Runner',
+    'benchmarkIndex (min/median/max)',
+    'Qualifies',
+    'Home',
+    'Project gated',
+    ...(reproduce ? ['Reproduction'] : []),
+  ];
+  const alignments = ['---', '---', '---:', '---', '---', '---', ...(reproduce ? ['---'] : [])];
+  const lines = [
+    '# Eager 3D Lighthouse — S11.8 AC3',
+    '',
+    `Qualification: every Lighthouse run has benchmarkIndex in [${SLOW_CLASS_MIN}, ${SLOW_CLASS_MAX}].`,
+    'The first two qualifying attempts in time order decide AC3; later qualifying attempts are listed only.',
+    '',
+    `| ${headers.join(' | ')} |`,
+    `|${alignments.join('|')}|`,
+  ];
+
+  for (const attempt of result.attempts) {
+    lines.push(
+      `| ${attempt.attemptId} | ${runnerNames.get(attempt.attemptId) ?? 'unknown'} | ${formatMetric(attempt.benchmarkIndex.min)} / ${formatMetric(attempt.benchmarkIndex.median)} / ${formatMetric(attempt.benchmarkIndex.max)} | ${attempt.qualifies ? 'yes' : 'no'} | ${s118HomeCell(attempt)} | ${attempt.projectGated.inBand ? 'PASS' : 'FAIL'} (${formatMetric(attempt.projectGated.tbtMs)} in [${PROJECT_GATED_MIN}, ${PROJECT_GATED_MAX}]) |${reproduce ? ` ${reproductionCell(attempt)} |` : ''}`,
+    );
+  }
+  if (result.attempts.length === 0) {
+    lines.push(
+      `| ${['none', 'unknown', '-', 'no', '-', '-', ...(reproduce ? ['-'] : [])].join(' | ')} |`,
+    );
+  }
+
+  lines.push('', `**AC3:** ${result.pass ? 'PASS' : 'FAIL'}`);
+  for (const reason of result.reasons) lines.push(`- ${reason}`);
+  const deciding = result.attempts.filter((attempt) => attempt.qualifies).slice(0, 2);
+  const projectPass =
+    deciding.length === 2 && deciding.every((attempt) => attempt.projectGated.inBand);
+  lines.push(`**AC5 project gated:** ${projectPass ? 'PASS' : 'FAIL'}`);
+  if (reproduce) {
+    const reproduced =
+      deciding.length === 2 &&
+      deciding.every(
+        (attempt) =>
+          attempt.reproduction?.eagerInBand === true && attempt.reproduction.gatedInBand === true,
+      );
+    lines.push(`**AC1:** ${reproduced ? 'REPRODUCED' : 'NOT REPRODUCED'}`);
+  }
+  lines.push('');
+  return lines.join('\n');
+}
+
+export function s118Json(result: S118Verdict, reproduce = false): string {
+  const deciding = result.attempts.filter((attempt) => attempt.qualifies).slice(0, 2);
+  const reproduced = reproduce
+    ? deciding.length === 2 &&
+      deciding.every(
+        (attempt) =>
+          attempt.reproduction?.eagerInBand === true && attempt.reproduction.gatedInBand === true,
+      )
+    : undefined;
+  return `${JSON.stringify(
+    {
+      kind: 'eager-verdict-s11.8',
+      version: 1,
+      rule: 's11.8',
+      pass: result.pass,
+      verdict: result.pass ? 'AC3 PASS' : 'AC3 FAIL',
+      reasons: result.reasons,
+      ...(reproduced === undefined
+        ? {}
+        : { reproduction: reproduced ? 'REPRODUCED' : 'NOT REPRODUCED' }),
+      attempts: result.attempts,
+    },
+    null,
+    2,
+  )}\n`;
+}
+
 function commonDirectory(paths: readonly string[]): string {
   let common = resolve(paths[0] ?? process.cwd());
   for (const path of paths.slice(1)) {
@@ -598,6 +818,7 @@ export async function main(argv: string[]): Promise<number> {
     options: {
       dir: { type: 'string', multiple: true },
       rule: { type: 'string' },
+      reproduce: { type: 'boolean' },
       help: { type: 'boolean' },
     },
     allowPositionals: true,
@@ -619,17 +840,36 @@ export async function main(argv: string[]): Promise<number> {
     process.stdout.write(renderMarkdown(groups));
     return EXIT.OK;
   }
-  if (values.rule !== 's11.7') {
+  if (values.rule === 's11.7' && values.reproduce === true) {
+    return inputError('--reproduce is only valid with --rule s11.8');
+  }
+  if (values.rule !== 's11.7' && values.rule !== 's11.8') {
     return inputError(`unknown rule: ${values.rule}`);
   }
 
   const attempts = await Promise.all(dirs.map(readAttempt));
-  const result = evaluateS117Attempts(attempts);
-  process.stdout.write(renderS117Markdown(result));
   const outputDir = commonDirectory(dirs);
-  const artifact = join(outputDir, 'ac3-verdict.json');
-  await writeFile(artifact, s117Json(result), 'utf8');
-  console.log(`ac3-verdict: ${artifact}`);
+  if (values.rule === 's11.7') {
+    const result = evaluateS117Attempts(attempts);
+    process.stdout.write(renderS117Markdown(result));
+    const artifact = join(outputDir, 'ac3-verdict.json');
+    await writeFile(artifact, s117Json(result), 'utf8');
+    console.log(`ac3-verdict: ${artifact}`);
+    return EXIT.OK;
+  }
+
+  const reproduce = values.reproduce === true;
+  const result = evaluateS118Attempts(attempts, reproduce);
+  const runnerNames = new Map(
+    attempts.map((attempt) => [
+      hostAttemptId(attempt.hostMeta, attempt.rawDir),
+      hostRunnerName(attempt.hostMeta),
+    ]),
+  );
+  process.stdout.write(renderS118Markdown(result, runnerNames, reproduce));
+  const artifact = join(outputDir, 's11.8-verdict.json');
+  await writeFile(artifact, s118Json(result, reproduce), 'utf8');
+  console.log(`s11.8-verdict: ${artifact}`);
   return EXIT.OK;
 }
 

@@ -3,7 +3,9 @@ import { describe, expect, test } from 'vitest';
 import {
   assertLoadMounted,
   buildLoadReport,
+  buildNamedLoadReport,
   evaluateLoadVerdict,
+  LOAD_NAMED_TRACE_CATEGORIES,
   LOAD_TRACE_CATEGORIES,
   scenarioUrl,
 } from '../src/cli/fps-engine.ts';
@@ -68,6 +70,83 @@ function traceWithTasks(tasks: ReadonlyArray<{ startMs: number; durMs: number }>
   ];
 }
 
+function namedTrace(): TraceEvent[] {
+  const originUs = 1_000_000;
+  const profileStartUs = originUs + 100_000;
+  const nodes = [
+    { id: 1, callFrame: { functionName: 'WebGLRenderer', url: 'http://local/three.js' } },
+    { id: 2, callFrame: { functionName: 'linkProgram', url: 'http://local/three.js' } },
+    { id: 3, callFrame: { functionName: 'layout', url: 'http://local/app.js' } },
+  ];
+  const samples = Array.from({ length: 500 }, (_, index) => {
+    const timestampUs = profileStartUs + index * 1_000;
+    if (timestampUs >= 1_102_000 && timestampUs < 1_122_000) return 1;
+    if (timestampUs >= 1_125_000 && timestampUs < 1_185_000) return 2;
+    return 3;
+  });
+  const timeDeltas = samples.map(() => 1_000);
+
+  return [
+    {
+      cat: 'disabled-by-default-devtools.timeline',
+      name: 'TracingStartedInBrowser',
+      ph: 'I',
+      pid: 1,
+      tid: 1,
+      ts: originUs,
+      args: { data: { frames: [{ processId: 1, isMainFrame: true }] } },
+    },
+    {
+      cat: 'devtools.timeline',
+      name: 'thread_name',
+      ph: 'M',
+      pid: 1,
+      tid: 1,
+      ts: originUs,
+      args: { name: 'CrRendererMain' },
+    },
+    ...[
+      { startMs: 102, durMs: 20 },
+      { startMs: 125, durMs: 60 },
+      { startMs: 200, durMs: 70 },
+      { startMs: 300, durMs: 10 },
+    ].map(({ startMs, durMs }) => ({
+      cat: 'devtools.timeline',
+      name: 'RunTask',
+      ph: 'X',
+      pid: 1,
+      tid: 1,
+      ts: originUs + startMs * 1_000,
+      dur: durMs * 1_000,
+    })),
+    {
+      cat: 'disabled-by-default-v8.cpu_profiler',
+      name: 'Profile',
+      ph: 'P',
+      id: '0x1',
+      pid: 1,
+      tid: 2,
+      ts: profileStartUs,
+      args: {
+        data: {
+          startTime: profileStartUs,
+          cpuProfile: { nodes: [], samples: [], timeDeltas: [] },
+        },
+      },
+    },
+    {
+      cat: 'disabled-by-default-v8.cpu_profiler',
+      name: 'ProfileChunk',
+      ph: 'P',
+      id: '0x1',
+      pid: 1,
+      tid: 2,
+      ts: profileStartUs,
+      args: { data: { cpuProfile: { nodes, samples }, timeDeltas } },
+    },
+  ] as TraceEvent[];
+}
+
 describe('load scenario', () => {
   test('uses the production route and requires an absolute path', () => {
     expect(scenarioUrl(BASE_URL, 'load', '/projects/websocket-inspector').href).toBe(
@@ -86,6 +165,71 @@ describe('load scenario', () => {
     expect(categories).toContain('disabled-by-default-devtools.timeline.frame');
     expect(categories).toContain('disabled-by-default-devtools.timeline');
     expect(categories).toContain('blink.user_timing');
+  });
+
+  test('adds V8 samples only in named mode', () => {
+    expect(LOAD_TRACE_CATEGORIES).not.toContain('disabled-by-default-v8.cpu_profiler');
+    expect(LOAD_NAMED_TRACE_CATEGORIES).toContain('disabled-by-default-v8.cpu_profiler');
+    expect(traceCategories(LOAD_NAMED_TRACE_CATEGORIES)).toContain(
+      'disabled-by-default-v8.cpu_profiler',
+    );
+  });
+
+  test('names tasks by timestamp containment and caps the named exceptions', () => {
+    const report = buildNamedLoadReport(100, {
+      trace: namedTrace(),
+      traceTimeOriginUs: 1_000_000,
+      rendererConstructorMs: 105,
+      programCompileMs: 130,
+      readyMs: 150,
+      caps: {
+        'renderer-constructor': 21,
+        'program-compile': 61,
+        'first-content-frame': 61,
+      },
+    });
+
+    expect(
+      report.names.map(({ name, startMs, durMs, containsReady }) => ({
+        name,
+        startMs,
+        durMs,
+        containsReady,
+      })),
+    ).toEqual([
+      { name: 'renderer-constructor', startMs: 102, durMs: 20, containsReady: false },
+      { name: 'program-compile', startMs: 125, durMs: 60, containsReady: true },
+      { name: 'first-content-frame', startMs: 125, durMs: 60, containsReady: true },
+      { name: 'unnamed', startMs: 200, durMs: 70, containsReady: false },
+    ]);
+    expect(report.namedExceptions).toEqual({
+      'renderer-constructor': { durMs: 20, cap: 21, pass: true },
+      'program-compile': { durMs: 60, cap: 61, pass: true },
+      'first-content-frame': { durMs: 60, cap: 61, pass: true },
+    });
+    expect(report.namedWithinCaps).toBe(true);
+    expect(report.unnamedMaxMs).toBe(70);
+    expect(report.names.find((task) => task.name === 'program-compile')?.topFunctions[0]?.fn).toBe(
+      'linkProgram',
+    );
+  });
+
+  test('fails a capped name when its task was not observed', () => {
+    const report = buildNamedLoadReport(100, {
+      trace: namedTrace(),
+      traceTimeOriginUs: 1_000_000,
+      rendererConstructorMs: null,
+      programCompileMs: 130,
+      readyMs: 150,
+      caps: { 'renderer-constructor': 21 },
+    });
+
+    expect(report.namedExceptions['renderer-constructor']).toEqual({
+      durMs: null,
+      cap: 21,
+      pass: false,
+    });
+    expect(report.namedWithinCaps).toBe(false);
   });
 
   test('partitions intersecting and wholly pre-load tasks relative to load', () => {

@@ -13,6 +13,7 @@ export const EAGER_PROBE_REDUCED_SETTLE_MS = 5_000;
 export const EAGER_PROBE_WAIT_MS = 30_000;
 
 export type EagerProbeMotion = 'normal' | 'reduce';
+export type EagerProbeExpectation = 'live' | 'gated';
 
 export interface EagerProbeEventCounts extends Record<string, number> {
   pointerdown: number;
@@ -94,6 +95,7 @@ export interface EagerProbeRun {
   readonly route: string;
   readonly routeName: string;
   readonly motion: EagerProbeMotion;
+  readonly expect?: EagerProbeExpectation;
   readonly run: number;
   readonly url: string;
   readonly chromium: string;
@@ -127,6 +129,7 @@ export interface EagerProbeRunOptions {
   readonly route: string;
   readonly run: number;
   readonly motion: EagerProbeMotion;
+  readonly expect?: EagerProbeExpectation;
   readonly outDir: string;
   readonly threeChunkPaths?: ReadonlySet<string>;
 }
@@ -405,6 +408,28 @@ export function evaluateEagerProbe(
   return { pass: checks.every((entry) => entry.pass), checks };
 }
 
+export function evaluateGatedProbe(snapshot: EagerProbeSnapshot): EagerProbeVerdict {
+  const posterVisible =
+    snapshot.posterPresent &&
+    snapshot.posterOpacity === '1' &&
+    snapshot.posterVisibility === 'visible';
+  const checks = [
+    check('canvas-absent', snapshot.canvasCount === 0, 0, snapshot.canvasCount),
+    check('ready-absent', snapshot.readyAtMs === null && !snapshot.readyAttribute, null, {
+      readyAtMs: snapshot.readyAtMs,
+      readyAttribute: snapshot.readyAttribute,
+    }),
+    check(
+      'poster-visible',
+      posterVisible,
+      { opacity: '1', visibility: 'visible' },
+      { opacity: snapshot.posterOpacity, visibility: snapshot.posterVisibility },
+    ),
+    check('no-trusted-events', snapshot.trustedEvents === 0, 0, snapshot.trustedEvents),
+  ];
+  return { pass: checks.every((entry) => entry.pass), checks };
+}
+
 export function eagerProbeRouteName(route: string): string {
   if (route === '/') return 'home';
   if (route === '/projects/websocket-inspector') return 'project';
@@ -458,6 +483,7 @@ async function captureScreenshot(
 export async function runEagerProbe(options: EagerProbeRunOptions): Promise<EagerProbeRun> {
   const profile = PROFILES.mobile;
   const reduced = options.motion === 'reduce';
+  const gated = options.expect === 'gated';
   const context = await options.browser.newContext({
     viewport: {
       width: profile.screenEmulation.width,
@@ -503,7 +529,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     const routeName = eagerProbeRouteName(options.route);
     await mkdir(options.outDir, { recursive: true });
 
-    if (reduced) {
+    if (reduced || gated) {
       await page.waitForFunction(
         () => (window as unknown as EagerProbeWindow).__eagerProbe?.loadAtMs !== null,
         undefined,
@@ -551,7 +577,9 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       requested: knownChunks.length > 0,
       chunks: knownChunks,
     };
-    const verdict = evaluateEagerProbe(options.motion, atDeadline, afterRest, screenshot);
+    const verdict = gated
+      ? evaluateGatedProbe(atDeadline)
+      : evaluateEagerProbe(options.motion, atDeadline, afterRest, screenshot);
 
     return {
       kind: 'eager-probe',
@@ -559,13 +587,14 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       route: options.route,
       routeName,
       motion: options.motion,
+      ...(gated ? { expect: 'gated' as const } : {}),
       run: options.run,
       url,
       chromium: chromiumVersion(options.browser),
       profile: 'mobile',
       reducedMotion: reduced ? 'reduce' : 'no-preference',
-      deadlineMs: reduced ? EAGER_PROBE_REDUCED_SETTLE_MS : EAGER_PROBE_DEADLINE_MS,
-      restWindowMs: reduced ? null : EAGER_PROBE_REST_MS,
+      deadlineMs: reduced || gated ? EAGER_PROBE_REDUCED_SETTLE_MS : EAGER_PROBE_DEADLINE_MS,
+      restWindowMs: reduced || gated ? null : EAGER_PROBE_REST_MS,
       reducedSettleMs: reduced ? EAGER_PROBE_REDUCED_SETTLE_MS : null,
       atDeadline,
       afterRest,

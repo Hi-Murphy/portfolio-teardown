@@ -13,6 +13,8 @@ const passFixture = new URL('./fixtures/eager-verdict-summary-pass.json', import
 const slowFixture = new URL('./fixtures/eager-verdict-summary-slow.json', import.meta.url);
 const s116FixtureDir = fileURLToPath(new URL('./fixtures/eager-verdict-s116', import.meta.url));
 const s116Golden = new URL('./fixtures/eager-verdict-s116/expected.txt', import.meta.url);
+const s117Fixture = new URL('./fixtures/eager-verdict-s117/', import.meta.url);
+const toolsPerfRoot = fileURLToPath(new URL('../', import.meta.url));
 
 interface CliResult {
   code: number | null;
@@ -36,6 +38,10 @@ function runCli(args: string[]): Promise<CliResult> {
       resolve({ code, stdout, stderr });
     });
   });
+}
+
+function normalizeOutput(output: string): string {
+  return output.replaceAll(toolsPerfRoot, '<repo>/');
 }
 
 async function fixture(url: URL): Promise<LighthouseSummary> {
@@ -377,6 +383,117 @@ describe('eager-verdict --rule s11.7', () => {
       expect(artifact.attempts[0]?.routes.home).toMatchObject({ ruleA: false, ruleB: true });
     } finally {
       await rm(root, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('eager-verdict S11.7 golden fixtures', () => {
+  test('keeps the default T014 outputs byte-identical', async () => {
+    const [goldenS1, goldenS3, resultS1, resultS3] = await Promise.all([
+      readFile(new URL('expected-default-s1.txt', s117Fixture), 'utf8'),
+      readFile(new URL('expected-default-s3.txt', s117Fixture), 'utf8'),
+      runCli(['--dir', 'test/fixtures/eager-verdict-s117/s1']),
+      runCli(['--dir', 'test/fixtures/eager-verdict-s117/s3']),
+    ]);
+
+    expect(resultS1.code).toBe(0);
+    expect(resultS1.stderr).toBe('');
+    expect(resultS1.stdout).toBe(goldenS1);
+    expect(resultS3.code).toBe(0);
+    expect(resultS3.stderr).toBe('');
+    expect(resultS3.stdout).toBe(goldenS3);
+  });
+
+  test('keeps the --rule s11.7 stdout and artifact byte-identical', async () => {
+    const artifact = fileURLToPath(new URL('ac3-verdict.json', s117Fixture));
+
+    try {
+      const [goldenOutput, goldenArtifact, result] = await Promise.all([
+        readFile(new URL('expected-s11.7.txt', s117Fixture), 'utf8'),
+        readFile(new URL('expected-s11.7.artifact.txt', s117Fixture), 'utf8'),
+        runCli([
+          '--rule',
+          's11.7',
+          '--dir',
+          'test/fixtures/eager-verdict-s117/s1',
+          '--dir',
+          'test/fixtures/eager-verdict-s117/s3',
+        ]),
+      ]);
+
+      expect(result.code).toBe(0);
+      expect(result.stderr).toBe('');
+      expect(normalizeOutput(result.stdout)).toBe(goldenOutput);
+      expect(await readFile(artifact, 'utf8')).toBe(goldenArtifact);
+    } finally {
+      await rm(artifact, { force: true });
+    }
+  });
+
+  test('applies the S11.8 home rule and AC1/AC5 bands to T014', async () => {
+    const artifact = fileURLToPath(new URL('s11.8-verdict.json', s117Fixture));
+
+    try {
+      const result = await runCli([
+        '--rule',
+        's11.8',
+        '--reproduce',
+        '--dir',
+        'test/fixtures/eager-verdict-s117/s1',
+        '--dir',
+        'test/fixtures/eager-verdict-s117/s3',
+      ]);
+      const report = JSON.parse(await readFile(artifact, 'utf8')) as {
+        pass: boolean;
+        reproduction: string;
+        attempts: Array<{
+          attemptId: string;
+          qualifies: boolean;
+          home: {
+            eager: { tbtMs: number };
+            gated: { tbtMs: number };
+            pass: boolean;
+          };
+          projectGated: { tbtMs: number; inBand: boolean };
+          reproduction: { eagerInBand: boolean; gatedInBand: boolean };
+        }>;
+      };
+
+      expect(result.code).toBe(0);
+      expect(report.pass).toBe(false);
+      expect(report.reproduction).toBe('REPRODUCED');
+      expect(report.attempts.map((attempt) => attempt.attemptId)).toEqual([
+        '41750211660-1-s1',
+        '41750211660-1-s3',
+      ]);
+      expect(
+        report.attempts.map((attempt) => ({
+          home: [
+            Number(attempt.home.eager.tbtMs.toFixed(4)),
+            Number(attempt.home.gated.tbtMs.toFixed(4)),
+            attempt.home.pass,
+          ],
+          project: [attempt.projectGated.tbtMs, attempt.projectGated.inBand],
+          reproduction: attempt.reproduction,
+        })),
+      ).toEqual([
+        {
+          home: [209.25, 82.75, false],
+          project: [83, true],
+          reproduction: { eagerInBand: true, gatedInBand: true },
+        },
+        {
+          home: [210, 86, false],
+          project: [87, true],
+          reproduction: { eagerInBand: true, gatedInBand: true },
+        },
+      ]);
+      expect(report.attempts.every((attempt) => attempt.qualifies)).toBe(true);
+      expect(result.stdout).toContain('eager 209.25, gated 82.75');
+      expect(result.stdout).toContain('83 in [78.85, 91.35]');
+      expect(result.stdout).toContain('REPRODUCED');
+    } finally {
+      await rm(artifact, { force: true });
     }
   });
 });

@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import { basename, join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 import type { Browser, Page } from 'playwright';
 
@@ -19,6 +20,7 @@ import { serveDir, type ServedDir } from '../serve.ts';
 
 type ParityViewport = 'mobile' | 'desktop';
 type ParityColorScheme = 'light' | 'dark';
+export type ParityRoute = 'home' | 'project';
 
 interface ShotDefinition {
   readonly id: string;
@@ -40,6 +42,7 @@ interface ParityBaseline {
   readonly kind: 'parity-baseline';
   readonly version: 1;
   readonly chromium: string;
+  readonly routes?: readonly ParityRoute[];
   readonly shots: ParityShot[];
 }
 
@@ -68,6 +71,7 @@ interface ParityArgs {
     compare?: string;
     out?: string;
     'no-engage'?: boolean;
+    route?: string;
     help?: boolean;
   };
   positionals: string[];
@@ -90,6 +94,10 @@ const SHOTS: readonly ShotDefinition[] = ROUTES.flatMap((route) =>
     })),
   ),
 );
+
+export function parityShotsForRoute(route?: ParityRoute): readonly ShotDefinition[] {
+  return route === undefined ? SHOTS : SHOTS.filter((shot) => shot.route === route);
+}
 const NAVIGATION_TIMEOUT_MS = 45_000;
 const WAIT_TIMEOUT_MS = 30_000;
 const FRAME_COUNT = 2;
@@ -104,6 +112,7 @@ Options:
   --compare <dir>   compare fresh captures against a baseline manifest and PNGs
   --out <dir>       comparison output directory (default: .evidence/parity-compare)
   --no-engage       capture from load only, without pointer engagement
+  --route <name>    limit capture and comparison to home or project
   --help            show this help`;
 
 function exitCodeTable(): string {
@@ -342,11 +351,12 @@ async function writeParity(
   base: URL,
   outDir: string,
   engage: boolean,
+  route?: ParityRoute,
 ): Promise<number> {
   await mkdir(outDir, { recursive: true });
   const shots: ParityShot[] = [];
 
-  for (const shot of SHOTS) {
+  for (const shot of parityShotsForRoute(route)) {
     const { screenshot, image } = await captureShot(browser, base, shot, engage);
     const file = `screenshot-${shot.id}.png`;
     await writeFile(join(outDir, file), screenshot);
@@ -366,6 +376,7 @@ async function writeParity(
     kind: 'parity-baseline',
     version: 1,
     chromium: chromiumVersion(browser),
+    ...(route === undefined ? {} : { routes: [route] }),
     shots,
   };
   await writeFile(join(outDir, 'parity.json'), `${JSON.stringify(manifest, null, 2)}\n`);
@@ -380,9 +391,11 @@ async function compareParity(
   baselineDir: string,
   outDir: string,
   engage: boolean,
+  route?: ParityRoute,
 ): Promise<number> {
   const { manifestPath, manifest } = await loadBaseline(baselineDir);
-  const expectedIds = new Set(SHOTS.map((shot) => shot.id));
+  const selectedShots = parityShotsForRoute(route);
+  const expectedIds = new Set(selectedShots.map((shot) => shot.id));
   const baselineShots = new Map<string, ParityShot>();
 
   for (const shot of manifest.shots) {
@@ -392,14 +405,14 @@ async function compareParity(
     }
     baselineShots.set(shot.id, shot);
   }
-  for (const shot of SHOTS) {
+  for (const shot of selectedShots) {
     if (!baselineShots.has(shot.id)) {
       throw new CliError(EXIT.USAGE, `baseline manifest is missing ${shot.id}`);
     }
   }
 
   const baselines = new Map<string, { file: string; bytes: Buffer; image: RgbaImage }>();
-  for (const shot of SHOTS) {
+  for (const shot of selectedShots) {
     const entry = baselineShots.get(shot.id) as ParityShot;
     const file = await resolveBaselineFile(baselineDir, entry);
     const bytes = await readFile(file);
@@ -414,7 +427,7 @@ async function compareParity(
   const comparisons: ParityCompareShot[] = [];
   let totalDifferingPixels = 0;
 
-  for (const shot of SHOTS) {
+  for (const shot of selectedShots) {
     const baseline = baselines.get(shot.id);
     if (baseline === undefined) throw new Error(`missing baseline for ${shot.id}`);
 
@@ -485,6 +498,7 @@ export async function main(argv: string[]): Promise<number> {
       compare: { type: 'string' },
       out: { type: 'string' },
       'no-engage': { type: 'boolean' },
+      route: { type: 'string' },
       help: { type: 'boolean' },
     },
     allowPositionals: true,
@@ -507,6 +521,10 @@ export async function main(argv: string[]): Promise<number> {
   if (values.out !== undefined && values.compare === undefined) {
     throw new CliError(EXIT.USAGE, '--out is only valid with --compare');
   }
+  if (values.route !== undefined && values.route !== 'home' && values.route !== 'project') {
+    throw new CliError(EXIT.USAGE, `--route must be home or project: ${values.route}`);
+  }
+  const route = values.route as ParityRoute | undefined;
 
   let server: ServedDir | undefined;
   let base: URL;
@@ -548,11 +566,13 @@ export async function main(argv: string[]): Promise<number> {
     const browser = await launch();
     try {
       const engage = values['no-engage'] !== true;
-      if (writeDir !== undefined) return await writeParity(browser, base, writeDir, engage);
+      if (writeDir !== undefined) {
+        return await writeParity(browser, base, writeDir, engage, route);
+      }
       if (baselineDir === undefined || outDir === undefined) {
         throw new Error('missing comparison directories');
       }
-      return await compareParity(browser, base, baselineDir, outDir, engage);
+      return await compareParity(browser, base, baselineDir, outDir, engage, route);
     } finally {
       await browser.close().catch(() => undefined);
     }
@@ -561,4 +581,7 @@ export async function main(argv: string[]): Promise<number> {
   }
 }
 
-await run(main);
+const entrypoint = process.argv[1];
+if (entrypoint !== undefined && import.meta.url === pathToFileURL(entrypoint).href) {
+  await run(main);
+}

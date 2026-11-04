@@ -8,6 +8,7 @@ import {
   eagerProbeFileName,
   eagerProbeRouteName,
   runEagerProbe,
+  type EagerProbeExpectation,
   type EagerProbeMotion,
   type EagerProbeRun,
 } from '../eager-probe.ts';
@@ -21,6 +22,7 @@ interface EagerProbeArgs {
     route?: string;
     runs?: string;
     'reduced-motion'?: boolean;
+    expect?: string;
     out?: string;
     help?: boolean;
   };
@@ -45,6 +47,7 @@ Options:
   --route <path>      route to probe, for example / or /projects/websocket-inspector
   --runs <n>          runs to execute (default: ${DEFAULT_RUNS})
   --reduced-motion    use prefers-reduced-motion: reduce and observe until load + 5 s
+  --expect <mode>     expected state: live (default) or gated
   --out <dir>         output directory (default: .evidence/eager-probe)
   --help              show this help`;
 
@@ -135,6 +138,7 @@ export async function main(argv: string[]): Promise<number> {
       route: { type: 'string' },
       runs: { type: 'string' },
       'reduced-motion': { type: 'boolean' },
+      expect: { type: 'string' },
       out: { type: 'string' },
       help: { type: 'boolean' },
     },
@@ -159,6 +163,10 @@ export async function main(argv: string[]): Promise<number> {
 
   const runs = parseRuns(values.runs);
   const motion: EagerProbeMotion = values['reduced-motion'] === true ? 'reduce' : 'normal';
+  if (values.expect !== undefined && values.expect !== 'live' && values.expect !== 'gated') {
+    throw new CliError(EXIT.USAGE, `--expect must be live or gated: ${values.expect}`);
+  }
+  const expect: EagerProbeExpectation = values.expect === 'gated' ? 'gated' : 'live';
   const outDir = values.out ?? join(process.cwd(), '.evidence', 'eager-probe');
   try {
     await mkdir(outDir, { recursive: true });
@@ -185,6 +193,7 @@ export async function main(argv: string[]): Promise<number> {
           route: values.route,
           run: runNumber,
           motion,
+          expect,
           outDir,
           ...(threeChunkPaths === undefined ? {} : { threeChunkPaths }),
         });
