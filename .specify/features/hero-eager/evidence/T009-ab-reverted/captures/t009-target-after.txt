@@ -1,0 +1,34 @@
+=== AFTER RUN 1 ===
+OVERLAY-CHUNK 11afott6t25sz.js
+LOAD 144.800 READY 504.400
+FIRST-CONTENT-FRAME start=470.919 dur=34.726 overlaySelf=8.807
+TARGET-AFTER-READY start=519.671 dur=10.606 overlaySelf=6.788
+TASK start=296.435 dur=14.296 overlaySelf=10.135
+TASK start=310.758 dur=5.281 overlaySelf=0.343
+TASK start=316.051 dur=5.089 overlaySelf=0.609
+TASK start=321.141 dur=4.218 overlaySelf=0.804
+TASK start=325.389 dur=2.665 overlaySelf=0.060
+TASK start=404.562 dur=20.034 overlaySelf=1.025
+TASK start=424.597 dur=12.240 overlaySelf=0.844
+TASK start=436.839 dur=34.078 overlaySelf=5.936
+TASK start=470.919 dur=34.726 overlaySelf=8.807 first-content-frame
+TASK start=507.549 dur=5.839 overlaySelf=2.455
+TASK start=513.480 dur=6.073 overlaySelf=0.816
+TASK start=519.671 dur=10.606 overlaySelf=6.788 target
+TASK start=530.279 dur=4.557 overlaySelf=0.921
+=== AFTER RUN 2 ===
+OVERLAY-CHUNK 11afott6t25sz.js
+LOAD 147.800 READY 486.500
+FIRST-CONTENT-FRAME start=455.100 dur=33.115 overlaySelf=8.145
+TARGET-AFTER-READY start=502.051 dur=9.791 overlaySelf=6.830
+TASK start=288.717 dur=0.403 overlaySelf=0.219
+TASK start=289.141 dur=14.332 overlaySelf=10.996
+TASK start=303.502 dur=5.429 overlaySelf=0.591
+TASK start=308.941 dur=9.272 overlaySelf=0.093
+TASK start=318.215 dur=2.230 overlaySelf=0.435
+TASK start=388.810 dur=19.391 overlaySelf=1.701
+TASK start=420.961 dur=34.137 overlaySelf=5.952
+TASK start=455.100 dur=33.115 overlaySelf=8.145 first-content-frame
+TASK start=489.515 dur=5.853 overlaySelf=2.306
+TASK start=495.923 dur=5.558 overlaySelf=0.616
+TASK start=502.051 dur=9.791 overlaySelf=6.830 target

@@ -1,0 +1,316 @@
+$ NEXT_PUBLIC_EAGER_HERO=1 pnpm --filter web build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 157ms
+  Running TypeScript ...
+  Finished TypeScript in 794ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 265ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write <local-path>/s118-checks/t009/eager-manifest.json
+bundle-manifest: 22 JS files, 1583476 bytes
+routes: 5
+wrote: <local-path>/s118-checks/t009/eager-manifest.json
+$ pnpm perf:lighthouse PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-home-r1
+$ node tools/perf/src/cli/lighthouse-gate.ts PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-home-r1
+performance: 0.96 >= 0.95 (median) pass
+lcp: 904.4672 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t009/lh-home-r1/lighthouse-summary.json
+lh-home-r1 exit=0
+$ pnpm perf:lighthouse PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-home-r2
+$ node tools/perf/src/cli/lighthouse-gate.ts PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-home-r2
+performance: 0.97 >= 0.95 (median) pass
+lcp: 905.9797000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t009/lh-home-r2/lighthouse-summary.json
+lh-home-r2 exit=0
+$ pnpm perf:lighthouse PORT/ --profile --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lhp-home
+$ node tools/perf/src/cli/lighthouse-gate.ts PORT/ --profile --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lhp-home
+performance: 0.88 >= 0.95 (median) fail
+lcp: 906.4052999999999 < 2500 (median) pass
+cls: 0 === 0 (every-run) pass
+trace: <local-path>/s118-checks/t009/lhp-home/lighthouse-run-0.trace.json.gz
+summary: <local-path>/s118-checks/t009/lhp-home/lighthouse-summary.json
+profiled: informational run; excluded from gate medians
+lhp-home exit=0
+$ pnpm perf:attribution --lhr <local-path>/s118-checks/t009/lhp-home/lighthouse-run-0.json --trace <local-path>/s118-checks/t009/lhp-home/lighthouse-run-0.trace.json.gz --manifest <local-path>/s118-checks/t009/eager-manifest.json --out-dir apps/web/out --out <local-path>/s118-checks/t009/attr-home
+$ node tools/perf/src/cli/attribution.ts --lhr <local-path>/s118-checks/t009/lhp-home/lighthouse-run-0.json --trace <local-path>/s118-checks/t009/lhp-home/lighthouse-run-0.trace.json.gz --manifest <local-path>/s118-checks/t009/eager-manifest.json --out-dir apps/web/out --out <local-path>/s118-checks/t009/attr-home
+source: lighthouse-profile (242 ProfileChunk events)
+tasks: 6; matched: 5
+per-task.json: <local-path>/s118-checks/t009/attr-home/per-task.json
+per-task.md: <local-path>/s118-checks/t009/attr-home/per-task.md
+attr-home exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t009/fps-home-r1
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t009/fps-home-r1
+eager: PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 1x
+loadMs: 46.8
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 0
+mounted: true
+readyMs: 200.1
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t009/fps-home-r1/fps.json
+fps-home-r1 exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t009/fps-home-r2
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t009/fps-home-r2
+eager: PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 1x
+loadMs: 45.5
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 0
+mounted: true
+readyMs: 200.9
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t009/fps-home-r2/fps.json
+fps-home-r2 exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t009/fps-home-cpu4-r1
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t009/fps-home-cpu4-r1
+eager: PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 4x
+loadMs: 147.1
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 0
+mounted: true
+readyMs: 503.9
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t009/fps-home-cpu4-r1/fps.json
+fps-home-cpu4-r1 exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t009/fps-home-cpu4-r2
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t009/fps-home-cpu4-r2
+eager: PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 4x
+loadMs: 147.9
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 0
+mounted: true
+readyMs: 519.6
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t009/fps-home-cpu4-r2/fps.json
+fps-home-cpu4-r2 exit=0
+$ pnpm eager:probe --serve apps/web/out --route / --runs 2 --out <local-path>/s118-checks/t009/probe-home
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --runs 2 --out <local-path>/s118-checks/t009/probe-home
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t009/probe-home
+probe-home exit=0
+$ pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out <local-path>/s118-checks/t009/probe-home-reduce
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --runs 2 --reduced-motion --out <local-path>/s118-checks/t009/probe-home-reduce
+eager-probe: home/reduce r1 PASS
+eager-probe: home/reduce r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t009/probe-home-reduce
+probe-home-reduce exit=0
+$ pnpm eager:probe --serve apps/web/out --route /projects/websocket-inspector --expect gated --runs 2 --out <local-path>/s118-checks/t009/probe-project-gated
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route /projects/websocket-inspector --expect gated --runs 2 --out <local-path>/s118-checks/t009/probe-project-gated
+eager-probe: project/normal r1 PASS
+eager-probe: project/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t009/probe-project-gated
+probe-project-gated exit=0
+$ pnpm perf:parity --serve apps/web/out --no-engage --route home --compare <local-path>/s118-checks/t009/parity-baseline-eager --out <local-path>/s118-checks/t009/parity-eager-home
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --no-engage --route home --compare <local-path>/s118-checks/t009/parity-baseline-eager --out <local-path>/s118-checks/t009/parity-eager-home
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+parity: PASS (4 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t009/parity-eager-home/parity-compare.json
+parity-eager-home exit=0
+$ pnpm perf:startup --serve apps/web/out --route / --engage none --attribute --runs 2 --out <local-path>/s118-checks/t009/seq-home
+$ node tools/perf/src/cli/startup-profile.ts --serve apps/web/out --route / --engage none --attribute --runs 2 --out <local-path>/s118-checks/t009/seq-home
+run 1/2: home none attributed
+phases: P0=71.4 P1=85.0 P2=66.3 P3=56.8 P4=103.4 P5=63.3 P6=0.0 P7=2.8 P8=2.3 P9=2.1
+cost: 363.4 ms; attributed: 171.3 ms; other: 192.1 ms; blocking: 0.0 ms
+glCounts: createProgram=1 linkProgram=1
+startup: <local-path>/s118-checks/t009/seq-home/startup-home-none-attributed-r1.json
+run 2/2: home none attributed
+phases: P0=73.7 P1=83.1 P2=66.2 P3=57.3 P4=100.6 P5=65.6 P6=0.1 P7=3.1 P8=1.3 P9=2.8
+cost: 357.5 ms; attributed: 172.5 ms; other: 184.9 ms; blocking: 0.0 ms
+glCounts: createProgram=1 linkProgram=1
+startup: <local-path>/s118-checks/t009/seq-home/startup-home-none-attributed-r2.json
+summary: <local-path>/s118-checks/t009/seq-home/summary.json (mainThreadCostMs=360.4, spreadFlagged=true)
+seq-home exit=0
+Bundle scope budget: .specify/features/hero-eager/evidence/T001-log-bundle-eager.json + <local-path>/s118-checks/base-eager -> <local-path>/s118-checks/t009/eager-manifest.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              582949      583356         407           - INFO
+home initial gzip             180481      180619         138      2000 B PASS
+project initial raw           583043      581945       -1098           - INFO
+project initial gzip          180482      180096        -386      2000 B PASS
+total raw                    1581749     1583476        1727           - INFO
+total gzip                    459158      459867         709        0.5% PASS
+non-initial 3D raw            995308      997726        2418           - INFO
+non-initial 3D gzip           277162      278119         957           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 0.5% of before)
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 187ms
+  Running TypeScript ...
+  Finished TypeScript in 778ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 269ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write <local-path>/s118-checks/t009/gated-manifest.json
+bundle-manifest: 22 JS files, 1583494 bytes
+routes: 5
+wrote: <local-path>/s118-checks/t009/gated-manifest.json
+$ pnpm perf:parity --serve apps/web/out --compare <local-path>/s118-checks/t009/parity-baseline-gated --out <local-path>/s118-checks/t009/parity-gated
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --compare <local-path>/s118-checks/t009/parity-baseline-gated --out <local-path>/s118-checks/t009/parity-gated
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t009/parity-gated/parity-compare.json
+parity-gated exit=0
+Bundle scope budget: .specify/features/hero-eager/evidence/T001-log-bundle-gated.json + <local-path>/s118-checks/base-gated -> <local-path>/s118-checks/t009/gated-manifest.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              583374      583374           0           - INFO
+home initial gzip             180622      180623           1      2000 B PASS
+project initial raw           581945      581945           0           - INFO
+project initial gzip          180096      180096           0      2000 B PASS
+total raw                    1582126     1583494        1368           - INFO
+total gzip                    459309      459871         562        0.5% PASS
+non-initial 3D raw            996358      997726        1368           - INFO
+non-initial 3D gzip           277558      278119         561           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 0.5% of before)
+$ pnpm site:probe --serve apps/web/out --group draws --group hero
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group draws --group hero
+draws project: mode=2 rendered=31 total=31 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":31,"renderedFrames":31,"totalFrames":31,"counts":{"2":31}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":48,"loadAt":44,"liveStateAtFcp":"idle","liveStateAtLoad":"idle"}
+PASS hero-poster-no-interaction: expected {"liveState":"idle","canvases":0,"posterWidthPositive":true} actual {"liveState":"idle","canvases":0,"posterWidth":570,"posterOpacity":"1"}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":48,"loadAt":44,"liveStateAtFcp":"idle","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-idle-exploded: expected {"state":"exploded","tweening":"false"} actual {"state":"exploded","tweening":"false","canvases":1}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (7 checks)
+site-probe: PASS
+artifacts: ./.evidence/site-probe
+site-probe exit=0
+$ pnpm perf:lighthouse PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-project-r1
+$ node tools/perf/src/cli/lighthouse-gate.ts PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-project-r1
+performance: 1 >= 0.95 (median) pass
+lcp: 902.8900000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t009/lh-project-r1/lighthouse-summary.json
+lh-project-r1 exit=0
+$ pnpm perf:lighthouse PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-project-r2
+$ node tools/perf/src/cli/lighthouse-gate.ts PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t009/lh-project-r2
+performance: 1 >= 0.95 (median) pass
+lcp: 902.7967000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t009/lh-project-r2/lighthouse-summary.json
+lh-project-r2 exit=0
+local A/B artifacts: .specify/features/hero-eager/evidence/T009-ab

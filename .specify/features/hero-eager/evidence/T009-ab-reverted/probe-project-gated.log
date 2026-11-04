@@ -1,0 +1,6 @@
+$ pnpm eager:probe --serve apps/web/out --route /projects/websocket-inspector --expect gated --runs 2 --out <local-path>/s118-checks/t009/probe-project-gated
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route /projects/websocket-inspector --expect gated --runs 2 --out <local-path>/s118-checks/t009/probe-project-gated
+eager-probe: project/normal r1 PASS
+eager-probe: project/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t009/probe-project-gated
