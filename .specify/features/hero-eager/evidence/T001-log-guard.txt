@@ -55,3 +55,4 @@ T001-OK
 
 - Tightened `xploder_test_ok`: the `frozen-surface*.paths` lists are no longer an allowed change (plan.md "Guards" allows only generators, manifests and `frozen-surface.test.ts`). Control: a one-byte edit to `frozen-surface.s6.paths` → `FAIL XPLODER-TEST`, `FAIL SURFACE-S6`.
 - `bundle-scopes.mjs --budget s11.8`: total **raw** is reported as INFO (AC4 budgets total JS gzip; plan.md "Bytes"). The S11.7 `--budget` mode is unchanged (total raw still gated at 1 %).
+- 8th control (committed, throwaway branch `t001-neg`): a one-byte commit to the allowlisted `apps/web/components/hero/hero-live.tsx` with no T004 anchor → `FAIL BASELINE-FIRST` (only failing guard); branch deleted.
