@@ -1,0 +1,117 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.99,
+      "accessibility": null,
+      "lcpMs": 908.1369,
+      "cls": 0,
+      "tbtMs": 93.00000000000045,
+      "fcpMs": 908.1369,
+      "siMs": 908.1369,
+      "totalByteWeight": 191494,
+      "benchmarkIndex": 2264.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2108.1369,
+          "durMs": 143.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 803.06845,
+          "durMs": 53
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 906.3406,
+      "cls": 0,
+      "tbtMs": 91,
+      "fcpMs": 906.3406,
+      "siMs": 906.3406,
+      "totalByteWeight": 191494,
+      "benchmarkIndex": 2291,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2154.3406,
+          "durMs": 141
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 802.1703,
+          "durMs": 52
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 906.9226000000001,
+      "cls": 0,
+      "tbtMs": 88,
+      "fcpMs": 906.9226000000001,
+      "siMs": 906.9226000000001,
+      "totalByteWeight": 191494,
+      "benchmarkIndex": 2231,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2106.9226,
+          "durMs": 138
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 753.4613,
+          "durMs": 77
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 830.4613,
+          "durMs": 54
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 906.3406,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

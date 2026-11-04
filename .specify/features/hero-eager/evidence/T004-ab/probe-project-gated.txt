@@ -1,0 +1,2 @@
+EXPECTED AT BASE: build:eager makes both routes eager, so --expect gated fails here.
+This is the pre-A1 state, not a product defect.

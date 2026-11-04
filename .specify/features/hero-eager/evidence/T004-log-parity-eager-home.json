@@ -1,0 +1,58 @@
+{
+  "kind": "parity-baseline",
+  "version": 1,
+  "chromium": "156.0.8078.4",
+  "routes": [
+    "home"
+  ],
+  "shots": [
+    {
+      "id": "home-mobile-light",
+      "route": "home",
+      "path": "/",
+      "viewport": "mobile",
+      "colorScheme": "light",
+      "file": "T004-screenshot-eager-home-home-mobile-light.png",
+      "width": 721,
+      "height": 1440,
+      "pngSha256": "5628b4d4addcb715ceade99d70b64d4ebb877b596a5fe9403a7fa890c32e0eeb",
+      "rgbaSha256": "61cd082b48bc1ecd667eb259c857f8f0ef88162f6bf13f5f6796a6f1d13a2e90"
+    },
+    {
+      "id": "home-mobile-dark",
+      "route": "home",
+      "path": "/",
+      "viewport": "mobile",
+      "colorScheme": "dark",
+      "file": "T004-screenshot-eager-home-home-mobile-dark.png",
+      "width": 721,
+      "height": 1440,
+      "pngSha256": "cb4e76e59ffd414147ca25fc76344a0ebe184927f20a574bac4d4e14df69ac33",
+      "rgbaSha256": "30aef541347c100dd818bcd2a0be3aa42f172abf05612d0995ecf38993fd7cda"
+    },
+    {
+      "id": "home-desktop-light",
+      "route": "home",
+      "path": "/",
+      "viewport": "desktop",
+      "colorScheme": "light",
+      "file": "T004-screenshot-eager-home-home-desktop-light.png",
+      "width": 1350,
+      "height": 940,
+      "pngSha256": "7e2920d4f8135999cf625106bb5ae73dec31e4d0a2748da637f1ce007b8f3836",
+      "rgbaSha256": "6d6cc09f0ea03fcebd5d4e2aae78dd965c45fca80903dc32a104b0b75d7f119b"
+    },
+    {
+      "id": "home-desktop-dark",
+      "route": "home",
+      "path": "/",
+      "viewport": "desktop",
+      "colorScheme": "dark",
+      "file": "T004-screenshot-eager-home-home-desktop-dark.png",
+      "width": 1350,
+      "height": 940,
+      "pngSha256": "38a49b1e084143804deac071747762239c30c734790a62079ea45c47db3d75eb",
+      "rgbaSha256": "5f9b3f8bf50d96de75288c23a77d3ced0c2c51fd9ee028cbe22919dd61fca8d3"
+    }
+  ]
+}

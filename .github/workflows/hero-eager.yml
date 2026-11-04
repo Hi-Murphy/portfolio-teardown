@@ -109,7 +109,7 @@ jobs:
           measure "profiled-eager-home" pnpm perf:lighthouse http://127.0.0.1:4320/ --profile --out "$E/profiled-eager-home"
           measure "attribution-eager-home" pnpm perf:attribution --lhr "$E/profiled-eager-home/lighthouse-run-0.json" --trace "$E/profiled-eager-home/lighthouse-run-0.trace.json.gz" --manifest "$E/eager-manifest.json" --out-dir apps/web/out --out "$E/attr-eager-home"
           for invocation in 1 2; do
-            measure "fps-eager-home-trace-only-cpu1-r${invocation}" pnpm fps:engine --scenario load --route / --frames trace-only --cpu 1 --names --no-build --out "$E/fps-eager-home-trace-only-cpu1-r${invocation}"
+            measure "fps-eager-home-trace-only-cpu1-r${invocation}" pnpm fps:engine --scenario load --route / --frames trace-only --cpu 1 --names --caps .specify/features/hero-eager/evidence/T004-ac2-caps.json --no-build --out "$E/fps-eager-home-trace-only-cpu1-r${invocation}"
             measure "fps-eager-home-recorder-cpu1-r${invocation}" pnpm fps:engine --scenario load --route / --frames recorder --cpu 1 --names --no-build --out "$E/fps-eager-home-recorder-cpu1-r${invocation}"
             measure "fps-eager-home-trace-only-cpu4-r${invocation}" pnpm fps:engine --scenario load --route / --frames trace-only --cpu 4 --no-build --out "$E/fps-eager-home-trace-only-cpu4-r${invocation}"
           done
