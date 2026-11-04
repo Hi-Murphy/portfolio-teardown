@@ -34,7 +34,8 @@
     "bundle:manifest": "node tools/perf/src/cli/bundle-manifest.ts",
     "serve:out": "node tools/perf/src/cli/serve.ts",
     "build:fixtures": "PERF_FIXTURES=1 pnpm --filter web build",
-    "build:eager": "NEXT_PUBLIC_EAGER_3D=1 pnpm --filter web build"
+    "build:eager": "NEXT_PUBLIC_EAGER_3D=1 pnpm --filter web build",
+    "build:eager-hero": "NEXT_PUBLIC_EAGER_HERO=1 pnpm --filter web build"
   },
   "devDependencies": {
     "prettier": "^3.9.10",
