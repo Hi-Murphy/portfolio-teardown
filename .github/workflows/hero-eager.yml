@@ -1,0 +1,172 @@
+name: hero-eager
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    if: github.head_ref == 'task/s11.8-hero-eager'
+    name: 'perf: hero-eager (slow-class measurement) #${{ matrix.shard }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    env:
+      E: .evidence/ci/hero-eager
+      SHARD: ${{ matrix.shard }}
+      EAGER_BUILD: build:eager
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - name: Record host metadata
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          code=0
+          pnpm perf:host --out "$E/host-meta.json" || code=$?
+          echo "perf-host exit=${code}" | tee -a "$E/exit-codes.txt"
+          echo "eager build: $EAGER_BUILD" >> "$E/exit-codes.txt"
+      - name: Build gated
+        run: pnpm build
+      - name: Record gated bundle manifest
+        run: pnpm bundle:manifest --out-dir apps/web/out --write "$E/gated-manifest.json"
+      - name: Measure gated build
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          for invocation in 1 2; do
+            measure "gated-home-r${invocation}" pnpm perf:lighthouse http://127.0.0.1:4320/ --out "$E/gated-home-r${invocation}"
+            measure "gated-project-r${invocation}" pnpm perf:lighthouse http://127.0.0.1:4320/projects/websocket-inspector --out "$E/gated-project-r${invocation}"
+          done
+          measure "profiled-gated-home" pnpm perf:lighthouse http://127.0.0.1:4320/ --profile --out "$E/profiled-gated-home"
+          measure "attribution-gated-home" pnpm perf:attribution --lhr "$E/profiled-gated-home/lighthouse-run-0.json" --trace "$E/profiled-gated-home/lighthouse-run-0.trace.json.gz" --manifest "$E/gated-manifest.json" --out-dir apps/web/out --out "$E/attr-gated-home"
+          cleanup
+          trap - EXIT
+      - name: Build eager
+        run: pnpm "$EAGER_BUILD"
+      - name: Record eager bundle manifest
+        run: pnpm bundle:manifest --out-dir apps/web/out --write "$E/eager-manifest.json"
+      - name: Measure eager build
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          for invocation in 1 2; do
+            measure "eager-home-r${invocation}" pnpm perf:lighthouse http://127.0.0.1:4320/ --out "$E/eager-home-r${invocation}"
+          done
+          measure "profiled-eager-home" pnpm perf:lighthouse http://127.0.0.1:4320/ --profile --out "$E/profiled-eager-home"
+          measure "attribution-eager-home" pnpm perf:attribution --lhr "$E/profiled-eager-home/lighthouse-run-0.json" --trace "$E/profiled-eager-home/lighthouse-run-0.trace.json.gz" --manifest "$E/eager-manifest.json" --out-dir apps/web/out --out "$E/attr-eager-home"
+          for invocation in 1 2; do
+            measure "fps-eager-home-trace-only-cpu1-r${invocation}" pnpm fps:engine --scenario load --route / --frames trace-only --cpu 1 --names --no-build --out "$E/fps-eager-home-trace-only-cpu1-r${invocation}"
+            measure "fps-eager-home-recorder-cpu1-r${invocation}" pnpm fps:engine --scenario load --route / --frames recorder --cpu 1 --names --no-build --out "$E/fps-eager-home-recorder-cpu1-r${invocation}"
+            measure "fps-eager-home-trace-only-cpu4-r${invocation}" pnpm fps:engine --scenario load --route / --frames trace-only --cpu 4 --no-build --out "$E/fps-eager-home-trace-only-cpu4-r${invocation}"
+          done
+          measure "probe-eager-home" pnpm eager:probe --serve apps/web/out --route / --runs 2 --out "$E/probe-eager-home"
+          measure "probe-eager-home-reduced" pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out "$E/probe-eager-home-reduced"
+          cleanup
+          trap - EXIT
+      - name: Measure eager project build (after T005)
+        if: env.EAGER_BUILD == 'build:eager-hero'
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          for invocation in 1 2; do
+            measure "eager-project-r${invocation}" pnpm perf:lighthouse http://127.0.0.1:4320/projects/websocket-inspector --out "$E/eager-project-r${invocation}"
+          done
+          cleanup
+          trap - EXIT
+      - name: Probe eager project build (after T005)
+        if: env.EAGER_BUILD == 'build:eager-hero'
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          measure "probe-eager-project-gated" pnpm eager:probe --serve apps/web/out --route /projects/websocket-inspector --runs 2 --expect gated --out "$E/probe-eager-project-gated"
+      - name: Summarize hero-eager results
+        if: always()
+        run: |
+          set -uo pipefail
+          mkdir -p "$E"
+          code=0
+          node tools/perf/src/cli/eager-verdict.ts --rule s11.8 --reproduce --dir "$E" > "$E/verdict-s11.8.md" 2>&1 || code=$?
+          echo "eager-verdict-s11.8 exit=${code}" | tee -a "$E/exit-codes.txt"
+          cat "$E/verdict-s11.8.md"
+          cat "$E/verdict-s11.8.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload hero-eager evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: hero-eager-${{ github.run_id }}-${{ github.run_attempt }}-s${{ matrix.shard }}
+          path: .evidence/ci/hero-eager
+          retention-days: 14
