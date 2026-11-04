@@ -1,0 +1,106 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2103.8129,
+      "simulatedMs": 271,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 221,
+      "tbtSharePct": 52.36966824644552,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/3vwpvuyn90046.js",
+      "simulatedStartMs": 3309.5322499999997,
+      "simulatedMs": 207,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 157,
+      "tbtSharePct": 37.20379146919433,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+      "simulatedStartMs": 3738.71935,
+      "simulatedMs": 104,
+      "observedStartMs": 238.726,
+      "observedMs": 13.226,
+      "matched": true,
+      "matchQuality": "loose",
+      "matchErrorPct": 49.130769230769225,
+      "tbtMs": 54,
+      "tbtSharePct": 12.796208530805695,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/1kgrt2f4mrm63.js",
+      "simulatedStartMs": 3842.71935,
+      "simulatedMs": 245,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 195,
+      "tbtSharePct": 46.20853080568723,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:4321/_next/static/chunks/3vnmkhfgdnq2d.js",
+      "simulatedStartMs": 4087.71935,
+      "simulatedMs": 266.99999999999955,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 216.99999999999955,
+      "tbtSharePct": 51.42180094786721,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "http://127.0.0.1:4321/projects/websocket-inspector",
+    "route": "/projects/websocket-inspector",
+    "cpuMultiplier": 4,
+    "profileChunks": 266,
+    "simulatedTbtMs": 421.9999999999998,
+    "observedBlockingMs": 19.276000000000003,
+    "differenceMs": -402.72399999999976,
+    "differencePct": 95.43222748815165,
+    "pairs": [
+      {
+        "url": "http://127.0.0.1:4321/_next/static/chunks/1d5kkip1hlg-o.js",
+        "simulatedStartMs": 3738.71935,
+        "observedStartMs": 238.726,
+        "startGapMs": -3499.9933499999997,
+        "simulatedMs": 104,
+        "observedMs": 13.226,
+        "observedEquivalentMs": 52.904
+      }
+    ]
+  }
+}

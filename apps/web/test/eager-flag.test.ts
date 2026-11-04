@@ -55,6 +55,20 @@ describe('eager 3D build flag', () => {
     );
   });
 
+  test('the eager workbench guards reduced motion and saveData before waiting for load', () => {
+    const text = source(WORKBENCH_PATH);
+    const eagerMatch = new RegExp(`if \\(${DEFINE}\\) \\{([\\s\\S]*?)\\n      \\} else \\{`).exec(
+      text,
+    );
+    const eagerBranch = eagerMatch?.[1] ?? '';
+    const guard = eagerBranch.indexOf('motion.reducedMotion.query');
+    const loadWait = eagerBranch.indexOf("document.readyState === 'complete'");
+
+    expect(eagerBranch).toContain('connection?.saveData === true');
+    expect(guard).toBeGreaterThanOrEqual(0);
+    expect(loadWait).toBeGreaterThan(guard);
+  });
+
   test('only the Next config reads the eager environment flag', () => {
     const readers = collectSourceFiles(APP_ROOT)
       .filter((file) => readFileSync(file, 'utf8').includes(ENV_FLAG))
