@@ -1,0 +1,6 @@
+$ pnpm perf:attribution --lhr <local-path>/s118-checks/t008/lhp-home/lighthouse-run-0.json --trace <local-path>/s118-checks/t008/lhp-home/lighthouse-run-0.trace.json.gz --manifest <local-path>/s118-checks/t008/eager-manifest.json --out-dir apps/web/out --out <local-path>/s118-checks/t008/attr-home
+$ node tools/perf/src/cli/attribution.ts --lhr <local-path>/s118-checks/t008/lhp-home/lighthouse-run-0.json --trace <local-path>/s118-checks/t008/lhp-home/lighthouse-run-0.trace.json.gz --manifest <local-path>/s118-checks/t008/eager-manifest.json --out-dir apps/web/out --out <local-path>/s118-checks/t008/attr-home
+source: lighthouse-profile (276 ProfileChunk events)
+tasks: 3; matched: 3
+per-task.json: <local-path>/s118-checks/t008/attr-home/per-task.json
+per-task.md: <local-path>/s118-checks/t008/attr-home/per-task.md

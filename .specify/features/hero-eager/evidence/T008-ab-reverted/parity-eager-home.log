@@ -1,0 +1,9 @@
+$ pnpm perf:parity --serve apps/web/out --no-engage --route home --compare <local-path>/s118-checks/t008/parity-baseline-eager --out <local-path>/s118-checks/t008/parity-eager-home
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --no-engage --route home --compare <local-path>/s118-checks/t008/parity-baseline-eager --out <local-path>/s118-checks/t008/parity-eager-home
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+parity: PASS (4 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t008/parity-eager-home/parity-compare.json
