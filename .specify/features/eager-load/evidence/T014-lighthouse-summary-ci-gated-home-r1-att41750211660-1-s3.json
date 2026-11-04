@@ -1,0 +1,112 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/",
+  "finalUrl": "http://127.0.0.1:4320/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 910.1747,
+      "cls": 0,
+      "tbtMs": 80,
+      "fcpMs": 910.1747,
+      "siMs": 910.1747,
+      "totalByteWeight": 197434,
+      "benchmarkIndex": 2020.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2153.1747,
+          "durMs": 130
+        },
+        {
+          "url": "http://127.0.0.1:4320/",
+          "startMs": 843.08735,
+          "durMs": 57
+        }
+      ]
+    },
+    {
+      "performance": 0.99,
+      "accessibility": null,
+      "lcpMs": 908.7292,
+      "cls": 0,
+      "tbtMs": 100.99999999999955,
+      "fcpMs": 908.7292,
+      "siMs": 908.7292,
+      "totalByteWeight": 197434,
+      "benchmarkIndex": 2347,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2153.7292,
+          "durMs": 150.99999999999955
+        },
+        {
+          "url": "http://127.0.0.1:4320/",
+          "startMs": 800.3646,
+          "durMs": 65
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 906.7270000000001,
+      "cls": 0,
+      "tbtMs": 83,
+      "fcpMs": 906.7270000000001,
+      "siMs": 906.7270000000001,
+      "totalByteWeight": 197434,
+      "benchmarkIndex": 2307,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2149.727,
+          "durMs": 133
+        },
+        {
+          "url": "http://127.0.0.1:4320/",
+          "startMs": 797.3635,
+          "durMs": 62
+        }
+      ]
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 906.7270000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

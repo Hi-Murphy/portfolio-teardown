@@ -1,0 +1,102 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/",
+  "finalUrl": "http://127.0.0.1:4320/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 909.0842,
+      "cls": 0,
+      "tbtMs": 58,
+      "fcpMs": 909.0842,
+      "siMs": 909.0842,
+      "totalByteWeight": 197392,
+      "benchmarkIndex": 3029.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2109.0842000000002,
+          "durMs": 108
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 905.2682,
+      "cls": 0,
+      "tbtMs": 52.999999999999545,
+      "fcpMs": 905.2682,
+      "siMs": 905.2682,
+      "totalByteWeight": 197432,
+      "benchmarkIndex": 2859,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2105.2682,
+          "durMs": 102.99999999999955
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 904.4394,
+      "cls": 0,
+      "tbtMs": 56,
+      "fcpMs": 904.4394,
+      "siMs": 904.4394,
+      "totalByteWeight": 197432,
+      "benchmarkIndex": 2913,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2104.4394,
+          "durMs": 106
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 752.2197,
+          "durMs": 98
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 905.2682,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

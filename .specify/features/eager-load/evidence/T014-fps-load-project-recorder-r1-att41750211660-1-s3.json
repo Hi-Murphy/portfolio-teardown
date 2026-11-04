@@ -1,0 +1,86 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:38273/projects/websocket-inspector",
+  "scenario": "load",
+  "route": "/projects/websocket-inspector",
+  "frames": "recorder",
+  "cpuThrottle": 4,
+  "loadMs": 526.9000000000233,
+  "fps": 4.528429084012991,
+  "frameCount": 23,
+  "droppedFrames": 20,
+  "windowMs": 5000,
+  "intervalsMs": {
+    "p50": 16.839,
+    "p95": 408.723,
+    "max": 779.646
+  },
+  "rafFps": 52.003099384723335,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 10816,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 342.05400000011923,
+      "dur": 70.571
+    },
+    {
+      "start": 436.3170000001192,
+      "dur": 82.981
+    },
+    {
+      "start": 546.1110000001192,
+      "dur": 124.793
+    },
+    {
+      "start": 994.8270000001193,
+      "dur": 86.48
+    },
+    {
+      "start": 1081.5920000001192,
+      "dur": 95.562
+    },
+    {
+      "start": 1181.809000000119,
+      "dur": 106.898
+    },
+    {
+      "start": 1288.7530000001193,
+      "dur": 114.081
+    }
+  ],
+  "maxLongTaskMs": 124.793,
+  "preLoadTasks": [],
+  "droppedFrameTimes": [
+    882.9600000001192,
+    899.6260000001192,
+    916.2920000001192,
+    932.9580000001192,
+    949.6240000001192,
+    966.2900000001192,
+    1166.2820000001193,
+    1182.9480000001192,
+    1199.6140000001192,
+    1216.2800000001191,
+    1232.9460000001193,
+    1249.6120000001192,
+    1266.2780000001192,
+    1282.944000000119,
+    1299.6100000001193,
+    1316.2760000001192,
+    1332.9420000001192,
+    1349.6080000001193,
+    1366.2740000001193,
+    1382.9400000001192
+  ],
+  "mounted": true,
+  "readyMs": 1698.7000000000698,
+  "verdict": {
+    "longTask50": false,
+    "droppedFramesLe2": false,
+    "gated": false
+  },
+  "exclusionNote": "the harness rAF recorder adds a frame demand on every vsync; this count is excluded from AC2."
+}

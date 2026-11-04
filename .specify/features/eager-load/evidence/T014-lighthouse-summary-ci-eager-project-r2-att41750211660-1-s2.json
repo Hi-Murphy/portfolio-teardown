@@ -1,0 +1,157 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4320/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.96,
+      "accessibility": null,
+      "lcpMs": 908.1975,
+      "cls": 0,
+      "tbtMs": 220.95062499999995,
+      "fcpMs": 908.1975,
+      "siMs": 1120.6671323715352,
+      "totalByteWeight": 471543,
+      "benchmarkIndex": 2779,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2259.1975,
+          "durMs": 137
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2108.1975,
+          "durMs": 107
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3320.4937500000005,
+          "durMs": 92
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4070.4937500000005,
+          "durMs": 87
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 754.09875,
+          "durMs": 57
+        },
+        {
+          "url": "http://127.0.0.1:4320/projects/websocket-inspector",
+          "startMs": 857.09875,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 0.94,
+      "accessibility": null,
+      "lcpMs": 912.2470000000001,
+      "cls": 0,
+      "tbtMs": 277.93825000000106,
+      "fcpMs": 912.2470000000001,
+      "siMs": 1153.6683384935282,
+      "totalByteWeight": 471543,
+      "benchmarkIndex": 2900.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2216.247,
+          "durMs": 164.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4080.6175,
+          "durMs": 118.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2112.247,
+          "durMs": 104
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3330.6175000000003,
+          "durMs": 95
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 756.1235,
+          "durMs": 66
+        }
+      ]
+    },
+    {
+      "performance": 0.96,
+      "accessibility": null,
+      "lcpMs": 906.2883999999999,
+      "cls": 0,
+      "tbtMs": 235.4279000000006,
+      "fcpMs": 906.2883999999999,
+      "siMs": 1116.8858852716983,
+      "totalByteWeight": 471543,
+      "benchmarkIndex": 2884,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2211.2884,
+          "durMs": 157.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2106.2884,
+          "durMs": 105
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vwpvuyn90046.js",
+          "startMs": 3315.721,
+          "durMs": 89
+        },
+        {
+          "url": "http://127.0.0.1:4320/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4065.721,
+          "durMs": 85.99999999999955
+        }
+      ]
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.96,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 906.2883999999999,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
