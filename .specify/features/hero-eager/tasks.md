@@ -78,7 +78,7 @@
 |---|---|---|---|---|
 | T001 | ☑ 21 guards OK; 7 uncommitted + 1 committed negative controls bite (incl. G1-list edit); pre-slice bytes gated total 1,582,126 raw / 459,309 gz = S11.7 T013 manifest (`cmp`); budget 0.5 % = 2,296 B gz | 1 (Flash) + orchestrator review (paths-list guard tightened; total raw INFO in s11.8 mode; committed control) | evidence/T001-log-guard.txt, T001-log-bytes.txt | e902c12 |
 | T002 | ☑ `--names`/`--caps` (timestamp containment, D-P2), `--rule s11.8 [--reproduce]` (S11.7 T014 fixtures: home FAIL ×2, project gated in band, REPRODUCED; default + s11.7 outputs golden), `--expect gated` bites (FAIL on build:eager, PASS gated), `parity --route`; local named run: compile = first content frame (one task), constructor `getContext` | 1 (Flash) + orchestrator review (D-P3: recorder-mode clock fix) | evidence/T002-log-harness.txt | 9676464 |
-| T003 | ☐ | | | |
+| T003 | ☑ `hero-eager.yml` (mirrors eager-load.yml; `--no-build`; post-T005 steps guarded by `EAGER_BUILD`); local dry run OK | 1 (Flash) | evidence/T003-log-workflow.txt | cdcc5c9 |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
