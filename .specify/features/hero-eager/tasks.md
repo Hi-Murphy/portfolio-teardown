@@ -77,7 +77,7 @@
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
 | T001 | ☑ 21 guards OK; 7 uncommitted + 1 committed negative controls bite (incl. G1-list edit); pre-slice bytes gated total 1,582,126 raw / 459,309 gz = S11.7 T013 manifest (`cmp`); budget 0.5 % = 2,296 B gz | 1 (Flash) + orchestrator review (paths-list guard tightened; total raw INFO in s11.8 mode; committed control) | evidence/T001-log-guard.txt, T001-log-bytes.txt | e902c12 |
-| T002 | ☐ | | | |
+| T002 | ☑ `--names`/`--caps` (timestamp containment, D-P2), `--rule s11.8 [--reproduce]` (S11.7 T014 fixtures: home FAIL ×2, project gated in band, REPRODUCED; default + s11.7 outputs golden), `--expect gated` bites (FAIL on build:eager, PASS gated), `parity --route`; local named run: compile = first content frame (one task), constructor `getContext` | 1 (Flash) + orchestrator review (D-P3: recorder-mode clock fix) | evidence/T002-log-harness.txt | 9676464 |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
@@ -95,6 +95,7 @@
 
 - **D-P1 (review, T001):** `xploder_test_ok` no longer allows `frozen-surface*.paths` edits; `bundle-scopes --budget s11.8` budgets total **gzip** only (raw INFO), per AC4. S11.7's `--budget` mode unchanged.
 - **D-P2 (pre-dispatch, T002):** `--names` identifies the three named tasks by **timestamp containment**, not by minified frame names. In `--names` mode only, the load init script records `performance.now()` at (1) the first `getContext('webgl2'|'webgl')` on a **connected** canvas (the R3F canvas; `hasWebgl()`'s probe canvas is detached) → `renderer-constructor`, (2) the first `linkProgram` call on a WebGL(2) context → `program-compile`, (3) the existing `readyMs` → `first-content-frame`. Each timestamp is mapped onto the trace clock with the existing load mark, and the top-level task containing it gets the name. V8 samples (the profiler category) supply each named / long task's `topFunctions`. The default init script and report are byte-identical.
+- **D-P3 (review, T002):** recorder-mode `--names` anchored the hooks with the recorder-start mark but the load timestamp. Each load measurement now returns its own `traceOriginUs`; both frame modes name the same tasks.
 
 ---
 
