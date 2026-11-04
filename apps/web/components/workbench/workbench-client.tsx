@@ -12,12 +12,17 @@ import { ExplorePanel, type ExploreMode } from './explore-panel';
 import { buildLayerModels, buildTourFlows, jumpSequence } from './tour-model';
 import { WorkbenchDock } from './workbench-dock';
 
-interface PortalTargets {
-  readonly dock: HTMLElement;
-  readonly tour: HTMLElement;
+export interface WorkbenchPortalTargets {
+  readonly dock: HTMLElement | null;
+  readonly tour: HTMLElement | null;
 }
 
-export function WorkbenchClient({ slug }: { readonly slug: string }) {
+export interface WorkbenchClientProps {
+  readonly slug: string;
+  readonly targets: WorkbenchPortalTargets;
+}
+
+export function WorkbenchClient({ slug, targets }: WorkbenchClientProps) {
   const project = getProject(slug);
 
   if (project === undefined) {
@@ -30,33 +35,12 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
   const layers = useMemo(() => buildLayerModels(project), [project]);
   const rootRef = useRef<HTMLDivElement>(null);
   const [liveState, setLiveState] = useState<'loading' | 'revealed'>('loading');
-  const [portalTargets, setPortalTargets] = useState<PortalTargets | null>(null);
   const [exploreMode, setExploreMode] = useState<ExploreMode>('layers');
   const reveal = useCallback(() => setLiveState('revealed'), []);
 
   useLayoutEffect(() => {
-    let frame: number | undefined;
-
-    const resolveTargets = () => {
-      const root = rootRef.current?.closest<HTMLElement>('[data-site-workbench]');
-      const dock = root?.querySelector<HTMLElement>('[data-site-dock]') ?? null;
-      const tour = root?.querySelector<HTMLElement>('[data-site-tour]') ?? null;
-
-      if (dock !== null && tour !== null) {
-        tour.setAttribute('data-site-explore-live', '');
-        setPortalTargets({ dock, tour });
-        return;
-      }
-
-      frame = window.requestAnimationFrame(resolveTargets);
-    };
-
-    resolveTargets();
-
-    return () => {
-      if (frame !== undefined) window.cancelAnimationFrame(frame);
-    };
-  }, []);
+    targets.tour?.setAttribute('data-site-explore-live', '');
+  }, [targets.tour]);
 
   useEffect(() => {
     if (rootRef.current?.querySelector('[data-xploder-webgl="unavailable"]') === null) return;
@@ -122,37 +106,35 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
     [exploreMode, viewer.actions, viewer.target],
   );
 
-  return (
-    <>
-      <div
-        ref={rootRef}
-        data-site-workbench-slot=""
-        data-site-live=""
-        data-site-live-state={liveState}
-        className={LIVE_CLASS}
-        inert={liveState !== 'revealed'}
-      >
-        <LiveViewer
-          project={project}
-          viewer={viewer}
-          initial="exploded"
-          panels={panels}
-          registry={SITE_REGISTRY}
-          fallback={
-            <ProjectOutline
-              project={project}
-              message="WebGL is unavailable for this teardown."
-              className="h-full overflow-y-auto p-4 sm:p-6"
-            />
-          }
-          onFirstFrame={reveal}
-          className="h-full w-full"
-          aria-label={`${project.meta.name} architecture view`}
-        />
-      </div>
-      {portalTargets === null ? null : (
-        <>
-          {createPortal(
+  const ariaLabel = `${project.meta.name} architecture view`;
+  const liveViewer = useMemo(
+    () => (
+      <LiveViewer
+        project={project}
+        viewer={viewer}
+        initial="exploded"
+        panels={panels}
+        registry={SITE_REGISTRY}
+        fallback={
+          <ProjectOutline
+            project={project}
+            message="WebGL is unavailable for this teardown."
+            className="h-full overflow-y-auto p-4 sm:p-6"
+          />
+        }
+        onFirstFrame={reveal}
+        className="h-full w-full"
+        aria-label={ariaLabel}
+      />
+    ),
+    [ariaLabel, panels, project, reveal, viewer],
+  );
+
+  const dockPortal = useMemo(
+    () =>
+      targets.dock === null
+        ? null
+        : createPortal(
             <WorkbenchDock
               target={viewer.target}
               can={viewer.can}
@@ -167,9 +149,29 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
               onZoomIn={viewer.actions.zoomIn}
               onToggleCaseStudy={panels.actions.toggleCaseStudy}
             />,
-            portalTargets.dock,
-          )}
-          {createPortal(
+            targets.dock,
+          ),
+    [
+      exploreMode,
+      panels.actions.toggleCaseStudy,
+      panels.ids.caseStudy,
+      panels.state.kind,
+      targets.dock,
+      toggleTarget,
+      viewer.actions.rotateLeft,
+      viewer.actions.rotateRight,
+      viewer.actions.zoomIn,
+      viewer.actions.zoomOut,
+      viewer.actions.zoomReset,
+      viewer.can,
+      viewer.target,
+    ],
+  );
+  const tourPortal = useMemo(
+    () =>
+      targets.tour === null
+        ? null
+        : createPortal(
             <ExplorePanel
               mode={exploreMode}
               onModeChange={changeExploreMode}
@@ -188,10 +190,43 @@ export function WorkbenchClient({ slug }: { readonly slug: string }) {
               onJump={jumpToStep}
               onHighlight={viewer.actions.highlight}
             />,
-            portalTargets.tour,
-          )}
-        </>
-      )}
+            targets.tour,
+          ),
+    [
+      changeExploreMode,
+      exploreMode,
+      jumpToStep,
+      layers,
+      nextStep,
+      previousStep,
+      restartTour,
+      targets.tour,
+      togglePlayback,
+      tourFlows,
+      viewer.actions.highlight,
+      viewer.actions.selectFlow,
+      viewer.actions.toggleFocus,
+      viewer.focus.layerId,
+      viewer.tour.flowId,
+      viewer.tour.status,
+      viewer.tour.step,
+    ],
+  );
+
+  return (
+    <>
+      <div
+        ref={rootRef}
+        data-site-workbench-slot=""
+        data-site-live=""
+        data-site-live-state={liveState}
+        className={LIVE_CLASS}
+        inert={liveState !== 'revealed'}
+      >
+        {liveViewer}
+      </div>
+      {dockPortal}
+      {tourPortal}
     </>
   );
 }

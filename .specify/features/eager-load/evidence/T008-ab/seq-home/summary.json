@@ -1,0 +1,310 @@
+{
+  "kind": "startup-summary",
+  "version": 1,
+  "label": "home",
+  "route": "/",
+  "engage": "move",
+  "kindOfRun": "attributed",
+  "observers": true,
+  "runs": [
+    {
+      "run": 1,
+      "file": "startup-home-move-attributed-r1.json",
+      "phases": {
+        "P0": {
+          "ms": 25.419,
+          "mainThreadMs": 0
+        },
+        "P1": {
+          "ms": 84.74,
+          "mainThreadMs": 0
+        },
+        "P2": {
+          "ms": 67.838,
+          "mainThreadMs": 2.253
+        },
+        "P3": {
+          "ms": 56.50000011920929,
+          "mainThreadMs": 56.50000011920929
+        },
+        "P4": {
+          "ms": 105.9,
+          "mainThreadMs": 41.622
+        },
+        "P5": {
+          "ms": 67.3,
+          "mainThreadMs": 66.241
+        },
+        "P6": {
+          "ms": 0,
+          "mainThreadMs": 0
+        },
+        "P7": {
+          "ms": 3.899999976158142,
+          "mainThreadMs": 3.899999976158142
+        },
+        "P8": {
+          "ms": 2.7310000238418577,
+          "mainThreadMs": 2.7310000238418577
+        },
+        "P9": {
+          "ms": 2.401,
+          "mainThreadMs": 2.315
+        }
+      },
+      "glCounts": {
+        "getContext": 2,
+        "compileShader": 2,
+        "linkProgram": 1,
+        "getProgramParameter": 3,
+        "getShaderParameter": 0,
+        "getUniformLocation": 15,
+        "getProgramInfoLog": 1,
+        "bufferData": 14,
+        "bufferSubData": 0,
+        "texImage2D": 7,
+        "texStorage2D": 0,
+        "texSubImage2D": 0,
+        "drawArrays": 0,
+        "drawElements": 0,
+        "drawArraysInstanced": 0,
+        "drawElementsInstanced": 2,
+        "createProgram": 1
+      },
+      "firstFrame": 2536.301,
+      "mainThreadCostMs": 273.869,
+      "attributedMs": 175.56200011920927,
+      "otherMs": 98.30699988079076,
+      "blockingMs": 0,
+      "clsRaw": 0,
+      "clsFiltered": 0,
+      "textureMs": 0.10000002384185791,
+      "textureCount": 7,
+      "sequence": {
+        "firstInstancedDraw": {
+          "t": 2533.899999976158,
+          "raf": 13
+        },
+        "ready": {
+          "t": 2535.100000023842,
+          "raf": 13
+        },
+        "liveStates": [
+          {
+            "value": "idle",
+            "t": 30.899999976158142,
+            "raf": 0
+          },
+          {
+            "value": "loading",
+            "t": 2260.5,
+            "raf": 0
+          },
+          {
+            "value": "revealed",
+            "t": 2565.5,
+            "raf": 13
+          }
+        ]
+      }
+    },
+    {
+      "run": 2,
+      "file": "startup-home-move-attributed-r2.json",
+      "phases": {
+        "P0": {
+          "ms": 25.707,
+          "mainThreadMs": 0
+        },
+        "P1": {
+          "ms": 82.342,
+          "mainThreadMs": 0
+        },
+        "P2": {
+          "ms": 67.877,
+          "mainThreadMs": 2.5139998779296846
+        },
+        "P3": {
+          "ms": 56.700000166893005,
+          "mainThreadMs": 56.700000166893005
+        },
+        "P4": {
+          "ms": 100.8,
+          "mainThreadMs": 40.014
+        },
+        "P5": {
+          "ms": 69,
+          "mainThreadMs": 68.16600000000001
+        },
+        "P6": {
+          "ms": 0.10000002384185791,
+          "mainThreadMs": 0.10000002384185791
+        },
+        "P7": {
+          "ms": 2.700000047683716,
+          "mainThreadMs": 2.700000047683716
+        },
+        "P8": {
+          "ms": 3.202,
+          "mainThreadMs": 3.202
+        },
+        "P9": {
+          "ms": 2.49,
+          "mainThreadMs": 1.7700000000000002
+        }
+      },
+      "glCounts": {
+        "getContext": 2,
+        "compileShader": 2,
+        "linkProgram": 1,
+        "getProgramParameter": 3,
+        "getShaderParameter": 0,
+        "getUniformLocation": 15,
+        "getProgramInfoLog": 1,
+        "bufferData": 14,
+        "bufferSubData": 0,
+        "texImage2D": 7,
+        "texStorage2D": 0,
+        "texSubImage2D": 0,
+        "drawArrays": 0,
+        "drawElements": 0,
+        "drawArraysInstanced": 0,
+        "drawElementsInstanced": 2,
+        "createProgram": 1
+      },
+      "firstFrame": 2613.09,
+      "mainThreadCostMs": 269.68,
+      "attributedMs": 175.16600011634827,
+      "otherMs": 94.51399988365173,
+      "blockingMs": 0,
+      "clsRaw": 0,
+      "clsFiltered": 0,
+      "textureMs": 0,
+      "textureCount": 7,
+      "sequence": {
+        "firstInstancedDraw": {
+          "t": 2610.600000023842,
+          "raf": 12
+        },
+        "ready": {
+          "t": 2611.8000000715256,
+          "raf": 12
+        },
+        "liveStates": [
+          {
+            "value": "idle",
+            "t": 32,
+            "raf": 0
+          },
+          {
+            "value": "loading",
+            "t": 2344.600000023842,
+            "raf": 0
+          },
+          {
+            "value": "revealed",
+            "t": 2642.2000000476837,
+            "raf": 12
+          }
+        ]
+      }
+    }
+  ],
+  "median": {
+    "phases": {
+      "P0": 25.563000000000002,
+      "P1": 83.541,
+      "P2": 67.85749999999999,
+      "P3": 56.60000014305115,
+      "P4": 103.35,
+      "P5": 68.15,
+      "P6": 0.050000011920928955,
+      "P7": 3.300000011920929,
+      "P8": 2.966500011920929,
+      "P9": 2.4455
+    },
+    "phaseMainThreadMs": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 2.3834999389648424,
+      "P3": 56.60000014305115,
+      "P4": 40.818,
+      "P5": 67.2035,
+      "P6": 0.050000011920928955,
+      "P7": 3.300000011920929,
+      "P8": 2.966500011920929,
+      "P9": 2.0425
+    },
+    "glCounts": {
+      "getContext": 2,
+      "compileShader": 2,
+      "linkProgram": 1,
+      "getProgramParameter": 3,
+      "getShaderParameter": 0,
+      "getUniformLocation": 15,
+      "getProgramInfoLog": 1,
+      "bufferData": 14,
+      "bufferSubData": 0,
+      "texImage2D": 7,
+      "texStorage2D": 0,
+      "texSubImage2D": 0,
+      "drawArrays": 0,
+      "drawElements": 0,
+      "drawArraysInstanced": 0,
+      "drawElementsInstanced": 2,
+      "createProgram": 1
+    },
+    "firstFrame": 2574.6955,
+    "mainThreadCostMs": 271.7745,
+    "attributedMs": 175.36400011777877,
+    "otherMs": 96.41049988222125,
+    "blockingMs": 0,
+    "clsRaw": 0,
+    "clsFiltered": 0,
+    "textureMs": 0.050000011920928955,
+    "textureCount": 7
+  },
+  "spreadPct": {
+    "phases": {
+      "P0": 1.1266283300082158,
+      "P1": 2.870446846458621,
+      "P2": 0.05747338171904577,
+      "P3": 0.35335697381313536,
+      "P4": 4.934687953555886,
+      "P5": 2.494497432135,
+      "P6": 200,
+      "P7": 36.36363406483464,
+      "P8": 15.877295609823735,
+      "P9": 3.6393375587814516
+    },
+    "glCounts": {
+      "getContext": 0,
+      "compileShader": 0,
+      "linkProgram": 0,
+      "getProgramParameter": 0,
+      "getShaderParameter": 0,
+      "getUniformLocation": 0,
+      "getProgramInfoLog": 0,
+      "bufferData": 0,
+      "bufferSubData": 0,
+      "texImage2D": 0,
+      "texStorage2D": 0,
+      "texSubImage2D": 0,
+      "drawArrays": 0,
+      "drawElements": 0,
+      "drawArraysInstanced": 0,
+      "drawElementsInstanced": 0,
+      "createProgram": 0
+    },
+    "firstFrame": 2.982449769302825,
+    "mainThreadCostMs": 1.5413513777046859,
+    "attributedMs": 0.22581601845021657,
+    "otherMs": 3.934218785062513,
+    "blockingMs": 0,
+    "clsRaw": 0,
+    "clsFiltered": 0,
+    "textureMs": 200,
+    "textureCount": 0
+  },
+  "spreadFlagged": true
+}

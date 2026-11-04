@@ -5,16 +5,24 @@ import { motion } from 'xploder/motion';
 
 import { waitForFirstInteraction, waitForIdle } from '../interaction-gate';
 import type { WorkbenchClientComponent } from './workbench-boot';
+import type { WorkbenchPortalTargets } from './workbench-client';
+
+interface LoadedWorkbench {
+  readonly Client: WorkbenchClientComponent;
+  readonly targets: WorkbenchPortalTargets;
+}
 
 export function WorkbenchLoader({ slug }: { readonly slug: string }) {
   const rootRef = useRef<HTMLSpanElement>(null);
   const startedRef = useRef(false);
-  const [WorkbenchClient, setWorkbenchClient] = useState<WorkbenchClientComponent | null>(null);
+  const [workbench, setWorkbench] = useState<LoadedWorkbench | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     const root = rootRef.current?.closest<HTMLElement>('[data-site-workbench]') ?? null;
+    const dock = root?.querySelector<HTMLElement>('[data-site-dock]') ?? null;
+    const tour = root?.querySelector<HTMLElement>('[data-site-tour]') ?? null;
     const control = root?.querySelector<HTMLButtonElement>('[data-site-control="explore-3d"]');
     const label = control?.querySelector<HTMLElement>('[data-site-control-label]');
     const originalLabel = label?.textContent ?? '';
@@ -31,7 +39,9 @@ export function WorkbenchLoader({ slug }: { readonly slug: string }) {
           const LoadedWorkbenchClient = await bootWorkbench(signal);
           if (LoadedWorkbenchClient === null || signal.aborted) return;
 
-          startTransition(() => setWorkbenchClient(() => LoadedWorkbenchClient));
+          startTransition(() =>
+            setWorkbench(() => ({ Client: LoadedWorkbenchClient, targets: { dock, tour } })),
+          );
         } catch {
           if (!signal.aborted) {
             startedRef.current = false;
@@ -110,7 +120,7 @@ export function WorkbenchLoader({ slug }: { readonly slug: string }) {
   return (
     <>
       <span ref={rootRef} hidden />
-      {WorkbenchClient === null ? null : <WorkbenchClient slug={slug} />}
+      {workbench === null ? null : <workbench.Client slug={slug} targets={workbench.targets} />}
     </>
   );
 }
