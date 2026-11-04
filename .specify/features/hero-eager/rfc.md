@@ -1,6 +1,6 @@
 # RFC — S11.8 Hero-Only Eager
 
-**slice:** S11.8-hero-eager · **status:** DRAFT, awaiting Gate 1 (the E1/E2 file list in §4 needs Murphy's approval before the first product commit) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.8-hero-eager.md` (frozen brief v1) · **branch:** `task/s11.8-hero-eager` · **base:** `0fcd243` (product tree = S11.7 final `7df1b6d`) · **date:** 2026-11-04
+**slice:** S11.8-hero-eager · **status:** APPROVED at Gate 1 (2026-11-04): all §9 defaults, incl. the six-path E1/E2 list in §4; refinements R1–R8 in §11 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-11.8-hero-eager.md` (frozen brief v1) · **branch:** `task/s11.8-hero-eager` · **base:** `0fcd243` (product tree = S11.7 final `7df1b6d`) · **date:** 2026-11-04
 
 > This RFC records design decisions only. It does not change scope. Where it seems to conflict with the brief, the brief wins and the conflict is raised as an open question (§9).
 >
@@ -440,3 +440,20 @@ Guard checks:
 ## 11. Gate log
 
 1. **Stage 1 (2026-11-04):** RFC drafted on `task/s11.8-hero-eager` (F9: branch renamed before any commit). Nothing was built, run or profiled.
+2. **Gate 1 (Murphy, 2026-11-04, 5h 16%): "defaults. approved".**
+   - Q1–Q12 = the §9 defaults.
+   - **The E1/E2 file list is approved as written in §4:** #1 `overlay/place.ts` required; #2 `overlay/model.ts`, #3 `react/scene/Stats.tsx`, #4 `react/overlay/BlueprintOverlay.tsx`, #5 `react/scene/ViewScroll.tsx` and #6 `react/TeardownViewer.tsx` conditional on their stated triggers. No other `packages/xploder/src` path may change.
+3. **Stage-2 re-check of the defaults against the code.** These are refinements R1–R8. None of them changes an AC.
+   - **R1 (re-seal touches three files).** `frozen-surface.test.ts` pins each manifest's `base` and `note` as literals (L122-126 and the like). A re-seal therefore edits the generator (`base` + `note`), regenerates the manifest, **and** updates those two literals in `frozen-surface.test.ts`, as S11.6 did for S8 at `2fd19f0`. `frozen-surface.test.ts` is not in any `*.paths` list, so `SEALED-TESTS-OK` is unaffected.
+   - **R2 (seal bases after a squash).** Existing bases (`f65b13c`, `405bca1`) are slice-branch commits that are not ancestors of `main`, because the PRs were squash-merged. The S11.8 re-seals follow the same convention: the base is the lever commit on the slice branch, and the note names it plus its A/B evidence file. Regeneration runs in the slice worktree, where that commit exists.
+   - **R3 (`perf:parity --route`).** `perf:parity` always captures both routes (`ROUTES`, `cli/parity.ts` L76). On the hero-eager build the project route never mounts without input, so `--no-engage` would hang there. Additive `--route home|project` (default both, byte-identical): post-eager no-input parity runs `--route home` on the hero-eager build; project parity runs engaged on the gated build.
+   - **R4 (load scenario).**
+     - `fps:engine --scenario load` builds `pnpm build:eager` (both routes eager) unless `--no-build`, so the workflow and the lever block always build first and pass `--no-build`.
+     - `--names` adds the V8 sampling category to `LOAD_TRACE_CATEGORIES` only when set, and reuses the load observer's `readyMs` (already in the init script) to find the first-content-frame task.
+     - Without `--names`, the output is byte-identical.
+   - **R5 (`eager-verdict --rule s11.8`).** It reads the same per-attempt layout as `--rule s11.7` (`{gated,eager}-{home,project}-r{n}/`, `host-meta.json`). It needs home eager + gated and project gated; project eager is optional and informational. The default and `--rule s11.7` outputs stay byte-identical (golden tests).
+   - **R6 (hero probe on the gated build only).** `site:probe --group hero` asserts gated behaviour (not revealed at FCP, revealed after interaction). It runs on the gated build. The hero-eager build is covered by `eager:probe`.
+   - **R7 (oracle location).** The verbatim pre-slice `place.ts` used as E1a's oracle lives in `packages/xploder/test/oracles/place-s11.7.ts`. That is outside `src/` (so it is not shipped and not scanned by `no-motion-literals`) and outside every sealed manifest. The same applies to the `model.ts` oracle if E1b runs.
+   - **R8 (E1c ordering and task numbering).**
+     - `Stats` is the last child of `Scene`, so its layout effect runs after `Slabs`' instance-colour effects. That is where `compileAsync` starts.
+     - The RFC §7 sketch becomes T001–T013 (+ T013b only on "retire"). As in S11.7, a final local-state task (T010) closes the E1 group, and E2 is T011.
