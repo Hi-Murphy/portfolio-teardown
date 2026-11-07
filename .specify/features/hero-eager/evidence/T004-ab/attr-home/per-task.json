@@ -1,0 +1,133 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "http://127.0.0.1:PORT/",
+      "simulatedStartMs": 757.1472,
+      "simulatedMs": 101,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 51,
+      "tbtSharePct": 19.318181818181834,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2106.2943999999998,
+      "simulatedMs": 239,
+      "observedStartMs": 36.943,
+      "observedMs": 14.559,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.09723849372386653,
+      "tbtMs": 189,
+      "tbtSharePct": 71.59090909090915,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+      "simulatedStartMs": 2364.2943999999998,
+      "simulatedMs": 164.99999999999955,
+      "observedStartMs": 237.36,
+      "observedMs": 10.066,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.049939393939673865,
+      "tbtMs": 114.99999999999955,
+      "tbtSharePct": 43.56060606060593,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+      "simulatedStartMs": 3408.441599999999,
+      "simulatedMs": 86,
+      "observedStartMs": 206.917,
+      "observedMs": 6.085,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 16.039534883720926,
+      "tbtMs": 36,
+      "tbtSharePct": 13.63636363636365,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+      "simulatedStartMs": 3915.735999999999,
+      "simulatedMs": 238,
+      "observedStartMs": 96.068,
+      "observedMs": 14.518,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.03999999999999037,
+      "tbtMs": 188,
+      "tbtSharePct": 71.21212121212127,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "http://127.0.0.1:PORT/",
+    "route": "/",
+    "cpuMultiplier": 16.4,
+    "profileChunks": 234,
+    "simulatedTbtMs": 263.9999999999998,
+    "observedBlockingMs": 1126.1108,
+    "differenceMs": 862.1108000000002,
+    "differencePct": 326.55712121212156,
+    "pairs": [
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+        "simulatedStartMs": 2106.2943999999998,
+        "observedStartMs": 36.943,
+        "startGapMs": -2069.3513999999996,
+        "simulatedMs": 239,
+        "observedMs": 14.559,
+        "observedEquivalentMs": 238.76759999999996
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+        "simulatedStartMs": 2364.2943999999998,
+        "observedStartMs": 237.36,
+        "startGapMs": -2126.9343999999996,
+        "simulatedMs": 164.99999999999955,
+        "observedMs": 10.066,
+        "observedEquivalentMs": 165.0824
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+        "simulatedStartMs": 3408.441599999999,
+        "observedStartMs": 206.917,
+        "startGapMs": -3201.5245999999993,
+        "simulatedMs": 86,
+        "observedMs": 6.085,
+        "observedEquivalentMs": 99.794
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+        "simulatedStartMs": 3915.735999999999,
+        "observedStartMs": 96.068,
+        "startGapMs": -3819.6679999999988,
+        "simulatedMs": 238,
+        "observedMs": 14.518,
+        "observedEquivalentMs": 238.09519999999998
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "kind": "eager-verdict-s11.7",
+  "version": 1,
+  "rule": "s11.7",
+  "pass": false,
+  "verdict": "AC3 FAIL",
+  "reasons": [
+    "both routes must pass on the first two qualifying attempts"
+  ],
+  "attempts": [
+    {
+      "dir": "test/fixtures/eager-verdict-s117/s1",
+      "runnerName": "GitHub Actions 1000000783",
+      "timestampMs": 1793754000000,
+      "benchmarkIndex": {
+        "min": 2248.5,
+        "max": 2590.5,
+        "median": 2418.5
+      },
+      "qualifying": true,
+      "counted": true,
+      "routes": {
+        "home": {
+          "eager": {
+            "performance": 0.965,
+            "tbtMs": 209.25000000000023,
+            "lcpMs": 909.57305,
+            "cls": 0,
+            "benchmarkIndex": 2412
+          },
+          "gated": {
+            "performance": 1,
+            "tbtMs": 82.75000000000011,
+            "lcpMs": 907.5522000000001,
+            "cls": 0,
+            "benchmarkIndex": 2447
+          },
+          "ruleA": false,
+          "ruleB": false,
+          "pass": false
+        },
+        "project": {
+          "eager": {
+            "performance": 0.92,
+            "tbtMs": 350.5,
+            "lcpMs": 906.92425,
+            "cls": 0,
+            "benchmarkIndex": 2506.75
+          },
+          "gated": {
+            "performance": 0.995,
+            "tbtMs": 83,
+            "lcpMs": 906.24565,
+            "cls": 0,
+            "benchmarkIndex": 2385.5
+          },
+          "ruleA": false,
+          "ruleB": false,
+          "pass": false
+        }
+      },
+      "pass": false
+    },
+    {
+      "dir": "test/fixtures/eager-verdict-s117/s3",
+      "runnerName": "GitHub Actions 1000000784",
+      "timestampMs": 1793757600000,
+      "benchmarkIndex": {
+        "min": 2020.5,
+        "max": 2541.5,
+        "median": 2323.75
+      },
+      "qualifying": true,
+      "counted": true,
+      "routes": {
+        "home": {
+          "eager": {
+            "performance": 0.965,
+            "tbtMs": 210.00000000000023,
+            "lcpMs": 906.71105,
+            "cls": 0,
+            "benchmarkIndex": 2301.25
+          },
+          "gated": {
+            "performance": 1,
+            "tbtMs": 86,
+            "lcpMs": 907.66395,
+            "cls": 0,
+            "benchmarkIndex": 2323.75
+          },
+          "ruleA": false,
+          "ruleB": false,
+          "pass": false
+        },
+        "project": {
+          "eager": {
+            "performance": 0.91,
+            "tbtMs": 380.53215000000023,
+            "lcpMs": 907.3742,
+            "cls": 0,
+            "benchmarkIndex": 2367
+          },
+          "gated": {
+            "performance": 0.99,
+            "tbtMs": 87,
+            "lcpMs": 907.6471499999999,
+            "cls": 0,
+            "benchmarkIndex": 2186.75
+          },
+          "ruleA": false,
+          "ruleB": false,
+          "pass": false
+        }
+      },
+      "pass": false
+    }
+  ]
+}

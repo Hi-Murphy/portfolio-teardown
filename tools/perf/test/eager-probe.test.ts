@@ -9,6 +9,7 @@ import {
   eagerProbeRouteName,
   evaluateCanvasPixels,
   evaluateEagerProbe,
+  evaluateGatedProbe,
   type EagerProbeEventCounts,
   type EagerProbeRun,
   type EagerProbeSnapshot,
@@ -172,6 +173,28 @@ describe('evaluateCanvasPixels', () => {
     expect(
       evaluateCanvasPixels({ width: 2, height: 1, data: new Uint8Array(8) }, 'rgb(245, 245, 243)'),
     ).toEqual({ colours: 1, nonBlank: false });
+  });
+});
+
+describe('evaluateGatedProbe', () => {
+  test('passes only when the gated route has no canvas, ready marker, or input', () => {
+    const gated = snapshot({
+      canvasCount: 0,
+      canvasRect: null,
+      readyAtMs: null,
+      readyAttribute: false,
+      liveState: null,
+      liveOpacity: null,
+      posterOpacity: '1',
+      posterVisibility: 'visible',
+    });
+
+    expect(evaluateGatedProbe(gated).pass).toBe(true);
+    expect(
+      evaluateGatedProbe(snapshot())
+        .checks.filter((entry) => !entry.pass)
+        .map((entry) => entry.name),
+    ).toEqual(['canvas-absent', 'ready-absent', 'poster-visible']);
   });
 });
 

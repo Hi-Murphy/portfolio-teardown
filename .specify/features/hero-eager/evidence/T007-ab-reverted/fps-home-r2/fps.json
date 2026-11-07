@@ -1,0 +1,207 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "scenario": "load",
+  "route": "/",
+  "frames": "trace-only",
+  "cpuThrottle": 1,
+  "loadMs": 44.300000071525574,
+  "fps": 4.6,
+  "frameCount": 23,
+  "droppedFrames": 0,
+  "windowMs": 5000,
+  "intervalsMs": {
+    "p50": 16.621,
+    "p95": 17.484,
+    "max": 146.134
+  },
+  "rafFps": 0,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 30304,
+  "pidSource": "trace-metadata",
+  "longTasks": [],
+  "maxLongTaskMs": 0,
+  "preLoadTasks": [],
+  "droppedFrameTimes": [],
+  "mounted": true,
+  "readyMs": 201.60000002384186,
+  "verdict": {
+    "longTask50": true,
+    "droppedFramesLe2": true,
+    "gated": true
+  },
+  "names": [
+    {
+      "name": "renderer-constructor",
+      "startMs": 173.4750001220703,
+      "durMs": 5.817,
+      "topFunctions": [
+        {
+          "fn": "getContext",
+          "selfMs": 1.855,
+          "pct": 31.889290012033694
+        },
+        {
+          "fn": "getExtension",
+          "selfMs": 1.084,
+          "pct": 18.635035241533437
+        },
+        {
+          "fn": "tr",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.619,
+          "pct": 10.64122399862472
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.553,
+          "pct": 9.50661853188929
+        },
+        {
+          "fn": "U",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "selfMs": 0.266,
+          "pct": 4.57280385078219
+        },
+        {
+          "fn": "nW",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3q3_qibh-2sbv.js",
+          "selfMs": 0.254,
+          "pct": 4.366511947739385
+        },
+        {
+          "fn": "HTMLCanvasElement.getContext",
+          "selfMs": 0.227,
+          "pct": 3.9023551658930717
+        },
+        {
+          "fn": "getParameter",
+          "selfMs": 0.158,
+          "pct": 2.71617672339694
+        }
+      ],
+      "containsReady": false
+    },
+    {
+      "name": "program-compile",
+      "startMs": 191.19500012207033,
+      "durMs": 10.873,
+      "topFunctions": [
+        {
+          "fn": "getProgramInfoLog",
+          "selfMs": 2.794,
+          "pct": 25.696679849167666
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3q3_qibh-2sbv.js",
+          "selfMs": 1.37,
+          "pct": 12.600018394187437
+        },
+        {
+          "fn": "(garbage collector)",
+          "selfMs": 0.998,
+          "pct": 9.17869953094822
+        },
+        {
+          "fn": "render",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.449,
+          "pct": 4.129495079554861
+        },
+        {
+          "fn": "uf",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "selfMs": 0.33,
+          "pct": 3.0350409270670466
+        },
+        {
+          "fn": "tu",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "selfMs": 0.306,
+          "pct": 2.814310677825807
+        },
+        {
+          "fn": "getShaderInfoLog",
+          "selfMs": 0.305,
+          "pct": 2.8051135841074224
+        },
+        {
+          "fn": "tx",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.304,
+          "pct": 2.795916490389037
+        }
+      ],
+      "containsReady": true
+    },
+    {
+      "name": "first-content-frame",
+      "startMs": 191.19500012207033,
+      "durMs": 10.873,
+      "topFunctions": [
+        {
+          "fn": "getProgramInfoLog",
+          "selfMs": 2.794,
+          "pct": 25.696679849167666
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3q3_qibh-2sbv.js",
+          "selfMs": 1.37,
+          "pct": 12.600018394187437
+        },
+        {
+          "fn": "(garbage collector)",
+          "selfMs": 0.998,
+          "pct": 9.17869953094822
+        },
+        {
+          "fn": "render",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.449,
+          "pct": 4.129495079554861
+        },
+        {
+          "fn": "uf",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "selfMs": 0.33,
+          "pct": 3.0350409270670466
+        },
+        {
+          "fn": "tu",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "selfMs": 0.306,
+          "pct": 2.814310677825807
+        },
+        {
+          "fn": "getShaderInfoLog",
+          "selfMs": 0.305,
+          "pct": 2.8051135841074224
+        },
+        {
+          "fn": "tx",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.304,
+          "pct": 2.795916490389037
+        }
+      ],
+      "containsReady": true
+    }
+  ],
+  "namedExceptions": {
+    "renderer-constructor": {
+      "durMs": 5.817
+    },
+    "program-compile": {
+      "durMs": 10.873
+    },
+    "first-content-frame": {
+      "durMs": 10.873
+    }
+  },
+  "unnamedMaxMs": 7.793
+}

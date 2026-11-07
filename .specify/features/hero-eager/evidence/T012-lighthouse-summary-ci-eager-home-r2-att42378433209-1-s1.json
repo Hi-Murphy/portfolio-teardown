@@ -1,0 +1,207 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "finalUrl": "http://127.0.0.1:PORT/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.98,
+      "accessibility": null,
+      "lcpMs": 907.2216000000001,
+      "cls": 0,
+      "tbtMs": 170.3892000000002,
+      "fcpMs": 907.2216000000001,
+      "siMs": 1116.5482180174936,
+      "totalByteWeight": 436836,
+      "benchmarkIndex": 2300,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2107.2216,
+          "durMs": 139
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4068.0539999999996,
+          "durMs": 112.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 896.6108,
+          "durMs": 89
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3475.0539999999996,
+          "durMs": 62
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2293.2216,
+          "durMs": 58
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 841.6108,
+          "durMs": 55
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3578.0539999999996,
+          "durMs": 52
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 756.6108,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 0.98,
+      "accessibility": null,
+      "lcpMs": 907.2123999999999,
+      "cls": 0,
+      "tbtMs": 173.00000000000023,
+      "fcpMs": 907.2123999999999,
+      "siMs": 1121.9143767855226,
+      "totalByteWeight": 436836,
+      "benchmarkIndex": 2262.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2222.2123999999994,
+          "durMs": 137.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 4029.4248000000007,
+          "durMs": 110
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 977.6062,
+          "durMs": 87.99999999999977
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 753.6062,
+          "durMs": 69
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2422.2124000000003,
+          "durMs": 58
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 922.6062,
+          "durMs": 55
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3468.8186000000005,
+          "durMs": 54
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 869.6062,
+          "durMs": 53
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3563.8186000000005,
+          "durMs": 51
+        }
+      ]
+    },
+    {
+      "performance": 0.98,
+      "accessibility": null,
+      "lcpMs": 910.8472999999999,
+      "cls": 0,
+      "tbtMs": 180.5763500000005,
+      "fcpMs": 910.8472999999999,
+      "siMs": 1115.8338712386626,
+      "totalByteWeight": 436836,
+      "benchmarkIndex": 2359,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2151.8473,
+          "durMs": 135.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "startMs": 3968.118250000001,
+          "durMs": 112
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 869.42365,
+          "durMs": 93
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 962.42365,
+          "durMs": 87
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2398.847300000001,
+          "durMs": 66
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3396.270950000001,
+          "durMs": 56
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "startMs": 3498.270950000001,
+          "durMs": 54
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "startMs": 2348.847300000001,
+          "durMs": 50
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.98,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 907.2216000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

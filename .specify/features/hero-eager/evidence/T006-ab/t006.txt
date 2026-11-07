@@ -1,0 +1,332 @@
+ORACLE-VERBATIM
+SEALED-PLACE-TEST-UNCHANGED
+
+ RUN  v5.0.5 ./packages/xploder
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every A title block clear of the drawing across azimuths and viewports
+A 45deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 135deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 225deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 315deg imploded 360x480: labels=0 corner=bottom-right font=12px
+A 45deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 135deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 225deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 315deg imploded 360x640: labels=0 corner=bottom-right font=12px
+A 45deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 135deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 225deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 315deg imploded 390x844: labels=0 corner=bottom-right font=12px
+A 45deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 135deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 225deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 315deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+A 45deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+A 135deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+A 225deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+A 315deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every B title block clear of the drawing across azimuths and viewports
+B 45deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 135deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 225deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 315deg imploded 360x480: labels=0 corner=bottom-right font=12px
+B 45deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 135deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 225deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 315deg imploded 360x640: labels=0 corner=bottom-right font=12px
+B 45deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 135deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 225deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 315deg imploded 390x844: labels=0 corner=bottom-right font=12px
+B 45deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 135deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 225deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 315deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+B 45deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+B 135deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+B 225deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+B 315deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every C title block clear of the drawing across azimuths and viewports
+C 45deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 135deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 225deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 315deg imploded 360x480: labels=0 corner=bottom-right font=12px
+C 45deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 135deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 225deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 315deg imploded 360x640: labels=0 corner=bottom-right font=12px
+C 45deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 135deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 225deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 315deg imploded 390x844: labels=0 corner=bottom-right font=12px
+C 45deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 135deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 225deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 315deg imploded 768x1024: labels=0 corner=bottom-right font=12px
+C 45deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+C 135deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+C 225deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+C 315deg imploded 1280x720: labels=0 corner=bottom-right font=12px
+
+ ✓ test/overlay-model.test.ts > overlay visibility > shows only when every visible condition is aligned 1ms
+ ✓ test/overlay-model.test.ts > overlay visibility > hides when the target changed but the phase still matches the old state 0ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > replaces every on-drawing annotation with a title block when imploded 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps exploded annotations free of a title block 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 3ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims title block rows outside the focused layer 1ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > drops labels for a frame from another layout without throwing 1ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > skips trace vertices that are absent from the frame 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short on-part tags with a screen-reader name below the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text in columns at the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports placement hidden count when tags cannot all fit 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns the title block in content space after an offset round trip 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and no leaders at rest 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > adds one accent elbow leader and one emphasis for the highlighted part 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > clears the trace while idle 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > routes the path prefix through settled content-space anchors when paused 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > flags the signal dot only while playing 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > uses the static twin under reduced motion 0ms
+stdout | test/overlay-columns.test.ts > callout tags > uses phone tags for fixture A without tag overlaps or foreign hull hits
+A 360x640: mode=tags tags=8 hidden=0
+A 390x844: mode=tags tags=8 hidden=0
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports
+A 45deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 135deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 225deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 315deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 360x480: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 45deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 135deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 360x640: placed=14 hidden=0 fellBack=0 maxLeader=28.28px
+A 45deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 390x844: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 768x1024: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 45deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 45deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 135deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 135deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 225deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 225deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+A 315deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+A 315deg exploded 1280x720: placed=14 hidden=0 fellBack=0 maxLeader=50.91px
+
+stdout | test/overlay-columns.test.ts > callout tags > uses phone tags for fixture C without tag overlaps or foreign hull hits
+C 360x640: mode=tags tags=13 hidden=0
+C 390x844: mode=tags tags=13 hidden=0
+
+ ✓ test/overlay-columns.test.ts > callout columns > keeps every fixture A part and layer callout in aligned clear columns 14ms
+ ✓ test/overlay-columns.test.ts > callout columns > keeps every fixture C part and layer callout in aligned clear columns 6ms
+ ✓ test/overlay-columns.test.ts > callout columns > draws one accent leader from the highlighted A callout to the part anchor 2ms
+ ✓ test/overlay-columns.test.ts > callout columns > draws one accent leader from the highlighted C callout to the part anchor 1ms
+ ✓ test/overlay-columns.test.ts > callout tags > uses phone tags for fixture A without tag overlaps or foreign hull hits 4ms
+ ✓ test/overlay-columns.test.ts > callout tags > uses phone tags for fixture C without tag overlaps or foreign hull hits 4ms
+ ✓ test/overlay-columns.test.ts > callout tags > marks only the highlighted tag without adding a leader 1ms
+ ✓ test/overlay-columns.test.ts > callout tags > falls back to tags on a wide canvas when the columns do not fit 0ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports
+B 45deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 360x480: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 135deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 225deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 315deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 360x640: placed=11 hidden=0 fellBack=0 maxLeader=28.28px
+B 45deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 390x844: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 768x1024: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 45deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 45deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 135deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 135deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 225deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 225deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+B 315deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+B 315deg exploded 1280x720: placed=11 hidden=0 fellBack=0 maxLeader=50.91px
+
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports
+C 45deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=36.00px
+C 225deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 315deg imploded 360x480: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 360x480: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 135deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 225deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 315deg imploded 360x640: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 360x640: placed=20 hidden=0 fellBack=0 maxLeader=28.28px
+C 45deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 225deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 390x844: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 390x844: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 135deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 225deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 768x1024: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 768x1024: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 45deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 45deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=79.20px
+C 135deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 135deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=147.08px
+C 225deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 225deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+C 315deg imploded 1280x720: placed=0 hidden=0 fellBack=0 maxLeader=0.00px
+C 315deg exploded 1280x720: placed=20 hidden=0 fellBack=0 maxLeader=50.91px
+
+stdout | test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every title block readable across the dense canvas sweep
+dense title block sweep: cases=7344 failures=0
+
+ ✓ test/overlay-titleblock.test.ts > title block content and box > derives fixture A title, footprint and numbered layer rows 2ms
+ ✓ test/overlay-titleblock.test.ts > title block content and box > falls back to the slug when meta.name is absent 0ms
+ ✓ test/overlay-titleblock.test.ts > title block content and box > sizes the box from the widest R1 line and the total line height 0ms
+ ✓ test/overlay-titleblock.test.ts > title block corner placement > falls back to bottom-left when a component blocks bottom-right 0ms
+ ✓ test/overlay-titleblock.test.ts > title block corner placement > treats a layer top-corner silhouette as an obstacle 0ms
+ ✓ test/overlay-titleblock.test.ts > title block corner placement > uses the inset from the viewer edges for the preferred corner 0ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every A title block clear of the drawing across azimuths and viewports 3ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every B title block clear of the drawing across azimuths and viewports 2ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every C title block clear of the drawing across azimuths and viewports 1ms
+ ✓ test/overlay-titleblock.test.ts > imploded title block placement matrix > keeps every title block readable across the dense canvas sweep 148ms
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit 5ms
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > the hash helper detects a one-byte change 1ms
+ ✓ test/frozen-surface.test.ts > frozen S5 surface > matches every hash recorded from the base commit 1ms
+ × test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit 4ms
+   → src/overlay/place.ts: expected '0b3588f2b32e7781e5563bd3850fd7fd6d9e9…' to be '135d4d48195dcc46544da3b90caaed6ab473d…' // Object.is equality
+ ✓ test/frozen-surface.test.ts > frozen S7 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S8 surface > matches every hash recorded from the base commit 1ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > keeps every callout readable across the dense canvas sweep
+dense callout sweep: cases=7344 failures=0 columns=4040 tags=3304 tagsPlaced=28568
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every A label readable across azimuths, states and viewports 28ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every B label readable across azimuths, states and viewports 9ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every C label readable across azimuths, states and viewports 27ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > keeps every callout readable across the dense canvas sweep 596ms
+stdout | test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart
+zoomed 3x 360x640: placed=4 hidden=0 fellBack=0 offscreen=10 maxLeader=80.00px
+
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > is deterministic for identical input 0ms
+ ✓ test/overlay-place.test.ts > overlay label placement matrix > reports off-screen anchors separately at 3x zoom and keeps placed boxes apart 0ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > detects separated, touching, overlapping and contained rectangles 0ms
+ ✓ test/overlay-place.test.ts > separating-axis intersection > uses polygon edges as SAT axes 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > pins the placement radii 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > uses each type first preferred direction at the smallest radius 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > prefers a radius-zero tag centred on its anchor 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > orders layer, part and dimension labels regardless of input order 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > retries a part with its short text before hiding it 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > reports an off-screen anchor without counting it as hidden 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > tries alternative anchors after the primary 0ms
+ ✓ test/overlay-place.test.ts > placement priority and fallback > uses the primary anchor for the off-screen decision 0ms
+stdout | test/overlay-place-equivalence.test.ts > placement search equivalence > matches the S11.7 oracle on fixtures, seeded layouts and edge cases
+seed=85032474 cases=2030 random=2000 fixtures=24 mismatches=0
+median fixture-set old=13.515 ms new=0.461 ms
+
+ ✓ test/overlay-place-equivalence.test.ts > placement search equivalence > matches the S11.7 oracle on fixtures, seeded layouts and edge cases 75495ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit
+AssertionError: src/overlay/place.ts: expected '0b3588f2b32e7781e5563bd3850fd7fd6d9e9…' to be '135d4d48195dcc46544da3b90caaed6ab473d…' // Object.is equality
+
+Expected: "135d4d48195dcc46544da3b90caaed6ab473d2c2e129825bda1ee78e7533ab49"
+Received: "0b3588f2b32e7781e5563bd3850fd7fd6d9e956fe7bc62b976514af2bf40e00a"
+
+ ❯ test/frozen-surface.test.ts:205:47
+    203|       if (workingCopy === undefined) throw new Error(`Missing working …
+    204|
+    205|       expect(await sha256(workingCopy), path).toBe(expected);
+       |                                               ^
+    206|     }
+    207|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 62 passed (63)
+   Start at  12:43:34
+   Duration  75.64s (tests 99%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in ./packages/xploder
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+G1-LIST-OK
+FAIL XPLODER-SRC
+XPLODER-TEST-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+FAIL SURFACE-S6
+SURFACE-S7-OK
+SURFACE-S8-OK
+SEALED-TESTS-OK
+RESEAL-NOTE-OK
+BASELINE-FIRST-OK
+APP-TOUCH-OK
+DEV-ROUTES-OK
+CI-JOBS-OK
+FLAG-DEFAULT-OK
+VERSIONS-OK
+BUDGETS-OK
+GITLEAKS-OK

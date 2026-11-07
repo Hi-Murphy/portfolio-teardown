@@ -1,0 +1,14 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+stdout | test/overlay-place-equivalence.test.ts > placement search equivalence > matches the S11.7 oracle on fixtures, seeded layouts and edge cases
+seed=85032474 cases=2030 random=2000 fixtures=24 mismatches=0
+median fixture-set old=13.542 ms new=13.606 ms
+
+ ✓ test/overlay-place-equivalence.test.ts > placement search equivalence > matches the S11.7 oracle on fixtures, seeded layouts and edge cases 140688ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  12:26:44
+   Duration  140.86s (tests 100%)
+

@@ -1,0 +1,81 @@
+# T013 — parity and CLS on the final builds
+
+Worktree: `.` · head: `15885cf` · base: `0fcd243`.
+Default build: `pnpm build` (hero eager, project gated). Gated build: `pnpm build:gated-hero` (`NEXT_PUBLIC_GATED_HERO=1`).
+All browser runs are local Chromium mobile emulation; the parity baselines are the T004 eager-home and gated rest-state screenshots.
+
+## Default build — home rest parity (no engagement) vs T004 eager-home baseline
+
+```text
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+parity: PASS (4 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t013/parity-eager-home/parity-compare.json
+```
+
+Result: **0 differing pixels on 4/4 shots**, `pass: true`, `totalDifferingPixels: 0` (`parity-eager-home/parity-compare.json`).
+
+## Gated build — home + project rest parity (engaged) vs T004 gated baseline
+
+```text
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t013/parity-gated/parity-compare.json
+```
+
+Result: **0 differing pixels on 8/8 shots**, `pass: true`, `totalDifferingPixels: 0` (`parity-gated/parity-compare.json`).
+
+## CLS — Lighthouse
+
+Each row is one invocation (median of 3 internal runs); CLS is checked on every internal run.
+
+| Build | Route | Invocation | Performance | LCP median (ms) | CLS runs | Result |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| default (hero eager) | `/` | lh-default-home-r1 | 1 | 904.3651 | 0, 0, 0 | PASS |
+| default (hero eager) | `/` | lh-default-home-r2 | 1 | 905.4670 | 0, 0, 0 | PASS |
+| gated-hero | `/` | lh-gated-home-r1 | 0.99 | 2153.1573 | 0, 0, 0 | PASS |
+| gated-hero | `/` | lh-gated-home-r2 | 1 | 903.4005 | 0, 0, 0 | PASS |
+| gated-hero | `/projects/websocket-inspector` | lh-gated-project-r1 | 0.99 | 2152.2399 | 0, 0, 0 | PASS |
+| gated-hero | `/projects/websocket-inspector` | lh-gated-project-r2 | 1 | 903.1013 | 0, 0, 0 | PASS |
+
+Result: **CLS 0 on every internal run, all six invocations** (default home, gated home, gated project).
+
+## CLS — load scenario
+
+The named `fps:engine --scenario load` report does not carry a CLS field (the harness contract is unchanged); it measures the load window, long tasks and dropped frames. The load-scenario CLS checks use the zero-interaction startup run on the eager default and the site-probe `cls` group (hydration-delayed load, both builds, 3 routes × 2 viewports × 2 palettes).
+
+### `pnpm fps:engine --scenario load --route / --frames trace-only --cpu 1 --names` (default build, 2 runs)
+
+| Run | readyMs | dropped frames | long tasks | constructor | program-compile | first-content-frame | unnamedMaxMs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| r1 | 201.1 | 0 | 0 | 6.021 | 10.844 | 10.844 | 8.240 |
+| r2 | 205.8 | 0 | 0 | 5.746 | 10.680 | 10.680 | 7.947 |
+
+Both runs: `verdict: pass`, `droppedFrames: 0`, `longTasks: []`, `fps.json` no CLS field.
+
+### Zero-interaction load CLS — default build (`perf:startup --engage none`, 2 runs)
+
+| Run | raw CLS | filtered CLS | layout-shift entries |
+| --- | ---: | ---: | ---: |
+| r1 | 0 | 0 | 0 |
+| r2 | 0 | 0 | 0 |
+
+### Site-probe load CLS group (`--group cls`)
+
+| Build | Cells | Total CLS | Result |
+| --- | ---: | --- | --- |
+| default (hero eager) | 12 | max 0.000000 | PASS (all 0) |
+| gated-hero | 12 | max 0.000000 | PASS (all 0) |
+
+Result: **load-scenario CLS 0** on the eager default (startup none, 2/2) and on both builds across all 12 site-probe cells each.

@@ -1,0 +1,127 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "finalUrl": "http://127.0.0.1:PORT/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 905.4763,
+      "cls": 0,
+      "tbtMs": 47.00000000000023,
+      "fcpMs": 905.4763,
+      "siMs": 905.4763,
+      "totalByteWeight": 197410,
+      "benchmarkIndex": 2467,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2208.4763,
+          "durMs": 128.00000000000045
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 752.73815,
+          "durMs": 62
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 856.73815,
+          "durMs": 55
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 908.1641999999999,
+      "cls": 0,
+      "tbtMs": 51.5,
+      "fcpMs": 908.1641999999999,
+      "siMs": 908.1641999999999,
+      "totalByteWeight": 197449,
+      "benchmarkIndex": 2489.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2199.1642,
+          "durMs": 127
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 754.0821,
+          "durMs": 51
+        },
+        {
+          "url": "http://127.0.0.1:PORT/",
+          "startMs": 846.0821,
+          "durMs": 51
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 908.6864,
+      "cls": 0,
+      "tbtMs": 73.5,
+      "fcpMs": 908.6864,
+      "siMs": 908.6864,
+      "totalByteWeight": 197449,
+      "benchmarkIndex": 2473,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2236.6864,
+          "durMs": 157
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 754.3432,
+          "durMs": 67
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 821.3432,
+          "durMs": 61
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 908.1641999999999,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

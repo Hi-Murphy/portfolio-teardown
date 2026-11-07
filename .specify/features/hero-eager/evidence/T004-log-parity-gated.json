@@ -1,0 +1,103 @@
+{
+  "kind": "parity-baseline",
+  "version": 1,
+  "chromium": "156.0.8078.4",
+  "shots": [
+    {
+      "id": "home-mobile-light",
+      "route": "home",
+      "path": "/",
+      "viewport": "mobile",
+      "colorScheme": "light",
+      "file": "T004-screenshot-gated-home-mobile-light.png",
+      "width": 721,
+      "height": 1440,
+      "pngSha256": "5628b4d4addcb715ceade99d70b64d4ebb877b596a5fe9403a7fa890c32e0eeb",
+      "rgbaSha256": "61cd082b48bc1ecd667eb259c857f8f0ef88162f6bf13f5f6796a6f1d13a2e90"
+    },
+    {
+      "id": "home-mobile-dark",
+      "route": "home",
+      "path": "/",
+      "viewport": "mobile",
+      "colorScheme": "dark",
+      "file": "T004-screenshot-gated-home-mobile-dark.png",
+      "width": 721,
+      "height": 1440,
+      "pngSha256": "cb4e76e59ffd414147ca25fc76344a0ebe184927f20a574bac4d4e14df69ac33",
+      "rgbaSha256": "30aef541347c100dd818bcd2a0be3aa42f172abf05612d0995ecf38993fd7cda"
+    },
+    {
+      "id": "home-desktop-light",
+      "route": "home",
+      "path": "/",
+      "viewport": "desktop",
+      "colorScheme": "light",
+      "file": "T004-screenshot-gated-home-desktop-light.png",
+      "width": 1350,
+      "height": 940,
+      "pngSha256": "7e2920d4f8135999cf625106bb5ae73dec31e4d0a2748da637f1ce007b8f3836",
+      "rgbaSha256": "6d6cc09f0ea03fcebd5d4e2aae78dd965c45fca80903dc32a104b0b75d7f119b"
+    },
+    {
+      "id": "home-desktop-dark",
+      "route": "home",
+      "path": "/",
+      "viewport": "desktop",
+      "colorScheme": "dark",
+      "file": "T004-screenshot-gated-home-desktop-dark.png",
+      "width": 1350,
+      "height": 940,
+      "pngSha256": "38a49b1e084143804deac071747762239c30c734790a62079ea45c47db3d75eb",
+      "rgbaSha256": "5f9b3f8bf50d96de75288c23a77d3ced0c2c51fd9ee028cbe22919dd61fca8d3"
+    },
+    {
+      "id": "project-mobile-light",
+      "route": "project",
+      "path": "/projects/websocket-inspector",
+      "viewport": "mobile",
+      "colorScheme": "light",
+      "file": "T004-screenshot-gated-project-mobile-light.png",
+      "width": 721,
+      "height": 1440,
+      "pngSha256": "81abceb603c0cd6a28048023dc3ca9108cf14d2e28e3c982b1eb1521d30a0234",
+      "rgbaSha256": "b3140272a491566a140a003b2376aa1f7d8030a926a103d6e968a07e5ac64c1d"
+    },
+    {
+      "id": "project-mobile-dark",
+      "route": "project",
+      "path": "/projects/websocket-inspector",
+      "viewport": "mobile",
+      "colorScheme": "dark",
+      "file": "T004-screenshot-gated-project-mobile-dark.png",
+      "width": 721,
+      "height": 1440,
+      "pngSha256": "e0035e1545a7d115c2fc95bbe6d5a20c528ac3a0652415d4f57d4dc8a1a0bfa0",
+      "rgbaSha256": "7261cfd3ee0c626a9b6864f4a55a30867b9225eaed2cad29aeeee2a2b502b191"
+    },
+    {
+      "id": "project-desktop-light",
+      "route": "project",
+      "path": "/projects/websocket-inspector",
+      "viewport": "desktop",
+      "colorScheme": "light",
+      "file": "T004-screenshot-gated-project-desktop-light.png",
+      "width": 1350,
+      "height": 940,
+      "pngSha256": "fe7d4c42810eaa5237165bdb0e929b7f0f8c3938c96920634db41ae39bd392b7",
+      "rgbaSha256": "196f9fefb7799539b8f667d439c34f8ab40c328ee4fe217704f2c4eaa56592d8"
+    },
+    {
+      "id": "project-desktop-dark",
+      "route": "project",
+      "path": "/projects/websocket-inspector",
+      "viewport": "desktop",
+      "colorScheme": "dark",
+      "file": "T004-screenshot-gated-project-desktop-dark.png",
+      "width": 1350,
+      "height": 940,
+      "pngSha256": "8a72a5ac6e48d4f8c4f3cef092213a2486a58e887ff36ad14d6d3564a3cf83fe",
+      "rgbaSha256": "c0f0dc1f805849e17f7f468f4eb5a107a6fc04e45c7b57d9bd8ce5876218670f"
+    }
+  ]
+}

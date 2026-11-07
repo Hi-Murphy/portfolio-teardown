@@ -1,0 +1,18 @@
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 4 --out <local-path>/s118-checks/t004/fps-home-cpu4-r2
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 4 --out <local-path>/s118-checks/t004/fps-home-cpu4-r2
+eager: http://127.0.0.1:PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 4x
+loadMs: 136.4
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 1
+mounted: true
+readyMs: 476.3
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t004/fps-home-cpu4-r2/fps.json

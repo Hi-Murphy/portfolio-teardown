@@ -1,0 +1,58 @@
+# T001 guard log
+
+Command: `bash .specify/features/hero-eager/guards.sh`, then the seven negative-control edits from tasks.md.
+Result: all 21 guards pass; each uncommitted negative control makes the expected guard(s) fail.
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+G1-LIST-OK
+XPLODER-SRC-OK
+XPLODER-TEST-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+SEALED-TESTS-OK
+RESEAL-NOTE-OK
+BASELINE-FIRST-OK
+APP-TOUCH-OK
+DEV-ROUTES-OK
+CI-JOBS-OK
+FLAG-DEFAULT-OK
+VERSIONS-OK
+BUDGETS-OK
+GITLEAKS-OK
+neg packages/xploder/src/overlay/place.ts: FAIL XPLODER-SRC FAIL SURFACE-S6
+neg packages/xploder/src/index.ts: FAIL XPLODER-SRC FAIL SURFACE-S2
+neg packages/xploder/test/overlay-place.test.ts: FAIL XPLODER-TEST FAIL SURFACE-S6 FAIL SEALED-TESTS
+neg apps/web/components/workbench/workbench-loader.tsx: FAIL APP-TOUCH
+neg .github/workflows/eager-load.yml: FAIL CI-JOBS
+neg tools/perf/src/budgets.ts: FAIL BUDGETS
+neg .specify/features/hero-eager/g1-approved.txt: FAIL G1-LIST
+
+The eighth negative control (BASELINE-FIRST on a throwaway committed branch) is skipped here because this executor may not commit. It is left to the orchestrator during review.
+
+# Final validation tail
+
+$ pnpm typecheck
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+$ pnpm lint
+packages/xploder lint: Done
+tools/perf lint: Done
+apps/web lint: Done
+All matched files use Prettier code style!
+$ pnpm test
+tools/perf test:  Test Files  30 passed (30); Tests  236 passed (236)
+packages/xploder test:  Test Files  61 passed (61); Tests  624 passed (624)
+apps/web test:  Test Files  34 passed | 1 skipped (35); Tests  189 passed | 2 skipped (191)
+T001-OK
+
+## Orchestrator review (T001)
+
+- Tightened `xploder_test_ok`: the `frozen-surface*.paths` lists are no longer an allowed change (plan.md "Guards" allows only generators, manifests and `frozen-surface.test.ts`). Control: a one-byte edit to `frozen-surface.s6.paths` → `FAIL XPLODER-TEST`, `FAIL SURFACE-S6`.
+- `bundle-scopes.mjs --budget s11.8`: total **raw** is reported as INFO (AC4 budgets total JS gzip; plan.md "Bytes"). The S11.7 `--budget` mode is unchanged (total raw still gated at 1 %).
+- 8th control (committed, throwaway branch `t001-neg`): a one-byte commit to the allowlisted `apps/web/components/hero/hero-live.tsx` with no T004 anchor → `FAIL BASELINE-FIRST` (only failing guard); branch deleted.

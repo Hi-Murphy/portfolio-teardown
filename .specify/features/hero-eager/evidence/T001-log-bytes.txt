@@ -1,0 +1,26 @@
+# T001 pre-slice byte baseline
+
+Product base: 0fcd243 (S11.7 final).
+Local production builds: gated (`pnpm build`) and eager (`pnpm build:eager`).
+Byte method: Node zlib level 9 per emitted file, summed by scope.
+
+PRODUCT-IS-BASE
+Bundle scopes: .specify/features/hero-eager/evidence/T001-log-bundle-gated.json + /tmp/s118-checks/base-gated
+Scope             Files         Raw        Gzip
+home initial          9      583374      180622
+project initial       9      581945      180096
+total                22     1582126      459309
+non-initial 3D       12      996358      277558
+BUDGET-SELF-OK gated
+Bundle scopes: .specify/features/hero-eager/evidence/T001-log-bundle-eager.json + /tmp/s118-checks/base-eager
+Scope             Files         Raw        Gzip
+home initial          9      582949      180481
+project initial       9      583043      180482
+total                22     1581749      459158
+non-initial 3D       12      995308      277162
+BUDGET-SELF-OK eager
+BYTES-MATCH-S117-FINAL
+
+# s11.8 budgets in bytes (A vs A self-check passed for both builds)
+gated: total gzip 459309 B; 0.5% total-gzip budget 2296 B; initial gzip budget 2000 B per route
+eager: total gzip 459158 B; 0.5% total-gzip budget 2295 B; initial gzip budget 2000 B per route

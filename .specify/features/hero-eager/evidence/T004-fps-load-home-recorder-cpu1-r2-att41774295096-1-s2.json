@@ -1,0 +1,249 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "scenario": "load",
+  "route": "/",
+  "frames": "recorder",
+  "cpuThrottle": 1,
+  "loadMs": 200.40000000002328,
+  "fps": 4.260255936811884,
+  "frameCount": 22,
+  "droppedFrames": 3,
+  "windowMs": 5000,
+  "intervalsMs": {
+    "p50": 16.667,
+    "p95": 18.307,
+    "max": 62.586
+  },
+  "rafFps": 58.80117602352046,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 8248,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 116.33,
+      "dur": 79.895
+    }
+  ],
+  "maxLongTaskMs": 79.895,
+  "preLoadTasks": [],
+  "droppedFrameTimes": [
+    487.881,
+    504.547,
+    521.213
+  ],
+  "mounted": true,
+  "readyMs": 680.2999999999884,
+  "verdict": {
+    "longTask50": false,
+    "droppedFramesLe2": false,
+    "gated": false
+  },
+  "exclusionNote": "the harness rAF recorder adds a frame demand on every vsync; this count is excluded from AC2.",
+  "names": [
+    {
+      "name": "unnamed",
+      "startMs": 316.73,
+      "durMs": 79.895,
+      "topFunctions": [
+        {
+          "fn": "(program)",
+          "selfMs": 78.729,
+          "pct": 98.5405845171788
+        },
+        {
+          "fn": "(anonymous)",
+          "selfMs": 0.393,
+          "pct": 0.4918956129920521
+        },
+        {
+          "fn": "evaluate",
+          "selfMs": 0.337,
+          "pct": 0.4218036172476375
+        },
+        {
+          "fn": "isError",
+          "selfMs": 0.134,
+          "pct": 0.1677201326741348
+        },
+        {
+          "fn": "mark",
+          "selfMs": 0.069,
+          "pct": 0.08636335189936792
+        }
+      ],
+      "containsReady": false
+    },
+    {
+      "name": "renderer-constructor",
+      "startMs": 596.983,
+      "durMs": 15.263,
+      "topFunctions": [
+        {
+          "fn": "getContext",
+          "selfMs": 4.506,
+          "pct": 29.522374369390032
+        },
+        {
+          "fn": "getExtension",
+          "selfMs": 3.173,
+          "pct": 20.78883574657669
+        },
+        {
+          "fn": "tr",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 2.48,
+          "pct": 16.248443949420167
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 2.195,
+          "pct": 14.381183253619865
+        },
+        {
+          "fn": "nq",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vwpvuyn90046.js",
+          "selfMs": 0.969,
+          "pct": 6.348686365721025
+        },
+        {
+          "fn": "getParameter",
+          "selfMs": 0.552,
+          "pct": 3.6165891371290044
+        },
+        {
+          "fn": "U",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+          "selfMs": 0.503,
+          "pct": 3.295551333289655
+        },
+        {
+          "fn": "uN",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+          "selfMs": 0.285,
+          "pct": 1.8672606958003015
+        }
+      ],
+      "containsReady": false
+    },
+    {
+      "name": "program-compile",
+      "startMs": 648.309,
+      "durMs": 33.254,
+      "topFunctions": [
+        {
+          "fn": "getProgramInfoLog",
+          "selfMs": 7.876,
+          "pct": 23.684368797738617
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vwpvuyn90046.js",
+          "selfMs": 4.85,
+          "pct": 14.584711613640463
+        },
+        {
+          "fn": "(garbage collector)",
+          "selfMs": 3.065,
+          "pct": 9.216936308414025
+        },
+        {
+          "fn": "getShaderInfoLog",
+          "selfMs": 1.216,
+          "pct": 3.6567029530282067
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 1.214,
+          "pct": 3.6506886389607267
+        },
+        {
+          "fn": "(program)",
+          "selfMs": 0.924,
+          "pct": 2.778613099176039
+        },
+        {
+          "fn": "tf",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.767,
+          "pct": 2.3064894448788116
+        },
+        {
+          "fn": "tx",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.738,
+          "pct": 2.219281890900343
+        }
+      ],
+      "containsReady": true
+    },
+    {
+      "name": "first-content-frame",
+      "startMs": 648.309,
+      "durMs": 33.254,
+      "topFunctions": [
+        {
+          "fn": "getProgramInfoLog",
+          "selfMs": 7.876,
+          "pct": 23.684368797738617
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vwpvuyn90046.js",
+          "selfMs": 4.85,
+          "pct": 14.584711613640463
+        },
+        {
+          "fn": "(garbage collector)",
+          "selfMs": 3.065,
+          "pct": 9.216936308414025
+        },
+        {
+          "fn": "getShaderInfoLog",
+          "selfMs": 1.216,
+          "pct": 3.6567029530282067
+        },
+        {
+          "fn": "(anonymous)",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 1.214,
+          "pct": 3.6506886389607267
+        },
+        {
+          "fn": "(program)",
+          "selfMs": 0.924,
+          "pct": 2.778613099176039
+        },
+        {
+          "fn": "tf",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.767,
+          "pct": 2.3064894448788116
+        },
+        {
+          "fn": "tx",
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+          "selfMs": 0.738,
+          "pct": 2.219281890900343
+        }
+      ],
+      "containsReady": true
+    }
+  ],
+  "namedExceptions": {
+    "renderer-constructor": {
+      "durMs": 15.263
+    },
+    "program-compile": {
+      "durMs": 33.254
+    },
+    "first-content-frame": {
+      "durMs": 33.254
+    }
+  },
+  "unnamedMaxMs": 79.895
+}

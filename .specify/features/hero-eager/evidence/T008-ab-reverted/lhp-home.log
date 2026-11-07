@@ -1,0 +1,8 @@
+$ pnpm perf:lighthouse http://localhost:PORT/ --profile --cpu-multiplier 16.4 --out <local-path>/s118-checks/t008/lhp-home
+$ node tools/perf/src/cli/lighthouse-gate.ts http://localhost:PORT/ --profile --cpu-multiplier 16.4 --out <local-path>/s118-checks/t008/lhp-home
+performance: 0.97 >= 0.95 (median) pass
+lcp: 906.9413999999999 < 2500 (median) pass
+cls: 0 === 0 (every-run) pass
+trace: <local-path>/s118-checks/t008/lhp-home/lighthouse-run-0.trace.json.gz
+summary: <local-path>/s118-checks/t008/lhp-home/lighthouse-summary.json
+profiled: informational run; excluded from gate medians
