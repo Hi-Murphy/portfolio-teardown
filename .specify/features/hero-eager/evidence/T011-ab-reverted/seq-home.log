@@ -1,0 +1,13 @@
+$ pnpm perf:startup --serve apps/web/out --route / --engage none --attribute --runs 2 --out <local-path>/s118-checks/t011/seq-home
+$ node tools/perf/src/cli/startup-profile.ts --serve apps/web/out --route / --engage none --attribute --runs 2 --out <local-path>/s118-checks/t011/seq-home
+run 1/2: home none attributed
+phases: P0=71.2 P1=85.3 P2=67.9 P3=58.2 P4=94.2 P5=65.8 P6=0.0 P7=3.6 P8=3.3 P9=3.3
+cost: 364.9 ms; attributed: 175.3 ms; other: 189.5 ms; blocking: 0.0 ms
+glCounts: createProgram=1 linkProgram=1
+startup: <local-path>/s118-checks/t011/seq-home/startup-home-none-attributed-r1.json
+run 2/2: home none attributed
+phases: P0=74.3 P1=85.2 P2=67.4 P3=56.4 P4=92.7 P5=65.0 P6=0.0 P7=2.1 P8=2.9 P9=3.5
+cost: 361.5 ms; attributed: 172.0 ms; other: 189.6 ms; blocking: 0.0 ms
+glCounts: createProgram=1 linkProgram=1
+startup: <local-path>/s118-checks/t011/seq-home/startup-home-none-attributed-r2.json
+summary: <local-path>/s118-checks/t011/seq-home/summary.json (mainThreadCostMs=363.2, spreadFlagged=true)

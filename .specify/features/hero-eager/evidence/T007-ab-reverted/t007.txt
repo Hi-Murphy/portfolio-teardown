@@ -1,0 +1,68 @@
+MODEL-ORACLE-VERBATIM
+SEALED-MODEL-TEST-UNCHANGED
+
+ RUN  v5.0.5 ./packages/xploder
+
+ ✓ test/overlay-model.test.ts > overlay visibility > shows only when every visible condition is aligned 1ms
+ ✓ test/overlay-model.test.ts > overlay visibility > hides when the target changed but the phase still matches the old state 0ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > replaces every on-drawing annotation with a title block when imploded 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps exploded annotations free of a title block 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims title block rows outside the focused layer 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > drops labels for a frame from another layout without throwing 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > skips trace vertices that are absent from the frame 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short on-part tags with a screen-reader name below the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text in columns at the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports placement hidden count when tags cannot all fit 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns the title block in content space after an offset round trip 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and no leaders at rest 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > adds one accent elbow leader and one emphasis for the highlighted part 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > clears the trace while idle 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > routes the path prefix through settled content-space anchors when paused 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > flags the signal dot only while playing 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > uses the static twin under reduced motion 0ms
+stdout | test/overlay-model-equivalence.test.ts > overlay base model equivalence > matches the S11.7 oracle on fixture projects at mobile and desktop viewports
+cases=16 fixtures=16 mismatches=0
+median fixture-set old=7.640 ms new=0.725 ms
+
+ ✓ test/overlay-model-equivalence.test.ts > overlay base model equivalence > matches the S11.7 oracle on fixture projects at mobile and desktop viewports 70ms
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit 3ms
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > the hash helper detects a one-byte change 0ms
+ ✓ test/frozen-surface.test.ts > frozen S5 surface > matches every hash recorded from the base commit 1ms
+ × test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit 3ms
+   → src/overlay/model.ts: expected '91a75d2727810529813960aaf01d0ab234905…' to be '63427b9eed60ea9fc07eae2b55214be66bc37…' // Object.is equality
+ ✓ test/frozen-surface.test.ts > frozen S7 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S8 surface > matches every hash recorded from the base commit 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit
+AssertionError: src/overlay/model.ts: expected '91a75d2727810529813960aaf01d0ab234905…' to be '63427b9eed60ea9fc07eae2b55214be66bc37…' // Object.is equality
+
+Expected: "63427b9eed60ea9fc07eae2b55214be66bc37bbeb736d3a6cff4f1e767d77117"
+Received: "91a75d2727810529813960aaf01d0ab234905af7013b63ec1d3316dafffbc71d"
+
+ ❯ test/frozen-surface.test.ts:205:47
+    203|       if (workingCopy === undefined) throw new Error(`Missing working …
+    204|
+    205|       expect(await sha256(workingCopy), path).toBe(expected);
+       |                                               ^
+    206|     }
+    207|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 28 passed (29)
+   Start at  13:03:39
+   Duration  287ms (transform 55%, import 24%, tests 20%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in ./packages/xploder
+

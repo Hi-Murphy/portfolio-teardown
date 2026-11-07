@@ -1,0 +1,118 @@
+{
+  "kind": "eager-probe",
+  "version": 1,
+  "route": "/projects/websocket-inspector",
+  "routeName": "project",
+  "motion": "normal",
+  "expect": "gated",
+  "run": 2,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "chromium": "156.0.8078.4",
+  "profile": "mobile",
+  "reducedMotion": "no-preference",
+  "deadlineMs": 5000,
+  "restWindowMs": null,
+  "reducedSettleMs": null,
+  "atDeadline": {
+    "observedAtMs": 5058.299999952316,
+    "timeOriginMs": 1793768271584.8,
+    "loadAtMs": 48.699999928474426,
+    "readyAtMs": 218.89999997615814,
+    "liveStates": [
+      {
+        "value": "loading",
+        "t": 121.29999995231628
+      },
+      {
+        "value": "revealed",
+        "t": 229
+      }
+    ],
+    "eventCounts": {
+      "pointerdown": 0,
+      "pointermove": 0,
+      "pointerup": 0,
+      "mousedown": 0,
+      "mousemove": 0,
+      "mouseup": 0,
+      "click": 0,
+      "touchstart": 0,
+      "touchmove": 0,
+      "wheel": 0,
+      "scroll": 0,
+      "keydown": 0,
+      "focusin": 0
+    },
+    "trustedEvents": 0,
+    "canvasCount": 1,
+    "canvasRect": {
+      "x": 21,
+      "y": 384.5,
+      "width": 370,
+      "height": 574.09375
+    },
+    "liveState": "revealed",
+    "liveOpacity": "1",
+    "posterPresent": true,
+    "posterOpacity": "0",
+    "posterVisibility": "hidden",
+    "tour": "idle",
+    "tweening": "false",
+    "backgroundRgb": "rgb(246, 243, 234)",
+    "readyAttribute": true
+  },
+  "afterRest": null,
+  "screenshot": {
+    "file": "eager-probe-project-normal-r2.deadline.png",
+    "width": 648,
+    "height": 1006,
+    "colours": 6019,
+    "nonBlank": true
+  },
+  "threeRequested": {
+    "requested": true,
+    "chunks": [
+      "/_next/static/chunks/1d5kkip1hlg-o.js",
+      "/_next/static/chunks/3vnmkhfgdnq2d.js"
+    ]
+  },
+  "verdict": {
+    "pass": false,
+    "checks": [
+      {
+        "name": "canvas-absent",
+        "pass": false,
+        "expected": 0,
+        "actual": 1
+      },
+      {
+        "name": "ready-absent",
+        "pass": false,
+        "expected": null,
+        "actual": {
+          "readyAtMs": 218.89999997615814,
+          "readyAttribute": true
+        }
+      },
+      {
+        "name": "poster-visible",
+        "pass": false,
+        "expected": {
+          "opacity": "1",
+          "visibility": "visible"
+        },
+        "actual": {
+          "opacity": "0",
+          "visibility": "hidden"
+        }
+      },
+      {
+        "name": "no-trusted-events",
+        "pass": true,
+        "expected": 0,
+        "actual": 0
+      }
+    ]
+  },
+  "pass": false
+}

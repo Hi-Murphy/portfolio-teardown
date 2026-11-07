@@ -20,6 +20,28 @@ export interface CpuProfile {
   timeDeltas?: number[];
 }
 
+export interface CpuProfileTraceData {
+  startTime?: number;
+  cpuProfile?: Partial<CpuProfile>;
+  timeDeltas?: number[];
+}
+
+export interface CpuProfileTraceEvent {
+  name?: string;
+  id?: string;
+  pid?: number;
+  ts?: number;
+  args?: {
+    data?: CpuProfileTraceData;
+  };
+}
+
+export interface CpuProfileSample {
+  node: CpuProfileNode;
+  startUs: number;
+  endUs: number;
+}
+
 export interface CpuProfileTaskWindow {
   /** Trace timestamp for the task start, in microseconds. */
   startUs: number;
@@ -60,12 +82,6 @@ export interface CpuProfileContext {
   traceTimeOriginUs: number;
 }
 
-interface ProfileSample {
-  node: CpuProfileNode;
-  startUs: number;
-  endUs: number;
-}
-
 interface SelfTime {
   selfUs: number;
 }
@@ -85,11 +101,11 @@ function chunkName(url: string): string | null {
   }
 }
 
-function profileSamples(profile: CpuProfile): ProfileSample[] {
+function profileSamples(profile: CpuProfile): CpuProfileSample[] {
   const samples = profile.samples ?? [];
   const deltas = profile.timeDeltas ?? [];
   const nodes = new Map(profile.nodes.map((node) => [node.id, node]));
-  const result: ProfileSample[] = [];
+  const result: CpuProfileSample[] = [];
   let timestampUs = profile.startTime;
 
   for (let index = 0; index < samples.length; index += 1) {
@@ -107,6 +123,82 @@ function profileSamples(profile: CpuProfile): ProfileSample[] {
   }
 
   return result;
+}
+
+function traceProcessId(trace: readonly CpuProfileTraceEvent[]): number | null {
+  for (let index = trace.length - 1; index >= 0; index -= 1) {
+    const event = trace[index];
+    if (event?.name !== 'TracingStartedInBrowser') continue;
+    const data = event.args?.data as
+      | {
+          frames?: Array<{
+            processId?: unknown;
+            isMainFrame?: unknown;
+            isOutermostMainFrame?: unknown;
+          }>;
+        }
+      | undefined;
+    const frames = data?.frames;
+    if (!Array.isArray(frames)) continue;
+    const frame =
+      frames.find((entry) => entry.isMainFrame === true || entry.isOutermostMainFrame === true) ??
+      (frames.length === 1 ? frames[0] : undefined);
+    if (typeof frame?.processId === 'number' && Number.isFinite(frame.processId)) {
+      return frame.processId;
+    }
+  }
+  return null;
+}
+
+function mergeTraceProfiles(trace: readonly CpuProfileTraceEvent[]): CpuProfile[] {
+  const processId = traceProcessId(trace);
+  const profiles = new Map<string, CpuProfile>();
+
+  for (const event of trace) {
+    if (event.name !== 'Profile' && event.name !== 'ProfileChunk') continue;
+    if (processId !== null && event.pid !== processId) continue;
+    if (event.id === undefined) continue;
+
+    const data = event.args?.data;
+    const cpuProfile = data?.cpuProfile;
+    const current = profiles.get(event.id) ?? {
+      nodes: [],
+      startTime: data?.startTime ?? cpuProfile?.startTime ?? event.ts ?? 0,
+      endTime: 0,
+      samples: [],
+      timeDeltas: [],
+    };
+    current.nodes.push(...(cpuProfile?.nodes ?? []));
+    current.samples?.push(...(cpuProfile?.samples ?? []));
+    current.timeDeltas?.push(...(data?.timeDeltas ?? cpuProfile?.timeDeltas ?? []));
+    profiles.set(event.id, current);
+  }
+
+  for (const profile of profiles.values()) {
+    profile.endTime =
+      profile.startTime +
+      (profile.timeDeltas ?? []).reduce(
+        (total, delta) => total + (finite(delta) && delta > 0 ? delta : 0),
+        0,
+      );
+  }
+  return [...profiles.values()].sort((left, right) => left.startTime - right.startTime);
+}
+
+export function samplesInWindow(
+  trace: readonly CpuProfileTraceEvent[],
+  startUs: number,
+  endUs: number,
+): CpuProfileSample[] {
+  const start = Math.min(startUs, endUs);
+  const end = Math.max(startUs, endUs);
+  return mergeTraceProfiles(trace)
+    .flatMap(profileSamples)
+    .filter((sample) => Math.min(sample.endUs, end) > Math.max(sample.startUs, start))
+    .sort(
+      (left, right) =>
+        left.startUs - right.startUs || left.endUs - right.endUs || left.node.id - right.node.id,
+    );
 }
 
 function addSelfTime(values: Map<string, SelfTime>, key: string, selfUs: number): void {

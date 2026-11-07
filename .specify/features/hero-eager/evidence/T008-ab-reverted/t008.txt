@@ -1,0 +1,91 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+(node:33911) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:33912) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/stats-compile.test.tsx > Stats compile gate > does not render or report before compileAsync settles, then invalidates once
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/stats-compile.test.tsx > Stats compile gate > does not render or report before compileAsync settles, then invalidates once
+THREE.WebGLRenderer: WEBGL_lose_context extension not supported.
+
+stderr | test/stats-compile.test.tsx > Stats compile gate > a rejected compileAsync still renders and invalidates once
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/stats-compile.test.tsx > Stats compile gate > does not render or report before compileAsync settles, then invalidates once 11ms
+ ✓ test/stats-compile.test.tsx > Stats compile gate > a rejected compileAsync still renders and invalidates once 1ms
+stderr | test/scene.test.tsx > Scene > renders fixture A with two instanced meshes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > renders fixture B with two instanced meshes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ × test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit 6ms
+   → src/react/scene/Stats.tsx: expected 'cd5290ed572a0b882b5f86dac5cfe5ebc21bf…' to be '78f1d7b522a7f6066daaf35b0bfc599bae22d…' // Object.is equality
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > the hash helper detects a one-byte change 0ms
+ ✓ test/frozen-surface.test.ts > frozen S5 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S7 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S8 surface > matches every hash recorded from the base commit 1ms
+stderr | test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > uses the light palette material colors
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/scene.test.tsx > Scene > uses the dark palette material colors
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/scene.test.tsx > Scene > renders fixture A with two instanced meshes 15ms
+ ✓ test/scene.test.tsx > Scene > renders fixture B with two instanced meshes 2ms
+ ✓ test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts 7ms
+ ✓ test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth 2ms
+ ✓ test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock 3ms
+ ✓ test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion 5ms
+ ✓ test/scene.test.tsx > Scene > uses the light palette material colors 1ms
+ ✓ test/scene.test.tsx > Scene > uses the dark palette material colors 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit
+AssertionError: src/react/scene/Stats.tsx: expected 'cd5290ed572a0b882b5f86dac5cfe5ebc21bf…' to be '78f1d7b522a7f6066daaf35b0bfc599bae22d…' // Object.is equality
+
+Expected: "78f1d7b522a7f6066daaf35b0bfc599bae22d0a0a61ed96ab04310281f873d8f"
+Received: "cd5290ed572a0b882b5f86dac5cfe5ebc21bf0c1dca4882ca9a8695490e7b891"
+
+ ❯ test/frozen-surface.test.ts:141:47
+    139|       if (workingCopy === undefined) throw new Error(`Missing working …
+    140|
+    141|       expect(await sha256(workingCopy), path).toBe(expected);
+       |                                               ^
+    142|     }
+    143|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 15 passed (16)
+   Start at  13:11:00
+   Duration  183ms (import 45%, transform 34%, tests 20%, worker 2%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in ./packages/xploder
+

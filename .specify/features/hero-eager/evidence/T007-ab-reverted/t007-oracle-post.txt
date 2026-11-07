@@ -1,0 +1,36 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+ ✓ test/overlay-model.test.ts > overlay visibility > shows only when every visible condition is aligned 1ms
+ ✓ test/overlay-model.test.ts > overlay visibility > hides when the target changed but the phase still matches the old state 0ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > replaces every on-drawing annotation with a title block when imploded 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps exploded annotations free of a title block 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims title block rows outside the focused layer 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > drops labels for a frame from another layout without throwing 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > skips trace vertices that are absent from the frame 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short on-part tags with a screen-reader name below the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text in columns at the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports placement hidden count when tags cannot all fit 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns the title block in content space after an offset round trip 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and no leaders at rest 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > adds one accent elbow leader and one emphasis for the highlighted part 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > clears the trace while idle 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > routes the path prefix through settled content-space anchors when paused 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > flags the signal dot only while playing 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > uses the static twin under reduced motion 0ms
+stdout | test/overlay-model-equivalence.test.ts > overlay base model equivalence > matches the S11.7 oracle on fixture projects at mobile and desktop viewports
+cases=16 fixtures=16 mismatches=0
+median fixture-set old=7.234 ms new=0.683 ms
+
+ ✓ test/overlay-model-equivalence.test.ts > overlay base model equivalence > matches the S11.7 oracle on fixture projects at mobile and desktop viewports 65ms
+
+ Test Files  2 passed (2)
+      Tests  23 passed (23)
+   Start at  12:58:52
+   Duration  184ms (tests 38%, import 34%, transform 27%, worker 1%)
+

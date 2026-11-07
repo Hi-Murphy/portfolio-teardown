@@ -1,0 +1,107 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 903.0378000000001,
+      "cls": 0,
+      "tbtMs": 80.5,
+      "fcpMs": 903.0378000000001,
+      "siMs": 903.0378000000001,
+      "totalByteWeight": 191212,
+      "benchmarkIndex": 4195.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2403.0378,
+          "durMs": 211
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 903.1687,
+      "cls": 0,
+      "tbtMs": 82.5,
+      "fcpMs": 903.1687,
+      "siMs": 903.1687,
+      "totalByteWeight": 191175,
+      "benchmarkIndex": 4224.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2103.1686999999997,
+          "durMs": 215
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 752.58435,
+          "durMs": 95
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 902.9301,
+      "cls": 0,
+      "tbtMs": 79,
+      "fcpMs": 902.9301,
+      "siMs": 902.9301,
+      "totalByteWeight": 191212,
+      "benchmarkIndex": 4207,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2102.9301,
+          "durMs": 208
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 752.46505,
+          "durMs": 95
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.0378000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,122 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 902.8603,
+      "cls": 0,
+      "tbtMs": 77.00000000000023,
+      "fcpMs": 902.8603,
+      "siMs": 902.8603,
+      "totalByteWeight": 191186,
+      "benchmarkIndex": 4142.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2102.8603,
+          "durMs": 204.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 752.43015,
+          "durMs": 96
+        }
+      ]
+    },
+    {
+      "performance": 0.99,
+      "accessibility": null,
+      "lcpMs": 903.6096,
+      "cls": 0,
+      "tbtMs": 121.09759999999994,
+      "fcpMs": 903.6096,
+      "siMs": 903.6096,
+      "totalByteWeight": 191223,
+      "benchmarkIndex": 4211,
+      "longTasks": [
+        {
+          "url": "Unattributable",
+          "startMs": 751.8048,
+          "durMs": 238
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2103.6096,
+          "durMs": 212
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 990.8048,
+          "durMs": 93.99999999999989
+        }
+      ]
+    },
+    {
+      "performance": 0.98,
+      "accessibility": null,
+      "lcpMs": 903.1441,
+      "cls": 0,
+      "tbtMs": 153.213975,
+      "fcpMs": 903.1441,
+      "siMs": 903.1441,
+      "totalByteWeight": 191223,
+      "benchmarkIndex": 4222.5,
+      "longTasks": [
+        {
+          "url": "Unattributable",
+          "startMs": 751.57205,
+          "durMs": 309
+        },
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2103.1441,
+          "durMs": 204
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 1061.57205,
+          "durMs": 95
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.99,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.6096,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

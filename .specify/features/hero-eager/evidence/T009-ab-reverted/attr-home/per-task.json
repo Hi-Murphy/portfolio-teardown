@@ -1,0 +1,108 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "PORT/",
+      "simulatedStartMs": 755.06505,
+      "simulatedMs": 102,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 52,
+      "tbtSharePct": 21.443298969072146,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "PORT/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2108.1301,
+      "simulatedMs": 231.00000000000045,
+      "observedStartMs": 42.309,
+      "observedMs": 14.095,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.06839826839806579,
+      "tbtMs": 181.00000000000045,
+      "tbtSharePct": 74.63917525773208,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+      "simulatedStartMs": 3402.195150000001,
+      "simulatedMs": 169,
+      "observedStartMs": 221.124,
+      "observedMs": 10.321,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.15644970414200882,
+      "tbtMs": 119,
+      "tbtSharePct": 49.07216494845356,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+      "simulatedStartMs": 3920.325250000001,
+      "simulatedMs": 235,
+      "observedStartMs": 89.256,
+      "observedMs": 14.337,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.05395744680849979,
+      "tbtMs": 185,
+      "tbtSharePct": 76.28865979381436,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "PORT/",
+    "route": "/",
+    "cpuMultiplier": 16.4,
+    "profileChunks": 245,
+    "simulatedTbtMs": 242.50000000000023,
+    "observedBlockingMs": 1050.0147999999997,
+    "differenceMs": 807.5147999999995,
+    "differencePct": 332.9957938144325,
+    "pairs": [
+      {
+        "url": "PORT/_next/static/chunks/10kujx8nsd3ck.js",
+        "simulatedStartMs": 2108.1301,
+        "observedStartMs": 42.309,
+        "startGapMs": -2065.8210999999997,
+        "simulatedMs": 231.00000000000045,
+        "observedMs": 14.095,
+        "observedEquivalentMs": 231.158
+      },
+      {
+        "url": "PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+        "simulatedStartMs": 3402.195150000001,
+        "observedStartMs": 221.124,
+        "startGapMs": -3181.071150000001,
+        "simulatedMs": 169,
+        "observedMs": 10.321,
+        "observedEquivalentMs": 169.2644
+      },
+      {
+        "url": "PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+        "simulatedStartMs": 3920.325250000001,
+        "observedStartMs": 89.256,
+        "startGapMs": -3831.069250000001,
+        "simulatedMs": 235,
+        "observedMs": 14.337,
+        "observedEquivalentMs": 235.12679999999997
+      }
+    ]
+  }
+}

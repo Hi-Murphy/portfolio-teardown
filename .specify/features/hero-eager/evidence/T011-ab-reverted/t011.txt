@@ -1,0 +1,758 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+(node:29551) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:29552) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:29550) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > play auto-explodes and starts the first flow
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > plays, pauses, resumes, and stops
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > keeps focus stored but suspended during the tour, then restores it on stop
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > Escape stops the tour first, then releases focus, and ignores prevented events
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > a slug change resets highlight, focus, and tour
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > selectFlow stops a playing tour and selects the new flow in idle
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > ignores unknown component, layer, and flow ids
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/viewer-handle.test.tsx > useTeardownViewer interaction handle > advances at the base tourBeat under the reduced-motion twin
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > play auto-explodes and starts the first flow 11ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > plays, pauses, resumes, and stops 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > keeps focus stored but suspended during the tour, then restores it on stop 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > Escape stops the tour first, then releases focus, and ignores prevented events 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > a slug change resets highlight, focus, and tour 3ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > selectFlow stops a playing tour and selects the new flow in idle 1ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > ignores unknown component, layer, and flow ids 1ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > advances at the base tourBeat under the reduced-motion twin 1ms
+stderr | test/view-scroll-mount.test.tsx > view scroll mount > writes the first extent to the stage and publishes it after layout
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/view-scroll.test.tsx > view scroll > the real camera pick still agrees with the pure model under an offset
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/view-scroll-mount.test.tsx > view scroll mount > writes the first extent to the stage and publishes it after layout 12ms
+stderr | test/view-scroll.test.tsx > view scroll > clears the view offset at zoom 1 and keeps two instanced meshes
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/view-scroll.test.tsx > view scroll > a projected screen point moves by exactly the view offset 1ms
+ ✓ test/view-scroll.test.tsx > view scroll > the real camera pick still agrees with the pure model under an offset 12ms
+ ✓ test/view-scroll.test.tsx > view scroll > clears the view offset at zoom 1 and keeps two instanced meshes 7ms
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Start at  20:34:39
+   Duration  178ms (import 63%, tests 19%, transform 16%, worker 2%)
+
+SEALED-TESTS-UNCHANGED
+$ NEXT_PUBLIC_EAGER_HERO=1 pnpm --filter web build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1697ms
+  Running TypeScript ...
+  Finished TypeScript in 855ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 277ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write <local-path>/s118-checks/t011/eager-manifest.json
+bundle-manifest: 22 JS files, 1583544 bytes
+routes: 5
+wrote: <local-path>/s118-checks/t011/eager-manifest.json
+$ pnpm perf:lighthouse http://127.0.0.1:PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-home-r1
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-home-r1
+performance: 0.97 >= 0.95 (median) pass
+lcp: 907.3335 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t011/lh-home-r1/lighthouse-summary.json
+lh-home-r1 exit=0
+$ pnpm perf:lighthouse http://127.0.0.1:PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-home-r2
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/ --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-home-r2
+performance: 0.98 >= 0.95 (median) pass
+lcp: 905.2796000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t011/lh-home-r2/lighthouse-summary.json
+lh-home-r2 exit=0
+$ pnpm perf:lighthouse http://127.0.0.1:PORT/ --profile --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lhp-home
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/ --profile --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lhp-home
+performance: 0.96 >= 0.95 (median) pass
+lcp: 905.4570000000001 < 2500 (median) pass
+cls: 0 === 0 (every-run) pass
+trace: <local-path>/s118-checks/t011/lhp-home/lighthouse-run-0.trace.json.gz
+summary: <local-path>/s118-checks/t011/lhp-home/lighthouse-summary.json
+profiled: informational run; excluded from gate medians
+lhp-home exit=0
+$ pnpm perf:attribution --lhr <local-path>/s118-checks/t011/lhp-home/lighthouse-run-0.json --trace <local-path>/s118-checks/t011/lhp-home/lighthouse-run-0.trace.json.gz --manifest <local-path>/s118-checks/t011/eager-manifest.json --out-dir apps/web/out --out <local-path>/s118-checks/t011/attr-home
+$ node tools/perf/src/cli/attribution.ts --lhr <local-path>/s118-checks/t011/lhp-home/lighthouse-run-0.json --trace <local-path>/s118-checks/t011/lhp-home/lighthouse-run-0.trace.json.gz --manifest <local-path>/s118-checks/t011/eager-manifest.json --out-dir apps/web/out --out <local-path>/s118-checks/t011/attr-home
+source: lighthouse-profile (235 ProfileChunk events)
+tasks: 5; matched: 4
+per-task.json: <local-path>/s118-checks/t011/attr-home/per-task.json
+per-task.md: <local-path>/s118-checks/t011/attr-home/per-task.md
+attr-home exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t011/fps-home-r1
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t011/fps-home-r1
+eager: http://127.0.0.1:PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 1x
+loadMs: 47.0
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 0
+mounted: true
+readyMs: 208.0
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t011/fps-home-r1/fps.json
+fps-home-r1 exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t011/fps-home-r2
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 1 --names --out <local-path>/s118-checks/t011/fps-home-r2
+eager: http://127.0.0.1:PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 1x
+loadMs: 48.1
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 0
+mounted: true
+readyMs: 201.6
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t011/fps-home-r2/fps.json
+fps-home-r2 exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t011/fps-home-cpu4-r1
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t011/fps-home-cpu4-r1
+eager: http://127.0.0.1:PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 4x
+loadMs: 149.8
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 0
+droppedFrames: 1
+mounted: true
+readyMs: 517.8
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t011/fps-home-cpu4-r1/fps.json
+fps-home-cpu4-r1 exit=0
+$ pnpm fps:engine --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t011/fps-home-cpu4-r2
+$ node tools/perf/src/cli/fps-engine.ts --scenario load --route / --no-build --frames trace-only --cpu 4 --names --out <local-path>/s118-checks/t011/fps-home-cpu4-r2
+eager: http://127.0.0.1:PORT/
+scenario: load
+route: /
+frames: trace-only
+cpuThrottle: 4x
+loadMs: 157.8
+windowMs: 5000
+longTasks: 0
+maxLongTaskMs: 0.0
+preLoadTasks: 1
+droppedFrames: 1
+mounted: true
+readyMs: 522.0
+gated: true
+verdict: pass
+fps.json: <local-path>/s118-checks/t011/fps-home-cpu4-r2/fps.json
+fps-home-cpu4-r2 exit=0
+$ pnpm eager:probe --serve apps/web/out --route / --runs 2 --out <local-path>/s118-checks/t011/probe-home
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --runs 2 --out <local-path>/s118-checks/t011/probe-home
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t011/probe-home
+probe-home exit=0
+$ pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out <local-path>/s118-checks/t011/probe-home-reduce
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --runs 2 --reduced-motion --out <local-path>/s118-checks/t011/probe-home-reduce
+eager-probe: home/reduce r1 PASS
+eager-probe: home/reduce r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t011/probe-home-reduce
+probe-home-reduce exit=0
+$ pnpm eager:probe --serve apps/web/out --route /projects/websocket-inspector --expect gated --runs 2 --out <local-path>/s118-checks/t011/probe-project-gated
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route /projects/websocket-inspector --expect gated --runs 2 --out <local-path>/s118-checks/t011/probe-project-gated
+eager-probe: project/normal r1 PASS
+eager-probe: project/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <local-path>/s118-checks/t011/probe-project-gated
+probe-project-gated exit=0
+$ pnpm perf:parity --serve apps/web/out --no-engage --route home --compare <local-path>/s118-checks/t011/parity-baseline-eager --out <local-path>/s118-checks/t011/parity-eager-home
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --no-engage --route home --compare <local-path>/s118-checks/t011/parity-baseline-eager --out <local-path>/s118-checks/t011/parity-eager-home
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+parity: PASS (4 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t011/parity-eager-home/parity-compare.json
+parity-eager-home exit=0
+$ pnpm perf:startup --serve apps/web/out --route / --engage none --attribute --runs 2 --out <local-path>/s118-checks/t011/seq-home
+$ node tools/perf/src/cli/startup-profile.ts --serve apps/web/out --route / --engage none --attribute --runs 2 --out <local-path>/s118-checks/t011/seq-home
+run 1/2: home none attributed
+phases: P0=71.2 P1=85.3 P2=67.9 P3=58.2 P4=94.2 P5=65.8 P6=0.0 P7=3.6 P8=3.3 P9=3.3
+cost: 364.9 ms; attributed: 175.3 ms; other: 189.5 ms; blocking: 0.0 ms
+glCounts: createProgram=1 linkProgram=1
+startup: <local-path>/s118-checks/t011/seq-home/startup-home-none-attributed-r1.json
+run 2/2: home none attributed
+phases: P0=74.3 P1=85.2 P2=67.4 P3=56.4 P4=92.7 P5=65.0 P6=0.0 P7=2.1 P8=2.9 P9=3.5
+cost: 361.5 ms; attributed: 172.0 ms; other: 189.6 ms; blocking: 0.0 ms
+glCounts: createProgram=1 linkProgram=1
+startup: <local-path>/s118-checks/t011/seq-home/startup-home-none-attributed-r2.json
+summary: <local-path>/s118-checks/t011/seq-home/summary.json (mainThreadCostMs=363.2, spreadFlagged=true)
+seq-home exit=0
+Bundle scope budget: .specify/features/hero-eager/evidence/T001-log-bundle-eager.json + <local-path>/s118-checks/base-eager -> <local-path>/s118-checks/t011/eager-manifest.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              582949      583356         407           - INFO
+home initial gzip             180481      180619         138      2000 B PASS
+project initial raw           583043      581945       -1098           - INFO
+project initial gzip          180482      180094        -388      2000 B PASS
+total raw                    1581749     1583544        1795           - INFO
+total gzip                    459158      459836         678        0.5% PASS
+non-initial 3D raw            995308      997794        2486           - INFO
+non-initial 3D gzip           277162      278090         928           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 0.5% of before)
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 224ms
+  Running TypeScript ...
+  Finished TypeScript in 780ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 269ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/bundle-manifest.ts --out-dir apps/web/out --write <local-path>/s118-checks/t011/gated-manifest.json
+bundle-manifest: 22 JS files, 1583562 bytes
+routes: 5
+wrote: <local-path>/s118-checks/t011/gated-manifest.json
+$ pnpm perf:parity --serve apps/web/out --compare <local-path>/s118-checks/t011/parity-baseline-gated --out <local-path>/s118-checks/t011/parity-gated
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --compare <local-path>/s118-checks/t011/parity-baseline-gated --out <local-path>/s118-checks/t011/parity-gated
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison <local-path>/s118-checks/t011/parity-gated/parity-compare.json
+parity-gated exit=0
+Bundle scope budget: .specify/features/hero-eager/evidence/T001-log-bundle-gated.json + <local-path>/s118-checks/base-gated -> <local-path>/s118-checks/t011/gated-manifest.json + apps/web/out
+Metric                        Before       After       Delta       Limit Result
+home initial raw              583374      583374           0           - INFO
+home initial gzip             180622      180623           1      2000 B PASS
+project initial raw           581945      581945           0           - INFO
+project initial gzip          180096      180094          -2      2000 B PASS
+total raw                    1582126     1583562        1436           - INFO
+total gzip                    459309      459840         531        0.5% PASS
+non-initial 3D raw            996358      997794        1436           - INFO
+non-initial 3D gzip           277558      278090         532           - INFO
+RESULT: PASS (initial gzip delta <= 2000 B; total delta <= 0.5% of before)
+$ pnpm site:probe --serve apps/web/out --group draws --group hero
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group draws --group hero
+draws project: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":44,"loadAt":50,"liveStateAtFcp":"idle","liveStateAtLoad":"idle"}
+PASS hero-poster-no-interaction: expected {"liveState":"idle","canvases":0,"posterWidthPositive":true} actual {"liveState":"idle","canvases":0,"posterWidth":570,"posterOpacity":"1"}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":44,"loadAt":50,"liveStateAtFcp":"idle","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-idle-exploded: expected {"state":"exploded","tweening":"false"} actual {"state":"exploded","tweening":"false","canvases":1}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (7 checks)
+site-probe: PASS
+artifacts: ./.evidence/site-probe
+site-probe exit=0
+$ pnpm perf:lighthouse http://127.0.0.1:PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-project-r1
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-project-r1
+performance: 1 >= 0.95 (median) pass
+lcp: 903.3126 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t011/lh-project-r1/lighthouse-summary.json
+lh-project-r1 exit=0
+$ pnpm perf:lighthouse http://127.0.0.1:PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-project-r2
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/projects/websocket-inspector --cpu-multiplier 16.4 --out <local-path>/s118-checks/t011/lh-project-r2
+performance: 0.99 >= 0.95 (median) pass
+lcp: 903.3142 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <local-path>/s118-checks/t011/lh-project-r2/lighthouse-summary.json
+lh-project-r2 exit=0
+local A/B artifacts: .specify/features/hero-eager/evidence/T011-ab
+$ NEXT_PUBLIC_EAGER_HERO=1 pnpm --filter web build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 213ms
+  Running TypeScript ...
+  Finished TypeScript in 775ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 265ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ PERF_FIXTURES=1 pnpm --filter web build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1778ms
+  Running TypeScript ...
+  Finished TypeScript in 863ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/10) ...
+  Generating static pages using 9 workers (2/10) 
+  Generating static pages using 9 workers (4/10) 
+  Generating static pages using 9 workers (7/10) 
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+✓ Generating static pages using 9 workers (10/10) in 145ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /dev/engine
+├ ○ /fixtures/fps-calibration
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/engine-probe.ts http://127.0.0.1:PORT/ --scope s5 --out <local-path>/s118-checks/t011-engine-s5
+PASS hitmap-exploded-all-components-hit: expected ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"] actual ["beachgoer","forecast-details-panel","live-tide-client","tide-cache","tide-chart-screen","tide-feed","tide-repository","tide-view-model"]
+PASS hitmap-imploded-top-layer-hit: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","forecast-details-panel","tide-chart-screen"]
+PASS hover-highlight-exploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-highlight-imploded: expected "tide-chart-screen" actual "tide-chart-screen"
+PASS hover-cursor-pointer: expected {"exploded":"pointer","imploded":"pointer"} actual {"exploded":"pointer","imploded":"pointer"}
+PASS hover-pixel-toward-accent: expected "distance to accent decreases in both states" actual {"exploded":{"before":246.5461417260469,"after":92.22255689363638},"imploded":{"before":246.5461417260469,"after":179.73869922751751}}
+PASS hover-leave-clears: expected {"exploded":true,"imploded":true} actual {"exploded":true,"imploded":true}
+PASS tap-highlight-exploded: expected "beachgoer" actual "beachgoer"
+PASS tap-highlight-imploded: expected "beachgoer" actual "beachgoer"
+PASS tap-second-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-other-switches: expected {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"} actual {"exploded":"tide-chart-screen","imploded":"forecast-details-panel"}
+PASS tap-empty-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS tap-outside-clears: expected {"exploded":null,"imploded":null} actual {"exploded":null,"imploded":null}
+PASS trace-pointertype-touch: expected "pointerdown, pointerup and click all with pointerType=touch" actual [{"type":"pointerdown","pointerType":"touch","t":4483},{"type":"pointerup","pointerType":"touch","t":4483.699999928474},{"type":"click","pointerType":"touch","t":4485},{"type":"pointerdown","pointerType":"touch","t":4571.100000023842},{"type":"pointerup","pointerType":"touch","t":4571.100000023842},{"type":"click","pointerType":"touch","t":4571.699999928474},{"type":"pointerdown","pointerType":"touch","t":4604.299999952316},{"type":"pointerup","pointerType":"touch","t":4604.299999952316},{"type":"click","pointerType":"touch","t":4604.699999928474},{"type":"pointerdown","pointerType":"touch","t":4638.199999928474},{"type":"pointerup","pointerType":"touch","t":4638.699999928474},{"type":"click","pointerType":"touch","t":4639.299999952316},{"type":"pointerdown","pointerType":"touch","t":4671},{"type":"pointerup","pointerType":"touch","t":4671.100000023842},{"type":"click","pointerType":"touch","t":4671.5},{"type":"pointerdown","pointerType":"touch","t":4703.799999952316},{"type":"pointerup","pointerType":"touch","t":4703.899999976158},{"type":"click","pointerType":"touch","t":4704.600000023842},{"type":"pointerdown","pointerType":"touch","t":4737.699999928474},{"type":"pointerup","pointerType":"touch","t":4737.799999952316},{"type":"click","pointerType":"touch","t":4738.199999928474},{"type":"pointerdown","pointerType":"touch","t":4771},{"type":"pointerup","pointerType":"touch","t":4771},{"type":"click","pointerType":"touch","t":4773.399999976158},{"type":"pointerdown","pointerType":"touch","t":4441.600000023842},{"type":"pointerup","pointerType":"touch","t":4442},{"type":"click","pointerType":"touch","t":4443.899999976158},{"type":"pointerdown","pointerType":"touch","t":4492.100000023842},{"type":"pointerup","pointerType":"touch","t":4492.299999952316},{"type":"click","pointerType":"touch","t":4493},{"type":"pointerdown","pointerType":"touch","t":4508.600000023842},{"type":"pointerup","pointerType":"touch","t":4508.799999952316},{"type":"click","pointerType":"touch","t":4509.299999952316},{"type":"pointerdown","pointerType":"touch","t":4526.299999952316},{"type":"pointerup","pointerType":"touch","t":4526.5},{"type":"click","pointerType":"touch","t":4527.100000023842},{"type":"pointerdown","pointerType":"touch","t":4543.199999928474},{"type":"pointerup","pointerType":"touch","t":4543.199999928474},{"type":"click","pointerType":"touch","t":4543.699999928474},{"type":"pointerdown","pointerType":"touch","t":4558.199999928474},{"type":"pointerup","pointerType":"touch","t":4558.299999952316},{"type":"click","pointerType":"touch","t":4558.699999928474},{"type":"pointerdown","pointerType":"touch","t":4574.699999928474},{"type":"pointerup","pointerType":"touch","t":4574.799999952316},{"type":"click","pointerType":"touch","t":4575.199999928474},{"type":"pointerdown","pointerType":"touch","t":4591.399999976158},{"type":"pointerup","pointerType":"touch","t":4591.5},{"type":"click","pointerType":"touch","t":4591.799999952316}]
+PASS cls-zero: expected 0 actual {"total":0,"entries":[]}
+PASS focus-toggle-sets: expected "ui" actual "ui"
+PASS focus-pixel-toward-paper: expected "distance to paper decreases" actual {"before":40.422765862815474,"after":11.532562594670795}
+PASS focus-esc-releases: expected null actual null
+PASS focus-toggle-releases: expected null actual null
+PASS focus-survives-explode: expected {"state":"exploded","layer":"ui"} actual {"state":"exploded","layer":"ui"}
+PASS focus-survives-rotate: expected {"azimuth":135,"layer":"ui"} actual {"azimuth":135,"layer":"ui"}
+PASS tour-order-a-live-update: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"]
+PASS tour-order-a-offline-read: expected ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"] actual ["beachgoer","tide-chart-screen","tide-view-model","tide-repository","tide-cache"]
+PASS tour-order-c-pickup-ready: expected ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"] actual ["recipient","pickup-app","pickup-api","booking-service","locker-registry","notifier","push-gateway"]
+PASS tour-order-c-push-failed: expected ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"] actual ["booking-service","notifier","push-gateway","retry-scheduler","dead-letter-store"]
+PASS tour-pause-holds: expected 3 actual 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0" actual [[0,1,2,3,4,5],[0,1,2,3,4],[0,1,2,3,4,5,6],[0,1,2,3,4]]
+PASS tour-stop-clears: expected "every flow stops idle with no caption" actual [{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false},{"status":"idle","captionVisible":false}]
+PASS tour-camera-still: expected "azimuth and zoom unchanged during each flow" actual [{"azimuths":[45,45,45,45,45,45],"zooms":[1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]},{"azimuths":[45,45,45,45,45,45,45],"zooms":[1,1,1,1,1,1,1]},{"azimuths":[45,45,45,45,45],"zooms":[1,1,1,1,1]}]
+PASS tour-focus-suspended-restored: expected {"during":true,"after":true,"layerAfter":"ui"} actual {"during":true,"after":true,"layerAfter":"ui"}
+PASS selector-a-visible: expected "at least one visible flow selector button" actual {"flowButtons":2,"visible":true}
+PASS selector-b-hidden: expected {"flowButtons":0,"visible":false} actual {"flowButtons":0,"visible":false}
+PASS selector-c-two-flows: expected {"flowButtons":2,"visible":true} actual {"flowButtons":2,"visible":true}
+PASS caption-selectable: expected "user-select text and selection round-trip" actual {"userSelect":"text","selectedText":"Recipient","text":"Recipient"}
+PASS caption-tokens-light: expected {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}} actual {"color":{"r":34,"g":38,"b":43},"background":{"r":252,"g":250,"b":244}}
+PASS caption-tokens-dark: expected {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}} actual {"color":{"r":230,"g":237,"b":245},"background":{"r":17,"g":37,"b":64}}
+PASS rm-hover-instant: expected {"highlight":"tide-chart-screen","frameDelta":1} actual {"target":"tide-chart-screen","frameDelta":1,"highlight":"tide-chart-screen","tweening":["false"],"pulse":["false"]}
+PASS rm-focus-instant: expected {"highlight":"ui","frameDelta":1} actual {"target":"ui","frameDelta":1,"highlight":"ui","tweening":["false"],"pulse":["false"]}
+PASS rm-tour-instant: expected {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":"exactly 1"} actual {"timeline":["beachgoer","tide-chart-screen","tide-view-model","tide-repository","live-tide-client","tide-feed"],"framesPerStep":[1,1,1,1,1],"intervalsMs":[1599.2999999523163,1599.1000000238419,1599.5,1599.5],"tweening":["false","false","false","false","false","false","false"],"pulse":["false","false","false","false","false","false","false"]}
+PASS rm-no-tween-attr: expected "tweening and pulse are never \"true\"" actual ["false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false","false"]
+PASS rm-tour-cadence: expected {"normalCadenceMs":[1599.5,1600.3000000715256],"tolerance":0.2} actual [1599.2999999523163,1599.1000000238419,1599.5,1599.5]
+PASS scroll-zoom1-no-overflow: expected "<= 1px" actual 0
+PASS scroll-zoomed-overflows: expected "> 1px" actual 803
+PASS scroll-top-reaches-top-layer: expected ["beachgoer","forecast-details-panel","tide-chart-screen"] actual ["beachgoer","tide-chart-screen"]
+PASS scroll-bottom-reaches-bottom-layer: expected ["tide-feed"] actual ["tide-feed"]
+PASS scroll-camera-still: expected {"azimuth":45,"zoom":3} actual {"azimuth":45,"zoom":3}
+PASS caption-clear-of-target: expected "every pickup-ready target point is outside the caption (desktop and mobile)" actual [{"viewport":"desktop","step":0,"target":"recipient","point":{"x":626,"y":205},"caption":{"left":77,"top":397,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":1,"target":"pickup-app","point":{"x":654,"y":225},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":2,"target":"pickup-api","point":{"x":626,"y":284},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":3,"target":"booking-service","point":{"x":626,"y":334},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":4,"target":"locker-registry","point":{"x":626,"y":424},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"desktop","step":5,"target":"notifier","point":{"x":654,"y":354},"caption":{"left":77,"top":469,"right":419.65625,"bottom":591},"outside":true},{"viewport":"desktop","step":6,"target":"push-gateway","point":{"x":626,"y":493},"caption":{"left":77,"top":137,"right":419.65625,"bottom":259},"outside":true},{"viewport":"mobile","step":0,"target":"recipient","point":{"x":178,"y":189},"caption":{"left":29,"top":403.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":1,"target":"pickup-app","point":{"x":212,"y":210},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":2,"target":"pickup-api","point":{"x":178,"y":273},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":3,"target":"booking-service","point":{"x":173,"y":326},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":4,"target":"locker-registry","point":{"x":178,"y":420},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true},{"viewport":"mobile","step":5,"target":"notifier","point":{"x":212,"y":347},"caption":{"left":29,"top":475.390625,"right":371.65625,"bottom":597.390625},"outside":true},{"viewport":"mobile","step":6,"target":"push-gateway","point":{"x":178,"y":494},"caption":{"left":29,"top":117,"right":371.65625,"bottom":239},"outside":true}]
+pass: true
+engine-probe.json: <local-path>/s118-checks/t011-engine-s5/engine-probe.json
+{"readyMs":223.20000004768372,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":277,"clientHeight":277,"view":null,"zoom":"1"}
+{"readyMs":277.8000000715256,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":574,"clientHeight":574,"view":null,"zoom":"1"}
+{"readyMs":221,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":277,"clientHeight":277,"view":null,"zoom":"1"}
+{"readyMs":288.39999997615814,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":574,"clientHeight":574,"view":null,"zoom":"1"}
+{"readyMs":223.29999995231628,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":277,"clientHeight":277,"view":null,"zoom":"1"}
+{"readyMs":278.1999999284744,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":574,"clientHeight":574,"view":null,"zoom":"1"}
+{"readyMs":207.59999990463257,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":277,"clientHeight":277,"view":null,"zoom":"1"}
+{"readyMs":290,"extent":"0","spacerHeight":"0px","scrollTop":0,"scrollHeight":574,"clientHeight":574,"view":null,"zoom":"1"}
+PASS offset-home-r1: extent="0" spacerHeight="0px" scrollTop=0 scrollHeight=277 clientHeight=277 view=null zoom="1"
+PASS offset-home-r2: extent="0" spacerHeight="0px" scrollTop=0 scrollHeight=277 clientHeight=277 view=null zoom="1"
+PASS offset-project-r1: extent="0" spacerHeight="0px" scrollTop=0 scrollHeight=574 clientHeight=574 view=null zoom="1"
+PASS offset-project-r2: extent="0" spacerHeight="0px" scrollTop=0 scrollHeight=574 clientHeight=574 view=null zoom="1"
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+tools/perf typecheck: Done
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:32294) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32293) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32318) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: (node:32325) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:32346) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32351) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test:  ❯ test/frozen-surface.test.ts (6 tests | 2 failed) 16ms
+packages/xploder test:    ❯ frozen S5 surface (1)
+packages/xploder test:      × matches every hash recorded from the base commit 4ms
+packages/xploder test:    ❯ frozen S8 surface (1)
+packages/xploder test:      × matches every hash recorded from the base commit 2ms
+packages/xploder test: (node:32360) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32388) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32390) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32399) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32407) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  30 passed (30)
+tools/perf test:       Tests  245 passed (245)
+tools/perf test:    Start at  20:40:18
+tools/perf test:    Duration  3.00s (import 68%, transform 16%, tests 16%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+packages/xploder test: 
+packages/xploder test:  FAIL  test/frozen-surface.test.ts > frozen S5 surface > matches every hash recorded from the base commit
+packages/xploder test: AssertionError: src/react/scene/ViewScroll.tsx: expected '8a86badb912c7050850d5f0e3f4e2c8f21ee1…' to be '027634d2eb470f6b14928fe49f1734302538b…' // Object.is equality
+packages/xploder test: 
+packages/xploder test: Expected: "027634d2eb470f6b14928fe49f1734302538b141167f3f34e411799da2061e60"
+packages/xploder test: Received: "8a86badb912c7050850d5f0e3f4e2c8f21ee1f1ae583f902d3674caa73a9186e"
+packages/xploder test: 
+packages/xploder test:  ❯ test/frozen-surface.test.ts:180:47
+packages/xploder test:     178|       if (workingCopy === undefined) throw new Error(`Missing working …
+packages/xploder test:     179|
+packages/xploder test:     180|       expect(await sha256(workingCopy), path).toBe(expected);
+packages/xploder test:        |                                               ^
+packages/xploder test:     181|     }
+packages/xploder test:     182|   });
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+packages/xploder test: 
+packages/xploder test:  FAIL  test/frozen-surface.test.ts > frozen S8 surface > matches every hash recorded from the base commit
+packages/xploder test: AssertionError: src/react/TeardownViewer.tsx: expected '9f13847fe3e7f07bd5334575cf8fc126a5856…' to be '775f1a050e3929afbdeebd8ec2f8909158fac…' // Object.is equality
+packages/xploder test: 
+packages/xploder test: Expected: "775f1a050e3929afbdeebd8ec2f8909158facc1fae61d4dd8488f5051f78eaa3"
+packages/xploder test: Received: "9f13847fe3e7f07bd5334575cf8fc126a5856d6d4d1526776041239ea043d535"
+packages/xploder test: 
+packages/xploder test:  ❯ test/frozen-surface.test.ts:259:47
+packages/xploder test:     257|       if (workingCopy === undefined) throw new Error(`Missing working …
+packages/xploder test:     258|
+packages/xploder test:     259|       expect(await sha256(workingCopy), path).toBe(expected);
+packages/xploder test:        |                                               ^
+packages/xploder test:     260|     }
+packages/xploder test:     261|   });
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+packages/xploder test: 
+packages/xploder test: 
+packages/xploder test:  Test Files  1 failed | 62 passed (63)
+packages/xploder test:       Tests  2 failed | 624 passed (626)
+packages/xploder test:    Start at  20:40:18
+packages/xploder test:    Duration  33.92s (tests 84%, import 10%, transform 6%)
+packages/xploder test: 
+packages/xploder test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in ./packages/xploder
+
+[ELIFECYCLE] Test failed. See above for more details.
+test exit=1
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 13ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.0s
+  Running TypeScript ...
+  Finished TypeScript in 894ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 283ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+FROZEN-OK
+BRIEF-HISTORY-OK
+G1-LIST-OK
+FAIL XPLODER-SRC
+XPLODER-TEST-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+FAIL SURFACE-S5
+SURFACE-S6-OK
+SURFACE-S7-OK
+FAIL SURFACE-S8
+SEALED-TESTS-OK
+RESEAL-NOTE-OK
+BASELINE-FIRST-OK
+APP-TOUCH-OK
+DEV-ROUTES-OK
+CI-JOBS-OK
+FLAG-DEFAULT-OK
+VERSIONS-OK
+BUDGETS-OK
+GITLEAKS-OK
+guards exit=1
+T011-OK

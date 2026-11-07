@@ -1,0 +1,45 @@
+T003 - hero-eager workflow
+
+## Shape check and guard output
+
+WORKFLOW-SHAPE-OK
+error: expected r1 and r2 summaries for gated/home
+FROZEN-OK
+BRIEF-HISTORY-OK
+G1-LIST-OK
+XPLODER-SRC-OK
+XPLODER-TEST-OK
+SURFACE-S2-OK
+SURFACE-S4-OK
+SURFACE-S5-OK
+SURFACE-S6-OK
+SURFACE-S7-OK
+SURFACE-S8-OK
+SEALED-TESTS-OK
+RESEAL-NOTE-OK
+BASELINE-FIRST-OK
+APP-TOUCH-OK
+DEV-ROUTES-OK
+CI-JOBS-OK
+FLAG-DEFAULT-OK
+VERSIONS-OK
+BUDGETS-OK
+GITLEAKS-OK
+
+## Local dry-run verdict
+
+error: expected r1 and r2 summaries for gated/home
+
+The incomplete artifact directory is expected: the dry run records only `gated-home-r1` before
+checking that the S11.8 verdict parser accepts `--rule s11.8`.
+
+## Local dry-run result
+
+- `pnpm build`: passed.
+- `pnpm bundle:manifest`: wrote the gated manifest (22 JS files, 1,582,126 bytes, 5 routes).
+- `pnpm perf:lighthouse http://127.0.0.1:PORT/`: performance 1, LCP 903.446 ms, CLS 0/0/0.
+- `eager-verdict --rule s11.8 --dir`: exited 3 for the intentionally incomplete directory.
+- `bash .specify/features/hero-eager/guards.sh`: all guards passed.
+- `pnpm typecheck && pnpm lint && pnpm test`: passed.
+
+T003-OK

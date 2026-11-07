@@ -187,9 +187,9 @@ describe('frozen S6 surface', () => {
     const manifest = manifestS6Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('f65b13c');
+    expect(manifest.base).toBe('057d89a');
     expect(manifest.note).toBe(
-      'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+      'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(25);
 

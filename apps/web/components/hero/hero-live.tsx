@@ -103,7 +103,7 @@ export function HeroLive({ project }: HeroLiveProps) {
 
           // RFC §9.15 (A): the ambient hero costs nothing at load; the 3D starts after the
           // visitor's first interaction, in the next idle moment (never inside the handler).
-          if (!__XP_EAGER_3D__) {
+          if (!(__XP_EAGER_3D__ || __XP_EAGER_HERO__)) {
             if (!(await waitForFirstInteraction(signal))) return;
           }
 

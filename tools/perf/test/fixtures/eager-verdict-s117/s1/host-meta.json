@@ -1,0 +1,21 @@
+{
+  "attemptId": "41750211660-1-s1",
+  "runnerName": "GitHub Actions 1000000783",
+  "imageVersion": "20261101.186.1",
+  "chromium": "156.0.8078.4",
+  "benchmarkIndex": {
+    "min": 2427.5,
+    "median": 2623,
+    "max": 2654.5
+  },
+  "webgl": {
+    "available": true,
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "backend": "swiftshader"
+  },
+  "git": {
+    "sha": "a34542b520baf42119a1ed5d404623cc65edc4d4"
+  },
+  "capturedAt": "2026-11-04T01:00:00Z"
+}
