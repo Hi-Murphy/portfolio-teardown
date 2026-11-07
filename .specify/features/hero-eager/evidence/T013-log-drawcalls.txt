@@ -1,0 +1,29 @@
+# T013 — draw calls on the final builds
+
+Worktree: `.` · head: `15885cf`. `pnpm site:probe --serve apps/web/out --group draws`.
+
+## Default build (hero eager, project gated)
+
+```text
+draws project: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+site-probe: PASS
+artifacts: <local-path>/s118-checks/t013/draws-default
+```
+
+## Gated-hero build (`NEXT_PUBLIC_GATED_HERO=1`)
+
+```text
+draws project: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (2 checks)
+site-probe: PASS
+artifacts: <local-path>/s118-checks/t013/draws-gated
+```
+
+Result: **2 draw calls** — project mode 2 on 32/32 rendered frames and hero mode 2 on 40/40 rendered frames, on both builds (`draws: PASS (2 checks)` each).

@@ -1,0 +1,40 @@
+# T013 — CI on the PR head
+
+PR: #21 · head: `15885cf` · branch: `task/s11.8-hero-eager`.
+
+Required CI run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128483
+
+Slow-class measurement run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128410
+
+## Workflow runs for head `15885cf`
+
+```text
+CI         42422128483 success  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128483
+eager-load 42422128426 skipped  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128426
+perf       42422128496 success  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496
+eager-3d   42422128395 success  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128395
+hero-eager 42422128410 success  https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128410
+```
+
+## `gh pr checks 21`
+
+```text
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/AyDHG56oHf8ZGFkDAUPqhguh76X7	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	2m13s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496/job/128552602561	
+a11y: axe (production routes)	pass	2m16s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496/job/128552602529	
+build (typecheck, lint, test, build)	pass	2m1s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128483/job/128552602472	
+perf-gate: lighthouse (mobile)	pass	1m35s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496/job/128552602495	
+perf-gate: weight (< 3 MB)	pass	1m37s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496/job/128552602626	
+perf: eager-3d (measurement)	pass	4m17s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128395/job/128552601939	
+perf: fixture exclusion	pass	23s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496/job/128552602577	
+perf: fps calibration	pass	1m2s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128496/job/128552602354	
+perf: hero-eager (slow-class measurement) #1	pass	5m58s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128410/job/128552602251	
+perf: hero-eager (slow-class measurement) #2	pass	6m0s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128410/job/128552602104	
+perf: hero-eager (slow-class measurement) #3	pass	5m17s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128410/job/128552602232	
+secrets (gitleaks)	pass	11s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128483/job/128552602183	
+seo: meta + og	pass	55s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128483/job/128552602383	
+perf: eager-load (slow-class measurement) #${{ matrix.shard }}	skipping	0	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/42422128426/job/128552624391	
+```
+
+All required checks pass: `seo: meta + og`, both axe jobs (`production routes` and `engine fixture export`), both perf gates, `build (typecheck, lint, test, build)`, and `secrets (gitleaks)`. The `perf: eager-load` measurement workflow is skipped and is not a required check. The slow-class `hero-eager` measurement ran three shards; all passed.
