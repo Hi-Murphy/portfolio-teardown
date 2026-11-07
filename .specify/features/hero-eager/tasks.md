@@ -105,6 +105,7 @@
 - **D-P10 (CI, PR head e4c1136):** `build (typecheck, lint, test, build)` failed: `overlay-place-equivalence.test.ts` timed out at 180 s on the runner (≈ 70 s locally; the eager oracle dominates). The 2,000 seeded random layouts are kept, but each is bounded to 1–16 hulls and 4–16 labels (was 1–24 / 4–30); the fixtures and edge cases (incl. look-ahead and node-limit paths) are unchanged. Local run 32 s, still 0 mismatches. No source change.
 - **D-P11 (T011):** E2 reverted. At ready the scroll extent is 0 on both routes, so the mount `sync` never calls `onExtent` and the nested re-render E2 removes does not happen; AC1's E2 task is the R3F scene-mount commit itself (with `sync` as its top self-time frame). Target Δ 2.36 ms inside spread 4.35 ms; the pre-draw `loading` state moved one rAF. `ViewScroll.tsx` / `TeardownViewer.tsx` untouched.
 - **D-P12 (Murphy "retire", 2026-11-08):** T013b runs, with RFC §11 R9 (mode-aware hero site-probe via `data-site-live-mode`) and R10 (`build:gated-hero`; `hero-eager.yml` gated leg uses it). `app-touch.txt` is unchanged (the touched app files are already listed).
+- **D-P13 (CI, `ad28d7b`):** `a11y: axe (production routes)` red — `home-poster` asserted the old gate. Fixed per RFC §11.5 R11 (mode-aware: Save-Data poster scan for an eager hero; gated path unchanged), orchestrator tool fix; both builds axe-clean locally.
 
 ---
 

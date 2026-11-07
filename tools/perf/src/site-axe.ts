@@ -247,6 +247,21 @@ async function prepareState(page: Page, state: SiteStateDefinition): Promise<voi
       await page
         .locator('[data-site-poster]')
         .waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
+      // S11.8 (D-19 amended, rfc.md §11.5 R11): an eager hero leaves the poster on its own, so its
+      // lasting poster-only state is the Save-Data one. Gated builds keep the pre-interaction scan.
+      const mode = await page.locator('[data-site-live]').getAttribute('data-site-live-mode');
+      if (mode === 'eager') {
+        await page.addInitScript(() => {
+          Object.defineProperty(navigator, 'connection', { value: { saveData: true } });
+        });
+        await page.reload({ waitUntil: 'load', timeout: WAIT_TIMEOUT_MS });
+        await page
+          .locator('[data-site-poster]')
+          .waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
+        await waitForLiveState(page, ['skipped']);
+        await assertPosterOnly(page, 'home');
+        break;
+      }
       await page.waitForTimeout(POSTER_SETTLE_MS);
       await assertPosterOnly(page, 'home');
       const liveState = await page
