@@ -86,7 +86,7 @@
 | T008 | ↺ measured and reverted (D-P9): split worked at `--cpu 1` (first frame 11.1 → 3.0 ms) but at `--cpu 4` the compile task grew to 46.3/44.2 ms vs the 33.3/34.0 ms pre-lever task (+36 %, AC2 cap risk); sim. TBT unchanged. `Stats.tsx` untouched | 1 (Flash) + orchestrator (decision) | evidence/T008-log-e1c-ab.md, T008-ab-reverted/ | 4826c8b |
 | T009 | ↺ measured and reverted (D-P8): trigger met by the letter (slow-host first frame ~132 ms sim; projection 191.75 > 185); the overlay model did not leave the first-content-frame task at `--cpu 4` (7.79 → 8.48 ms inside it), target Δ 1.23 inside spread 3.31; parity 0 px. `BlueprintOverlay.tsx` untouched | 1 (Flash) + orchestrator (decision) | evidence/T009-log-e1d-ab.md, T009-ab-reverted/ | 6ce084e |
 | T010 | ☑ E1 final local state = A1 + E1a. vs T004 (local emulation): sim. TBT 221.5 → 193.7 ms (inside spread 62.3), placement task gone at `--cpu 4`, probes PASS, parity 0 px, bytes PASS (hero-eager total gz +512 B / 2,295 budget; gated +364 B). E2 go restated | 1 (Flash) | evidence/T010-log-before-after.md, T010-ab/ | e393048 |
-| T011 | ☐ (conditional) | | | |
+| T011 | ↺ measured and reverted (D-P11): target commit task 37.0 → 34.6 ms inside spread 4.35; scroll extent 0 at ready on both routes, so the nested re-render does not occur; parity 0 px, first-frame offset identical; pre-draw `loading` moved rAF 1 → 2. Both files untouched | 1 (Flash) + orchestrator (decision) | evidence/T011-log-e2-ab.md, T011-ab-reverted/ | MERGE |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 | T013b | ☐ (only on "retire") | | | |
@@ -103,6 +103,7 @@
 - **D-P8 (keep rule, T007):** a lever is kept only if its **own target** moves beyond the larger spread; a task-level delta at the noise floor (here 0.944 vs 0.902 ms) with the target's self time inside its spread is "no measurable win". E1b reverted; `model.ts` untouched.
 - **D-P9 (T008):** E1c reverted. `compileAsync` split the compile out of the first frame at `--cpu 1`, but at `--cpu 4` the separate compile task (46.3/44.2 ms) is larger than the whole pre-lever first-frame task (33.3/34.0 ms): it would breach AC2's `program-compile` cap (baseline + 5 %) and does not move TBT. `Stats.tsx` untouched.
 - **D-P10 (CI, PR head e4c1136):** `build (typecheck, lint, test, build)` failed: `overlay-place-equivalence.test.ts` timed out at 180 s on the runner (≈ 70 s locally; the eager oracle dominates). The 2,000 seeded random layouts are kept, but each is bounded to 1–16 hulls and 4–16 labels (was 1–24 / 4–30); the fixtures and edge cases (incl. look-ahead and node-limit paths) are unchanged. Local run 32 s, still 0 mismatches. No source change.
+- **D-P11 (T011):** E2 reverted. At ready the scroll extent is 0 on both routes, so the mount `sync` never calls `onExtent` and the nested re-render E2 removes does not happen; AC1's E2 task is the R3F scene-mount commit itself (with `sync` as its top self-time frame). Target Δ 2.36 ms inside spread 4.35 ms; the pre-draw `loading` state moved one rAF. `ViewScroll.tsx` / `TeardownViewer.tsx` untouched.
 
 ---
 
