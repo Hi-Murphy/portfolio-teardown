@@ -104,6 +104,13 @@ async function clickExplore(): Promise<void> {
   await flush();
 }
 
+async function interactWithHero(): Promise<void> {
+  await act(async () => {
+    window.dispatchEvent(new Event('pointermove'));
+  });
+  await flush();
+}
+
 beforeEach(async () => {
   vi.stubGlobal('__XP_EAGER_HERO__', true);
   vi.stubGlobal('__XP_EAGER_3D__', false);
@@ -193,6 +200,24 @@ describe('hero-only eager flag', () => {
 
     expect(bootHeroStage).toHaveBeenCalledTimes(1);
     expect(container?.querySelector('[data-testid="hero-booted"]')).not.toBeNull();
+    expect(container?.querySelector('[data-site-live]')?.getAttribute('data-site-live-mode')).toBe(
+      'eager',
+    );
+  });
+
+  test('the gated build restores the interaction wait', async () => {
+    vi.stubGlobal('__XP_EAGER_HERO__', false);
+
+    await renderHero();
+
+    expect(bootHeroStage).not.toHaveBeenCalled();
+    expect(container?.querySelector('[data-site-live]')?.getAttribute('data-site-live-mode')).toBe(
+      'gated',
+    );
+
+    await interactWithHero();
+
+    expect(bootHeroStage).toHaveBeenCalledTimes(1);
   });
 
   test('reduced motion skips the hero boot', async () => {

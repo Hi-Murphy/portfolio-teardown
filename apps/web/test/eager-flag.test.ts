@@ -12,7 +12,8 @@ const DECLARATIONS_PATH = 'eager-3d.d.ts';
 const HERO_PATH = 'components/hero/hero-live.tsx';
 const WORKBENCH_PATH = 'components/workbench/workbench-loader.tsx';
 const ENV_FLAG = 'NEXT_PUBLIC_EAGER_3D';
-const HERO_ENV_FLAG = 'NEXT_PUBLIC_EAGER_HERO';
+const RETIRED_HERO_ENV_FLAG = 'NEXT_PUBLIC_EAGER_HERO';
+const GATED_HERO_ENV_FLAG = 'NEXT_PUBLIC_GATED_HERO';
 const DEFINE = '__XP_EAGER_3D__';
 const HERO_DEFINE = '__XP_EAGER_HERO__';
 
@@ -33,7 +34,7 @@ describe('eager 3D build flag', () => {
     ).exec(text);
 
     expect(gatedInteraction).not.toBeNull();
-    for (const flag of [ENV_FLAG, HERO_ENV_FLAG]) {
+    for (const flag of [ENV_FLAG, RETIRED_HERO_ENV_FLAG, GATED_HERO_ENV_FLAG]) {
       expect(text).not.toContain(`process.env.${flag}`);
     }
     expect(text.indexOf('const idle = await waitForIdle(signal);')).toBeGreaterThan(
@@ -78,7 +79,11 @@ describe('eager 3D build flag', () => {
     const readers = collectSourceFiles(APP_ROOT)
       .filter((file) => {
         const text = readFileSync(file, 'utf8');
-        return text.includes(ENV_FLAG) || text.includes(HERO_ENV_FLAG);
+        return (
+          text.includes(ENV_FLAG) ||
+          text.includes(RETIRED_HERO_ENV_FLAG) ||
+          text.includes(GATED_HERO_ENV_FLAG)
+        );
       })
       .map(appPath)
       .sort();
@@ -103,9 +108,16 @@ describe('eager 3D build flag', () => {
     const text = source(CONFIG_PATH);
 
     expect(text).toContain(`process.env.${ENV_FLAG} === '1'`);
-    expect(text).toContain(`process.env.${HERO_ENV_FLAG} === '1'`);
+    expect(text).toContain(`process.env.${GATED_HERO_ENV_FLAG} !== '1'`);
+    expect(text).not.toContain(`process.env.${RETIRED_HERO_ENV_FLAG}`);
     expect(text).toContain(`${DEFINE}: eager3d`);
     expect(text).toContain(`${HERO_DEFINE}: eagerHero`);
+  });
+
+  test('the hero exposes its compile-time live mode', () => {
+    expect(source(HERO_PATH)).toContain(
+      "data-site-live-mode={__XP_EAGER_3D__ || __XP_EAGER_HERO__ ? 'eager' : 'gated'}",
+    );
   });
 
   test('both defines are declared and used at their call sites', () => {
