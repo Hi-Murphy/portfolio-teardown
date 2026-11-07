@@ -149,8 +149,10 @@ function randomCase(random: () => number, caseIndex: number): PlacementCase {
     width: 240 + randomInt(random, 1_260),
     height: 220 + randomInt(random, 900),
   };
-  const obstacleCount = 1 + randomInt(random, 24);
-  const labelCount = 4 + randomInt(random, 27);
+  // Bounded so the eager oracle (every candidate, full look-ahead) stays inside the CI timeout
+  // on slow runners; the fixtures and edge cases cover the large and look-ahead paths.
+  const obstacleCount = 1 + randomInt(random, 16);
+  const labelCount = 4 + randomInt(random, 13);
   const obstacles = Array.from({ length: obstacleCount }, () => randomHull(random, viewport));
   const labels = Array.from({ length: labelCount }, (_, index) =>
     randomLabel(random, viewport, index, obstacleCount),
