@@ -1,0 +1,102 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 905.662,
+      "cls": 0,
+      "tbtMs": 33,
+      "fcpMs": 905.662,
+      "siMs": 905.662,
+      "totalByteWeight": 191488,
+      "benchmarkIndex": 4141,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2105.6620000000003,
+          "durMs": 83
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 752.831,
+          "durMs": 55
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 904.8408,
+      "cls": 0,
+      "tbtMs": 34,
+      "fcpMs": 904.8408,
+      "siMs": 904.8408,
+      "totalByteWeight": 191488,
+      "benchmarkIndex": 4249.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2104.8408,
+          "durMs": 84
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 905.517,
+      "cls": 0,
+      "tbtMs": 32,
+      "fcpMs": 905.517,
+      "siMs": 905.517,
+      "totalByteWeight": 191488,
+      "benchmarkIndex": 4040,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2105.517,
+          "durMs": 82
+        }
+      ]
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 905.517,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
