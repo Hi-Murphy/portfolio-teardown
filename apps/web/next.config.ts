@@ -6,7 +6,7 @@ const DEFAULT_PAGE_EXTENSIONS = ['tsx', 'ts', 'jsx', 'js'];
 export default function nextConfig(phase: string): NextConfig {
   const fixtureBuild = process.env.PERF_FIXTURES === '1';
   const eager3d = process.env.NEXT_PUBLIC_EAGER_3D === '1';
-  const eagerHero = process.env.NEXT_PUBLIC_EAGER_HERO === '1';
+  const eagerHero = process.env.NEXT_PUBLIC_GATED_HERO !== '1';
 
   if (fixtureBuild && process.env.VERCEL) {
     throw new Error('PERF_FIXTURES must never be set on Vercel');

@@ -48,7 +48,7 @@ jobs:
             node -e 'const fs=require("fs");const f=process.argv[1];const m=JSON.parse(fs.readFileSync(f,"utf8"));m.startedAt=new Date().toISOString();fs.writeFileSync(f,JSON.stringify(m,null,2)+"\n")' "$E/host-meta.json"
           fi
       - name: Build gated
-        run: pnpm build
+        run: pnpm build:gated-hero
       - name: Record gated bundle manifest
         run: pnpm bundle:manifest --out-dir apps/web/out --write "$E/gated-manifest.json"
       - name: Measure gated build

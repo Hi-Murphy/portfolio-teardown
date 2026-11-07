@@ -133,6 +133,7 @@ export function HeroLive({ project }: HeroLiveProps) {
   return (
     <div
       data-site-live=""
+      data-site-live-mode={__XP_EAGER_3D__ || __XP_EAGER_HERO__ ? 'eager' : 'gated'}
       data-site-live-state={state}
       className={LIVE_CLASS}
       inert

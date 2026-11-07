@@ -83,6 +83,14 @@ export interface HtmlFallbackVerdict {
   readonly listKind: 'cards' | 'outline';
 }
 
+export type HeroLiveMode = 'eager' | 'gated';
+
+export interface HeroEagerNoInteractionState {
+  readonly liveState: string | null;
+  readonly canvases: number;
+  readonly ready: boolean;
+}
+
 export interface SiteProbeCheck {
   readonly name: string;
   readonly pass: boolean;
@@ -279,6 +287,14 @@ export function evaluateFallbackHtml(
 export function heroContainsPoster(html: string): boolean {
   const hero = /<section\b[^>]*\bdata-site-hero\b[^>]*>([\s\S]*?)<\/section>/i.exec(html);
   return hero !== null && /<svg\b[^>]*\bdata-site-poster\b/i.test(hero[1] ?? '');
+}
+
+export function parseHeroLiveMode(value: string | null | undefined): HeroLiveMode | null {
+  return value === 'eager' || value === 'gated' ? value : null;
+}
+
+export function evaluateHeroEagerNoInteraction(state: HeroEagerNoInteractionState): boolean {
+  return state.liveState === 'revealed' && state.canvases === 1 && state.ready;
 }
 
 export function clsRoutes(siteBase?: URL, fixturesBase?: URL): ProbeRoute[] {
@@ -1052,28 +1068,70 @@ async function runHeroGroup(
       ),
     );
 
-    await homePage.waitForTimeout(POSTER_SCAN_MS);
-    const posterState = await homePage.evaluate(() => {
-      const live = document.querySelector('[data-site-live]');
-      const poster = document.querySelector('[data-site-hero] [data-site-poster]');
-      const rect = poster?.getBoundingClientRect();
-      return {
-        liveState: live?.getAttribute('data-site-live-state') ?? null,
-        canvases: document.querySelectorAll('[data-site-hero] canvas').length,
-        posterWidth: rect?.width ?? 0,
-        posterOpacity: poster === null ? null : getComputedStyle(poster).opacity,
-      };
-    });
-    checks.push(
-      check(
-        'hero-poster-no-interaction',
-        posterState.liveState === 'idle' &&
-          posterState.canvases === 0 &&
-          posterState.posterWidth > 1,
-        { liveState: 'idle', canvases: 0, posterWidthPositive: true },
-        posterState,
-      ),
+    const liveMode = parseHeroLiveMode(
+      await homePage.locator('[data-site-live]').getAttribute('data-site-live-mode'),
     );
+
+    if (liveMode === null) {
+      checks.push(check('hero-live-mode', false, 'eager|gated', null));
+    } else if (liveMode === 'eager') {
+      await homePage
+        .waitForFunction(
+          () => {
+            const live = document.querySelector('[data-site-live]');
+            const hero = document.querySelector('[data-site-hero]');
+            return (
+              live?.getAttribute('data-site-live-state') === 'revealed' &&
+              hero !== null &&
+              hero.querySelectorAll('canvas').length === 1 &&
+              document.querySelector('[data-xploder-ready="true"]') !== null
+            );
+          },
+          undefined,
+          { timeout: WAIT_TIMEOUT_MS },
+        )
+        .catch(() => undefined);
+      const eagerState = await homePage.evaluate(() => {
+        const live = document.querySelector('[data-site-live]');
+        const hero = document.querySelector('[data-site-hero]');
+        return {
+          liveState: live?.getAttribute('data-site-live-state') ?? null,
+          canvases: hero?.querySelectorAll('canvas').length ?? 0,
+          ready: document.querySelector('[data-xploder-ready="true"]') !== null,
+        };
+      });
+      checks.push(
+        check(
+          'hero-eager-no-interaction',
+          evaluateHeroEagerNoInteraction(eagerState),
+          { liveState: 'revealed', canvases: 1, ready: true },
+          eagerState,
+        ),
+      );
+    } else {
+      await homePage.waitForTimeout(POSTER_SCAN_MS);
+      const posterState = await homePage.evaluate(() => {
+        const live = document.querySelector('[data-site-live]');
+        const poster = document.querySelector('[data-site-hero] [data-site-poster]');
+        const rect = poster?.getBoundingClientRect();
+        return {
+          liveState: live?.getAttribute('data-site-live-state') ?? null,
+          canvases: document.querySelectorAll('[data-site-hero] canvas').length,
+          posterWidth: rect?.width ?? 0,
+          posterOpacity: poster === null ? null : getComputedStyle(poster).opacity,
+        };
+      });
+      checks.push(
+        check(
+          'hero-poster-no-interaction',
+          posterState.liveState === 'idle' &&
+            posterState.canvases === 0 &&
+            posterState.posterWidth > 1,
+          { liveState: 'idle', canvases: 0, posterWidthPositive: true },
+          posterState,
+        ),
+      );
+    }
     await homePage.screenshot({ path: join(outDir, 'hero-home-poster.png'), fullPage: true });
 
     await activateHomeLive(homePage);

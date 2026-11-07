@@ -111,10 +111,10 @@ ci_jobs_ok() {
       grep -vx .github/workflows/hero-eager.yml)"
 }
 
+# rfc.md §11.5: `/` is eager by default; `NEXT_PUBLIC_GATED_HERO=1` restores the gate.
 flag_default_ok() {
   grep -q "process.env.NEXT_PUBLIC_EAGER_3D === '1'" apps/web/next.config.ts &&
-    { ! grep -q EAGER_HERO apps/web/next.config.ts ||
-      grep -q "process.env.NEXT_PUBLIC_EAGER_HERO === '1'" apps/web/next.config.ts; }
+    grep -q "process.env.NEXT_PUBLIC_GATED_HERO !== '1'" apps/web/next.config.ts
 }
 
 gitleaks_ok() {

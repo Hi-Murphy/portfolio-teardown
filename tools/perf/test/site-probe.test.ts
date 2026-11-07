@@ -5,7 +5,9 @@ import {
   evaluateCls,
   evaluateDrawFrames,
   evaluateFallbackHtml,
+  evaluateHeroEagerNoInteraction,
   heroContainsPoster,
+  parseHeroLiveMode,
   type ClsEntry,
   type ClsSource,
 } from '../src/site-probe.ts';
@@ -168,5 +170,33 @@ describe('HTML fallback assertions', () => {
   test('requires the poster to be inside the hero section', () => {
     expect(heroContainsPoster(`<section data-site-hero="">${poster}</section>`)).toBe(true);
     expect(heroContainsPoster(`<section data-site-hero=""></section>${poster}`)).toBe(false);
+  });
+});
+
+describe('hero live mode', () => {
+  test('recognizes the compile-time eager and gated modes', () => {
+    expect(parseHeroLiveMode('eager')).toBe('eager');
+    expect(parseHeroLiveMode('gated')).toBe('gated');
+  });
+
+  test('rejects a missing or unknown mode attribute', () => {
+    expect(parseHeroLiveMode(null)).toBeNull();
+    expect(parseHeroLiveMode(undefined)).toBeNull();
+    expect(parseHeroLiveMode('other')).toBeNull();
+  });
+
+  test('requires reveal, exactly one canvas, and the ready marker without input', () => {
+    expect(
+      evaluateHeroEagerNoInteraction({ liveState: 'revealed', canvases: 1, ready: true }),
+    ).toBe(true);
+    expect(evaluateHeroEagerNoInteraction({ liveState: 'idle', canvases: 0, ready: false })).toBe(
+      false,
+    );
+    expect(
+      evaluateHeroEagerNoInteraction({ liveState: 'revealed', canvases: 2, ready: true }),
+    ).toBe(false);
+    expect(
+      evaluateHeroEagerNoInteraction({ liveState: 'revealed', canvases: 1, ready: false }),
+    ).toBe(false);
   });
 });
