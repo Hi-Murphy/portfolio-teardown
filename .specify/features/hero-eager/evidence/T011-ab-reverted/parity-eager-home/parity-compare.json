@@ -1,0 +1,40 @@
+{
+  "kind": "parity-compare",
+  "version": 1,
+  "pass": true,
+  "totalDifferingPixels": 0,
+  "shots": [
+    {
+      "id": "home-mobile-light",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-eager-home-home-mobile-light.png",
+      "currentFile": "screenshot-home-mobile-light.png",
+      "diffMaskFile": "diff-home-mobile-light.png"
+    },
+    {
+      "id": "home-mobile-dark",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-eager-home-home-mobile-dark.png",
+      "currentFile": "screenshot-home-mobile-dark.png",
+      "diffMaskFile": "diff-home-mobile-dark.png"
+    },
+    {
+      "id": "home-desktop-light",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-eager-home-home-desktop-light.png",
+      "currentFile": "screenshot-home-desktop-light.png",
+      "diffMaskFile": "diff-home-desktop-light.png"
+    },
+    {
+      "id": "home-desktop-dark",
+      "pass": true,
+      "differingPixels": 0,
+      "baselineFile": "T004-screenshot-eager-home-home-desktop-dark.png",
+      "currentFile": "screenshot-home-desktop-dark.png",
+      "diffMaskFile": "diff-home-desktop-dark.png"
+    }
+  ]
+}

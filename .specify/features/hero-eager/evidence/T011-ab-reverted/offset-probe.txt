@@ -1,0 +1,13 @@
+T011 ready-state probe (mobile 412x823, deviceScaleFactor 1.75)
+
+The standard sequence probe does not expose the stage extent or the R3F camera view.
+These samples were taken immediately after `data-xploder-ready="true"` appeared.
+`view=null` means the orthographic camera has no active view offset, i.e. effective offsetY=0.
+
+PASS home r1  extent=0 spacer=0px scrollTop=0 scrollHeight=277 clientHeight=277 view=null offsetY=0 zoom=1
+PASS home r2  extent=0 spacer=0px scrollTop=0 scrollHeight=277 clientHeight=277 view=null offsetY=0 zoom=1
+PASS project r1 extent=0 spacer=0px scrollTop=0 scrollHeight=574 clientHeight=574 view=null offsetY=0 zoom=1
+PASS project r2 extent=0 spacer=0px scrollTop=0 scrollHeight=574 clientHeight=574 view=null offsetY=0 zoom=1
+
+Before = T010 (e393048), after = T011 working tree. Each route was sampled twice on each side.
+All compared fields were identical before/after. Raw samples are in `offsets/`.

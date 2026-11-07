@@ -1,0 +1,133 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "Unattributable",
+      "simulatedStartMs": 755.7285,
+      "simulatedMs": 193.0000000000001,
+      "observedStartMs": 15.09,
+      "observedMs": 11.74,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.2404145077720935,
+      "tbtMs": 143.0000000000001,
+      "tbtSharePct": 62.71929824561402,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/",
+      "simulatedStartMs": 949.7285000000002,
+      "simulatedMs": 100,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 50,
+      "tbtSharePct": 21.92982456140349,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2301.4570000000003,
+      "simulatedMs": 231.00000000000045,
+      "observedStartMs": 51.844,
+      "observedMs": 14.06,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.18008658008678752,
+      "tbtMs": 181.00000000000045,
+      "tbtSharePct": 79.38596491228083,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+      "simulatedStartMs": 3595.185500000001,
+      "simulatedMs": 83,
+      "observedStartMs": 238.689,
+      "observedMs": 4.292,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 15.194216867469892,
+      "tbtMs": 33,
+      "tbtSharePct": 14.473684210526303,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+      "simulatedStartMs": 4106.914000000001,
+      "simulatedMs": 242,
+      "observedStartMs": 101.719,
+      "observedMs": 14.768,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.08066115702479332,
+      "tbtMs": 192,
+      "tbtSharePct": 84.2105263157894,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "http://127.0.0.1:PORT/",
+    "route": "/",
+    "cpuMultiplier": 16.4,
+    "profileChunks": 235,
+    "simulatedTbtMs": 228.00000000000023,
+    "observedBlockingMs": 1187.8439999999998,
+    "differenceMs": 959.8439999999996,
+    "differencePct": 420.9842105263152,
+    "pairs": [
+      {
+        "url": "Unattributable",
+        "simulatedStartMs": 755.7285,
+        "observedStartMs": 15.09,
+        "startGapMs": -740.6385,
+        "simulatedMs": 193.0000000000001,
+        "observedMs": 11.74,
+        "observedEquivalentMs": 192.53599999999997
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+        "simulatedStartMs": 2301.4570000000003,
+        "observedStartMs": 51.844,
+        "startGapMs": -2249.6130000000003,
+        "simulatedMs": 231.00000000000045,
+        "observedMs": 14.06,
+        "observedEquivalentMs": 230.58399999999997
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/1d5kkip1hlg-o.js",
+        "simulatedStartMs": 3595.185500000001,
+        "observedStartMs": 238.689,
+        "startGapMs": -3356.496500000001,
+        "simulatedMs": 83,
+        "observedMs": 4.292,
+        "observedEquivalentMs": 70.38879999999999
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/3vnmkhfgdnq2d.js",
+        "simulatedStartMs": 4106.914000000001,
+        "observedStartMs": 101.719,
+        "startGapMs": -4005.1950000000006,
+        "simulatedMs": 242,
+        "observedMs": 14.768,
+        "observedEquivalentMs": 242.1952
+      }
+    ]
+  }
+}
