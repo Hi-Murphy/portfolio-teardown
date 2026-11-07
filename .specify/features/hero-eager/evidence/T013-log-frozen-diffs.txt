@@ -1,0 +1,57 @@
+# T013 — frozen-surface and workflow diffs vs `0fcd243`
+
+Worktree: `.` · head: `15885cf` · base: `0fcd243`. An empty stat means the surface is byte-identical to the freeze.
+
+## S2 (`s2.paths`)
+
+```text
+(empty)
+```
+
+## S4 (`s4.paths`)
+
+```text
+(empty)
+```
+
+## S5 (`frozen-surface.s5.paths`)
+
+```text
+(empty)
+```
+
+## S6 (`frozen-surface.s6.paths`; only the approved `place.ts`)
+
+```text
+M	packages/xploder/src/overlay/place.ts
+ packages/xploder/src/overlay/place.ts | 244 ++++++++++++++++++++++++----------
+ 1 file changed, 174 insertions(+), 70 deletions(-)
+```
+
+## S7 (`frozen-surface.s7.paths`)
+
+```text
+(empty)
+```
+
+## S8 (`frozen-surface.s8.paths`)
+
+```text
+(empty)
+```
+
+## Workflows
+
+`ci.yml`, `perf.yml`, `eager-3d.yml` and `eager-load.yml` are byte-identical; `hero-eager.yml` is the only added workflow.
+
+```text
+$ git diff --stat 0fcd243 -- .github/workflows/ci.yml .github/workflows/perf.yml .github/workflows/eager-3d.yml .github/workflows/eager-load.yml
+(empty)
+
+$ git diff --name-status 0fcd243 -- .github/workflows/hero-eager.yml
+A	.github/workflows/hero-eager.yml
+
+$ git diff --stat 0fcd243 -- .github/workflows/hero-eager.yml
+ .github/workflows/hero-eager.yml | 176 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 176 insertions(+)
+```
