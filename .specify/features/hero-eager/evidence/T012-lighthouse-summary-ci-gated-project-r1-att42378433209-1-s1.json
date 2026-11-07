@@ -1,0 +1,112 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:PORT/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 907.1122,
+      "cls": 0,
+      "tbtMs": 91.00000000000045,
+      "fcpMs": 907.1122,
+      "siMs": 907.1122,
+      "totalByteWeight": 191503,
+      "benchmarkIndex": 2302,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2107.1122,
+          "durMs": 141.00000000000045
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 754.5561,
+          "durMs": 77
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 832.5561,
+          "durMs": 54
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": null,
+      "lcpMs": 907.0988,
+      "cls": 0,
+      "tbtMs": 87.00000000000023,
+      "fcpMs": 907.0988,
+      "siMs": 907.0988,
+      "totalByteWeight": 191503,
+      "benchmarkIndex": 2247,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2151.0988,
+          "durMs": 137.00000000000045
+        },
+        {
+          "url": "http://127.0.0.1:PORT/projects/websocket-inspector",
+          "startMs": 797.5494,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 0.99,
+      "accessibility": null,
+      "lcpMs": 907.3162,
+      "cls": 0,
+      "tbtMs": 126.00000000000023,
+      "fcpMs": 907.3162,
+      "siMs": 907.3162,
+      "totalByteWeight": 191465,
+      "benchmarkIndex": 2181.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2148.3161999999998,
+          "durMs": 176.00000000000045
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 907.0988,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

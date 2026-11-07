@@ -1,0 +1,78 @@
+{
+  "kind": "fps-engine",
+  "version": 1,
+  "url": "http://127.0.0.1:PORT/",
+  "scenario": "load",
+  "route": "/",
+  "frames": "trace-only",
+  "cpuThrottle": 4,
+  "loadMs": 502,
+  "fps": 4.6,
+  "frameCount": 23,
+  "droppedFrames": 8,
+  "windowMs": 5000,
+  "intervalsMs": {
+    "p50": 16.584,
+    "p95": 280.845,
+    "max": 571.061
+  },
+  "rafFps": 0,
+  "source": "trace:DrawFrame",
+  "chromium": "156.0.8078.4",
+  "pid": 8611,
+  "pidSource": "trace-metadata",
+  "longTasks": [
+    {
+      "start": 318.083,
+      "dur": 61.685
+    },
+    {
+      "start": 398.409,
+      "dur": 88.824
+    },
+    {
+      "start": 762.769,
+      "dur": 75.074
+    },
+    {
+      "start": 841.525,
+      "dur": 83.135
+    },
+    {
+      "start": 967.416,
+      "dur": 74.609
+    }
+  ],
+  "maxLongTaskMs": 88.824,
+  "preLoadTasks": [
+    {
+      "start": -466.23,
+      "dur": 63.107
+    },
+    {
+      "start": -321.938,
+      "dur": 79.049
+    },
+    {
+      "start": -206.815,
+      "dur": 195.124
+    }
+  ],
+  "droppedFrameTimes": [
+    908.564,
+    925.23,
+    941.896,
+    958.562,
+    975.228,
+    991.894,
+    1008.56,
+    1025.226
+  ],
+  "mounted": true,
+  "readyMs": 1422.5,
+  "verdict": {
+    "longTask50": false,
+    "droppedFramesLe2": false,
+    "gated": true
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "source": "lighthouse-profile",
+  "tasks": [
+    {
+      "url": "Unattributable",
+      "simulatedStartMs": 753.61225,
+      "simulatedMs": 68,
+      "observedStartMs": 21.412,
+      "observedMs": 17.039,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.22941176470589103,
+      "tbtMs": 18,
+      "tbtSharePct": 13.49449256022385,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "Unattributable",
+      "simulatedStartMs": 821.61225,
+      "simulatedMs": 164,
+      "observedStartMs": 38.496,
+      "observedMs": 41.004,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.009756097560970203,
+      "tbtMs": 114,
+      "tbtSharePct": 85.46511954808437,
+      "chunk": "(native)",
+      "module": null,
+      "topFunctions": [
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "module": null,
+          "selfMs": 35.175,
+          "selfPct": 98.57911552043048,
+          "lineNumber": null,
+          "columnNumber": null,
+          "snippet": null,
+          "stack": [
+            {
+              "fn": "(program)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            },
+            {
+              "fn": "(root)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            }
+          ]
+        }
+      ],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/",
+      "simulatedStartMs": 986.61225,
+      "simulatedMs": 78.00000000000011,
+      "observedStartMs": null,
+      "observedMs": null,
+      "matched": false,
+      "matchQuality": null,
+      "matchErrorPct": null,
+      "tbtMs": 28.000000000000114,
+      "tbtSharePct": 20.991432871459406,
+      "chunk": null,
+      "module": null,
+      "topFunctions": [],
+      "hypotheses": []
+    },
+    {
+      "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+      "simulatedStartMs": 2339.2245000000003,
+      "simulatedMs": 161.00000000000045,
+      "observedStartMs": 163.168,
+      "observedMs": 40.2,
+      "matched": true,
+      "matchQuality": "exact",
+      "matchErrorPct": 0.12422360248474709,
+      "tbtMs": 111.00000000000045,
+      "tbtSharePct": 83.21603745471407,
+      "chunk": "turbopack-3-ry682tkyiqk.js",
+      "module": "_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+      "topFunctions": [
+        {
+          "fn": "I",
+          "chunk": "turbopack-3-ry682tkyiqk.js",
+          "module": "_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+          "selfMs": 19.704,
+          "selfPct": 49.22062350119904,
+          "lineNumber": 0,
+          "columnNumber": 6194,
+          "snippet": "(e,t,r){let n=P.get(e);if(\"function\"!=typeof n)throw Error(function(e,t,r){let n;switch(t){case 0:n=`as a runtime entry",
+          "stack": [
+            {
+              "fn": "I",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6194,
+              "snippet": "(e,t,r){let n=P.get(e);if(\"function\"!=typeof n)throw Error(function(e,t,r){let n;switch(t){case 0:n=`as a runtime entry"
+            },
+            {
+              "fn": "B",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6094,
+              "snippet": "(e,t)=>{let r=L.get(e);if(r){if(r.error)throw r.error;return r}return I(e,o.Parent,t.id)};function I(e,t,r){let n=P.get("
+            },
+            {
+              "fn": "u.r",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 3629,
+              "snippet": "(e){return B(e,this.m).exports},u.f=function(e){function t(t){if(t=v(t),s.call(e,t))return e[t].module();let r=Error(`Ca"
+            }
+          ]
+        },
+        {
+          "fn": "(program)",
+          "chunk": "(native)",
+          "module": null,
+          "selfMs": 4.549,
+          "selfPct": 11.363409272581935,
+          "lineNumber": null,
+          "columnNumber": null,
+          "snippet": null,
+          "stack": [
+            {
+              "fn": "(program)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            },
+            {
+              "fn": "(root)",
+              "url": "",
+              "chunk": "(native)",
+              "lineNumber": null,
+              "columnNumber": null,
+              "snippet": null
+            }
+          ]
+        },
+        {
+          "fn": "(anonymous)",
+          "chunk": "1kgrt2f4mrm63.js",
+          "module": "_next/static/chunks/1kgrt2f4mrm63.js",
+          "selfMs": 2.107,
+          "selfPct": 5.263289368505196,
+          "lineNumber": 0,
+          "columnNumber": 20127,
+          "snippet": "(e,t,n)=>{var r,l=e.i(29942),a=e.r(77816),o=e.r(50619),i=e.r(44559);function u(e){var t=\"https://react.dev/errors/\"+e;if",
+          "stack": [
+            {
+              "fn": "(anonymous)",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/1kgrt2f4mrm63.js",
+              "chunk": "1kgrt2f4mrm63.js",
+              "lineNumber": 0,
+              "columnNumber": 20127,
+              "snippet": "(e,t,n)=>{var r,l=e.i(29942),a=e.r(77816),o=e.r(50619),i=e.r(44559);function u(e){var t=\"https://react.dev/errors/\"+e;if"
+            },
+            {
+              "fn": "I",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6194,
+              "snippet": "(e,t,r){let n=P.get(e);if(\"function\"!=typeof n)throw Error(function(e,t,r){let n;switch(t){case 0:n=`as a runtime entry"
+            },
+            {
+              "fn": "B",
+              "url": "http://127.0.0.1:PORT/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+              "chunk": "turbopack-3-ry682tkyiqk.js",
+              "lineNumber": 0,
+              "columnNumber": 6094,
+              "snippet": "(e,t)=>{let r=L.get(e);if(r){if(r.error)throw r.error;return r}return I(e,o.Parent,t.id)};function I(e,t,r){let n=P.get("
+            }
+          ]
+        }
+      ],
+      "hypotheses": []
+    }
+  ],
+  "lantern": {
+    "url": "http://127.0.0.1:PORT/",
+    "route": "/",
+    "cpuMultiplier": 4,
+    "profileChunks": 210,
+    "simulatedTbtMs": 133.3877500000001,
+    "observedBlockingMs": 348.308,
+    "differenceMs": 214.9202499999999,
+    "differencePct": 161.12442859258044,
+    "pairs": [
+      {
+        "url": "Unattributable",
+        "simulatedStartMs": 753.61225,
+        "observedStartMs": 21.412,
+        "startGapMs": -732.20025,
+        "simulatedMs": 68,
+        "observedMs": 17.039,
+        "observedEquivalentMs": 68.156
+      },
+      {
+        "url": "Unattributable",
+        "simulatedStartMs": 821.61225,
+        "observedStartMs": 38.496,
+        "startGapMs": -783.11625,
+        "simulatedMs": 164,
+        "observedMs": 41.004,
+        "observedEquivalentMs": 164.016
+      },
+      {
+        "url": "http://127.0.0.1:PORT/_next/static/chunks/10kujx8nsd3ck.js",
+        "simulatedStartMs": 2339.2245000000003,
+        "observedStartMs": 163.168,
+        "startGapMs": -2176.0565,
+        "simulatedMs": 161.00000000000045,
+        "observedMs": 40.2,
+        "observedEquivalentMs": 160.8
+      }
+    ]
+  }
+}
