@@ -201,12 +201,19 @@ describe('hero live mode', () => {
     ).toBe(false);
   });
 
-  test('requires a running loop, exactly one canvas, and an idle tour', () => {
+  test('requires a running loop, exactly one canvas, and a valid tour state', () => {
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'idle' })).toBe(true);
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: null })).toBe(true);
     expect(evaluateHeroLoopRunning({ heroLoop: 'paused', canvases: 1, tour: 'idle' })).toBe(false);
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 2, tour: 'idle' })).toBe(false);
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'playing' })).toBe(
+      true,
+    );
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'paused' })).toBe(
+      true,
+    );
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'ended' })).toBe(true);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'unknown' })).toBe(
       false,
     );
   });

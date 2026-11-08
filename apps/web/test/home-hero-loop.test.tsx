@@ -1,38 +1,80 @@
 // @vitest-environment jsdom
 
-import type { Project } from 'xploder';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { createHeroLoop, HERO_LOOP_STEP_MS } from '../components/hero/hero-loop';
+import { websocketInspector } from '../content/projects/websocket-inspector';
+import { HeroCaption } from '../components/hero/hero-caption';
+import {
+  createHeroLoop,
+  createHeroSequence,
+  HERO_LOOP_STEP_MS,
+  type HeroTourState,
+} from '../components/hero/hero-loop';
 
-const { bootHeroStage, liveViewerProps, viewerActions } = vi.hoisted(() => ({
-  bootHeroStage: vi.fn(),
-  liveViewerProps: [] as { onFirstFrame?: () => void }[],
-  viewerActions: {
-    explode: vi.fn(),
-    implode: vi.fn(),
-    rotateRight: vi.fn(),
-  },
-}));
+const { bootHeroStage, liveViewerProps, viewerActions, viewerStore } = vi.hoisted(() => {
+  const store = {
+    version: 0,
+    listeners: new Set<() => void>(),
+    tour: {
+      status: 'idle',
+      flowId: null as string | null,
+      step: -1,
+      total: 0,
+      flows: [] as { id: string; label: string }[],
+    },
+  };
+
+  return {
+    bootHeroStage: vi.fn(),
+    liveViewerProps: [] as { onFirstFrame?: () => void }[],
+    viewerStore: store,
+    viewerActions: {
+      explode: vi.fn(),
+      implode: vi.fn(),
+      rotateRight: vi.fn(),
+      selectFlow: vi.fn(),
+      play: vi.fn(),
+      pause: vi.fn(),
+      stop: vi.fn(),
+    },
+  };
+});
 
 vi.mock('../components/hero/hero-boot', () => ({ bootHeroStage }));
-vi.mock('../components/viewer/live-viewer', () => ({
-  useLiveViewer: () => ({ actions: viewerActions }),
-  LiveViewer: (props: { onFirstFrame?: () => void }) => {
-    liveViewerProps.push(props);
-    return null;
-  },
-}));
+vi.mock('../components/viewer/live-viewer', async () => {
+  const { useSyncExternalStore } = await import('react');
+  const subscribe = (listener: () => void) => {
+    viewerStore.listeners.add(listener);
+    return () => viewerStore.listeners.delete(listener);
+  };
+  const snapshot = () => viewerStore.version;
+
+  return {
+    useLiveViewer: () => {
+      useSyncExternalStore(subscribe, snapshot, snapshot);
+      return { actions: viewerActions, tour: viewerStore.tour };
+    },
+    LiveViewer: (props: { onFirstFrame?: () => void }) => {
+      liveViewerProps.push(props);
+      return null;
+    },
+  };
+});
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 type HeroLiveComponent = (typeof import('../components/hero/hero-live'))['HeroLive'];
+type HeroShowcaseProviderComponent =
+  (typeof import('../components/hero/hero-showcase'))['HeroShowcaseProvider'];
 
 const LABELS = { pause: 'Pause animation test', play: 'Play animation test' };
+const FLOW_A = 'fixture-capture';
+const FLOW_B = 'fixture-inspect';
 
 let HeroLive: HeroLiveComponent;
+let HeroShowcaseProvider: HeroShowcaseProviderComponent;
 let root: Root | null = null;
 let container: HTMLDivElement | null = null;
 let reduced = false;
@@ -43,6 +85,7 @@ let visibilityDescriptor: PropertyDescriptor | undefined;
 let connectionDescriptor: PropertyDescriptor | undefined;
 let idleDescriptor: PropertyDescriptor | undefined;
 let cancelIdleDescriptor: PropertyDescriptor | undefined;
+const tourTotal = 7;
 
 class TestIntersectionObserver {
   readonly root = null;
@@ -52,13 +95,26 @@ class TestIntersectionObserver {
   constructor(callback: IntersectionObserverCallback) {
     intersectionCallback = callback;
   }
-
   observe(): void {}
   unobserve(): void {}
   disconnect(): void {}
   takeRecords(): IntersectionObserverEntry[] {
     return [];
   }
+}
+
+function notifyViewer(): void {
+  viewerStore.version += 1;
+  for (const listener of viewerStore.listeners) listener();
+}
+
+function setTour(next: Partial<typeof viewerStore.tour>): void {
+  viewerStore.tour = { ...viewerStore.tour, ...next };
+  notifyViewer();
+}
+
+function emitTour(next: Partial<typeof viewerStore.tour>): void {
+  act(() => setTour(next));
 }
 
 function setReduced(next: boolean): void {
@@ -104,7 +160,16 @@ async function flush(): Promise<void> {
 
 async function renderHero(): Promise<void> {
   await act(async () => {
-    root?.render(<HeroLive project={{} as Project} labels={LABELS} />);
+    root?.render(
+      <HeroShowcaseProvider>
+        <HeroLive project={websocketInspector} />
+        <HeroCaption
+          name={websocketInspector.meta.name}
+          tagline={websocketInspector.meta.tagline}
+          labels={LABELS}
+        />
+      </HeroShowcaseProvider>,
+    );
   });
   await flush();
 }
@@ -123,6 +188,7 @@ async function advanceStep(): Promise<void> {
   await act(async () => {
     await vi.advanceTimersByTimeAsync(HERO_LOOP_STEP_MS);
   });
+  await flush();
 }
 
 function heroLoop(): string | undefined {
@@ -130,7 +196,13 @@ function heroLoop(): string | undefined {
 }
 
 function loopButton(): HTMLButtonElement | null {
-  return container?.querySelector<HTMLButtonElement>('button') ?? null;
+  return container?.querySelector<HTMLButtonElement>('[data-hero-loop-slot] button') ?? null;
+}
+
+function narration(): string | null {
+  return (
+    container?.querySelector<HTMLElement>('[data-hero-narration]')?.textContent?.trim() ?? null
+  );
 }
 
 async function clickLoopButton(): Promise<void> {
@@ -143,6 +215,38 @@ async function clickLoopButton(): Promise<void> {
   await flush();
 }
 
+function expectedNarration(flowIndex: number, step: number): string {
+  const flow = websocketInspector.flows?.[flowIndex];
+  const componentId = flow?.path[step];
+  const component = websocketInspector.layers
+    .flatMap((layer) => layer.components)
+    .find((candidate) => candidate.id === componentId);
+
+  return `${flow?.label ?? ''} · ${step + 1}/${flow?.path.length ?? 0} · ${component?.name ?? ''} — ${component?.summary ?? ''}`;
+}
+
+function sequenceActions() {
+  return {
+    explode: vi.fn(),
+    implode: vi.fn(),
+    rotateRight: vi.fn(),
+    selectFlow: vi.fn(),
+    playTour: vi.fn(),
+    pauseTour: vi.fn(),
+    stopTour: vi.fn(),
+  };
+}
+
+function tour(overrides: Partial<HeroTourState> = {}): HeroTourState {
+  return {
+    status: 'playing',
+    flowId: FLOW_A,
+    step: 0,
+    total: 3,
+    ...overrides,
+  };
+}
+
 beforeEach(async () => {
   vi.useFakeTimers();
   vi.stubGlobal('__XP_EAGER_HERO__', true);
@@ -151,10 +255,23 @@ beforeEach(async () => {
   motionListeners = new Set<() => void>();
   intersectionCallback = null;
   liveViewerProps.length = 0;
-  viewerActions.explode.mockReset();
-  viewerActions.implode.mockReset();
-  viewerActions.rotateRight.mockReset();
+  viewerStore.version = 0;
+  viewerStore.listeners.clear();
+  viewerStore.tour = { status: 'idle', flowId: null, step: -1, total: 0, flows: [] };
+  for (const action of Object.values(viewerActions)) action.mockReset();
   bootHeroStage.mockReset();
+
+  viewerActions.selectFlow.mockImplementation((flowId: string) => {
+    setTour({ flowId, status: 'idle', step: -1, total: tourTotal });
+  });
+  viewerActions.play.mockImplementation(() => {
+    setTour({
+      status: 'playing',
+      step: viewerStore.tour.step < 0 ? 0 : viewerStore.tour.step,
+    });
+  });
+  viewerActions.pause.mockImplementation(() => setTour({ status: 'paused' }));
+  viewerActions.stop.mockImplementation(() => setTour({ status: 'idle', step: -1 }));
 
   Object.defineProperty(window, 'matchMedia', {
     configurable: true,
@@ -199,6 +316,7 @@ beforeEach(async () => {
   vi.stubGlobal('IntersectionObserver', TestIntersectionObserver);
 
   ({ HeroLive } = await import('../components/hero/hero-live'));
+  ({ HeroShowcaseProvider } = await import('../components/hero/hero-showcase'));
   const { HeroStage } = await import('../components/hero/hero-stage');
   bootHeroStage.mockImplementation(
     async (_signal: AbortSignal, mount: (stage: () => unknown) => void) => {
@@ -291,38 +409,176 @@ describe('createHeroLoop', () => {
   });
 });
 
-describe('hero loop stage', () => {
-  test('renders no button before the first frame and runs the sequence afterwards', async () => {
+describe('createHeroSequence', () => {
+  function controller() {
+    const actions = sequenceActions();
+    const sequence = createHeroSequence({
+      actions,
+      captureFlow: FLOW_A,
+      inspectFlow: FLOW_B,
+      schedule: (callback, delayMs) => window.setTimeout(callback, delayMs),
+      cancel: (handle) => window.clearTimeout(handle as number),
+    });
+    return { actions, sequence };
+  }
+
+  test('runs capture, inspect, turn, and capture again', () => {
+    const { actions, sequence } = controller();
+
+    sequence.start();
+    expect(actions.selectFlow).toHaveBeenLastCalledWith(FLOW_A);
+    expect(actions.playTour).toHaveBeenCalledTimes(1);
+    expect(sequence.state).toMatchObject({ phase: 'capture', status: 'running', started: true });
+
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    expect(actions.selectFlow).toHaveBeenLastCalledWith(FLOW_B);
+    expect(actions.playTour).toHaveBeenCalledTimes(2);
+    expect(sequence.state.phase).toBe('inspect');
+
+    sequence.updateTour(tour({ status: 'ended', flowId: FLOW_B, step: 2 }));
+    expect(actions.stopTour).toHaveBeenCalledTimes(1);
+    expect(sequence.state).toMatchObject({ phase: 'turn', status: 'running' });
+
+    vi.advanceTimersByTime(HERO_LOOP_STEP_MS);
+    expect(actions.rotateRight).toHaveBeenCalledTimes(1);
+    expect(actions.implode).toHaveBeenCalledTimes(1);
+    expect(sequence.state.phase).toBe('turn');
+
+    vi.advanceTimersByTime(HERO_LOOP_STEP_MS);
+    expect(actions.rotateRight).toHaveBeenCalledTimes(2);
+    expect(actions.explode).toHaveBeenCalledTimes(1);
+    expect(actions.selectFlow).toHaveBeenLastCalledWith(FLOW_A);
+    expect(sequence.state.phase).toBe('capture');
+  });
+
+  test('pause stops the tour and turn, and resume continues the current phase', () => {
+    const { actions, sequence } = controller();
+
+    sequence.start();
+    sequence.updateTour(tour());
+    sequence.pause();
+    expect(actions.pauseTour).toHaveBeenCalledTimes(1);
+    expect(sequence.state.status).toBe('paused');
+
+    sequence.updateTour(tour({ status: 'paused' }));
+    expect(sequence.state.status).toBe('paused');
+    sequence.resume();
+    expect(actions.playTour).toHaveBeenCalledTimes(2);
+    expect(sequence.state.status).toBe('running');
+
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    sequence.updateTour(tour({ status: 'ended', flowId: FLOW_B, step: 2 }));
+    expect(sequence.state.phase).toBe('turn');
+    sequence.pause();
+    vi.advanceTimersByTime(HERO_LOOP_STEP_MS);
+    expect(actions.rotateRight).not.toHaveBeenCalled();
+    sequence.resume();
+    vi.advanceTimersByTime(HERO_LOOP_STEP_MS);
+    expect(actions.rotateRight).toHaveBeenCalledTimes(1);
+  });
+
+  test('pauses a tour that starts after suspension and replays it on resume', () => {
+    const { actions, sequence } = controller();
+
+    sequence.start();
+    sequence.pause();
+    expect(actions.pauseTour).toHaveBeenCalledTimes(1);
+
+    sequence.updateTour(tour());
+    expect(actions.pauseTour).toHaveBeenCalledTimes(2);
+    expect(sequence.state.status).toBe('paused');
+
+    sequence.resume();
+    expect(actions.playTour).toHaveBeenCalledTimes(2);
+    expect(sequence.state.status).toBe('running');
+  });
+});
+
+describe('hero stage sequence', () => {
+  test('narrates capture and inspect, turns twice, then returns to capture', async () => {
     await renderHero();
 
     expect(heroLoop()).toBe('paused');
     expect(loopButton()).toBeNull();
+    expect(container?.querySelector('[data-hero-loop-slot]')).not.toBeNull();
 
     await firstFrame();
 
+    expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('capture-path');
+    expect(viewerActions.play).toHaveBeenCalledTimes(1);
     expect(heroLoop()).toBe('running');
+    expect(narration()).toBe(expectedNarration(0, 0));
+
     const button = loopButton();
-    expect(button).not.toBeNull();
     expect(button?.getAttribute('aria-label')).toBe(LABELS.pause);
     expect(button?.closest('[aria-hidden="true"]')).toBeNull();
-    expect(button?.className).toContain('h-11');
-    expect(button?.className).toContain('w-11');
-    expect(viewerActions.rotateRight).not.toHaveBeenCalled();
+    expect(button?.parentElement?.className).toContain('h-11');
+    expect(button?.parentElement?.className).toContain('w-11');
+
+    emitTour({ flowId: 'capture-path', status: 'ended', step: tourTotal - 1 });
+    expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('inspect-path');
+    expect(narration()).toBe(expectedNarration(1, 0));
+
+    emitTour({ flowId: 'inspect-path', status: 'ended', step: tourTotal - 1 });
+    expect(viewerActions.stop).toHaveBeenCalled();
+    expect(narration()).toBeNull();
+    expect(container?.querySelector('#hero-caption')?.textContent).toContain(
+      websocketInspector.meta.name,
+    );
 
     await advanceStep();
     expect(viewerActions.rotateRight).toHaveBeenCalledTimes(1);
     expect(viewerActions.implode).toHaveBeenCalledTimes(1);
-    expect(viewerActions.explode).not.toHaveBeenCalled();
-
     await advanceStep();
     expect(viewerActions.rotateRight).toHaveBeenCalledTimes(2);
-    expect(viewerActions.implode).toHaveBeenCalledTimes(1);
     expect(viewerActions.explode).toHaveBeenCalledTimes(1);
+    expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('capture-path');
+    expect(narration()).toBe(expectedNarration(0, 0));
+  });
 
-    await advanceStep();
-    expect(viewerActions.rotateRight).toHaveBeenCalledTimes(3);
-    expect(viewerActions.implode).toHaveBeenCalledTimes(2);
-    expect(viewerActions.explode).toHaveBeenCalledTimes(1);
+  test('pauses and resumes from the button, hidden tab, and off-screen observer', async () => {
+    await renderHero();
+    await firstFrame();
+
+    await clickLoopButton();
+    expect(viewerActions.pause).toHaveBeenCalledTimes(1);
+    expect(heroLoop()).toBe('paused');
+    expect(loopButton()?.getAttribute('aria-label')).toBe(LABELS.play);
+
+    await clickLoopButton();
+    expect(viewerActions.play).toHaveBeenCalledTimes(2);
+    expect(heroLoop()).toBe('running');
+    expect(loopButton()?.getAttribute('aria-label')).toBe(LABELS.pause);
+
+    setVisibility('hidden');
+    expect(viewerActions.pause).toHaveBeenCalledTimes(2);
+    expect(heroLoop()).toBe('paused');
+    setVisibility('visible');
+    expect(viewerActions.play).toHaveBeenCalledTimes(3);
+    expect(heroLoop()).toBe('running');
+
+    reportIntersection(false);
+    expect(viewerActions.pause).toHaveBeenCalledTimes(3);
+    expect(heroLoop()).toBe('paused');
+    reportIntersection(true);
+    expect(viewerActions.play).toHaveBeenCalledTimes(4);
+    expect(heroLoop()).toBe('running');
+  });
+
+  test('a user pause wins over automatic resumes', async () => {
+    await renderHero();
+    await firstFrame();
+
+    await clickLoopButton();
+    setVisibility('hidden');
+    setVisibility('visible');
+    reportIntersection(false);
+    reportIntersection(true);
+    expect(heroLoop()).toBe('paused');
+    expect(loopButton()?.getAttribute('aria-label')).toBe(LABELS.play);
+
+    await clickLoopButton();
+    expect(heroLoop()).toBe('running');
   });
 
   test('never mounts the stage or loop under reduced motion', async () => {
@@ -333,53 +589,6 @@ describe('hero loop stage', () => {
     expect(bootHeroStage).not.toHaveBeenCalled();
     expect(container?.querySelector('[data-hero-loop]')).toBeNull();
     expect(loopButton()).toBeNull();
-  });
-
-  test('pauses when hidden or off-screen and resumes only when both are back', async () => {
-    await renderHero();
-    await firstFrame();
-
-    setVisibility('hidden');
-    expect(heroLoop()).toBe('paused');
-    await advanceStep();
-    expect(viewerActions.rotateRight).not.toHaveBeenCalled();
-
-    setVisibility('visible');
-    expect(heroLoop()).toBe('running');
-    await advanceStep();
-    expect(viewerActions.rotateRight).toHaveBeenCalledTimes(1);
-
-    reportIntersection(false);
-    expect(heroLoop()).toBe('paused');
-    await advanceStep();
-    expect(viewerActions.rotateRight).toHaveBeenCalledTimes(1);
-
-    reportIntersection(true);
-    expect(heroLoop()).toBe('running');
-    await advanceStep();
-    expect(viewerActions.rotateRight).toHaveBeenCalledTimes(2);
-  });
-
-  test('a user pause wins over automatic resumes and switches the label', async () => {
-    await renderHero();
-    await firstFrame();
-
-    await clickLoopButton();
-    expect(heroLoop()).toBe('paused');
-    expect(loopButton()?.getAttribute('aria-label')).toBe(LABELS.play);
-
-    setVisibility('hidden');
-    setVisibility('visible');
-    reportIntersection(false);
-    reportIntersection(true);
-    expect(heroLoop()).toBe('paused');
-    await advanceStep();
-    expect(viewerActions.rotateRight).not.toHaveBeenCalled();
-
-    await clickLoopButton();
-    expect(heroLoop()).toBe('running');
-    expect(loopButton()?.getAttribute('aria-label')).toBe(LABELS.pause);
-    await advanceStep();
-    expect(viewerActions.rotateRight).toHaveBeenCalledTimes(1);
+    expect(container?.querySelector('[data-hero-loop-slot]')).not.toBeNull();
   });
 });

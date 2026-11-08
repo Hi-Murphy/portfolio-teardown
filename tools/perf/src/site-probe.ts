@@ -304,11 +304,10 @@ export function evaluateHeroEagerNoInteraction(state: HeroEagerNoInteractionStat
 }
 
 export function evaluateHeroLoopRunning(state: HeroLoopRunningState): boolean {
-  return (
-    state.heroLoop === 'running' &&
-    state.canvases === 1 &&
-    (state.tour === null || state.tour === 'idle')
-  );
+  const validTour =
+    state.tour === null || ['idle', 'playing', 'paused', 'ended'].includes(state.tour);
+
+  return state.heroLoop === 'running' && state.canvases === 1 && validTour;
 }
 
 export function clsRoutes(siteBase?: URL, fixturesBase?: URL): ProbeRoute[] {
@@ -1185,7 +1184,7 @@ async function runHeroGroup(
         ? check(
             'hero-loop-running',
             evaluateHeroLoopRunning(idle),
-            { heroLoop: 'running', canvases: 1, tour: 'idle' },
+            { heroLoop: 'running', canvases: 1, tour: 'capture or inspect' },
             { heroLoop: idle.heroLoop, canvases: idle.canvases, tour: idle.tour },
           )
         : check(

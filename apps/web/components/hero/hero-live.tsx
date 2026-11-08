@@ -6,13 +6,11 @@ import { motion } from 'xploder/motion';
 
 import { waitForFirstInteraction, waitForIdle } from '../interaction-gate';
 import { LIVE_CLASS } from './hero-classes';
-import { HeroLoopButton, type HeroLoopLabels } from './hero-loop-button';
-import type { HeroLoopState } from './hero-loop';
+import { EMPTY_HERO_SHOWCASE, useHeroShowcase, type HeroShowcaseState } from './hero-showcase';
 import type { HeroLoopControl } from './hero-stage';
 
 export interface HeroLiveProps {
   readonly project: Project;
-  readonly labels?: HeroLoopLabels;
 }
 
 type LiveState = 'idle' | 'loading' | 'revealed' | 'skipped';
@@ -44,13 +42,12 @@ function waitForEvent(
   });
 }
 
-export function HeroLive({ project, labels }: HeroLiveProps) {
+export function HeroLive({ project }: HeroLiveProps) {
+  const { publish, registerToggle } = useHeroShowcase();
   const [state, setState] = useState<LiveState>('idle');
-  const [loopState, setLoopState] = useState<HeroLoopState>('paused');
   const [HeroStage, setHeroStage] = useState<HeroStageComponent | null>(null);
   const inFlightRef = useRef(false);
   const revealedRef = useRef(false);
-  const loopControlRef = useRef<HeroLoopControl | null>(null);
 
   const reveal = useCallback(() => {
     if (revealedRef.current) return;
@@ -58,22 +55,27 @@ export function HeroLive({ project, labels }: HeroLiveProps) {
     revealedRef.current = true;
     setState((current) => (current === 'skipped' ? current : 'revealed'));
   }, []);
-  const registerLoopControl = useCallback((control: HeroLoopControl | null) => {
-    loopControlRef.current = control;
-  }, []);
-  const toggleLoop = useCallback(() => loopControlRef.current?.toggle(), []);
+  const registerLoopControl = useCallback(
+    (control: HeroLoopControl | null) => registerToggle(control?.toggle ?? null),
+    [registerToggle],
+  );
+  const publishShowcase = useCallback((next: HeroShowcaseState) => publish(next), [publish]);
   const stage = useMemo(
     () =>
       HeroStage === null ? null : (
         <HeroStage
           project={project}
           onFirstFrame={reveal}
-          onLoopStateChange={setLoopState}
           onLoopControl={registerLoopControl}
+          onShowcaseChange={publishShowcase}
         />
       ),
-    [HeroStage, project, registerLoopControl, reveal],
+    [HeroStage, project, publishShowcase, registerLoopControl, reveal],
   );
+
+  useEffect(() => {
+    if (state !== 'revealed' || stage === null) publishShowcase(EMPTY_HERO_SHOWCASE);
+  }, [publishShowcase, stage, state]);
 
   useEffect(() => {
     if (inFlightRef.current) return;
@@ -149,20 +151,15 @@ export function HeroLive({ project, labels }: HeroLiveProps) {
   }, []);
 
   return (
-    <>
-      <div
-        data-site-live=""
-        data-site-live-mode={__XP_EAGER_3D__ || __XP_EAGER_HERO__ ? 'eager' : 'gated'}
-        data-site-live-state={state}
-        className={LIVE_CLASS}
-        inert
-        aria-hidden="true"
-      >
-        {stage}
-      </div>
-      {labels === undefined || state !== 'revealed' || stage === null ? null : (
-        <HeroLoopButton paused={loopState !== 'running'} labels={labels} onToggle={toggleLoop} />
-      )}
-    </>
+    <div
+      data-site-live=""
+      data-site-live-mode={__XP_EAGER_3D__ || __XP_EAGER_HERO__ ? 'eager' : 'gated'}
+      data-site-live-state={state}
+      className={LIVE_CLASS}
+      inert
+      aria-hidden="true"
+    >
+      {stage}
+    </div>
   );
 }
