@@ -1,0 +1,337 @@
+T006 — hero identity line + 16 px caption
+
+Fold boxes, 390x844 (light and dark are identical):
+name           y=85..109 (24px)
+role           y=129..145 (16px)
+h1             y=165..235.53125 (70.53125px)
+cta            y=353.53125..397.53125 (44px)
+project signal y=760.03125..812.03125 (52px)
+caption bottom = 812.03125; threshold = 836; padding = py-10 (unchanged)
+fold verdict = PASS
+
+Before/after fold-relevant boxes:
+before h1=121..199 cta=317..361 figure=449..769 caption=724..769
+after  h1=165..236 cta=354..398 figure=486..812 caption=760..812
+
+Consolidated check output:
+T006 hero composition check
+$ pnpm --filter web exec vitest run test/home-hero-figure.test.tsx --reporter verbose
+
+ RUN  v5.0.5 ./apps/web
+
+ ✓ test/home-hero-figure.test.tsx > home hero figure > keeps the figure subtree byte-frozen 6ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  13:51:36
+   Duration  118ms (import 69%, transform 19%, tests 10%, worker 2%)
+
+$ pnpm build
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 128ms
+  Running TypeScript ...
+  Finished TypeScript in 809ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 271ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ pnpm home:probe --serve apps/web/out --group fold
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group fold --out <checks>/t006-fold-final
+PASS light:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":85,"width":198.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"ANDROID ENGINEER · INDONESIA","tag":"p","rect":{"x":20,"y":129,"width":262.78125,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":165,"width":299.1875,"height":70.53125},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"Open a teardown","tag":"a","rect":{"x":20,"y":353.53125,"width":154.71875,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"Scarlet Inspector — Every WebSocket frame, captured and inspectable.","tag":"figcaption","rect":{"x":20,"y":760.03125,"width":350,"height":52},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2298,"clientHeight":844}
+PASS dark:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":85,"width":198.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"ANDROID ENGINEER · INDONESIA","tag":"p","rect":{"x":20,"y":129,"width":262.78125,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":165,"width":299.1875,"height":70.53125},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"Open a teardown","tag":"a","rect":{"x":20,"y":353.53125,"width":154.71875,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"Scarlet Inspector — Every WebSocket frame, captured and inspectable.","tag":"figcaption","rect":{"x":20,"y":760.03125,"width":350,"height":52},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2298,"clientHeight":844}
+fold: PASS (12 checks)
+home-probe: PASS
+artifacts: <checks>/t006-fold-final
+$ pnpm home:probe --serve apps/web/out --group responsive
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group responsive --out <checks>/t006-responsive-final
+PASS mobile-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2298,"clientHeight":844}
+PASS mobile-light:responsive-no-section-overlap: expected [] actual []
+PASS mobile-light:responsive-no-text-overlap: expected [] actual []
+PASS mobile-light:responsive-no-clipping: expected [] actual []
+FAIL mobile-light:responsive-tap-targets: expected [] actual [{"text":"TH Timur Haryo","width":36,"height":44,"stretched":false},{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL mobile-light:responsive-body-font-size: expected [] actual [{"text":"Every WebSocket frame, captured and inspectable.","fontSize":14,"tag":"p"},{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS mobile-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2298,"clientHeight":844}
+PASS mobile-dark:responsive-no-section-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-text-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-clipping: expected [] actual []
+FAIL mobile-dark:responsive-tap-targets: expected [] actual [{"text":"TH Timur Haryo","width":36,"height":44,"stretched":false},{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL mobile-dark:responsive-body-font-size: expected [] actual [{"text":"Every WebSocket frame, captured and inspectable.","fontSize":14,"tag":"p"},{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS tablet-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2131,"clientHeight":1024}
+PASS tablet-light:responsive-no-section-overlap: expected [] actual []
+PASS tablet-light:responsive-no-text-overlap: expected [] actual []
+PASS tablet-light:responsive-no-clipping: expected [] actual []
+FAIL tablet-light:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL tablet-light:responsive-body-font-size: expected [] actual [{"text":"Every WebSocket frame, captured and inspectable.","fontSize":14,"tag":"p"},{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS tablet-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2131,"clientHeight":1024}
+PASS tablet-dark:responsive-no-section-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-text-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-clipping: expected [] actual []
+FAIL tablet-dark:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL tablet-dark:responsive-body-font-size: expected [] actual [{"text":"Every WebSocket frame, captured and inspectable.","fontSize":14,"tag":"p"},{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS desktop-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":1635,"clientHeight":900}
+PASS desktop-light:responsive-no-section-overlap: expected [] actual []
+PASS desktop-light:responsive-no-text-overlap: expected [] actual []
+PASS desktop-light:responsive-no-clipping: expected [] actual []
+FAIL desktop-light:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL desktop-light:responsive-body-font-size: expected [] actual [{"text":"Every WebSocket frame, captured and inspectable.","fontSize":14,"tag":"p"},{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS desktop-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":1635,"clientHeight":900}
+PASS desktop-dark:responsive-no-section-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-text-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-clipping: expected [] actual []
+FAIL desktop-dark:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL desktop-dark:responsive-body-font-size: expected [] actual [{"text":"Every WebSocket frame, captured and inspectable.","fontSize":14,"tag":"p"},{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+responsive: FAIL (36 checks)
+home-probe: FAIL
+artifacts: <checks>/t006-responsive-final
+[ELIFECYCLE] Command failed with exit code 6.
+responsive exit: 6 (expected until T007/T008/T010)
+responsive expected failures only: tap targets + Projects/About body text
+hero caption 16 px: PASS across 6 cells
+$ bash .specify/features/home-composition/regress-hero.sh
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: <checks>/regress-20261108T065149Z
+regress-hero: PASS (5 steps)
+$ bash .specify/features/home-composition/cross-route.sh
+projects: 0 hunks
+projects: <main> byte-identical
+project: 0 hunks
+project: <main> byte-identical
+404: 0 hunks
+cross-route: 0 hunks
+$ bash .specify/features/home-composition/guards.sh
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+SKIP interim-list: no contact section
+$ pnpm typecheck && pnpm lint && pnpm test && pnpm build
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:36587) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36608) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36603) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36622) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36623) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36626) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36627) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36625) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36639) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:36644) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  264 passed (264)
+tools/perf test:    Start at  13:53:39
+tools/perf test:    Duration  2.73s (import 76%, tests 21%, transform 3%, worker 1%)
+tools/perf test: 
+tools/perf test:     Isolate  31 workers spawned · ~109ms startup each (spawn + environment, per file)
+tools/perf test:              at least ~265ms faster with isolate: false — reuses workers across files instead of one per file
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  62 passed (62)
+packages/xploder test:       Tests  625 passed (625)
+packages/xploder test:    Start at  13:53:39
+packages/xploder test:    Duration  33.49s (tests 86%, import 8%, transform 5%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:36724) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:36728) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  37 passed | 1 skipped (38)
+apps/web test:       Tests  202 passed | 2 skipped (204)
+apps/web test:    Start at  13:54:13
+apps/web test:    Duration  1.28s (environment 37%, tests 28%, import 27%, transform 6%, worker 2%)
+apps/web test: 
+apps/web test:     Isolate  38 workers spawned · ~150ms startup each (spawn + environment, per file)
+apps/web test:              at least ~482ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 146ms
+  Running TypeScript ...
+  Finished TypeScript in 783ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 274ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+T006-OK

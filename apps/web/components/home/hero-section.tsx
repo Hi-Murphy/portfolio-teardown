@@ -20,15 +20,16 @@ export function HeroSection() {
       data-site-hero=""
       data-home-section="hero"
       aria-labelledby="hero-title"
-      className="grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12"
+      className="grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center lg:gap-12"
     >
       <div className="flex flex-col items-start gap-5">
+        <p className="text-base font-semibold text-fg">{SITE.identity.name}</p>
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted">
           {SITE.hero.eyebrow}
         </p>
         <h1
           id="hero-title"
-          className="max-w-[13ch] text-[clamp(2.5rem,8vw,5.5rem)] font-semibold leading-[0.98] tracking-tight text-fg"
+          className="max-w-[13ch] text-[clamp(2.25rem,7vw,4.25rem)] font-semibold leading-[0.98] tracking-tight text-fg"
         >
           {SITE.hero.headline}
         </h1>
@@ -51,7 +52,7 @@ export function HeroSection() {
             <HeroLive project={heroProject} />
             <TeardownPoster project={heroProject} state="exploded" className={POSTER_FADE_CLASS} />
           </div>
-          <figcaption id="hero-caption" className="text-sm leading-relaxed text-muted">
+          <figcaption id="hero-caption" className="text-base leading-relaxed text-muted">
             {heroProject.meta.name}
             {heroProject.meta.tagline === undefined ? null : ` — ${heroProject.meta.tagline}`}
           </figcaption>
