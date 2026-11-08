@@ -6,5 +6,6 @@
 # L2: nav monogram and social-link targets grow to 44 x 44.
 # L3: the footer brand link grows to a 44 px target.
 # L4: the compact project-card tagline grows from 14 px to 16 px.
+404|^@@[^\n]*\n(?: [^\n]*\n)*-<p class="text-sm leading-relaxed text-muted">[^\n]*</p>\n\+<p class="text-base leading-relaxed text-muted">[^\n]*</p>\n(?: [^\n]*\n?)*$
 # L5: nav and footer labels are sourced from content; they render byte-identically.
 # L6: the footer contact block is tagged and hidden on the home route only.

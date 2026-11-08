@@ -1,0 +1,449 @@
+== T007 check ==
+worktree: .
+branch: task/s11.9-home-composition-t007
+== before evidence (captured on the unchanged tree) ==
+before screenshot 390-light: present
+before screenshot 768-light: present
+before screenshot 1440-light: present
+== build ==
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 118ms
+  Running TypeScript ...
+  Finished TypeScript in 771ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 264ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+== after screenshots ==
+{
+ "docHeight": 2380,
+ "hScroll": false,
+ "visibleName": {
+  "text": "Timur Haryo Mahissanular",
+  "box": {
+   "x": 20,
+   "y": 85,
+   "w": 198,
+   "h": 24,
+   "bottom": 109
+  }
+ },
+ "eyebrow": {
+  "x": 20,
+  "y": 85,
+  "w": 198,
+  "h": 24,
+  "bottom": 109
+ },
+ "h1": {
+  "x": 20,
+  "y": 165,
+  "w": 299,
+  "h": 71,
+  "bottom": 236
+ },
+ "subline": {
+  "x": 20,
+  "y": 256,
+  "w": 350,
+  "h": 78,
+  "bottom": 334
+ },
+ "primaryCta": {
+  "x": 20,
+  "y": 354,
+  "w": 155,
+  "h": 44,
+  "bottom": 398
+ },
+ "figure": {
+  "x": 20,
+  "y": 486,
+  "w": 350,
+  "h": 327,
+  "bottom": 812
+ },
+ "caption": {
+  "x": 20,
+  "y": 760,
+  "w": 350,
+  "h": 52,
+  "bottom": 812
+ },
+ "firstCard": {
+  "x": 20,
+  "y": 943,
+  "w": 350,
+  "h": 193,
+  "bottom": 1136
+ },
+ "liveMode": "eager",
+ "regions": [
+  {
+   "tag": "header",
+   "id": null,
+   "label": null,
+   "box": {
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 45,
+    "bottom": 45
+   }
+  },
+  {
+   "tag": "section",
+   "id": null,
+   "label": "hero-title",
+   "box": {
+    "x": 20,
+    "y": 45,
+    "w": 350,
+    "h": 807,
+    "bottom": 852
+   }
+  },
+  {
+   "tag": "section",
+   "id": "projects",
+   "label": "projects-title",
+   "box": {
+    "x": 20,
+    "y": 852,
+    "w": 350,
+    "h": 400,
+    "bottom": 1252
+   }
+  },
+  {
+   "tag": "section",
+   "id": "about",
+   "label": "about-title",
+   "box": {
+    "x": 20,
+    "y": 1252,
+    "w": 350,
+    "h": 623,
+    "bottom": 1875
+   }
+  },
+  {
+   "tag": "footer",
+   "id": "contact",
+   "label": null,
+   "box": {
+    "x": 0,
+    "y": 1875,
+    "w": 390,
+    "h": 506,
+    "bottom": 2380
+   }
+  }
+ ],
+ "headings": [
+  "H1:Every project, taken apart.",
+  "H2:Projects",
+  "H3:Scarlet Inspector",
+  "H2:About"
+ ],
+ "smallTargets": [
+  "Scarlet Inspector 144x21",
+  "THTimur Haryo Mahissanular 237x36"
+ ]
+}
+{"390x844-light":{"docHeight":2380,"hScroll":false,"h1":{"x":20,"y":165,"w":299,"h":71,"bottom":236},"cta":{"x":20,"y":354,"w":155,"h":44,"bottom":398},"fig":{"x":20,"y":486,"w":350,"h":327,"bottom":812},"card":{"x":20,"y":943,"w":350,"h":193,"bottom":1136}},"390x844-dark":{"docHeight":2380,"hScroll":false,"h1":{"x":20,"y":165,"w":299,"h":71,"bottom":236},"cta":{"x":20,"y":354,"w":155,"h":44,"bottom":398},"fig":{"x":20,"y":486,"w":350,"h":327,"bottom":812},"card":{"x":20,"y":943,"w":350,"h":193,"bottom":1136}},"768x1024-light":{"docHeight":2137,"hScroll":false,"h1":{"x":32,"y":181,"w":447,"h":105,"bottom":286},"cta":{"x":32,"y":385,"w":155,"h":44,"bottom":429},"fig":{"x":32,"y":461,"w":704,"h":434,"bottom":895},"card":{"x":32,"y":1058,"w":344,"h":235,"bottom":1292}},"768x1024-dark":{"docHeight":2137,"hScroll":false,"h1":{"x":32,"y":181,"w":447,"h":105,"bottom":286},"cta":{"x":32,"y":385,"w":155,"h":44,"bottom":429},"fig":{"x":32,"y":461,"w":704,"h":434,"bottom":895},"card":{"x":32,"y":1058,"w":344,"h":235,"bottom":1292}},"1440x900-light":{"docHeight":1638,"hScroll":false,"h1":{"x":176,"y":183,"w":416,"h":133,"bottom":316},"cta":{"x":176,"y":444,"w":155,"h":44,"bottom":488},"fig":{"x":640,"y":101,"w":624,"h":389,"bottom":490},"card":{"x":176,"y":653,"w":536,"h":141,"bottom":794}},"1440x900-dark":{"docHeight":1638,"hScroll":false,"h1":{"x":176,"y":183,"w":416,"h":133,"bottom":316},"cta":{"x":176,"y":444,"w":155,"h":44,"bottom":488},"fig":{"x":640,"y":101,"w":624,"h":389,"bottom":490},"card":{"x":176,"y":653,"w":536,"h":141,"bottom":794}}}
+== home:probe --group responsive ==
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group responsive --out <local-path>/s119-checks/t007-final/probe
+PASS mobile-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2380,"clientHeight":844}
+PASS mobile-light:responsive-no-section-overlap: expected [] actual []
+PASS mobile-light:responsive-no-text-overlap: expected [] actual []
+PASS mobile-light:responsive-no-clipping: expected [] actual []
+FAIL mobile-light:responsive-tap-targets: expected [] actual [{"text":"TH Timur Haryo","width":36,"height":44,"stretched":false},{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL mobile-light:responsive-body-font-size: expected [] actual [{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS mobile-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2380,"clientHeight":844}
+PASS mobile-dark:responsive-no-section-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-text-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-clipping: expected [] actual []
+FAIL mobile-dark:responsive-tap-targets: expected [] actual [{"text":"TH Timur Haryo","width":36,"height":44,"stretched":false},{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL mobile-dark:responsive-body-font-size: expected [] actual [{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS tablet-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2137,"clientHeight":1024}
+PASS tablet-light:responsive-no-section-overlap: expected [] actual []
+PASS tablet-light:responsive-no-text-overlap: expected [] actual []
+PASS tablet-light:responsive-no-clipping: expected [] actual []
+FAIL tablet-light:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL tablet-light:responsive-body-font-size: expected [] actual [{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS tablet-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2137,"clientHeight":1024}
+PASS tablet-dark:responsive-no-section-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-text-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-clipping: expected [] actual []
+FAIL tablet-dark:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL tablet-dark:responsive-body-font-size: expected [] actual [{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS desktop-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":1638,"clientHeight":900}
+PASS desktop-light:responsive-no-section-overlap: expected [] actual []
+PASS desktop-light:responsive-no-text-overlap: expected [] actual []
+PASS desktop-light:responsive-no-clipping: expected [] actual []
+FAIL desktop-light:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL desktop-light:responsive-body-font-size: expected [] actual [{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+PASS desktop-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":1638,"clientHeight":900}
+PASS desktop-dark:responsive-no-section-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-text-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-clipping: expected [] actual []
+FAIL desktop-dark:responsive-tap-targets: expected [] actual [{"text":"GitHub","width":36,"height":44,"stretched":false},{"text":"LinkedIn","width":36,"height":44,"stretched":false},{"text":"TH Timur Haryo Mahissanular","width":237,"height":36,"stretched":false}]
+FAIL desktop-dark:responsive-body-font-size: expected [] actual [{"text":"I build Android apps at ███████████████████, focused on community features — plu","fontSize":14,"tag":"p"},{"text":"I measure before I believe. When an existing tool could not answer a question, I","fontSize":14,"tag":"p"},{"text":"This site is built the same way. Each project is an exploded view of how it is a","fontSize":14,"tag":"p"}]
+responsive: FAIL (36 checks)
+home-probe: FAIL
+artifacts: <local-path>/s119-checks/t007-final/probe
+[ELIFECYCLE] Command failed with exit code 6.
+PASS mobile-light: Projects body 16px/16px; no card/note overlap; body failures About only; tap failures T010 only
+PASS mobile-dark: Projects body 16px/16px; no card/note overlap; body failures About only; tap failures T010 only
+PASS tablet-light: Projects body 16px/16px; no card/note overlap; body failures About only; tap failures T010 only
+PASS tablet-dark: Projects body 16px/16px; no card/note overlap; body failures About only; tap failures T010 only
+PASS desktop-light: Projects body 16px/16px; no card/note overlap; body failures About only; tap failures T010 only
+PASS desktop-dark: Projects body 16px/16px; no card/note overlap; body failures About only; tap failures T010 only
+PASS responsive expected-failure contract (6 cells)
+== Projects card/tile geometry ==
+PASS 390: card 20,943 350x193; tile 20,1152 350x60; no overlap
+PASS 768: card 32,1058 344x235; tile 392,1058 344x235; no overlap
+PASS 1440: card 176,653 536x141; tile 728,653 536x141; no overlap
+== cross-route ==
+projects: 0 hunks
+projects: <main> byte-identical
+project: 0 hunks
+project: <main> byte-identical
+404: 1 hunks (all ledgered)
+cross-route: 1 hunks
+== hero regression ==
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: <local-path>/s119-checks/regress-20261108T070246Z
+regress-hero: PASS (5 steps)
+== guards ==
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+SKIP interim-list: no contact section
+== full suite ==
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+packages/xploder test$ vitest run
+tools/perf test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:39676) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39680) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39679) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39689) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39694) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39696) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39698) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39700) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39714) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:39715) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  264 passed (264)
+tools/perf test:    Start at  14:04:37
+tools/perf test:    Duration  2.72s (import 79%, tests 19%, transform 2%, worker 1%)
+tools/perf test: 
+tools/perf test:     Isolate  31 workers spawned · ~104ms startup each (spawn + environment, per file)
+tools/perf test:              at least ~255ms faster with isolate: false — reuses workers across files instead of one per file
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test:  Test Files  62 passed (62)
+packages/xploder test:       Tests  625 passed (625)
+packages/xploder test:    Start at  14:04:37
+packages/xploder test:    Duration  32.84s (tests 88%, import 9%, transform 3%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:39792) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:39796) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  37 passed | 1 skipped (38)
+apps/web test:       Tests  202 passed | 2 skipped (204)
+apps/web test:    Start at  14:05:10
+apps/web test:    Duration  1.35s (environment 35%, tests 28%, import 27%, transform 8%, worker 2%)
+apps/web test: 
+apps/web test:     Isolate  38 workers spawned · ~151ms startup each (spawn + environment, per file)
+apps/web test:              at least ~487ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 132ms
+  Running TypeScript ...
+  Finished TypeScript in 784ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 273ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+== evidence files ==
+copied T007-screenshot-{before,after}-390-light.png
+copied T007-screenshot-{before,after}-768-light.png
+copied T007-screenshot-{before,after}-1440-light.png
+T007-OK
