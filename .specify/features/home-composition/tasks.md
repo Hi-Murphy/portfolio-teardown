@@ -55,7 +55,7 @@
 | T006 | ☑ identity line (`identity.name`), h1 clamp 2.25–4.25 rem, lg grid 0.8/1.2 fr, caption 16 px; fold PASS 12/12 light+dark (caption bottom 812 ≤ 836, no padding lever needed); figure snapshot test (caption class only); regress-hero 5/5, cross-route 0 hunks | 1 (Flash) + orchestrator review | evidence/T006-log-hero.txt, T006-screenshot-* | c5abf42 |
 | T007 | ☑ compact tagline 16 px (L4); dashed note tile always on beside the card; responsive: Projects body 16 px + no card/tile overlap in 6/6 cells; cross-route: `/projects*` 0 hunks, `/404` exactly the L4 hunk; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T007-log-projects.txt, T007-screenshot-* | 2d8b672 |
 | T008 | ☑ About paragraphs 16 px, h2 24 px (= Projects), prose `max-w-prose` kept, skills note unchanged (label); responsive: body sizes PASS 6/6 (only tap targets left, T010); cross-route unchanged; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T008-log-about.txt, T008-screenshot-* | a1fe18b |
-| T009 | ☐ | | | |
+| T009 | ☑ Contact section (h2 `contact.title`; email/GitHub/LinkedIn from content, 44 px rows); `HOME_SECTIONS` = G1 list; footer: id removed (L1), contact block hidden on `/` by `:has()` (L6; visible on `/projects`), label from content (L5). order 18/18, structure 36/36, fold 12/12; guards 9/9 (interim-list OK); cross-route 7 hunks all ledgered, `/projects*` `<main>` identical; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T009-log-contact.txt, T009-screenshot-* | 9148ca2 |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
 | T011b | ☐ | | | |
