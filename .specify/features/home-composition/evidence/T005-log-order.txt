@@ -1,0 +1,379 @@
+
+ RUN  v5.0.5 ./apps/web
+
+stderr | test/home-sections.test.ts > home section data > the page follows a permuted HOME_SECTIONS list
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+
+ ✓ test/home-sections.test.ts > home section data > the registry has one component for every page-owned id 58ms
+ ✓ test/home-sections.test.ts > home section data > HOME_SECTIONS starts with nav and ends with footer 0ms
+ ✓ test/home-sections.test.ts > home section data > the page follows a permuted HOME_SECTIONS list 14ms
+ ✓ test/home-sections.test.ts > home section data > the unmocked list matches the current approval file 1ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  13:41:04
+   Duration  143ms (tests 81%, import 14%, transform 3%, worker 1%)
+
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1659ms
+  Running TypeScript ...
+  Finished TypeScript in 1857ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 268ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+{
+ "docHeight": 2255,
+ "hScroll": false,
+ "visibleName": {
+  "text": "Timur Haryo Mahissanular",
+  "box": {
+   "x": 64,
+   "y": 1797,
+   "w": 189,
+   "h": 24,
+   "bottom": 1821
+  }
+ },
+ "eyebrow": {
+  "x": 20,
+  "y": 85,
+  "w": 263,
+  "h": 16,
+  "bottom": 101
+ },
+ "h1": {
+  "x": 20,
+  "y": 121,
+  "w": 332,
+  "h": 78,
+  "bottom": 199
+ },
+ "subline": {
+  "x": 20,
+  "y": 219,
+  "w": 350,
+  "h": 78,
+  "bottom": 297
+ },
+ "primaryCta": {
+  "x": 20,
+  "y": 317,
+  "w": 155,
+  "h": 44,
+  "bottom": 361
+ },
+ "figure": {
+  "x": 20,
+  "y": 449,
+  "w": 350,
+  "h": 320,
+  "bottom": 769
+ },
+ "caption": {
+  "x": 20,
+  "y": 724,
+  "w": 350,
+  "h": 46,
+  "bottom": 769
+ },
+ "firstCard": {
+  "x": 20,
+  "y": 900,
+  "w": 350,
+  "h": 186,
+  "bottom": 1086
+ },
+ "liveMode": "eager",
+ "regions": [
+  {
+   "tag": "header",
+   "id": null,
+   "label": null,
+   "box": {
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 45,
+    "bottom": 45
+   }
+  },
+  {
+   "tag": "section",
+   "id": null,
+   "label": "hero-title",
+   "box": {
+    "x": 20,
+    "y": 45,
+    "w": 350,
+    "h": 764,
+    "bottom": 809
+   }
+  },
+  {
+   "tag": "section",
+   "id": "projects",
+   "label": "projects-title",
+   "box": {
+    "x": 20,
+    "y": 809,
+    "w": 350,
+    "h": 317,
+    "bottom": 1126
+   }
+  },
+  {
+   "tag": "section",
+   "id": "about",
+   "label": "about-title",
+   "box": {
+    "x": 20,
+    "y": 1126,
+    "w": 350,
+    "h": 623,
+    "bottom": 1750
+   }
+  },
+  {
+   "tag": "footer",
+   "id": "contact",
+   "label": null,
+   "box": {
+    "x": 0,
+    "y": 1750,
+    "w": 390,
+    "h": 506,
+    "bottom": 2255
+   }
+  }
+ ],
+ "headings": [
+  "H1:Every project, taken apart.",
+  "H2:Projects",
+  "H3:Scarlet Inspector",
+  "H2:About"
+ ],
+ "smallTargets": [
+  "Scarlet Inspector 144x21",
+  "THTimur Haryo Mahissanular 237x36"
+ ]
+}
+{"390x844-light":{"docHeight":2255,"hScroll":false,"h1":{"x":20,"y":121,"w":332,"h":78,"bottom":199},"cta":{"x":20,"y":317,"w":155,"h":44,"bottom":361},"fig":{"x":20,"y":449,"w":350,"h":320,"bottom":769},"card":{"x":20,"y":900,"w":350,"h":186,"bottom":1086}},"390x844-dark":{"docHeight":2255,"hScroll":false,"h1":{"x":20,"y":121,"w":332,"h":78,"bottom":199},"cta":{"x":20,"y":317,"w":155,"h":44,"bottom":361},"fig":{"x":20,"y":449,"w":350,"h":320,"bottom":769},"card":{"x":20,"y":900,"w":350,"h":186,"bottom":1086}},"768x1024-light":{"docHeight":2098,"hScroll":false,"h1":{"x":32,"y":137,"w":511,"h":120,"bottom":257},"cta":{"x":32,"y":356,"w":155,"h":44,"bottom":400},"fig":{"x":32,"y":432,"w":704,"h":431,"bottom":863},"card":{"x":32,"y":1026,"w":344,"h":228,"bottom":1254}},"768x1024-dark":{"docHeight":2098,"hScroll":false,"h1":{"x":32,"y":137,"w":511,"h":120,"bottom":257},"cta":{"x":32,"y":356,"w":155,"h":44,"bottom":400},"fig":{"x":32,"y":432,"w":704,"h":431,"bottom":863},"card":{"x":32,"y":1026,"w":344,"h":228,"bottom":1254}},"1440x900-light":{"docHeight":1712,"hScroll":false,"h1":{"x":176,"y":137,"w":468,"h":259,"bottom":396},"cta":{"x":176,"y":523,"w":155,"h":44,"bottom":567},"fig":{"x":692,"y":156,"w":572,"h":357,"bottom":512},"card":{"x":176,"y":730,"w":536,"h":137,"bottom":868}},"1440x900-dark":{"docHeight":1712,"hScroll":false,"h1":{"x":176,"y":137,"w":468,"h":259,"bottom":396},"cta":{"x":176,"y":523,"w":155,"h":44,"bottom":567},"fig":{"x":692,"y":156,"w":572,"h":357,"bottom":512},"card":{"x":176,"y":730,"w":536,"h":137,"bottom":868}}}
+screenshot-baseline-1440-dark.png: 0 px
+screenshot-baseline-1440-light.png: 0 px
+screenshot-baseline-390-dark.png: 0 px
+screenshot-baseline-390-light.png: 0 px
+screenshot-baseline-390x844-fold-dark.png: 0 px
+screenshot-baseline-390x844-fold-light.png: 0 px
+screenshot-baseline-768-dark.png: 0 px
+screenshot-baseline-768-light.png: 0 px
+pixel-diff: PASS (8 files, 0 differing px)
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group order --approved .specify/features/home-composition/evidence/T005-interim-approved.txt --out /tmp/s119-checks/t005-order
+PASS 390:order-approved-list: expected ["nav","hero","projects","about","footer"] actual ["nav","hero","projects","about","footer"]
+PASS 390:order-dom-sequence: expected ["nav","hero","projects","about","footer"] actual ["nav","hero","projects","about","footer"]
+PASS 390:order-sections-non-empty: expected [] actual []
+PASS 390:order-section-headings: expected [] actual []
+PASS 390:order-section-tops: expected true actual [0,45,809.375,1126.375,1749.625]
+PASS 390:order-no-css-reordering: expected [] actual []
+PASS 768:order-approved-list: expected ["nav","hero","projects","about","footer"] actual ["nav","hero","projects","about","footer"]
+PASS 768:order-dom-sequence: expected ["nav","hero","projects","about","footer"] actual ["nav","hero","projects","about","footer"]
+PASS 768:order-sections-non-empty: expected [] actual []
+PASS 768:order-section-headings: expected [] actual []
+PASS 768:order-section-tops: expected true actual [0,45,918.65625,1309.65625,1743.90625]
+PASS 768:order-no-css-reordering: expected [] actual []
+PASS 1440:order-approved-list: expected ["nav","hero","projects","about","footer"] actual ["nav","hero","projects","about","footer"]
+PASS 1440:order-dom-sequence: expected ["nav","hero","projects","about","footer"] actual ["nav","hero","projects","about","footer"]
+PASS 1440:order-sections-non-empty: expected [] actual []
+PASS 1440:order-section-headings: expected [] actual []
+PASS 1440:order-section-tops: expected true actual [0,45,623.453125,923.703125,1357.953125]
+PASS 1440:order-no-css-reordering: expected [] actual []
+order: PASS (18 checks)
+home-probe: PASS
+artifacts: /tmp/s119-checks/t005-order
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: /tmp/s119-checks/regress-20261108T064122Z
+regress-hero: PASS (5 steps)
+projects: 0 hunks
+projects: <main> byte-identical
+project: 0 hunks
+project: <main> byte-identical
+404: 0 hunks
+cross-route: 0 hunks
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+SKIP interim-list: no contact section
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+tools/perf typecheck: Done
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:32858) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32857) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32878) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32886) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32902) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:32906) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  264 passed (264)
+tools/perf test:    Start at  13:43:14
+tools/perf test:    Duration  2.54s (import 68%, tests 21%, transform 10%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:32908) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32919) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32922) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:32928) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  62 passed (62)
+packages/xploder test:       Tests  625 passed (625)
+packages/xploder test:    Start at  13:43:14
+packages/xploder test:    Duration  32.36s (tests 80%, transform 12%, import 7%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:32985) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:32996) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  36 passed | 1 skipped (37)
+apps/web test:       Tests  201 passed | 2 skipped (203)
+apps/web test:    Start at  13:43:47
+apps/web test:    Duration  1.36s (environment 33%, import 24%, tests 22%, transform 20%, worker 1%)
+apps/web test: 
+apps/web test:     Isolate  37 workers spawned · ~151ms startup each (spawn + environment, per file)
+apps/web test:              at least ~469ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+T005-OK
