@@ -131,6 +131,7 @@ export interface HomePageSnapshot {
   readonly focusables: readonly HomeFocusSnapshot[];
   readonly fold: HomeFoldSnapshot;
   readonly visibleTexts: readonly string[];
+  readonly footerContactDisplay?: string | null;
   readonly tabWalk?: HomeTabWalkSnapshot;
 }
 
@@ -878,6 +879,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     }
   }
   const visibleTexts = [...visibleByParent.values()].map((parts) => compact(parts.join(' ')));
+  const footerContact = document.querySelector('[data-footer-contact]');
 
   (window as unknown as HomeProbeWindow).__homeProbeFocusKeys = focusKeys;
 
@@ -902,6 +904,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     focusables,
     fold,
     visibleTexts,
+    footerContactDisplay: footerContact === null ? null : getComputedStyle(footerContact).display,
   };
 }
 
@@ -1188,7 +1191,19 @@ async function runStructureGroup(
       const tabWalk = await collectTabWalk(opened.page, snapshot.focusables);
       const withWalk = { ...snapshot, tabWalk };
       cells.push({ ...cell, snapshot: withWalk });
-      results.push(evaluateStructure(withWalk, homeSections, config.contactTitle));
+      const evaluation = evaluateStructure(withWalk, homeSections, config.contactTitle);
+      const footerContact = check(
+        'footer-contact-hidden-on-home',
+        withWalk.footerContactDisplay === 'none',
+        'none',
+        withWalk.footerContactDisplay ?? null,
+      );
+      results.push({
+        ...evaluation,
+        pass: evaluation.pass && footerContact.pass,
+        checks: [...evaluation.checks, footerContact],
+        lines: [...evaluation.lines, formatCheck(footerContact)],
+      });
     } finally {
       await opened.close();
     }
