@@ -305,9 +305,18 @@
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. The 4 screenshots: is the travelling pulse the "wow" you want?
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Go / no-go for T011d.
 
-### T011d–T011g
+### T011d [US1, US4, US5, US6] Narrated frame-travel tour in the hero (Murphy: narration below the frame)
 
-Specified after T011c's answer (RFC R8); each ends with Murphy's review.
+- **Sequence:** after the first frame: `capture-path` tour → `inspect-path` tour → T011b turn (implode + quarter turn, explode + quarter turn) → repeat. A pure phase controller (extends `hero-loop.ts`) owns the sequence; it is unit-tested with fake timers and pauses/resumes as T011b (button, hidden tab, off-screen).
+- **Narration (caption row):** the visible line is composed only of project content plus separators: `{flow label} · {step}/{total} · {component name} — {component summary}`, derived from public data (`flows[].path[step]`). Idle/turn/poster/SSR: `{name} — {tagline}` as today. Screen readers keep the static caption (the dynamic line is `aria-hidden`, no live region). Two lines are reserved and clamped at every width, so the caption never changes height (CLS 0). The engine's own `TourCaption` overlay is hidden inside the hero only (app CSS on `[data-xploder-caption]`, no engine change).
+- **Button:** moves to the caption row's right end (44×44 slot always reserved, so nothing shifts when it appears); still outside `aria-hidden`, after the CTAs in Tab order.
+- **Probes:** `eager:probe --expect live-loop` accepts a playing/paused tour (tour no longer required idle in that mode); `home:probe` copy group accepts the narration compositions; a 30 s CLS observer over a full cycle at 390 and 1440 must read 0.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: the frame travels, the caption narrates each step, nothing jumps. 2. Pause works during the tour.
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011e.
+
+### T011e–T011g
+
+Specified after T011d's review (RFC R8).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
