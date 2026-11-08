@@ -47,7 +47,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
+| T001 | ☑ R1–R3 in `site.json` (key diff only those three; name absent from repo tree outside older slices' evidence); `site.source.ts` regenerated; seo probe + eager probes (live, reduced) PASS; 8 baseline shots retaken; suite 197 passed | 1 (Flash) + orchestrator review | evidence/T001-log-content.txt, T001-screenshot-baseline-* | 4415797 |
 | T002 | ☐ | | | |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
