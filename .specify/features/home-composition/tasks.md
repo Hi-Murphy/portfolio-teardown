@@ -49,7 +49,7 @@
 |---|---|---|---|---|
 | T001 | ☑ R1–R3 in `site.json` (key diff only those three; name absent from repo tree outside older slices' evidence); `site.source.ts` regenerated; seo probe + eager probes (live, reduced) PASS; 8 baseline shots retaken; suite 197 passed | 1 (Flash) + orchestrator review | evidence/T001-log-content.txt, T001-screenshot-baseline-* | 4415797 |
 | T002 | ☑ guards 8 + `interim-list` (OK/SKIP as expected), self-test: 8 guards bite; cross-route 0 hunks, `/projects*` `<main>` byte-identical, stable across a fresh rebuild (orchestrator re-check); route list 21 entries | 1 (Flash) + orchestrator review | evidence/T002-log-guards.txt, T002-routes.txt, T002-cross-route-baseline/ | 33f3726 |
-| T003 | ☐ | | | |
+| T003 | ☑ `home:probe` 5 groups + 15 negative controls; `eager:probe --save-data` PASS 2/2 (poster, `skipped`); `regress-hero.sh` PASS 5/5. Baseline verdict = RFC §2 prediction: order (module missing), fold (name), responsive (tap targets, 14 px body), structure (hero unnamed, no Contact h2) | 1 (Flash) + orchestrator review | evidence/T003-log-harness.txt | c6ad802 |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
