@@ -103,6 +103,7 @@ function focus(
     sectionIndex,
     rect: rect(x, y, 44, 44),
     tabIndex: 0,
+    gridColumnIndex: null,
     ...overrides,
   };
 }
@@ -331,6 +332,56 @@ describe('structure group', () => {
       result.checks.find((entry) => entry.name === 'structure-no-positive-tabindex')?.pass,
     ).toBe(false);
     expect(base.focusables[1]?.tabIndex).toBe(0);
+  });
+
+  test('fails a right-column focus stop before a left-column stop in Tab order', () => {
+    const focusables = [
+      focus('skip', -1, -96, 12),
+      focus('nav:home', 0, 0, 8),
+      focus('hero:loop', 1, 100, 600, { gridColumnIndex: 1 }),
+      focus('hero:primary', 1, 300, 20, { gridColumnIndex: 0 }),
+      focus('footer:top', 5, 1200, 20),
+    ];
+    const result = evaluateStructure(
+      snapshot({
+        focusables,
+        tabWalk: {
+          forward: focusables,
+          backward: [...focusables].reverse().slice(1),
+          anchor: focusables.at(-1) ?? null,
+        },
+      }),
+      APPROVED,
+      'Contact',
+    );
+
+    expect(result.pass).toBe(false);
+    expect(result.checks.find((entry) => entry.name === 'structure-focus-order')?.pass).toBe(false);
+  });
+
+  test('reads a left column before a right column even when the right stop is higher', () => {
+    const focusables = [
+      focus('skip', -1, -96, 12),
+      focus('nav:home', 0, 0, 8),
+      focus('hero:primary', 1, 300, 20, { gridColumnIndex: 0 }),
+      focus('hero:loop', 1, 100, 600, { gridColumnIndex: 1 }),
+      focus('footer:top', 5, 1200, 20),
+    ];
+    const result = evaluateStructure(
+      snapshot({
+        focusables,
+        tabWalk: {
+          forward: focusables,
+          backward: [...focusables].reverse().slice(1),
+          anchor: focusables.at(-1) ?? null,
+        },
+      }),
+      APPROVED,
+      'Contact',
+    );
+
+    expect(result.pass).toBe(true);
+    expect(result.checks.find((entry) => entry.name === 'structure-focus-order')?.pass).toBe(true);
   });
 });
 

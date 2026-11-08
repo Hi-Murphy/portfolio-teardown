@@ -49,7 +49,10 @@ export function HeroSection() {
       {heroProject === undefined ? null : (
         <figure aria-labelledby="hero-caption" className="flex min-w-0 flex-col gap-3">
           <div className="relative aspect-[4/3] overflow-hidden rounded border border-line/30 bg-surface sm:aspect-[16/9]">
-            <HeroLive project={heroProject} />
+            <HeroLive
+              project={heroProject}
+              labels={{ pause: SITE.hero.loopPause, play: SITE.hero.loopPlay }}
+            />
             <TeardownPoster project={heroProject} state="exploded" className={POSTER_FADE_CLASS} />
           </div>
           <figcaption id="hero-caption" className="text-base leading-relaxed text-muted">

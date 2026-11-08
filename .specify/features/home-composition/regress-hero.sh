@@ -22,7 +22,7 @@ step() {
   fi
 }
 
-step eager-live pnpm eager:probe --serve apps/web/out --route / --runs 2 --out "$OUT/eager-live"
+step eager-live pnpm eager:probe --serve apps/web/out --route / --runs 2 --expect live-loop --out "$OUT/eager-live"
 step eager-reduced-motion pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out "$OUT/eager-reduced-motion"
 step eager-save-data pnpm eager:probe --serve apps/web/out --route / --runs 2 --save-data --out "$OUT/eager-save-data"
 step site-hero pnpm site:probe --serve apps/web/out --group hero --out "$OUT/site-hero"

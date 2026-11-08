@@ -49,7 +49,7 @@ Options:
   --runs <n>          runs to execute (default: ${DEFAULT_RUNS})
   --reduced-motion    use prefers-reduced-motion: reduce and observe until load + 5 s
   --save-data         emulate Save-Data and observe the poster until load + 5 s
-  --expect <mode>     expected state: live (default) or gated
+  --expect <mode>     expected state: live (default), gated, or live-loop
   --out <dir>         output directory (default: .evidence/eager-probe)
   --help              show this help`;
 
@@ -171,10 +171,19 @@ export async function main(argv: string[]): Promise<number> {
   if (saveData && values['reduced-motion'] === true) {
     throw new CliError(EXIT.USAGE, 'provide either --reduced-motion or --save-data, not both');
   }
-  if (values.expect !== undefined && values.expect !== 'live' && values.expect !== 'gated') {
-    throw new CliError(EXIT.USAGE, `--expect must be live or gated: ${values.expect}`);
+  if (
+    values.expect !== undefined &&
+    values.expect !== 'live' &&
+    values.expect !== 'gated' &&
+    values.expect !== 'live-loop'
+  ) {
+    throw new CliError(EXIT.USAGE, `--expect must be live, gated, or live-loop: ${values.expect}`);
   }
-  const expect: EagerProbeExpectation = values.expect === 'gated' ? 'gated' : 'live';
+  if (values.expect === 'live-loop' && (saveData || values['reduced-motion'] === true)) {
+    throw new CliError(EXIT.USAGE, '--expect live-loop requires normal motion without --save-data');
+  }
+  const expect: EagerProbeExpectation =
+    values.expect === 'gated' ? 'gated' : values.expect === 'live-loop' ? 'live-loop' : 'live';
   const outDir = values.out ?? join(process.cwd(), '.evidence', 'eager-probe');
   try {
     await mkdir(outDir, { recursive: true });
