@@ -1,0 +1,10 @@
+# Cross-route ledger for S11.9. Active lines have the form:
+#   <route>|<extended-regexp>
+# <route> is projects, project, 404, or *; the regexp is matched against one diff hunk.
+# There are no active patterns at T002. Add only ledger-backed patterns in later tasks.
+# L1: the footer contact id moves to the home contact section.
+# L2: nav monogram and social-link targets grow to 44 x 44.
+# L3: the footer brand link grows to a 44 px target.
+# L4: the compact project-card tagline grows from 14 px to 16 px.
+# L5: nav and footer labels are sourced from content; they render byte-identically.
+# L6: the footer contact block is tagged and hidden on the home route only.
