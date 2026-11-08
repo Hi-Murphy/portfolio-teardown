@@ -65,7 +65,8 @@ const base = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const current = JSON.parse(fs.readFileSync('.specify/content/site.json', 'utf8'));
 const expectedDescription =
   'Android engineer. Portfolio rendered as exploded architecture: real layers, real components, real numbers.';
-const block = '█'.repeat(19);
+// R1a (Murphy, 2026-11-08): only the first word of the old 19-character span is the employer; it is redacted as 8 blocks.
+const block = '█'.repeat(8);
 
 function canonical(value) {
   if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
@@ -87,20 +88,24 @@ if (typeof oldParagraph !== 'string' || typeof newParagraph !== 'string') {
 
 const start = newParagraph.indexOf(block);
 const blockCount = [...newParagraph].filter((character) => character === '█').length;
-if (start < 0 || blockCount !== 19 || newParagraph.indexOf(block, start + block.length) >= 0) {
-  console.error('about.paragraphs[0] must contain exactly one 19-character redaction bar');
+if (start < 0 || blockCount !== 8 || newParagraph.indexOf(block, start + block.length) >= 0) {
+  console.error('about.paragraphs[0] must contain exactly one 8-character redaction bar');
   process.exit(1);
 }
 
 const prefix = newParagraph.slice(0, start);
 const suffix = newParagraph.slice(start + block.length);
 if (!oldParagraph.startsWith(prefix) || !oldParagraph.endsWith(suffix)) {
-  console.error('about.paragraphs[0] changed outside the 19-character employer span');
+  console.error('about.paragraphs[0] changed outside the redacted employer span');
   process.exit(1);
 }
 
 const oldEmployer = oldParagraph.slice(prefix.length, oldParagraph.length - suffix.length);
-if (oldEmployer.length !== 19 || oldParagraph !== `${prefix}${oldEmployer}${suffix}`) {
+if (
+  oldEmployer.length !== 19 ||
+  oldEmployer.split(' ')[0].length !== block.length ||
+  oldParagraph !== `${prefix}${oldEmployer}${suffix}`
+) {
   console.error('about.paragraphs[0] redaction does not replace one 19-character phrase');
   process.exit(1);
 }
