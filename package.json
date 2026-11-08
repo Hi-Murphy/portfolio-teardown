@@ -30,6 +30,7 @@
     "a11y:axe": "node tools/perf/src/cli/a11y-axe.ts",
     "a11y:axe:site": "node tools/perf/src/cli/a11y-axe-site.ts",
     "site:probe": "node tools/perf/src/cli/site-probe.ts",
+    "home:probe": "node tools/perf/src/cli/home-probe.ts",
     "seo:probe": "node tools/perf/src/cli/seo-probe.ts",
     "bundle:manifest": "node tools/perf/src/cli/bundle-manifest.ts",
     "serve:out": "node tools/perf/src/cli/serve.ts",
