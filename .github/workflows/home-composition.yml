@@ -68,7 +68,7 @@ jobs:
           curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
           measure "lighthouse-r1" pnpm perf:lighthouse http://127.0.0.1:4320/ --out "$E/lighthouse-r1"
           measure "lighthouse-r2" pnpm perf:lighthouse http://127.0.0.1:4320/ --out "$E/lighthouse-r2"
-          measure "probe-live" pnpm eager:probe --serve apps/web/out --route / --runs 2 --out "$E/probe-live"
+          measure "probe-live" pnpm eager:probe --serve apps/web/out --route / --runs 2 --expect live-loop --out "$E/probe-live"
           measure "probe-reduced-motion" pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out "$E/probe-reduced-motion"
           measure "probe-save-data" pnpm eager:probe --serve apps/web/out --route / --runs 2 --save-data --out "$E/probe-save-data"
           cleanup

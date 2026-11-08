@@ -91,6 +91,13 @@ export interface HomeFocusSnapshot extends FocusStep {
   readonly sectionIndex: number;
   readonly rect: DocumentRect;
   readonly tabIndex: number;
+  readonly gridColumnIndex?: number | null;
+}
+
+export interface HomeHeroControlSnapshot {
+  readonly loop: string | null;
+  readonly button: boolean;
+  readonly posterVisible: boolean;
 }
 
 export interface HomeFoldTargetSnapshot {
@@ -133,6 +140,7 @@ export interface HomePageSnapshot {
   readonly fold: HomeFoldSnapshot;
   readonly visibleTexts: readonly string[];
   readonly footerContactDisplay?: string | null;
+  readonly heroControl?: HomeHeroControlSnapshot;
   readonly tabWalk?: HomeTabWalkSnapshot;
 }
 
@@ -183,6 +191,7 @@ export interface HomeProbeOptions {
 
 interface HomeProbeWindow {
   __homeProbeFocusKeys?: WeakMap<Element, string>;
+  __homeProbeFocusGridColumns?: WeakMap<Element, number | null>;
 }
 
 interface HomeSectionsModule {
@@ -194,6 +203,7 @@ interface Cell {
   readonly width: number;
   readonly height: number;
   readonly palette: Palette;
+  readonly reducedMotion?: boolean;
 }
 
 interface CellSnapshot {
@@ -227,6 +237,10 @@ const RESPONSIVE_CELLS = [
   { name: 'desktop', width: 1440, height: 900, palette: 'dark' },
 ] as const satisfies readonly Cell[];
 const COPY_CELL = { name: 'desktop', width: 1440, height: 900, palette: 'light' } as const;
+const STRUCTURE_CELLS: readonly Cell[] = [
+  ...ORDER_CELLS,
+  { name: 'mobile', width: 390, height: 844, palette: 'light', reducedMotion: true },
+];
 
 function check(name: string, pass: boolean, expected: unknown, actual: unknown): HomeProbeCheck {
   return { name, pass, expected, actual };
@@ -441,17 +455,20 @@ export function evaluateResponsive(snapshot: HomePageSnapshot): HomeProbeGroupRe
   );
 }
 
-function focusOrderValue(focus: HomeFocusSnapshot): readonly [number, number, number] {
-  return [focus.sectionIndex, focus.rect.y, focus.rect.x];
+function focusOrderValue(focus: HomeFocusSnapshot): readonly [number, number, number, number] {
+  return [focus.sectionIndex, focus.gridColumnIndex ?? 0, focus.rect.y, focus.rect.x];
 }
 
 function nonDecreasing(
-  left: readonly [number, number, number],
-  right: readonly [number, number, number],
+  left: readonly [number, number, number, number],
+  right: readonly [number, number, number, number],
 ): boolean {
   return (
     left[0] < right[0] ||
-    (left[0] === right[0] && (left[1] < right[1] || (left[1] === right[1] && left[2] <= right[2])))
+    (left[0] === right[0] &&
+      (left[1] < right[1] ||
+        (left[1] === right[1] &&
+          (left[2] < right[2] || (left[2] === right[2] && left[3] <= right[3])))))
   );
 }
 
@@ -503,7 +520,8 @@ export function evaluateStructure(
     .map((focus) => `${focus.key}:${focus.tabIndex}`);
   const focusOrder = snapshot.focusables.map(focusOrderValue);
   const focusOrderPass = focusOrder.every(
-    (value, index) => index === 0 || nonDecreasing(focusOrder[index - 1] ?? [-1, -1, -1], value),
+    (value, index) =>
+      index === 0 || nonDecreasing(focusOrder[index - 1] ?? [-1, -1, -1, -1], value),
   );
   const tabWalk = snapshot.tabWalk;
   const walkVerdict =
@@ -617,7 +635,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   };
   const rendered = (element: Element): boolean => {
     const box = element.getBoundingClientRect();
-    if (box.width <= 0 || box.height <= 0) return false;
+    if (box.width <= 1 || box.height <= 1) return false;
     if (element.closest('.sr-only') !== null) return false;
     const style = getComputedStyle(element);
     return style.visibility === 'visible' && Number(style.opacity) === 1;
@@ -663,6 +681,70 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
       risks.push(`${label}:position=${style.position}`);
     }
     return risks;
+  };
+  const gridTracks = (style: CSSStyleDeclaration): string[] => {
+    const tokens: string[] = [];
+    let token = '';
+    let depth = 0;
+    for (const character of style.gridTemplateColumns) {
+      if (character === '(') depth += 1;
+      if (character === ')') depth = Math.max(0, depth - 1);
+      if (/\s/.test(character) && depth === 0) {
+        if (token !== '') tokens.push(token);
+        token = '';
+      } else {
+        token += character;
+      }
+    }
+    if (token !== '') tokens.push(token);
+    return tokens.filter(
+      (value) => value !== 'none' && !(value.startsWith('[') && value.endsWith(']')),
+    );
+  };
+  const isMultiColumnGrid = (element: Element): boolean => {
+    const style = getComputedStyle(element);
+    return (
+      (style.display === 'grid' || style.display === 'inline-grid') && gridTracks(style).length > 1
+    );
+  };
+  const gridColumnIndexFor = (element: Element): number | null => {
+    const section = sectionFor(element);
+    if (section === null) return null;
+
+    const grid = [section, ...section.querySelectorAll('*')].find(
+      (candidate) => rendered(candidate) && isMultiColumnGrid(candidate),
+    );
+    if (grid === undefined || !grid.contains(element)) return null;
+
+    const style = getComputedStyle(grid);
+    const trackWidths = gridTracks(style).flatMap((track) => {
+      const pixels = [...track.matchAll(/([\d.]+)px/g)];
+      const width = Number(pixels.at(-1)?.[1]);
+      return Number.isFinite(width) ? [width] : [];
+    });
+    if (trackWidths.length < 2) return null;
+
+    let item = element;
+    while (item.parentElement !== null && item.parentElement !== grid) {
+      item = item.parentElement;
+    }
+    if (item.parentElement !== grid) return null;
+
+    const gap = Number.parseFloat(style.columnGap);
+    const gridRect = grid.getBoundingClientRect();
+    const contentLeft =
+      gridRect.left +
+      (Number.parseFloat(style.borderLeftWidth) || 0) +
+      (Number.parseFloat(style.paddingLeft) || 0);
+    const itemLeft = item.getBoundingClientRect().left;
+    let cursor = contentLeft;
+    let column = 0;
+    for (const width of trackWidths.slice(0, -1)) {
+      if (itemLeft < cursor + width + (Number.isFinite(gap) ? gap : 0) / 2) break;
+      cursor += width + (Number.isFinite(gap) ? gap : 0);
+      column += 1;
+    }
+    return column;
   };
 
   const roots: Element[] = [];
@@ -779,6 +861,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
 
   const sectionsIndex = new Map(sections.map((section, index) => [section.id, index]));
   const focusKeys = new WeakMap<Element, string>();
+  const focusGridColumns = new WeakMap<Element, number | null>();
   const focusables = [
     ...document.querySelectorAll<HTMLElement>('a[href],button,input,select,textarea,[tabindex]'),
   ]
@@ -800,6 +883,8 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
           ? 'skip'
           : `focus:${index}:${element.tagName.toLowerCase()}:${name}`;
       focusKeys.set(element, key);
+      const gridColumnIndex = gridColumnIndexFor(element);
+      focusGridColumns.set(element, gridColumnIndex);
       const sectionId = sectionIdOf(element);
       return {
         key,
@@ -809,6 +894,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
         sectionIndex: sectionId === null ? -1 : (sectionsIndex.get(sectionId) ?? -1),
         rect: rect(element),
         tabIndex: element.tabIndex,
+        gridColumnIndex,
       };
     });
 
@@ -881,8 +967,15 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   }
   const visibleTexts = [...visibleByParent.values()].map((parts) => compact(parts.join(' ')));
   const footerContact = document.querySelector('[data-footer-contact]');
+  const heroLoop = document.querySelector('[data-hero-loop]');
+  const heroButton =
+    [...(hero?.querySelectorAll('button') ?? [])].find(
+      (button) => button.closest('[data-site-live]') === null,
+    ) ?? null;
+  const heroPoster = hero?.querySelector('[data-site-poster]') ?? null;
 
   (window as unknown as HomeProbeWindow).__homeProbeFocusKeys = focusKeys;
+  (window as unknown as HomeProbeWindow).__homeProbeFocusGridColumns = focusGridColumns;
 
   return {
     viewport,
@@ -906,6 +999,11 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     fold,
     visibleTexts,
     footerContactDisplay: footerContact === null ? null : getComputedStyle(footerContact).display,
+    heroControl: {
+      loop: heroLoop?.getAttribute('data-hero-loop') ?? null,
+      button: heroButton !== null && rendered(heroButton),
+      posterVisible: heroPoster !== null && rendered(heroPoster),
+    },
   };
 }
 
@@ -921,6 +1019,7 @@ async function readActiveFocus(page: Page): Promise<HomeFocusSnapshot | null> {
     const active = document.activeElement;
     if (!(active instanceof HTMLElement) || active === document.body) return null;
     const keys = (window as unknown as HomeProbeWindow).__homeProbeFocusKeys;
+    const gridColumns = (window as unknown as HomeProbeWindow).__homeProbeFocusGridColumns;
     const key = keys?.get(active) ?? `focus:active:${active.tagName.toLowerCase()}`;
     const rect = active.getBoundingClientRect();
     const section = active.closest('header, main section, footer');
@@ -940,6 +1039,7 @@ async function readActiveFocus(page: Page): Promise<HomeFocusSnapshot | null> {
         height: rect.height,
       },
       tabIndex: active.tabIndex,
+      gridColumnIndex: gridColumns?.get(active) ?? null,
     };
   });
 }
@@ -982,8 +1082,50 @@ function contextOptions(cell: Cell): BrowserContextOptions {
     isMobile: cell.name === 'mobile',
     hasTouch: cell.name === 'mobile',
     colorScheme: cell.palette,
-    reducedMotion: 'reduce',
+    reducedMotion: cell.reducedMotion === true ? 'reduce' : 'no-preference',
   };
+}
+
+async function waitForHeroSettled(page: Page): Promise<void> {
+  await page.waitForFunction(
+    () => {
+      const live = document.querySelector('[data-site-live]');
+      const poster = document.querySelector('[data-site-poster]');
+
+      if (live === null) return poster !== null;
+
+      const state = live.getAttribute('data-site-live-state');
+      if (state === 'revealed') return document.querySelector('[data-hero-loop]') !== null;
+      if (state === 'skipped') return poster !== null;
+      return false;
+    },
+    undefined,
+    { timeout: WAIT_TIMEOUT_MS },
+  );
+}
+
+async function waitForHeroReady(page: Page, base: URL, cell: Cell): Promise<void> {
+  if (base.pathname !== '/') {
+    await waitForHeroSettled(page);
+    return;
+  }
+
+  if (cell.reducedMotion === true) {
+    await page.waitForFunction(
+      () =>
+        document.querySelector('[data-site-live]')?.getAttribute('data-site-live-state') ===
+          'skipped' && document.querySelector('[data-site-hero] [data-site-poster]') !== null,
+      undefined,
+      { timeout: WAIT_TIMEOUT_MS },
+    );
+    return;
+  }
+
+  await page.waitForFunction(
+    () => document.querySelector('[data-hero-loop="running"]') !== null,
+    undefined,
+    { timeout: WAIT_TIMEOUT_MS },
+  );
 }
 
 async function openCell(
@@ -1011,6 +1153,7 @@ async function openCell(
     state: 'visible',
     timeout: WAIT_TIMEOUT_MS,
   });
+  await waitForHeroReady(page, base, cell);
   await page.evaluate(async () => {
     await document.fonts.ready;
   });
@@ -1185,7 +1328,7 @@ async function runStructureGroup(
 ): Promise<HomeProbeGroupResult> {
   const cells: CellSnapshot[] = [];
   const results: HomeProbeGroupResult[] = [];
-  for (const cell of ORDER_CELLS) {
+  for (const cell of STRUCTURE_CELLS) {
     const opened = await openCell(browser, options.base, cell);
     try {
       const snapshot = await collectHomeSnapshot(opened.page, config);
@@ -1199,11 +1342,23 @@ async function runStructureGroup(
         'none',
         withWalk.footerContactDisplay ?? null,
       );
+      const heroControl = check(
+        cell.reducedMotion === true ? 'structure-hero-poster-path' : 'structure-hero-loop-control',
+        cell.reducedMotion === true
+          ? withWalk.heroControl?.loop === null &&
+              withWalk.heroControl.button === false &&
+              withWalk.heroControl.posterVisible
+          : withWalk.heroControl?.loop === 'running' && withWalk.heroControl.button,
+        cell.reducedMotion === true
+          ? { loop: null, button: false, posterVisible: true }
+          : { loop: 'running', button: true },
+        withWalk.heroControl ?? null,
+      );
       results.push({
         ...evaluation,
-        pass: evaluation.pass && footerContact.pass,
-        checks: [...evaluation.checks, footerContact],
-        lines: [...evaluation.lines, formatCheck(footerContact)],
+        pass: evaluation.pass && footerContact.pass && heroControl.pass,
+        checks: [...evaluation.checks, footerContact, heroControl],
+        lines: [...evaluation.lines, formatCheck(footerContact), formatCheck(heroControl)],
       });
     } finally {
       await opened.close();
@@ -1212,7 +1367,7 @@ async function runStructureGroup(
   const checks = results.flatMap((result, index) =>
     result.checks.map((entry) => ({
       ...entry,
-      name: `${ORDER_CELLS[index]?.width ?? 0}:${entry.name}`,
+      name: `${STRUCTURE_CELLS[index]?.width ?? 0}${STRUCTURE_CELLS[index]?.reducedMotion === true ? '-reduced' : ''}:${entry.name}`,
     })),
   );
   return groupResult('structure', checks, { cells });

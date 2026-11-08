@@ -13,7 +13,7 @@ export const EAGER_PROBE_REDUCED_SETTLE_MS = 5_000;
 export const EAGER_PROBE_WAIT_MS = 30_000;
 
 export type EagerProbeMotion = 'normal' | 'reduce';
-export type EagerProbeExpectation = 'live' | 'gated';
+export type EagerProbeExpectation = 'live' | 'gated' | 'live-loop';
 
 export interface EagerProbeEventCounts extends Record<string, number> {
   pointerdown: number;
@@ -60,6 +60,7 @@ export interface EagerProbeSnapshot {
   readonly posterVisibility: string | null;
   readonly tour: string | null;
   readonly tweening: string | null;
+  readonly heroLoop: string | null;
   readonly backgroundRgb: string | null;
   readonly readyAttribute: boolean;
 }
@@ -256,6 +257,7 @@ async function readSnapshot(page: Page): Promise<EagerProbeSnapshot> {
         '[data-site-stage] [data-site-poster], [data-site-hero] [data-site-poster]',
       );
     const viewer = document.querySelector('[data-xploder-ready="true"]');
+    const heroLoop = document.querySelector('[data-hero-loop]');
     const liveStyle = live === null ? null : getComputedStyle(live);
     const posterStyle = poster === null ? null : getComputedStyle(poster);
     const resolver = document.createElement('span');
@@ -284,6 +286,7 @@ async function readSnapshot(page: Page): Promise<EagerProbeSnapshot> {
       posterVisibility: posterStyle?.visibility ?? null,
       tour: viewer?.getAttribute('data-xploder-tour') ?? null,
       tweening: viewer?.getAttribute('data-xploder-tweening') ?? null,
+      heroLoop: heroLoop?.getAttribute('data-hero-loop') ?? null,
       backgroundRgb,
       readyAttribute: viewer !== null,
     };
@@ -344,6 +347,7 @@ export function evaluateEagerProbe(
   atDeadline: EagerProbeSnapshot,
   afterRest: EagerProbeSnapshot | null,
   screenshot: EagerProbeScreenshot | null,
+  expect: 'live' | 'live-loop' = 'live',
 ): EagerProbeVerdict {
   const checks: EagerProbeCheck[] = [];
   const noTrustedEvents = atDeadline.trustedEvents === 0;
@@ -359,11 +363,12 @@ export function evaluateEagerProbe(
     const revealedByDeadline = atDeadline.liveStates.some(
       (state) => state.value === 'revealed' && state.t <= EAGER_PROBE_DEADLINE_MS,
     );
-    const ambientIdle =
+    const restIdle =
       afterRest !== null &&
       liveStatesEqual(atDeadline.liveStates, afterRest.liveStates) &&
-      (afterRest.tour === null || afterRest.tour === 'idle') &&
-      (afterRest.tweening === null || afterRest.tweening === 'false');
+      (afterRest.tour === null || afterRest.tour === 'idle');
+    const ambientIdle = restIdle && (afterRest.tweening === null || afterRest.tweening === 'false');
+    const loopRunning = restIdle && afterRest?.heroLoop === 'running';
 
     checks.push(
       check('canvas-present', canvasPresent, true, atDeadline.canvasRect),
@@ -383,7 +388,13 @@ export function evaluateEagerProbe(
       ),
       check('no-trusted-events', noTrustedEvents, 0, atDeadline.trustedEvents),
       check('canvas-non-blank', screenshot?.nonBlank === true, true, screenshot),
-      check('ambient-idle', ambientIdle, true, afterRest),
+      expect === 'live-loop'
+        ? check('loop-running', loopRunning, true, {
+            heroLoop: afterRest?.heroLoop ?? null,
+            tour: afterRest?.tour ?? null,
+            liveStates: afterRest?.liveStates ?? null,
+          })
+        : check('ambient-idle', ambientIdle, true, afterRest),
     );
   } else {
     const posterVisible =
@@ -510,7 +521,8 @@ async function captureScreenshot(
 export async function runEagerProbe(options: EagerProbeRunOptions): Promise<EagerProbeRun> {
   const profile = PROFILES.mobile;
   const reduced = options.motion === 'reduce';
-  const gated = options.expect === 'gated';
+  const expect = options.expect ?? 'live';
+  const gated = expect === 'gated';
   const saveData = options.saveData === true;
   const condition = saveData ? 'save-data' : options.motion;
   const context = await options.browser.newContext({
@@ -615,7 +627,13 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       ? evaluateGatedProbe(atDeadline)
       : saveData
         ? evaluateSaveDataProbe(atDeadline)
-        : evaluateEagerProbe(options.motion, atDeadline, afterRest, screenshot);
+        : evaluateEagerProbe(
+            options.motion,
+            atDeadline,
+            afterRest,
+            screenshot,
+            expect === 'live-loop' ? 'live-loop' : 'live',
+          );
 
     return {
       kind: 'eager-probe',
@@ -625,6 +643,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       motion: options.motion,
       ...(saveData ? { saveData: true as const } : {}),
       ...(gated ? { expect: 'gated' as const } : {}),
+      ...(expect === 'live-loop' ? { expect: 'live-loop' as const } : {}),
       run: options.run,
       url,
       chromium: chromiumVersion(options.browser),

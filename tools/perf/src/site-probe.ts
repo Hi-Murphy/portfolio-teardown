@@ -91,6 +91,12 @@ export interface HeroEagerNoInteractionState {
   readonly ready: boolean;
 }
 
+export interface HeroLoopRunningState {
+  readonly heroLoop: string | null;
+  readonly canvases: number;
+  readonly tour: string | null;
+}
+
 export interface SiteProbeCheck {
   readonly name: string;
   readonly pass: boolean;
@@ -295,6 +301,14 @@ export function parseHeroLiveMode(value: string | null | undefined): HeroLiveMod
 
 export function evaluateHeroEagerNoInteraction(state: HeroEagerNoInteractionState): boolean {
   return state.liveState === 'revealed' && state.canvases === 1 && state.ready;
+}
+
+export function evaluateHeroLoopRunning(state: HeroLoopRunningState): boolean {
+  return (
+    state.heroLoop === 'running' &&
+    state.canvases === 1 &&
+    (state.tour === null || state.tour === 'idle')
+  );
 }
 
 export function clsRoutes(siteBase?: URL, fixturesBase?: URL): ProbeRoute[] {
@@ -1154,21 +1168,32 @@ async function runHeroGroup(
     );
 
     await homePage.waitForTimeout(IDLE_SCAN_MS);
+    const loopPresent = (await homePage.locator('[data-hero-loop]').count()) > 0;
     const idle = await homePage.evaluate(() => {
       const viewer = document.querySelector('[data-xploder-ready="true"]');
       return {
         state: viewer?.getAttribute('data-xploder-state') ?? null,
         tweening: viewer?.getAttribute('data-xploder-tweening') ?? null,
+        tour: viewer?.getAttribute('data-xploder-tour') ?? null,
+        heroLoop:
+          document.querySelector('[data-hero-loop]')?.getAttribute('data-hero-loop') ?? null,
         canvases: document.querySelectorAll('canvas').length,
       };
     });
     checks.push(
-      check(
-        'hero-idle-exploded',
-        idle.state === 'exploded' && idle.tweening === 'false',
-        { state: 'exploded', tweening: 'false' },
-        idle,
-      ),
+      loopPresent
+        ? check(
+            'hero-loop-running',
+            evaluateHeroLoopRunning(idle),
+            { heroLoop: 'running', canvases: 1, tour: 'idle' },
+            { heroLoop: idle.heroLoop, canvases: idle.canvases, tour: idle.tour },
+          )
+        : check(
+            'hero-idle-exploded',
+            idle.state === 'exploded' && idle.tweening === 'false',
+            { state: 'exploded', tweening: 'false' },
+            { state: idle.state, tweening: idle.tweening, canvases: idle.canvases },
+          ),
       check('hero-one-canvas-max', idle.canvases <= 1, 1, idle.canvases),
     );
   } finally {

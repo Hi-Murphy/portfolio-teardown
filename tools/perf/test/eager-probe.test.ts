@@ -54,6 +54,7 @@ function snapshot(overrides: Partial<EagerProbeSnapshot> = {}): EagerProbeSnapsh
     posterVisibility: 'hidden',
     tour: 'idle',
     tweening: 'false',
+    heroLoop: 'running',
     backgroundRgb: 'rgb(245, 245, 243)',
     readyAttribute: true,
     ...overrides,
@@ -116,6 +117,53 @@ describe('evaluateEagerProbe', () => {
       'canvas-non-blank',
       'ambient-idle',
     ]);
+  });
+
+  test('live-loop passes only when the loop is running and the live layer is settled', () => {
+    const atDeadline = snapshot();
+    const afterRest = snapshot({ observedAtMs: 4_500, tweening: 'true' });
+    const screenshot = {
+      file: 'deadline.png',
+      width: 320,
+      height: 180,
+      colours: 42,
+      nonBlank: true,
+    };
+
+    const running = evaluateEagerProbe('normal', atDeadline, afterRest, screenshot, 'live-loop');
+    const missing = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, heroLoop: null }),
+      screenshot,
+      'live-loop',
+    );
+    const paused = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, heroLoop: 'paused' }),
+      screenshot,
+      'live-loop',
+    );
+
+    expect(running.pass).toBe(true);
+    expect(running.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: true });
+    expect(missing.pass).toBe(false);
+    expect(missing.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: false });
+    expect(paused.pass).toBe(false);
+    expect(paused.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: false });
+  });
+
+  test('live keeps ambient-idle and ignores the loop attribute', () => {
+    const result = evaluateEagerProbe(
+      'normal',
+      snapshot(),
+      snapshot({ observedAtMs: 4_500, heroLoop: 'paused' }),
+      { file: 'deadline.png', width: 320, height: 180, colours: 42, nonBlank: true },
+    );
+
+    expect(result.pass).toBe(true);
+    expect(result.checks.at(-1)).toMatchObject({ name: 'ambient-idle', pass: true });
   });
 
   test('passes reduced motion only with no canvas or ready marker and a visible poster', () => {

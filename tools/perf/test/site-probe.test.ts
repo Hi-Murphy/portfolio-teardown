@@ -6,6 +6,7 @@ import {
   evaluateDrawFrames,
   evaluateFallbackHtml,
   evaluateHeroEagerNoInteraction,
+  evaluateHeroLoopRunning,
   heroContainsPoster,
   parseHeroLiveMode,
   type ClsEntry,
@@ -198,5 +199,15 @@ describe('hero live mode', () => {
     expect(
       evaluateHeroEagerNoInteraction({ liveState: 'revealed', canvases: 1, ready: false }),
     ).toBe(false);
+  });
+
+  test('requires a running loop, exactly one canvas, and an idle tour', () => {
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'idle' })).toBe(true);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: null })).toBe(true);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'paused', canvases: 1, tour: 'idle' })).toBe(false);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 2, tour: 'idle' })).toBe(false);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'playing' })).toBe(
+      false,
+    );
   });
 });
