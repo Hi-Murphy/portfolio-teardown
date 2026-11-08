@@ -7,12 +7,12 @@ export interface AboutStripProps {
 export function AboutStrip({ title, paragraphs, skillsNote }: AboutStripProps) {
   return (
     <>
-      <h2 id="about-title" className="text-xl leading-tight text-fg">
+      <h2 id="about-title" className="text-2xl leading-tight text-fg">
         {title}
       </h2>
       <div className="flex max-w-prose flex-col gap-4">
         {paragraphs.map((paragraph, index) => (
-          <p key={`${paragraph}-${index}`} className="text-sm leading-relaxed text-fg">
+          <p key={`${paragraph}-${index}`} className="text-base leading-relaxed text-fg">
             {paragraph}
           </p>
         ))}
