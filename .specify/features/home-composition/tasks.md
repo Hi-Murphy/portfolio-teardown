@@ -52,7 +52,7 @@
 | T003 | ☑ `home:probe` 5 groups + 15 negative controls; `eager:probe --save-data` PASS 2/2 (poster, `skipped`); `regress-hero.sh` PASS 5/5. Baseline verdict = RFC §2 prediction: order (module missing), fold (name), responsive (tap targets, 14 px body), structure (hero unnamed, no Contact h2) | 1 (Flash) + orchestrator review | evidence/T003-log-harness.txt | c6ad802 |
 | T004 | ☑ `home-composition.yml` (3 shards, gated to this branch, never fails on a verdict) + `ci-summary.mjs`; YAML parsed; local dry run: eager live/reduced/save-data 2/2 each, local index 4245–4265 (not slow class, as expected) | 1 (Flash) + orchestrator review | evidence/T004-log-workflow.txt | 46910da |
 | T005 | ☑ `HOME_SECTIONS` (interim, contact in T009) + typed registry; page renders from data; About = one `<section>` root (`AboutStrip` returns content); 8 shots 0 px vs T001; order group PASS 18/18; permutation test PASS; regress-hero, cross-route 0 hunks, guards PASS | 1 (Flash) + orchestrator review | evidence/T005-log-order.txt | 364df48 |
-| T006 | ☐ | | | |
+| T006 | ☑ identity line (`identity.name`), h1 clamp 2.25–4.25 rem, lg grid 0.8/1.2 fr, caption 16 px; fold PASS 12/12 light+dark (caption bottom 812 ≤ 836, no padding lever needed); figure snapshot test (caption class only); regress-hero 5/5, cross-route 0 hunks | 1 (Flash) + orchestrator review | evidence/T006-log-hero.txt, T006-screenshot-* | c5abf42 |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
