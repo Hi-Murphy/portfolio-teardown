@@ -22,7 +22,7 @@ export function SiteFooter() {
           <div className="flex min-w-0 flex-col gap-4">
             <Link
               href="/"
-              className="inline-flex w-fit items-center gap-3 text-base font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="inline-flex min-h-11 w-fit items-center gap-3 text-base font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <MonogramMark siteName={SITE.meta.siteName} />
               <span>{SITE.identity.name}</span>
