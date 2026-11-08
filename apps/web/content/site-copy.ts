@@ -34,6 +34,9 @@ export interface SiteCopy {
     title: string;
     emptyNote: string;
   };
+  contact: {
+    title: string;
+  };
   footer: {
     line: string;
     contactLabel: string;
