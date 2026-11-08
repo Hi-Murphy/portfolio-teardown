@@ -119,7 +119,7 @@ describe('evaluateEagerProbe', () => {
     ]);
   });
 
-  test('live-loop passes only when the loop is running and the live layer is settled', () => {
+  test('live-loop accepts a playing or paused tour while the loop runs', () => {
     const atDeadline = snapshot();
     const afterRest = snapshot({ observedAtMs: 4_500, tweening: 'true' });
     const screenshot = {
@@ -131,6 +131,20 @@ describe('evaluateEagerProbe', () => {
     };
 
     const running = evaluateEagerProbe('normal', atDeadline, afterRest, screenshot, 'live-loop');
+    const playing = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, tour: 'playing', tweening: 'true' }),
+      screenshot,
+      'live-loop',
+    );
+    const pausedTour = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, tour: 'paused' }),
+      screenshot,
+      'live-loop',
+    );
     const missing = evaluateEagerProbe(
       'normal',
       atDeadline,
@@ -148,6 +162,9 @@ describe('evaluateEagerProbe', () => {
 
     expect(running.pass).toBe(true);
     expect(running.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: true });
+    expect(playing.pass).toBe(true);
+    expect(playing.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: true });
+    expect(pausedTour.pass).toBe(true);
     expect(missing.pass).toBe(false);
     expect(missing.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: false });
     expect(paused.pass).toBe(false);

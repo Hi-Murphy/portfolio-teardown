@@ -363,12 +363,11 @@ export function evaluateEagerProbe(
     const revealedByDeadline = atDeadline.liveStates.some(
       (state) => state.value === 'revealed' && state.t <= EAGER_PROBE_DEADLINE_MS,
     );
-    const restIdle =
-      afterRest !== null &&
-      liveStatesEqual(atDeadline.liveStates, afterRest.liveStates) &&
-      (afterRest.tour === null || afterRest.tour === 'idle');
+    const restSettled =
+      afterRest !== null && liveStatesEqual(atDeadline.liveStates, afterRest.liveStates);
+    const restIdle = restSettled && (afterRest.tour === null || afterRest.tour === 'idle');
     const ambientIdle = restIdle && (afterRest.tweening === null || afterRest.tweening === 'false');
-    const loopRunning = restIdle && afterRest?.heroLoop === 'running';
+    const loopRunning = restSettled && afterRest?.heroLoop === 'running';
 
     checks.push(
       check('canvas-present', canvasPresent, true, atDeadline.canvasRect),

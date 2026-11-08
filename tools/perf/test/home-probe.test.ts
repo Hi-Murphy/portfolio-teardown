@@ -3,15 +3,18 @@ import { describe, expect, test } from 'vitest';
 import {
   evaluateCopy,
   evaluateFold,
+  evaluateHeroControl,
   evaluateOrder,
   evaluateResponsive,
   evaluateStructure,
+  heroNarrationCompositions,
   HOME_PROBE_DEFAULT_GROUPS,
   HOME_PROBE_GROUPS,
   HOME_PROBE_UI_ALLOWLIST,
   HOME_SECTIONS_MISSING,
   type HomeFoldTargetSnapshot,
   type HomeFocusSnapshot,
+  type HomeHeroControlSnapshot,
   type HomeHeadingSnapshot,
   type HomePageSnapshot,
   type HomeRect,
@@ -104,6 +107,17 @@ function focus(
     rect: rect(x, y, 44, 44),
     tabIndex: 0,
     gridColumnIndex: null,
+    ...overrides,
+  };
+}
+
+function heroControl(overrides: Partial<HomeHeroControlSnapshot> = {}): HomeHeroControlSnapshot {
+  return {
+    loop: 'running',
+    button: true,
+    buttonInSlot: true,
+    posterVisible: false,
+    slot: rect(20, 700, 44, 44),
     ...overrides,
   };
 }
@@ -385,6 +399,40 @@ describe('structure group', () => {
   });
 });
 
+describe('hero control slot', () => {
+  test('requires a 44 x 44 slot and a running button inside it', () => {
+    const passing = evaluateHeroControl(snapshot({ heroControl: heroControl() }), false);
+    const small = evaluateHeroControl(
+      snapshot({ heroControl: heroControl({ slot: rect(20, 700, 40, 40) }) }),
+      false,
+    );
+    const misplaced = evaluateHeroControl(
+      snapshot({ heroControl: heroControl({ buttonInSlot: false }) }),
+      false,
+    );
+
+    expect(passing.pass).toBe(true);
+    expect(small.pass).toBe(false);
+    expect(misplaced.pass).toBe(false);
+  });
+
+  test('keeps the reserved slot while the poster path has no button', () => {
+    const result = evaluateHeroControl(
+      snapshot({
+        heroControl: heroControl({
+          loop: null,
+          button: false,
+          buttonInSlot: false,
+          posterVisible: true,
+        }),
+      }),
+      true,
+    );
+
+    expect(result.pass).toBe(true);
+  });
+});
+
 describe('copy group', () => {
   test('runs every group by default', () => {
     expect(HOME_PROBE_DEFAULT_GROUPS).toEqual(HOME_PROBE_GROUPS);
@@ -403,5 +451,23 @@ describe('copy group', () => {
 
     expect(result.pass).toBe(false);
     expect(result.checks[0]?.actual).toEqual(['Hand-typed recruiter copy']);
+  });
+
+  test('accepts compositions built from project flow content', () => {
+    const project = {
+      flows: [{ id: 'flow', label: 'Flow label', path: ['one', 'two'] }],
+      layers: [
+        {
+          components: [
+            { id: 'one', name: 'First', summary: 'First summary' },
+            { id: 'two', name: 'Second', summary: 'Second summary' },
+          ],
+        },
+      ],
+    };
+    const compositions = heroNarrationCompositions(project);
+
+    expect(compositions).toHaveLength(2);
+    expect(evaluateCopy(compositions, compositions).pass).toBe(true);
   });
 });

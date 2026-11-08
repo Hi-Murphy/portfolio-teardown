@@ -4,7 +4,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Project } from 'xploder';
 
 import { LiveViewer, useLiveViewer } from '../viewer/live-viewer';
-import { createHeroLoop, type HeroLoop, type HeroLoopState } from './hero-loop';
+import {
+  INITIAL_HERO_SEQUENCE_STATE,
+  createHeroSequence,
+  type HeroLoopState,
+  type HeroSequence,
+  type HeroSequenceState,
+} from './hero-loop';
+import { showcaseForSequence, type HeroShowcaseState } from './hero-showcase';
+
+const CAPTURE_FLOW = 'capture-path';
+const INSPECT_FLOW = 'inspect-path';
 
 export interface HeroLoopControl {
   toggle(): void;
@@ -15,6 +25,7 @@ export interface HeroStageProps {
   readonly onFirstFrame: () => void;
   readonly onLoopStateChange?: (state: HeroLoopState) => void;
   readonly onLoopControl?: (control: HeroLoopControl | null) => void;
+  readonly onShowcaseChange?: (state: HeroShowcaseState) => void;
 }
 
 export function HeroStage({
@@ -22,72 +33,90 @@ export function HeroStage({
   onFirstFrame,
   onLoopStateChange,
   onLoopControl,
+  onShowcaseChange,
 }: HeroStageProps) {
   const viewer = useLiveViewer({ project, initial: 'exploded' });
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const loopRef = useRef<HeroLoop | null>(null);
-  const startedRef = useRef(false);
-  const userPausedRef = useRef(false);
-  const hiddenRef = useRef(
+  const controllerRef = useRef<HeroSequence | null>(null);
+  const [sequence, setSequence] = useState<HeroSequenceState>(INITIAL_HERO_SEQUENCE_STATE);
+  const [userPaused, setUserPaused] = useState(false);
+  const [hidden, setHidden] = useState(
     typeof document !== 'undefined' && document.visibilityState === 'hidden',
   );
-  const offscreenRef = useRef(false);
-  const [loopState, setLoopState] = useState<HeroLoopState>('paused');
+  const [offscreen, setOffscreen] = useState(false);
 
   const publish = useCallback(
-    (next: HeroLoopState) => {
-      setLoopState(next);
-      onLoopStateChange?.(next);
+    (next: HeroSequenceState) => {
+      setSequence(next);
+      onLoopStateChange?.(next.status);
+      onShowcaseChange?.(showcaseForSequence(project, next));
     },
-    [onLoopStateChange],
+    [onLoopStateChange, onShowcaseChange, project],
   );
 
-  const sync = useCallback(() => {
-    const loop = loopRef.current;
-    if (loop === null || !startedRef.current) return;
-
-    if (userPausedRef.current || hiddenRef.current || offscreenRef.current) loop.pause();
-    else loop.resume();
-    publish(loop.state);
-  }, [publish]);
-
   useEffect(() => {
-    const loop = createHeroLoop({
+    const controller = createHeroSequence({
       actions: {
         explode: () => viewer.actions.explode(),
         implode: () => viewer.actions.implode(),
         rotateRight: () => viewer.actions.rotateRight(),
+        selectFlow: (flowId) => viewer.actions.selectFlow(flowId),
+        playTour: () => viewer.actions.play(),
+        pauseTour: () => viewer.actions.pause(),
+        stopTour: () => viewer.actions.stop(),
       },
+      captureFlow: CAPTURE_FLOW,
+      inspectFlow: INSPECT_FLOW,
       schedule: (callback, delayMs) => window.setTimeout(callback, delayMs),
       cancel: (handle) => window.clearTimeout(handle as number),
+      onChange: publish,
     });
-    loopRef.current = loop;
-    onLoopControl?.({
-      toggle: () => {
-        if (!startedRef.current) return;
-
-        userPausedRef.current = !userPausedRef.current;
-        sync();
-      },
-    });
-    if (startedRef.current) sync();
+    controllerRef.current = controller;
 
     return () => {
-      loop.dispose();
-      loopRef.current = null;
-      onLoopControl?.(null);
+      controller.dispose();
+      controllerRef.current = null;
     };
-  }, [onLoopControl, sync, viewer.actions]);
+  }, [publish, viewer.actions]);
+
+  useEffect(() => {
+    onLoopControl?.({
+      toggle: () => setUserPaused((current) => !current),
+    });
+
+    return () => onLoopControl?.(null);
+  }, [onLoopControl]);
+
+  useEffect(() => {
+    const controller = controllerRef.current;
+    if (controller === null || !sequence.started) return;
+
+    if (userPaused || hidden || offscreen) controller.pause();
+    else controller.resume();
+  }, [hidden, offscreen, sequence.started, userPaused]);
+
+  const tourStatus = viewer.tour.status;
+  const tourFlowId = viewer.tour.flowId;
+  const tourStep = viewer.tour.step;
+  const tourTotal = viewer.tour.total;
+
+  useEffect(() => {
+    controllerRef.current?.updateTour({
+      status: tourStatus,
+      flowId: tourFlowId,
+      step: tourStep,
+      total: tourTotal,
+    });
+  }, [tourFlowId, tourStatus, tourStep, tourTotal]);
 
   useEffect(() => {
     const onVisibilityChange = () => {
-      hiddenRef.current = document.visibilityState === 'hidden';
-      sync();
+      setHidden(document.visibilityState === 'hidden');
     };
 
     document.addEventListener('visibilitychange', onVisibilityChange);
     return () => document.removeEventListener('visibilitychange', onVisibilityChange);
-  }, [sync]);
+  }, []);
 
   useEffect(() => {
     const node = wrapperRef.current;
@@ -98,24 +127,22 @@ export function HeroStage({
         const entry = entries.at(-1);
         if (entry === undefined) return;
 
-        offscreenRef.current = !entry.isIntersecting;
-        sync();
+        setOffscreen(!entry.isIntersecting);
       },
       { threshold: 0 },
     );
     observer.observe(node);
 
     return () => observer.disconnect();
-  }, [sync]);
+  }, []);
 
   const handleFirstFrame = useCallback(() => {
     onFirstFrame();
-    startedRef.current = true;
-    sync();
-  }, [onFirstFrame, sync]);
+    controllerRef.current?.start();
+  }, [onFirstFrame]);
 
   return (
-    <div ref={wrapperRef} data-hero-loop={loopState} className="h-full w-full">
+    <div ref={wrapperRef} data-hero-loop={sequence.status} className="h-full w-full">
       <LiveViewer
         project={project}
         viewer={viewer}

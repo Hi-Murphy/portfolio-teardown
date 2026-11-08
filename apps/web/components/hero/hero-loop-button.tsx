@@ -19,7 +19,7 @@ export function HeroLoopButton({ paused, labels, onToggle }: HeroLoopButtonProps
     <button
       type="button"
       aria-label={paused ? labels.play : labels.pause}
-      className={`absolute bottom-2 right-2 ${BUTTON_CLASS}`}
+      className={BUTTON_CLASS}
       onClick={onToggle}
     >
       {paused ? (

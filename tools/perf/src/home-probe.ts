@@ -97,7 +97,9 @@ export interface HomeFocusSnapshot extends FocusStep {
 export interface HomeHeroControlSnapshot {
   readonly loop: string | null;
   readonly button: boolean;
+  readonly buttonInSlot: boolean;
   readonly posterVisible: boolean;
+  readonly slot: DocumentRect | null;
 }
 
 export interface HomeFoldTargetSnapshot {
@@ -578,6 +580,38 @@ export function evaluateStructure(
   );
 }
 
+export function evaluateHeroControl(
+  snapshot: HomePageSnapshot,
+  reducedMotion: boolean,
+): HomeProbeCheck {
+  const control = snapshot.heroControl;
+  const slotPass =
+    control?.slot !== null &&
+    control?.slot !== undefined &&
+    Math.round(control.slot.width) === MIN_TARGET_PX &&
+    Math.round(control.slot.height) === MIN_TARGET_PX;
+  const pass =
+    reducedMotion === true
+      ? control?.loop === null &&
+        control.button === false &&
+        control.buttonInSlot === false &&
+        control.posterVisible === true &&
+        slotPass
+      : control?.loop === 'running' &&
+        control.button === true &&
+        control.buttonInSlot === true &&
+        slotPass;
+
+  return check(
+    reducedMotion === true ? 'structure-hero-poster-path' : 'structure-hero-loop-control',
+    pass,
+    reducedMotion === true
+      ? { loop: null, button: false, buttonInSlot: false, posterVisible: true, slot: 44 }
+      : { loop: 'running', button: true, buttonInSlot: true, slot: 44 },
+    control ?? null,
+  );
+}
+
 export function evaluateCopy(
   visibleTexts: readonly string[],
   allowedTexts: readonly string[],
@@ -832,6 +866,9 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   ]);
   const measureTexts = [...measureElements]
     .filter((element) => rendered(element))
+    .filter(
+      (element) => element.tagName !== 'FIGCAPTION' || element.querySelector('button') === null,
+    )
     .map((element, index) => textSnapshot(element, bodyKeys.get(element) ?? `measure:${index}`));
 
   const targets = [...document.querySelectorAll<HTMLElement>('a,button')].flatMap(
@@ -946,9 +983,11 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     if (text === '') continue;
     const parent = node.parentElement;
     if (parent === null) continue;
+    const narration = parent.closest('[data-hero-narration]');
     if (
+      narration === null &&
       parent.closest('.sr-only,[aria-hidden="true"],[inert],script,style,template,noscript') !==
-      null
+        null
     ) {
       continue;
     }
@@ -968,10 +1007,8 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const visibleTexts = [...visibleByParent.values()].map((parts) => compact(parts.join(' ')));
   const footerContact = document.querySelector('[data-footer-contact]');
   const heroLoop = document.querySelector('[data-hero-loop]');
-  const heroButton =
-    [...(hero?.querySelectorAll('button') ?? [])].find(
-      (button) => button.closest('[data-site-live]') === null,
-    ) ?? null;
+  const heroSlot = hero?.querySelector<HTMLElement>('[data-hero-loop-slot]') ?? null;
+  const heroButton = heroSlot?.querySelector<HTMLButtonElement>('button') ?? null;
   const heroPoster = hero?.querySelector('[data-site-poster]') ?? null;
 
   (window as unknown as HomeProbeWindow).__homeProbeFocusKeys = focusKeys;
@@ -1002,7 +1039,9 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     heroControl: {
       loop: heroLoop?.getAttribute('data-hero-loop') ?? null,
       button: heroButton !== null && rendered(heroButton),
+      buttonInSlot: heroButton !== null,
       posterVisible: heroPoster !== null && rendered(heroPoster),
+      slot: heroSlot === null ? null : viewportRect(heroSlot),
     },
   };
 }
@@ -1342,18 +1381,7 @@ async function runStructureGroup(
         'none',
         withWalk.footerContactDisplay ?? null,
       );
-      const heroControl = check(
-        cell.reducedMotion === true ? 'structure-hero-poster-path' : 'structure-hero-loop-control',
-        cell.reducedMotion === true
-          ? withWalk.heroControl?.loop === null &&
-              withWalk.heroControl.button === false &&
-              withWalk.heroControl.posterVisible
-          : withWalk.heroControl?.loop === 'running' && withWalk.heroControl.button,
-        cell.reducedMotion === true
-          ? { loop: null, button: false, posterVisible: true }
-          : { loop: 'running', button: true },
-        withWalk.heroControl ?? null,
-      );
+      const heroControl = evaluateHeroControl(withWalk, cell.reducedMotion === true);
       results.push({
         ...evaluation,
         pass: evaluation.pass && footerContact.pass && heroControl.pass,
@@ -1394,10 +1422,46 @@ async function techLabels(rootDir: string): Promise<string[]> {
   }
 }
 
+interface NarrationProject {
+  readonly flows?: readonly {
+    readonly id?: string;
+    readonly label?: string;
+    readonly path: readonly string[];
+  }[];
+  readonly layers: readonly {
+    readonly components: readonly {
+      readonly id: string;
+      readonly name?: string;
+      readonly summary?: string;
+    }[];
+  }[];
+}
+
+export function heroNarrationCompositions(project: NarrationProject): string[] {
+  const components = project.layers.flatMap((layer) => layer.components);
+  const compositions: string[] = [];
+
+  for (const [flowIndex, flow] of (project.flows ?? []).entries()) {
+    const flowLabel = flow.label ?? flow.id ?? `flow-${flowIndex + 1}`;
+
+    for (const [step, componentId] of flow.path.entries()) {
+      const component = components.find((candidate) => candidate.id === componentId);
+      if (component?.name === undefined || component.summary === undefined) continue;
+
+      compositions.push(
+        `${flowLabel} · ${step + 1}/${flow.path.length} · ${component.name} — ${component.summary}`,
+      );
+    }
+  }
+
+  return compositions;
+}
+
 async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<string[]> {
   const strings: string[] = [];
   flattenStrings(siteSource, strings);
   flattenStrings(websocketInspectorSource, strings);
+  strings.push(...heroNarrationCompositions(websocketInspectorSource));
   strings.push(...(await techLabels(rootDir)));
   strings.push(
     `${siteSource.identity.role} · ${siteSource.identity.location}`,
