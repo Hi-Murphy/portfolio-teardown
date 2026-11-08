@@ -60,7 +60,11 @@ function homeStrings(): CopyEntry[] {
       label: `identity.links[${index}].label`,
       value: link.label,
     })),
-    ...collectStrings('hero', siteSource.hero),
+    // hero.loopPause / hero.loopPlay label a client-only control that mounts after the live
+    // hero's first frame (R7); home-hero-loop.test.tsx covers them.
+    ...collectStrings('hero', siteSource.hero).filter(
+      (entry) => entry.label !== 'hero.loopPause' && entry.label !== 'hero.loopPlay',
+    ),
     ...collectStrings('about.title', siteSource.about.title),
     ...collectStrings('about.paragraphs', siteSource.about.paragraphs),
     ...collectStrings('about.skillsNote', siteSource.about.skillsNote),

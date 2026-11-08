@@ -24,6 +24,8 @@ export interface SiteCopy {
       label: string;
       href: string;
     };
+    loopPause: string;
+    loopPlay: string;
   };
   about: {
     title: string;

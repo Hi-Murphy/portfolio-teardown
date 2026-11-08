@@ -120,13 +120,21 @@ if (canonical(current?.contact) !== canonical({ title: 'Contact' })) {
   process.exit(1);
 }
 
+// R7 (Murphy, 2026-11-08): hero loop pause/play labels.
+if (current?.hero?.loopPause !== 'Pause animation' || current?.hero?.loopPlay !== 'Play animation') {
+  console.error('hero.loopPause / hero.loopPlay are not the approved R7 values');
+  process.exit(1);
+}
+
 const comparedBase = structuredClone(base);
+comparedBase.hero.loopPause = current.hero.loopPause;
+comparedBase.hero.loopPlay = current.hero.loopPlay;
 comparedBase.about.paragraphs[0] = newParagraph;
 comparedBase.meta.description = current.meta.description;
 comparedBase.contact = current.contact;
 
 if (canonical(comparedBase) !== canonical(current)) {
-  console.error('site.json differs outside about.paragraphs[0], meta.description and contact');
+  console.error('site.json differs outside about.paragraphs[0], meta.description, contact and hero.loopPause/loopPlay');
   process.exit(1);
 }
 NODE

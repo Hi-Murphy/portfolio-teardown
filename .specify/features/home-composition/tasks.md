@@ -65,6 +65,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-A1 (Murphy, 2026-11-08):** hero showcase loop added as T011b (RFC §13 R6). `apps/web/components/hero/**` is touchable in T011b only (`hero-stage.tsx` + a new `hero-loop.ts`); the T006 hero figure snapshot is updated in T011b with a reason note. T006 also makes the headline smaller (one step down the existing clamp) so the figure gets more room, keeping AC2.
+- **D-A3 (Murphy, 2026-11-08):** RFC R7 — T011b adds the pause/play button (labels `hero.loopPause` / `hero.loopPlay`, orchestrator content edit before T011b) and `eager:probe --expect live-loop` for `/` (`regress-hero.sh` step 1 and `home-composition.yml` switch to it). `components/hero/hero-live.tsx` is touchable in T011b to pass the labels through.
 - **D-A2 (Murphy, 2026-11-08):** R1a — the redaction bar is 8 blocks (one word); orchestrator content edit `28a723c`. `guards.sh --self-test` restores files with `git checkout`, so it must only run on a clean tree (it reverted an uncommitted edit once; re-applied, nothing lost).
 
 ---
