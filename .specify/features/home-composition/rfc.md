@@ -271,3 +271,7 @@ Refinements agreed at G1:
 - **R5 — first Stage 3 task.** T001 = content (R1–R3) + the retaken full-page baseline shots (3 widths × 2 palettes), so every later before/after pair uses the redacted copy.
 
 Change surface additions (§9): `.specify/content/site.json` (R1–R3 only), ledger L6 (footer contact block) and L7 (description meta on every route).
+
+### Stage 3 addition (Murphy, 2026-11-08)
+
+- **R6 — hero showcase loop.** Murphy's decision; it widens the brief's "no new features / no motion change" non-goal for the hero only (brief revision 1 of 2 in effect, recorded here because the brief file is frozen). Loop: explode + quarter turn → hold → implode + quarter turn → hold → repeat. Built from existing engine actions (`explode`, `implode`, `rotateRight`, `onSettled`) and an existing motion token for the hold (`durations.tourBeat`). No engine, token or dependency change. Guards: it starts only after the live reveal; it pauses when the hero is off-screen or the tab is hidden; reduced motion and Save-Data keep the static poster; 2 draw calls and every AC4 gate still bind. **Safety valve:** if a gate fails and two attempts do not fix it, only the loop is reverted, S11.9 ships without it, and the loop moves to its own slice. The headline stays (AC2) but gets smaller so the 3D figure gets more room (T006).

@@ -58,12 +58,13 @@
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
+| T011b | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
 
 ## Stage-3 amendments (orchestrator)
 
-_(none yet)_
+- **D-A1 (Murphy, 2026-11-08):** hero showcase loop added as T011b (RFC §13 R6). `apps/web/components/hero/**` is touchable in T011b only (`hero-stage.tsx` + a new `hero-loop.ts`); the T006 hero figure snapshot is updated in T011b with a reason note. T006 also makes the headline smaller (one step down the existing clamp) so the figure gets more room, keeping AC2.
 
 ---
 
@@ -273,6 +274,20 @@ _(none yet)_
   1. Optional: change one word in `site.json`, run `pnpm --filter web content:convert && pnpm dev`, and see the page change; then revert.
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: Q4 allowlist).
+
+### T011b [US4] Hero showcase loop (R6)
+
+- **Files:** `apps/web/components/hero/hero-stage.tsx`, `apps/web/components/hero/hero-loop.ts` (new), `apps/web/test/home-hero-loop.test.tsx` (new), `apps/web/test/home-hero-figure.test.tsx` (snapshot note), `$F/app-touch.txt` (+ these hero paths).
+- **Behaviour:**
+  - after the first settled frame: hold `durations.tourBeat`, then `rotateRight` + `implode`; on settled, hold, then `rotateRight` + `explode`; repeat;
+  - pause on `visibilitychange` hidden and when an `IntersectionObserver` reports the hero off-screen; resume when it is back;
+  - reduced motion / Save-Data: the poster path is unchanged, so the loop never mounts.
+- **Check:** unit tests with fake timers (sequence, pause/resume, no loop under reduced motion); `regress-hero.sh`; `site:probe --group draws,cls` (2 draws, CLS 0); local `perf:lighthouse /` ×2 (perf ≥ 0.95, a11y ≥ 0.95); `no-motion-literals` green; `guards.sh`; full suite. Two failed attempts on a gate → revert the loop only and report (safety valve).
+- **Evidence:** `evidence/T011b-log-loop.txt`, a short screen recording or a frame strip `T011b-screenshot-loop-strip.png`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Preview: `/` shows the teardown turning, exploding and imploding in a loop; switching tabs and coming back resumes it.
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (defaults: quarter turn per step, 1.6 s hold).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
