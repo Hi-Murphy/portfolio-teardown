@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -8,11 +8,8 @@ vi.mock('../components/hero/hero-live', () => ({
   HeroLive: () => null,
 }));
 
-const EVIDENCE_ROOT = fileURLToPath(
-  new URL('../../../.specify/features/home-composition/evidence/', import.meta.url),
-);
-const CONTACT_SECTION_PATH = fileURLToPath(
-  new URL('../components/home/contact-section.tsx', import.meta.url),
+const FEATURE_ROOT = fileURLToPath(
+  new URL('../../../.specify/features/home-composition/', import.meta.url),
 );
 
 function pageSectionIds(sections: readonly string[], layoutSections: readonly string[]): string[] {
@@ -58,12 +55,9 @@ describe('home section data', () => {
     expect(renderedSectionOrder(html)).toEqual(['hero', 'about', 'projects']);
   });
 
-  test('the unmocked list matches the current approval file', async () => {
+  test('the unmocked list matches the approved list', async () => {
     const { HOME_SECTIONS } = await import('../content/home-sections');
-    const approvalFile = existsSync(CONTACT_SECTION_PATH)
-      ? 'g1-approved.txt'
-      : 'T005-interim-approved.txt';
-    const approved = readFileSync(`${EVIDENCE_ROOT}/${approvalFile}`, 'utf8')
+    const approved = readFileSync(`${FEATURE_ROOT}/g1-approved.txt`, 'utf8')
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean);
