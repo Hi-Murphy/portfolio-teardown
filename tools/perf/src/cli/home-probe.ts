@@ -38,8 +38,7 @@ Options:
   --out <dir>        output directory (default: .evidence/home-probe)
   --help             show this help
 
-Groups: ${HOME_PROBE_GROUPS.join(', ')}
-The copy group is opt-in until T011.`;
+Groups: ${HOME_PROBE_GROUPS.join(', ')}`;
 
 function exitCodeTable(): string {
   return Object.entries(EXIT)

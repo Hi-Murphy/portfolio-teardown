@@ -10,13 +10,13 @@ const NAV_LINK_CLASS =
 const SOCIAL_LINK_CLASS =
   'inline-flex h-11 w-11 shrink-0 items-center justify-center text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent';
 
-function siteLinkUrl(label: 'GitHub' | 'LinkedIn'): string | undefined {
-  return SITE.identity.links.find((link) => link.label === label)?.url ?? undefined;
+function siteLink(label: 'GitHub' | 'LinkedIn') {
+  return SITE.identity.links.find((link) => link.label === label);
 }
 
 export function SiteNav() {
-  const githubUrl = siteLinkUrl('GitHub');
-  const linkedInUrl = siteLinkUrl('LinkedIn');
+  const githubLink = siteLink('GitHub');
+  const linkedInLink = siteLink('LinkedIn');
 
   return (
     <header className="border-b border-line/30 bg-bg">
@@ -40,13 +40,17 @@ export function SiteNav() {
               {SITE.contact.title}
             </Link>
             <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-line/30" />
-            {githubUrl ? (
-              <a href={githubUrl} aria-label="GitHub" className={SOCIAL_LINK_CLASS}>
+            {githubLink?.url ? (
+              <a href={githubLink.url} aria-label={githubLink.label} className={SOCIAL_LINK_CLASS}>
                 <GitHubIcon />
               </a>
             ) : null}
-            {linkedInUrl ? (
-              <a href={linkedInUrl} aria-label="LinkedIn" className={SOCIAL_LINK_CLASS}>
+            {linkedInLink?.url ? (
+              <a
+                href={linkedInLink.url}
+                aria-label={linkedInLink.label}
+                className={SOCIAL_LINK_CLASS}
+              >
                 <LinkedInIcon />
               </a>
             ) : null}

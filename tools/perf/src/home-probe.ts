@@ -17,6 +17,7 @@ export const HOME_PROBE_DEFAULT_GROUPS = [
   'fold',
   'responsive',
   'structure',
+  'copy',
 ] as const satisfies readonly HomeProbeGroup[];
 
 export const HOME_PROBE_UI_ALLOWLIST = [
@@ -1230,8 +1231,8 @@ function flattenStrings(value: unknown, output: string[]): void {
 async function techLabels(rootDir: string): Promise<string[]> {
   try {
     const source = await readFile(resolve(rootDir, 'apps/web/content/tech-registry.ts'), 'utf8');
-    return [...source.matchAll(/\blabel:\s*'([^']+)'/g)].flatMap((match) =>
-      match[1] === undefined ? [] : [match[1]],
+    return [...source.matchAll(/\blabel:\s*(['"])([^'"]+)\1/g)].flatMap((match) =>
+      match[2] === undefined ? [] : [match[2]],
     );
   } catch {
     return [];
