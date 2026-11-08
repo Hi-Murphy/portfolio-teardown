@@ -58,6 +58,11 @@
 | T009 | ☑ Contact section (h2 `contact.title`; email/GitHub/LinkedIn from content, 44 px rows); `HOME_SECTIONS` = G1 list; footer: id removed (L1), contact block hidden on `/` by `:has()` (L6; visible on `/projects`), label from content (L5). order 18/18, structure 36/36, fold 12/12; guards 9/9 (interim-list OK); cross-route 7 hunks all ledgered, `/projects*` `<main>` identical; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T009-log-contact.txt, T009-screenshot-* | 9148ca2 |
 | T010 | ☑ nav monogram + social links 44×44 (L2), footer brand link 44 px (L3), nav labels from content (L5); responsive PASS 36/36 in 6 cells; nav 44 px single row at 390; order/fold/structure PASS; cross-route 10 hunks all ledgered, `/projects*` `<main>` identical; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T010-log-chrome.txt, T010-log-cross-route.txt, T010-screenshot-* | 5821491 |
 | T011 | ☑ AST scan (7 file groups, printed allowlist = probe allowlist, 3 negative controls bite); mutation test 24 strings / 39 sentinels, unmocked control 0; rendered copy group default + PASS; all 5 default groups PASS; nav/footer social labels from content (renders identically); regress-hero 5/5, cross-route ledger-only, guards 9/9 | 1 (Flash) + orchestrator review (CLI help line) | evidence/T011-log-home-copy.txt | 9377517 |
+| T011c | ☐ | | | |
+| T011d | ☐ | | | |
+| T011e | ☐ | | | |
+| T011f | ☐ | | | |
+| T011g | ☐ (Murphy content pass) | | | |
 | T011b | ☑ loop (explode/implode + quarter turn, `tourBeat` hold; pauses off-screen / hidden tab) + 44×44 pause/play button outside `aria-hidden`, labels from content; attempt 1 blocked by two probes assuming a still hero → D-A4; attempt 2: regress-hero 5/5 (`--expect live-loop`), home:probe all groups PASS incl. button + reduced cell, axe home 0/0, Lighthouse ×2 perf 1.00 / a11y 1.00 / CLS 0, draws 2, cross-route ledger-only, guards 9/9 | 1 (Flash, 2 attempts) + orchestrator (D-A4 decision) | evidence/T011b-log-loop.txt, T011b-screenshot-* | 27968cb |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
@@ -65,6 +70,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-A1 (Murphy, 2026-11-08):** hero showcase loop added as T011b (RFC §13 R6). `apps/web/components/hero/**` is touchable in T011b only (`hero-stage.tsx` + a new `hero-loop.ts`); the T006 hero figure snapshot is updated in T011b with a reason note. T006 also makes the headline smaller (one step down the existing clamp) so the figure gets more room, keeping AC2.
+- **D-A5 (Murphy, 2026-11-08):** RFC R8 — hero showcase tasks T011c–T011g inserted before T012; Murphy reviews after each (STOP per task). `components/hero/**` and a home-only poster option stay touchable through T011f; `packages/xploder/**` stays frozen (T011c must prove the tour runs in the hero with no engine change, else STOP).
 - **D-A4 (orchestrator, T011b attempt 1):** two probes still encoded "the hero never moves on its own". (a) `site:probe` hero group: when the page carries `[data-hero-loop]`, `hero-idle-exploded` is replaced by `hero-loop-running` (loop attribute `running`, one canvas, tour idle); without the attribute the check is unchanged (mode-aware, like S11.8 R9). (b) `home:probe` measures the real page: every group runs in normal motion and waits for `[data-hero-loop="running"]` on `/`, so the pause button is covered by the tap-target, tab-walk and visual-order checks; one extra reduced-motion structure cell at 390 covers the poster path (no button). (c) Visual reading order (spec "Keyboard order = visual order") is refined for multi-column sections: (section index, grid column of the focus stop within a multi-column grid section at that width, then y, then x) — side-by-side columns read left column first, then right.
 - **D-A3 (Murphy, 2026-11-08):** RFC R7 — T011b adds the pause/play button (labels `hero.loopPause` / `hero.loopPlay`, orchestrator content edit before T011b) and `eager:probe --expect live-loop` for `/` (`regress-hero.sh` step 1 and `home-composition.yml` switch to it). `components/hero/hero-live.tsx` is touchable in T011b to pass the labels through.
 - **D-A2 (Murphy, 2026-11-08):** R1a — the redaction bar is 8 blocks (one word); orchestrator content edit `28a723c`. `guards.sh --self-test` restores files with `git checkout`, so it must only run on a clean tree (it reverted an uncommitted edit once; re-applied, nothing lost).
@@ -291,6 +297,17 @@
   1. Preview: `/` shows the teardown turning, exploding and imploding in a loop; switching tabs and coming back resumes it.
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (defaults: quarter turn per step, 1.6 s hold).
+
+### T011c [US4] Feasibility: the existing tour plays in the hero (spike, STOP after)
+
+- **Question:** can the home hero's `LiveViewer` run `selectFlow('capture-path')` + `play()` (then `inspect-path`) with the public `xploder/react` API only, no `packages/xploder` change, no panels? What does the handle expose per step (flow id, step, total, component id)? Are there console errors, extra draw calls, or a tour UI that appears without panels?
+- **Output:** a throwaway branch (not merged); `evidence/T011c-log-spike.md` with the answers, the minimal wiring used, draw calls, Lighthouse ×1 on `/`, `eager:probe --expect live-loop`, and 4 screenshots of the pulse at different steps (`T011c-screenshot-tour-{1..4}.png`).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. The 4 screenshots: is the travelling pulse the "wow" you want?
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Go / no-go for T011d.
+
+### T011d–T011g
+
+Specified after T011c's answer (RFC R8); each ends with Murphy's review.
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
