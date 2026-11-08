@@ -1,0 +1,92 @@
+# T003 harness evidence
+
+Command: the T003 Check block from the worktree root (export served from apps/web/out).
+Result: T003-OK. The baseline home:probe exited 6 by design.
+
+## home-probe negative controls
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/home-probe.test.ts > order group > fails with the dedicated detail when HOME_SECTIONS is missing 1ms
+ ✓ test/home-probe.test.ts > order group > passes an approved DOM order and bites added, removed and swapped sections 0ms
+ ✓ test/home-probe.test.ts > order group > fails when data and approval drift apart 0ms
+ ✓ test/home-probe.test.ts > fold group > passes when every requested element is visible above the fold 0ms
+ ✓ test/home-probe.test.ts > fold group > fails a CTA at y=900 0ms
+ ✓ test/home-probe.test.ts > responsive group > passes separated 44 px controls and 16 px body text 0ms
+ ✓ test/home-probe.test.ts > responsive group > fails a 40 px target 0ms
+ ✓ test/home-probe.test.ts > responsive group > fails a 14 px body element 0ms
+ ✓ test/home-probe.test.ts > responsive group > fails overlapping text and control boxes in one section 0ms
+ ✓ test/home-probe.test.ts > structure group > passes a single outline, named hero, contact h2, landmarks and tab walk 0ms
+ ✓ test/home-probe.test.ts > structure group > fails two h1 elements 0ms
+ ✓ test/home-probe.test.ts > structure group > fails an h2 to h4 jump 0ms
+ ✓ test/home-probe.test.ts > structure group > fails a positive tabindex jump 0ms
+ ✓ test/home-probe.test.ts > copy group > passes known strings and prints the UI allowlist 0ms
+ ✓ test/home-probe.test.ts > copy group > fails an unknown rendered string 0ms
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+
+## eager:probe --save-data
+
+eager-probe: home/save-data r1 PASS
+eager-probe: home/save-data r2 PASS
+eager-probe: PASS (2 runs)
+
+## Baseline home:probe verdict (today's page)
+
+| Group | Check | Result | Actual |
+|---|---|---|---|
+| order | home-sections | FAIL (3/3 widths) | `HOME_SECTIONS module missing` |
+| fold | identity-name | FAIL (2/2 palettes) | no matching element above the fold |
+| fold | role-eyebrow | PASS (2/2) | - |
+| fold | headline | PASS (2/2) | - |
+| fold | primary-cta | PASS (2/2) | - |
+| fold | project-signal | PASS (2/2) | - |
+| fold | no-horizontal-scroll | PASS (2/2) | - |
+| responsive | no-horizontal-scroll | PASS (6/6 cells) | - |
+| responsive | no-section-overlap | PASS (6/6) | - |
+| responsive | no-text-overlap | PASS (6/6) | - |
+| responsive | no-clipping | PASS (6/6) | - |
+| responsive | tap-targets | FAIL (6/6) | 36 x 44 nav marks/social links; 237 x 36 footer brand |
+| responsive | body-font-size | FAIL (6/6) | 14 px caption, card tagline and three About paragraphs |
+| structure | one-h1 | PASS (3/3 widths) | - |
+| structure | heading-levels | PASS (3/3) | - |
+| structure | section-headings | FAIL (3/3) | `hero:h1, projects:h2, about:h2` (no contact) |
+| structure | hero-named | FAIL (3/3) | `aria-labelledby` is null |
+| structure | contact-h2 | FAIL (3/3) | no Contact heading |
+| structure | landmarks | PASS (3/3) | - |
+| structure | named-regions | FAIL (3/3) | `hero, contact` |
+| structure | skip-first | PASS (3/3) | - |
+| structure | no-positive-tabindex | PASS (3/3) | - |
+| structure | tab-walk | PASS (3/3) | - |
+| structure | focus-order | PASS (3/3) | - |
+
+## regress-hero.sh
+
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+regress-hero: PASS (5 steps)
+
+## Final workspace checks
+
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+SKIP home-use-client: components/home does not exist
+OK dependencies
+SKIP interim-list: no contact section
+
+pnpm typecheck: PASS (packages/xploder, tools/perf, apps/web)
+pnpm lint: PASS (ESLint and Prettier)
+pnpm test: PASS
+  tools/perf: 31 files, 264 tests
+  packages/xploder: 62 files, 625 tests
+  apps/web: 35 passed + 1 skipped file; 197 passed + 2 skipped tests
+
+T003-OK

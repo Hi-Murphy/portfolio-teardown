@@ -10,6 +10,7 @@ import {
   evaluateCanvasPixels,
   evaluateEagerProbe,
   evaluateGatedProbe,
+  evaluateSaveDataProbe,
   type EagerProbeEventCounts,
   type EagerProbeRun,
   type EagerProbeSnapshot,
@@ -198,6 +199,32 @@ describe('evaluateGatedProbe', () => {
   });
 });
 
+describe('evaluateSaveDataProbe', () => {
+  test('passes only with a visible poster and live state skipped', () => {
+    const saveData = snapshot({
+      canvasCount: 0,
+      canvasRect: null,
+      readyAtMs: null,
+      readyAttribute: false,
+      liveStates: [
+        { value: 'idle', t: 100 },
+        { value: 'skipped', t: 150 },
+      ],
+      liveState: 'skipped',
+      liveOpacity: null,
+      posterOpacity: '1',
+      posterVisibility: 'visible',
+    });
+
+    expect(evaluateSaveDataProbe(saveData).pass).toBe(true);
+    expect(
+      evaluateSaveDataProbe(snapshot())
+        .checks.filter((entry) => !entry.pass)
+        .map((entry) => entry.name),
+    ).toEqual(['canvas-absent', 'ready-absent', 'poster-visible', 'live-state-skipped']);
+  });
+});
+
 describe('eager probe artifacts', () => {
   test('uses the route and motion names from the evidence contract', () => {
     expect(eagerProbeRouteName('/')).toBe('home');
@@ -208,6 +235,9 @@ describe('eager probe artifacts', () => {
     );
     expect(eagerProbeFileName('home', 'normal', 1, 'png')).toBe(
       'eager-probe-home-normal-r1.deadline.png',
+    );
+    expect(eagerProbeFileName('home', 'save-data', 1, 'json')).toBe(
+      'eager-probe-home-save-data-r1.json',
     );
   });
 

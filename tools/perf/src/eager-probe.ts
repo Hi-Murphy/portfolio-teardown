@@ -95,6 +95,7 @@ export interface EagerProbeRun {
   readonly route: string;
   readonly routeName: string;
   readonly motion: EagerProbeMotion;
+  readonly saveData?: true;
   readonly expect?: EagerProbeExpectation;
   readonly run: number;
   readonly url: string;
@@ -129,6 +130,7 @@ export interface EagerProbeRunOptions {
   readonly route: string;
   readonly run: number;
   readonly motion: EagerProbeMotion;
+  readonly saveData?: boolean;
   readonly expect?: EagerProbeExpectation;
   readonly outDir: string;
   readonly threeChunkPaths?: ReadonlySet<string>;
@@ -430,6 +432,31 @@ export function evaluateGatedProbe(snapshot: EagerProbeSnapshot): EagerProbeVerd
   return { pass: checks.every((entry) => entry.pass), checks };
 }
 
+export function evaluateSaveDataProbe(snapshot: EagerProbeSnapshot): EagerProbeVerdict {
+  const posterVisible =
+    snapshot.posterPresent &&
+    snapshot.posterOpacity === '1' &&
+    snapshot.posterVisibility === 'visible';
+  const liveStateSkipped =
+    snapshot.liveState === 'skipped' && snapshot.liveStates.at(-1)?.value === 'skipped';
+  const checks = [
+    check('canvas-absent', snapshot.canvasCount === 0, 0, snapshot.canvasCount),
+    check('ready-absent', snapshot.readyAtMs === null && !snapshot.readyAttribute, null, {
+      readyAtMs: snapshot.readyAtMs,
+      readyAttribute: snapshot.readyAttribute,
+    }),
+    check(
+      'poster-visible',
+      posterVisible,
+      { opacity: '1', visibility: 'visible' },
+      { opacity: snapshot.posterOpacity, visibility: snapshot.posterVisibility },
+    ),
+    check('live-state-skipped', liveStateSkipped, 'skipped', snapshot.liveStates),
+    check('no-trusted-events', snapshot.trustedEvents === 0, 0, snapshot.trustedEvents),
+  ];
+  return { pass: checks.every((entry) => entry.pass), checks };
+}
+
 export function eagerProbeRouteName(route: string): string {
   if (route === '/') return 'home';
   if (route === '/projects/websocket-inspector') return 'project';
@@ -439,12 +466,12 @@ export function eagerProbeRouteName(route: string): string {
 
 export function eagerProbeFileName(
   routeName: string,
-  motion: EagerProbeMotion,
+  condition: EagerProbeMotion | 'save-data',
   run: number,
   extension: 'json' | 'png',
 ): string {
   const suffix = extension === 'json' ? 'json' : 'deadline.png';
-  return `eager-probe-${routeName}-${motion}-r${run}.${suffix}`;
+  return `eager-probe-${routeName}-${condition}-r${run}.${suffix}`;
 }
 
 async function captureScreenshot(
@@ -484,6 +511,8 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
   const profile = PROFILES.mobile;
   const reduced = options.motion === 'reduce';
   const gated = options.expect === 'gated';
+  const saveData = options.saveData === true;
+  const condition = saveData ? 'save-data' : options.motion;
   const context = await options.browser.newContext({
     viewport: {
       width: profile.screenEmulation.width,
@@ -501,6 +530,11 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     const page = await context.newPage();
     page.setDefaultTimeout(EAGER_PROBE_WAIT_MS);
     await page.addInitScript(installProbe);
+    if (saveData) {
+      await page.addInitScript(() => {
+        Object.defineProperty(navigator, 'connection', { value: { saveData: true } });
+      });
+    }
 
     const requestedChunks = new Set<string>();
     page.on('request', (request) => {
@@ -529,7 +563,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     const routeName = eagerProbeRouteName(options.route);
     await mkdir(options.outDir, { recursive: true });
 
-    if (reduced || gated) {
+    if (reduced || gated || saveData) {
       await page.waitForFunction(
         () => (window as unknown as EagerProbeWindow).__eagerProbe?.loadAtMs !== null,
         undefined,
@@ -545,7 +579,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       atDeadline = await readSnapshot(page);
       screenshot = await captureScreenshot(
         page,
-        join(options.outDir, eagerProbeFileName(routeName, options.motion, options.run, 'png')),
+        join(options.outDir, eagerProbeFileName(routeName, condition, options.run, 'png')),
         options.motion,
         atDeadline,
       );
@@ -558,7 +592,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       atDeadline = await readSnapshot(page);
       screenshot = await captureScreenshot(
         page,
-        join(options.outDir, eagerProbeFileName(routeName, options.motion, options.run, 'png')),
+        join(options.outDir, eagerProbeFileName(routeName, condition, options.run, 'png')),
         options.motion,
         atDeadline,
       );
@@ -579,7 +613,9 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     };
     const verdict = gated
       ? evaluateGatedProbe(atDeadline)
-      : evaluateEagerProbe(options.motion, atDeadline, afterRest, screenshot);
+      : saveData
+        ? evaluateSaveDataProbe(atDeadline)
+        : evaluateEagerProbe(options.motion, atDeadline, afterRest, screenshot);
 
     return {
       kind: 'eager-probe',
@@ -587,15 +623,17 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       route: options.route,
       routeName,
       motion: options.motion,
+      ...(saveData ? { saveData: true as const } : {}),
       ...(gated ? { expect: 'gated' as const } : {}),
       run: options.run,
       url,
       chromium: chromiumVersion(options.browser),
       profile: 'mobile',
       reducedMotion: reduced ? 'reduce' : 'no-preference',
-      deadlineMs: reduced || gated ? EAGER_PROBE_REDUCED_SETTLE_MS : EAGER_PROBE_DEADLINE_MS,
-      restWindowMs: reduced || gated ? null : EAGER_PROBE_REST_MS,
-      reducedSettleMs: reduced ? EAGER_PROBE_REDUCED_SETTLE_MS : null,
+      deadlineMs:
+        reduced || gated || saveData ? EAGER_PROBE_REDUCED_SETTLE_MS : EAGER_PROBE_DEADLINE_MS,
+      restWindowMs: reduced || gated || saveData ? null : EAGER_PROBE_REST_MS,
+      reducedSettleMs: reduced || saveData ? EAGER_PROBE_REDUCED_SETTLE_MS : null,
       atDeadline,
       afterRest,
       screenshot,
