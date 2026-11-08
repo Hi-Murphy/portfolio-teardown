@@ -54,7 +54,7 @@
 | T005 | ☑ `HOME_SECTIONS` (interim, contact in T009) + typed registry; page renders from data; About = one `<section>` root (`AboutStrip` returns content); 8 shots 0 px vs T001; order group PASS 18/18; permutation test PASS; regress-hero, cross-route 0 hunks, guards PASS | 1 (Flash) + orchestrator review | evidence/T005-log-order.txt | 364df48 |
 | T006 | ☑ identity line (`identity.name`), h1 clamp 2.25–4.25 rem, lg grid 0.8/1.2 fr, caption 16 px; fold PASS 12/12 light+dark (caption bottom 812 ≤ 836, no padding lever needed); figure snapshot test (caption class only); regress-hero 5/5, cross-route 0 hunks | 1 (Flash) + orchestrator review | evidence/T006-log-hero.txt, T006-screenshot-* | c5abf42 |
 | T007 | ☑ compact tagline 16 px (L4); dashed note tile always on beside the card; responsive: Projects body 16 px + no card/tile overlap in 6/6 cells; cross-route: `/projects*` 0 hunks, `/404` exactly the L4 hunk; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T007-log-projects.txt, T007-screenshot-* | 2d8b672 |
-| T008 | ☐ | | | |
+| T008 | ☑ About paragraphs 16 px, h2 24 px (= Projects), prose `max-w-prose` kept, skills note unchanged (label); responsive: body sizes PASS 6/6 (only tap targets left, T010); cross-route unchanged; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T008-log-about.txt, T008-screenshot-* | a1fe18b |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 | T011 | ☐ | | | |
