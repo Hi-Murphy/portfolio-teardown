@@ -18,6 +18,9 @@ export function ProjectsSection() {
           {projects.map((project) => (
             <ProjectCard key={project.meta.slug} model={cardModel(project)} variant="compact" />
           ))}
+          <div className="flex items-center rounded border border-dashed border-line/30 p-4 sm:p-5">
+            <p className="text-base leading-relaxed text-muted">{SITE.projects.emptyNote}</p>
+          </div>
         </div>
       )}
     </SectionFrame>
