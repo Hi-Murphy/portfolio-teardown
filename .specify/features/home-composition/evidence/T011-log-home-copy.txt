@@ -1,0 +1,277 @@
+# T011 — home copy fidelity evidence
+
+Generated from the T011 check block on 2026-11-08. Paths and local ports are sanitized.
+
+## Check block
+
+
+ RUN  v5.0.5 ./apps/web
+
+stdout | test/home-copy.test.ts > home copy AST scan > the local UI allowlist equals the rendered-probe allowlist
+home-copy allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+
+stdout | test/home-copy.test.ts > home copy AST scan > the home surface has no hand-typed copy
+home-copy scanned files (12):
+  app/(site)/page.tsx
+  components/about-strip.tsx
+  components/home/about-section.tsx
+  components/home/contact-section.tsx
+  components/home/hero-section.tsx
+  components/home/projects-section.tsx
+  components/home/registry.tsx
+  components/home/section-frame.tsx
+  components/nav-projects-link.tsx
+  components/site-footer.tsx
+  components/site-nav.tsx
+  content/home-sections.ts
+
+stdout | test/home-copy.test.ts > home copy AST scan > negative controls catch JSX text, text attributes and expression branches
+negative controls: jsx-text, text-attribute, jsx-text-literal
+
+ ✓ test/home-copy.test.ts > home copy AST scan > the local UI allowlist equals the rendered-probe allowlist 16ms
+ ✓ test/home-copy.test.ts > home copy AST scan > the home surface has no hand-typed copy 11ms
+ ✓ test/home-copy.test.ts > home copy AST scan > negative controls catch JSX text, text attributes and expression branches 0ms
+ ✓ test/home-copy.test.ts > home copy AST scan > negative controls catch logical branches and template head/middle/tail text 1ms
+stderr | test/home-copy-mutation.test.tsx > home copy mutation > every home string comes from SITE
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+
+stdout | test/home-copy-mutation.test.tsx > home copy mutation > every home string comes from SITE
+home-copy mutation: 24 strings, 39 sentinel occurrences, 42 standalone text nodes
+
+stderr | test/home-copy-mutation.test.tsx > home copy mutation > negative control: an unmocked render has no sentinel
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+
+stdout | test/home-copy-mutation.test.tsx > home copy mutation > negative control: an unmocked render has no sentinel
+home-copy negative control: unmocked sentinel count 0
+
+ ✓ test/home-copy-mutation.test.tsx > home copy mutation > every home string comes from SITE 92ms
+ ✓ test/home-copy-mutation.test.tsx > home copy mutation > negative control: an unmocked render has no sentinel 11ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  14:51:06
+   Duration  388ms (import 61%, tests 26%, transform 13%, worker 1%)
+
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 263ms
+  Running TypeScript ...
+  Finished TypeScript in 920ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 266ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group copy --out <local-path>/s119-checks/t011-copy
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+copy: PASS (1 checks)
+home-probe: PASS
+artifacts: <local-path>/s119-checks/t011-copy
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: <local-path>/s119-checks/regress-20261108T075111Z
+regress-hero: PASS (5 steps)
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+$ pnpm -r --if-present typecheck
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:54909) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54908) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54928) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54937) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  265 passed (265)
+tools/perf test:    Start at  14:53:01
+tools/perf test:    Duration  2.27s (import 69%, tests 22%, transform 8%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:54949) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:54951) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54953) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54964) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54966) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:54972) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  62 passed (62)
+packages/xploder test:       Tests  625 passed (625)
+packages/xploder test:    Start at  14:53:02
+packages/xploder test:    Duration  32.42s (tests 79%, transform 13%, import 8%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:55059) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:55070) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  39 passed | 1 skipped (40)
+apps/web test:       Tests  208 passed | 2 skipped (210)
+apps/web test:    Start at  14:53:35
+apps/web test:    Duration  1.49s (environment 29%, import 27%, tests 23%, transform 19%, worker 1%)
+apps/web test: 
+apps/web test:     Isolate  40 workers spawned · ~145ms startup each (spawn + environment, per file)
+apps/web test:              at least ~501ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+T011-OK
+
+## Rendered copy group
+
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group copy --out <local-path>/s119-checks/t011-copy
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+copy: PASS (1 checks)
+home-probe: PASS
+artifacts: <local-path>/s119-checks/t011-copy
+
+## Default five-group probe
+
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --out <local-path>/s119-checks/t011-default
+order: PASS (18 checks)
+fold: PASS (12 checks)
+responsive: PASS (36 checks)
+structure: PASS (36 checks)
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+copy: PASS (1 checks)
+home-probe: PASS
+artifacts: <local-path>/s119-checks/t011-default

@@ -6,6 +6,8 @@ import {
   evaluateOrder,
   evaluateResponsive,
   evaluateStructure,
+  HOME_PROBE_DEFAULT_GROUPS,
+  HOME_PROBE_GROUPS,
   HOME_PROBE_UI_ALLOWLIST,
   HOME_SECTIONS_MISSING,
   type HomeFoldTargetSnapshot,
@@ -333,6 +335,11 @@ describe('structure group', () => {
 });
 
 describe('copy group', () => {
+  test('runs every group by default', () => {
+    expect(HOME_PROBE_DEFAULT_GROUPS).toEqual(HOME_PROBE_GROUPS);
+    expect(HOME_PROBE_DEFAULT_GROUPS).toEqual(['order', 'fold', 'responsive', 'structure', 'copy']);
+  });
+
   test('passes known strings and prints the UI allowlist', () => {
     const result = evaluateCopy(['Known text', ...HOME_PROBE_UI_ALLOWLIST], ['Known text']);
 

@@ -7,13 +7,13 @@ const BUILD_YEAR = new Date().getFullYear();
 const FOOTER_LINK_CLASS =
   'inline-flex h-11 items-center gap-2.5 text-sm text-muted underline-offset-4 hover:text-fg hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
-function siteLinkUrl(label: 'GitHub' | 'LinkedIn'): string | undefined {
-  return SITE.identity.links.find((link) => link.label === label)?.url ?? undefined;
+function siteLink(label: 'GitHub' | 'LinkedIn') {
+  return SITE.identity.links.find((link) => link.label === label);
 }
 
 export function SiteFooter() {
-  const githubUrl = siteLinkUrl('GitHub');
-  const linkedInUrl = siteLinkUrl('LinkedIn');
+  const githubLink = siteLink('GitHub');
+  const linkedInLink = siteLink('LinkedIn');
 
   return (
     <footer className="border-t border-line/30 bg-surface">
@@ -46,19 +46,19 @@ export function SiteFooter() {
                   <span>{SITE.identity.email}</span>
                 </a>
               </li>
-              {githubUrl ? (
+              {githubLink?.url ? (
                 <li>
-                  <a href={githubUrl} className={FOOTER_LINK_CLASS}>
+                  <a href={githubLink.url} className={FOOTER_LINK_CLASS}>
                     <GitHubIcon />
-                    <span>GitHub</span>
+                    <span>{githubLink.label}</span>
                   </a>
                 </li>
               ) : null}
-              {linkedInUrl ? (
+              {linkedInLink?.url ? (
                 <li>
-                  <a href={linkedInUrl} className={FOOTER_LINK_CLASS}>
+                  <a href={linkedInLink.url} className={FOOTER_LINK_CLASS}>
                     <LinkedInIcon />
-                    <span>LinkedIn</span>
+                    <span>{linkedInLink.label}</span>
                   </a>
                 </li>
               ) : null}
