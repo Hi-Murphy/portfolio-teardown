@@ -57,7 +57,7 @@
 | T008 | ☑ About paragraphs 16 px, h2 24 px (= Projects), prose `max-w-prose` kept, skills note unchanged (label); responsive: body sizes PASS 6/6 (only tap targets left, T010); cross-route unchanged; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T008-log-about.txt, T008-screenshot-* | a1fe18b |
 | T009 | ☑ Contact section (h2 `contact.title`; email/GitHub/LinkedIn from content, 44 px rows); `HOME_SECTIONS` = G1 list; footer: id removed (L1), contact block hidden on `/` by `:has()` (L6; visible on `/projects`), label from content (L5). order 18/18, structure 36/36, fold 12/12; guards 9/9 (interim-list OK); cross-route 7 hunks all ledgered, `/projects*` `<main>` identical; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T009-log-contact.txt, T009-screenshot-* | 9148ca2 |
 | T010 | ☑ nav monogram + social links 44×44 (L2), footer brand link 44 px (L3), nav labels from content (L5); responsive PASS 36/36 in 6 cells; nav 44 px single row at 390; order/fold/structure PASS; cross-route 10 hunks all ledgered, `/projects*` `<main>` identical; regress-hero 5/5 | 1 (Flash) + orchestrator review | evidence/T010-log-chrome.txt, T010-log-cross-route.txt, T010-screenshot-* | 5821491 |
-| T011 | ☐ | | | |
+| T011 | ☑ AST scan (7 file groups, printed allowlist = probe allowlist, 3 negative controls bite); mutation test 24 strings / 39 sentinels, unmocked control 0; rendered copy group default + PASS; all 5 default groups PASS; nav/footer social labels from content (renders identically); regress-hero 5/5, cross-route ledger-only, guards 9/9 | 1 (Flash) + orchestrator review (CLI help line) | evidence/T011-log-home-copy.txt | 9377517 |
 | T011b | ☐ | | | |
 | T012 | ☐ | | | |
 | T013 | ☐ | | | |
