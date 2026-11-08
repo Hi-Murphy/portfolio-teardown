@@ -314,7 +314,7 @@ _(none yet)_
   1. The PR's Vercel preview: `/` on a phone and a desktop, light and dark.
   2. The AC self-check table.
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
-  1. OK to push the branch and open a draft PR at T013 (default: yes; merge only on your "merge").
+  1. ~~OK to push the branch and open a draft PR at T013~~ **Granted by Murphy 2026-11-08** (merge only on Murphy's "merge").
   2. Your "S11.9 done" after validation.
 
 **STOP — Stage 3 end-contract:** all tasks complete with evidence; the AC1–AC7 self-check table; frozen surfaces empty; anything needing Murphy's hands listed.
