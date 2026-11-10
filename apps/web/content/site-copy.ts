@@ -26,6 +26,11 @@ export interface SiteCopy {
     };
     loopPause: string;
     loopPlay: string;
+    /** Proof facts: index into the hero project's story.metrics + the layer id that highlights it. */
+    proof: {
+      metric: number;
+      layer: string | null;
+    }[];
   };
   about: {
     title: string;

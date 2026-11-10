@@ -61,9 +61,12 @@ function homeStrings(): CopyEntry[] {
       value: link.label,
     })),
     // hero.loopPause / hero.loopPlay label a client-only control that mounts after the live
-    // hero's first frame (R7); home-hero-loop.test.tsx covers them.
+    // hero's first frame (R7); home-hero-loop.test.tsx covers them. hero.proof holds ids, not copy (R8a).
     ...collectStrings('hero', siteSource.hero).filter(
-      (entry) => entry.label !== 'hero.loopPause' && entry.label !== 'hero.loopPlay',
+      (entry) =>
+        entry.label !== 'hero.loopPause' &&
+        entry.label !== 'hero.loopPlay' &&
+        !entry.label.startsWith('hero.proof'),
     ),
     ...collectStrings('about.title', siteSource.about.title),
     ...collectStrings('about.paragraphs', siteSource.about.paragraphs),

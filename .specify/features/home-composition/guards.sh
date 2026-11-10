@@ -126,7 +126,26 @@ if (current?.hero?.loopPause !== 'Pause animation' || current?.hero?.loopPlay !=
   process.exit(1);
 }
 
+// R8 (Murphy, 2026-11-08): hero proof facts; values are Murphy's content (content pass), so only the shape is guarded.
+const proof = current?.hero?.proof;
+if (
+  !Array.isArray(proof) ||
+  proof.length < 2 ||
+  proof.length > 3 ||
+  !proof.every(
+    (entry) =>
+      Number.isInteger(entry?.metric) &&
+      entry.metric >= 0 &&
+      (entry.layer === null || typeof entry.layer === 'string') &&
+      Object.keys(entry).length === 2,
+  )
+) {
+  console.error('hero.proof must be 2-3 { metric: index, layer: id | null } entries');
+  process.exit(1);
+}
+
 const comparedBase = structuredClone(base);
+comparedBase.hero.proof = current.hero.proof;
 comparedBase.hero.loopPause = current.hero.loopPause;
 comparedBase.hero.loopPlay = current.hero.loopPlay;
 comparedBase.about.paragraphs[0] = newParagraph;
@@ -134,7 +153,7 @@ comparedBase.meta.description = current.meta.description;
 comparedBase.contact = current.contact;
 
 if (canonical(comparedBase) !== canonical(current)) {
-  console.error('site.json differs outside about.paragraphs[0], meta.description, contact and hero.loopPause/loopPlay');
+  console.error('site.json differs outside about.paragraphs[0], meta.description, contact and hero.loopPause/loopPlay/proof');
   process.exit(1);
 }
 NODE

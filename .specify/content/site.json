@@ -31,7 +31,21 @@
       "href": "/projects"
     },
     "loopPause": "Pause animation",
-    "loopPlay": "Play animation"
+    "loopPlay": "Play animation",
+    "proof": [
+      {
+        "metric": 1,
+        "layer": "capture"
+      },
+      {
+        "metric": 2,
+        "layer": "persistence"
+      },
+      {
+        "metric": 3,
+        "layer": "inspection-ui"
+      }
+    ]
   },
   "about": {
     "title": "About",
