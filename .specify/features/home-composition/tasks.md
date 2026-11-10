@@ -314,9 +314,19 @@
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: the frame travels, the caption narrates each step, nothing jumps. 2. Pause works during the tour.
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011e.
 
-### T011e–T011g
+### T011e [US1, US5] Proof strip with facts that light up in sync (RFC R8, R8a)
 
-Specified after T011d's review (RFC R8).
+- **Content:** `SITE.hero.proof` entries → the hero project's `story.metrics[metric]` (label + value) and an optional layer id. Nothing typed in code.
+- **Layout:** the last row of the hero section, spanning both columns at `lg` (`col-span-full`), a `<ul>` of 2–3 items; one column at 390, three at `sm+`. Each item: label (mono, small, muted: a label, not body) and value (`text-base`, body). Quiet border; existing palette only.
+- **Sync:** while the tour's current component belongs to an item's layer, that item is highlighted (border and value colour only; no size change, no transition timing literal). SSR, poster, reduced motion and the turn phase: nothing highlighted. Visual only: no live region, no `aria-current`.
+- **Checks:** unit tests (index/layer resolution and validation against the real project: every index exists, every layer id exists; highlight follows a fake tour); fold at 390×844 still PASS (the strip sits after the figure); CLS 0 over a full cycle at 390 + 1440 (the 30 s observer); home:probe all groups (body 16 px for values, tap targets n/a, copy compositions); regress-hero, draws, axe home, Lighthouse ×2, cross-route, guards, full suite.
+- **Evidence:** `T011e-log-proof.txt`, `T011e-screenshot-strip-{390,1440}-light.png`, `T011e-screenshot-strip-1440-highlight-{capture,persistence,inspection-ui}.png`, `T011e-screenshot-strip-1440-dark.png`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: a fact lights up as the frame passes its layer. 2. The default facts (you can change them in the content pass).
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011f.
+
+### T011f–T011g
+
+Specified after T011e's review (RFC R8).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
