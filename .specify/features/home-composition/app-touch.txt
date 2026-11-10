@@ -1,6 +1,7 @@
 apps/web/content/site-copy.ts
 apps/web/content/site.source.ts
 apps/web/content/home-sections.ts
+apps/web/content/projects/index.ts
 apps/web/app/(site)/page.tsx
 apps/web/components/home/**
 apps/web/components/hero/hero-stage.tsx
@@ -9,6 +10,7 @@ apps/web/components/hero/hero-loop.ts
 apps/web/components/hero/hero-loop-button.tsx
 apps/web/components/hero/hero-showcase.tsx
 apps/web/components/hero/hero-caption.tsx
+apps/web/components/hero/hero-proof.tsx
 apps/web/components/about-strip.tsx
 apps/web/components/project-card.tsx
 apps/web/components/site-nav.tsx

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { HeroCaption } from '../hero/hero-caption';
 import { POSTER_FADE_CLASS } from '../hero/hero-classes';
 import { HeroLive } from '../hero/hero-live';
+import { HeroProof } from '../hero/hero-proof';
 import { HeroShowcaseProvider } from '../hero/hero-showcase';
 import { TeardownPoster } from '../teardown-poster';
 import { PROJECTS } from '../../content/projects';
@@ -49,8 +50,8 @@ export function HeroSection() {
       </div>
 
       {heroProject === undefined ? null : (
-        <figure aria-labelledby="hero-caption" className="flex min-w-0 flex-col gap-3">
-          <HeroShowcaseProvider>
+        <HeroShowcaseProvider>
+          <figure aria-labelledby="hero-caption" className="flex min-w-0 flex-col gap-3">
             <div className="relative aspect-[4/3] overflow-hidden rounded border border-line/30 bg-surface [&_[data-xploder-caption]]:hidden sm:aspect-[16/9]">
               <HeroLive project={heroProject} />
               <TeardownPoster
@@ -64,8 +65,9 @@ export function HeroSection() {
               tagline={heroProject.meta.tagline}
               labels={{ pause: SITE.hero.loopPause, play: SITE.hero.loopPlay }}
             />
-          </HeroShowcaseProvider>
-        </figure>
+          </figure>
+          <HeroProof project={heroProject} proof={SITE.hero.proof} />
+        </HeroShowcaseProvider>
       )}
     </section>
   );
