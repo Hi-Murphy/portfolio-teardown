@@ -14,16 +14,10 @@ export interface ProjectCardModel {
   readonly chips: readonly CardChip[];
 }
 
-export interface HeroProofReference {
-  readonly metric: number;
-  readonly layer: string | null;
-}
-
 export interface HeroProofEntry {
   readonly metric: number;
   readonly label: string;
   readonly value: string;
-  readonly layerId: string | null;
 }
 
 export const PROJECTS = [websocketInspector] as const;
@@ -32,29 +26,25 @@ export const PROJECT_SLUGS = PROJECTS.map((project) => project.meta.slug);
 
 export function heroProofEntries(
   project: Project,
-  proof: readonly HeroProofReference[],
+  proof: readonly number[],
 ): readonly HeroProofEntry[] {
-  const layerIds = new Set(project.layers.map((layer) => layer.id));
-
-  return proof.flatMap((reference) => {
+  return proof.flatMap((metricIndex) => {
     if (
-      !Number.isInteger(reference.metric) ||
-      reference.metric < 0 ||
-      reference.metric >= project.story.metrics.length
+      !Number.isInteger(metricIndex) ||
+      metricIndex < 0 ||
+      metricIndex >= project.story.metrics.length
     ) {
       return [];
     }
-    if (reference.layer !== null && !layerIds.has(reference.layer)) return [];
 
-    const metric = project.story.metrics[reference.metric];
+    const metric = project.story.metrics[metricIndex];
     if (metric === undefined) return [];
 
     return [
       {
-        metric: reference.metric,
+        metric: metricIndex,
         label: metric.label,
         value: metric.value,
-        layerId: reference.layer,
       },
     ];
   });
