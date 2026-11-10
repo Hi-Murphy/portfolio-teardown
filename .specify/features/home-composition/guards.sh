@@ -126,21 +126,15 @@ if (current?.hero?.loopPause !== 'Pause animation' || current?.hero?.loopPlay !=
   process.exit(1);
 }
 
-// R8 (Murphy, 2026-11-08): hero proof facts; values are Murphy's content (content pass), so only the shape is guarded.
+// R8b (Murphy, 2026-11-10): hero proof facts = 2-3 metric indexes; values are Murphy's content, so only the shape is guarded.
 const proof = current?.hero?.proof;
 if (
   !Array.isArray(proof) ||
   proof.length < 2 ||
   proof.length > 3 ||
-  !proof.every(
-    (entry) =>
-      Number.isInteger(entry?.metric) &&
-      entry.metric >= 0 &&
-      (entry.layer === null || typeof entry.layer === 'string') &&
-      Object.keys(entry).length === 2,
-  )
+  !proof.every((entry) => Number.isInteger(entry) && entry >= 0)
 ) {
-  console.error('hero.proof must be 2-3 { metric: index, layer: id | null } entries');
+  console.error('hero.proof must be 2-3 story.metrics indexes');
   process.exit(1);
 }
 

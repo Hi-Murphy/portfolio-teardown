@@ -11,6 +11,7 @@ import {
   heroProofCompositions,
   HOME_PROBE_DEFAULT_GROUPS,
   HOME_PROBE_GROUPS,
+  HOME_PROBE_PRIMARY_CTA_SELECTOR,
   HOME_PROBE_PROOF_VALUE_SELECTOR,
   HOME_PROBE_UI_ALLOWLIST,
   HOME_SECTIONS_MISSING,
@@ -476,16 +477,10 @@ describe('copy group', () => {
   test('classifies proof values as body text and accepts their copy composition', () => {
     const project = {
       story: { metrics: [{ label: 'Metric label', value: 'Metric value' }] },
-      layers: [{ id: 'known-layer' }],
     };
 
+    expect(HOME_PROBE_PRIMARY_CTA_SELECTOR).toBe('[data-hero-primary-cta]');
     expect(HOME_PROBE_PROOF_VALUE_SELECTOR).toBe('[data-hero-proof-value]');
-    expect(
-      heroProofCompositions(project, [
-        { metric: 0, layer: 'known-layer' },
-        { metric: 1, layer: null },
-        { metric: 0, layer: 'missing-layer' },
-      ]),
-    ).toEqual(['Metric label — Metric value']);
+    expect(heroProofCompositions(project, [0, 1, -1])).toEqual(['Metric label — Metric value']);
   });
 });

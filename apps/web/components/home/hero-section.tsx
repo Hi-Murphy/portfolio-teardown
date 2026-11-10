@@ -10,9 +10,7 @@ import { PROJECTS } from '../../content/projects';
 import { SITE } from '../../content/site';
 
 const PRIMARY_CTA_CLASS =
-  'inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-semibold text-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
-const SECONDARY_CTA_CLASS =
-  'inline-flex min-h-11 items-center justify-center rounded-sm border border-line px-5 text-sm font-medium text-fg hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+  'inline-flex min-h-11 items-center gap-2 text-base font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 export function HeroSection() {
   const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;
@@ -39,12 +37,24 @@ export function HeroSection() {
         <p className="max-w-[58ch] text-base leading-relaxed text-muted sm:text-lg">
           {SITE.hero.subline}
         </p>
-        <div className="flex flex-wrap gap-3">
-          <Link href={SITE.hero.primaryCta.href} className={PRIMARY_CTA_CLASS}>
+        <div>
+          <Link
+            href={SITE.hero.primaryCta.href}
+            className={PRIMARY_CTA_CLASS}
+            data-hero-primary-cta=""
+          >
             {SITE.hero.primaryCta.label}
-          </Link>
-          <Link href={SITE.hero.secondaryCta.href} className={SECONDARY_CTA_CLASS}>
-            {SITE.hero.secondaryCta.label}
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              viewBox="0 0 16 16"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
           </Link>
         </div>
       </div>

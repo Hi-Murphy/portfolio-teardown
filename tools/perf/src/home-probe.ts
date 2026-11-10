@@ -30,6 +30,7 @@ export const HOME_PROBE_UI_ALLOWLIST = [
 ] as const;
 export const HOME_PROBE_SEPARATORS = ['·', '—', '©', '↑'] as const;
 export const HOME_PROBE_PROOF_VALUE_SELECTOR = '[data-hero-proof-value]' as const;
+export const HOME_PROBE_PRIMARY_CTA_SELECTOR = '[data-hero-primary-cta]' as const;
 export const HOME_SECTIONS_MISSING = 'HOME_SECTIONS module missing';
 
 type Palette = 'light' | 'dark';
@@ -655,6 +656,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const scrollY = window.scrollY;
   const viewport = { width: window.innerWidth, height: window.innerHeight };
   const proofValueSelector = '[data-hero-proof-value]';
+  const primaryCtaSelector = '[data-hero-primary-cta]';
   const compact = (value: string): string => value.replace(/\s+/g, ' ').trim();
   const rect = (element: Element): DocumentRect => {
     const value = element.getBoundingClientRect();
@@ -964,9 +966,10 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const heroCta =
     hero === null
       ? undefined
-      : [...hero.querySelectorAll('a')].find(
+      : (hero.querySelector(primaryCtaSelector) ??
+        [...hero.querySelectorAll('a')].find(
           (element) => compact(element.textContent ?? '') === config.primaryCta,
-        );
+        ));
   const caption = document.querySelector('#hero-caption');
   const projectSignal =
     caption !== null && compact(caption.textContent ?? '').includes(config.projectName)
@@ -1450,14 +1453,6 @@ interface ProofProject {
       readonly value?: string;
     }[];
   };
-  readonly layers: readonly {
-    readonly id: string;
-  }[];
-}
-
-interface ProofReference {
-  readonly metric: number;
-  readonly layer: string | null;
 }
 
 export function heroNarrationCompositions(project: NarrationProject): string[] {
@@ -1480,24 +1475,15 @@ export function heroNarrationCompositions(project: NarrationProject): string[] {
   return compositions;
 }
 
-export function heroProofCompositions(
-  project: ProofProject,
-  proof: readonly ProofReference[],
-): string[] {
-  const layerIds = new Set(project.layers.map((layer) => layer.id));
+export function heroProofCompositions(project: ProofProject, proof: readonly number[]): string[] {
   const metrics = project.story?.metrics ?? [];
 
-  return proof.flatMap((reference) => {
-    if (
-      !Number.isInteger(reference.metric) ||
-      reference.metric < 0 ||
-      reference.metric >= metrics.length ||
-      (reference.layer !== null && !layerIds.has(reference.layer))
-    ) {
+  return proof.flatMap((metricIndex) => {
+    if (!Number.isInteger(metricIndex) || metricIndex < 0 || metricIndex >= metrics.length) {
       return [];
     }
 
-    const metric = metrics[reference.metric];
+    const metric = metrics[metricIndex];
     if (metric?.label === undefined || metric.value === undefined) return [];
 
     return [`${metric.label} — ${metric.value}`];
