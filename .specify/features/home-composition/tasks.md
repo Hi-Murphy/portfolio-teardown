@@ -61,6 +61,7 @@
 | T011c | ☑ spike: **YES**, the tour runs in the hero with the public `xploder/react` API, no engine change, no panels; draws 2, CLS 0, Lighthouse perf 1 / a11y 1, no console errors; per-step component derivable from public data; engine `TourCaption` overlay appears automatically (covers part of the figure); `--expect live-loop` needs to accept a playing tour. Spike branch kept unmerged in its worktree for T011d reuse | 1 (Flash) | evidence/T011c-log-spike.md, T011c-screenshot-tour-* | (spike, not merged) |
 | T011d | ☑ capture → inspect → turn cycle (pure controller); caption row narrates `flow · n/7 · component — summary` from project content (static caption kept for SSR/SR), 2 lines reserved, button in caption row, engine caption hidden in hero only. regress-hero 5/5, home:probe all PASS (caption bottom 812 ≤ 836), CLS 0 over a full cycle at 390 + 1440, draws 2, axe 0/0, Lighthouse ×2 1.00/1.00, cross-route ledger-only. Executor also made `site:probe` hero accept tour states (D-A4 scope); caption container excluded from overlap (button shares the row) | 1 (Flash) + orchestrator review | evidence/T011d-log-tour.txt, T011d-screenshot-caption-* | b0a3f50 |
 | T011e | ☑ proof strip (3 facts from `story.metrics` via `hero.proof`), full-width last hero row, highlight follows the tour's layer (colour only); resolver validated against real content; fold PASS (812 ≤ 836), CLS 0 over a full cycle at 390 + 1440, draws 2, axe 0, Lighthouse ×2 1.00/1.00, regress-hero 5/5, guards 9/9, cross-route ledger-only | 1 (Flash) + orchestrator review | evidence/T011e-log-proof.txt, T011e-screenshot-strip-* | e80efc8 |
+| T011e2 | ☐ | | | |
 | T011f | ☐ | | | |
 | T011g | ☐ (Murphy content pass) | | | |
 | T011b | ☑ loop (explode/implode + quarter turn, `tourBeat` hold; pauses off-screen / hidden tab) + 44×44 pause/play button outside `aria-hidden`, labels from content; attempt 1 blocked by two probes assuming a still hero → D-A4; attempt 2: regress-hero 5/5 (`--expect live-loop`), home:probe all groups PASS incl. button + reduced cell, axe home 0/0, Lighthouse ×2 perf 1.00 / a11y 1.00 / CLS 0, draws 2, cross-route ledger-only, guards 9/9 | 1 (Flash, 2 attempts) + orchestrator (D-A4 decision) | evidence/T011b-log-loop.txt, T011b-screenshot-* | 27968cb |
@@ -70,6 +71,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-A1 (Murphy, 2026-11-08):** hero showcase loop added as T011b (RFC §13 R6). `apps/web/components/hero/**` is touchable in T011b only (`hero-stage.tsx` + a new `hero-loop.ts`); the T006 hero figure snapshot is updated in T011b with a reason note. T006 also makes the headline smaller (one step down the existing clamp) so the figure gets more room, keeping AC2.
+- **D-A6 (Murphy, 2026-11-10):** RFC R8b — T011e2 calms the hero (plain facts, no highlight, one text-link CTA). Removing both CTAs was declined: AC2 requires the primary CTA above the fold (an AC change would be an escalation).
 - **D-A5 (Murphy, 2026-11-08):** RFC R8 — hero showcase tasks T011c–T011g inserted before T012; Murphy reviews after each (STOP per task). `components/hero/**` and a home-only poster option stay touchable through T011f; `packages/xploder/**` stays frozen (T011c must prove the tour runs in the hero with no engine change, else STOP).
 - **D-A4 (orchestrator, T011b attempt 1):** two probes still encoded "the hero never moves on its own". (a) `site:probe` hero group: when the page carries `[data-hero-loop]`, `hero-idle-exploded` is replaced by `hero-loop-running` (loop attribute `running`, one canvas, tour idle); without the attribute the check is unchanged (mode-aware, like S11.8 R9). (b) `home:probe` measures the real page: every group runs in normal motion and waits for `[data-hero-loop="running"]` on `/`, so the pause button is covered by the tap-target, tab-walk and visual-order checks; one extra reduced-motion structure cell at 390 covers the poster path (no button). (c) Visual reading order (spec "Keyboard order = visual order") is refined for multi-column sections: (section index, grid column of the focus stop within a multi-column grid section at that width, then y, then x) — side-by-side columns read left column first, then right.
 - **D-A3 (Murphy, 2026-11-08):** RFC R7 — T011b adds the pause/play button (labels `hero.loopPause` / `hero.loopPlay`, orchestrator content edit before T011b) and `eager:probe --expect live-loop` for `/` (`regress-hero.sh` step 1 and `home-composition.yml` switch to it). `components/hero/hero-live.tsx` is touchable in T011b to pass the labels through.
@@ -324,9 +326,17 @@
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: a fact lights up as the frame passes its layer. 2. The default facts (you can change them in the content pass).
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011f.
 
+### T011e2 [US1, US3, US5] Calmer hero (RFC R8b)
+
+- **Changes:** proof strip without item boxes and without highlight (server component; plain columns, thin dividers via `divide-*`, stacked at 390); remove the layer plumbing added for the highlight; remove the secondary CTA from the hero; the primary CTA becomes a text link (`text-accent`, underline on hover, inline aria-hidden SVG arrow, `min-h-11`), label from `SITE.hero.primaryCta`.
+- **Checks:** fold at 390×844 PASS (primary CTA visible), contrast AA for the accent text link in both palettes (axe), tap targets, copy scan, CLS 0 full cycle, regress-hero, draws, Lighthouse ×2, cross-route, guards, full suite.
+- **Evidence:** `T011e2-log-calm.txt`, `T011e2-screenshot-hero-{390,1440}-{light,dark}.png`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: calmer hero, one text link, plain facts.
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011f.
+
 ### T011f–T011g
 
-Specified after T011e's review (RFC R8).
+Specified after T011e2's review (RFC R8).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
