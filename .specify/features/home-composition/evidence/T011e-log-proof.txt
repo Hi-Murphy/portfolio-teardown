@@ -1,0 +1,477 @@
+# T011e proof-strip evidence
+command: bash /tmp/s119-checks/t011e-final-check.sh
+result: T011e-OK
+
+== T011e final check ==
+== build ==
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 160ms
+  Running TypeScript ...
+  Finished TypeScript in 781ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 272ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+== focused unit tests ==
+
+ RUN  v5.0.5 ./apps/web
+
+ ✓ test/home-hero-figure.test.tsx > hero figure SSR > keeps the static caption, reserved slot, and hero-only tour caption rule 8ms
+ ✓ test/home-hero-caption.test.tsx > hero caption row > swaps the static caption for an aria-hidden narration in the same two-line slot 17ms
+ ✓ test/home-hero-caption.test.tsx > hero caption row > shows the static caption during a turn and keeps the spacer in the slot 2ms
+ ✓ test/home-hero-proof.test.tsx > hero proof strip > resolves every configured metric and layer against the real project content 2ms
+ ✓ test/home-hero-proof.test.tsx > hero proof strip > skips an invalid metric index or layer id at runtime 0ms
+ ✓ test/home-hero-proof.test.tsx > hero proof strip > derives the current layer from the public tour data 0ms
+ ✓ test/home-hero-proof.test.tsx > hero proof strip > renders labels and body-sized values on SSR with nothing highlighted 4ms
+ ✓ test/home-hero-proof.test.tsx > hero proof strip > highlights only the item for the current tour layer 15ms
+ ✓ test/home-hero-loop.test.tsx > createHeroLoop > turns then implodes, turns then explodes, and repeats over three steps 16ms
+ ✓ test/home-hero-loop.test.tsx > createHeroLoop > pause cancels the pending step and resume schedules a fresh full step 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > runs capture, inspect, turn, and capture again 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause stops the tour and turn, and resume continues the current phase 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pauses a tour that starts after suspension and replays it on resume 0ms
+ ✓ test/home-hero-loop.test.tsx > hero stage sequence > narrates capture and inspect, turns twice, then returns to capture 15ms
+ ✓ test/home-hero-loop.test.tsx > hero stage sequence > pauses and resumes from the button, hidden tab, and off-screen observer 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage sequence > a user pause wins over automatic resumes 3ms
+ ✓ test/home-hero-loop.test.tsx > hero stage sequence > never mounts the stage or loop under reduced motion 1ms
+
+ Test Files  4 passed (4)
+      Tests  17 passed (17)
+   Start at  20:36:10
+   Duration  551ms (environment 72%, import 14%, transform 7%, tests 6%)
+
+
+ RUN  v5.0.5 ./tools/perf
+
+ ✓ test/home-probe.test.ts > order group > fails with the dedicated detail when HOME_SECTIONS is missing 1ms
+ ✓ test/home-probe.test.ts > order group > passes an approved DOM order and bites added, removed and swapped sections 0ms
+ ✓ test/home-probe.test.ts > order group > fails when data and approval drift apart 0ms
+ ✓ test/home-probe.test.ts > fold group > passes when every requested element is visible above the fold 0ms
+ ✓ test/home-probe.test.ts > fold group > fails a CTA at y=900 0ms
+ ✓ test/home-probe.test.ts > responsive group > passes separated 44 px controls and 16 px body text 0ms
+ ✓ test/home-probe.test.ts > responsive group > fails a 40 px target 0ms
+ ✓ test/home-probe.test.ts > responsive group > fails a 14 px body element 0ms
+ ✓ test/home-probe.test.ts > responsive group > fails overlapping text and control boxes in one section 0ms
+ ✓ test/home-probe.test.ts > structure group > passes a single outline, named hero, contact h2, landmarks and tab walk 0ms
+ ✓ test/home-probe.test.ts > structure group > fails two h1 elements 0ms
+ ✓ test/home-probe.test.ts > structure group > fails an h2 to h4 jump 0ms
+ ✓ test/home-probe.test.ts > structure group > fails a positive tabindex jump 0ms
+ ✓ test/home-probe.test.ts > structure group > fails a right-column focus stop before a left-column stop in Tab order 0ms
+ ✓ test/home-probe.test.ts > structure group > reads a left column before a right column even when the right stop is higher 0ms
+ ✓ test/home-probe.test.ts > hero control slot > requires a 44 x 44 slot and a running button inside it 0ms
+ ✓ test/home-probe.test.ts > hero control slot > keeps the reserved slot while the poster path has no button 0ms
+ ✓ test/home-probe.test.ts > copy group > runs every group by default 0ms
+ ✓ test/home-probe.test.ts > copy group > passes known strings and prints the UI allowlist 0ms
+ ✓ test/home-probe.test.ts > copy group > fails an unknown rendered string 0ms
+ ✓ test/home-probe.test.ts > copy group > accepts compositions built from project flow content 0ms
+ ✓ test/home-probe.test.ts > copy group > classifies proof values as body text and accepts their copy composition 0ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  20:36:11
+   Duration  255ms (import 81%, transform 16%, tests 2%, worker 1%)
+
+== home:probe (all groups) ==
+PASS 390:order-approved-list: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 390:order-dom-sequence: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 390:order-sections-non-empty: expected [] actual []
+PASS 390:order-section-headings: expected [] actual []
+PASS 390:order-section-tops: expected true actual [0,45,1124.03125,1523.53125,2233.03125,2512.03125]
+PASS 390:order-no-css-reordering: expected [] actual []
+PASS 768:order-approved-list: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 768:order-dom-sequence: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 768:order-sections-non-empty: expected [] actual []
+PASS 768:order-section-headings: expected [] actual []
+PASS 768:order-section-tops: expected true actual [0,45,1106.875,1504.375,1998.875,2205.875]
+PASS 768:order-no-css-reordering: expected [] actual []
+PASS 1440:order-approved-list: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 1440:order-dom-sequence: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 1440:order-sections-non-empty: expected [] actual []
+PASS 1440:order-section-headings: expected [] actual []
+PASS 1440:order-section-tops: expected true actual [0,45,692,995.5,1490,1697]
+PASS 1440:order-no-css-reordering: expected [] actual []
+order: PASS (18 checks)
+PASS light:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":85,"width":198.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"ANDROID ENGINEER · INDONESIA","tag":"p","rect":{"x":20,"y":129,"width":262.78125,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":165,"width":299.1875,"height":70.53125},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"Open a teardown","tag":"a","rect":{"x":20,"y":353.53125,"width":154.71875,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"Scarlet Inspector — Every WebSocket frame, captured and inspectable. Frames in · 1/7 · MainActivity — The thin host that proves the library.","tag":"figcaption","rect":{"x":20,"y":760.03125,"width":350,"height":52},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2829,"clientHeight":844}
+PASS dark:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":85,"width":198.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"ANDROID ENGINEER · INDONESIA","tag":"p","rect":{"x":20,"y":129,"width":262.78125,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":165,"width":299.1875,"height":70.53125},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"Open a teardown","tag":"a","rect":{"x":20,"y":353.53125,"width":154.71875,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"Scarlet Inspector — Every WebSocket frame, captured and inspectable. Frames in · 1/7 · MainActivity — The thin host that proves the library.","tag":"figcaption","rect":{"x":20,"y":760.03125,"width":350,"height":52},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2829,"clientHeight":844}
+fold: PASS (12 checks)
+PASS mobile-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2829,"clientHeight":844}
+PASS mobile-light:responsive-no-section-overlap: expected [] actual []
+PASS mobile-light:responsive-no-text-overlap: expected [] actual []
+PASS mobile-light:responsive-no-clipping: expected [] actual []
+PASS mobile-light:responsive-tap-targets: expected [] actual []
+PASS mobile-light:responsive-body-font-size: expected [] actual []
+PASS mobile-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2829,"clientHeight":844}
+PASS mobile-dark:responsive-no-section-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-text-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-clipping: expected [] actual []
+PASS mobile-dark:responsive-tap-targets: expected [] actual []
+PASS mobile-dark:responsive-body-font-size: expected [] actual []
+PASS tablet-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2519,"clientHeight":1024}
+PASS tablet-light:responsive-no-section-overlap: expected [] actual []
+PASS tablet-light:responsive-no-text-overlap: expected [] actual []
+PASS tablet-light:responsive-no-clipping: expected [] actual []
+PASS tablet-light:responsive-tap-targets: expected [] actual []
+PASS tablet-light:responsive-body-font-size: expected [] actual []
+PASS tablet-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2519,"clientHeight":1024}
+PASS tablet-dark:responsive-no-section-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-text-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-clipping: expected [] actual []
+PASS tablet-dark:responsive-tap-targets: expected [] actual []
+PASS tablet-dark:responsive-body-font-size: expected [] actual []
+PASS desktop-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":2011,"clientHeight":900}
+PASS desktop-light:responsive-no-section-overlap: expected [] actual []
+PASS desktop-light:responsive-no-text-overlap: expected [] actual []
+PASS desktop-light:responsive-no-clipping: expected [] actual []
+PASS desktop-light:responsive-tap-targets: expected [] actual []
+PASS desktop-light:responsive-body-font-size: expected [] actual []
+PASS desktop-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":2011,"clientHeight":900}
+PASS desktop-dark:responsive-no-section-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-text-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-clipping: expected [] actual []
+PASS desktop-dark:responsive-tap-targets: expected [] actual []
+PASS desktop-dark:responsive-body-font-size: expected [] actual []
+responsive: PASS (36 checks)
+PASS 390:structure-one-h1: expected 1 actual 1
+PASS 390:structure-heading-levels: expected [] actual []
+PASS 390:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 390:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390:structure-named-regions: expected [] actual []
+PASS 390:structure-skip-first: expected "skip" actual "skip"
+PASS 390:structure-no-positive-tabindex: expected [] actual []
+PASS 390:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Scarlet Inspector","focus:10:button:Pause animation","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Scarlet Inspector","focus:10:button:Pause animation","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 390:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,353.53125,20],[1,0,409.53125,20],[1,0,760.03125,326],[2,0,1232.03125,37],[4,0,2324.03125,20],[4,0,2376.03125,20],[4,0,2428.03125,20],[5,0,2553.03125,16],[5,0,2745.03125,296.703125]]
+PASS 390:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":326,"y":760.03125,"width":44,"height":44}}
+PASS 768:structure-one-h1: expected 1 actual 1
+PASS 768:structure-heading-levels: expected [] actual []
+PASS 768:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 768:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 768:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 768:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 768:structure-named-regions: expected [] actual []
+PASS 768:structure-skip-first: expected "skip" actual "skip"
+PASS 768:structure-no-positive-tabindex: expected [] actual []
+PASS 768:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Scarlet Inspector","focus:10:button:Pause animation","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Scarlet Inspector","focus:10:button:Pause animation","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 768:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,24],[0,0,0,384.421875],[0,0,0,458.6875],[0,0,0,518.515625],[0,0,0,604],[0,0,0,652],[0,0,0,700],[1,0,384.875,32],[1,0,384.875,198.71875],[1,0,868.875,692],[2,0,1234.875,53],[4,0,2105.875,32],[4,0,2105.875,332.5625],[4,0,2105.875,443.4375],[5,0,2254.875,24],[5,0,2427.375,666.703125]]
+PASS 768:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 768:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":692,"y":868.875,"width":44,"height":44}}
+PASS 1440:structure-one-h1: expected 1 actual 1
+PASS 1440:structure-heading-levels: expected [] actual []
+PASS 1440:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 1440:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 1440:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 1440:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 1440:structure-named-regions: expected [] actual []
+PASS 1440:structure-skip-first: expected "skip" actual "skip"
+PASS 1440:structure-no-positive-tabindex: expected [] actual []
+PASS 1440:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Scarlet Inspector","focus:10:button:Pause animation","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Scarlet Inspector","focus:10:button:Pause animation","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 1440:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,168],[0,0,0,912.421875],[0,0,0,986.6875],[0,0,0,1046.515625],[0,0,0,1132],[0,0,0,1180],[0,0,0,1228],[1,0,457,176],[1,0,457,342.71875],[1,1,464,1220],[2,0,820,197],[4,0,1597,176],[4,0,1597,476.5625],[4,0,1597,587.4375],[5,0,1746,168],[5,0,1918.5,1194.703125]]
+PASS 1440:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 1440:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":1220,"y":464,"width":44,"height":44}}
+PASS 390-reduced:structure-one-h1: expected 1 actual 1
+PASS 390-reduced:structure-heading-levels: expected [] actual []
+PASS 390-reduced:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 390-reduced:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390-reduced:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390-reduced:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390-reduced:structure-named-regions: expected [] actual []
+PASS 390-reduced:structure-skip-first: expected "skip" actual "skip"
+PASS 390-reduced:structure-no-positive-tabindex: expected [] actual []
+PASS 390-reduced:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:14:a:TH Timur Haryo Mahissanular","focus:13:a:LinkedIn","focus:12:a:GitHub","focus:11:a:Email vibing.murphy@gmail.com","focus:10:a:Scarlet Inspector","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:14:a:TH Timur Haryo Mahissanular","focus:13:a:LinkedIn","focus:12:a:GitHub","focus:11:a:Email vibing.murphy@gmail.com","focus:10:a:Scarlet Inspector","focus:9:a:Skip the 3D — read the list","focus:8:a:Open a teardown","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 390-reduced:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,353.53125,20],[1,0,409.53125,20],[2,0,1232.03125,37],[4,0,2324.03125,20],[4,0,2376.03125,20],[4,0,2428.03125,20],[5,0,2553.03125,16],[5,0,2745.03125,296.703125]]
+PASS 390-reduced:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390-reduced:structure-hero-poster-path: expected {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":44} actual {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":{"x":326,"y":760.03125,"width":44,"height":44}}
+structure: PASS (52 checks)
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+copy: PASS (1 checks)
+home-probe: PASS
+artifacts: /tmp/s119-checks/t011e-final-home
+== static server for browser gates ==
+== 30 s CLS observer ==
+390x844: CLS 0.000000 (0 entries); caption 52px; loop running; cycle capture -> inspect -> turn -> capture; returned=true
+1440x900: CLS 0.000000 (0 entries); caption 52px; loop running; cycle capture -> inspect -> turn -> capture; returned=true
+T011d CLS: PASS
+== proof strip screenshots ==
+T011e-screenshot-strip-390-light.png: [{"layer":"capture","active":false},{"layer":"persistence","active":false},{"layer":"inspection-ui","active":false}]
+T011e-screenshot-strip-1440-light.png: [{"layer":"capture","active":false},{"layer":"persistence","active":false},{"layer":"inspection-ui","active":false}]
+T011e-screenshot-strip-1440-highlight-capture.png: [{"layer":"capture","active":true},{"layer":"persistence","active":false},{"layer":"inspection-ui","active":false}]
+T011e-screenshot-strip-1440-highlight-persistence.png: [{"layer":"capture","active":false},{"layer":"persistence","active":true},{"layer":"inspection-ui","active":false}]
+T011e-screenshot-strip-1440-highlight-inspection-ui.png: [{"layer":"capture","active":false},{"layer":"persistence","active":false},{"layer":"inspection-ui","active":true}]
+T011e-screenshot-strip-1440-dark.png: [{"layer":"capture","active":false},{"layer":"persistence","active":false},{"layer":"inspection-ui","active":false}]
+== site:probe draws,cls ==
+draws project: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=104 total=104 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":104,"renderedFrames":104,"totalFrames":104,"counts":{"2":104}}
+draws: PASS (2 checks)
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+cls: PASS (12 checks)
+site-probe: PASS
+artifacts: /tmp/s119-checks/t011e-final-site
+== a11y:axe:site home ==
+axe-site home/light/desktop: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site home/light/mobile: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site home/dark/desktop: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site home/dark/mobile: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site total: serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+== lighthouse x2 ==
+performance: 1 >= 0.95 (median) pass
+lcp: 904.7648999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s119-checks/t011e-final-lh-1/lighthouse-summary.json
+performance: 1 >= 0.95 (median) pass
+lcp: 904.7601999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s119-checks/t011e-final-lh-2/lighthouse-summary.json
+== cross-route ==
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+== guards ==
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+== regress-hero ==
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: /tmp/s119-checks/regress-20261110T133938Z
+regress-hero: PASS (5 steps)
+== full suite ==
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+tools/perf typecheck: Done
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+Checking formatting...
+All matched files use Prettier code style!
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:79817) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79818) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79838) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79846) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79862) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:79864) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  274 passed (274)
+tools/perf test:    Start at  20:41:31
+tools/perf test:    Duration  2.55s (import 71%, tests 21%, transform 8%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:79868) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79879) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79881) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:79887) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  62 passed (62)
+packages/xploder test:       Tests  625 passed (625)
+packages/xploder test:    Start at  20:41:31
+packages/xploder test:    Duration  32.39s (tests 80%, transform 12%, import 7%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:79950) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:79963) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  42 passed | 1 skipped (43)
+apps/web test:       Tests  224 passed | 2 skipped (226)
+apps/web test:    Start at  20:42:04
+apps/web test:    Duration  1.67s (environment 35%, import 25%, tests 23%, transform 15%, worker 1%)
+apps/web test: 
+apps/web test:     Isolate  43 workers spawned · ~169ms startup each (spawn + environment, per file)
+apps/web test:              at least ~640ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+public/og/home.png 74310 bytes 56ae1db92d7d0affd771961ea6adfd5bec24b33140d8af945c38c126ecadc669
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 69ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 183ms
+  Running TypeScript ...
+  Finished TypeScript in 914ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 282ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+== final assertions ==
+light:fold-project-signal: caption bottom 812.03125 <= 836 PASS
+dark:fold-project-signal: caption bottom 812.03125 <= 836 PASS
+fold: PASS (12 checks)
+390x844: CLS 0, cycle capture -> inspect -> turn -> capture, returned=true
+1440x900: CLS 0, cycle capture -> inspect -> turn -> capture, returned=true
+T011e-OK

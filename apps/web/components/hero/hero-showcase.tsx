@@ -20,6 +20,7 @@ export interface HeroShowcaseState {
   readonly total: number;
   readonly componentName: string | null;
   readonly componentSummary: string | null;
+  readonly layerId?: string | null;
   readonly paused: boolean;
   readonly available: boolean;
 }
@@ -31,6 +32,7 @@ export const EMPTY_HERO_SHOWCASE: HeroShowcaseState = {
   total: 0,
   componentName: null,
   componentSummary: null,
+  layerId: null,
   paused: true,
   available: false,
 };
@@ -58,6 +60,7 @@ function sameShowcase(left: HeroShowcaseState, right: HeroShowcaseState): boolea
     left.total === right.total &&
     left.componentName === right.componentName &&
     left.componentSummary === right.componentSummary &&
+    (left.layerId ?? null) === (right.layerId ?? null) &&
     left.paused === right.paused &&
     left.available === right.available
   );
@@ -69,9 +72,10 @@ export function showcaseForSequence(
 ): HeroShowcaseState {
   const flow = project.flows?.find((candidate) => candidate.id === sequence.tour.flowId);
   const componentId = flow?.path[sequence.tour.step];
-  const component = project.layers
-    .flatMap((layer) => layer.components)
-    .find((candidate) => candidate.id === componentId);
+  const layer = project.layers.find((candidate) =>
+    candidate.components.some((component) => component.id === componentId),
+  );
+  const component = layer?.components.find((candidate) => candidate.id === componentId);
 
   return {
     phase: sequence.phase,
@@ -80,6 +84,7 @@ export function showcaseForSequence(
     total: sequence.tour.total,
     componentName: component?.name ?? null,
     componentSummary: component?.summary ?? null,
+    layerId: layer?.id ?? null,
     paused: sequence.status !== 'running',
     available: sequence.started,
   };

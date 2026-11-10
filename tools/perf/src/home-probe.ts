@@ -29,6 +29,7 @@ export const HOME_PROBE_UI_ALLOWLIST = [
   'Tech',
 ] as const;
 export const HOME_PROBE_SEPARATORS = ['·', '—', '©', '↑'] as const;
+export const HOME_PROBE_PROOF_VALUE_SELECTOR = '[data-hero-proof-value]' as const;
 export const HOME_SECTIONS_MISSING = 'HOME_SECTIONS module missing';
 
 type Palette = 'light' | 'dark';
@@ -653,6 +654,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const scrollX = window.scrollX;
   const scrollY = window.scrollY;
   const viewport = { width: window.innerWidth, height: window.innerHeight };
+  const proofValueSelector = '[data-hero-proof-value]';
   const compact = (value: string): string => value.replace(/\s+/g, ' ').trim();
   const rect = (element: Element): DocumentRect => {
     const value = element.getBoundingClientRect();
@@ -854,6 +856,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   )) {
     add(element);
   }
+  for (const element of document.querySelectorAll(proofValueSelector)) add(element);
   const bodyKeys = new Map(
     [...bodyElements].map((element, index) => [element, `body:${index}`] as const),
   );
@@ -864,6 +867,9 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     ...document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,figcaption'),
     ...bodyElements,
   ]);
+  for (const element of document.querySelectorAll('[data-hero-proof-label]')) {
+    measureElements.add(element);
+  }
   const measureTexts = [...measureElements]
     .filter((element) => rendered(element))
     .filter(
@@ -1437,6 +1443,23 @@ interface NarrationProject {
   }[];
 }
 
+interface ProofProject {
+  readonly story?: {
+    readonly metrics?: readonly {
+      readonly label?: string;
+      readonly value?: string;
+    }[];
+  };
+  readonly layers: readonly {
+    readonly id: string;
+  }[];
+}
+
+interface ProofReference {
+  readonly metric: number;
+  readonly layer: string | null;
+}
+
 export function heroNarrationCompositions(project: NarrationProject): string[] {
   const components = project.layers.flatMap((layer) => layer.components);
   const compositions: string[] = [];
@@ -1457,6 +1480,30 @@ export function heroNarrationCompositions(project: NarrationProject): string[] {
   return compositions;
 }
 
+export function heroProofCompositions(
+  project: ProofProject,
+  proof: readonly ProofReference[],
+): string[] {
+  const layerIds = new Set(project.layers.map((layer) => layer.id));
+  const metrics = project.story?.metrics ?? [];
+
+  return proof.flatMap((reference) => {
+    if (
+      !Number.isInteger(reference.metric) ||
+      reference.metric < 0 ||
+      reference.metric >= metrics.length ||
+      (reference.layer !== null && !layerIds.has(reference.layer))
+    ) {
+      return [];
+    }
+
+    const metric = metrics[reference.metric];
+    if (metric?.label === undefined || metric.value === undefined) return [];
+
+    return [`${metric.label} — ${metric.value}`];
+  });
+}
+
 async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<string[]> {
   const strings: string[] = [];
   flattenStrings(siteSource, strings);
@@ -1468,6 +1515,7 @@ async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<
     `${config.projectName} — ${config.projectTagline}`,
     `© ${new Date().getFullYear()} ${siteSource.identity.name}`,
   );
+  strings.push(...heroProofCompositions(websocketInspectorSource, siteSource.hero.proof));
   return [...new Set(strings.map(normaliseText).filter(Boolean))];
 }
 
