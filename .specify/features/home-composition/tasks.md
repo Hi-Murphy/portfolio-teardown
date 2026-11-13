@@ -63,6 +63,8 @@
 | T011e | ☑ proof strip (3 facts from `story.metrics` via `hero.proof`), full-width last hero row, highlight follows the tour's layer (colour only); resolver validated against real content; fold PASS (812 ≤ 836), CLS 0 over a full cycle at 390 + 1440, draws 2, axe 0, Lighthouse ×2 1.00/1.00, regress-hero 5/5, guards 9/9, cross-route ledger-only | 1 (Flash) + orchestrator review | evidence/T011e-log-proof.txt, T011e-screenshot-strip-* | e80efc8 |
 | T011e2 | ☑ proof facts plain (dividers, no boxes/highlight, server component, `hero.proof` = indexes); secondary CTA removed; primary CTA = 44 px text link + SVG arrow; fold PASS, axe 0 light + dark (accent link contrast), CLS 0 full cycle, Lighthouse ×2 1.00/1.00, draws 2, regress-hero 5/5, guards, cross-route ledger-only | 1 (Flash) + orchestrator review | evidence/T011e2-log-calm.txt, T011e2-screenshot-hero-* | a3b22c5 |
 | T011h | ☑ spike: **YES** via (a) `zoomIn` ×2 + interpolated stage-scroller follow anchored on the engine-rendered `data-xploder-trace-pad` marker (public DOM, not a typed handle); 60 fps (RAF p95 ≤ 17.6 ms), CLS 0, draws 2, Lighthouse perf 1, no errors; (b) per-layer focus NO (suspended during tours), (c) zoom-only NO. Risks: DOM bridge, vertical-only, first two host steps sit 47–83 px low | 1 (Flash) | evidence/T011h-log-spike.md, T011h-screenshot-follow-*, T011h-spike.diff.txt | (spike, not merged) |
+| T011i | ☐ | | | |
+| T011j | ☐ | | | |
 | T011f | ☐ | | | |
 | T011g | ☐ (Murphy content pass) | | | |
 | T011b | ☑ loop (explode/implode + quarter turn, `tourBeat` hold; pauses off-screen / hidden tab) + 44×44 pause/play button outside `aria-hidden`, labels from content; attempt 1 blocked by two probes assuming a still hero → D-A4; attempt 2: regress-hero 5/5 (`--expect live-loop`), home:probe all groups PASS incl. button + reduced cell, axe home 0/0, Lighthouse ×2 perf 1.00 / a11y 1.00 / CLS 0, draws 2, cross-route ledger-only, guards 9/9 | 1 (Flash, 2 attempts) + orchestrator (D-A4 decision) | evidence/T011b-log-loop.txt, T011b-screenshot-* | 27968cb |
@@ -343,9 +345,23 @@
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. The 4 screenshots: does the follow read as "the camera tracks the frame"?
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Go / fallback decision.
 
+### T011i [US1, US2, US5, US6] Full-screen blueprint hero + scroll snap (RFC R9; layout only, animation unchanged)
+
+- **Layout (match `evidence/R9-mockup-blueprint-v2.html`):** the hero fills the first screen (`min-h` = `100svh` − nav, never a fixed height); a full-bleed "sheet" (inset, four corner crop marks, `--color-grid` grid paper fading out with a radial mask; all decorative, `aria-hidden`); left column: name → role eyebrow with a short accent tick → headline → description → primary text link; the model floats with no frame/border/background, large on the right at `lg` and in the middle on phones; narration becomes a drawing annotation (accent left rule; mono uppercase header `{project name} · {flow label}` with `{n}/{total}` at the right; component name; summary), static state = project name + tagline; fixed reserved height; desktop-only decorative leader line; round 44×44 pause control at the annotation's end; a thin fading scroll-cue line at the bottom (decorative). Page container moves from `page.tsx` into each section so the hero can go full-bleed without `100vw` (no horizontal scroll).
+- **Snap (CSS only, `/` only):** a home-only `<style>` sets `scroll-snap-type: y mandatory` on `:root`, none under `prefers-reduced-motion: reduce`; snap targets: hero `start` (with `scroll-margin-top` = nav height so it snaps to 0), one wrapper around every section after the hero `start` (taller than the viewport, so scrolling inside it is free), and the footer `end` (selector in the same home-only style). If mandatory fails any check below, fall back to `proximity` and report.
+- **Removed:** the proof strip, its resolver/tests, and `hero.proof` (prepared content files).
+- **Checks:** Playwright snap checks at 390×844 and 1440×900: (1) a small wheel/scroll down from the top lands at the Projects top; (2) from there, scrolling down is free (a mid-About position holds); (3) the bottom is reachable and the footer fully visible; (4) scrolling up from the Projects top lands back on the hero at 0; (5) `/#about` and `/#contact` land on their sections; (6) PageDown/End keys work; (7) reduced motion → no snap. Plus: fold at 390×844 (all AC2 boxes inside the first screen), home:probe all groups (order probe tolerates the snap wrapper), CLS 0 full cycle at 390 + 1440, axe home 0/0 both palettes, Lighthouse ×2, draws 2, regress-hero 5/5, cross-route (other routes unchanged), guards, full suite.
+- **Evidence:** `T011i-log-layout.txt` (snap checks with scroll positions), `T011i-screenshot-hero-{390,768,1440}-{light,dark}.png` (first viewport).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: full-screen blueprint hero; scroll down snaps to Projects; scroll up from Projects snaps back.
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011j.
+
+### T011j [US4] Storyboard animation with camera follow (RFC R9, T011h)
+
+Specified after T011i's review.
+
 ### T011f–T011g
 
-Specified after T011h (RFC R9).
+Specified after T011j (RFC R9).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
