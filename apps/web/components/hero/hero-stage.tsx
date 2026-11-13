@@ -36,7 +36,7 @@ export function HeroStage({
   onLoopControl,
   onShowcaseChange,
 }: HeroStageProps) {
-  const viewer = useLiveViewer({ project, initial: 'imploded' });
+  const viewer = useLiveViewer({ project, initial: 'imploded', smoothZoom: true });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const controllerRef = useRef<HeroSequence | null>(null);
   const [sequence, setSequence] = useState<HeroSequenceState>(INITIAL_HERO_SEQUENCE_STATE);
