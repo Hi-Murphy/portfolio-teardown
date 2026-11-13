@@ -4,9 +4,9 @@ const GRID_STYLE = {
   backgroundImage:
     'linear-gradient(to right, var(--color-grid) 1px, transparent 1px), linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px)',
   backgroundSize: '24px 24px',
-  maskImage: 'radial-gradient(ellipse 75% 80% at 62% 45%, var(--color-grid) 40%, transparent 92%)',
+  maskImage: 'radial-gradient(ellipse 78% 82% at 68% 45%, var(--color-grid) 40%, transparent 92%)',
   WebkitMaskImage:
-    'radial-gradient(ellipse 75% 80% at 62% 45%, var(--color-grid) 40%, transparent 92%)',
+    'radial-gradient(ellipse 78% 82% at 68% 45%, var(--color-grid) 40%, transparent 92%)',
 } satisfies CSSProperties;
 
 const CROP_MARK_CLASS = 'absolute h-[18px] w-[18px] border-line/70';

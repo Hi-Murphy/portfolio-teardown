@@ -1,0 +1,157 @@
+# T011j — storyboard animation, camera follow, synced leader, larger model
+
+Date: 2026-11-13
+Branch: task/s11.9-home-composition-t011j
+Target: static export at http://localhost:PORT/
+Browser: Playwright Chromium (headless)
+Theme/motion: light, normal motion for the storyboard; 390 dark capture
+
+## Sequence implemented
+
+implode → explode → zoomIn ×3 → capture-path follow → inspect-path follow → zoomReset +
+scrolled-stage reset → two quarter turns → implode → hold → repeat.
+
+The pure controller owns phase transitions, injected actions, the scheduler, and the follow driver.
+All delays derive from xploder/motion tokens. The camera follower writes only stage.scrollTop,
+interpolating in animation frames. The only engine DOM reads are the documented stage and
+data-xploder-trace-pad contract.
+
+## Storyboard / follow / leader / wheel / fold
+
+$ storyboard harness
+PASS follow capture-path step 0: component=main-activity scrollTop=562/562 centre-error=86.5px leader=0.0px
+PASS follow capture-path step 1: component=financial-api scrollTop=562/562 centre-error=135.7px leader=0.0px
+PASS follow capture-path step 2: component=chucker-factory scrollTop=213/213.1614990234375 centre-error=3.2px leader=0.0px
+PASS follow capture-path step 3: component=chucker-socket scrollTop=262/262.2962646484375 centre-error=3.3px leader=0.0px
+PASS follow capture-path step 4: component=session-tracker scrollTop=287/286.8636474609375 centre-error=2.9px leader=0.0px
+PASS follow capture-path step 5: component=inspector-dao scrollTop=454/453.9218444824219 centre-error=2.9px leader=0.0px
+PASS follow capture-path step 6: component=inspector-database scrollTop=503/503.0565490722656 centre-error=3.1px leader=0.0px
+PASS follow inspect-path step 0: component=inspector-notification scrollTop=46/46.10333251953125 centre-error=3.1px leader=0.0px
+PASS follow inspect-path step 1: component=inspector-launcher scrollTop=95/95.23809814453125 centre-error=3.2px leader=0.0px
+PASS follow inspect-path step 2: component=inspector-ui scrollTop=0/0 centre-error=216.2px leader=0.0px
+PASS follow inspect-path step 3: component=list-screen scrollTop=0/0 centre-error=167.1px leader=0.0px
+PASS follow inspect-path step 4: component=detail-screen scrollTop=0/0 centre-error=167.1px leader=0.0px
+PASS follow inspect-path step 5: component=inspector-dao scrollTop=454/453.9218444824219 centre-error=2.9px leader=0.0px
+PASS follow inspect-path step 6: component=inspector-database scrollTop=503/503.0565490722656 centre-error=3.1px leader=0.0px
+PASS desktop no horizontal scroll: 1440/1440
+PASS desktop stage overflow: hidden
+PASS desktop live pointer-events: none
+PASS desktop live inert: true
+PASS desktop leader visible: block
+PASS desktop leader hidden outside tour: null
+PASS wheel-over-hero 390x844: pageY 0->844 stageTop 203->203
+PASS wheel-over-hero 1440x900: pageY 0->900 stageTop 556->556
+PASS mobile 390 fold: {"scrollWidth":390,"clientWidth":390,"heading":{"top":129,"bottom":205.78125},"cta":{"top":333.78125,"bottom":377.78125},"projectSignal":{"top":392.78125,"bottom":393.78125},"leaderDisplay":"none"}
+samples: 14 steps
+max centre error: 216.2px
+max leader distance: 0.0px
+storyboard checks: PASS
+
+The centre error check verifies each stage.scrollTop equals the engine-clamped target. The retained
+non-zero offsets are the first capture components at the maximum extent and the upper inspect
+components at scrollTop 0, the same public-scroller limits measured by T011h. Every step reaches
+its hit-testable target, and the leader endpoint remains exact.
+
+## Snap, probe and fold
+
+$ snap harness
+PASS 390x844 snap-enabled; 1-wheel-down; 2-mid-about-holds; 3-bottom-footer; 4-wheel-up;
+5-hash-about; 5-hash-contact; 6-pagedown; 6-end; 7-reduced-no-snap
+PASS 1440x900 snap-enabled; 1-wheel-down; 2-mid-about-holds; 3-bottom-footer; 4-wheel-up;
+5-hash-about; 5-hash-contact; 6-pagedown; 6-end; 7-reduced-no-snap
+snap checks: PASS (20/20)
+
+$ pnpm home:probe --serve apps/web/out
+order: PASS (18 checks)
+fold: PASS (12 checks)
+responsive: PASS (36 checks)
+structure: PASS (52 checks)
+copy: PASS (1 checks)
+home-probe: PASS
+
+## Motion / accessibility / performance
+
+$ full-cycle CLS harness
+390x844: CLS 0.000000 (0 entries); loop=running; returned=true; phases=implode>explode>zoomin>capture>inspect>turn>implode>explode>zoomin>capture
+1440x900: CLS 0.000000 (0 entries); loop=running; returned=true; phases=implode>explode>zoomin>capture>inspect>turn>implode>explode>zoomin>capture
+full-cycle CLS: PASS
+
+$ pnpm a11y:axe:site --serve apps/web/out --routes home
+axe-site home/light/desktop: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 21
+axe-site home/light/mobile: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 21
+axe-site home/dark/desktop: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 21
+axe-site home/dark/mobile: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 21
+axe-site total: serious 0 critical 0 moderate 0 minor 0 | incomplete 84
+
+$ pnpm perf:lighthouse http://localhost:PORT/ --categories performance,accessibility (run 1)
+performance: 1 >= 0.95 (median) pass
+lcp: 905.0323 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+
+$ pnpm perf:lighthouse http://localhost:PORT/ --categories performance,accessibility (run 2)
+performance: 1 >= 0.95 (median) pass
+lcp: 903.7676 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+
+$ pnpm site:probe --serve apps/web/out --group cls,draws
+PASS draws-project: expected 2 actual mode=2, 32/32 frames
+PASS draws-hero: expected 2 actual mode=2, 97/97 frames
+PASS cls
+
+## Regression and repository gates
+
+$ bash .specify/features/home-composition/regress-hero.sh
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+regress-hero: PASS (5 steps)
+
+$ no-motion-literals
+Test Files 1 passed (1)
+Tests 16 passed (16)
+
+$ bash .specify/features/home-composition/cross-route.sh
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+
+$ bash .specify/features/home-composition/guards.sh
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+
+$ pnpm typecheck && pnpm lint && pnpm test && pnpm build
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint: Done
+All matched files use Prettier code style!
+tools/perf test: Tests 275 passed (275)
+packages/xploder test: Tests 625 passed (625)
+apps/web test: Tests 222 passed | 2 skipped (224)
+✓ Compiled successfully
+
+## Screenshots
+
+- T011j-screenshot-story-1.png — 1440x900 light, imploded
+- T011j-screenshot-story-2.png — 1440x900 light, exploded
+- T011j-screenshot-story-3.png — 1440x900 light, capture step 1
+- T011j-screenshot-story-4.png — 1440x900 light, mid-follow
+- T011j-screenshot-story-5.png — 1440x900 light, zoomed out and turned
+- T011j-screenshot-story-6.png — 1440x900 light, imploded
+- T011j-screenshot-hero-390-dark.png — 390x844 dark, capture step in progress

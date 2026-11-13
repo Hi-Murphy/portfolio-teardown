@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Project } from 'xploder';
 
 import { LiveViewer, useLiveViewer } from '../viewer/live-viewer';
+import { createHeroFollow } from './hero-follow';
 import {
   INITIAL_HERO_SEQUENCE_STATE,
   createHeroSequence,
@@ -35,7 +36,7 @@ export function HeroStage({
   onLoopControl,
   onShowcaseChange,
 }: HeroStageProps) {
-  const viewer = useLiveViewer({ project, initial: 'exploded' });
+  const viewer = useLiveViewer({ project, initial: 'imploded' });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const controllerRef = useRef<HeroSequence | null>(null);
   const [sequence, setSequence] = useState<HeroSequenceState>(INITIAL_HERO_SEQUENCE_STATE);
@@ -55,16 +56,20 @@ export function HeroStage({
   );
 
   useEffect(() => {
+    const follow = createHeroFollow({ root: () => wrapperRef.current, project });
     const controller = createHeroSequence({
       actions: {
         explode: () => viewer.actions.explode(),
         implode: () => viewer.actions.implode(),
+        zoomIn: () => viewer.actions.zoomIn(),
+        zoomReset: () => viewer.actions.zoomReset(),
         rotateRight: () => viewer.actions.rotateRight(),
         selectFlow: (flowId) => viewer.actions.selectFlow(flowId),
         playTour: () => viewer.actions.play(),
         pauseTour: () => viewer.actions.pause(),
         stopTour: () => viewer.actions.stop(),
       },
+      follow,
       captureFlow: CAPTURE_FLOW,
       inspectFlow: INSPECT_FLOW,
       schedule: (callback, delayMs) => window.setTimeout(callback, delayMs),
@@ -77,7 +82,7 @@ export function HeroStage({
       controller.dispose();
       controllerRef.current = null;
     };
-  }, [publish, viewer.actions]);
+  }, [project, publish, viewer.actions]);
 
   useEffect(() => {
     onLoopControl?.({
@@ -142,11 +147,17 @@ export function HeroStage({
   }, [onFirstFrame]);
 
   return (
-    <div ref={wrapperRef} data-hero-loop={sequence.status} className="h-full w-full">
+    <div
+      ref={wrapperRef}
+      data-hero-loop={sequence.status}
+      data-hero-phase={sequence.phase}
+      data-hero-tour-step={sequence.tour.step}
+      className="h-full w-full"
+    >
       <LiveViewer
         project={project}
         viewer={viewer}
-        initial="exploded"
+        initial="imploded"
         onFirstFrame={handleFirstFrame}
         fallback={null}
         className="h-full w-full"

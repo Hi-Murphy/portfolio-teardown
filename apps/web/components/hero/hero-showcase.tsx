@@ -18,6 +18,7 @@ export interface HeroShowcaseState {
   readonly flowLabel: string | null;
   readonly step: number;
   readonly total: number;
+  readonly componentId: string | null;
   readonly componentName: string | null;
   readonly componentSummary: string | null;
   readonly paused: boolean;
@@ -29,6 +30,7 @@ export const EMPTY_HERO_SHOWCASE: HeroShowcaseState = {
   flowLabel: null,
   step: -1,
   total: 0,
+  componentId: null,
   componentName: null,
   componentSummary: null,
   paused: true,
@@ -56,6 +58,7 @@ function sameShowcase(left: HeroShowcaseState, right: HeroShowcaseState): boolea
     left.flowLabel === right.flowLabel &&
     left.step === right.step &&
     left.total === right.total &&
+    left.componentId === right.componentId &&
     left.componentName === right.componentName &&
     left.componentSummary === right.componentSummary &&
     left.paused === right.paused &&
@@ -78,6 +81,7 @@ export function showcaseForSequence(
     flowLabel: flow?.label ?? flow?.id ?? null,
     step: sequence.tour.step,
     total: sequence.tour.total,
+    componentId: componentId ?? null,
     componentName: component?.name ?? null,
     componentSummary: component?.summary ?? null,
     paused: sequence.status !== 'running',
