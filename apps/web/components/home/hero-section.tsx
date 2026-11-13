@@ -67,8 +67,11 @@ export function HeroSection() {
               aria-labelledby="hero-caption"
               className="relative mt-4 flex min-w-0 flex-col sm:mt-6 lg:mt-0"
             >
-              <HeroLeader />
-              <div className="relative mx-auto h-[16rem] w-full max-w-[24rem] sm:h-[21rem] sm:max-w-[30rem] lg:h-[min(78svh,47.5rem)] lg:max-w-none [&_[data-site-live]]:pointer-events-none [&_[data-xploder-stage]]:overflow-hidden! [&_[data-xploder-caption]]:hidden">
+              <HeroLeader name={heroProject.meta.name} />
+              <div
+                data-hero-model=""
+                className="relative mx-auto h-[16rem] w-full max-w-[24rem] sm:h-[21rem] sm:max-w-[30rem] lg:h-[min(78svh,47.5rem)] lg:max-w-none [&_[data-site-live]]:pointer-events-none [&_[data-xploder-stage]]:overflow-hidden! [&_[data-xploder-caption]]:hidden"
+              >
                 <HeroLive project={heroProject} />
                 <TeardownPoster
                   project={heroProject}

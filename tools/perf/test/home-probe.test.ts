@@ -9,6 +9,7 @@ import {
   evaluateStructure,
   heroNarrationCompositions,
   HOME_PROBE_HERO_ANNOTATION_SELECTOR,
+  HOME_PROBE_HERO_PROJECT_LINE_SELECTOR,
   HOME_PROBE_DEFAULT_GROUPS,
   HOME_PROBE_GROUPS,
   HOME_PROBE_PRIMARY_CTA_SELECTOR,
@@ -479,8 +480,9 @@ describe('copy group', () => {
     expect(evaluateCopy(compositions, compositions).pass).toBe(true);
   });
 
-  test('exposes the annotation selector used for the hero project signal and body text', () => {
+  test('exposes the annotation, permanent project-line, and CTA selectors', () => {
     expect(HOME_PROBE_PRIMARY_CTA_SELECTOR).toBe('[data-hero-primary-cta]');
     expect(HOME_PROBE_HERO_ANNOTATION_SELECTOR).toBe('[data-hero-annotation]');
+    expect(HOME_PROBE_HERO_PROJECT_LINE_SELECTOR).toBe('[data-hero-project-line]');
   });
 });
