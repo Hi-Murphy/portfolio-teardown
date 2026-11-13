@@ -12,6 +12,10 @@ export const HERO_STORYBOARD_MS = {
   turnStep: milliseconds(motion.durations.tourBeat),
 } as const;
 
+export const HERO_WATCHDOG_MS = {
+  overdue: milliseconds(motion.durations.tourBeat * 1.5),
+} as const;
+
 export type HeroLoopState = 'running' | 'paused';
 
 export type HeroSequencePhase =
@@ -248,10 +252,14 @@ export function createHeroSequence({
       if (disposed || !started || !suspended) return;
 
       suspended = false;
+      if (isTourPhase(phase) && tour.status === 'ended') {
+        advanceTour();
+        return;
+      }
+
       if (isTourPhase(phase)) {
         follow.resume();
-        if (tour.status === 'ended') advanceTour();
-        else actions.playTour();
+        actions.playTour();
       } else {
         follow.resume();
         resumePending();
