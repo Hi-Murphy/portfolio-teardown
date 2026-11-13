@@ -65,6 +65,8 @@
 | T011h | ☑ spike: **YES** via (a) `zoomIn` ×2 + interpolated stage-scroller follow anchored on the engine-rendered `data-xploder-trace-pad` marker (public DOM, not a typed handle); 60 fps (RAF p95 ≤ 17.6 ms), CLS 0, draws 2, Lighthouse perf 1, no errors; (b) per-layer focus NO (suspended during tours), (c) zoom-only NO. Risks: DOM bridge, vertical-only, first two host steps sit 47–83 px low | 1 (Flash) | evidence/T011h-log-spike.md, T011h-screenshot-follow-*, T011h-spike.diff.txt | (spike, not merged) |
 | T011i | ☑ full-screen blueprint hero per R9 mockup; CSS snap `mandatory` on `/` only (proximity failed the up-scroll check), off under reduced motion; snap checks 20/20 at 390 + 1440; proof strip + `hero.proof` removed; fold 12/12, home:probe all PASS, CLS 0 full cycle, axe 0/0, Lighthouse ×2 1/1, draws 2, regress-hero 5/5, cross-route ledger-only, guards 9/9. Note: at 1440 the post-hero content is ~1005 px, so its free-scroll range is short | 1 (Flash) + orchestrator review | evidence/T011i-log-layout.txt, T011i-screenshot-hero-* | 21f1b3d |
 | T011j | ☑ storyboard controller (tokens only), zoomIn ×3 + interpolated follow via one DOM-bridge module (contract test), live layer inert/pointer-events-none + stage overflow-hidden in the hero only, leader synced (0 px at samples), bigger model; follow 14/14 samples reach their (clamped) targets, wheel over hero scrolls the page, snap 20/20, home:probe all PASS, CLS 0 full cycle, axe 0/0, Lighthouse ×2 PASS, draws 2, regress-hero 5/5, no-motion-literals PASS, guards 9/9, cross-route ledger-only. Open polish: hard top/bottom crop of the zoomed canvas | 1 (Flash; first dispatch stopped by orchestrator after a status race, re-dispatched) + orchestrator review | evidence/T011j-log-storyboard.txt, T011j-screenshot-* | 6d0b4c7 |
+| T011k | ☐ | | | |
+| T011l | ☐ | | | |
 | T011f | ☐ | | | |
 | T011g | ☐ (Murphy content pass) | | | |
 | T011b | ☑ loop (explode/implode + quarter turn, `tourBeat` hold; pauses off-screen / hidden tab) + 44×44 pause/play button outside `aria-hidden`, labels from content; attempt 1 blocked by two probes assuming a still hero → D-A4; attempt 2: regress-hero 5/5 (`--expect live-loop`), home:probe all groups PASS incl. button + reduced cell, axe home 0/0, Lighthouse ×2 perf 1.00 / a11y 1.00 / CLS 0, draws 2, cross-route ledger-only, guards 9/9 | 1 (Flash, 2 attempts) + orchestrator (D-A4 decision) | evidence/T011b-log-loop.txt, T011b-screenshot-* | 27968cb |
@@ -74,6 +76,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-A1 (Murphy, 2026-11-08):** hero showcase loop added as T011b (RFC §13 R6). `apps/web/components/hero/**` is touchable in T011b only (`hero-stage.tsx` + a new `hero-loop.ts`); the T006 hero figure snapshot is updated in T011b with a reason note. T006 also makes the headline smaller (one step down the existing clamp) so the figure gets more room, keeping AC2.
+- **D-A8 (Murphy, 2026-11-13):** RFC R10 — T011k overlay labels (app only); T011l smooth zoom in the engine (opt-in, re-sealed; AC7 frozen-surface exception approved by Murphy, Merlin handoff at slice end). `guards.sh` frozen-surfaces allows exactly the files in `approved-xploder-src.txt` (each with an S11.9 re-seal note). T013 adds `HANDOFF-merlin.md`.
 - **D-A7 (Murphy, 2026-11-13):** RFC R9 — full-screen blueprint hero + CSS snap + storyboard animation; proof strip dropped. T011h spike (camera follow) first; then the build tasks are specified from its answer. `/tmp` was cleared by the host between sessions: runner scripts are recreated; all work was already committed.
 - **D-A6 (Murphy, 2026-11-10):** RFC R8b — T011e2 calms the hero (plain facts, no highlight, one text-link CTA). Removing both CTAs was declined: AC2 requires the primary CTA above the fold (an AC change would be an escalation).
 - **D-A5 (Murphy, 2026-11-08):** RFC R8 — hero showcase tasks T011c–T011g inserted before T012; Murphy reviews after each (STOP per task). `components/hero/**` and a home-only poster option stay touchable through T011f; `packages/xploder/**` stays frozen (T011c must prove the tour runs in the hero with no engine change, else STOP).
@@ -366,9 +369,24 @@
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview one full cycle; 2. scroll over the 3D moves the page.
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review.
 
+### T011k [US1, US5] Overlay step labels with fade (RFC R10.1)
+
+- Label to the right of the active component's trace pad (position via `transform`, clamped inside the figure), short leader to the pad; step change: fade out (`durations.panelExit`, `easings.panelExit`) then fade in (`durations.panelEnter`, `easings.panelEnter`) — from `xploder/motion` / its CSS vars, no literals; phones: label below the model, same fade; reduced motion: no fade (instant), poster path unchanged; a small permanent project line (`{name} — {tagline}`) stays under the model for AC2; static caption for SR unchanged.
+- Checks: label within 12 px of its target offset per step at 1440; fade order (old opacity reaches 0 before new rises) sampled; CLS 0 full cycle at 390 + 1440; fold; home:probe all; snap 20/20; axe 0/0; Lighthouse ×2; draws 2; regress-hero 5/5; no-motion-literals; guards; cross-route; full suite.
+- Evidence: `T011k-log-labels.txt`, `T011k-screenshot-label-{1440-light-step3,1440-dark-step5,390-light-step3}.png`.
+
+### T011l [US4] Smooth zoom in the engine, opt-in + re-seal (RFC R10.2)
+
+- Engine: a zoom tween mirroring the existing turn tween (`createTurnTween` uses `durations.implode`), enabled only when `useTeardownViewer({ smoothZoom: true })`; default behaviour byte-identical; reduced motion → instant. Hero opts in.
+- Re-seal per S11.8 §4.2: generator `base` → this task's lever commit, note `Re-sealed in S11.9 at <sha>: <path> — opt-in camera zoom tween (R10)`, manifests regenerated by the generator, `approved-xploder-src.txt` lists exactly the changed engine files; `frozen-surface.test.ts` passes.
+- Checks: engine unit tests (tween values over time, default path identical, reduced motion instant); project route unchanged (`site:probe --group drill`, workbench zoom still instant); hero zoom samples monotonic with no jump > 1 step-fraction per frame; draws 2; CLS 0; Lighthouse ×2; regress-hero 5/5; guards (updated frozen-surfaces rule); full suite.
+- Evidence: `T011l-log-zoom.txt`, a 6-frame strip `T011l-screenshot-zoom-strip.png`.
+
+**After T011l: STOP for Murphy's review of T011k + T011l together.**
+
 ### T011f–T011g
 
-Specified after T011j (RFC R9).
+Specified after T011l (RFC R9/R10).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 

@@ -141,9 +141,14 @@ NODE
 }
 
 frozen_surfaces_ok() {
-  local changed
+  local changed approved
+  # R10 (Murphy, 2026-11-13): packages/xploder paths listed in approved-xploder-src.txt may change, each
+  # re-sealed with an S11.9 note; the generated manifests / generators of the re-seal are allowed with them.
+  approved="$F/approved-xploder-src.txt"
   changed=$(changed_paths |
     grep -E '^(\.specify/slices/|\.specify/KICKOFF[^/]*\.md$|\.specify/content/websocket-inspector\.json$|packages/xploder/)' |
+    grep -vxF -f <( { [[ -f "$approved" ]] && grep -v '^#' "$approved" | sed '/^$/d'; } || true ) |
+    grep -vE '^packages/xploder/test/frozen-surface(\.s[0-9]+)?\.(manifest\.json|generate(-s[0-9]+)?\.sh)$|^packages/xploder/test/frozen-surface\.generate(-s[0-9]+)?\.sh$' |
     head -1 || true)
   if [[ -n "$changed" ]]; then
     printf '%s\n' "$changed"
