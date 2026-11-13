@@ -199,7 +199,6 @@ async function advance(delayMs: number): Promise<void> {
 async function advanceToCapture(): Promise<void> {
   await advance(HERO_STORYBOARD_MS.implode);
   await advance(HERO_STORYBOARD_MS.explode);
-  await advance(HERO_STORYBOARD_MS.zoomStep * 2);
   await advance(HERO_STORYBOARD_MS.zoomSettle);
 }
 
@@ -399,7 +398,7 @@ describe('createHeroSequence', () => {
     return { actions, follow, sequence };
   }
 
-  test('starts imploded and calls explode, three zooms, and the capture follow in order', () => {
+  test('starts imploded and calls explode, one zoom burst, and the capture follow in order', () => {
     const { actions, follow, sequence } = controller();
 
     sequence.start();
@@ -415,9 +414,9 @@ describe('createHeroSequence', () => {
 
     vi.advanceTimersByTime(HERO_STORYBOARD_MS.explode);
     expect(sequence.state.phase).toBe('zoomin');
-    expect(actions.zoomIn).toHaveBeenCalledTimes(1);
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.zoomStep);
-    expect(actions.zoomIn).toHaveBeenCalledTimes(2);
+    expect(actions.zoomIn).toHaveBeenCalledTimes(3);
+    expect(follow.start).not.toHaveBeenCalled();
+
     vi.advanceTimersByTime(HERO_STORYBOARD_MS.zoomStep);
     expect(actions.zoomIn).toHaveBeenCalledTimes(3);
 
@@ -433,10 +432,7 @@ describe('createHeroSequence', () => {
 
     sequence.start();
     vi.advanceTimersByTime(
-      HERO_STORYBOARD_MS.implode +
-        HERO_STORYBOARD_MS.explode +
-        HERO_STORYBOARD_MS.zoomStep * 2 +
-        HERO_STORYBOARD_MS.zoomSettle,
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
     );
 
     sequence.updateTour(tour({ step: 0 }));
@@ -459,6 +455,7 @@ describe('createHeroSequence', () => {
     expect(follow.reset).toHaveBeenCalledTimes(1);
     expect(narrationPhase(sequence.state.phase)).toBe(false);
 
+    expect(actions.rotateRight).not.toHaveBeenCalled();
     vi.advanceTimersByTime(HERO_STORYBOARD_MS.turnStep);
     expect(actions.rotateRight).toHaveBeenCalledTimes(1);
     vi.advanceTimersByTime(HERO_STORYBOARD_MS.turnStep);
@@ -477,10 +474,7 @@ describe('createHeroSequence', () => {
 
     sequence.start();
     vi.advanceTimersByTime(
-      HERO_STORYBOARD_MS.implode +
-        HERO_STORYBOARD_MS.explode +
-        HERO_STORYBOARD_MS.zoomStep * 2 +
-        HERO_STORYBOARD_MS.zoomSettle,
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
     );
     sequence.updateTour(tour());
     sequence.pause();
@@ -519,10 +513,7 @@ describe('createHeroSequence', () => {
 
     sequence.start();
     vi.advanceTimersByTime(
-      HERO_STORYBOARD_MS.implode +
-        HERO_STORYBOARD_MS.explode +
-        HERO_STORYBOARD_MS.zoomStep * 2 +
-        HERO_STORYBOARD_MS.zoomSettle,
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
     );
     sequence.updateTour(tour({ step: 2 }));
     sequence.pause();
@@ -605,7 +596,6 @@ describe('hero stage storyboard', () => {
     expect(heroPhase()).toBe('explode');
     expect(viewerActions.explode).toHaveBeenCalledTimes(2);
     await advance(HERO_STORYBOARD_MS.explode);
-    await advance(HERO_STORYBOARD_MS.zoomStep * 2);
     await advance(HERO_STORYBOARD_MS.zoomSettle);
     expect(heroPhase()).toBe('capture');
     expect(projectLine()).toBe(expectedProjectLine());
