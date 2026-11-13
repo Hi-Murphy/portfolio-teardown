@@ -1012,7 +1012,8 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const heroLoop = document.querySelector('[data-hero-loop]');
   const heroSlot = hero?.querySelector<HTMLElement>('[data-hero-loop-slot]') ?? null;
   const heroButton = heroSlot?.querySelector<HTMLButtonElement>('button') ?? null;
-  const heroPoster = hero?.querySelector('[data-site-poster]') ?? null;
+  const heroPosters = [...(hero?.querySelectorAll('[data-site-poster]') ?? [])];
+  const heroPoster = heroPosters.find(rendered) ?? heroPosters[0] ?? null;
 
   (window as unknown as HomeProbeWindow).__homeProbeFocusKeys = focusKeys;
   (window as unknown as HomeProbeWindow).__homeProbeFocusGridColumns = focusGridColumns;

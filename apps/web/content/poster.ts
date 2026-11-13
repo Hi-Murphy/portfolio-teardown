@@ -168,3 +168,24 @@ export function posterGeometry(project: Project, state: PosterState): PosterGeom
     slabs,
   };
 }
+
+export function posterFlowPoints(
+  geometry: PosterGeometry,
+  flowPath: readonly string[],
+): readonly PosterPoint[] {
+  const componentCentres = new Map(
+    geometry.slabs
+      .filter((slab) => slab.kind === 'component')
+      .map((slab) => [slab.id, projectPoint(slab.center)] as const),
+  );
+
+  return flowPath.map((componentId) => {
+    const point = componentCentres.get(componentId);
+
+    if (point === undefined) {
+      throw new Error(`Unknown component id "${componentId}" in poster flow path.`);
+    }
+
+    return point;
+  });
+}

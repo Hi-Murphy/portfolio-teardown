@@ -1,9 +1,11 @@
 apps/web/content/site-copy.ts
 apps/web/content/site.source.ts
+apps/web/content/poster.ts
 apps/web/content/home-sections.ts
 apps/web/content/projects/index.ts
 apps/web/app/(site)/page.tsx
 apps/web/components/home/**
+apps/web/components/teardown-poster.tsx
 apps/web/components/hero/hero-stage.tsx
 apps/web/components/hero/hero-live.tsx
 apps/web/components/hero/hero-loop.ts

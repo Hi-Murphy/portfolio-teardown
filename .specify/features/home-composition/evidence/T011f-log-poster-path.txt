@@ -1,0 +1,119 @@
+T011f — Frame path on the home poster (attempt 2)
+Date: 2026-11-13
+
+REVIEW FIX
+The normal-motion first paint is the existing imploded poster without a path. A second,
+exploded poster with the capture-path flow is stacked in the same absolute box and selected
+CSS-only by motion-reduce:block or peer-data-[site-live-state=skipped]:block. The normal poster
+uses the inverse motion-reduce:hidden / peer-data-[site-live-state=skipped]:hidden classes.
+Both SVG posters remain aria-hidden. POSTER_FADE_CLASS is still applied to both posters and its
+revealed-state behavior is unchanged.
+
+The poster probes now choose the first rendered poster among all matching elements and fall back
+to the first element when every poster is faded after reveal. This is the minimal selector change
+needed because the two stacked posters alternate by CSS state:
+- tools/perf/src/eager-probe.ts
+- tools/perf/src/home-probe.ts
+- tools/perf/src/site-probe.ts
+
+COMMAND: pnpm --filter web exec vitest run test/home-poster-path.test.tsx
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  17:41:59
+   Duration  159ms
+
+COMMAND: pnpm build
+✓ Compiled successfully in 224ms
+  Finished TypeScript in 884ms
+✓ Generating static pages using 9 workers (8/8) in 275ms
+Route (app): /, /_not-found, /icon.svg, /projects, /projects/[slug], /robots.txt, /sitemap.xml
+
+COMMAND: bash .specify/features/home-composition/regress-hero.sh
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: <tmp>/regress-20261113T104900Z
+regress-hero: PASS (5 steps)
+
+COMMAND: pnpm site:probe --serve apps/web/out --ci
+drill: PASS (13 checks)
+cls: PASS (12 checks; every route/palette/viewport total 0.000000)
+routes: PASS (11 checks)
+nojs: PASS (6 checks)
+reduced-motion: PASS (5 checks)
+PASS reduced-home-skipped: expected {"liveState":"skipped","heroCanvases":0,"posterVisible":true} actual {"liveState":"skipped","heroCanvases":0,"posterWidth":817.609375}
+site-probe: PASS
+
+COMMAND: pnpm home:probe --serve apps/web/out
+order: PASS (18 checks)
+fold: PASS (12 checks)
+responsive: PASS (36 checks)
+PASS 390-reduced:structure-hero-poster-path: expected {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":44} actual {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+structure: PASS (52 checks)
+copy: PASS (1 checks)
+home-probe: PASS
+
+COMMAND: pnpm perf:lighthouse http://localhost:PORT/ --out <tmp>/t011f-lighthouse
+performance: 1 >= 0.95 (median) pass
+lcp: 904.4521 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: <tmp>/t011f-lighthouse/lighthouse-summary.json
+
+COMMAND: bash .specify/features/home-composition/cross-route.sh
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+
+COMMAND: bash .specify/features/home-composition/guards.sh
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm test && pnpm build
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint: Done
+All matched files use Prettier code style!
+tools/perf test:  Test Files  31 passed (31); Tests  275 passed (275)
+packages/xploder test:  Test Files  63 passed (63); Tests  632 passed (632)
+apps/web test:  Test Files  45 passed | 1 skipped (46); Tests  234 passed | 2 skipped (236)
+✓ Compiled successfully in 134ms
+  Finished TypeScript in 784ms
+✓ Generating static pages using 9 workers (8/8) in 274ms
+
+POSTER STATE OBSERVATIONS (Playwright, production export)
+Reduced motion 1440x900 light: live=skipped; poster 1 display=none flow=false; poster 2 display=block flow=true steps=7
+Reduced motion 1440x900 dark:  live=skipped; poster 1 display=none flow=false; poster 2 display=block flow=true steps=7
+Reduced motion 390x844 light: live=skipped; poster 1 display=none flow=false; poster 2 display=block flow=true steps=7
+Save-Data 1440x900 light:    live=skipped; poster 1 display=none flow=false; poster 2 display=block flow=true steps=7
+Normal first paint 1440x900: live=idle;    poster 1 display=block flow=false; poster 2 display=none flow=true steps=7
+
+SSR HTML
+/: 2 aria-hidden posters, 1 flow layer, 1 flow line, 7 numbered steps
+/projects: 1 poster, 0 flow layers
+/projects/websocket-inspector: 1 poster, 0 flow layers
+/404: no hero poster
+
+EVIDENCE IMAGES
+T011f-screenshot-poster-1440-light-reduced.png: 1440x900 RGB
+T011f-screenshot-poster-1440-dark-reduced.png:  1440x900 RGB
+T011f-screenshot-poster-390-light-reduced.png:  390x844 RGB
+T011f-screenshot-poster-1440-light-savedata.png: 1440x900 RGB
+T011f-screenshot-poster-1440-light-firstpaint.png: 1440x900 RGB
+
+T011f-OK

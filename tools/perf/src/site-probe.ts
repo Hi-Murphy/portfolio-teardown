@@ -1163,7 +1163,11 @@ async function runHeroGroup(
       await homePage.waitForTimeout(POSTER_SCAN_MS);
       const posterState = await homePage.evaluate(() => {
         const live = document.querySelector('[data-site-live]');
-        const poster = document.querySelector('[data-site-hero] [data-site-poster]');
+        const posters = [...document.querySelectorAll('[data-site-hero] [data-site-poster]')];
+        const poster =
+          posters.find((candidate) => candidate.getBoundingClientRect().width > 1) ??
+          posters[0] ??
+          null;
         const rect = poster?.getBoundingClientRect();
         return {
           liveState: live?.getAttribute('data-site-live-state') ?? null,
@@ -1297,7 +1301,11 @@ async function runReducedMotionGroup(
     );
     const home = await page.evaluate(() => {
       const hero = document.querySelector('[data-site-hero]');
-      const poster = document.querySelector('[data-site-hero] [data-site-poster]');
+      const posters = [...document.querySelectorAll('[data-site-hero] [data-site-poster]')];
+      const poster =
+        posters.find((candidate) => candidate.getBoundingClientRect().width > 1) ??
+        posters[0] ??
+        null;
       return {
         liveState:
           document.querySelector('[data-site-live]')?.getAttribute('data-site-live-state') ?? null,
