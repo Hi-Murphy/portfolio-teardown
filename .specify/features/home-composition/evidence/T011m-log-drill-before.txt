@@ -1,0 +1,19 @@
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group drill --out /tmp/s119-checks/drill
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> card:websocket-inspector -> a:Email vibing.murphy@gmail.com -> a:GitHub -> a:LinkedIn -> footer:home -> footer:top FAIL
+FAIL drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","footer:home","footer:email","footer:github","footer:linkedin","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","a:Email vibing.murphy@gmail.com","a:GitHub","a:LinkedIn","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+FAIL drill-shift-tab-reverses: expected ["footer:linkedin","footer:github","footer:email","footer:home","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","a:LinkedIn","a:GitHub","a:Email vibing.murphy@gmail.com","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+FAIL drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+FAIL drill-soft-nav-cls: expected 0 actual {"total":0.145672119140625,"entries":[{"value":0.145672119140625,"startTime":1990.699999999255,"hadRecentInput":true,"sources":[{"node":{"tag":"footer","dataAttributes":{},"parentTag":"div","text":"THTimur Haryo MahissanularAndroid engineer · IndonesiaBuilt with Next.js, three."},"previousRect":{"x":0,"y":502.75,"width":1280,"height":297.25},"currentRect":{"x":0,"y":0,"width":0,"height":0}}]}]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200}]
+drill: FAIL (13 checks)
+site-probe: FAIL
+artifacts: /tmp/s119-checks/drill
+[ELIFECYCLE] Command failed with exit code 6.

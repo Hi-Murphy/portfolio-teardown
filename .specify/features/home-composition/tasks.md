@@ -67,6 +67,7 @@
 | T011j | ☑ storyboard controller (tokens only), zoomIn ×3 + interpolated follow via one DOM-bridge module (contract test), live layer inert/pointer-events-none + stage overflow-hidden in the hero only, leader synced (0 px at samples), bigger model; follow 14/14 samples reach their (clamped) targets, wheel over hero scrolls the page, snap 20/20, home:probe all PASS, CLS 0 full cycle, axe 0/0, Lighthouse ×2 PASS, draws 2, regress-hero 5/5, no-motion-literals PASS, guards 9/9, cross-route ledger-only. Open polish: hard top/bottom crop of the zoomed canvas | 1 (Flash; first dispatch stopped by orchestrator after a status race, re-dispatched) + orchestrator review | evidence/T011j-log-storyboard.txt, T011j-screenshot-* | 6d0b4c7 |
 | T011k | ☑ overlay label + leader at the active pad (14/14 steps 0 px), fade-out-then-in via Web Animations API with motion tokens (CSS transition timings are blocked by the motion-matrix test), permanent project line, phone label below the model; home:probe all PASS, snap 20/20, CLS 0 full cycle, axe 0, Lighthouse ×2 1.00, draws 2, regress-hero 5/5, no-motion-literals PASS | 1 (Flash) + orchestrator review | evidence/T011k-log-labels.txt, T011k-screenshot-label-* | 372d7ff |
 | T011l | ☑ opt-in `createZoomTween` (implode token) in engine/camera + CameraRig, `useTeardownViewer({ smoothZoom })`, hero opts in; default path unchanged (project zoom still instant). Lever 3aee8fc, re-seal S2/S4 + S5 manifests at 3aee8fc (orchestrator), frozen-surface + camera tests 13/13, xploder suite PASS; hero zoom 91 samples ×3 monotonic, worst per-frame 33.5 % of a step; Lighthouse ×2 1.00; regress-hero 5/5; guards PASS. **Found:** `site:probe` drill (a CI group) fails on `/` since T009 → T011m | 1 (Flash) + orchestrator (re-seal SHAs) | evidence/T011l-log-zoom.md, T011l-screenshot-zoom-strip.png | 4e320bf |
+| T011m | ☐ | | | |
 | T011f | ☐ | | | |
 | T011g | ☐ (Murphy content pass) | | | |
 | T011b | ☑ loop (explode/implode + quarter turn, `tourBeat` hold; pauses off-screen / hidden tab) + 44×44 pause/play button outside `aria-hidden`, labels from content; attempt 1 blocked by two probes assuming a still hero → D-A4; attempt 2: regress-hero 5/5 (`--expect live-loop`), home:probe all groups PASS incl. button + reduced cell, axe home 0/0, Lighthouse ×2 perf 1.00 / a11y 1.00 / CLS 0, draws 2, cross-route ledger-only, guards 9/9 | 1 (Flash, 2 attempts) + orchestrator (D-A4 decision) | evidence/T011b-log-loop.txt, T011b-screenshot-* | 27968cb |
@@ -382,7 +383,14 @@
 - Checks: engine unit tests (tween values over time, default path identical, reduced motion instant); project route unchanged (`site:probe --group drill`, workbench zoom still instant); hero zoom samples monotonic with no jump > 1 step-fraction per frame; draws 2; CLS 0; Lighthouse ×2; regress-hero 5/5; guards (updated frozen-surfaces rule); full suite.
 - Evidence: `T011l-log-zoom.txt`, a 6-frame strip `T011l-screenshot-zoom-strip.png`.
 
-**After T011l: STOP for Murphy's review of T011k + T011l together.**
+### T011m [US6, US4] `site:probe` drill green again (CI group): new home Tab order + soft-navigation CLS 0
+
+- **Found at T011l** (`evidence/T011m-log-drill-before.txt`): (1) `drill-tab-logical-order` / `drill-shift-tab-reverses` / `drill-no-trap` still encode the S10 home (footer contact links, no Contact section); the page's real order is right. (2) `drill-soft-nav-cls` = 0.146 on `/`: the footer shifts during home → project → back soft navigation. CLS 0 is AC4: fix the app, never relax the check.
+- **Fix:** (1) update the drill expectations for `/` to the approved composition (… `hero:primary`, optional `hero:pause` when the live loop button is present, `card:<slug>`, `contact:email`, `contact:github`, `contact:linkedin`, `footer:home`, `footer:top`), giving the Contact section links stable keys the way other keys are derived; the hero pause button is included only when rendered (mode-aware, like S11.8 R9). (2) Find the soft-navigation shift's root cause by comparing with a `main` build (worktree at `main`, `pnpm build`, same probe) and fix it in the home code (likely suspects: the footer contact block hidden through `:has()`, the home-only snap `<style>`, the full-screen hero's min-height on soft navigation).
+- **Checks:** `pnpm site:probe --serve apps/web/out --ci` all PASS (drill, cls, routes, nojs, reduced-motion) plus `--group hero,draws`; the `main` comparison recorded; regress-hero; home:probe; snap 20/20; full suite; guards. From now on `site:probe --ci` is part of every product task's checks.
+- **Evidence:** `T011m-log-drill.txt` (before/after, root cause).
+
+**After T011m: STOP for Murphy's review of T011k + T011l (+ T011m) together.**
 
 ### T011f–T011g
 
