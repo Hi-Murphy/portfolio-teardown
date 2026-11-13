@@ -17,11 +17,18 @@ export function SectionFrame({
   className,
   children,
 }: SectionFrameProps) {
-  const classes = ['border-t border-line/30 py-10 sm:py-14', className].filter(Boolean).join(' ');
+  const contentClasses = ['mx-auto w-full max-w-6xl px-5 sm:px-8', className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <section id={id} data-home-section={sectionId} aria-labelledby={labelledBy} className={classes}>
-      {children}
+    <section
+      id={id}
+      data-home-section={sectionId}
+      aria-labelledby={labelledBy}
+      className="border-t border-line/30 py-10 sm:py-14"
+    >
+      <div className={contentClasses}>{children}</div>
     </section>
   );
 }

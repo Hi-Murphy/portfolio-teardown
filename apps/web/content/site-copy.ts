@@ -26,8 +26,6 @@ export interface SiteCopy {
     };
     loopPause: string;
     loopPlay: string;
-    /** Proof facts: indexes into the hero project's story.metrics. */
-    proof: number[];
   };
   about: {
     title: string;

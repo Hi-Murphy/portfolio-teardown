@@ -29,7 +29,7 @@ export const HOME_PROBE_UI_ALLOWLIST = [
   'Tech',
 ] as const;
 export const HOME_PROBE_SEPARATORS = ['·', '—', '©', '↑'] as const;
-export const HOME_PROBE_PROOF_VALUE_SELECTOR = '[data-hero-proof-value]' as const;
+export const HOME_PROBE_HERO_ANNOTATION_SELECTOR = '[data-hero-annotation]' as const;
 export const HOME_PROBE_PRIMARY_CTA_SELECTOR = '[data-hero-primary-cta]' as const;
 export const HOME_SECTIONS_MISSING = 'HOME_SECTIONS module missing';
 
@@ -626,8 +626,9 @@ export function evaluateCopy(
       (character) =>
         (HOME_PROBE_SEPARATORS as readonly string[]).includes(character) || /\s/.test(character),
     );
+  const positionOnly = (text: string): boolean => /^\d+\/\d+$/.test(text);
   const unknown = [...new Set(visibleTexts.map(normaliseText))].filter(
-    (text) => text !== '' && !allowed.has(text) && !separatorOnly(text),
+    (text) => text !== '' && !allowed.has(text) && !separatorOnly(text) && !positionOnly(text),
   );
 
   return groupResult(
@@ -655,7 +656,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const scrollX = window.scrollX;
   const scrollY = window.scrollY;
   const viewport = { width: window.innerWidth, height: window.innerHeight };
-  const proofValueSelector = '[data-hero-proof-value]';
+  const annotationSelector = '[data-hero-annotation]';
   const primaryCtaSelector = '[data-hero-primary-cta]';
   const compact = (value: string): string => value.replace(/\s+/g, ' ').trim();
   const rect = (element: Element): DocumentRect => {
@@ -788,7 +789,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const roots: Element[] = [];
   const header = document.querySelector('header');
   if (header !== null) roots.push(header);
-  roots.push(...document.querySelectorAll('main section'));
+  roots.push(...document.querySelectorAll('main [data-home-section]'));
   const footer = document.querySelector('footer');
   if (footer !== null) roots.push(footer);
   const sectionRoots = roots.filter((element) => {
@@ -858,7 +859,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   )) {
     add(element);
   }
-  for (const element of document.querySelectorAll(proofValueSelector)) add(element);
+  for (const element of document.querySelectorAll(`${annotationSelector} p`)) add(element);
   const bodyKeys = new Map(
     [...bodyElements].map((element, index) => [element, `body:${index}`] as const),
   );
@@ -869,9 +870,6 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     ...document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,figcaption'),
     ...bodyElements,
   ]);
-  for (const element of document.querySelectorAll('[data-hero-proof-label]')) {
-    measureElements.add(element);
-  }
   const measureTexts = [...measureElements]
     .filter((element) => rendered(element))
     .filter(
@@ -971,12 +969,15 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
           (element) => compact(element.textContent ?? '') === config.primaryCta,
         ));
   const caption = document.querySelector('#hero-caption');
+  const annotation = document.querySelector(annotationSelector);
   const projectSignal =
-    caption !== null && compact(caption.textContent ?? '').includes(config.projectName)
-      ? caption
-      : [...document.querySelectorAll('[data-site-card] h2,[data-site-card] h3')].find((element) =>
-          compact(element.textContent ?? '').includes(config.projectName),
-        );
+    annotation !== null && compact(annotation.textContent ?? '').includes(config.projectName)
+      ? annotation
+      : caption !== null && compact(caption.textContent ?? '').includes(config.projectName)
+        ? caption
+        : [...document.querySelectorAll('[data-site-card] h2,[data-site-card] h3')].find(
+            (element) => compact(element.textContent ?? '').includes(config.projectName),
+          );
   const fold = {
     name: foldTarget(exactInHero(config.identityName), 'fold:name'),
     eyebrow: foldTarget(exactInHero(config.eyebrow), 'fold:eyebrow'),
@@ -1446,15 +1447,6 @@ interface NarrationProject {
   }[];
 }
 
-interface ProofProject {
-  readonly story?: {
-    readonly metrics?: readonly {
-      readonly label?: string;
-      readonly value?: string;
-    }[];
-  };
-}
-
 export function heroNarrationCompositions(project: NarrationProject): string[] {
   const components = project.layers.flatMap((layer) => layer.components);
   const compositions: string[] = [];
@@ -1475,21 +1467,6 @@ export function heroNarrationCompositions(project: NarrationProject): string[] {
   return compositions;
 }
 
-export function heroProofCompositions(project: ProofProject, proof: readonly number[]): string[] {
-  const metrics = project.story?.metrics ?? [];
-
-  return proof.flatMap((metricIndex) => {
-    if (!Number.isInteger(metricIndex) || metricIndex < 0 || metricIndex >= metrics.length) {
-      return [];
-    }
-
-    const metric = metrics[metricIndex];
-    if (metric?.label === undefined || metric.value === undefined) return [];
-
-    return [`${metric.label} — ${metric.value}`];
-  });
-}
-
 async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<string[]> {
   const strings: string[] = [];
   flattenStrings(siteSource, strings);
@@ -1501,7 +1478,6 @@ async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<
     `${config.projectName} — ${config.projectTagline}`,
     `© ${new Date().getFullYear()} ${siteSource.identity.name}`,
   );
-  strings.push(...heroProofCompositions(websocketInspectorSource, siteSource.hero.proof));
   return [...new Set(strings.map(normaliseText).filter(Boolean))];
 }
 

@@ -17,7 +17,9 @@ function pageSectionIds(sections: readonly string[], layoutSections: readonly st
 }
 
 function renderedSectionOrder(html: string): string[] {
-  return [...html.matchAll(/data-home-section="([^"]+)"/g)].map((match) => match[1] ?? '');
+  return [...html.matchAll(/<section\b[^>]*\bdata-home-section="([^"]+)"/g)].map(
+    (match) => match[1] ?? '',
+  );
 }
 
 describe('home section data', () => {

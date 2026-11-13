@@ -12,7 +12,7 @@ export interface HeroLoopButtonProps {
 }
 
 const BUTTON_CLASS =
-  'inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line/30 bg-surface/80 text-fg hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+  'inline-flex h-11 w-11 items-center justify-center rounded-full border border-line/35 text-fg hover:border-line hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 export function HeroLoopButton({ paused, labels, onToggle }: HeroLoopButtonProps) {
   return (

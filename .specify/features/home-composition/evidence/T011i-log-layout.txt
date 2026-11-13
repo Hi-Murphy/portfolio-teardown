@@ -1,0 +1,196 @@
+== T011i full-screen blueprint hero + scroll snap ==
+branch: task/s11.9-home-composition-t011i
+worktree: . (sanitized)
+date: 2026-11-13
+target: http://127.0.0.1:PORT/ (static export apps/web/out)
+snap viewports: 390x844, 1440x900
+fold viewport: 390x844
+screenshots: 390x844, 768x1024, 1440x900 in light and dark
+
+Note: mandatory root scroll snap is retained. proximity was tried and rejected:
+an up-scroll from Projects landed at 400 (390x844) / 519 (1440x900) instead of the
+hero at 0, so it fails the required up-snap check.
+Note: at 1440x900 the post-hero wrapper is 1005 px tall against a 900 px viewport, so
+the free-position check is clamped to the wrapper's actual free range (985) rather than
+an unreachable mid-page value; 390x844 uses 1344 (aboutTop + 100).
+
+== 1. snap checks (Playwright, 390x844 + 1440x900) ==
+PASS 390x844 snap-enabled: actual="y mandatory" expected="y mandatory"
+PASS 390x844 1-wheel-down-744: actual=844 expected=844
+PASS 390x844 2-mid-about-holds: actual=1344 expected=1344 aboutTop=1244 freeMax=1388
+PASS 390x844 3-bottom-footer: actual={"scrollY":1705,"footer":{"top":527,"bottom":844},"maxScroll":1705} expected={"scrollY":1705,"footerBottom":844}
+PASS 390x844 4-wheel-up-744: actual=0 expected=0
+PASS 390x844 5-hash-about: actual={"scrollY":1164,"aboutTop":1244,"heading":{"top":121,"bottom":151}} expected="About heading visible"
+PASS 390x844 5-hash-contact: actual={"scrollY":1705,"contactTop":1953,"heading":{"top":289,"bottom":319}} expected="Contact heading visible"
+PASS 390x844 6-pagedown: actual=844 expected=844
+PASS 390x844 6-end: actual=1705 expected=1705
+PASS 390x844 7-reduced-no-snap: actual={"scrollY":180,"snap":"none","projectsTop":844} expected="free small scroll"
+PASS 1440x900 snap-enabled: actual="y mandatory" expected="y mandatory"
+PASS 1440x900 1-wheel-down-800: actual=900 expected=900
+PASS 1440x900 2-mid-about-holds: actual=985 expected=985 aboutTop=1204 freeMax=1005
+PASS 1440x900 3-bottom-footer: actual={"scrollY":1319,"footer":{"top":586,"bottom":900},"maxScroll":1319} expected={"scrollY":1319,"footerBottom":900}
+PASS 1440x900 4-wheel-up-800: actual=0 expected=0
+PASS 1440x900 5-hash-about: actual={"scrollY":1005,"aboutTop":1204,"heading":{"top":256,"bottom":286}} expected="About heading visible"
+PASS 1440x900 5-hash-contact: actual={"scrollY":1319,"contactTop":1698,"heading":{"top":436,"bottom":466}} expected="Contact heading visible"
+PASS 1440x900 6-pagedown: actual=900 expected=900
+PASS 1440x900 6-end: actual=1319 expected=1319
+PASS 1440x900 7-reduced-no-snap: actual={"scrollY":180,"snap":"none","projectsTop":900} expected="free small scroll"
+snap checks: PASS
+
+== 2. home:probe (order, fold, responsive, structure, copy) ==
+group: order
+result: PASS
+PASS 390:order-approved-list: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 390:order-dom-sequence: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 390:order-sections-non-empty: expected [] actual []
+PASS 390:order-section-headings: expected [] actual []
+PASS 390:order-section-tops: expected true actual [0,45,844,1243.5,1953,2232]
+PASS 390:order-no-css-reordering: expected [] actual []
+PASS 768:order-approved-list: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 768:order-dom-sequence: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 768:order-sections-non-empty: expected [] actual []
+PASS 768:order-section-headings: expected [] actual []
+PASS 768:order-section-tops: expected true actual [0,45,1024,1421.5,1916,2123]
+PASS 768:order-no-css-reordering: expected [] actual []
+PASS 1440:order-approved-list: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 1440:order-dom-sequence: expected ["nav","hero","projects","about","contact","footer"] actual ["nav","hero","projects","about","contact","footer"]
+PASS 1440:order-sections-non-empty: expected [] actual []
+PASS 1440:order-section-headings: expected [] actual []
+PASS 1440:order-section-tops: expected true actual [0,45,900,1203.5,1698,1905]
+PASS 1440:order-no-css-reordering: expected [] actual []
+summary: PASS (18 checks)
+group: fold
+result: PASS
+PASS light:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":65,"width":198.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"ANDROID ENGINEER · INDONESIA","tag":"p","rect":{"x":20,"y":105,"width":294.78125,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":137,"width":349.0625,"height":80.625},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"Open a teardown","tag":"a","rect":{"x":20,"y":327.625,"width":152.984375,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"SCARLET INSPECTOR · FRAMES IN 1/7 MainActivity The thin host that proves the library.","tag":"div","rect":{"x":20,"y":643.625,"width":350,"height":104},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2549,"clientHeight":844}
+PASS dark:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":65,"width":198.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"ANDROID ENGINEER · INDONESIA","tag":"p","rect":{"x":20,"y":105,"width":294.78125,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":137,"width":349.0625,"height":80.625},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"Open a teardown","tag":"a","rect":{"x":20,"y":327.625,"width":152.984375,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"SCARLET INSPECTOR · FRAMES IN 1/7 MainActivity The thin host that proves the library.","tag":"div","rect":{"x":20,"y":643.625,"width":350,"height":104},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2549,"clientHeight":844}
+summary: PASS (12 checks)
+summary: PASS (36 checks)
+PASS 390:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":326,"y":703.625,"width":44,"height":44}}
+PASS 768:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 768:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":692,"y":837.21875,"width":44,"height":44}}
+PASS 1440:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 1440:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":1332,"y":714.5,"width":44,"height":44}}
+PASS 390-reduced:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390-reduced:structure-hero-poster-path: expected {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":44} actual {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":{"x":326,"y":703.625,"width":44,"height":44}}
+summary: PASS (52 checks)
+group: copy
+result: PASS
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+summary: PASS (1 checks)
+home-probe: PASS
+artifacts: /tmp/s119-checks/t011i-home-probe-final
+
+== 3. CLS full cycle (390x844 + 1440x900) ==
+390x844: CLS 0.000000 (0 entries); loop=running; returned=true; 27572ms; transitions=16
+1440x900: CLS 0.000000 (0 entries); loop=running; returned=true; 27583ms; transitions=16
+full-cycle CLS: PASS
+
+== 4. axe home (light/dark, mobile/desktop) ==
+$ node tools/perf/src/cli/a11y-axe-site.ts --serve apps/web/out --routes home --out /tmp/s119-checks/t011i-axe-home-final
+axe-site home/light/desktop: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 25
+axe-site home/light/mobile: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 25
+axe-site home/dark/desktop: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 25
+axe-site home/dark/mobile: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 25
+axe-site total: serious 0 critical 0 moderate 0 minor 0 | incomplete 100
+
+== 5. Lighthouse x2 (mobile, performance + accessibility) ==
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/ --categories performance,accessibility --out /tmp/s119-checks/t011i-lighthouse-final-1
+performance: 1 >= 0.95 (median) pass
+lcp: 903.7163 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s119-checks/t011i-lighthouse-final-1/lighthouse-summary.json
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:PORT/ --categories performance,accessibility --out /tmp/s119-checks/t011i-lighthouse-final-2
+performance: 1 >= 0.95 (median) pass
+lcp: 903.451 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: /tmp/s119-checks/t011i-lighthouse-final-2/lighthouse-summary.json
+run 1 (3 runs): perf 1 / a11y 1 / CLS 0 / LCP 903.7 ms, perf 1 / a11y 1 / CLS 0 / LCP 905.5 ms, perf 1 / a11y 1 / CLS 0 / LCP 903.3 ms
+run 2 (3 runs): perf 1 / a11y 1 / CLS 0 / LCP 904.0 ms, perf 1 / a11y 1 / CLS 0 / LCP 903.1 ms, perf 1 / a11y 1 / CLS 0 / LCP 903.5 ms
+
+== 6. draws (site:probe within regress-hero) ==
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":103,"renderedFrames":103,"totalFrames":103,"counts":{"2":103}}
+draws: PASS (2 checks, expected 2 draws per frame)
+
+== 7. regress-hero ==
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+artifacts: /tmp/s119-checks/regress-20261113T053337Z
+regress-hero: PASS (5 steps)
+
+== 8. cross-route ==
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+
+== 9. guards ==
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+
+== 10. full suite (typecheck, lint, test, build) ==
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+All matched files use Prettier code style!
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  275 passed (275)
+packages/xploder test:  Test Files  62 passed (62)
+packages/xploder test:       Tests  625 passed (625)
+apps/web test:  Test Files  42 passed | 1 skipped (43)
+apps/web test:       Tests  220 passed | 2 skipped (222)
+✓ Compiled successfully in 305ms
+✓ Generating static pages using 9 workers (8/8) in 273ms
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+== 11. final check ==
+== T011i final check ==
+snap: 20/20 PASS (mandatory; 390x844 + 1440x900)
+fold: 12/12 PASS; home:probe: order 18, fold 12, responsive 36, structure 52, copy 1
+CLS: 0 at 390x844 and 1440x900, full cycle returned
+axe: serious 0 critical 0 (light/dark x mobile/desktop)
+Lighthouse: 2 x PASS, performance 1 / accessibility 1 / CLS 0
+draws: 2/2 PASS; regress-hero: 5/5 PASS
+cross-route: ledger-only, both mains byte-identical
+guards: 9/9 OK
+full suite: typecheck + lint + 275/625/220 tests + build PASS
+screenshots: 6 present (390x844, 768x1024, 1440x900; light/dark)
+sanitization: PASS (no home paths or local ports)
+changed paths: inside the T011i allowlist
+T011i-OK
