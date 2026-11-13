@@ -79,6 +79,7 @@
 ## Stage-3 amendments (orchestrator)
 
 - **D-A1 (Murphy, 2026-11-08):** hero showcase loop added as T011b (RFC §13 R6). `apps/web/components/hero/**` is touchable in T011b only (`hero-stage.tsx` + a new `hero-loop.ts`); the T006 hero figure snapshot is updated in T011b with a reason note. T006 also makes the headline smaller (one step down the existing clamp) so the figure gets more room, keeping AC2.
+- **D-A9 (Murphy, 2026-11-13):** T011f approved; `components/teardown-poster.tsx` becomes touchable for an opt-in prop only (default output byte-identical, proven by the cross-route diff and a snapshot).
 - **D-A8 (Murphy, 2026-11-13):** RFC R10 — T011k overlay labels (app only); T011l smooth zoom in the engine (opt-in, re-sealed; AC7 frozen-surface exception approved by Murphy, Merlin handoff at slice end). `guards.sh` frozen-surfaces allows exactly the files in `approved-xploder-src.txt` (each with an S11.9 re-seal note). T013 adds `HANDOFF-merlin.md`.
 - **D-A7 (Murphy, 2026-11-13):** RFC R9 — full-screen blueprint hero + CSS snap + storyboard animation; proof strip dropped. T011h spike (camera follow) first; then the build tasks are specified from its answer. `/tmp` was cleared by the host between sessions: runner scripts are recreated; all work was already committed.
 - **D-A6 (Murphy, 2026-11-10):** RFC R8b — T011e2 calms the hero (plain facts, no highlight, one text-link CTA). Removing both CTAs was declined: AC2 requires the primary CTA above the fold (an AC change would be an escalation).
@@ -408,9 +409,18 @@
 - **Checks:** zoom samples per frame monotonic with one rising segment for zoom-in and one falling segment for zoom-out (no plateaus between); controller tests updated; regress-hero, `site:probe --ci`, home:probe, snap, CLS 0 full cycle, Lighthouse ×1, guards, full suite.
 - **Evidence:** `T011o-log-zoom.txt`, `T011o-screenshot-zoom-strip.png`.
 
-### T011f–T011g
+### T011f [US1, US5] Frame path on the home poster (RFC R8 item 3; Murphy: do it)
 
-Specified after T011o (RFC R9/R10).
+- **What:** the home hero's poster (first paint, and the lasting view for reduced motion / Save-Data / no JS) draws the `capture-path` flow as a dotted accent polyline through the components' poster positions, with small numbered markers 1…n. It is part of the poster, so it crossfades out with the poster when the live view reveals.
+- **How:** `components/teardown-poster.tsx` gains an optional prop (e.g. `flowPath?: readonly string[]` component ids); absent = byte-identical output, so `/projects`, the project page and the 404 card stay identical (cross-route diff must show no new hunks). Only the home hero passes it (`flows[0].path` of the hero project, from content). Palette via theme CSS variables (`--bp-accent`), no colour literals; no motion; `aria-hidden` like the rest of the poster.
+- **Checks:** poster unit test (path drawn in order through the right component centres; default render identical to before via snapshot); SSR HTML of `/` contains the path; reduced-motion and Save-Data screenshots show it; regress-hero 5/5 (poster first paint), `site:probe --ci`, home:probe, CLS 0, Lighthouse ×1, cross-route (no new hunks), guards, full suite.
+- **Evidence:** `T011f-log-poster-path.txt`, `T011f-screenshot-poster-{1440-light,1440-dark,390-light}-reduced.png`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview with "reduce motion" on: the poster tells the frame's path.
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Then the content pass (T011g).
+
+### T011g — Murphy content pass
+
+Murphy edits `.specify/content/site.json`; the orchestrator regenerates `site.source.ts`, updates guard 2 for the new values, and reruns the checks (fold, copy, seo, regress-hero) before T012.
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
