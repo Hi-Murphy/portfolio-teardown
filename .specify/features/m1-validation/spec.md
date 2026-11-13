@@ -1,7 +1,7 @@
 # Feature Specification: S12 M1 Validation (MVP gate)
 
 **Feature dir:** `.specify/features/m1-validation/` · **Slice:** S12-m1-validation · **Created:** 2026-11-13 · **Status:** Draft (Stage 2 gate)
-**Scope source:** `.specify/slices/slice-12-m1-validation.md` (frozen brief v1, revision counter 0 of 2) · **Design:** `rfc.md` (approved at Gate 1, 2026-11-13: all §10 defaults Q1–Q17, no refinements) · **Frozen protocol:** `protocol.md` (sha256 `6566893d…4e60`) + `protocol-sheet-template.md` (sha256 `f74af2ac…97c8`)
+**Scope source:** `.specify/slices/slice-12-m1-validation.md` (frozen brief v1, revision counter 0 of 2) · **Design:** `rfc.md` (approved at Gate 1, 2026-11-13: all §10 defaults Q1–Q17; simplification refinements R1–R4 in §11, Murphy 2026-11-14) · **Frozen protocol:** `protocol.md` (sha256 `6566893d…4e60`) + `protocol-sheet-template.md` (sha256 `f74af2ac…97c8`)
 
 > **Rule:** functional requirements map **1:1** to brief AC1–AC7, and their text is quoted verbatim. This spec invents **no** new acceptance criteria. Supporting requirements (SR) sit under the FR they serve. They are the RFC's approved methods for proving an FR, not criteria of their own. A failed FR is reported as a failed AC: never reworded, never "passed with a note".
 >
@@ -17,7 +17,7 @@
 > - **Poster with the numbered frame path** (RFC §5.1) = the visible `[data-site-poster]` holds `[data-site-poster-flow]` with one `polyline[data-site-poster-flow-line]` and `[data-site-poster-step]` 1…N in DOM order. Each step's text equals its index, and N = the step count of the hero's first content flow (read from content, 7 today).
 > - **No animation** = no running `document.getAnimations()` entry in the hero, `data-hero-loop` absent or not `running`, and two hero shots 2 s apart pixel-identical.
 > - **Console error** (AC4) = any `error`-level console message, uncaught exception or unhandled rejection, including failed resource loads. Warnings are logged, not failed.
-> - **Matrix cells** (Q9, Q10) = D1 iOS Safari (Murphy), D2 Android Chrome (Murphy taps; agent captures over adb + CDP), D3 desktop Chrome (agent, Playwright Chrome for Testing), D4 desktop Safari (Murphy), D5 desktop Firefox (agent, Playwright Firefox). A cell without a console log is unproven.
+> - **Matrix cells** (Q9, Q10 as refined by R1–R2) = D1 iOS Safari (agent drives it from the Mac's Web Inspector; Murphy plugs the iPhone in and flips Reduce Motion once), D2 Android Chrome (agent drives it over adb + CDP; Murphy plugs the phone in), D3 desktop Chrome (agent, Playwright Chrome for Testing), D4 desktop Safari (agent, via Orca computer-use), D5 desktop Firefox (agent, Playwright Firefox). A cell without a console log is unproven.
 > - **Severity** = the RFC §7 rubric (Sev-1 blocker … Sev-4 idea). Anything that fails an AC check is ≥ Sev-2.
 > - **Vault backlog** (Q13) = `backlog.md` in the feature dir, formatted for the vault and imported by Merlin/Murphy.
 > - **Small, in-scope fix** (Q14) = ≤ ~50 changed product lines, no new dependency, no S2–S8 edit, no copy invention. Bigger → escalate.
@@ -90,7 +90,7 @@ Visitors without JS, with reduced motion or with Save-Data see a still poster wi
 
 **Why this priority:** AC5.
 
-**Independent Test:** `home:probe --group degraded` (new, RFC §5.4) for 3 modes × 390/1440 × light/dark, plus the Tab walk; cross-checked by `site:probe --group nojs,reduced-motion` and `eager:probe --reduced-motion | --save-data`.
+**Independent Test:** the degraded section of `site-checks.mjs` (R3) for 3 modes × 390/1440 × light/dark, plus the Tab walk; cross-checked by `site:probe --group nojs,reduced-motion` and `eager:probe --reduced-motion | --save-data`.
 
 **Acceptance Scenarios:**
 
@@ -151,7 +151,7 @@ CI is green, the engine surfaces are untouched and the MVP report tells the whol
 - **FR4 (= AC4):** "**AC4 — device and browser matrix.** iOS Safari 17+, Android Chrome on a mid-range device, desktop Chrome / Safari / Firefox: the hero plays, the pause control pauses and resumes, scroll snap behaves (and is off under reduced motion), a component panel opens and closes, **no console errors**, no horizontal scroll. Evidence: screenshots + console logs per device."
   - SR4.1 Cells D1–D5 × M1–M7 (RFC §4). Exact browser versions and device models are recorded.
 - **FR5 (= AC5):** "**AC5 — degraded modes.** No-JS, `prefers-reduced-motion`, and Save-Data each render the **poster with the numbered frame path**, no canvas, no animation, no layout break; keyboard-only pass reaches every control in visual order."
-  - SR5.1 `home:probe --group degraded` with unit-tested evaluators and negative controls (canvas present, missing step, steps out of order, running animation).
+  - SR5.1 The degraded section of `site-checks.mjs` (R3), with negative controls on a scratch copy: canvas present, step missing, running animation.
 - **FR6 (= AC6):** "**AC6 — triage log.** Every issue found in AC1–AC5 is either fixed in this slice with evidence, or filed in the vault backlog with severity and owner. **Zero Sev-1/Sev-2 open at close.** Sev-3/Sev-4 may ship."
   - SR6.1 One defect per fix task, with a before/after proof and a full G1–G13 + C1–C4 regression. Every fixed product path is listed in `fix-ledger.txt`.
 - **FR7 (= AC7):** "**AC7 — CI and close.** All required checks green on the final commit; frozen surfaces S2–S8 empty (post-S11.9 re-seal baseline `3aee8fc`); the MVP report committed with every AC verdict, the metric table, the participant sheets (anonymised as P1–P5) and the open-issue list."
@@ -161,13 +161,13 @@ CI is green, the engine surfaces are untouched and the MVP report tells the whol
 
 | FR | AC | Proven by (RFC) | Tasks |
 |---|---|---|---|
-| FR1 | AC1 — 15-second test | `protocol.md` §2; sheets + tally | T011, T012 |
-| FR2 | AC2 — gate matrix | §6 G3–G11, G13 | T002, T006 (+ fix regressions) |
-| FR3 | AC3 — content integrity | §6 C1–C4 | T004, T007 |
-| FR4 | AC4 — device matrix | §4 D1–D5 × M1–M7 | T005, T008, T009 |
-| FR5 | AC5 — degraded modes | §5 + `home:probe --group degraded` | T003, T010 |
-| FR6 | AC6 — triage log | §7 rubric + close rule | T013, T014.x |
-| FR7 | AC7 — CI and close | §6 G1, G2, G12 + §8 report | T001, T015 |
+| FR1 | AC1 — 15-second test | `protocol.md` §2; sheets + tally | T006, T007 |
+| FR2 | AC2 — gate matrix | §6 G3–G11, G13 | T001, T004 (+ fix regressions) |
+| FR3 | AC3 — content integrity | §6 C1–C4 | T002, T004 |
+| FR4 | AC4 — device matrix | §4 D1–D5 × M1–M7 | T002, T004 (D3, D5), T005 (D1, D2, D4) |
+| FR5 | AC5 — degraded modes | §5 + `site-checks.mjs` degraded section | T002, T004 |
+| FR6 | AC6 — triage log | §7 rubric + close rule | T008, T008.x |
+| FR7 | AC7 — CI and close | §6 G1, G2, G12 + §8 report | T001, T009 |
 
 No FR exists without an AC, and no AC without an FR.
 
@@ -185,7 +185,7 @@ The success criteria **are** AC1–AC7 as quoted in FR1–FR7. Nothing is added.
 
 ## Assumptions
 
-- Murphy recruits and runs the five sessions, does D1 and D4, and taps through D2. The agent cannot run participants.
+- Murphy recruits and runs the five sessions. For the devices he only plugs in the two phones (about 5 minutes); the agent drives D1–D5. The agent cannot run participants.
 - The draft PR's Vercel preview is publicly reachable without login (the S11.9 preview was).
 - `adb` at `~/Library/Android/sdk/platform-tools/adb` works with Murphy's Android phone over USB.
 - The product tree stays `ffda3a2` unless a fix is recorded. This slice adds no feature, copy or design change.

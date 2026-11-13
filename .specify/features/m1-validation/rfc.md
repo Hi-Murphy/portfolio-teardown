@@ -1,6 +1,6 @@
 # RFC — S12 M1 Validation (MVP gate)
 
-**slice:** S12-m1-validation · **status:** APPROVED at Gate 1 (2026-11-13): all §10 defaults; protocol frozen (§11) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-12-m1-validation.md` (frozen brief v1) · **branch:** `task/s12-m1-validation` · **base:** `5dec9f9` (product tree = S11.9 final `ffda3a2`) · **re-seal baseline:** `3aee8fc` · **date:** 2026-11-13
+**slice:** S12-m1-validation · **status:** APPROVED at Gate 1 (2026-11-13): all §10 defaults; protocol frozen; simplification R1–R4 (2026-11-14) (§11) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-12-m1-validation.md` (frozen brief v1) · **branch:** `task/s12-m1-validation` · **base:** `5dec9f9` (product tree = S11.9 final `ffda3a2`) · **re-seal baseline:** `3aee8fc` · **date:** 2026-11-13
 
 > This RFC designs the validation protocol only. Nothing was measured. Where it seems to conflict with the brief, the brief wins and the conflict becomes an open question (§10).
 >
@@ -345,6 +345,31 @@ Murphy approved **all §10 defaults (Q1–Q17)** and §2 as written ("approve al
 | `protocol-sheet-template.md` | `f74af2ac87f7a1a47b9e979fcfc9aa0ed3e4eb2b8a9a8c029307277a07d097c8` |
 
 A Stage 3 guard recomputes both hashes before every task and fails on any change. Murphy supplies the Android phone model and confirms iOS 17+ (Q10) at the start of Stage 3.
+
+### Stage 2 refinements (Murphy, 2026-11-14: "make the validation simple")
+
+AC1–AC7, `protocol.md` and the pass line are **unchanged**. Only the method changes, so that Murphy's hands are needed for the five sessions and about 5 minutes of plugging in phones.
+
+- **R1 — phones driven by the agent (refines Q10).**
+  - **D2 Android:** Murphy turns on USB debugging, plugs the phone in and accepts the prompt. The agent drives Chrome over `adb` + CDP: taps, scroll, pause, panel, screenshots, the console log, and Reduce Motion through `adb shell settings`.
+  - **D1 iPhone:** Murphy turns on Web Inspector, plugs the phone in, opens the preview in Safari and flips Reduce Motion once when asked. The agent drives the page from the Mac's Safari Web Inspector (Orca computer-use) and records the console there. If driving it that way fails, the fallback is about 5 screenshots taken by Murphy.
+  - Device model and OS version are read from `adb` / the user agent, so Murphy is not asked for them.
+- **R2 — desktop Safari driven by the agent (refines Q9).** D4 runs through Orca computer-use on this Mac (Safari + Web Inspector). Murphy does nothing.
+- **R3 — one check script instead of a new probe group (Q12 → its alternative).** The checks are in one feature-dir script, `site-checks.mjs`:
+  - C2–C4;
+  - the AC5 degraded checks (RFC §5.1 checks 1–5 + the §5.3 Tab walk);
+  - M1–M7 for D2/D3/D5.
+
+  Negative controls run on a scratch copy of the export. `tools/perf` is not changed. `run-checks.sh` runs every automated check (RFC §6 G and C rows + `site-checks.mjs`) and prints one PASS/FAIL table.
+- **R4 — fewer tasks and stops.** There are 9 tasks (+ one per fix) in 6 phases:
+  1. setup;
+  2. automated run;
+  3. devices;
+  4. human test;
+  5. triage and fixes;
+  6. report.
+
+  The guard self-test is dropped (the guards are plain `git diff` / hash checks).
 
 ### WHAT MURPHY SHOULD TEST/VALIDATE
 
