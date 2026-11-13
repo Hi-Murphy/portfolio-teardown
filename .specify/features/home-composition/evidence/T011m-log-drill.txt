@@ -1,0 +1,191 @@
+== T011m site:probe drill green again ==
+branch: task/s11.9-home-composition-t011m
+worktree: .
+target: http://127.0.0.1:PORT/ (static export apps/web/out)
+drill viewport: 1280x800 light
+
+== Before (recorded at T011l; see T011m-log-drill-before.txt) ==
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> card:websocket-inspector -> a:Email vibing.murphy@gmail.com -> a:GitHub -> a:LinkedIn -> footer:home -> footer:top FAIL
+FAIL drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","footer:home","footer:email","footer:github","footer:linkedin","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","a:Email vibing.murphy@gmail.com","a:GitHub","a:LinkedIn","footer:home","footer:top"]
+FAIL drill-shift-tab-reverses: expected ["footer:linkedin","footer:github","footer:email","footer:home","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","a:LinkedIn","a:GitHub","a:Email vibing.murphy@gmail.com","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+FAIL drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+FAIL drill-soft-nav-cls: expected 0 actual {"total":0.145672119140625,"entries":[{"value":0.145672119140625,"startTime":1990.699999999255,"hadRecentInput":true,"sources":[{"node":{"tag":"footer","dataAttributes":{},"parentTag":"div","text":"THTimur Haryo MahissanularAndroid engineer · IndonesiaBuilt with Next.js, three."},"previousRect":{"x":0,"y":502.75,"width":1280,"height":297.25},"currentRect":{"x":0,"y":0,"width":0,"height":0}}]}]}
+drill: FAIL (13 checks)
+site-probe: FAIL
+
+== Main comparison (detached build of main b52fc06) ==
+$ pnpm install --frozen-lockfile --prefer-offline
+$ pnpm build
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group drill --out /tmp/s119-checks/t011m-main-drill
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> hero:secondary -> card:websocket-inspector -> footer:home -> footer:email -> footer:github -> footer:linkedin -> footer:top PASS
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+drill: PASS (13 checks)
+site-probe: PASS
+
+The comparison worktree was removed with `git worktree remove --force` after the run.
+
+== Root cause ==
+The failing transition is the browser Back step (popstate to `/`) after home -> project.
+Before leaving home, keyboard focus on the project card had scrolled the page to
+`scrollY=817`. The project document's footer had document top `1319.75`; while the
+outgoing project document was still painted with the restored home scroll, that footer
+appeared at `1319.75 - 817 = 502.75` in the viewport. The layout-shift entry named that
+footer with `previousRect={x:0,y:502.75,width:1280,height:297.25}` and then
+`currentRect={x:0,y:0,width:0,height:0}` as the route swapped and Next reset scroll.
+
+The L6 footer-contact rule was ruled out: forcing the home footer contact block to keep
+its geometry (`display:block; visibility:hidden`) left CLS at exactly 0.145672119140625.
+The root cause is early scroll restoration against the outgoing document, not footer
+height. `apps/web/components/site-footer.tsx` is unchanged.
+
+Fix: `apps/web/components/hero/hero-scroll-memory.tsx` records the home scroll position
+at internal-link activation and uses manual scroll restoration for that traversal. On the
+Back traversal it lets `/` mount at the top, then restores the saved home position after
+the home layout exists. Measured after: popstate reports `scrollY=0` on `/`; home then
+receives `scrollTo(0,817)`, the footer returns to `y=1005`, and the drill records no
+layout-shift entries.
+
+== After: site:probe --ci ==
+$ pnpm site:probe --serve apps/web/out --ci --out /tmp/s119-checks/t011m-site-ci-final
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> card:websocket-inspector -> contact:email -> contact:github -> contact:linkedin -> footer:home -> footer:top PASS
+PASS drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","contact:email","contact:github","contact:linkedin","footer:home","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","contact:email","contact:github","contact:linkedin","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+PASS drill-shift-tab-reverses: expected ["footer:home","contact:linkedin","contact:github","contact:email","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","contact:linkedin","contact:github","contact:email","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+PASS drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200}]
+drill: PASS (13 checks)
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls: PASS (12 checks)
+routes: PASS (11 checks)
+nojs: PASS (6 checks)
+reduced-motion: PASS (5 checks)
+site-probe: PASS
+artifacts: /tmp/s119-checks/t011m-site-ci-final
+
+== After: site:probe --group hero,draws ==
+$ pnpm site:probe --serve apps/web/out --group hero,draws --out /tmp/s119-checks/t011m-hero-draws-final
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":68,"loadAt":59,"liveStateAtFcp":"idle","liveStateAtLoad":"idle"}
+PASS hero-eager-no-interaction: expected {"liveState":"revealed","canvases":1,"ready":true} actual {"liveState":"revealed","canvases":1,"ready":true}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":68,"loadAt":59,"liveStateAtFcp":"idle","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-loop-running: expected {"heroLoop":"running","canvases":1,"tour":"capture or inspect"} actual {"heroLoop":"running","canvases":1,"tour":"playing"}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (7 checks)
+draws project: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=104 total=104 PASS
+PASS draws-project: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":104,"renderedFrames":104,"totalFrames":104,"counts":{"2":104}}
+draws: PASS (2 checks)
+site-probe: PASS
+
+== Other final checks ==
+$ bash .specify/features/home-composition/regress-hero.sh
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+regress-hero: PASS (5 steps)
+
+$ pnpm home:probe --serve apps/web/out --out /tmp/s119-checks/t011m-home-probe-final
+order: PASS (18 checks)
+fold: PASS (12 checks)
+responsive: PASS (36 checks)
+structure: PASS (52 checks)
+copy: PASS (1 checks)
+home-probe: PASS
+
+$ node /tmp/s119-checks/t011m-snap.mjs
+PASS 390x844 snap-enabled: actual="y mandatory" expected="y mandatory"
+PASS 390x844 1-wheel-down-744: actual=844 expected=844
+PASS 390x844 2-mid-about-holds: actual=1344 expected=1344 aboutTop=1244 freeMax=1388
+PASS 390x844 3-bottom-footer: actual={"scrollY":1705,"footer":{"top":527,"bottom":844},"maxScroll":1705} expected={"scrollY":1705,"footerBottom":844}
+PASS 390x844 4-wheel-up-744: actual=0 expected=0
+PASS 390x844 5-hash-about: actual={"scrollY":1164,"aboutTop":1244,"heading":{"top":121,"bottom":151}} expected="About heading visible"
+PASS 390x844 5-hash-contact: actual={"scrollY":1705,"contactTop":1953,"heading":{"top":289,"bottom":319}} expected="Contact heading visible"
+PASS 390x844 6-pagedown: actual=844 expected=844
+PASS 390x844 6-end: actual=1705 expected=1705
+PASS 390x844 7-reduced-no-snap: actual={"scrollY":180,"snap":"none","projectsTop":844} expected="free small scroll"
+PASS 1440x900 snap-enabled: actual="y mandatory" expected="y mandatory"
+PASS 1440x900 1-wheel-down-800: actual=900 expected=900
+PASS 1440x900 2-mid-about-holds: actual=985 expected=985 aboutTop=1204 freeMax=1005
+PASS 1440x900 3-bottom-footer: actual={"scrollY":1319,"footer":{"top":586,"bottom":900},"maxScroll":1319} expected={"scrollY":1319,"footerBottom":900}
+PASS 1440x900 4-wheel-up-800: actual=0 expected=0
+PASS 1440x900 5-hash-about: actual={"scrollY":1005,"aboutTop":1204,"heading":{"top":256,"bottom":286}} expected="About heading visible"
+PASS 1440x900 5-hash-contact: actual={"scrollY":1319,"contactTop":1698,"heading":{"top":436,"bottom":466}} expected="Contact heading visible"
+PASS 1440x900 6-pagedown: actual=900 expected=900
+PASS 1440x900 6-end: actual=1319 expected=1319
+PASS 1440x900 7-reduced-no-snap: actual={"scrollY":180,"snap":"none","projectsTop":900} expected="free small scroll"
+snap checks: PASS
+
+$ pnpm typecheck && pnpm lint && pnpm test && pnpm build
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+All matched files use Prettier code style!
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  275 passed (275)
+packages/xploder test:  Test Files  63 passed (63)
+packages/xploder test:       Tests  632 passed (632)
+apps/web test:  Test Files  44 passed | 1 skipped (45)
+apps/web test:       Tests  226 passed | 2 skipped (228)
+✓ Compiled successfully in 332ms
+✓ Generating static pages using 9 workers (8/8) in 275ms
+
+$ bash .specify/features/home-composition/guards.sh
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+
+$ bash .specify/features/home-composition/cross-route.sh
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+
+== T011m final check ==
+drill: 13/13 PASS; soft-nav CLS 0 (12/12 site CLS cells also 0)
+site:probe --ci: PASS; hero 7/7, draws 2/2
+regress-hero: 5/5 PASS
+home:probe: order 18, fold 12, responsive 36, structure 52, copy 1
+snap: 20/20 PASS
+full suite: typecheck + lint/format + 275/632/226 tests + build PASS
+guards: 9/9 OK; cross-route ledger-only, project mains byte-identical
+T011m-OK
+
+== Orchestrator cross-check ==
+Snap style removed (test-only build, not merged): drill-soft-nav-cls 0.0176572265625 (was 0.145672119140625 with snap).
+The snap amplifies the shift but is not its only cause: the full-screen hero puts the project card deeper, so keyboard
+focus scrolls the home page before the soft navigation, and Back restores that scroll while the outgoing project document
+is still painted. S10 R5 deliberately counts hadRecentInput entries ("users can see this"), so the check stays as is and
+the fix is the home-only scroll memory (manual restoration on traversal to /, restored after the home layout mounts;
+other routes keep the browser default 'auto'). Trade-off accepted: on Back to /, the saved position is applied two
+animation frames after mount instead of showing the outgoing page shifted.

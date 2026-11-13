@@ -747,6 +747,9 @@ async function readActiveTab(page: Page): Promise<DrillTabStep | null> {
         if (aria === 'GitHub') return 'nav:github';
         if (aria === 'LinkedIn') return 'nav:linkedin';
       }
+      if (hero !== null && element.closest('[data-hero-loop-slot]') !== null) {
+        if (element.tagName === 'BUTTON') return 'hero:pause';
+      }
       if (hero !== null && element.tagName === 'A') {
         const links = [...hero.querySelectorAll<HTMLAnchorElement>('a[href]')];
         return links.indexOf(element as HTMLAnchorElement) === 0
@@ -754,6 +757,12 @@ async function readActiveTab(page: Page): Promise<DrillTabStep | null> {
           : 'hero:secondary';
       }
       if (card !== null) return `card:${card.getAttribute('data-site-card') ?? 'unknown'}`;
+      const contact = element.closest('[data-home-section="contact"]');
+      if (contact !== null && element.tagName === 'A') {
+        if (href?.startsWith('mailto:')) return 'contact:email';
+        if (/github/i.test(name) || /github\.com/i.test(href ?? '')) return 'contact:github';
+        if (/linkedin/i.test(name) || /linkedin\.com/i.test(href ?? '')) return 'contact:linkedin';
+      }
       if (footer !== null) {
         if (href === '/') return 'footer:home';
         if (href?.startsWith('mailto:')) return 'footer:email';
@@ -780,6 +789,7 @@ async function readDrillStructure(page: Page): Promise<{
   readonly nav: readonly string[];
   readonly hero: readonly string[];
   readonly cards: readonly string[];
+  readonly contact: readonly string[];
   readonly footer: readonly string[];
   readonly resumeLinks: number;
 }> {
@@ -789,6 +799,8 @@ async function readDrillStructure(page: Page): Promise<{
       const aria = element.getAttribute('aria-label');
       return (aria ?? text).slice(0, 160);
     };
+    const isRendered = (element: HTMLElement) =>
+      element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden';
     const descriptor = (element: HTMLElement, key: string, panel: string): DrillTabStep => ({
       key,
       role: element.getAttribute('role') ?? element.tagName.toLowerCase(),
@@ -814,16 +826,38 @@ async function readDrillStructure(page: Page): Promise<{
       if (aria === 'LinkedIn') return 'nav:linkedin';
       return `nav:unknown:${normalize(element)}`;
     });
-    const heroElements = [...document.querySelectorAll<HTMLElement>('[data-site-hero] a[href]')];
-    const heroKeys = heroElements.map((element, index) =>
-      index === 0 ? 'hero:primary' : 'hero:secondary',
+    const heroElements = [
+      ...document.querySelectorAll<HTMLElement>(
+        '[data-site-hero] a[href], [data-site-hero] [data-hero-loop-slot] button',
+      ),
+    ];
+    const heroLinks = heroElements.filter((element) => element.tagName === 'A');
+    const heroKeys = heroElements.map((element) =>
+      element.tagName === 'BUTTON'
+        ? 'hero:pause'
+        : heroLinks.indexOf(element) === 0
+          ? 'hero:primary'
+          : 'hero:secondary',
     );
     const cardElements = [...document.querySelectorAll<HTMLElement>('[data-site-card] a[href]')];
     const cardKeys = cardElements.map(
       (element) =>
         `card:${element.closest('[data-site-card]')?.getAttribute('data-site-card') ?? 'unknown'}`,
     );
-    const footerElements = [...document.querySelectorAll<HTMLElement>('footer a[href]')];
+    const contactElements = [
+      ...document.querySelectorAll<HTMLElement>('[data-home-section="contact"] a[href]'),
+    ];
+    const contactKeys = contactElements.map((element) => {
+      const href = element.getAttribute('href');
+      const name = normalize(element);
+      if (href?.startsWith('mailto:')) return 'contact:email';
+      if (/github/i.test(name) || /github\.com/i.test(href ?? '')) return 'contact:github';
+      if (/linkedin/i.test(name) || /linkedin\.com/i.test(href ?? '')) return 'contact:linkedin';
+      return `contact:unknown:${name}`;
+    });
+    const footerElements = [...document.querySelectorAll<HTMLElement>('footer a[href]')].filter(
+      isRendered,
+    );
     const footerKeys = footerElements.map((element) => {
       const href = element.getAttribute('href');
       const name = normalize(element);
@@ -846,6 +880,9 @@ async function readDrillStructure(page: Page): Promise<{
       ...cardElements.map((element, index) =>
         descriptor(element, cardKeys[index] ?? 'card:unknown', ''),
       ),
+      ...contactElements.map((element, index) =>
+        descriptor(element, contactKeys[index] ?? 'contact:unknown', ''),
+      ),
       ...footerElements.map((element, index) =>
         descriptor(element, footerKeys[index] ?? 'footer:unknown', 'footer'),
       ),
@@ -859,6 +896,7 @@ async function readDrillStructure(page: Page): Promise<{
       nav: navKeys,
       hero: heroKeys,
       cards: cardKeys,
+      contact: contactKeys,
       footer: footerKeys,
       resumeLinks,
     };
