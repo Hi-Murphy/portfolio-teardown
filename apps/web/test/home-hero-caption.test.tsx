@@ -72,7 +72,7 @@ afterEach(async () => {
 });
 
 describe('hero caption row', () => {
-  test('renders the tour drawing annotation with an accessible static caption and pause control', async () => {
+  test('renders the permanent project line with an accessible static caption and pause control', async () => {
     container = document.createElement('div');
     document.body.append(container);
     root = createRoot(container);
@@ -82,7 +82,7 @@ describe('hero caption row', () => {
 
     const caption = container.querySelector<HTMLElement>('#hero-caption');
     const annotation = container.querySelector<HTMLElement>('[data-hero-annotation]');
-    const dynamic = annotation?.querySelector<HTMLElement>('[data-hero-narration]');
+    const projectLine = annotation?.querySelector<HTMLElement>('[data-hero-project-line]');
     const slot = annotation?.querySelector<HTMLElement>('[data-hero-loop-slot]');
     const button = slot?.querySelector('button');
 
@@ -90,23 +90,17 @@ describe('hero caption row', () => {
     expect(caption?.textContent).toContain(websocketInspector.meta.name);
     expect(caption?.textContent).toContain(websocketInspector.meta.tagline ?? '');
     expect(annotation?.className).toContain('h-[6.5rem]');
-    expect(dynamic?.textContent).toContain(state.flowLabel ?? '');
-    expect(dynamic?.textContent).toContain(`${state.step + 1}/${state.total}`);
-    expect(dynamic?.textContent).toContain(state.componentName ?? '');
-    expect(dynamic?.textContent).toContain(state.componentSummary ?? '');
-    expect(dynamic?.getAttribute('aria-hidden')).toBe('true');
-    expect(
-      [...(annotation?.querySelectorAll('p') ?? [])].find(
-        (paragraph) => paragraph.textContent === state.componentName,
-      )?.className,
-    ).toContain('truncate');
+    expect(projectLine?.textContent).toBe(
+      `${websocketInspector.meta.name} — ${websocketInspector.meta.tagline ?? ''}`,
+    );
+    expect(projectLine?.getAttribute('aria-hidden')).toBeNull();
     expect(slot?.className).toContain('h-11');
     expect(slot?.className).toContain('w-11');
     expect(button?.getAttribute('aria-label')).toBe(LABELS.pause);
     expect(button?.closest('[aria-hidden="true"]')).toBeNull();
   });
 
-  test('shows the static caption during a turn and keeps the spacer in the slot', async () => {
+  test('keeps the project line during a turn and keeps the spacer in the slot', async () => {
     container = document.createElement('div');
     document.body.append(container);
     root = createRoot(container);
@@ -118,18 +112,11 @@ describe('hero caption row', () => {
       available: false,
     });
 
-    const caption = container.querySelector<HTMLElement>('#hero-caption');
     const annotation = container.querySelector<HTMLElement>('[data-hero-annotation]');
 
-    expect(caption?.className).toBe('sr-only');
-    expect(annotation?.querySelector('[data-hero-narration]')).toBeNull();
+    expect(annotation?.querySelector('[data-hero-project-line]')).not.toBeNull();
     expect(annotation?.textContent).toContain(websocketInspector.meta.name);
     expect(annotation?.textContent).toContain(websocketInspector.meta.tagline ?? '');
-    expect(
-      [...(annotation?.querySelectorAll('p') ?? [])].find(
-        (paragraph) => paragraph.textContent === websocketInspector.meta.tagline,
-      )?.className,
-    ).toContain('line-clamp-2');
     expect(annotation?.querySelectorAll('p')).toHaveLength(1);
     expect(annotation?.querySelector('[data-hero-loop-slot] button')).toBeNull();
     expect(annotation?.querySelector('[data-hero-loop-slot] [aria-hidden="true"]')).not.toBeNull();

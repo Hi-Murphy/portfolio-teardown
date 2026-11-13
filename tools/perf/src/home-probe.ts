@@ -30,6 +30,7 @@ export const HOME_PROBE_UI_ALLOWLIST = [
 ] as const;
 export const HOME_PROBE_SEPARATORS = ['·', '—', '©', '↑'] as const;
 export const HOME_PROBE_HERO_ANNOTATION_SELECTOR = '[data-hero-annotation]' as const;
+export const HOME_PROBE_HERO_PROJECT_LINE_SELECTOR = '[data-hero-project-line]' as const;
 export const HOME_PROBE_PRIMARY_CTA_SELECTOR = '[data-hero-primary-cta]' as const;
 export const HOME_SECTIONS_MISSING = 'HOME_SECTIONS module missing';
 
@@ -657,6 +658,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
   const scrollY = window.scrollY;
   const viewport = { width: window.innerWidth, height: window.innerHeight };
   const annotationSelector = '[data-hero-annotation]';
+  const projectLineSelector = '[data-hero-project-line]';
   const primaryCtaSelector = '[data-hero-primary-cta]';
   const compact = (value: string): string => value.replace(/\s+/g, ' ').trim();
   const rect = (element: Element): DocumentRect => {
@@ -968,16 +970,7 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
         [...hero.querySelectorAll('a')].find(
           (element) => compact(element.textContent ?? '') === config.primaryCta,
         ));
-  const caption = document.querySelector('#hero-caption');
-  const annotation = document.querySelector(annotationSelector);
-  const projectSignal =
-    annotation !== null && compact(annotation.textContent ?? '').includes(config.projectName)
-      ? annotation
-      : caption !== null && compact(caption.textContent ?? '').includes(config.projectName)
-        ? caption
-        : [...document.querySelectorAll('[data-site-card] h2,[data-site-card] h3')].find(
-            (element) => compact(element.textContent ?? '').includes(config.projectName),
-          );
+  const projectSignal = document.querySelector(projectLineSelector);
   const fold = {
     name: foldTarget(exactInHero(config.identityName), 'fold:name'),
     eyebrow: foldTarget(exactInHero(config.eyebrow), 'fold:eyebrow'),

@@ -12,6 +12,7 @@ import {
   HERO_TRACE_PAD_SELECTOR,
   findHeroStage,
   findHeroTracePad,
+  readHeroLabelGeometry,
   readHeroLeaderGeometry,
 } from '../components/hero/hero-dom';
 
@@ -65,6 +66,45 @@ describe('hero engine DOM contract', () => {
       y1: 100,
       x2: 210,
       y2: 210,
+    });
+  });
+
+  test('places the overlay label beside the pad on desktop and below the model on phones', () => {
+    const root = document.createElement('figure');
+    root.innerHTML = `
+      <div data-hero-model=""></div>
+      <svg>
+        <circle data-xploder-trace-pad="main-activity" cx="20" cy="30" r="4"></circle>
+      </svg>
+      <div data-hero-step-label=""></div>
+    `;
+    const label = root.querySelector<HTMLElement>('[data-hero-step-label]');
+    const pad = root.querySelector<SVGCircleElement>('[data-xploder-trace-pad]');
+    const model = root.querySelector<HTMLElement>('[data-hero-model]');
+    if (label === null || pad === null || model === null) throw new Error('fixture is incomplete');
+
+    Object.defineProperty(root, 'getBoundingClientRect', {
+      value: () => ({ left: 10, top: 20, width: 300, height: 400 }),
+    });
+    Object.defineProperty(label, 'getBoundingClientRect', {
+      value: () => ({ left: 0, top: 0, width: 120, height: 60 }),
+    });
+    Object.defineProperty(pad, 'getBoundingClientRect', {
+      value: () => ({ left: 210, top: 220, width: 20, height: 20 }),
+    });
+    Object.defineProperty(model, 'getBoundingClientRect', {
+      value: () => ({ left: 10, top: 200, width: 300, height: 100 }),
+    });
+
+    expect(readHeroLabelGeometry(root, label, 'main-activity', true)).toEqual({
+      x: 168,
+      y: 180,
+      leader: { x1: 168, y1: 210, x2: 210, y2: 210 },
+    });
+    expect(readHeroLabelGeometry(root, label, 'main-activity', false)).toEqual({
+      x: 90,
+      y: 280,
+      leader: null,
     });
   });
 });

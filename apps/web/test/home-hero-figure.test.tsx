@@ -7,7 +7,7 @@ import { websocketInspector } from '../content/projects/websocket-inspector';
 import { HeroSection } from '../components/home/hero-section';
 
 describe('hero figure SSR', () => {
-  test('keeps the static caption, annotation slot, and larger borderless hero stage', () => {
+  test('keeps the static caption, permanent project line, and larger borderless hero stage', () => {
     // T011j: the model takes the larger grid share, while the annotation and accessible static
     // caption keep their measured slots.
     vi.stubGlobal('__XP_EAGER_HERO__', true);
@@ -20,6 +20,8 @@ describe('hero figure SSR', () => {
     expect(markup).toMatch(/<figcaption id="hero-caption" class="sr-only">/);
     expect(markup).toContain(staticCaption);
     expect(markup).toContain('data-hero-annotation=""');
+    expect(markup).toContain('data-hero-project-line=""');
+    expect(markup).toContain('data-hero-model=""');
     expect(markup).toContain('data-hero-loop-slot=""');
     expect(markup).toContain('block h-11 w-11');
     expect(markup).toContain('lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]');

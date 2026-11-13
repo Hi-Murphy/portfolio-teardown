@@ -212,9 +212,9 @@ function loopButton(): HTMLButtonElement | null {
   return container?.querySelector<HTMLButtonElement>('[data-hero-loop-slot] button') ?? null;
 }
 
-function narration(): string | null {
+function projectLine(): string | null {
   return (
-    container?.querySelector<HTMLElement>('[data-hero-narration]')?.textContent?.trim() ?? null
+    container?.querySelector<HTMLElement>('[data-hero-project-line]')?.textContent?.trim() ?? null
   );
 }
 
@@ -228,14 +228,8 @@ async function clickLoopButton(): Promise<void> {
   await flush();
 }
 
-function expectedNarration(flowIndex: number, step: number): string {
-  const flow = websocketInspector.flows?.[flowIndex];
-  const componentId = flow?.path[step];
-  const component = websocketInspector.layers
-    .flatMap((layer) => layer.components)
-    .find((candidate) => candidate.id === componentId);
-
-  return `${websocketInspector.meta.name}·${flow?.label ?? ''}${step + 1}/${flow?.path.length ?? 0}${component?.name ?? ''}${component?.summary ?? ''}`;
+function expectedProjectLine(): string {
+  return `${websocketInspector.meta.name} — ${websocketInspector.meta.tagline ?? ''}`;
 }
 
 function sequenceActions() {
@@ -537,7 +531,7 @@ describe('hero stage storyboard', () => {
     expect(viewerActions.zoomIn).toHaveBeenCalledTimes(3);
     expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('capture-path');
     expect(viewerActions.play).toHaveBeenCalledTimes(1);
-    expect(narration()).toBe(expectedNarration(0, 0));
+    expect(projectLine()).toBe(expectedProjectLine());
   });
 
   test('runs capture → inspect → turn → implode → capture again', async () => {
@@ -548,13 +542,13 @@ describe('hero stage storyboard', () => {
     emitTour({ flowId: 'capture-path', status: 'ended', step: tourTotal - 1 });
     expect(heroPhase()).toBe('inspect');
     expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('inspect-path');
-    expect(narration()).toBe(expectedNarration(1, 0));
+    expect(projectLine()).toBe(expectedProjectLine());
 
     emitTour({ flowId: 'inspect-path', status: 'ended', step: tourTotal - 1 });
     expect(heroPhase()).toBe('turn');
     expect(viewerActions.stop).toHaveBeenCalled();
     expect(viewerActions.zoomReset).toHaveBeenCalledTimes(2);
-    expect(narration()).toBeNull();
+    expect(projectLine()).toBe(expectedProjectLine());
 
     await advance(HERO_STORYBOARD_MS.turnStep);
     expect(viewerActions.rotateRight).toHaveBeenCalledTimes(1);
@@ -571,7 +565,7 @@ describe('hero stage storyboard', () => {
     await advance(HERO_STORYBOARD_MS.zoomStep * 2);
     await advance(HERO_STORYBOARD_MS.zoomSettle);
     expect(heroPhase()).toBe('capture');
-    expect(narration()).toBe(expectedNarration(0, 0));
+    expect(projectLine()).toBe(expectedProjectLine());
   });
 
   test('pauses and resumes from the button, hidden tab, and off-screen observer', async () => {
