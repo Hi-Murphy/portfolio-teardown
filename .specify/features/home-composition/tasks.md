@@ -355,9 +355,16 @@
 - **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview: full-screen blueprint hero; scroll down snaps to Projects; scroll up from Projects snaps back.
 - **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review → go for T011j.
 
-### T011j [US4] Storyboard animation with camera follow (RFC R9, T011h)
+### T011j [US4, US5] Storyboard animation + camera follow + synced leader + bigger model (Murphy review of T011i)
 
-Specified after T011i's review.
+- **Sequence (pure controller, tokens only):** start imploded at the default zoom → `explode()` → once exploded, zoom in (`zoomIn()` ×2–3, tuned so the first steps sit near the centre) → `capture-path` tour with the camera following the current component vertically (T011h candidate (a): interpolated scroll of the viewer's stage scroller towards the `data-xploder-trace-pad` of `flows[].path[step]`) → `inspect-path` likewise → zoom out (`zoomReset()`, scroller eased back) → two quarter turns → `implode()` (zoomed out) → hold → repeat. Pause/hidden tab/off-screen pause everything, including the follow.
+- **System-only camera:** inside the hero the viewer never takes user input: the live layer is `inert` and `pointer-events-none`, and the stage scroller is `overflow-hidden` (programmatic `scrollTop` still works). Wheel, touch and keyboard scrolling always move the page.
+- **Leader line synced:** the annotation's leader is an `aria-hidden` SVG line from the annotation's corner to the current trace pad's centre, updated on animation frames while the tour runs and the hero is visible; hidden outside tour phases (turn/implode) and on phones if it would cross the text.
+- **Bigger model:** the model gets the larger share at every width (e.g. `lg` columns ≈ 0.6fr / 1.4fr; model box ≈ min(78svh, 760px) tall), the headline and text column scale down proportionally; at 390×844 every AC2 box still fits in the first screen.
+- **Checks:** controller unit tests (sequence, zoom calls, follow targets, pause); Playwright: wheel over the hero scrolls the page (stage `scrollTop` unchanged by user input), follow centre error per step, leader endpoint within 12 px of the active pad centre; fold, home:probe all groups, snap checks still 20/20, CLS 0 full cycle, axe 0/0, Lighthouse ×2, draws 2, regress-hero 5/5, `no-motion-literals`, cross-route, guards, full suite.
+- **Evidence:** `T011j-log-storyboard.txt`, `T011j-screenshot-story-{1..6}.png` (1440 light: imploded, exploded, zoomed at step 1, mid-follow, zoomed out + turned, imploded), `T011j-screenshot-hero-390-dark.png`.
+- **WHAT MURPHY SHOULD TEST/VALIDATE:** 1. Preview one full cycle; 2. scroll over the 3D moves the page.
+- **WHAT THE AGENT NEEDS FROM MURPHY:** 1. Review.
 
 ### T011f–T011g
 
