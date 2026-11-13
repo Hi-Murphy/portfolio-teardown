@@ -1,0 +1,23 @@
+# T013 — CI on PR #22 (head 5a5f9ea)
+
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/22
+
+```
+pass	Vercel	0
+pass	Vercel Preview Comments	0
+pass	a11y: axe (engine fixture export)	1m54s
+pass	a11y: axe (production routes)	3m22s
+pass	build (typecheck, lint, test, build)	2m45s
+pass	perf-gate: lighthouse (mobile)	1m23s
+pass	perf-gate: weight (< 3 MB)	1m40s
+pass	perf: eager-3d (measurement)	4m12s
+pass	perf: fixture exclusion	29s
+pass	perf: fps calibration	1m5s
+pass	perf: home-composition (slow-class measurement) #1	2m19s
+pass	perf: home-composition (slow-class measurement) #2	2m40s
+pass	perf: home-composition (slow-class measurement) #3	2m20s
+pass	seo: meta + og	59s
+skipping	perf: eager-load (slow-class measurement) #${{ matrix.shard }}	0
+skipping	perf: hero-eager (slow-class measurement) #${{ matrix.shard }}	0
+pass	secrets (gitleaks)	19s
+```
