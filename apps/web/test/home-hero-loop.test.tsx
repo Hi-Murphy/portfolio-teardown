@@ -3,6 +3,7 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { motion } from 'xploder/motion';
 
 import { websocketInspector } from '../content/projects/websocket-inspector';
 import { HeroCaption } from '../components/hero/hero-caption';
@@ -74,6 +75,8 @@ type HeroShowcaseProviderComponent =
 const LABELS = { pause: 'Pause animation test', play: 'Play animation test' };
 const FLOW_A = 'fixture-capture';
 const FLOW_B = 'fixture-inspect';
+const TOUR_BEAT_MS = motion.durations.tourBeat * 1000;
+const TOUR_OVERDUE_MS = TOUR_BEAT_MS * 1.5;
 
 let HeroLive: HeroLiveComponent;
 let HeroShowcaseProvider: HeroShowcaseProviderComponent;
@@ -206,6 +209,11 @@ function heroLoop(): string | undefined {
 
 function heroPhase(): string | undefined {
   return container?.querySelector<HTMLElement>('[data-hero-loop]')?.dataset.heroPhase;
+}
+
+function heroTourStep(): number | undefined {
+  const value = container?.querySelector<HTMLElement>('[data-hero-loop]')?.dataset.heroTourStep;
+  return value === undefined ? undefined : Number(value);
 }
 
 function loopButton(): HTMLButtonElement | null {
@@ -505,6 +513,41 @@ describe('createHeroSequence', () => {
     vi.advanceTimersByTime(1);
     expect(actions.explode).toHaveBeenCalledTimes(1);
   });
+
+  test('resume advances an ended tour instead of replaying that flow', () => {
+    const { actions, follow, sequence } = controller();
+
+    sequence.start();
+    vi.advanceTimersByTime(
+      HERO_STORYBOARD_MS.implode +
+        HERO_STORYBOARD_MS.explode +
+        HERO_STORYBOARD_MS.zoomStep * 2 +
+        HERO_STORYBOARD_MS.zoomSettle,
+    );
+    sequence.updateTour(tour({ step: 2 }));
+    sequence.pause();
+    actions.playTour.mockClear();
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+
+    sequence.resume();
+    expect(sequence.state.phase).toBe('inspect');
+    expect(actions.selectFlow).toHaveBeenLastCalledWith(FLOW_B);
+    expect(actions.playTour).toHaveBeenCalledTimes(1);
+    expect(actions.playTour.mock.invocationCallOrder[0]).toBeGreaterThan(
+      actions.selectFlow.mock.invocationCallOrder.at(-1) ?? 0,
+    );
+
+    sequence.updateTour(tour({ flowId: FLOW_B, step: 6 }));
+    sequence.pause();
+    actions.playTour.mockClear();
+    sequence.updateTour(tour({ flowId: FLOW_B, status: 'ended', step: 6 }));
+
+    sequence.resume();
+    expect(sequence.state.phase).toBe('turn');
+    expect(actions.stopTour).toHaveBeenCalledTimes(1);
+    expect(actions.playTour).not.toHaveBeenCalled();
+    expect(follow.start).toHaveBeenLastCalledWith(FLOW_B);
+  });
 });
 
 function narrationPhase(phase: string): boolean {
@@ -614,6 +657,103 @@ describe('hero stage storyboard', () => {
 
     await clickLoopButton();
     expect(heroLoop()).toBe('running');
+  });
+
+  test('nudges a stalled tour once with pause then play, then continues', async () => {
+    await renderHero();
+    await firstFrame();
+    await advanceToCapture();
+
+    viewerActions.pause.mockImplementation(() => {
+      setTour({ status: 'paused', step: Math.min(viewerStore.tour.step + 1, tourTotal - 1) });
+    });
+    viewerActions.play.mockImplementation(() => setTour({ status: 'playing' }));
+    emitTour({ flowId: 'capture-path', status: 'playing', step: 4 });
+    const pauses = viewerActions.pause.mock.calls.length;
+    const plays = viewerActions.play.mock.calls.length;
+
+    await advance(TOUR_OVERDUE_MS + 32);
+    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 1);
+    expect(viewerActions.play).toHaveBeenCalledTimes(plays + 1);
+    expect(heroTourStep()).toBe(5);
+    expect(heroPhase()).toBe('capture');
+
+    await advance(32);
+    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 1);
+    expect(viewerActions.play).toHaveBeenCalledTimes(plays + 1);
+
+    emitTour({ status: 'ended', step: tourTotal - 1 });
+    expect(heroPhase()).toBe('inspect');
+  });
+
+  test('advances an ended last step instead of replaying it after a nudge', async () => {
+    await renderHero();
+    await firstFrame();
+    await advanceToCapture();
+
+    let restarted = 0;
+    viewerActions.pause.mockImplementation(() => {
+      setTour({ status: 'ended', step: tourTotal - 1 });
+    });
+    viewerActions.play.mockImplementation(() => {
+      if (viewerStore.tour.status === 'ended') {
+        restarted += 1;
+        setTour({ status: 'playing', step: 0 });
+      } else {
+        setTour({ status: 'playing' });
+      }
+    });
+    emitTour({ flowId: 'capture-path', status: 'playing', step: tourTotal - 1 });
+
+    await advance(TOUR_OVERDUE_MS + 64);
+    expect(restarted).toBe(0);
+    expect(heroPhase()).toBe('inspect');
+    expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('inspect-path');
+  });
+
+  test('watches only while running and visible, and leaves on-time steps alone', async () => {
+    await renderHero();
+    await firstFrame();
+    await advanceToCapture();
+
+    const updatePauses = () => viewerActions.pause.mock.calls.length;
+    const now = vi.spyOn(performance, 'now');
+    await advance(TOUR_BEAT_MS / 2);
+    expect(now.mock.calls.length).toBeGreaterThan(0);
+
+    let pauses = updatePauses();
+    await clickLoopButton();
+    pauses = updatePauses();
+    await advance(TOUR_OVERDUE_MS * 2);
+    expect(updatePauses()).toBe(pauses);
+
+    await clickLoopButton();
+    setVisibility('hidden');
+    pauses = updatePauses();
+    await advance(TOUR_OVERDUE_MS * 2);
+    expect(updatePauses()).toBe(pauses);
+
+    setVisibility('visible');
+    reportIntersection(false);
+    pauses = updatePauses();
+    await advance(TOUR_OVERDUE_MS * 2);
+    expect(updatePauses()).toBe(pauses);
+
+    reportIntersection(true);
+    pauses = updatePauses();
+    emitTour({ flowId: 'capture-path', status: 'playing', step: 1 });
+    for (let step = 1; step < 4; step += 1) {
+      await advance(TOUR_BEAT_MS);
+      emitTour({ step: step + 1 });
+    }
+    expect(updatePauses()).toBe(pauses);
+    expect(heroTourStep()).toBe(4);
+
+    await act(async () => root?.unmount());
+    root = null;
+    pauses = updatePauses();
+    await advance(TOUR_OVERDUE_MS * 2);
+    expect(updatePauses()).toBe(pauses);
   });
 
   test('never mounts the stage or storyboard under reduced motion', async () => {

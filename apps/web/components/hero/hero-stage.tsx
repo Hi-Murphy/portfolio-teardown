@@ -6,16 +6,27 @@ import type { Project } from 'xploder';
 import { LiveViewer, useLiveViewer } from '../viewer/live-viewer';
 import { createHeroFollow } from './hero-follow';
 import {
+  HERO_WATCHDOG_MS,
   INITIAL_HERO_SEQUENCE_STATE,
   createHeroSequence,
   type HeroLoopState,
   type HeroSequence,
   type HeroSequenceState,
+  type HeroTourState,
+  type HeroTourStatus,
 } from './hero-loop';
 import { showcaseForSequence, type HeroShowcaseState } from './hero-showcase';
 
 const CAPTURE_FLOW = 'capture-path';
 const INSPECT_FLOW = 'inspect-path';
+
+interface TourWatchState {
+  status: HeroTourStatus;
+  step: number;
+  changedAt: number;
+  nudged: boolean;
+  nudging: boolean;
+}
 
 export interface HeroLoopControl {
   toggle(): void;
@@ -39,12 +50,26 @@ export function HeroStage({
   const viewer = useLiveViewer({ project, initial: 'imploded', smoothZoom: true });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const controllerRef = useRef<HeroSequence | null>(null);
+  const tourRef = useRef<HeroTourState>(viewer.tour);
+  const actionsRef = useRef(viewer.actions);
+  const watchRef = useRef<TourWatchState>({
+    status: 'idle',
+    step: -1,
+    changedAt: 0,
+    nudged: false,
+    nudging: false,
+  });
   const [sequence, setSequence] = useState<HeroSequenceState>(INITIAL_HERO_SEQUENCE_STATE);
   const [userPaused, setUserPaused] = useState(false);
   const [hidden, setHidden] = useState(
     typeof document !== 'undefined' && document.visibilityState === 'hidden',
   );
   const [offscreen, setOffscreen] = useState(false);
+
+  useEffect(() => {
+    tourRef.current = viewer.tour;
+    actionsRef.current = viewer.actions;
+  }, [viewer.actions, viewer.tour]);
 
   const publish = useCallback(
     (next: HeroSequenceState) => {
@@ -104,6 +129,68 @@ export function HeroStage({
   const tourFlowId = viewer.tour.flowId;
   const tourStep = viewer.tour.step;
   const tourTotal = viewer.tour.total;
+
+  useEffect(() => {
+    const watchingTour =
+      sequence.status === 'running' &&
+      !hidden &&
+      !offscreen &&
+      (sequence.phase === 'capture' || sequence.phase === 'inspect');
+    if (!watchingTour) return;
+
+    let frame: number | null = null;
+    let stopped = false;
+    watchRef.current = {
+      status: tourRef.current.status,
+      step: tourRef.current.step,
+      changedAt: performance.now(),
+      nudged: false,
+      nudging: false,
+    };
+
+    const watch = (): void => {
+      frame = null;
+      if (stopped) return;
+
+      const tour = tourRef.current;
+      const now = performance.now();
+      const previous = watchRef.current;
+
+      if (tour.step !== previous.step) {
+        previous.step = tour.step;
+        previous.changedAt = now;
+        previous.nudged = false;
+      }
+
+      if (previous.nudging) {
+        previous.nudging = false;
+        if (tour.status === 'paused') actionsRef.current.play();
+        previous.status = tour.status;
+        if (tour.status !== 'playing') previous.changedAt = now;
+      } else if (tour.status === 'playing') {
+        if (previous.status !== 'playing') {
+          previous.status = tour.status;
+          previous.changedAt = now;
+        } else if (!previous.nudged && now - previous.changedAt > HERO_WATCHDOG_MS.overdue) {
+          previous.nudging = true;
+          previous.nudged = true;
+          actionsRef.current.pause();
+        }
+      } else {
+        previous.status = tour.status;
+        previous.changedAt = now;
+      }
+
+      frame = window.requestAnimationFrame(watch);
+    };
+
+    frame = window.requestAnimationFrame(watch);
+
+    return () => {
+      stopped = true;
+      if (frame !== null) window.cancelAnimationFrame(frame);
+    };
+  }, [hidden, offscreen, sequence.phase, sequence.status]);
 
   useEffect(() => {
     controllerRef.current?.updateTour({
