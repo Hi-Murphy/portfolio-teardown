@@ -8,7 +8,7 @@ export const HERO_STORYBOARD_MS = {
   implode: milliseconds(motion.durations.implode + motion.durations.tourBeat),
   explode: milliseconds(motion.durations.explode + motion.durations.tourPulse),
   zoomStep: milliseconds(motion.staggers.tourStep),
-  zoomSettle: milliseconds(motion.durations.tourPulse + motion.staggers.tourStep),
+  zoomSettle: milliseconds(motion.durations.implode + motion.staggers.tourStep),
   turnStep: milliseconds(motion.durations.tourBeat),
 } as const;
 
@@ -113,7 +113,6 @@ export function createHeroSequence({
   let suspended = false;
   let disposed = false;
   let tour = EMPTY_HERO_TOUR_STATE;
-  let zoomSteps = 0;
   let turnSteps = 0;
   let pending: { readonly run: () => void; readonly delayMs: number } | null = null;
   let pendingHandle: unknown;
@@ -206,21 +205,12 @@ export function createHeroSequence({
     wait(HERO_STORYBOARD_MS.explode, beginZoom);
   }
 
-  function zoom(): void {
-    if (disposed || suspended || phase !== 'zoomin') return;
-
-    zoomSteps += 1;
-    actions.zoomIn();
-    if (zoomSteps < ZOOM_STEPS) wait(HERO_STORYBOARD_MS.zoomStep, zoom);
-    else wait(HERO_STORYBOARD_MS.zoomSettle, () => beginFlow('capture'));
-  }
-
   function beginZoom(): void {
     clearPending();
     phase = 'zoomin';
-    zoomSteps = 0;
     notify();
-    zoom();
+    for (let step = 0; step < ZOOM_STEPS; step += 1) actions.zoomIn();
+    wait(HERO_STORYBOARD_MS.zoomSettle, () => beginFlow('capture'));
   }
 
   const advanceTour = (): void => {
