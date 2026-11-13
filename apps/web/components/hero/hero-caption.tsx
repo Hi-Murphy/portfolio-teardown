@@ -1,7 +1,7 @@
 'use client';
 
 import { HeroLoopButton, type HeroLoopLabels } from './hero-loop-button';
-import { heroNarration, useHeroShowcase } from './hero-showcase';
+import { useHeroShowcase } from './hero-showcase';
 
 export interface HeroCaptionProps {
   readonly name: string;
@@ -11,37 +11,64 @@ export interface HeroCaptionProps {
 
 export function HeroCaption({ name, tagline, labels }: HeroCaptionProps) {
   const showcase = useHeroShowcase();
-  const narration = heroNarration(showcase);
   const staticCaption = tagline === undefined ? name : `${name} — ${tagline}`;
+  const narrating =
+    (showcase.phase === 'capture' || showcase.phase === 'inspect') &&
+    showcase.flowLabel !== null &&
+    showcase.componentName !== null &&
+    showcase.componentSummary !== null &&
+    showcase.step >= 0 &&
+    showcase.total >= 1;
+  const flowLabel = narrating ? showcase.flowLabel : null;
+  const componentName = narrating ? showcase.componentName : tagline;
+  const componentSummary = narrating ? showcase.componentSummary : null;
+  const position = narrating ? `${showcase.step + 1}/${showcase.total}` : null;
 
   return (
-    <figcaption
-      id="hero-caption"
-      className="flex min-h-[3.25rem] items-start gap-3 text-base leading-relaxed text-muted"
-    >
-      <div className="grid min-h-[3.25rem] min-w-0 flex-1">
+    <>
+      <div
+        data-hero-annotation=""
+        className="relative mt-3 flex h-[6.5rem] items-end gap-3 lg:ml-auto lg:mt-5 lg:w-full lg:max-w-[30rem]"
+      >
         <span
-          className={`col-start-1 row-start-1 line-clamp-2${narration === null ? '' : ' sr-only'}`}
+          aria-hidden="true"
+          className="absolute -left-16 -top-7 hidden h-px w-20 rotate-[32deg] bg-accent/80 lg:block"
         >
-          {staticCaption}
+          <span className="absolute -left-1 -top-[3px] h-[7px] w-[7px] rounded-full bg-accent" />
         </span>
-        {narration === null ? null : (
-          <span
-            data-hero-narration=""
-            aria-hidden="true"
-            className="col-start-1 row-start-1 line-clamp-2"
-          >
-            {narration}
-          </span>
-        )}
+        <div
+          aria-hidden="true"
+          {...(narrating ? { 'data-hero-narration': '' } : {})}
+          className="flex h-full min-w-0 flex-1 flex-col gap-1 border-l-2 border-accent pl-3"
+        >
+          <div className="flex min-w-0 items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted">
+            <span className="truncate">{name}</span>
+            {flowLabel === null ? null : (
+              <>
+                <span aria-hidden="true">·</span>
+                <span className="truncate">{flowLabel}</span>
+              </>
+            )}
+            {position === null ? null : <span className="ml-auto shrink-0">{position}</span>}
+          </div>
+          {componentName === undefined ? null : (
+            <p className="truncate text-base font-semibold leading-snug text-fg">{componentName}</p>
+          )}
+          <p className="line-clamp-2 min-h-[2.75rem] text-base leading-snug text-muted">
+            {componentSummary}
+          </p>
+        </div>
+        <div data-hero-loop-slot="" className="h-11 w-11 shrink-0">
+          {showcase.available ? (
+            <HeroLoopButton paused={showcase.paused} labels={labels} onToggle={showcase.toggle} />
+          ) : (
+            <span aria-hidden="true" className="block h-11 w-11" />
+          )}
+        </div>
       </div>
-      <div data-hero-loop-slot="" className="h-11 w-11 shrink-0">
-        {showcase.available ? (
-          <HeroLoopButton paused={showcase.paused} labels={labels} onToggle={showcase.toggle} />
-        ) : (
-          <span aria-hidden="true" className="block h-11 w-11" />
-        )}
-      </div>
-    </figcaption>
+      <figcaption id="hero-caption" className="sr-only">
+        {staticCaption}
+      </figcaption>
+    </>
   );
 }

@@ -71,28 +71,29 @@ afterEach(async () => {
 });
 
 describe('hero caption row', () => {
-  test('swaps the static caption for an aria-hidden narration in the same two-line slot', async () => {
+  test('renders the tour drawing annotation with an accessible static caption and pause control', async () => {
     container = document.createElement('div');
     document.body.append(container);
     root = createRoot(container);
     const state = narrationState();
-    const expected = `${state.flowLabel} · ${state.step + 1}/${state.total} · ${state.componentName} — ${state.componentSummary}`;
 
     await renderCaption(state);
 
     const caption = container.querySelector<HTMLElement>('#hero-caption');
-    const staticText = caption?.querySelector('span:not([data-hero-narration])');
-    const dynamic = caption?.querySelector<HTMLElement>('[data-hero-narration]');
-    const slot = caption?.querySelector<HTMLElement>('[data-hero-loop-slot]');
+    const annotation = container.querySelector<HTMLElement>('[data-hero-annotation]');
+    const dynamic = annotation?.querySelector<HTMLElement>('[data-hero-narration]');
+    const slot = annotation?.querySelector<HTMLElement>('[data-hero-loop-slot]');
     const button = slot?.querySelector('button');
 
-    expect(caption?.className).toContain('min-h-[3.25rem]');
+    expect(caption?.className).toBe('sr-only');
     expect(caption?.textContent).toContain(websocketInspector.meta.name);
-    expect(staticText?.className).toContain('sr-only');
-    expect(staticText?.className).toContain('line-clamp-2');
-    expect(dynamic?.textContent).toBe(expected);
+    expect(caption?.textContent).toContain(websocketInspector.meta.tagline ?? '');
+    expect(annotation?.className).toContain('h-[6.5rem]');
+    expect(dynamic?.textContent).toContain(state.flowLabel ?? '');
+    expect(dynamic?.textContent).toContain(`${state.step + 1}/${state.total}`);
+    expect(dynamic?.textContent).toContain(state.componentName ?? '');
+    expect(dynamic?.textContent).toContain(state.componentSummary ?? '');
     expect(dynamic?.getAttribute('aria-hidden')).toBe('true');
-    expect(dynamic?.className).toContain('line-clamp-2');
     expect(slot?.className).toContain('h-11');
     expect(slot?.className).toContain('w-11');
     expect(button?.getAttribute('aria-label')).toBe(LABELS.pause);
@@ -112,11 +113,13 @@ describe('hero caption row', () => {
     });
 
     const caption = container.querySelector<HTMLElement>('#hero-caption');
-    const staticText = caption?.querySelector('span');
+    const annotation = container.querySelector<HTMLElement>('[data-hero-annotation]');
 
-    expect(caption?.querySelector('[data-hero-narration]')).toBeNull();
-    expect(staticText?.className).not.toContain('sr-only');
-    expect(caption?.querySelector('[data-hero-loop-slot] button')).toBeNull();
-    expect(caption?.querySelector('[data-hero-loop-slot] [aria-hidden="true"]')).not.toBeNull();
+    expect(caption?.className).toBe('sr-only');
+    expect(annotation?.querySelector('[data-hero-narration]')).toBeNull();
+    expect(annotation?.textContent).toContain(websocketInspector.meta.name);
+    expect(annotation?.textContent).toContain(websocketInspector.meta.tagline ?? '');
+    expect(annotation?.querySelector('[data-hero-loop-slot] button')).toBeNull();
+    expect(annotation?.querySelector('[data-hero-loop-slot] [aria-hidden="true"]')).not.toBeNull();
   });
 });

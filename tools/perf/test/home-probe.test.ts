@@ -8,11 +8,10 @@ import {
   evaluateResponsive,
   evaluateStructure,
   heroNarrationCompositions,
-  heroProofCompositions,
+  HOME_PROBE_HERO_ANNOTATION_SELECTOR,
   HOME_PROBE_DEFAULT_GROUPS,
   HOME_PROBE_GROUPS,
   HOME_PROBE_PRIMARY_CTA_SELECTOR,
-  HOME_PROBE_PROOF_VALUE_SELECTOR,
   HOME_PROBE_UI_ALLOWLIST,
   HOME_SECTIONS_MISSING,
   type HomeFoldTargetSnapshot,
@@ -456,6 +455,12 @@ describe('copy group', () => {
     expect(result.checks[0]?.actual).toEqual(['Hand-typed recruiter copy']);
   });
 
+  test('accepts the annotation position counter', () => {
+    const result = evaluateCopy(['Known text', '1/7'], ['Known text']);
+
+    expect(result.pass).toBe(true);
+  });
+
   test('accepts compositions built from project flow content', () => {
     const project = {
       flows: [{ id: 'flow', label: 'Flow label', path: ['one', 'two'] }],
@@ -474,13 +479,8 @@ describe('copy group', () => {
     expect(evaluateCopy(compositions, compositions).pass).toBe(true);
   });
 
-  test('classifies proof values as body text and accepts their copy composition', () => {
-    const project = {
-      story: { metrics: [{ label: 'Metric label', value: 'Metric value' }] },
-    };
-
+  test('exposes the annotation selector used for the hero project signal and body text', () => {
     expect(HOME_PROBE_PRIMARY_CTA_SELECTOR).toBe('[data-hero-primary-cta]');
-    expect(HOME_PROBE_PROOF_VALUE_SELECTOR).toBe('[data-hero-proof-value]');
-    expect(heroProofCompositions(project, [0, 1, -1])).toEqual(['Metric label — Metric value']);
+    expect(HOME_PROBE_HERO_ANNOTATION_SELECTOR).toBe('[data-hero-annotation]');
   });
 });

@@ -1,4 +1,5 @@
 import { HOME_SECTION_REGISTRY } from '../../components/home/registry';
+import { HomeSnapStyle } from '../../components/home/home-snap-style';
 import { JsonLd } from '../../components/json-ld';
 import {
   HOME_SECTIONS,
@@ -18,14 +19,26 @@ export default function HomePage() {
   const pageSections = HOME_SECTIONS.filter(
     (id): id is PageSectionId => !LAYOUT_SECTION_IDS.has(id),
   );
+  const heroIndex = pageSections.indexOf('hero');
+  const beforeHero = heroIndex === -1 ? pageSections : pageSections.slice(0, heroIndex);
+  const heroSection: PageSectionId | null =
+    heroIndex === -1 ? null : (pageSections[heroIndex] ?? null);
+  const afterHero = heroIndex === -1 ? [] : pageSections.slice(heroIndex + 1);
+
+  const section = (id: PageSectionId) => {
+    const Section = HOME_SECTION_REGISTRY[id];
+    return <Section key={id} />;
+  };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+    <>
+      <HomeSnapStyle />
       <JsonLd data={personLd()} />
-      {pageSections.map((id) => {
-        const Section = HOME_SECTION_REGISTRY[id];
-        return <Section key={id} />;
-      })}
-    </div>
+      {beforeHero.map(section)}
+      {heroSection === null ? null : section(heroSection)}
+      {afterHero.length === 0 ? null : (
+        <div data-home-snap-sections="">{afterHero.map(section)}</div>
+      )}
+    </>
   );
 }

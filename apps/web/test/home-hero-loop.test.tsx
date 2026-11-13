@@ -222,7 +222,7 @@ function expectedNarration(flowIndex: number, step: number): string {
     .flatMap((layer) => layer.components)
     .find((candidate) => candidate.id === componentId);
 
-  return `${flow?.label ?? ''} · ${step + 1}/${flow?.path.length ?? 0} · ${component?.name ?? ''} — ${component?.summary ?? ''}`;
+  return `${websocketInspector.meta.name}·${flow?.label ?? ''}${step + 1}/${flow?.path.length ?? 0}${component?.name ?? ''}${component?.summary ?? ''}`;
 }
 
 function sequenceActions() {
