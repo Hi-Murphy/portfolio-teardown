@@ -20,10 +20,6 @@ export interface SiteCopy {
       label: string;
       href: string;
     };
-    secondaryCta: {
-      label: string;
-      href: string;
-    };
     loopPause: string;
     loopPlay: string;
   };

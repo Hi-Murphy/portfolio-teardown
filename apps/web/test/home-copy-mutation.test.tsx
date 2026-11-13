@@ -61,14 +61,9 @@ function homeStrings(): CopyEntry[] {
       value: link.label,
     })),
     // hero.loopPause / hero.loopPlay label a client-only control that mounts after the live
-    // hero's first frame (R7); home-hero-loop.test.tsx covers them. hero.secondaryCta stays in
-    // content but is no longer rendered by the hero (R8b).
+    // hero's first frame (R7); home-hero-loop.test.tsx covers them.
     ...collectStrings('hero', siteSource.hero).filter(
-      (entry) =>
-        entry.label !== 'hero.loopPause' &&
-        entry.label !== 'hero.loopPlay' &&
-        entry.label !== 'hero.secondaryCta.label' &&
-        entry.label !== 'hero.secondaryCta.href',
+      (entry) => entry.label !== 'hero.loopPause' && entry.label !== 'hero.loopPlay',
     ),
     ...collectStrings('about.title', siteSource.about.title),
     ...collectStrings('about.paragraphs', siteSource.about.paragraphs),

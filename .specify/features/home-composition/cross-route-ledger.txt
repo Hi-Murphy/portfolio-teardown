@@ -13,4 +13,8 @@ projects,project,404|^@@[^\n]*\n(?: [^\n]*\n)*-<footer id="contact" class="[^"]*
 404|^@@[^\n]*\n(?: [^\n]*\n)*-<p class="text-sm leading-relaxed text-muted">[^\n]*</p>\n\+<p class="text-base leading-relaxed text-muted">[^\n]*</p>\n(?: [^\n]*\n?)*$
 # L5: nav and footer labels are sourced from content; they render byte-identically.
 # L6: the footer contact block is tagged and hidden on the home route only.
+# L7: description / og:description / twitter:description meta on every route (R2, then T011g content pass).
 projects,project,404|^@@[^\n]*\n(?: [^\n]*\n)*-<div class="min-w-0 sm:min-w-52">\n\+<div data-footer-contact="" class="min-w-0 sm:min-w-52 \[body:has\(\[data-home-section=contact\]\)_&amp;\]:hidden">\n(?: [^\n]*\n?)*$
+projects|^@@[^\n]*\n(?:(?: [^\n]*|[-+]<meta (?:name|property)="(?:description|og:description|twitter:description)" content="[^"]*"/>)\n?)*$
+project|^@@[^\n]*\n(?:(?: [^\n]*|[-+]<meta (?:name|property)="(?:description|og:description|twitter:description)" content="[^"]*"/>)\n?)*$
+404|^@@[^\n]*\n(?:(?: [^\n]*|[-+]<meta (?:name|property)="(?:description|og:description|twitter:description)" content="[^"]*"/>)\n?)*$

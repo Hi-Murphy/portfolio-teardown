@@ -69,8 +69,8 @@ const fs = require('node:fs');
 
 const base = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const current = JSON.parse(fs.readFileSync('.specify/content/site.json', 'utf8'));
-const expectedDescription =
-  'Android engineer. Portfolio rendered as exploded architecture: real layers, real components, real numbers.';
+// T011g (Murphy content pass, 2026-11-13): meta.description and hero eyebrow/subline/primaryCta.label are Murphy's
+// values; secondaryCta was removed. They are compared below as allowed changes; their exact text is not pinned here.
 // R1a (Murphy, 2026-11-08): only the first word of the old 19-character span is the employer; it is redacted as 8 blocks.
 const block = '█'.repeat(8);
 
@@ -116,8 +116,8 @@ if (
   process.exit(1);
 }
 
-if (current?.meta?.description !== expectedDescription) {
-  console.error('meta.description is not the approved R2 value');
+if (typeof current?.meta?.description !== 'string' || current.meta.description.includes('████')) {
+  console.error('meta.description must be a plain string without the redaction bar');
   process.exit(1);
 }
 
@@ -138,9 +138,13 @@ comparedBase.hero.loopPlay = current.hero.loopPlay;
 comparedBase.about.paragraphs[0] = newParagraph;
 comparedBase.meta.description = current.meta.description;
 comparedBase.contact = current.contact;
+comparedBase.hero.eyebrow = current.hero.eyebrow;
+comparedBase.hero.subline = current.hero.subline;
+comparedBase.hero.primaryCta = current.hero.primaryCta;
+delete comparedBase.hero.secondaryCta;
 
 if (canonical(comparedBase) !== canonical(current)) {
-  console.error('site.json differs outside about.paragraphs[0], meta.description, contact and hero.loopPause/loopPlay');
+  console.error('site.json differs outside the approved R1-R3, R7 and T011g keys');
   process.exit(1);
 }
 NODE

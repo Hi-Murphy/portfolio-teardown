@@ -19,16 +19,12 @@
     "resume": "/resume.pdf"
   },
   "hero": {
-    "eyebrow": "Android engineer · Indonesia",
+    "eyebrow": "Android engineer · Performance",
     "headline": "Every project, taken apart.",
-    "subline": "A portfolio rendered as exploded architecture: real layers, real components, real numbers — no stock photos, no invented metrics.",
+    "subline": "I build Android apps — community features, and the unglamorous work that makes them fast: payments, lists, benchmarks. Every project here is taken apart.",
     "primaryCta": {
-      "label": "Open a teardown",
+      "label": "See how it works",
       "href": "/projects/websocket-inspector"
-    },
-    "secondaryCta": {
-      "label": "Skip the 3D — read the list",
-      "href": "/projects"
     },
     "loopPause": "Pause animation",
     "loopPlay": "Play animation"
@@ -55,7 +51,7 @@
   },
   "meta": {
     "title": "Timur Haryo — Software Engineer · Android & Developer Tools",
-    "description": "Android engineer. Portfolio rendered as exploded architecture: real layers, real components, real numbers.",
+    "description": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
     "siteName": "Timur Haryo",
     "locale": "en"
   }
