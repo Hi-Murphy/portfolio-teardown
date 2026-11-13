@@ -1,0 +1,8 @@
+# T011n — hero stuck at a tour step (Murphy report, 2026-11-13): investigation
+
+- Murphy's Orca tab (dev server): hero `running`, phase `inspect`, step 6; engine root `data-xploder-tour="playing"` step 6; **0 attribute mutations in 6 s** (React not re-rendering the viewer). rAF 181 / 1.5 s and 50 ms timers 30 / 1.5 s in the same tab (no throttling at that moment).
+- Clicking pause through the page: engine immediately reported `ended` (step 6). The reducer folds elapsed time on any action, so the tour had internally finished; the engine's one-shot `useTourClock` timer that dispatches `tick` had not fired. The hero waits for `ended` → visible stall.
+- Clicking play afterwards: hero `running`, phase `inspect`, engine restarted the flow (`playing` step 1): **controller bug** — resuming in a tour phase after the engine already ended restarts the flow instead of advancing to the next phase.
+- Playwright Chromium (dev server and production export): full cycles, hidden-tab and off-screen pause/resume and user pause/play all advance correctly; the same Orca tab later ran two full cycles in 60 s with no stall → intermittent.
+- Working hypothesis: when the Orca browser panel is out of sight, Chromium/Electron throttles the page's timers without a `visibilitychange`, so the engine's single pending timer fires far past its boundary; the hero (still "visible") does not pause.
+- Fix (app only, no engine change): (1) resume/advance logic handles an engine that already `ended`; (2) a rAF watchdog while the hero is visible and running nudges an overdue tour step with public `pause()` + `play()` (folds elapsed time; `ended` then advances the controller).

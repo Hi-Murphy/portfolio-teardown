@@ -68,6 +68,7 @@
 | T011k | ☑ overlay label + leader at the active pad (14/14 steps 0 px), fade-out-then-in via Web Animations API with motion tokens (CSS transition timings are blocked by the motion-matrix test), permanent project line, phone label below the model; home:probe all PASS, snap 20/20, CLS 0 full cycle, axe 0, Lighthouse ×2 1.00, draws 2, regress-hero 5/5, no-motion-literals PASS | 1 (Flash) + orchestrator review | evidence/T011k-log-labels.txt, T011k-screenshot-label-* | 372d7ff |
 | T011l | ☑ opt-in `createZoomTween` (implode token) in engine/camera + CameraRig, `useTeardownViewer({ smoothZoom })`, hero opts in; default path unchanged (project zoom still instant). Lever 3aee8fc, re-seal S2/S4 + S5 manifests at 3aee8fc (orchestrator), frozen-surface + camera tests 13/13, xploder suite PASS; hero zoom 91 samples ×3 monotonic, worst per-frame 33.5 % of a step; Lighthouse ×2 1.00; regress-hero 5/5; guards PASS. **Found:** `site:probe` drill (a CI group) fails on `/` since T009 → T011m | 1 (Flash) + orchestrator (re-seal SHAs) | evidence/T011l-log-zoom.md, T011l-screenshot-zoom-strip.png | 4e320bf |
 | T011m | ☑ drill expects the approved `/` Tab order (contact keys, optional hero pause); soft-nav CLS 0.146 → 0: Back restored a deep home scroll while the outgoing project page was still painted (snap amplifies: 0.018 without it, orchestrator test build); fix = home-only scroll memory (manual restoration on traversal to `/`). `site:probe --ci` PASS (drill 13/13, CLS 12/12 = 0), hero 7/7, draws 2, regress-hero 5/5, home:probe all, snap 20/20, guards 9/9, cross-route ledger-only; `main` comparison 0 | 1 (Flash) + orchestrator (snap cross-check) | evidence/T011m-log-drill.txt, T011m-log-drill-before.txt | 23a5466 |
+| T011n | ☐ | | | |
 | T011f | ☐ | | | |
 | T011g | ☐ (Murphy content pass) | | | |
 | T011b | ☑ loop (explode/implode + quarter turn, `tourBeat` hold; pauses off-screen / hidden tab) + 44×44 pause/play button outside `aria-hidden`, labels from content; attempt 1 blocked by two probes assuming a still hero → D-A4; attempt 2: regress-hero 5/5 (`--expect live-loop`), home:probe all groups PASS incl. button + reduced cell, axe home 0/0, Lighthouse ×2 perf 1.00 / a11y 1.00 / CLS 0, draws 2, cross-route ledger-only, guards 9/9 | 1 (Flash, 2 attempts) + orchestrator (D-A4 decision) | evidence/T011b-log-loop.txt, T011b-screenshot-* | 27968cb |
@@ -392,9 +393,16 @@
 
 **After T011m: STOP for Murphy's review of T011k + T011l (+ T011m) together.**
 
+### T011n [US4] Hero never stalls on a tour step (Murphy report; `evidence/T011n-log-stall-investigation.md`)
+
+- **Failing tests first** (`home-hero-loop.test.tsx`, fake timers + fake viewer): (a) resume in a tour phase when the engine tour is already `ended` → the controller advances (capture → inspect, inspect → turn), it does not call play on the ended flow; (b) watchdog: the fake engine's tour stays `playing` on a step past `step start + beat × 1.5` (its clock never ticks) → the controller nudges with `pause()` then `play()` and the sequence continues; (c) no nudge while paused, hidden or off-screen; no nudge when steps advance on time.
+- **Fix:** controller resume/advance logic per (a); a watchdog driven by `requestAnimationFrame` only while the hero is running and visible (no extra timers), comparing the last step-change time with `motion.durations.tourBeat` (tokens only).
+- **Checks:** new tests pass (and failed before the fix), Playwright full cycles at 1440 + 390, a throttling simulation (CDP `Page.setWebLifecycleState` frozen → active mid-step, plus a manual long `setTimeout` hijack in a test page if needed), regress-hero 5/5, `site:probe --ci` PASS, home:probe all, snap 20/20, CLS 0 full cycle, Lighthouse ×1, guards, full suite.
+- **Evidence:** `T011n-log-stall.txt`.
+
 ### T011f–T011g
 
-Specified after T011l (RFC R9/R10).
+Specified after T011n (RFC R9/R10).
 
 **STOP — Phase Chrome & copy report:** ledger rows T010–T011, the cross-route diff (ledger only), copy PASS.
 
