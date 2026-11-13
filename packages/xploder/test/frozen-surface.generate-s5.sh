@@ -7,7 +7,7 @@ package_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_root=$(CDPATH= cd -- "$package_dir/../.." && pwd)
 paths_file="$script_dir/frozen-surface.s5.paths"
 manifest_file="$script_dir/frozen-surface.s5.manifest.json"
-base=f31600e
+base=3aee8fc
 package_prefix=packages/xploder/
 
 cd "$repo_root"
@@ -24,7 +24,7 @@ trap 'rm -f "$tmp_file"' EXIT
 {
   printf '{\n'
   printf '  "base": "%s",\n' "$base"
-  printf '  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why.",\n'
+  printf '  "note": "%s",\n' 'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.'
   printf '  "files": {\n'
 
   first=true

@@ -123,9 +123,9 @@ describe('frozen S2/S4 surface', () => {
     const manifest = manifestJson as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('53b2b2b');
+    expect(manifest.base).toBe('3aee8fc');
     expect(manifest.note).toBe(
-      'S05 freeze (RFC D1/R5). A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+      'S05 freeze (RFC D1/R5). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/engine/camera.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S11.9 at 3aee8fc: src/react/scene/CameraRig.tsx — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(40);
 
@@ -162,9 +162,9 @@ describe('frozen S5 surface', () => {
     const manifest = manifestS5Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('f31600e');
+    expect(manifest.base).toBe('3aee8fc');
     expect(manifest.note).toBe(
-      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(25);
 

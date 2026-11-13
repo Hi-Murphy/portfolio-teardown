@@ -38,15 +38,15 @@ product code was changed to paper over that harness gap.
 
 ## Re-seal
 
-No commit was allowed in this task, so the generators use `base=d865bb3` (the current HEAD) and
-the orchestrator must amend both generator bases, the `d865bb3` occurrences in the two generator
+No commit was allowed in this task, so the generators use `base=3aee8fc` (the current HEAD) and
+the orchestrator must amend both generator bases, the `3aee8fc` occurrences in the two generator
 notes/manifests, and the two `expect(manifest.base)` values in `frozen-surface.test.ts` to the
 lever commit SHA when committing.
 
 The manifests were regenerated with the real generator scripts, not edited by hand. Because the
 lever changes are still uncommitted, the generators were run in a scratch clone under
-`<local-path>/s119-checks` with `git replace d865bb3 <temporary lever tree>` so `git show
-d865bb3:<path>` saw the lever-equivalent content. The generated manifests were copied back. After
+`<local-path>/s119-checks` with `git replace 3aee8fc <temporary lever tree>` so `git show
+3aee8fc:<path>` saw the lever-equivalent content. The generated manifests were copied back. After
 the orchestrator commits the lever tree and amends the base to that SHA, the same generator
 commands reproduce these manifests directly.
 
@@ -60,9 +60,9 @@ wrote packages/xploder/test/frozen-surface.s5.manifest.json (31 files)
 Generator notes recorded:
 
 ```text
-Re-sealed in S11.9 at d865bb3: src/engine/camera.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.
-Re-sealed in S11.9 at d865bb3: src/react/scene/CameraRig.tsx — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.
-Re-sealed in S11.9 at d865bb3: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.
+Re-sealed in S11.9 at 3aee8fc: src/engine/camera.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.
+Re-sealed in S11.9 at 3aee8fc: src/react/scene/CameraRig.tsx — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.
+Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.
 ```
 
 Focused reseal test:

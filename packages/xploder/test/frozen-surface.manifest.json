@@ -1,9 +1,9 @@
 {
-  "base": "53b2b2b",
-  "note": "S05 freeze (RFC D1/R5). A later slice that changes a listed file regenerates this manifest in the same diff and states why.",
+  "base": "3aee8fc",
+  "note": "S05 freeze (RFC D1/R5). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/engine/camera.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S11.9 at 3aee8fc: src/react/scene/CameraRig.tsx — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.",
   "files": {
     "package.json": "cf1c1a42ee3eb219b0ea2f3aac39df3947cbcd2acb5f27f33a5e15d2a977a90e",
-    "src/engine/camera.ts": "7d973c597072c52dddff08e180afea28051f2fd21aa1618e81d13091ec6c0bd6",
+    "src/engine/camera.ts": "089c238dd1070f9a00c5af348250a6c7fc16d51ce258d60c67b0812dcb07058d",
     "src/engine/explode.ts": "8c1f9b175678b615ae34fd31920f70a502b163f02b5b0673f77b6ba951358b09",
     "src/errors.ts": "e674e6bce487f79bc19d30cbdcbf019132c79a7c16b3629f0b40bf76bf18cfc2",
     "src/index.ts": "60db35a44786abc486bd6fca8938f78ecc9ad1c7cd4cc3e0ede6e1b4fc0a5f55",
@@ -16,7 +16,7 @@
     "src/motion/index.ts": "893376e3122cbb966b7b821ee85797b79ee8b5983c86798d83d397a23073f469",
     "src/parse.ts": "336cc6966f025004b6ce66ef0551ac0fdbd5381618a47ce6445c43ce357041f5",
     "src/react/env.ts": "8890512a863b33c3c6ec67c2d07ba75f70582882013ca8d76a39f78e90f9fb69",
-    "src/react/scene/CameraRig.tsx": "a2d8bd722a5d4198883c18ee8efe7ce3590515494fd09f52e4c7660a9ad0beec",
+    "src/react/scene/CameraRig.tsx": "8b79824893f61503d2d3e4aa235dbefa8f27ed7bf3332a95921ae26ac76f958d",
     "src/react/scene/Lights.tsx": "2ba315a02269d1a50e5d25e498d0d0941ee43e19150988673dac6c2422ba26d4",
     "src/react/scene/Stats.tsx": "78f1d7b522a7f6066daaf35b0bfc599bae22d0a0a61ed96ab04310281f873d8f",
     "src/react/usePalette.ts": "4169760292b2c2d1b695c5071574ac52396a3df3ebe71ec57134e4fd3e7481eb",
