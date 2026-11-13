@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { HeroCaption } from '../hero/hero-caption';
 import { POSTER_FADE_CLASS } from '../hero/hero-classes';
+import { HeroLeader } from '../hero/hero-leader';
 import { HeroLive } from '../hero/hero-live';
 import { HeroShowcaseProvider } from '../hero/hero-showcase';
 import { TeardownPoster } from '../teardown-poster';
@@ -24,8 +25,8 @@ export function HeroSection() {
       className="relative flex min-h-[calc(100svh-2.8125rem)] flex-col overflow-hidden"
     >
       <BlueprintSheet />
-      <div className="relative z-10 mx-auto flex w-full max-w-[86rem] flex-1 flex-col px-5 pb-14 pt-5 sm:px-8 sm:pb-16 sm:pt-8 lg:grid lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center lg:gap-10 lg:py-12">
-        <div className="flex flex-col items-start gap-4 sm:gap-5">
+      <div className="relative z-10 mx-auto flex w-full max-w-[88rem] flex-1 flex-col px-5 pb-14 pt-5 sm:px-8 sm:pb-16 sm:pt-8 lg:grid lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] lg:items-center lg:gap-12 lg:py-3">
+        <div className="flex flex-col items-start gap-3 sm:gap-4">
           <p className="text-base font-semibold text-fg">{SITE.identity.name}</p>
           <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.18em] text-muted">
             <span aria-hidden="true" className="h-px w-[22px] shrink-0 bg-accent" />
@@ -33,13 +34,11 @@ export function HeroSection() {
           </p>
           <h1
             id="hero-title"
-            className="max-w-[13ch] text-[clamp(2.625rem,6vw,5rem)] font-semibold leading-[0.96] tracking-[-0.025em] text-fg"
+            className="max-w-[14ch] text-[clamp(2.5rem,5.2vw,4rem)] font-semibold leading-[0.96] tracking-[-0.025em] text-fg"
           >
             {SITE.hero.headline}
           </h1>
-          <p className="max-w-[34ch] text-base leading-relaxed text-muted sm:text-lg">
-            {SITE.hero.subline}
-          </p>
+          <p className="max-w-[32ch] text-base leading-relaxed text-muted">{SITE.hero.subline}</p>
           <div>
             <Link
               href={SITE.hero.primaryCta.href}
@@ -66,13 +65,14 @@ export function HeroSection() {
           <HeroShowcaseProvider>
             <figure
               aria-labelledby="hero-caption"
-              className="mt-5 flex min-w-0 flex-col sm:mt-7 lg:mt-0"
+              className="relative mt-4 flex min-w-0 flex-col sm:mt-6 lg:mt-0"
             >
-              <div className="relative mx-auto h-[15rem] w-full max-w-[23rem] sm:h-[20rem] sm:max-w-[28rem] lg:h-[28rem] lg:max-w-none [&_[data-xploder-caption]]:hidden">
+              <HeroLeader />
+              <div className="relative mx-auto h-[16rem] w-full max-w-[24rem] sm:h-[21rem] sm:max-w-[30rem] lg:h-[min(78svh,47.5rem)] lg:max-w-none [&_[data-site-live]]:pointer-events-none [&_[data-xploder-stage]]:overflow-hidden! [&_[data-xploder-caption]]:hidden">
                 <HeroLive project={heroProject} />
                 <TeardownPoster
                   project={heroProject}
-                  state="exploded"
+                  state="imploded"
                   className={POSTER_FADE_CLASS}
                 />
               </div>

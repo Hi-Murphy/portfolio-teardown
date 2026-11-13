@@ -35,6 +35,7 @@ function narrationState(): HeroShowcaseState {
     flowLabel: flow?.label ?? null,
     step: 0,
     total: flow?.path.length ?? 0,
+    componentId: componentId ?? null,
     componentName: component?.name ?? null,
     componentSummary: component?.summary ?? null,
     paused: false,
@@ -94,6 +95,11 @@ describe('hero caption row', () => {
     expect(dynamic?.textContent).toContain(state.componentName ?? '');
     expect(dynamic?.textContent).toContain(state.componentSummary ?? '');
     expect(dynamic?.getAttribute('aria-hidden')).toBe('true');
+    expect(
+      [...(annotation?.querySelectorAll('p') ?? [])].find(
+        (paragraph) => paragraph.textContent === state.componentName,
+      )?.className,
+    ).toContain('truncate');
     expect(slot?.className).toContain('h-11');
     expect(slot?.className).toContain('w-11');
     expect(button?.getAttribute('aria-label')).toBe(LABELS.pause);
@@ -119,6 +125,12 @@ describe('hero caption row', () => {
     expect(annotation?.querySelector('[data-hero-narration]')).toBeNull();
     expect(annotation?.textContent).toContain(websocketInspector.meta.name);
     expect(annotation?.textContent).toContain(websocketInspector.meta.tagline ?? '');
+    expect(
+      [...(annotation?.querySelectorAll('p') ?? [])].find(
+        (paragraph) => paragraph.textContent === websocketInspector.meta.tagline,
+      )?.className,
+    ).toContain('line-clamp-2');
+    expect(annotation?.querySelectorAll('p')).toHaveLength(1);
     expect(annotation?.querySelector('[data-hero-loop-slot] button')).toBeNull();
     expect(annotation?.querySelector('[data-hero-loop-slot] [aria-hidden="true"]')).not.toBeNull();
   });

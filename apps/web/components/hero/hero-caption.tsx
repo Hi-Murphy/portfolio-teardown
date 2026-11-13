@@ -30,12 +30,6 @@ export function HeroCaption({ name, tagline, labels }: HeroCaptionProps) {
         data-hero-annotation=""
         className="relative mt-3 flex h-[6.5rem] items-end gap-3 lg:ml-auto lg:mt-5 lg:w-full lg:max-w-[30rem]"
       >
-        <span
-          aria-hidden="true"
-          className="absolute -left-16 -top-7 hidden h-px w-20 rotate-[32deg] bg-accent/80 lg:block"
-        >
-          <span className="absolute -left-1 -top-[3px] h-[7px] w-[7px] rounded-full bg-accent" />
-        </span>
         <div
           aria-hidden="true"
           {...(narrating ? { 'data-hero-narration': '' } : {})}
@@ -52,11 +46,17 @@ export function HeroCaption({ name, tagline, labels }: HeroCaptionProps) {
             {position === null ? null : <span className="ml-auto shrink-0">{position}</span>}
           </div>
           {componentName === undefined ? null : (
-            <p className="truncate text-base font-semibold leading-snug text-fg">{componentName}</p>
+            <p
+              className={`${narrating ? 'truncate' : 'line-clamp-2'} text-base font-semibold leading-snug text-fg`}
+            >
+              {componentName}
+            </p>
           )}
-          <p className="line-clamp-2 min-h-[2.75rem] text-base leading-snug text-muted">
-            {componentSummary}
-          </p>
+          {componentSummary === null ? null : (
+            <p className="line-clamp-2 min-h-[2.75rem] text-base leading-snug text-muted">
+              {componentSummary}
+            </p>
+          )}
         </div>
         <div data-hero-loop-slot="" className="h-11 w-11 shrink-0">
           {showcase.available ? (
