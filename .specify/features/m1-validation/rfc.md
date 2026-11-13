@@ -1,6 +1,6 @@
 # RFC — S12 M1 Validation (MVP gate)
 
-**slice:** S12-m1-validation · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-12-m1-validation.md` (frozen brief v1) · **branch:** `task/s12-m1-validation` · **base:** `5dec9f9` (product tree = S11.9 final `ffda3a2`) · **re-seal baseline:** `3aee8fc` · **date:** 2026-11-13
+**slice:** S12-m1-validation · **status:** APPROVED at Gate 1 (2026-11-13): all §10 defaults; protocol frozen (§11) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-12-m1-validation.md` (frozen brief v1) · **branch:** `task/s12-m1-validation` · **base:** `5dec9f9` (product tree = S11.9 final `ffda3a2`) · **re-seal baseline:** `3aee8fc` · **date:** 2026-11-13
 
 > This RFC designs the validation protocol only. Nothing was measured. Where it seems to conflict with the brief, the brief wins and the conflict becomes an open question (§10).
 >
@@ -333,9 +333,18 @@ Sheets: evidence/P1-sheet.md … P5-sheet.md (raw, verbatim) · invalid sessions
 
 ---
 
-## 11. Gate 1 record
+## 11. Gate 1 record (2026-11-13)
 
-_Pending Murphy's approval._
+Murphy approved **all §10 defaults (Q1–Q17)** and §2 as written ("approve all defaults"). No refinements.
+
+**Protocol frozen (Q17).** §2 was copied verbatim to `protocol.md` (byte-identical to §2), and the sheet block to `protocol-sheet-template.md`. Both were frozen before any participant saw the site:
+
+| File | SHA-256 |
+|---|---|
+| `protocol.md` | `6566893d4267a198c325b153be4860a3db874d03ae79124bef7abc99ccb54e60` |
+| `protocol-sheet-template.md` | `f74af2ac87f7a1a47b9e979fcfc9aa0ed3e4eb2b8a9a8c029307277a07d097c8` |
+
+A Stage 3 guard recomputes both hashes before every task and fails on any change. Murphy supplies the Android phone model and confirms iOS 17+ (Q10) at the start of Stage 3.
 
 ### WHAT MURPHY SHOULD TEST/VALIDATE
 
