@@ -10,6 +10,7 @@ import {
   evaluateCanvasPixels,
   evaluateEagerProbe,
   evaluateGatedProbe,
+  evaluateSaveDataProbe,
   type EagerProbeEventCounts,
   type EagerProbeRun,
   type EagerProbeSnapshot,
@@ -53,6 +54,7 @@ function snapshot(overrides: Partial<EagerProbeSnapshot> = {}): EagerProbeSnapsh
     posterVisibility: 'hidden',
     tour: 'idle',
     tweening: 'false',
+    heroLoop: 'running',
     backgroundRgb: 'rgb(245, 245, 243)',
     readyAttribute: true,
     ...overrides,
@@ -115,6 +117,70 @@ describe('evaluateEagerProbe', () => {
       'canvas-non-blank',
       'ambient-idle',
     ]);
+  });
+
+  test('live-loop accepts a playing or paused tour while the loop runs', () => {
+    const atDeadline = snapshot();
+    const afterRest = snapshot({ observedAtMs: 4_500, tweening: 'true' });
+    const screenshot = {
+      file: 'deadline.png',
+      width: 320,
+      height: 180,
+      colours: 42,
+      nonBlank: true,
+    };
+
+    const running = evaluateEagerProbe('normal', atDeadline, afterRest, screenshot, 'live-loop');
+    const playing = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, tour: 'playing', tweening: 'true' }),
+      screenshot,
+      'live-loop',
+    );
+    const pausedTour = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, tour: 'paused' }),
+      screenshot,
+      'live-loop',
+    );
+    const missing = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, heroLoop: null }),
+      screenshot,
+      'live-loop',
+    );
+    const paused = evaluateEagerProbe(
+      'normal',
+      atDeadline,
+      snapshot({ observedAtMs: 4_500, heroLoop: 'paused' }),
+      screenshot,
+      'live-loop',
+    );
+
+    expect(running.pass).toBe(true);
+    expect(running.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: true });
+    expect(playing.pass).toBe(true);
+    expect(playing.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: true });
+    expect(pausedTour.pass).toBe(true);
+    expect(missing.pass).toBe(false);
+    expect(missing.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: false });
+    expect(paused.pass).toBe(false);
+    expect(paused.checks.at(-1)).toMatchObject({ name: 'loop-running', pass: false });
+  });
+
+  test('live keeps ambient-idle and ignores the loop attribute', () => {
+    const result = evaluateEagerProbe(
+      'normal',
+      snapshot(),
+      snapshot({ observedAtMs: 4_500, heroLoop: 'paused' }),
+      { file: 'deadline.png', width: 320, height: 180, colours: 42, nonBlank: true },
+    );
+
+    expect(result.pass).toBe(true);
+    expect(result.checks.at(-1)).toMatchObject({ name: 'ambient-idle', pass: true });
   });
 
   test('passes reduced motion only with no canvas or ready marker and a visible poster', () => {
@@ -198,6 +264,32 @@ describe('evaluateGatedProbe', () => {
   });
 });
 
+describe('evaluateSaveDataProbe', () => {
+  test('passes only with a visible poster and live state skipped', () => {
+    const saveData = snapshot({
+      canvasCount: 0,
+      canvasRect: null,
+      readyAtMs: null,
+      readyAttribute: false,
+      liveStates: [
+        { value: 'idle', t: 100 },
+        { value: 'skipped', t: 150 },
+      ],
+      liveState: 'skipped',
+      liveOpacity: null,
+      posterOpacity: '1',
+      posterVisibility: 'visible',
+    });
+
+    expect(evaluateSaveDataProbe(saveData).pass).toBe(true);
+    expect(
+      evaluateSaveDataProbe(snapshot())
+        .checks.filter((entry) => !entry.pass)
+        .map((entry) => entry.name),
+    ).toEqual(['canvas-absent', 'ready-absent', 'poster-visible', 'live-state-skipped']);
+  });
+});
+
 describe('eager probe artifacts', () => {
   test('uses the route and motion names from the evidence contract', () => {
     expect(eagerProbeRouteName('/')).toBe('home');
@@ -208,6 +300,9 @@ describe('eager probe artifacts', () => {
     );
     expect(eagerProbeFileName('home', 'normal', 1, 'png')).toBe(
       'eager-probe-home-normal-r1.deadline.png',
+    );
+    expect(eagerProbeFileName('home', 'save-data', 1, 'json')).toBe(
+      'eager-probe-home-save-data-r1.json',
     );
   });
 

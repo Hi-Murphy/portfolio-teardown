@@ -1,0 +1,195 @@
+diff --git a/apps/web/components/hero/hero-stage.tsx b/apps/web/components/hero/hero-stage.tsx
+index f5bd2b8..3ab7be7 100644
+--- a/apps/web/components/hero/hero-stage.tsx
++++ b/apps/web/components/hero/hero-stage.tsx
+@@ -2,10 +2,12 @@
+ 
+ import { useCallback, useEffect, useRef, useState } from 'react';
+ import type { Project } from 'xploder';
++import { motion } from 'xploder/motion';
+ 
+ import { LiveViewer, useLiveViewer } from '../viewer/live-viewer';
+ import {
+   INITIAL_HERO_SEQUENCE_STATE,
++  MS_PER_SECOND,
+   createHeroSequence,
+   type HeroLoopState,
+   type HeroSequence,
+@@ -16,6 +18,32 @@ import { showcaseForSequence, type HeroShowcaseState } from './hero-showcase';
+ const CAPTURE_FLOW = 'capture-path';
+ const INSPECT_FLOW = 'inspect-path';
+ 
++type FollowMode = 'scroll' | 'focus' | 'trace' | 'zoom';
++
++const FOLLOW_MODES: readonly FollowMode[] = ['scroll', 'focus', 'trace', 'zoom'];
++
++function readFollowMode(): FollowMode | null {
++  if (typeof window === 'undefined') return null;
++
++  const value = new URLSearchParams(window.location.search).get('follow');
++
++  return FOLLOW_MODES.find((mode) => mode === value) ?? null;
++}
++
++function componentLayerId(project: Project, componentId: string | null): string | null {
++  if (componentId === null) return null;
++
++  return (
++    project.layers.find((layer) =>
++      layer.components.some((component) => component.id === componentId),
++    )?.id ?? null
++  );
++}
++
++function componentIdAtStep(project: Project, flowId: string | null, step: number): string | null {
++  return project.flows?.find((flow) => flow.id === flowId)?.path[step] ?? null;
++}
++
+ export interface HeroLoopControl {
+   toggle(): void;
+ }
+@@ -38,6 +66,8 @@ export function HeroStage({
+   const viewer = useLiveViewer({ project, initial: 'exploded' });
+   const wrapperRef = useRef<HTMLDivElement>(null);
+   const controllerRef = useRef<HeroSequence | null>(null);
++  const [followMode] = useState<FollowMode | null>(readFollowMode);
++  const previousFocusLayerRef = useRef<string | null>(null);
+   const [sequence, setSequence] = useState<HeroSequenceState>(INITIAL_HERO_SEQUENCE_STATE);
+   const [userPaused, setUserPaused] = useState(false);
+   const [hidden, setHidden] = useState(
+@@ -138,11 +168,133 @@ export function HeroStage({
+ 
+   const handleFirstFrame = useCallback(() => {
+     onFirstFrame();
++
++    if (followMode !== null) {
++      viewer.actions.explode();
++      viewer.actions.zoomIn();
++      viewer.actions.zoomIn();
++    }
++
+     controllerRef.current?.start();
+-  }, [onFirstFrame]);
++  }, [followMode, onFirstFrame, viewer.actions]);
++
++  useEffect(() => {
++    if (followMode !== 'focus') return;
++
++    if (sequence.phase === 'turn') {
++      if (previousFocusLayerRef.current !== null) viewer.actions.releaseFocus();
++      previousFocusLayerRef.current = null;
++      return;
++    }
++
++    const componentId = componentIdAtStep(project, viewer.tour.flowId, viewer.tour.step);
++    const layerId = componentLayerId(project, componentId);
++    const previousLayerId = previousFocusLayerRef.current;
++
++    if (layerId === null) return;
++    if (previousLayerId === layerId) return;
++
++    if (previousLayerId !== null) viewer.actions.toggleFocus(previousLayerId);
++    viewer.actions.toggleFocus(layerId);
++    previousFocusLayerRef.current = layerId;
++  }, [followMode, project, sequence.phase, viewer.actions, viewer.tour.flowId, viewer.tour.step]);
++
++  useEffect(
++    () => () => {
++      if (previousFocusLayerRef.current === null) return;
++
++      viewer.actions.releaseFocus();
++      previousFocusLayerRef.current = null;
++    },
++    [viewer.actions],
++  );
++
++  useEffect(() => {
++    const mode = followMode;
++    if (mode !== 'scroll' && mode !== 'trace') return;
++
++    let frame: number | null = null;
++    let previousStep = -1;
++    let previousFlow: string | null = null;
++    let targetKey = '';
++    let startScrollTop = 0;
++    let targetScrollTop = 0;
++    let stepStartedAt = performance.now();
++    const followSeconds = motion.durations.tourPulse + motion.staggers.tourStep;
++
++    const follow = () => {
++      const wrapper = wrapperRef.current;
++      const stage = wrapper?.querySelector<HTMLElement>('[data-xploder-stage]') ?? null;
++      const viewerRoot = wrapper?.querySelector<HTMLElement>('[data-xploder-ready="true"]');
++
++      if (
++        wrapper === null ||
++        stage === null ||
++        viewerRoot === null ||
++        viewerRoot === undefined ||
++        stage.scrollHeight <= stage.clientHeight
++      ) {
++        frame = requestAnimationFrame(follow);
++        return;
++      }
++
++      const flowId = viewerRoot.dataset.xploderTourFlow ?? null;
++      const step = Number(viewerRoot.dataset.xploderTourStep ?? '-1');
++      const flow = project.flows?.find((candidate) => candidate.id === flowId);
++      const componentId = flow?.path[step] ?? null;
++      const pads = [...wrapper.querySelectorAll<SVGCircleElement>('[data-xploder-trace-pad]')];
++      const current = pads.find((pad) => pad.dataset.xploderTracePad === componentId);
++
++      if (flowId !== previousFlow || step !== previousStep) {
++        previousFlow = flowId;
++        previousStep = step;
++        stepStartedAt = performance.now();
++      }
++
++      if (current !== undefined) {
++        const stageBox = stage.getBoundingClientRect();
++        const currentBaseY = current.getBoundingClientRect().top + stage.scrollTop;
++        const key = `${flowId ?? 'none'}:${step}`;
++        const maximum = stage.scrollHeight - stage.clientHeight;
++
++        if (key !== targetKey) {
++          targetKey = key;
++          stepStartedAt = performance.now();
++          startScrollTop = stage.scrollTop;
++          targetScrollTop = Math.min(
++            maximum,
++            Math.max(0, currentBaseY - (stageBox.top + stage.clientHeight / 2)),
++          );
++        }
++
++        const progress = Math.min(
++          1,
++          Math.max(0, (performance.now() - stepStartedAt) / (followSeconds * MS_PER_SECOND)),
++        );
++        const eased = mode === 'trace' ? progress * progress * (3 - 2 * progress) : 1;
++
++        stage.scrollTop = startScrollTop + (targetScrollTop - startScrollTop) * eased;
++      }
++
++      frame = requestAnimationFrame(follow);
++    };
++
++    frame = requestAnimationFrame(follow);
++
++    return () => {
++      if (frame !== null) cancelAnimationFrame(frame);
++    };
++  }, [followMode, project.flows]);
+ 
+   return (
+-    <div ref={wrapperRef} data-hero-loop={sequence.status} className="h-full w-full">
++    <div
++      ref={wrapperRef}
++      data-hero-loop={sequence.status}
++      data-hero-follow={followMode ?? 'none'}
++      data-hero-focus={viewer.focus?.layerId ?? undefined}
++      data-hero-focus-suspended={viewer.focus?.suspended ?? false}
++      className="h-full w-full"
++    >
+       <LiveViewer
+         project={project}
+         viewer={viewer}

@@ -1,0 +1,12 @@
+== T010 cross-route check ==
+worktree: .
+branch: task/s11.9-home-composition-t010
+
+projects: 3 hunks (all ledgered)
+projects: <main> byte-identical
+project: 3 hunks (all ledgered)
+project: <main> byte-identical
+404: 4 hunks (all ledgered)
+cross-route: 10 hunks
+
+T010-OK

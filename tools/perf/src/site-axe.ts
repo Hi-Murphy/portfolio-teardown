@@ -222,8 +222,11 @@ async function assertPosterOnly(page: Page, routeGroup: 'home' | 'project'): Pro
   const actual = await page.evaluate(() => ({
     canvases: document.querySelectorAll('canvas').length,
     ready: document.querySelector('[data-xploder-ready="true"]') !== null,
-    posterVisible:
-      document.querySelector('[data-site-poster]')?.getBoundingClientRect().width !== 0,
+    posterVisible: [...document.querySelectorAll('[data-site-poster]')].some((poster) => {
+      const rect = poster.getBoundingClientRect();
+      const style = getComputedStyle(poster);
+      return rect.width !== 0 && style.visibility === 'visible' && Number(style.opacity) !== 0;
+    }),
   }));
 
   if (actual.canvases !== 0 || actual.ready || !actual.posterVisible) {
@@ -238,6 +241,8 @@ async function prepareState(page: Page, state: SiteStateDefinition): Promise<voi
     case 'home': {
       await page
         .locator('[data-site-poster]')
+        .filter({ visible: true })
+        .first()
         .waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
       await page.mouse.move(16, 16);
       await waitForLiveState(page, ['revealed', 'skipped']);
@@ -246,6 +251,8 @@ async function prepareState(page: Page, state: SiteStateDefinition): Promise<voi
     case 'home-poster': {
       await page
         .locator('[data-site-poster]')
+        .filter({ visible: true })
+        .first()
         .waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
       // S11.8 (D-19 amended, rfc.md §11.5 R11): an eager hero leaves the poster on its own, so its
       // lasting poster-only state is the Save-Data one. Gated builds keep the pre-interaction scan.
@@ -257,6 +264,8 @@ async function prepareState(page: Page, state: SiteStateDefinition): Promise<voi
         await page.reload({ waitUntil: 'load', timeout: WAIT_TIMEOUT_MS });
         await page
           .locator('[data-site-poster]')
+          .filter({ visible: true })
+          .first()
           .waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
         await waitForLiveState(page, ['skipped']);
         await assertPosterOnly(page, 'home');
@@ -282,6 +291,8 @@ async function prepareState(page: Page, state: SiteStateDefinition): Promise<voi
     case 'project-poster': {
       await page
         .locator('[data-site-poster]')
+        .filter({ visible: true })
+        .first()
         .waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
       await page
         .locator('[data-site-explore-static]')

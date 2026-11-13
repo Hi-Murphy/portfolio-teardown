@@ -54,7 +54,7 @@ export function ProjectCard(props: ProjectCardProps) {
             </Link>
           </Heading>
           {model.tagline === undefined ? null : (
-            <p className="text-sm leading-relaxed text-muted">{model.tagline}</p>
+            <p className="text-base leading-relaxed text-muted">{model.tagline}</p>
           )}
           <TechChipList chips={model.chips} />
         </div>

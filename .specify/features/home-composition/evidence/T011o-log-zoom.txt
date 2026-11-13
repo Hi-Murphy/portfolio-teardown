@@ -1,0 +1,141 @@
+# T011o — one continuous zoom glide in and out
+
+Date: 2026-11-13 (Asia/Jakarta)
+Node: v24.19.0
+pnpm: 12.15.0
+Target: local production export, 1440x900, light theme
+Browser: Playwright Chromium
+
+## Outcome
+Zoom-in dispatches all three steps in one tick and waits durations.implode + staggers.tourStep before capture. Zoom-out keeps one zoomReset() glide and holds durations.tourBeat before the first rotateRight().
+Live frame sampling: zoom-in rising=1, falling=0, max plateau=0 frames; zoom-out rising=0, falling=1, max plateau=0 frames.
+Peak per-frame delta: zoom-in 0.117565 (12.33% of the 0.953125 span); zoom-out 0.109145 (11.45% of the 0.953125 span).
+
+## Focused controller tests
+$ pnpm --filter web exec vitest run test/home-hero-loop.test.tsx --reporter=verbose
+ RUN  v5.0.5 ./apps/web
+
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > starts imploded and calls explode, one zoom burst, and the capture follow in order 10ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause pauses the tour and follow; resume replays both 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during a token wait cancels the callback and resume schedules a fresh wait 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume advances an ended tour instead of replaying that flow 1ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs implode → explode → zoom → capture and narrates the first component 14ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again 9ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > pauses and resumes from the button, hidden tab, and off-screen observer 7ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > a user pause wins over automatic resumes 4ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues 8ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > watches only while running and visible, and leaves on-time steps alone 11ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > never mounts the stage or storyboard under reduced motion 1ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  16:37:43
+   Duration  418ms (environment 58%, tests 20%, import 12%, transform 10%)
+
+## Live per-frame zoom sample
+$ node <checks>/t011o-zoom.mjs
+zoom-in: rising=1 falling=0 plateauMax=0f maxDelta=0.117565 (12.33%) 1.000000->1.953125 samples=38 616.6ms
+zoom-out: rising=0 falling=1 plateauMax=0f maxDelta=0.109145 (11.45%) 1.953125->1.000000 samples=38 616.7ms
+strip: #1=1.000290 #2=1.082826 #3=1.274245 #4=1.658440 #5=1.839540 #6=1.952558
+console errors: 0
+T011o zoom samples: PASS
+
+## Regress hero
+$ bash .specify/features/home-composition/regress-hero.sh
+PASS eager-live
+PASS eager-reduced-motion
+PASS eager-save-data
+PASS site-hero
+PASS site-cls-draws
+regress-hero: PASS (5 steps)
+
+## site:probe --ci
+$ pnpm site:probe --serve apps/web/out --ci
+drill: PASS (13 checks)
+cls: PASS (12 checks)
+routes: PASS (11 checks)
+nojs: PASS (6 checks)
+reduced-motion: PASS (5 checks)
+site-probe: PASS
+
+## home:probe
+$ pnpm home:probe --serve apps/web/out
+order: PASS (18 checks)
+fold: PASS (12 checks)
+responsive: PASS (36 checks)
+structure: PASS (52 checks)
+copy: PASS (1 checks)
+home-probe: PASS
+
+## Snap checks
+$ node <checks>/t011n-snap.mjs
+PASS 390x844 snap-enabled: actual="y mandatory" expected="y mandatory"
+PASS 390x844 1-wheel-down-744: actual=844 expected=844
+PASS 390x844 2-mid-about-holds: actual=1344 expected=1344 aboutTop=1244 freeMax=1388
+PASS 390x844 3-bottom-footer: actual={"scrollY":1705,"footer":{"top":527,"bottom":844},"maxScroll":1705} expected={"scrollY":1705,"footerBottom":844}
+PASS 390x844 4-wheel-up-744: actual=0 expected=0
+PASS 390x844 5-hash-about: actual={"scrollY":1164,"aboutTop":1244,"heading":{"top":121,"bottom":151}} expected="About heading visible"
+PASS 390x844 5-hash-contact: actual={"scrollY":1705,"contactTop":1953,"heading":{"top":289,"bottom":319}} expected="Contact heading visible"
+PASS 390x844 6-pagedown: actual=844 expected=844
+PASS 390x844 6-end: actual=1705 expected=1705
+PASS 390x844 7-reduced-no-snap: actual={"scrollY":180,"snap":"none","projectsTop":844} expected="free small scroll"
+PASS 1440x900 snap-enabled: actual="y mandatory" expected="y mandatory"
+PASS 1440x900 1-wheel-down-800: actual=900 expected=900
+PASS 1440x900 2-mid-about-holds: actual=985 expected=985 aboutTop=1204 freeMax=1005
+PASS 1440x900 3-bottom-footer: actual={"scrollY":1319,"footer":{"top":586,"bottom":900},"maxScroll":1319} expected={"scrollY":1319,"footerBottom":900}
+PASS 1440x900 4-wheel-up-800: actual=0 expected=0
+PASS 1440x900 5-hash-about: actual={"scrollY":1005,"aboutTop":1204,"heading":{"top":256,"bottom":286}} expected="About heading visible"
+PASS 1440x900 5-hash-contact: actual={"scrollY":1319,"contactTop":1698,"heading":{"top":436,"bottom":466}} expected="Contact heading visible"
+PASS 1440x900 6-pagedown: actual=900 expected=900
+PASS 1440x900 6-end: actual=1319 expected=1319
+PASS 1440x900 7-reduced-no-snap: actual={"scrollY":180,"snap":"none","projectsTop":900} expected="free small scroll"
+snap checks: PASS
+
+## Full-cycle CLS
+$ node <checks>/t011n-cls.mjs
+390x844: CLS 0.000000 (0 entries); loop=running; returned=true; 36116ms; phases=implode>explode>zoomin>capture>inspect>turn>implode>explode>zoomin>capture
+1440x900: CLS 0.000000 (0 entries); loop=running; returned=true; 36121ms; phases=implode>explode>zoomin>capture>inspect>turn>implode>explode>zoomin>capture
+full-cycle CLS: PASS
+
+## Lighthouse x1 (median of 3)
+$ pnpm perf:lighthouse http://127.0.0.1:PORT/
+performance: 1 >= 0.95 (median) pass
+lcp: 903.6067 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+
+## Guards
+$ bash .specify/features/home-composition/guards.sh
+OK app-touch
+OK site-json
+OK frozen-surfaces
+OK workflows
+OK routes
+OK g1-sha
+OK home-use-client
+OK dependencies
+OK interim-list
+
+## Full suite
+$ pnpm typecheck && pnpm lint && pnpm test && pnpm build
+packages/xploder typecheck: Done
+tools/perf typecheck: Done
+apps/web typecheck: Done
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint: Done
+All matched files use Prettier code style!
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  275 passed (275)
+packages/xploder test:  Test Files  63 passed (63)
+packages/xploder test:       Tests  632 passed (632)
+apps/web test:  Test Files  44 passed | 1 skipped (45)
+apps/web test:       Tests  230 passed | 2 skipped (232)
+✓ Compiled successfully in 388ms
+✓ Generating static pages using 9 workers (8/8) in 276ms
+
+## Evidence images
+T011o-screenshot-zoom-strip.png: 6 frames at 1440x900 light across the zoom-in, zoom factors 1.000290, 1.082826, 1.274245, 1.658440, 1.839540, 1.952558.
+
+T011o-OK

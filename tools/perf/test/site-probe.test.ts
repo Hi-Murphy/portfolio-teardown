@@ -6,6 +6,7 @@ import {
   evaluateDrawFrames,
   evaluateFallbackHtml,
   evaluateHeroEagerNoInteraction,
+  evaluateHeroLoopRunning,
   heroContainsPoster,
   parseHeroLiveMode,
   type ClsEntry,
@@ -68,12 +69,12 @@ describe('evaluateTabWalk', () => {
     tab('nav:linkedin'),
     tab('nav:theme'),
     tab('hero:primary'),
-    tab('hero:secondary'),
+    tab('hero:pause'),
     tab('card:websocket-inspector'),
+    tab('contact:email'),
+    tab('contact:github'),
+    tab('contact:linkedin'),
     tab('footer:home'),
-    tab('footer:email'),
-    tab('footer:github'),
-    tab('footer:linkedin'),
     tab('footer:top'),
   ];
 
@@ -198,5 +199,22 @@ describe('hero live mode', () => {
     expect(
       evaluateHeroEagerNoInteraction({ liveState: 'revealed', canvases: 1, ready: false }),
     ).toBe(false);
+  });
+
+  test('requires a running loop, exactly one canvas, and a valid tour state', () => {
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'idle' })).toBe(true);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: null })).toBe(true);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'paused', canvases: 1, tour: 'idle' })).toBe(false);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 2, tour: 'idle' })).toBe(false);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'playing' })).toBe(
+      true,
+    );
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'paused' })).toBe(
+      true,
+    );
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'ended' })).toBe(true);
+    expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'unknown' })).toBe(
+      false,
+    );
   });
 });

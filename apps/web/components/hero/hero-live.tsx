@@ -6,6 +6,8 @@ import { motion } from 'xploder/motion';
 
 import { waitForFirstInteraction, waitForIdle } from '../interaction-gate';
 import { LIVE_CLASS } from './hero-classes';
+import { EMPTY_HERO_SHOWCASE, useHeroShowcase, type HeroShowcaseState } from './hero-showcase';
+import type { HeroLoopControl } from './hero-stage';
 
 export interface HeroLiveProps {
   readonly project: Project;
@@ -41,6 +43,7 @@ function waitForEvent(
 }
 
 export function HeroLive({ project }: HeroLiveProps) {
+  const { publish, registerToggle } = useHeroShowcase();
   const [state, setState] = useState<LiveState>('idle');
   const [HeroStage, setHeroStage] = useState<HeroStageComponent | null>(null);
   const inFlightRef = useRef(false);
@@ -52,10 +55,27 @@ export function HeroLive({ project }: HeroLiveProps) {
     revealedRef.current = true;
     setState((current) => (current === 'skipped' ? current : 'revealed'));
   }, []);
-  const stage = useMemo(
-    () => (HeroStage === null ? null : <HeroStage project={project} onFirstFrame={reveal} />),
-    [HeroStage, project, reveal],
+  const registerLoopControl = useCallback(
+    (control: HeroLoopControl | null) => registerToggle(control?.toggle ?? null),
+    [registerToggle],
   );
+  const publishShowcase = useCallback((next: HeroShowcaseState) => publish(next), [publish]);
+  const stage = useMemo(
+    () =>
+      HeroStage === null ? null : (
+        <HeroStage
+          project={project}
+          onFirstFrame={reveal}
+          onLoopControl={registerLoopControl}
+          onShowcaseChange={publishShowcase}
+        />
+      ),
+    [HeroStage, project, publishShowcase, registerLoopControl, reveal],
+  );
+
+  useEffect(() => {
+    if (state !== 'revealed' || stage === null) publishShowcase(EMPTY_HERO_SHOWCASE);
+  }, [publishShowcase, stage, state]);
 
   useEffect(() => {
     if (inFlightRef.current) return;

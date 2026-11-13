@@ -90,7 +90,6 @@ function collectSiteStrings(site: SiteCopy): string[] {
     site.hero.headline,
     site.hero.subline,
     site.hero.primaryCta.label,
-    site.hero.secondaryCta.label,
     ...site.about.paragraphs,
     site.about.skillsNote,
     site.footer.line,

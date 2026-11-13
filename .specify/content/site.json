@@ -19,22 +19,20 @@
     "resume": "/resume.pdf"
   },
   "hero": {
-    "eyebrow": "Android engineer · Indonesia",
+    "eyebrow": "Android engineer · Performance",
     "headline": "Every project, taken apart.",
-    "subline": "A portfolio rendered as exploded architecture: real layers, real components, real numbers — no stock photos, no invented metrics.",
+    "subline": "I build Android apps — community features, and the unglamorous work that makes them fast: payments, lists, benchmarks. Every project here is taken apart.",
     "primaryCta": {
-      "label": "Open a teardown",
+      "label": "See how it works",
       "href": "/projects/websocket-inspector"
     },
-    "secondaryCta": {
-      "label": "Skip the 3D — read the list",
-      "href": "/projects"
-    }
+    "loopPause": "Pause animation",
+    "loopPlay": "Play animation"
   },
   "about": {
     "title": "About",
     "paragraphs": [
-      "I build Android apps at Stockbit & Bibit.id, focused on community features — plus the unglamorous work that decides whether an app feels fast: a customizable payment library on Google Play Billing, a resource controller that made dynamic lists behave, liveness, and macro-benchmarking of UI-layer resource use.",
+      "I build Android apps at ████████, focused on community features — plus the unglamorous work that decides whether an app feels fast: a customizable payment library on Google Play Billing, a resource controller that made dynamic lists behave, liveness, and macro-benchmarking of UI-layer resource use.",
       "I measure before I believe. When an existing tool could not answer a question, I wrote the harness: an inspector for WebSocket traffic, and a benchmark for how coding agents decide what to read. Both started as side projects and ended up changing how I work.",
       "This site is built the same way. Each project is an exploded view of how it is actually put together — layer by layer, component by component, with the numbers that came out of the measurements."
     ],
@@ -44,13 +42,16 @@
     "title": "Projects",
     "emptyNote": "More teardowns in progress."
   },
+  "contact": {
+    "title": "Contact"
+  },
   "footer": {
     "line": "Built with Next.js, three.js and a lot of measurement. Source on GitHub.",
     "contactLabel": "Email"
   },
   "meta": {
     "title": "Timur Haryo — Software Engineer · Android & Developer Tools",
-    "description": "Android engineer at Stockbit & Bibit.id. Portfolio rendered as exploded architecture: real layers, real components, real numbers.",
+    "description": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
     "siteName": "Timur Haryo",
     "locale": "en"
   }

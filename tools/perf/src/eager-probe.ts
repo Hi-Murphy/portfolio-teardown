@@ -13,7 +13,7 @@ export const EAGER_PROBE_REDUCED_SETTLE_MS = 5_000;
 export const EAGER_PROBE_WAIT_MS = 30_000;
 
 export type EagerProbeMotion = 'normal' | 'reduce';
-export type EagerProbeExpectation = 'live' | 'gated';
+export type EagerProbeExpectation = 'live' | 'gated' | 'live-loop';
 
 export interface EagerProbeEventCounts extends Record<string, number> {
   pointerdown: number;
@@ -60,6 +60,7 @@ export interface EagerProbeSnapshot {
   readonly posterVisibility: string | null;
   readonly tour: string | null;
   readonly tweening: string | null;
+  readonly heroLoop: string | null;
   readonly backgroundRgb: string | null;
   readonly readyAttribute: boolean;
 }
@@ -95,6 +96,7 @@ export interface EagerProbeRun {
   readonly route: string;
   readonly routeName: string;
   readonly motion: EagerProbeMotion;
+  readonly saveData?: true;
   readonly expect?: EagerProbeExpectation;
   readonly run: number;
   readonly url: string;
@@ -129,6 +131,7 @@ export interface EagerProbeRunOptions {
   readonly route: string;
   readonly run: number;
   readonly motion: EagerProbeMotion;
+  readonly saveData?: boolean;
   readonly expect?: EagerProbeExpectation;
   readonly outDir: string;
   readonly threeChunkPaths?: ReadonlySet<string>;
@@ -248,12 +251,28 @@ async function readSnapshot(page: Page): Promise<EagerProbeSnapshot> {
     const rect = canvas?.getBoundingClientRect() ?? null;
     // The project route mounts no live layer until the workbench boots (none under reduced motion),
     // so fall back to the poster inside the stage or hero figure.
-    const poster =
-      document.querySelector('[data-site-live] + [data-site-poster]') ??
-      document.querySelector(
+    const posters = [
+      ...document.querySelectorAll('[data-site-live] + [data-site-poster]'),
+      ...document.querySelectorAll(
         '[data-site-stage] [data-site-poster], [data-site-hero] [data-site-poster]',
-      );
+      ),
+    ].filter((candidate, index, all) => all.indexOf(candidate) === index);
+    const poster =
+      posters.find((candidate) => {
+        const style = getComputedStyle(candidate);
+        const box = candidate.getBoundingClientRect();
+        return (
+          style.display !== 'none' &&
+          style.visibility === 'visible' &&
+          Number(style.opacity) > 0 &&
+          box.width > 1 &&
+          box.height > 1
+        );
+      }) ??
+      posters[0] ??
+      null;
     const viewer = document.querySelector('[data-xploder-ready="true"]');
+    const heroLoop = document.querySelector('[data-hero-loop]');
     const liveStyle = live === null ? null : getComputedStyle(live);
     const posterStyle = poster === null ? null : getComputedStyle(poster);
     const resolver = document.createElement('span');
@@ -282,6 +301,7 @@ async function readSnapshot(page: Page): Promise<EagerProbeSnapshot> {
       posterVisibility: posterStyle?.visibility ?? null,
       tour: viewer?.getAttribute('data-xploder-tour') ?? null,
       tweening: viewer?.getAttribute('data-xploder-tweening') ?? null,
+      heroLoop: heroLoop?.getAttribute('data-hero-loop') ?? null,
       backgroundRgb,
       readyAttribute: viewer !== null,
     };
@@ -342,6 +362,7 @@ export function evaluateEagerProbe(
   atDeadline: EagerProbeSnapshot,
   afterRest: EagerProbeSnapshot | null,
   screenshot: EagerProbeScreenshot | null,
+  expect: 'live' | 'live-loop' = 'live',
 ): EagerProbeVerdict {
   const checks: EagerProbeCheck[] = [];
   const noTrustedEvents = atDeadline.trustedEvents === 0;
@@ -357,11 +378,11 @@ export function evaluateEagerProbe(
     const revealedByDeadline = atDeadline.liveStates.some(
       (state) => state.value === 'revealed' && state.t <= EAGER_PROBE_DEADLINE_MS,
     );
-    const ambientIdle =
-      afterRest !== null &&
-      liveStatesEqual(atDeadline.liveStates, afterRest.liveStates) &&
-      (afterRest.tour === null || afterRest.tour === 'idle') &&
-      (afterRest.tweening === null || afterRest.tweening === 'false');
+    const restSettled =
+      afterRest !== null && liveStatesEqual(atDeadline.liveStates, afterRest.liveStates);
+    const restIdle = restSettled && (afterRest.tour === null || afterRest.tour === 'idle');
+    const ambientIdle = restIdle && (afterRest.tweening === null || afterRest.tweening === 'false');
+    const loopRunning = restSettled && afterRest?.heroLoop === 'running';
 
     checks.push(
       check('canvas-present', canvasPresent, true, atDeadline.canvasRect),
@@ -381,7 +402,13 @@ export function evaluateEagerProbe(
       ),
       check('no-trusted-events', noTrustedEvents, 0, atDeadline.trustedEvents),
       check('canvas-non-blank', screenshot?.nonBlank === true, true, screenshot),
-      check('ambient-idle', ambientIdle, true, afterRest),
+      expect === 'live-loop'
+        ? check('loop-running', loopRunning, true, {
+            heroLoop: afterRest?.heroLoop ?? null,
+            tour: afterRest?.tour ?? null,
+            liveStates: afterRest?.liveStates ?? null,
+          })
+        : check('ambient-idle', ambientIdle, true, afterRest),
     );
   } else {
     const posterVisible =
@@ -430,6 +457,31 @@ export function evaluateGatedProbe(snapshot: EagerProbeSnapshot): EagerProbeVerd
   return { pass: checks.every((entry) => entry.pass), checks };
 }
 
+export function evaluateSaveDataProbe(snapshot: EagerProbeSnapshot): EagerProbeVerdict {
+  const posterVisible =
+    snapshot.posterPresent &&
+    snapshot.posterOpacity === '1' &&
+    snapshot.posterVisibility === 'visible';
+  const liveStateSkipped =
+    snapshot.liveState === 'skipped' && snapshot.liveStates.at(-1)?.value === 'skipped';
+  const checks = [
+    check('canvas-absent', snapshot.canvasCount === 0, 0, snapshot.canvasCount),
+    check('ready-absent', snapshot.readyAtMs === null && !snapshot.readyAttribute, null, {
+      readyAtMs: snapshot.readyAtMs,
+      readyAttribute: snapshot.readyAttribute,
+    }),
+    check(
+      'poster-visible',
+      posterVisible,
+      { opacity: '1', visibility: 'visible' },
+      { opacity: snapshot.posterOpacity, visibility: snapshot.posterVisibility },
+    ),
+    check('live-state-skipped', liveStateSkipped, 'skipped', snapshot.liveStates),
+    check('no-trusted-events', snapshot.trustedEvents === 0, 0, snapshot.trustedEvents),
+  ];
+  return { pass: checks.every((entry) => entry.pass), checks };
+}
+
 export function eagerProbeRouteName(route: string): string {
   if (route === '/') return 'home';
   if (route === '/projects/websocket-inspector') return 'project';
@@ -439,12 +491,12 @@ export function eagerProbeRouteName(route: string): string {
 
 export function eagerProbeFileName(
   routeName: string,
-  motion: EagerProbeMotion,
+  condition: EagerProbeMotion | 'save-data',
   run: number,
   extension: 'json' | 'png',
 ): string {
   const suffix = extension === 'json' ? 'json' : 'deadline.png';
-  return `eager-probe-${routeName}-${motion}-r${run}.${suffix}`;
+  return `eager-probe-${routeName}-${condition}-r${run}.${suffix}`;
 }
 
 async function captureScreenshot(
@@ -483,7 +535,10 @@ async function captureScreenshot(
 export async function runEagerProbe(options: EagerProbeRunOptions): Promise<EagerProbeRun> {
   const profile = PROFILES.mobile;
   const reduced = options.motion === 'reduce';
-  const gated = options.expect === 'gated';
+  const expect = options.expect ?? 'live';
+  const gated = expect === 'gated';
+  const saveData = options.saveData === true;
+  const condition = saveData ? 'save-data' : options.motion;
   const context = await options.browser.newContext({
     viewport: {
       width: profile.screenEmulation.width,
@@ -501,6 +556,11 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     const page = await context.newPage();
     page.setDefaultTimeout(EAGER_PROBE_WAIT_MS);
     await page.addInitScript(installProbe);
+    if (saveData) {
+      await page.addInitScript(() => {
+        Object.defineProperty(navigator, 'connection', { value: { saveData: true } });
+      });
+    }
 
     const requestedChunks = new Set<string>();
     page.on('request', (request) => {
@@ -529,7 +589,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     const routeName = eagerProbeRouteName(options.route);
     await mkdir(options.outDir, { recursive: true });
 
-    if (reduced || gated) {
+    if (reduced || gated || saveData) {
       await page.waitForFunction(
         () => (window as unknown as EagerProbeWindow).__eagerProbe?.loadAtMs !== null,
         undefined,
@@ -545,7 +605,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       atDeadline = await readSnapshot(page);
       screenshot = await captureScreenshot(
         page,
-        join(options.outDir, eagerProbeFileName(routeName, options.motion, options.run, 'png')),
+        join(options.outDir, eagerProbeFileName(routeName, condition, options.run, 'png')),
         options.motion,
         atDeadline,
       );
@@ -558,7 +618,7 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       atDeadline = await readSnapshot(page);
       screenshot = await captureScreenshot(
         page,
-        join(options.outDir, eagerProbeFileName(routeName, options.motion, options.run, 'png')),
+        join(options.outDir, eagerProbeFileName(routeName, condition, options.run, 'png')),
         options.motion,
         atDeadline,
       );
@@ -579,7 +639,15 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
     };
     const verdict = gated
       ? evaluateGatedProbe(atDeadline)
-      : evaluateEagerProbe(options.motion, atDeadline, afterRest, screenshot);
+      : saveData
+        ? evaluateSaveDataProbe(atDeadline)
+        : evaluateEagerProbe(
+            options.motion,
+            atDeadline,
+            afterRest,
+            screenshot,
+            expect === 'live-loop' ? 'live-loop' : 'live',
+          );
 
     return {
       kind: 'eager-probe',
@@ -587,15 +655,18 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
       route: options.route,
       routeName,
       motion: options.motion,
+      ...(saveData ? { saveData: true as const } : {}),
       ...(gated ? { expect: 'gated' as const } : {}),
+      ...(expect === 'live-loop' ? { expect: 'live-loop' as const } : {}),
       run: options.run,
       url,
       chromium: chromiumVersion(options.browser),
       profile: 'mobile',
       reducedMotion: reduced ? 'reduce' : 'no-preference',
-      deadlineMs: reduced || gated ? EAGER_PROBE_REDUCED_SETTLE_MS : EAGER_PROBE_DEADLINE_MS,
-      restWindowMs: reduced || gated ? null : EAGER_PROBE_REST_MS,
-      reducedSettleMs: reduced ? EAGER_PROBE_REDUCED_SETTLE_MS : null,
+      deadlineMs:
+        reduced || gated || saveData ? EAGER_PROBE_REDUCED_SETTLE_MS : EAGER_PROBE_DEADLINE_MS,
+      restWindowMs: reduced || gated || saveData ? null : EAGER_PROBE_REST_MS,
+      reducedSettleMs: reduced || saveData ? EAGER_PROBE_REDUCED_SETTLE_MS : null,
       atDeadline,
       afterRest,
       screenshot,

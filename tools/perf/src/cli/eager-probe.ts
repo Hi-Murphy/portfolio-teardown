@@ -22,6 +22,7 @@ interface EagerProbeArgs {
     route?: string;
     runs?: string;
     'reduced-motion'?: boolean;
+    'save-data'?: boolean;
     expect?: string;
     out?: string;
     help?: boolean;
@@ -47,7 +48,8 @@ Options:
   --route <path>      route to probe, for example / or /projects/websocket-inspector
   --runs <n>          runs to execute (default: ${DEFAULT_RUNS})
   --reduced-motion    use prefers-reduced-motion: reduce and observe until load + 5 s
-  --expect <mode>     expected state: live (default) or gated
+  --save-data         emulate Save-Data and observe the poster until load + 5 s
+  --expect <mode>     expected state: live (default), gated, or live-loop
   --out <dir>         output directory (default: .evidence/eager-probe)
   --help              show this help`;
 
@@ -120,8 +122,9 @@ async function detectThreeChunkPaths(exportDir: string): Promise<Set<string>> {
 }
 
 function printRun(result: EagerProbeRun): void {
+  const condition = result.saveData === true ? 'save-data' : result.motion;
   console.log(
-    `eager-probe: ${result.routeName}/${result.motion} r${result.run} ${result.pass ? 'PASS' : 'FAIL'}`,
+    `eager-probe: ${result.routeName}/${condition} r${result.run} ${result.pass ? 'PASS' : 'FAIL'}`,
   );
   for (const entry of result.verdict.checks) {
     if (entry.pass) continue;
@@ -138,6 +141,7 @@ export async function main(argv: string[]): Promise<number> {
       route: { type: 'string' },
       runs: { type: 'string' },
       'reduced-motion': { type: 'boolean' },
+      'save-data': { type: 'boolean' },
       expect: { type: 'string' },
       out: { type: 'string' },
       help: { type: 'boolean' },
@@ -163,10 +167,23 @@ export async function main(argv: string[]): Promise<number> {
 
   const runs = parseRuns(values.runs);
   const motion: EagerProbeMotion = values['reduced-motion'] === true ? 'reduce' : 'normal';
-  if (values.expect !== undefined && values.expect !== 'live' && values.expect !== 'gated') {
-    throw new CliError(EXIT.USAGE, `--expect must be live or gated: ${values.expect}`);
+  const saveData = values['save-data'] === true;
+  if (saveData && values['reduced-motion'] === true) {
+    throw new CliError(EXIT.USAGE, 'provide either --reduced-motion or --save-data, not both');
   }
-  const expect: EagerProbeExpectation = values.expect === 'gated' ? 'gated' : 'live';
+  if (
+    values.expect !== undefined &&
+    values.expect !== 'live' &&
+    values.expect !== 'gated' &&
+    values.expect !== 'live-loop'
+  ) {
+    throw new CliError(EXIT.USAGE, `--expect must be live, gated, or live-loop: ${values.expect}`);
+  }
+  if (values.expect === 'live-loop' && (saveData || values['reduced-motion'] === true)) {
+    throw new CliError(EXIT.USAGE, '--expect live-loop requires normal motion without --save-data');
+  }
+  const expect: EagerProbeExpectation =
+    values.expect === 'gated' ? 'gated' : values.expect === 'live-loop' ? 'live-loop' : 'live';
   const outDir = values.out ?? join(process.cwd(), '.evidence', 'eager-probe');
   try {
     await mkdir(outDir, { recursive: true });
@@ -193,13 +210,19 @@ export async function main(argv: string[]): Promise<number> {
           route: values.route,
           run: runNumber,
           motion,
+          ...(saveData ? { saveData: true } : {}),
           expect,
           outDir,
           ...(threeChunkPaths === undefined ? {} : { threeChunkPaths }),
         });
         const artifact = join(
           outDir,
-          eagerProbeFileName(eagerProbeRouteName(values.route), motion, runNumber, 'json'),
+          eagerProbeFileName(
+            eagerProbeRouteName(values.route),
+            saveData ? 'save-data' : motion,
+            runNumber,
+            'json',
+          ),
         );
         await writeFile(artifact, `${JSON.stringify(result, null, 2)}\n`, 'utf8');
         printRun(result);

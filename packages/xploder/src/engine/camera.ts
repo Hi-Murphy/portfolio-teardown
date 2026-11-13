@@ -21,6 +21,8 @@ export interface RigState {
   readonly step: 0 | 1 | 2 | 3;
   readonly turns: number;
   readonly zoomFactor: number;
+  /** Opt-in camera animation; absent keeps the original instant zoom path. */
+  readonly smoothZoom?: boolean;
 }
 
 export const ZOOM_BOUNDS = {
@@ -144,6 +146,57 @@ export function createTurnTween(tokens: MotionTokens): TurnTween {
     displayed = sample(now).azimuth;
     from = displayed;
     target = azimuth;
+    start = now;
+    settled = false;
+  }
+
+  return { setTarget, sample };
+}
+
+export interface ZoomTween {
+  setTarget(zoomFactor: number, now: number): void;
+  sample(now: number): { zoomFactor: number; settled: boolean };
+}
+
+export function createZoomTween(tokens: MotionTokens): ZoomTween {
+  const ease = easeFromToken(tokens.easings.implode);
+  const duration = tokens.durations.implode;
+  let displayed: number = ZOOM_BOUNDS.min;
+  let target: number = ZOOM_BOUNDS.min;
+  let from: number = ZOOM_BOUNDS.min;
+  let start = 0;
+  let hasTarget = false;
+  let settled = true;
+
+  function sample(now: number): { zoomFactor: number; settled: boolean } {
+    if (!hasTarget || settled || duration <= 0 || now - start >= duration) {
+      displayed = target;
+      settled = true;
+      return { zoomFactor: displayed, settled: true };
+    }
+
+    const progress = Math.min(1, Math.max(0, (now - start) / duration));
+
+    displayed = from + (target - from) * ease(progress);
+    settled = false;
+
+    return { zoomFactor: displayed, settled: false };
+  }
+
+  function setTarget(zoomFactor: number, now: number): void {
+    if (!hasTarget) {
+      displayed = zoomFactor;
+      target = zoomFactor;
+      from = zoomFactor;
+      start = now;
+      hasTarget = true;
+      settled = true;
+      return;
+    }
+
+    displayed = sample(now).zoomFactor;
+    from = displayed;
+    target = zoomFactor;
     start = now;
     settled = false;
   }

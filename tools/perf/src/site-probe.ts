@@ -91,6 +91,12 @@ export interface HeroEagerNoInteractionState {
   readonly ready: boolean;
 }
 
+export interface HeroLoopRunningState {
+  readonly heroLoop: string | null;
+  readonly canvases: number;
+  readonly tour: string | null;
+}
+
 export interface SiteProbeCheck {
   readonly name: string;
   readonly pass: boolean;
@@ -295,6 +301,13 @@ export function parseHeroLiveMode(value: string | null | undefined): HeroLiveMod
 
 export function evaluateHeroEagerNoInteraction(state: HeroEagerNoInteractionState): boolean {
   return state.liveState === 'revealed' && state.canvases === 1 && state.ready;
+}
+
+export function evaluateHeroLoopRunning(state: HeroLoopRunningState): boolean {
+  const validTour =
+    state.tour === null || ['idle', 'playing', 'paused', 'ended'].includes(state.tour);
+
+  return state.heroLoop === 'running' && state.canvases === 1 && validTour;
 }
 
 export function clsRoutes(siteBase?: URL, fixturesBase?: URL): ProbeRoute[] {
@@ -734,6 +747,9 @@ async function readActiveTab(page: Page): Promise<DrillTabStep | null> {
         if (aria === 'GitHub') return 'nav:github';
         if (aria === 'LinkedIn') return 'nav:linkedin';
       }
+      if (hero !== null && element.closest('[data-hero-loop-slot]') !== null) {
+        if (element.tagName === 'BUTTON') return 'hero:pause';
+      }
       if (hero !== null && element.tagName === 'A') {
         const links = [...hero.querySelectorAll<HTMLAnchorElement>('a[href]')];
         return links.indexOf(element as HTMLAnchorElement) === 0
@@ -741,6 +757,12 @@ async function readActiveTab(page: Page): Promise<DrillTabStep | null> {
           : 'hero:secondary';
       }
       if (card !== null) return `card:${card.getAttribute('data-site-card') ?? 'unknown'}`;
+      const contact = element.closest('[data-home-section="contact"]');
+      if (contact !== null && element.tagName === 'A') {
+        if (href?.startsWith('mailto:')) return 'contact:email';
+        if (/github/i.test(name) || /github\.com/i.test(href ?? '')) return 'contact:github';
+        if (/linkedin/i.test(name) || /linkedin\.com/i.test(href ?? '')) return 'contact:linkedin';
+      }
       if (footer !== null) {
         if (href === '/') return 'footer:home';
         if (href?.startsWith('mailto:')) return 'footer:email';
@@ -767,6 +789,7 @@ async function readDrillStructure(page: Page): Promise<{
   readonly nav: readonly string[];
   readonly hero: readonly string[];
   readonly cards: readonly string[];
+  readonly contact: readonly string[];
   readonly footer: readonly string[];
   readonly resumeLinks: number;
 }> {
@@ -776,6 +799,8 @@ async function readDrillStructure(page: Page): Promise<{
       const aria = element.getAttribute('aria-label');
       return (aria ?? text).slice(0, 160);
     };
+    const isRendered = (element: HTMLElement) =>
+      element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden';
     const descriptor = (element: HTMLElement, key: string, panel: string): DrillTabStep => ({
       key,
       role: element.getAttribute('role') ?? element.tagName.toLowerCase(),
@@ -801,16 +826,38 @@ async function readDrillStructure(page: Page): Promise<{
       if (aria === 'LinkedIn') return 'nav:linkedin';
       return `nav:unknown:${normalize(element)}`;
     });
-    const heroElements = [...document.querySelectorAll<HTMLElement>('[data-site-hero] a[href]')];
-    const heroKeys = heroElements.map((element, index) =>
-      index === 0 ? 'hero:primary' : 'hero:secondary',
+    const heroElements = [
+      ...document.querySelectorAll<HTMLElement>(
+        '[data-site-hero] a[href], [data-site-hero] [data-hero-loop-slot] button',
+      ),
+    ];
+    const heroLinks = heroElements.filter((element) => element.tagName === 'A');
+    const heroKeys = heroElements.map((element) =>
+      element.tagName === 'BUTTON'
+        ? 'hero:pause'
+        : heroLinks.indexOf(element) === 0
+          ? 'hero:primary'
+          : 'hero:secondary',
     );
     const cardElements = [...document.querySelectorAll<HTMLElement>('[data-site-card] a[href]')];
     const cardKeys = cardElements.map(
       (element) =>
         `card:${element.closest('[data-site-card]')?.getAttribute('data-site-card') ?? 'unknown'}`,
     );
-    const footerElements = [...document.querySelectorAll<HTMLElement>('footer a[href]')];
+    const contactElements = [
+      ...document.querySelectorAll<HTMLElement>('[data-home-section="contact"] a[href]'),
+    ];
+    const contactKeys = contactElements.map((element) => {
+      const href = element.getAttribute('href');
+      const name = normalize(element);
+      if (href?.startsWith('mailto:')) return 'contact:email';
+      if (/github/i.test(name) || /github\.com/i.test(href ?? '')) return 'contact:github';
+      if (/linkedin/i.test(name) || /linkedin\.com/i.test(href ?? '')) return 'contact:linkedin';
+      return `contact:unknown:${name}`;
+    });
+    const footerElements = [...document.querySelectorAll<HTMLElement>('footer a[href]')].filter(
+      isRendered,
+    );
     const footerKeys = footerElements.map((element) => {
       const href = element.getAttribute('href');
       const name = normalize(element);
@@ -833,6 +880,9 @@ async function readDrillStructure(page: Page): Promise<{
       ...cardElements.map((element, index) =>
         descriptor(element, cardKeys[index] ?? 'card:unknown', ''),
       ),
+      ...contactElements.map((element, index) =>
+        descriptor(element, contactKeys[index] ?? 'contact:unknown', ''),
+      ),
       ...footerElements.map((element, index) =>
         descriptor(element, footerKeys[index] ?? 'footer:unknown', 'footer'),
       ),
@@ -846,6 +896,7 @@ async function readDrillStructure(page: Page): Promise<{
       nav: navKeys,
       hero: heroKeys,
       cards: cardKeys,
+      contact: contactKeys,
       footer: footerKeys,
       resumeLinks,
     };
@@ -1112,7 +1163,11 @@ async function runHeroGroup(
       await homePage.waitForTimeout(POSTER_SCAN_MS);
       const posterState = await homePage.evaluate(() => {
         const live = document.querySelector('[data-site-live]');
-        const poster = document.querySelector('[data-site-hero] [data-site-poster]');
+        const posters = [...document.querySelectorAll('[data-site-hero] [data-site-poster]')];
+        const poster =
+          posters.find((candidate) => candidate.getBoundingClientRect().width > 1) ??
+          posters[0] ??
+          null;
         const rect = poster?.getBoundingClientRect();
         return {
           liveState: live?.getAttribute('data-site-live-state') ?? null,
@@ -1154,21 +1209,32 @@ async function runHeroGroup(
     );
 
     await homePage.waitForTimeout(IDLE_SCAN_MS);
+    const loopPresent = (await homePage.locator('[data-hero-loop]').count()) > 0;
     const idle = await homePage.evaluate(() => {
       const viewer = document.querySelector('[data-xploder-ready="true"]');
       return {
         state: viewer?.getAttribute('data-xploder-state') ?? null,
         tweening: viewer?.getAttribute('data-xploder-tweening') ?? null,
+        tour: viewer?.getAttribute('data-xploder-tour') ?? null,
+        heroLoop:
+          document.querySelector('[data-hero-loop]')?.getAttribute('data-hero-loop') ?? null,
         canvases: document.querySelectorAll('canvas').length,
       };
     });
     checks.push(
-      check(
-        'hero-idle-exploded',
-        idle.state === 'exploded' && idle.tweening === 'false',
-        { state: 'exploded', tweening: 'false' },
-        idle,
-      ),
+      loopPresent
+        ? check(
+            'hero-loop-running',
+            evaluateHeroLoopRunning(idle),
+            { heroLoop: 'running', canvases: 1, tour: 'capture or inspect' },
+            { heroLoop: idle.heroLoop, canvases: idle.canvases, tour: idle.tour },
+          )
+        : check(
+            'hero-idle-exploded',
+            idle.state === 'exploded' && idle.tweening === 'false',
+            { state: 'exploded', tweening: 'false' },
+            { state: idle.state, tweening: idle.tweening, canvases: idle.canvases },
+          ),
       check('hero-one-canvas-max', idle.canvases <= 1, 1, idle.canvases),
     );
   } finally {
@@ -1235,7 +1301,11 @@ async function runReducedMotionGroup(
     );
     const home = await page.evaluate(() => {
       const hero = document.querySelector('[data-site-hero]');
-      const poster = document.querySelector('[data-site-hero] [data-site-poster]');
+      const posters = [...document.querySelectorAll('[data-site-hero] [data-site-poster]')];
+      const poster =
+        posters.find((candidate) => candidate.getBoundingClientRect().width > 1) ??
+        posters[0] ??
+        null;
       return {
         liveState:
           document.querySelector('[data-site-live]')?.getAttribute('data-site-live-state') ?? null,

@@ -2,7 +2,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import type { OrthographicCamera } from 'three';
 
-import { azimuthOf, createTurnTween, type RigState } from '../../engine/camera';
+import { azimuthOf, createTurnTween, createZoomTween, type RigState } from '../../engine/camera';
 import { fitZoom, VIEW, type ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
 
@@ -36,10 +36,22 @@ function placeCamera(camera: OrthographicCamera, azimuth: number, distance: numb
   camera.lookAt(0, 0, 0);
 }
 
+interface CameraZoomTarget {
+  readonly dataset?: { xploderCameraZoom?: string };
+}
+
+function publishCameraZoom(element: CameraZoomTarget, zoomFactor: number): void {
+  if (element.dataset === undefined) return;
+
+  element.dataset.xploderCameraZoom = String(zoomFactor);
+}
+
 export function CameraRig({ layout, tokens, rig, now, onAzimuth }: CameraRigProps) {
-  const { size, camera, invalidate } = useThree();
+  const { size, camera, gl, invalidate } = useThree();
   const turnTween = useMemo(() => createTurnTween(tokens), [tokens]);
+  const zoomTween = useMemo(() => createZoomTween(tokens), [tokens]);
   const distance = useMemo(() => distanceFor(layout.bounds.exploded), [layout.bounds.exploded]);
+  const smoothZoom = rig.smoothZoom === true;
   const onAzimuthRef = useRef(onAzimuth);
   const lastAzimuthRef = useRef<number | null>(null);
 
@@ -48,15 +60,34 @@ export function CameraRig({ layout, tokens, rig, now, onAzimuth }: CameraRigProp
   }, [onAzimuth]);
 
   useLayoutEffect(() => {
+    if (!smoothZoom) return;
+
+    zoomTween.setTarget(rig.zoomFactor, now());
+  }, [now, rig.zoomFactor, smoothZoom, zoomTween]);
+
+  useLayoutEffect(() => {
     const orthographicCamera = camera as OrthographicCamera;
+    const zoomFactor = smoothZoom ? zoomTween.sample(now()).zoomFactor : rig.zoomFactor;
 
     // eslint-disable-next-line react-hooks/immutability -- R3F cameras are mutable scene objects.
-    orthographicCamera.zoom = fitZoom(layout.bounds.exploded, size) * rig.zoomFactor;
+    orthographicCamera.zoom = fitZoom(layout.bounds.exploded, size) * zoomFactor;
     orthographicCamera.near = NEAR;
     orthographicCamera.far = 2 * distance;
     orthographicCamera.updateProjectionMatrix();
+    if (smoothZoom) publishCameraZoom(gl.domElement, zoomFactor);
     invalidate();
-  }, [camera, distance, invalidate, layout.bounds.exploded, rig.zoomFactor, size]);
+  }, [
+    camera,
+    distance,
+    gl,
+    invalidate,
+    layout.bounds.exploded,
+    now,
+    rig.zoomFactor,
+    size,
+    smoothZoom,
+    zoomTween,
+  ]);
 
   useLayoutEffect(() => {
     const timestamp = now();
@@ -71,8 +102,10 @@ export function CameraRig({ layout, tokens, rig, now, onAzimuth }: CameraRigProp
     invalidate();
   }, [camera, distance, invalidate, now, rig.turns, turnTween]);
 
+  // eslint-disable-next-line react-hooks/immutability -- R3F cameras and renderer DOM elements are mutable scene objects.
   useFrame(() => {
-    const { azimuth, settled } = turnTween.sample(now());
+    const timestamp = now();
+    const { azimuth, settled } = turnTween.sample(timestamp);
 
     placeCamera(camera as OrthographicCamera, azimuth, distance);
 
@@ -81,7 +114,24 @@ export function CameraRig({ layout, tokens, rig, now, onAzimuth }: CameraRigProp
       onAzimuthRef.current?.(azimuth);
     }
 
-    if (!settled) invalidate();
+    let zoomSettled = true;
+
+    if (smoothZoom) {
+      const sampled = zoomTween.sample(timestamp);
+      const orthographicCamera = camera as OrthographicCamera;
+      const zoom = fitZoom(layout.bounds.exploded, size) * sampled.zoomFactor;
+
+      if (orthographicCamera.zoom !== zoom) {
+        // eslint-disable-next-line react-hooks/immutability -- R3F cameras are mutable scene objects.
+        orthographicCamera.zoom = zoom;
+        orthographicCamera.updateProjectionMatrix();
+      }
+
+      publishCameraZoom(gl.domElement, sampled.zoomFactor);
+      zoomSettled = sampled.settled;
+    }
+
+    if (!settled || !zoomSettled) invalidate();
   });
 
   return null;

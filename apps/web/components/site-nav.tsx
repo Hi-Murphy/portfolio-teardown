@@ -8,15 +8,15 @@ import { NavProjectsLink } from './nav-projects-link';
 const NAV_LINK_CLASS =
   'inline-flex h-11 min-w-9 shrink-0 items-center justify-center px-1 text-sm font-medium text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:px-2';
 const SOCIAL_LINK_CLASS =
-  'inline-flex h-11 w-9 shrink-0 items-center justify-center text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent';
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent';
 
-function siteLinkUrl(label: 'GitHub' | 'LinkedIn'): string | undefined {
-  return SITE.identity.links.find((link) => link.label === label)?.url ?? undefined;
+function siteLink(label: 'GitHub' | 'LinkedIn') {
+  return SITE.identity.links.find((link) => link.label === label);
 }
 
 export function SiteNav() {
-  const githubUrl = siteLinkUrl('GitHub');
-  const linkedInUrl = siteLinkUrl('LinkedIn');
+  const githubLink = siteLink('GitHub');
+  const linkedInLink = siteLink('LinkedIn');
 
   return (
     <header className="border-b border-line/30 bg-bg">
@@ -24,7 +24,7 @@ export function SiteNav() {
         <nav aria-label="Primary" className="flex h-11 min-w-0 items-center">
           <Link
             href="/"
-            className="inline-flex h-11 min-w-9 shrink-0 items-center text-sm font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:gap-2"
+            className="inline-flex h-11 min-w-11 shrink-0 items-center text-sm font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:gap-2"
           >
             <MonogramMark siteName={SITE.meta.siteName} />
             <span className="sr-only sm:not-sr-only sm:inline sm:whitespace-nowrap">
@@ -32,21 +32,25 @@ export function SiteNav() {
             </span>
           </Link>
           <div className="flex h-11 min-w-0 flex-1 items-center justify-end sm:gap-1">
-            <NavProjectsLink className={NAV_LINK_CLASS} />
+            <NavProjectsLink className={NAV_LINK_CLASS} label={SITE.projects.title} />
             <Link href="/#about" className={NAV_LINK_CLASS}>
-              About
+              {SITE.about.title}
             </Link>
             <Link href="/#contact" className={NAV_LINK_CLASS}>
-              Contact
+              {SITE.contact.title}
             </Link>
             <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-line/30" />
-            {githubUrl ? (
-              <a href={githubUrl} aria-label="GitHub" className={SOCIAL_LINK_CLASS}>
+            {githubLink?.url ? (
+              <a href={githubLink.url} aria-label={githubLink.label} className={SOCIAL_LINK_CLASS}>
                 <GitHubIcon />
               </a>
             ) : null}
-            {linkedInUrl ? (
-              <a href={linkedInUrl} aria-label="LinkedIn" className={SOCIAL_LINK_CLASS}>
+            {linkedInLink?.url ? (
+              <a
+                href={linkedInLink.url}
+                aria-label={linkedInLink.label}
+                className={SOCIAL_LINK_CLASS}
+              >
                 <LinkedInIcon />
               </a>
             ) : null}

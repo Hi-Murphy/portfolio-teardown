@@ -20,10 +20,8 @@ export interface SiteCopy {
       label: string;
       href: string;
     };
-    secondaryCta: {
-      label: string;
-      href: string;
-    };
+    loopPause: string;
+    loopPlay: string;
   };
   about: {
     title: string;
@@ -33,6 +31,9 @@ export interface SiteCopy {
   projects: {
     title: string;
     emptyNote: string;
+  };
+  contact: {
+    title: string;
   };
   footer: {
     line: string;

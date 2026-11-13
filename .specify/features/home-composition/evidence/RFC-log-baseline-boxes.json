@@ -1,0 +1,992 @@
+{
+  "390x844-light": {
+    "docHeight": 2232,
+    "hScroll": false,
+    "visibleName": {
+      "text": "Timur Haryo Mahissanular",
+      "box": {
+        "x": 64,
+        "y": 1774,
+        "w": 189,
+        "h": 24,
+        "bottom": 1798
+      }
+    },
+    "eyebrow": {
+      "x": 20,
+      "y": 85,
+      "w": 263,
+      "h": 16,
+      "bottom": 101
+    },
+    "h1": {
+      "x": 20,
+      "y": 121,
+      "w": 332,
+      "h": 78,
+      "bottom": 199
+    },
+    "subline": {
+      "x": 20,
+      "y": 219,
+      "w": 350,
+      "h": 78,
+      "bottom": 297
+    },
+    "primaryCta": {
+      "x": 20,
+      "y": 317,
+      "w": 155,
+      "h": 44,
+      "bottom": 361
+    },
+    "figure": {
+      "x": 20,
+      "y": 449,
+      "w": 350,
+      "h": 320,
+      "bottom": 769
+    },
+    "caption": {
+      "x": 20,
+      "y": 724,
+      "w": 350,
+      "h": 46,
+      "bottom": 769
+    },
+    "firstCard": {
+      "x": 20,
+      "y": 900,
+      "w": 350,
+      "h": 186,
+      "bottom": 1086
+    },
+    "liveMode": "eager",
+    "regions": [
+      {
+        "tag": "header",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 45,
+          "bottom": 45
+        }
+      },
+      {
+        "tag": "section",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 20,
+          "y": 45,
+          "w": 350,
+          "h": 764,
+          "bottom": 809
+        }
+      },
+      {
+        "tag": "section",
+        "id": "projects",
+        "label": "projects-title",
+        "box": {
+          "x": 20,
+          "y": 809,
+          "w": 350,
+          "h": 317,
+          "bottom": 1126
+        }
+      },
+      {
+        "tag": "div",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 20,
+          "y": 1126,
+          "w": 350,
+          "h": 601,
+          "bottom": 1727
+        }
+      },
+      {
+        "tag": "section",
+        "id": "about",
+        "label": "about-title",
+        "box": {
+          "x": 20,
+          "y": 1167,
+          "w": 350,
+          "h": 520,
+          "bottom": 1687
+        }
+      },
+      {
+        "tag": "footer",
+        "id": "contact",
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 1727,
+          "w": 390,
+          "h": 506,
+          "bottom": 2232
+        }
+      }
+    ],
+    "headings": [
+      "H1:Every project, taken apart.",
+      "H2:Projects",
+      "H3:Scarlet Inspector",
+      "H2:About"
+    ],
+    "smallTargets": [
+      "Scarlet Inspector 144x21",
+      "THTimur Haryo Mahissanular 237x36"
+    ],
+    "smallText": [
+      "P:12px:Android engineer · Indonesia",
+      "FIGCAPTION:14px:Scarlet Inspector — Every WebS",
+      "P:14px:Every WebSocket frame, capture",
+      "LI:12px:Kotlin, language",
+      "SPAN:12px:Kotlin",
+      "LI:12px:Android, platform",
+      "SPAN:12px:Android",
+      "LI:12px:Kotlin Coroutines, library",
+      "SPAN:12px:Kotlin Coroutines",
+      "LI:12px:Jetpack Compose, framework",
+      "SPAN:12px:Jetpack Compose",
+      "P:14px:I build Android apps at ██████",
+      "P:14px:I measure before I believe. Wh",
+      "P:14px:This site is built the same wa",
+      "P:12px:Kotlin · Compose · Coroutines "
+    ]
+  },
+  "390x844-dark": {
+    "docHeight": 2232,
+    "hScroll": false,
+    "visibleName": {
+      "text": "Timur Haryo Mahissanular",
+      "box": {
+        "x": 64,
+        "y": 1774,
+        "w": 189,
+        "h": 24,
+        "bottom": 1798
+      }
+    },
+    "eyebrow": {
+      "x": 20,
+      "y": 85,
+      "w": 263,
+      "h": 16,
+      "bottom": 101
+    },
+    "h1": {
+      "x": 20,
+      "y": 121,
+      "w": 332,
+      "h": 78,
+      "bottom": 199
+    },
+    "subline": {
+      "x": 20,
+      "y": 219,
+      "w": 350,
+      "h": 78,
+      "bottom": 297
+    },
+    "primaryCta": {
+      "x": 20,
+      "y": 317,
+      "w": 155,
+      "h": 44,
+      "bottom": 361
+    },
+    "figure": {
+      "x": 20,
+      "y": 449,
+      "w": 350,
+      "h": 320,
+      "bottom": 769
+    },
+    "caption": {
+      "x": 20,
+      "y": 724,
+      "w": 350,
+      "h": 46,
+      "bottom": 769
+    },
+    "firstCard": {
+      "x": 20,
+      "y": 900,
+      "w": 350,
+      "h": 186,
+      "bottom": 1086
+    },
+    "liveMode": "eager",
+    "regions": [
+      {
+        "tag": "header",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 45,
+          "bottom": 45
+        }
+      },
+      {
+        "tag": "section",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 20,
+          "y": 45,
+          "w": 350,
+          "h": 764,
+          "bottom": 809
+        }
+      },
+      {
+        "tag": "section",
+        "id": "projects",
+        "label": "projects-title",
+        "box": {
+          "x": 20,
+          "y": 809,
+          "w": 350,
+          "h": 317,
+          "bottom": 1126
+        }
+      },
+      {
+        "tag": "div",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 20,
+          "y": 1126,
+          "w": 350,
+          "h": 601,
+          "bottom": 1727
+        }
+      },
+      {
+        "tag": "section",
+        "id": "about",
+        "label": "about-title",
+        "box": {
+          "x": 20,
+          "y": 1167,
+          "w": 350,
+          "h": 520,
+          "bottom": 1687
+        }
+      },
+      {
+        "tag": "footer",
+        "id": "contact",
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 1727,
+          "w": 390,
+          "h": 506,
+          "bottom": 2232
+        }
+      }
+    ],
+    "headings": [
+      "H1:Every project, taken apart.",
+      "H2:Projects",
+      "H3:Scarlet Inspector",
+      "H2:About"
+    ],
+    "smallTargets": [
+      "Scarlet Inspector 144x21",
+      "THTimur Haryo Mahissanular 237x36"
+    ],
+    "smallText": [
+      "P:12px:Android engineer · Indonesia",
+      "FIGCAPTION:14px:Scarlet Inspector — Every WebS",
+      "P:14px:Every WebSocket frame, capture",
+      "LI:12px:Kotlin, language",
+      "SPAN:12px:Kotlin",
+      "LI:12px:Android, platform",
+      "SPAN:12px:Android",
+      "LI:12px:Kotlin Coroutines, library",
+      "SPAN:12px:Kotlin Coroutines",
+      "LI:12px:Jetpack Compose, framework",
+      "SPAN:12px:Jetpack Compose",
+      "P:14px:I build Android apps at ██████",
+      "P:14px:I measure before I believe. Wh",
+      "P:14px:This site is built the same wa",
+      "P:12px:Kotlin · Compose · Coroutines "
+    ]
+  },
+  "768x1024-light": {
+    "docHeight": 2098,
+    "hScroll": false,
+    "visibleName": {
+      "text": "Timur Haryo Mahissanular",
+      "box": {
+        "x": 72,
+        "y": 1799,
+        "w": 189,
+        "h": 24,
+        "bottom": 1823
+      }
+    },
+    "eyebrow": {
+      "x": 32,
+      "y": 101,
+      "w": 263,
+      "h": 16,
+      "bottom": 117
+    },
+    "h1": {
+      "x": 32,
+      "y": 137,
+      "w": 511,
+      "h": 120,
+      "bottom": 257
+    },
+    "subline": {
+      "x": 32,
+      "y": 277,
+      "w": 656,
+      "h": 59,
+      "bottom": 336
+    },
+    "primaryCta": {
+      "x": 32,
+      "y": 356,
+      "w": 155,
+      "h": 44,
+      "bottom": 400
+    },
+    "figure": {
+      "x": 32,
+      "y": 432,
+      "w": 704,
+      "h": 431,
+      "bottom": 863
+    },
+    "caption": {
+      "x": 32,
+      "y": 840,
+      "w": 704,
+      "h": 23,
+      "bottom": 863
+    },
+    "firstCard": {
+      "x": 32,
+      "y": 1026,
+      "w": 344,
+      "h": 228,
+      "bottom": 1254
+    },
+    "liveMode": "eager",
+    "regions": [
+      {
+        "tag": "header",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 768,
+          "h": 45,
+          "bottom": 45
+        }
+      },
+      {
+        "tag": "section",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 32,
+          "y": 45,
+          "w": 704,
+          "h": 874,
+          "bottom": 919
+        }
+      },
+      {
+        "tag": "section",
+        "id": "projects",
+        "label": "projects-title",
+        "box": {
+          "x": 32,
+          "y": 919,
+          "w": 704,
+          "h": 391,
+          "bottom": 1310
+        }
+      },
+      {
+        "tag": "div",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 32,
+          "y": 1310,
+          "w": 704,
+          "h": 434,
+          "bottom": 1744
+        }
+      },
+      {
+        "tag": "section",
+        "id": "about",
+        "label": "about-title",
+        "box": {
+          "x": 32,
+          "y": 1367,
+          "w": 704,
+          "h": 321,
+          "bottom": 1688
+        }
+      },
+      {
+        "tag": "footer",
+        "id": "contact",
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 1744,
+          "w": 768,
+          "h": 355,
+          "bottom": 2098
+        }
+      }
+    ],
+    "headings": [
+      "H1:Every project, taken apart.",
+      "H2:Projects",
+      "H3:Scarlet Inspector",
+      "H2:About"
+    ],
+    "smallTargets": [
+      "Scarlet Inspector 144x21",
+      "THTimur Haryo Mahissanular 237x36"
+    ],
+    "smallText": [
+      "P:12px:Android engineer · Indonesia",
+      "FIGCAPTION:14px:Scarlet Inspector — Every WebS",
+      "P:14px:Every WebSocket frame, capture",
+      "LI:12px:Kotlin, language",
+      "SPAN:12px:Kotlin",
+      "LI:12px:Android, platform",
+      "SPAN:12px:Android",
+      "LI:12px:Kotlin Coroutines, library",
+      "SPAN:12px:Kotlin Coroutines",
+      "LI:12px:Jetpack Compose, framework",
+      "SPAN:12px:Jetpack Compose",
+      "P:14px:I build Android apps at ██████",
+      "P:14px:I measure before I believe. Wh",
+      "P:14px:This site is built the same wa",
+      "P:12px:Kotlin · Compose · Coroutines "
+    ]
+  },
+  "768x1024-dark": {
+    "docHeight": 2098,
+    "hScroll": false,
+    "visibleName": {
+      "text": "Timur Haryo Mahissanular",
+      "box": {
+        "x": 72,
+        "y": 1799,
+        "w": 189,
+        "h": 24,
+        "bottom": 1823
+      }
+    },
+    "eyebrow": {
+      "x": 32,
+      "y": 101,
+      "w": 263,
+      "h": 16,
+      "bottom": 117
+    },
+    "h1": {
+      "x": 32,
+      "y": 137,
+      "w": 511,
+      "h": 120,
+      "bottom": 257
+    },
+    "subline": {
+      "x": 32,
+      "y": 277,
+      "w": 656,
+      "h": 59,
+      "bottom": 336
+    },
+    "primaryCta": {
+      "x": 32,
+      "y": 356,
+      "w": 155,
+      "h": 44,
+      "bottom": 400
+    },
+    "figure": {
+      "x": 32,
+      "y": 432,
+      "w": 704,
+      "h": 431,
+      "bottom": 863
+    },
+    "caption": {
+      "x": 32,
+      "y": 840,
+      "w": 704,
+      "h": 23,
+      "bottom": 863
+    },
+    "firstCard": {
+      "x": 32,
+      "y": 1026,
+      "w": 344,
+      "h": 228,
+      "bottom": 1254
+    },
+    "liveMode": "eager",
+    "regions": [
+      {
+        "tag": "header",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 768,
+          "h": 45,
+          "bottom": 45
+        }
+      },
+      {
+        "tag": "section",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 32,
+          "y": 45,
+          "w": 704,
+          "h": 874,
+          "bottom": 919
+        }
+      },
+      {
+        "tag": "section",
+        "id": "projects",
+        "label": "projects-title",
+        "box": {
+          "x": 32,
+          "y": 919,
+          "w": 704,
+          "h": 391,
+          "bottom": 1310
+        }
+      },
+      {
+        "tag": "div",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 32,
+          "y": 1310,
+          "w": 704,
+          "h": 434,
+          "bottom": 1744
+        }
+      },
+      {
+        "tag": "section",
+        "id": "about",
+        "label": "about-title",
+        "box": {
+          "x": 32,
+          "y": 1367,
+          "w": 704,
+          "h": 321,
+          "bottom": 1688
+        }
+      },
+      {
+        "tag": "footer",
+        "id": "contact",
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 1744,
+          "w": 768,
+          "h": 355,
+          "bottom": 2098
+        }
+      }
+    ],
+    "headings": [
+      "H1:Every project, taken apart.",
+      "H2:Projects",
+      "H3:Scarlet Inspector",
+      "H2:About"
+    ],
+    "smallTargets": [
+      "Scarlet Inspector 144x21",
+      "THTimur Haryo Mahissanular 237x36"
+    ],
+    "smallText": [
+      "P:12px:Android engineer · Indonesia",
+      "FIGCAPTION:14px:Scarlet Inspector — Every WebS",
+      "P:14px:Every WebSocket frame, capture",
+      "LI:12px:Kotlin, language",
+      "SPAN:12px:Kotlin",
+      "LI:12px:Android, platform",
+      "SPAN:12px:Android",
+      "LI:12px:Kotlin Coroutines, library",
+      "SPAN:12px:Kotlin Coroutines",
+      "LI:12px:Jetpack Compose, framework",
+      "SPAN:12px:Jetpack Compose",
+      "P:14px:I build Android apps at ██████",
+      "P:14px:I measure before I believe. Wh",
+      "P:14px:This site is built the same wa",
+      "P:12px:Kotlin · Compose · Coroutines "
+    ]
+  },
+  "1440x900-light": {
+    "docHeight": 1712,
+    "hScroll": false,
+    "visibleName": {
+      "text": "Timur Haryo Mahissanular",
+      "box": {
+        "x": 216,
+        "y": 1413,
+        "w": 189,
+        "h": 24,
+        "bottom": 1437
+      }
+    },
+    "eyebrow": {
+      "x": 176,
+      "y": 101,
+      "w": 263,
+      "h": 16,
+      "bottom": 117
+    },
+    "h1": {
+      "x": 176,
+      "y": 137,
+      "w": 468,
+      "h": 259,
+      "bottom": 396
+    },
+    "subline": {
+      "x": 176,
+      "y": 416,
+      "w": 468,
+      "h": 88,
+      "bottom": 503
+    },
+    "primaryCta": {
+      "x": 176,
+      "y": 523,
+      "w": 155,
+      "h": 44,
+      "bottom": 567
+    },
+    "figure": {
+      "x": 692,
+      "y": 156,
+      "w": 572,
+      "h": 357,
+      "bottom": 512
+    },
+    "caption": {
+      "x": 692,
+      "y": 490,
+      "w": 572,
+      "h": 23,
+      "bottom": 512
+    },
+    "firstCard": {
+      "x": 176,
+      "y": 730,
+      "w": 536,
+      "h": 137,
+      "bottom": 868
+    },
+    "liveMode": "eager",
+    "regions": [
+      {
+        "tag": "header",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 45,
+          "bottom": 45
+        }
+      },
+      {
+        "tag": "section",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 176,
+          "y": 45,
+          "w": 1088,
+          "h": 578,
+          "bottom": 623
+        }
+      },
+      {
+        "tag": "section",
+        "id": "projects",
+        "label": "projects-title",
+        "box": {
+          "x": 176,
+          "y": 623,
+          "w": 1088,
+          "h": 300,
+          "bottom": 924
+        }
+      },
+      {
+        "tag": "div",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 176,
+          "y": 924,
+          "w": 1088,
+          "h": 434,
+          "bottom": 1358
+        }
+      },
+      {
+        "tag": "section",
+        "id": "about",
+        "label": "about-title",
+        "box": {
+          "x": 176,
+          "y": 981,
+          "w": 1088,
+          "h": 321,
+          "bottom": 1302
+        }
+      },
+      {
+        "tag": "footer",
+        "id": "contact",
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 1358,
+          "w": 1440,
+          "h": 355,
+          "bottom": 1712
+        }
+      }
+    ],
+    "headings": [
+      "H1:Every project, taken apart.",
+      "H2:Projects",
+      "H3:Scarlet Inspector",
+      "H2:About"
+    ],
+    "smallTargets": [
+      "Scarlet Inspector 144x21",
+      "THTimur Haryo Mahissanular 237x36"
+    ],
+    "smallText": [
+      "P:12px:Android engineer · Indonesia",
+      "FIGCAPTION:14px:Scarlet Inspector — Every WebS",
+      "P:14px:Every WebSocket frame, capture",
+      "LI:12px:Kotlin, language",
+      "SPAN:12px:Kotlin",
+      "LI:12px:Android, platform",
+      "SPAN:12px:Android",
+      "LI:12px:Kotlin Coroutines, library",
+      "SPAN:12px:Kotlin Coroutines",
+      "LI:12px:Jetpack Compose, framework",
+      "SPAN:12px:Jetpack Compose",
+      "P:14px:I build Android apps at ██████",
+      "P:14px:I measure before I believe. Wh",
+      "P:14px:This site is built the same wa",
+      "P:12px:Kotlin · Compose · Coroutines "
+    ]
+  },
+  "1440x900-dark": {
+    "docHeight": 1712,
+    "hScroll": false,
+    "visibleName": {
+      "text": "Timur Haryo Mahissanular",
+      "box": {
+        "x": 216,
+        "y": 1413,
+        "w": 189,
+        "h": 24,
+        "bottom": 1437
+      }
+    },
+    "eyebrow": {
+      "x": 176,
+      "y": 101,
+      "w": 263,
+      "h": 16,
+      "bottom": 117
+    },
+    "h1": {
+      "x": 176,
+      "y": 137,
+      "w": 468,
+      "h": 259,
+      "bottom": 396
+    },
+    "subline": {
+      "x": 176,
+      "y": 416,
+      "w": 468,
+      "h": 88,
+      "bottom": 503
+    },
+    "primaryCta": {
+      "x": 176,
+      "y": 523,
+      "w": 155,
+      "h": 44,
+      "bottom": 567
+    },
+    "figure": {
+      "x": 692,
+      "y": 156,
+      "w": 572,
+      "h": 357,
+      "bottom": 512
+    },
+    "caption": {
+      "x": 692,
+      "y": 490,
+      "w": 572,
+      "h": 23,
+      "bottom": 512
+    },
+    "firstCard": {
+      "x": 176,
+      "y": 730,
+      "w": 536,
+      "h": 137,
+      "bottom": 868
+    },
+    "liveMode": "eager",
+    "regions": [
+      {
+        "tag": "header",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 45,
+          "bottom": 45
+        }
+      },
+      {
+        "tag": "section",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 176,
+          "y": 45,
+          "w": 1088,
+          "h": 578,
+          "bottom": 623
+        }
+      },
+      {
+        "tag": "section",
+        "id": "projects",
+        "label": "projects-title",
+        "box": {
+          "x": 176,
+          "y": 623,
+          "w": 1088,
+          "h": 300,
+          "bottom": 924
+        }
+      },
+      {
+        "tag": "div",
+        "id": null,
+        "label": null,
+        "box": {
+          "x": 176,
+          "y": 924,
+          "w": 1088,
+          "h": 434,
+          "bottom": 1358
+        }
+      },
+      {
+        "tag": "section",
+        "id": "about",
+        "label": "about-title",
+        "box": {
+          "x": 176,
+          "y": 981,
+          "w": 1088,
+          "h": 321,
+          "bottom": 1302
+        }
+      },
+      {
+        "tag": "footer",
+        "id": "contact",
+        "label": null,
+        "box": {
+          "x": 0,
+          "y": 1358,
+          "w": 1440,
+          "h": 355,
+          "bottom": 1712
+        }
+      }
+    ],
+    "headings": [
+      "H1:Every project, taken apart.",
+      "H2:Projects",
+      "H3:Scarlet Inspector",
+      "H2:About"
+    ],
+    "smallTargets": [
+      "Scarlet Inspector 144x21",
+      "THTimur Haryo Mahissanular 237x36"
+    ],
+    "smallText": [
+      "P:12px:Android engineer · Indonesia",
+      "FIGCAPTION:14px:Scarlet Inspector — Every WebS",
+      "P:14px:Every WebSocket frame, capture",
+      "LI:12px:Kotlin, language",
+      "SPAN:12px:Kotlin",
+      "LI:12px:Android, platform",
+      "SPAN:12px:Android",
+      "LI:12px:Kotlin Coroutines, library",
+      "SPAN:12px:Kotlin Coroutines",
+      "LI:12px:Jetpack Compose, framework",
+      "SPAN:12px:Jetpack Compose",
+      "P:14px:I build Android apps at ██████",
+      "P:14px:I measure before I believe. Wh",
+      "P:14px:This site is built the same wa",
+      "P:12px:Kotlin · Compose · Coroutines "
+    ]
+  }
+}
