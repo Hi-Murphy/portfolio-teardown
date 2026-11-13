@@ -69,12 +69,12 @@ describe('evaluateTabWalk', () => {
     tab('nav:linkedin'),
     tab('nav:theme'),
     tab('hero:primary'),
-    tab('hero:secondary'),
+    tab('hero:pause'),
     tab('card:websocket-inspector'),
+    tab('contact:email'),
+    tab('contact:github'),
+    tab('contact:linkedin'),
     tab('footer:home'),
-    tab('footer:email'),
-    tab('footer:github'),
-    tab('footer:linkedin'),
     tab('footer:top'),
   ];
 
