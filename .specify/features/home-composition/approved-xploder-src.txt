@@ -1,1 +1,10 @@
 # S11.9 R10: engine files changed for the opt-in smooth zoom (appended by T011l, one path per line)
+packages/xploder/src/engine/camera.ts
+packages/xploder/src/react/scene/CameraRig.tsx
+packages/xploder/src/react/useTeardownViewer.ts
+packages/xploder/test/frozen-surface.generate-s5.sh
+packages/xploder/test/frozen-surface.generate.sh
+packages/xploder/test/frozen-surface.manifest.json
+packages/xploder/test/frozen-surface.s5.manifest.json
+packages/xploder/test/camera-zoom.test.tsx
+packages/xploder/test/frozen-surface.test.ts

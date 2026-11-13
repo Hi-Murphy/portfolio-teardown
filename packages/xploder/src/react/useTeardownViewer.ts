@@ -132,7 +132,12 @@ function defaultNow(): number {
 }
 
 export function useTeardownViewer(
-  opts: { initial?: TeardownTarget; project?: ViewerProject; now?: () => number } = {},
+  opts: {
+    initial?: TeardownTarget;
+    project?: ViewerProject;
+    now?: () => number;
+    smoothZoom?: boolean;
+  } = {},
 ): TeardownViewerHandle {
   const prefersReducedMotion = usePrefersReducedMotion();
   const project = opts.project;
@@ -142,7 +147,10 @@ export function useTeardownViewer(
   const [target, setTarget] = useState<TeardownTarget>(
     () => opts.initial ?? (prefersReducedMotion ? 'exploded' : 'imploded'),
   );
-  const [rig, dispatchRig] = useReducer(cameraReducer, INITIAL_RIG);
+  const [rig, dispatchRig] = useReducer(
+    cameraReducer,
+    opts.smoothZoom === true ? { ...INITIAL_RIG, smoothZoom: true } : INITIAL_RIG,
+  );
   const [pointer, dispatchPointer] = useReducer(pointerReducer, INITIAL_POINTER);
   const componentIds = useMemo(
     () =>

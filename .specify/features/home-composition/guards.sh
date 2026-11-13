@@ -29,6 +29,11 @@ app_touch_path_ok() {
   return 1
 }
 
+approved_xploder_path_ok() {
+  local path=$1 approved="$F/approved-xploder-src.txt"
+  [[ -f "$approved" ]] && grep -v '^#' "$approved" | sed '/^$/d' | grep -qxF "$path"
+}
+
 path_allowed() {
   local path=$1
   case "$path" in
@@ -37,6 +42,7 @@ path_allowed() {
   esac
   case "$path" in
     apps/web/*) app_touch_path_ok "$path" ;;
+    packages/xploder/*) approved_xploder_path_ok "$path" ;;
     *) return 1 ;;
   esac
 }

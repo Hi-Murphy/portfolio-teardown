@@ -1,6 +1,6 @@
 {
-  "base": "f31600e",
-  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why.",
+  "base": "3aee8fc",
+  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.",
   "files": {
     "src/interaction/caption.ts": "08fe42ec8ef4bd9c6c19746886a183ef55ac5bc377f6dc8d9cba963120b08e3b",
     "src/interaction/emphasis.ts": "4b358ac968b8a520626be5e4cf4eb1e893b449149f2c7d4119c48f2022d176e1",
@@ -15,7 +15,7 @@
     "src/react/scene/PickBridge.tsx": "c5c8ea929945a1a3be1635d2e8d6d95d421bc457a0e792d0b73b489fa9cba32d",
     "src/react/scene/ViewScroll.tsx": "027634d2eb470f6b14928fe49f1734302538b141167f3f34e411799da2061e60",
     "src/react/usePointerPick.ts": "f6de593f2f943e40c51994e679189977c5a632a1f2d722ab2aaca64a1485b826",
-    "src/react/useTeardownViewer.ts": "f512b9f19ae44292a6543d1e57f9e8ce19a8a2b7ef62dfd0ed732c8cf64e5249",
+    "src/react/useTeardownViewer.ts": "fa3c6ac00054a323aa81513e359b1a87f938c9a6d6b05bd2a37a5c5ca057cdbd",
     "src/react/useTourClock.ts": "b4b7f9d084c2f8dcb4aa846f2bc896a023cb48c155d0f7ee999deae59be4d65f",
     "test/__snapshots__/fixture-c.test.ts.snap": "068f1fe58eb36a96c619a6d9fa1eb17e47fe3f017b3d9878942578ecba4844dd",
     "test/caption.test.ts": "e53b223afc31591d186f914c29f703177c9e5c5bc4b7a2f585435a8316d59738",
