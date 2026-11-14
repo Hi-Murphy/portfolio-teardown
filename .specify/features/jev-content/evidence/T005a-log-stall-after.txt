@@ -1,0 +1,8 @@
+# T005a — tour stall repro after the fix (orchestrator)
+Conditions as in T005-log-tour-stall-rootcause.md: channel 'chromium', CDP bringToFront every 100 ms, fixed export of this branch.
+Before the fix: jev arm-run ~1/8 stalled; base 3b829d0 WSI capture-path 3/16 stalled.
+
+jev-toolkit arm-run runs 16 ended 16 stalled 0 max_ms 12900
+jev-toolkit judge-path runs 16 ended 16 stalled 0 max_ms 6478
+websocket-inspector capture-path runs 16 ended 16 stalled 0 max_ms 11300
+websocket-inspector inspect-path runs 16 ended 16 stalled 0 max_ms 11291

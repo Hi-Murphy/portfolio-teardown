@@ -54,6 +54,14 @@ jobs:
         run: >-
           pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects/websocket-inspector"
           --categories performance,accessibility --out .evidence/ci/lighthouse-project
+      - name: Lighthouse gate (projects)
+        run: >-
+          pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects"
+          --categories performance,accessibility --out .evidence/ci/lighthouse-projects
+      - name: 'Lighthouse gate (project route: jev-toolkit)'
+        run: >-
+          pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects/jev-toolkit"
+          --categories performance,accessibility --out .evidence/ci/lighthouse-project-jev-toolkit
       - name: Upload Lighthouse evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -97,6 +105,14 @@ jobs:
         run: >-
           pnpm perf:weight "${{ steps.preview.outputs.url }}projects/websocket-inspector"
           --out .evidence/ci/weight-project
+      - name: Weight gate (projects)
+        run: >-
+          pnpm perf:weight "${{ steps.preview.outputs.url }}projects"
+          --out .evidence/ci/weight-projects
+      - name: 'Weight gate (project route: jev-toolkit)'
+        run: >-
+          pnpm perf:weight "${{ steps.preview.outputs.url }}projects/jev-toolkit"
+          --out .evidence/ci/weight-project-jev-toolkit
       - name: Upload weight evidence
         if: always()
         uses: actions/upload-artifact@v7

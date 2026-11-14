@@ -28,6 +28,12 @@ const CONTENT_FILES: readonly ContentFile[] = [
     typeImport: { typeName: 'ProjectInput', moduleSpecifier: 'xploder' },
   },
   {
+    source: '.specify/content/jev-toolkit.json',
+    target: 'content/projects/jev-toolkit.source.ts',
+    exportName: 'jevToolkitSource',
+    typeImport: { typeName: 'ProjectInput', moduleSpecifier: 'xploder' },
+  },
+  {
     source: '.specify/content/site.json',
     target: 'content/site.source.ts',
     exportName: 'siteSource',

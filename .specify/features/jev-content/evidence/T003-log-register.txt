@@ -1,0 +1,247 @@
+T003 register project — check log
+date: 2026-11-14T05:50:44Z
+ROUTE-EXPORTED
+<loc>http://localhost:3000</loc>
+<loc>http://localhost:3000/projects</loc>
+<loc>http://localhost:3000/projects/websocket-inspector</loc>
+<loc>http://localhost:3000/projects/jev-toolkit</loc>
+
+ RUN  v5.0.5 ./apps/web
+
+ ✓ test/content-model.test.ts > project card model > maps the websocket-inspector meta and top four registry chips 1ms
+ ✓ test/content-model.test.ts > project card model > maps the jev-toolkit meta and registry chips 0ms
+ ✓ test/content-model.test.ts > project card model > ranks by count before first appearance 0ms
+ ✓ test/content-model.test.ts > project card model > breaks equal counts by first appearance 0ms
+ ✓ test/content-model.test.ts > project card model > caps the chips at four when a project has six technologies 0ms
+ ✓ test/content-model.test.ts > project card model > returns fewer than four chips when the project has fewer technologies 0ms
+ ✓ test/content-model.test.ts > project index > exposes the websocket-inspector and jev-toolkit projects and slugs 0ms
+ ✓ test/content-model.test.ts > project index > resolves a project by slug 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (a) generated module is strictly equal to the canonical JSON 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (c) content:convert --check exits 0 129ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (a) generated module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (c) content:convert --check exits 0 127ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > completeness: content files, fidelity rows and converter entries agree 0ms
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  12:50:44
+   Duration  358ms (tests 77%, import 18%, transform 4%, worker 1%)
+
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --ci --out /tmp/s13-checks/t003-site-probe-ci
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> card:websocket-inspector -> card:jev-toolkit -> contact:email -> contact:github -> contact:linkedin -> footer:home -> footer:top PASS
+PASS drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+PASS drill-shift-tab-reverses: expected ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+PASS drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200},{"href":"/projects/jev-toolkit","status":200}]
+drill: PASS (13 checks)
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+cls: PASS (12 checks)
+PASS routes-home-title: expected "Timur Haryo — Software Engineer · Android & Developer Tools" actual "Timur Haryo — Software Engineer · Android & Developer Tools"
+PASS routes-home-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-projects-title: expected "Projects · Timur Haryo" actual "Projects · Timur Haryo"
+PASS routes-projects-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-project-title: expected "Scarlet Inspector · Timur Haryo" actual "Scarlet Inspector · Timur Haryo"
+PASS routes-project-description: expected "Every WebSocket frame, captured and inspectable." actual "Every WebSocket frame, captured and inspectable."
+PASS routes-unknown-project-status: expected 404 actual 404
+PASS routes-unknown-project-content: expected "not-found content" actual {"h1":"Page not found"}
+PASS routes-/dev/engine-404: expected 404 actual 404
+PASS routes-/fixtures/fps-calibration-404: expected 404 actual 404
+PASS routes-/resume.pdf-404: expected 404 actual 404
+routes: PASS (11 checks)
+PASS nojs-home-poster-and-list: expected {"posters":1,"list":"cards"} actual {"posters":2,"posterWidth":350,"cards":2,"outlines":0}
+PASS nojs-project-poster-and-list: expected {"posters":1,"list":"outline"} actual {"posters":1,"posterWidth":348,"cards":0,"outlines":1}
+PASS nojs-raw-home-poster-list: expected true actual {"pass":true,"poster":true,"list":true,"listKind":"cards"}
+PASS nojs-raw-project-poster-list: expected true actual {"pass":true,"poster":true,"list":true,"listKind":"outline"}
+PASS nojs-raw-hero-poster: expected true actual true
+PASS nojs-project-no-webgl-outline: expected {"outline":true,"message":true,"canvases":0} actual {"outline":true,"message":true,"canvases":0,"text":"WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"}
+nojs: PASS (6 checks)
+PASS reduced-home-skipped: expected {"liveState":"skipped","heroCanvases":0,"posterVisible":true} actual {"liveState":"skipped","heroCanvases":0,"posterWidth":817.609375}
+PASS reduced-home-no-animations: expected "all samples 0" actual [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+PASS reduced-poster-no-transition: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+reduced-motion: PASS (5 checks)
+site-probe: PASS
+artifacts: /tmp/s13-checks/t003-site-probe-ci
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACES-S2S8-OK
+UI-UNCHANGED-OK
+S8-TOOLS-OK
+OTHER-CI-OK
+ALLOWED-PATHS-OK
+CONVERT-CHECK-OK
+GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:89179) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89178) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89198) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89206) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89218) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:89225) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  31 passed (31)
+tools/perf test:       Tests  275 passed (275)
+tools/perf test:    Start at  12:52:26
+tools/perf test:    Duration  2.52s (import 71%, tests 20%, transform 8%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:89228) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89229) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89240) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89242) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:89248) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: 
+packages/xploder test:  Test Files  63 passed (63)
+packages/xploder test:       Tests  632 passed (632)
+packages/xploder test:    Start at  12:52:26
+packages/xploder test:    Duration  32.79s (tests 80%, transform 12%, import 7%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:89297) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:89313) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  46 passed | 1 skipped (47)
+apps/web test:       Tests  249 passed | 2 skipped (251)
+apps/web test:    Start at  12:52:59
+apps/web test:    Duration  1.83s (environment 29%, tests 24%, import 24%, transform 21%, worker 1%)
+apps/web test: 
+apps/web test:     Isolate  47 workers spawned · ~156ms startup each (spawn + environment, per file)
+apps/web test:              at least ~660ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+T003-OK

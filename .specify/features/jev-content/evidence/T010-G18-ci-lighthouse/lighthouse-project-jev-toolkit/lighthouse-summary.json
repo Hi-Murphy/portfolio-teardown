@@ -1,0 +1,109 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/projects/jev-toolkit",
+  "finalUrl": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/projects/jev-toolkit",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 962.0904999999998,
+      "cls": 0,
+      "tbtMs": 28,
+      "fcpMs": 962.0904999999998,
+      "siMs": 962.0904999999998,
+      "totalByteWeight": 204220,
+      "benchmarkIndex": 4052,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "startMs": 1572.4464999999998,
+          "durMs": 78
+        }
+      ]
+    },
+    {
+      "performance": 0.99,
+      "accessibility": 1,
+      "lcpMs": 958.8870000000002,
+      "cls": 0,
+      "tbtMs": 93,
+      "fcpMs": 946.3870000000002,
+      "siMs": 946.3870000000002,
+      "totalByteWeight": 204236,
+      "benchmarkIndex": 3776.5,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0dv61q1e0-38g.js",
+          "startMs": 1595.1470000000002,
+          "durMs": 99
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 946.3870000000002,
+          "durMs": 94
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 905.4084999999998,
+      "cls": 0,
+      "tbtMs": 39,
+      "fcpMs": 905.4084999999998,
+      "siMs": 905.4084999999998,
+      "totalByteWeight": 204218,
+      "benchmarkIndex": 3998,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1515.3004999999998,
+          "durMs": 89
+        }
+      ]
+    }
+  ],
+  "medianRun": 2,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 905.4084999999998,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

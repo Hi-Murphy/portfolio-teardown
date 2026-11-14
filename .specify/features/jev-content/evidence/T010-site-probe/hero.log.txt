@@ -1,0 +1,11 @@
+group: hero
+result: PASS
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":64,"loadAt":50.19999998807907,"liveStateAtFcp":"loading","liveStateAtLoad":"idle"}
+PASS hero-eager-no-interaction: expected {"liveState":"revealed","canvases":1,"ready":true} actual {"liveState":"revealed","canvases":1,"ready":true}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":64,"loadAt":50.19999998807907,"liveStateAtFcp":"loading","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-loop-running: expected {"heroLoop":"running","canvases":1,"tour":"capture or inspect"} actual {"heroLoop":"running","canvases":1,"tour":"playing"}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster-websocket-inspector: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+PASS hero-project-poster-jev-toolkit: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+summary: PASS (8 checks)

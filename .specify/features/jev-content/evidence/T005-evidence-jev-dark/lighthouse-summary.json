@@ -1,0 +1,91 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4173/projects/jev-toolkit",
+  "finalUrl": "http://127.0.0.1:4173/projects/jev-toolkit",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 903.7807,
+      "cls": 0,
+      "tbtMs": 0,
+      "fcpMs": 903.7807,
+      "siMs": 903.7807,
+      "totalByteWeight": 203145,
+      "benchmarkIndex": 4294.5,
+      "longTasks": []
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 903.5467000000001,
+      "cls": 0,
+      "tbtMs": 0,
+      "fcpMs": 903.5467000000001,
+      "siMs": 903.5467000000001,
+      "totalByteWeight": 203145,
+      "benchmarkIndex": 4332,
+      "longTasks": [
+        {
+          "url": "Unattributable",
+          "startMs": 751.77335,
+          "durMs": 74
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 903.4708,
+      "cls": 0,
+      "tbtMs": 0.5,
+      "fcpMs": 903.4708,
+      "siMs": 903.4708,
+      "totalByteWeight": 203184,
+      "benchmarkIndex": 4332.5,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/10kujx8nsd3ck.js",
+          "startMs": 2403.4708,
+          "durMs": 51
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 903.5467000000001,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,165 @@
+{
+  "kind": "weight",
+  "version": 1,
+  "url": "http://127.0.0.1:4173/projects",
+  "budgetBytes": 3000000,
+  "profiles": {
+    "mobile": {
+      "totalBytes": 207726,
+      "requests": 23,
+      "byType": {
+        "document": 16847,
+        "stylesheet": 7149,
+        "script": 150159,
+        "fetch": 32949,
+        "other": 622
+      },
+      "byOrigin": {
+        "first": 207726,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/1kgrt2f4mrm63.js",
+          "type": "script",
+          "bytes": 72267,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/10kujx8nsd3ck.js",
+          "type": "script",
+          "bytes": 45887,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects",
+          "type": "document",
+          "bytes": 16847,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/__next.!KHNpdGUp.__PAGE__.txt?_rsc=9Kyrjlw-Z8CAJXA4",
+          "type": "fetch",
+          "bytes": 11162,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/1jr83020c6cbx.js",
+          "type": "script",
+          "bytes": 9052,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=FB7EPA9oUYl7SKf2",
+          "type": "fetch",
+          "bytes": 7245,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/3ovppnf4srecq.css",
+          "type": "stylesheet",
+          "bytes": 7149,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/0zhme9-mwkqbk.js",
+          "type": "script",
+          "bytes": 6702,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects/__next.!KHNpdGUp.projects.__PAGE__.txt?_rsc=9vZ3HcBJAEkubl8Y",
+          "type": "fetch",
+          "bytes": 5576,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/0qmkus77y4fw2.js",
+          "type": "script",
+          "bytes": 4481,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    },
+    "desktop": {
+      "totalBytes": 215947,
+      "requests": 26,
+      "byType": {
+        "document": 16847,
+        "stylesheet": 7149,
+        "script": 150159,
+        "fetch": 41170,
+        "other": 622
+      },
+      "byOrigin": {
+        "first": 215947,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/1kgrt2f4mrm63.js",
+          "type": "script",
+          "bytes": 72267,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/10kujx8nsd3ck.js",
+          "type": "script",
+          "bytes": 45887,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects",
+          "type": "document",
+          "bytes": 16847,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/__next.!KHNpdGUp.__PAGE__.txt?_rsc=9Kyrjlw-Z8CAJXA4",
+          "type": "fetch",
+          "bytes": 11162,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/1jr83020c6cbx.js",
+          "type": "script",
+          "bytes": 9052,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects/jev-toolkit/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=FB7EPA9oUYl7SKf2",
+          "type": "fetch",
+          "bytes": 7676,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=FB7EPA9oUYl7SKf2",
+          "type": "fetch",
+          "bytes": 7245,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/3ovppnf4srecq.css",
+          "type": "stylesheet",
+          "bytes": 7149,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/_next/static/chunks/0zhme9-mwkqbk.js",
+          "type": "script",
+          "bytes": 6702,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4173/projects/__next.!KHNpdGUp.projects.__PAGE__.txt?_rsc=9vZ3HcBJAEkubl8Y",
+          "type": "fetch",
+          "bytes": 5576,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    }
+  },
+  "pass": true
+}

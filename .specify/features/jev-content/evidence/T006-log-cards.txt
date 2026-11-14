@@ -1,0 +1,209 @@
+T006 BEFORE-CHANGE COPY PROOF
+command: pnpm home:probe --serve apps/web/out --group copy --out /tmp/s13-checks/t006-copy-before
+result: FAIL
+FAIL copy-known-text: expected [] actual ["JEV Benchmark","Measuring what an AI reads before it codes."]
+copy: FAIL (1 checks)
+home-probe: FAIL
+
+T006 CHECK OUTPUT
+
+
+ RUN  v5.0.5 ./tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  32 passed (32)
+   Start at  16:02:51
+   Duration  455ms (import 80%, tests 10%, transform 9%)
+
+
+ RUN  v5.0.5 ./apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  16:02:52
+   Duration  212ms (tests 81%, import 10%, transform 8%, worker 1%)
+
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 75554 bytes 312bead39820255a3b659b985a2c0aa20cc5f398670fc20575dfc617bb2f3a97
+public/og/projects.png 93278 bytes a5bd1ef656317599d07f90d19ff1acad0c8969fa219c7b4a84795c76a079baef
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/og/projects/jev-toolkit.png 76330 bytes 2231a0eb01e7553bc49472af4366dbf0cb4bb70ed2bfee489a1a9e4ec0f419c9
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 161ms
+  Running TypeScript ...
+  Finished TypeScript in 793ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/9) ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/9) 
+  Generating static pages using 9 workers (4/9) 
+  Generating static pages using 9 workers (6/9) 
+✓ Generating static pages using 9 workers (9/9) in 285ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ ├ ● /projects/websocket-inspector
+│ └ ● /projects/jev-toolkit
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cards,drill --out .specify/features/jev-content/evidence/T006-cards
+PASS cards-home-websocket-inspector-mobile-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-mobile-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-mobile-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-mobile-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-home-websocket-inspector-mobile-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-mobile-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-mobile-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-mobile-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-home-websocket-inspector-desktop-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-desktop-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-desktop-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-desktop-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-home-websocket-inspector-desktop-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-desktop-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-desktop-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-desktop-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-projects-websocket-inspector-mobile-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-mobile-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-mobile-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-mobile-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-projects-websocket-inspector-mobile-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-mobile-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-mobile-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-mobile-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-projects-websocket-inspector-desktop-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-desktop-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-desktop-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-desktop-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-projects-websocket-inspector-desktop-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-desktop-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-desktop-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-desktop-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-websocket-inspector-href-200: expected 200 actual 200
+PASS cards-jev-toolkit-href-200: expected 200 actual 200
+cards: PASS (34 checks)
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> card:websocket-inspector -> card:jev-toolkit -> contact:email -> contact:github -> contact:linkedin -> footer:home -> footer:top PASS
+PASS drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+PASS drill-shift-tab-reverses: expected ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+PASS drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200},{"href":"/projects/jev-toolkit","status":200}]
+drill: PASS (13 checks)
+site-probe: PASS
+artifacts: ./.specify/features/jev-content/evidence/T006-cards
+$ node tools/perf/src/cli/home-probe.ts --serve apps/web/out --group structure,copy --out .specify/features/jev-content/evidence/T006-home
+PASS 390:structure-one-h1: expected 1 actual 1
+PASS 390:structure-heading-levels: expected [] actual []
+PASS 390:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 390:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390:structure-named-regions: expected [] actual []
+PASS 390:structure-skip-first: expected "skip" actual "skip"
+PASS 390:structure-no-positive-tabindex: expected [] actual []
+PASS 390:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 390:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,333.78125,20],[1,0,721.78125,326],[2,0,952,37],[2,0,1160.5,37],[4,0,2218.5,20],[4,0,2270.5,20],[4,0,2322.5,20],[5,0,2447.5,16],[5,0,2639.5,296.703125]]
+PASS 390:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+PASS 768:structure-one-h1: expected 1 actual 1
+PASS 768:structure-heading-levels: expected [] actual []
+PASS 768:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 768:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 768:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 768:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 768:structure-named-regions: expected [] actual []
+PASS 768:structure-skip-first: expected "skip" actual "skip"
+PASS 768:structure-no-positive-tabindex: expected [] actual []
+PASS 768:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 768:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,24],[0,0,0,384.421875],[0,0,0,458.6875],[0,0,0,518.515625],[0,0,0,604],[0,0,0,652],[0,0,0,700],[1,0,361.78125,32],[1,0,837.78125,692],[2,0,1152,53],[2,1,1152,413],[4,0,2107,32],[4,0,2107,332.5625],[4,0,2107,443.4375],[5,0,2256,24],[5,0,2428.5,666.703125]]
+PASS 768:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 768:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":692,"y":837.78125,"width":44,"height":44}}
+PASS 1440:structure-one-h1: expected 1 actual 1
+PASS 1440:structure-heading-levels: expected [] actual []
+PASS 1440:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 1440:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 1440:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 1440:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 1440:structure-named-regions: expected [] actual []
+PASS 1440:structure-skip-first: expected "skip" actual "skip"
+PASS 1440:structure-no-positive-tabindex: expected [] actual []
+PASS 1440:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 1440:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,168],[0,0,0,912.421875],[0,0,0,986.6875],[0,0,0,1046.515625],[0,0,0,1132],[0,0,0,1180],[0,0,0,1228],[1,0,615.9375,48],[1,1,841.5,1348],[2,0,1028,197],[2,1,1028,749],[4,0,1889,176],[4,0,1889,476.5625],[4,0,1889,587.4375],[5,0,2038,168],[5,0,2210.5,1194.703125]]
+PASS 1440:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 1440:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":1348,"y":841.5,"width":44,"height":44}}
+PASS 390-reduced:structure-one-h1: expected 1 actual 1
+PASS 390-reduced:structure-heading-levels: expected [] actual []
+PASS 390-reduced:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 390-reduced:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390-reduced:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390-reduced:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390-reduced:structure-named-regions: expected [] actual []
+PASS 390-reduced:structure-skip-first: expected "skip" actual "skip"
+PASS 390-reduced:structure-no-positive-tabindex: expected [] actual []
+PASS 390-reduced:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:14:a:TH Timur Haryo Mahissanular","focus:13:a:LinkedIn","focus:12:a:GitHub","focus:11:a:Email vibing.murphy@gmail.com","focus:10:a:JEV Benchmark","focus:9:a:Scarlet Inspector","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:14:a:TH Timur Haryo Mahissanular","focus:13:a:LinkedIn","focus:12:a:GitHub","focus:11:a:Email vibing.murphy@gmail.com","focus:10:a:JEV Benchmark","focus:9:a:Scarlet Inspector","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 390-reduced:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,333.78125,20],[2,0,952,37],[2,0,1160.5,37],[4,0,2218.5,20],[4,0,2270.5,20],[4,0,2322.5,20],[5,0,2447.5,16],[5,0,2639.5,296.703125]]
+PASS 390-reduced:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390-reduced:structure-hero-poster-path: expected {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":44} actual {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+structure: PASS (52 checks)
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+copy: PASS (1 checks)
+home-probe: PASS
+artifacts: ./.specify/features/jev-content/evidence/T006-home
+$ node tools/perf/src/cli/evidence.ts http://127.0.0.1:4173/ --color-scheme light --full-page --out .specify/features/jev-content/evidence/T006-evidence-home-light
+warning: --out is not git-ignored: ./.specify/features/jev-content/evidence/T006-evidence-home-light
+ok screenshot-mobile (912 ms)
+ok screenshot-desktop (853 ms)
+ok lighthouse (17708 ms)
+evidence: ./.specify/features/jev-content/evidence/T006-evidence-home-light
+$ node tools/perf/src/cli/evidence.ts http://127.0.0.1:4173/ --color-scheme dark --full-page --out .specify/features/jev-content/evidence/T006-evidence-home-dark
+warning: --out is not git-ignored: ./.specify/features/jev-content/evidence/T006-evidence-home-dark
+ok screenshot-mobile (883 ms)
+ok screenshot-desktop (853 ms)
+ok lighthouse (17372 ms)
+evidence: ./.specify/features/jev-content/evidence/T006-evidence-home-dark
+$ node tools/perf/src/cli/evidence.ts http://127.0.0.1:4173/projects --color-scheme light --full-page --out .specify/features/jev-content/evidence/T006-evidence-projects-light
+warning: --out is not git-ignored: ./.specify/features/jev-content/evidence/T006-evidence-projects-light
+ok screenshot-mobile (817 ms)
+ok screenshot-desktop (766 ms)
+ok lighthouse (16858 ms)
+evidence: ./.specify/features/jev-content/evidence/T006-evidence-projects-light
+$ node tools/perf/src/cli/evidence.ts http://127.0.0.1:4173/projects --color-scheme dark --full-page --out .specify/features/jev-content/evidence/T006-evidence-projects-dark
+warning: --out is not git-ignored: ./.specify/features/jev-content/evidence/T006-evidence-projects-dark
+ok screenshot-mobile (811 ms)
+ok screenshot-desktop (750 ms)
+ok lighthouse (16831 ms)
+evidence: ./.specify/features/jev-content/evidence/T006-evidence-projects-dark

@@ -1,0 +1,10 @@
+S13/T010 — reuse assertions for gates that did not need re-execution
+Command: git diff --quiet 7325aa0 -- apps/web
+Exit: 0
+No apps/web changes have landed since the T008 merge 7325aa0.
+
+- G4: reuse the T005 baseline screenshot bundles (T005-evidence-jev-light/, T005-evidence-jev-dark/) and T010-site-probe teardown state screenshots.
+- G6: reuse T007 OG evidence: T007-log-og-dims.txt, T007-log-og-hashes-build-1.txt, T007-log-og-hashes-build-2.txt, T007-log-og-hashes.txt.
+- G7: reuse T007 SEO evidence: T007-log-check.txt, T007-log-sitemap.txt, T007-log-head-tags.txt, T007-log-json-ld-trace.txt, and T007-seo-build-{1,2}/.
+- G15: reuse T008 scans (T008-log-nothing-invented.txt) and T008-home-copy/. T010 also reran home:probe copy (PASS) and site-probe cards (34/34 PASS).
+- G18: deferred to the orchestrator/CI as specified for the local part.

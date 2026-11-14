@@ -1,0 +1,188 @@
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --out .specify/features/jev-content/evidence/T010-site-probe
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> card:websocket-inspector -> card:jev-toolkit -> contact:email -> contact:github -> contact:linkedin -> footer:home -> footer:top PASS
+PASS drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+PASS drill-shift-tab-reverses: expected ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+PASS drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200},{"href":"/projects/jev-toolkit","status":200}]
+drill: PASS (13 checks)
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":64,"loadAt":50.19999998807907,"liveStateAtFcp":"loading","liveStateAtLoad":"idle"}
+PASS hero-eager-no-interaction: expected {"liveState":"revealed","canvases":1,"ready":true} actual {"liveState":"revealed","canvases":1,"ready":true}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":64,"loadAt":50.19999998807907,"liveStateAtFcp":"loading","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-loop-running: expected {"heroLoop":"running","canvases":1,"tour":"capture or inspect"} actual {"heroLoop":"running","canvases":1,"tour":"playing"}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster-websocket-inspector: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+PASS hero-project-poster-jev-toolkit: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (8 checks)
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls /projects/jev-toolkit desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls /projects/jev-toolkit desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls /projects/jev-toolkit mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls /projects/jev-toolkit mobile dark total=0.000000 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+cls: PASS (16 checks)
+PASS reduced-home-skipped: expected {"liveState":"skipped","heroCanvases":0,"posterVisible":true} actual {"liveState":"skipped","heroCanvases":0,"posterWidth":817.609375}
+PASS reduced-home-no-animations: expected "all samples 0" actual [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+PASS reduced-poster-no-transition-websocket-inspector: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-websocket-inspector: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-websocket-inspector: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+PASS reduced-poster-no-transition-jev-toolkit: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-jev-toolkit: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-jev-toolkit: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+reduced-motion: PASS (8 checks)
+PASS nojs-home-poster-and-list: expected {"posters":1,"list":"cards"} actual {"posters":2,"posterWidth":350,"cards":2,"outlines":0}
+PASS nojs-project-websocket-inspector-poster-and-list: expected {"posters":1,"list":"outline"} actual {"posters":1,"posterWidth":348,"cards":0,"outlines":1}
+PASS nojs-project-jev-toolkit-poster-and-list: expected {"posters":1,"list":"outline"} actual {"posters":1,"posterWidth":348,"cards":0,"outlines":1}
+PASS nojs-raw-home-poster-list: expected true actual {"pass":true,"poster":true,"list":true,"listKind":"cards"}
+PASS nojs-raw-hero-poster: expected true actual true
+PASS nojs-raw-project-websocket-inspector-poster-list: expected true actual {"pass":true,"poster":true,"list":true,"listKind":"outline"}
+PASS nojs-raw-project-jev-toolkit-poster-list: expected true actual {"pass":true,"poster":true,"list":true,"listKind":"outline"}
+PASS nojs-project-websocket-inspector-no-webgl-outline: expected {"outline":true,"message":true,"canvases":0} actual {"outline":true,"message":true,"canvases":0,"text":"WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"}
+PASS nojs-project-jev-toolkit-no-webgl-outline: expected {"outline":true,"message":true,"canvases":0} actual {"outline":true,"message":true,"canvases":0,"text":"WebGL is unavailable for this teardown.How much of a repo does a model need to read before it decides where to look?ProblemCoding agents burn context on orientation. The expensive question is not what"}
+nojs: PASS (9 checks)
+PASS routes-home-title: expected "Timur Haryo — Software Engineer · Android & Developer Tools" actual "Timur Haryo — Software Engineer · Android & Developer Tools"
+PASS routes-home-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-projects-title: expected "Projects · Timur Haryo" actual "Projects · Timur Haryo"
+PASS routes-projects-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-project-title-websocket-inspector: expected "Scarlet Inspector · Timur Haryo" actual "Scarlet Inspector · Timur Haryo"
+PASS routes-project-description-websocket-inspector: expected "Every WebSocket frame, captured and inspectable." actual "Every WebSocket frame, captured and inspectable."
+PASS routes-project-title-jev-toolkit: expected "JEV Benchmark · Timur Haryo" actual "JEV Benchmark · Timur Haryo"
+PASS routes-project-description-jev-toolkit: expected "Measuring what an AI reads before it codes." actual "Measuring what an AI reads before it codes."
+PASS routes-unknown-project-status: expected 404 actual 404
+PASS routes-unknown-project-content: expected "not-found content" actual {"h1":"Page not found"}
+PASS routes-/dev/engine-404: expected 404 actual 404
+PASS routes-/fixtures/fps-calibration-404: expected 404 actual 404
+PASS routes-/resume.pdf-404: expected 404 actual 404
+routes: PASS (13 checks)
+draws project websocket-inspector: mode=2 rendered=31 total=31 PASS
+draws project jev-toolkit: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=103 total=103 PASS
+PASS draws-project-websocket-inspector: expected 2 actual {"pass":true,"mode":2,"modeCount":31,"renderedFrames":31,"totalFrames":31,"counts":{"2":31}}
+PASS draws-project-jev-toolkit: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":103,"renderedFrames":103,"totalFrames":103,"counts":{"2":103}}
+draws: PASS (3 checks)
+teardown tour websocket-inspector capture-path light elapsedMs=11200 position="Step 7 of 7"
+teardown tour websocket-inspector inspect-path light elapsedMs=11285 position="Step 7 of 7"
+teardown tour jev-toolkit arm-run light elapsedMs=12875 position="Step 8 of 8"
+teardown tour jev-toolkit judge-path light elapsedMs=6495 position="Step 4 of 4"
+teardown tour websocket-inspector capture-path dark elapsedMs=11285 position="Step 7 of 7"
+teardown tour websocket-inspector inspect-path dark elapsedMs=11297 position="Step 7 of 7"
+teardown tour jev-toolkit arm-run dark elapsedMs=12888 position="Step 8 of 8"
+teardown tour jev-toolkit judge-path dark elapsedMs=6480 position="Step 4 of 4"
+teardown tour websocket-inspector capture-path mobile elapsedMs=11200 position="Step 7 of 7"
+teardown tour jev-toolkit arm-run mobile elapsedMs=12873 position="Step 8 of 8"
+PASS teardown-websocket-inspector-outline-counts: expected {"layers":5,"components":16} actual {"present":true,"layers":5,"components":16,"flows":0}
+PASS teardown-jev-toolkit-outline-counts: expected {"layers":5,"components":20} actual {"present":true,"layers":5,"components":20,"flows":0}
+PASS teardown-websocket-inspector-layers-light: expected {"layers":5,"parts":16} actual {"layers":5,"parts":16,"partsByLayer":[4,4,3,2,3]}
+PASS teardown-websocket-inspector-flows-light: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-websocket-inspector-panel-light: expected true actual {"attached":true,"visible":true}
+PASS teardown-websocket-inspector-tour-capture-path-light: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11200,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-websocket-inspector-tour-inspect-path-light: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11285,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-jev-toolkit-layers-light: expected {"layers":5,"parts":20} actual {"layers":5,"parts":20,"partsByLayer":[4,4,4,5,3]}
+PASS teardown-jev-toolkit-flows-light: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-jev-toolkit-panel-light: expected true actual {"attached":true,"visible":true}
+PASS teardown-jev-toolkit-tour-arm-run-light: expected {"state":"ended","position":"Step 8 of 8"} actual {"ended":true,"elapsedMs":12875,"timeoutMs":47000,"state":"ended","position":"Step 8 of 8"}
+PASS teardown-jev-toolkit-tour-judge-path-light: expected {"state":"ended","position":"Step 4 of 4"} actual {"ended":true,"elapsedMs":6495,"timeoutMs":31000,"state":"ended","position":"Step 4 of 4"}
+PASS teardown-websocket-inspector-layers-dark: expected {"layers":5,"parts":16} actual {"layers":5,"parts":16,"partsByLayer":[4,4,3,2,3]}
+PASS teardown-websocket-inspector-flows-dark: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-websocket-inspector-panel-dark: expected true actual {"attached":true,"visible":true}
+PASS teardown-websocket-inspector-tour-capture-path-dark: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11285,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-websocket-inspector-tour-inspect-path-dark: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11297,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-jev-toolkit-layers-dark: expected {"layers":5,"parts":20} actual {"layers":5,"parts":20,"partsByLayer":[4,4,4,5,3]}
+PASS teardown-jev-toolkit-flows-dark: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-jev-toolkit-panel-dark: expected true actual {"attached":true,"visible":true}
+PASS teardown-jev-toolkit-tour-arm-run-dark: expected {"state":"ended","position":"Step 8 of 8"} actual {"ended":true,"elapsedMs":12888,"timeoutMs":47000,"state":"ended","position":"Step 8 of 8"}
+PASS teardown-jev-toolkit-tour-judge-path-dark: expected {"state":"ended","position":"Step 4 of 4"} actual {"ended":true,"elapsedMs":6480,"timeoutMs":31000,"state":"ended","position":"Step 4 of 4"}
+PASS teardown-websocket-inspector-compact-column-light: expected {"column":"shown","rows":16,"noOverflow":true} actual {"column":"shown","rows":16,"scrollWidth":412,"clientWidth":412}
+PASS teardown-websocket-inspector-mobile-panel: expected true actual {"attached":true,"visible":true}
+PASS teardown-websocket-inspector-mobile-tour: expected {"flowId":"capture-path","state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11200,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-jev-toolkit-compact-column-light: expected {"column":"shown","rows":20,"noOverflow":true} actual {"column":"shown","rows":20,"scrollWidth":412,"clientWidth":412}
+PASS teardown-jev-toolkit-mobile-panel: expected true actual {"attached":true,"visible":true}
+PASS teardown-jev-toolkit-mobile-tour: expected {"flowId":"arm-run","state":"ended","position":"Step 8 of 8"} actual {"ended":true,"elapsedMs":12873,"timeoutMs":47000,"state":"ended","position":"Step 8 of 8"}
+PASS teardown-websocket-inspector-compact-column-dark: expected {"column":"shown","rows":16,"noOverflow":true} actual {"column":"shown","rows":16,"scrollWidth":412,"clientWidth":412}
+PASS teardown-jev-toolkit-compact-column-dark: expected {"column":"shown","rows":20,"noOverflow":true} actual {"column":"shown","rows":20,"scrollWidth":412,"clientWidth":412}
+teardown: PASS (30 checks)
+PASS cards-home-websocket-inspector-mobile-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-mobile-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-mobile-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-mobile-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-home-websocket-inspector-mobile-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-mobile-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-mobile-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-mobile-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-home-websocket-inspector-desktop-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-desktop-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-desktop-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-desktop-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-home-websocket-inspector-desktop-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-home-jev-toolkit-desktop-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-home-order-desktop-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-home-no-hscroll-desktop-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-projects-websocket-inspector-mobile-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-mobile-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-mobile-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-mobile-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-projects-websocket-inspector-mobile-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-mobile-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-mobile-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-mobile-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":390} actual {"pass":true,"scrollWidth":390,"clientWidth":390}
+PASS cards-projects-websocket-inspector-desktop-light: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-desktop-light: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-desktop-light: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-desktop-light: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-projects-websocket-inspector-desktop-dark: expected {"count":1,"headingText":"Scarlet Inspector","tagline":"Every WebSocket frame, captured and inspectable.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/websocket-inspector"} actual {"count":1,"headingText":"Scarlet Inspector","taglineFound":true,"chips":{"pass":true,"count":4,"unknown":[],"labels":["Kotlin","Android","Kotlin Coroutines","Jetpack Compose"]},"href":"/projects/websocket-inspector"}
+PASS cards-projects-jev-toolkit-desktop-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-desktop-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-desktop-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-websocket-inspector-href-200: expected 200 actual 200
+PASS cards-jev-toolkit-href-200: expected 200 actual 200
+cards: PASS (34 checks)
+site-probe: PASS
+artifacts: ./.specify/features/jev-content/evidence/T010-site-probe
+
+Per-group PASS/FAIL list:
+teardown PASS (30 checks) — G3
+routes PASS (13 checks) — G3/G17
+nojs PASS (9 checks) — G3
+cards PASS (34 checks) — G5
+drill PASS (13 checks) — G5
+cls PASS (16 checks) — G9
+draws PASS (3 checks) — G12
+hero PASS (8 checks) — G13
+reduced-motion PASS (8 checks)
+site-probe PASS

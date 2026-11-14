@@ -1,0 +1,29 @@
+
+ RUN  v5.0.5 ./apps/web
+
+ ❯ test/content-fidelity.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/content-fidelity.test.ts [ test/content-fidelity.test.ts ]
+Error: Cannot find module '../content/projects/jev-toolkit' imported from ./apps/web/test/content-fidelity.test.ts
+ ❯ test/content-fidelity.test.ts:10:1
+      8|
+      9| import { SITE_REGISTRY } from '../content/tech-registry';
+     10| import { jevToolkit } from '../content/projects/jev-toolkit';
+       | ^
+     11| import { jevToolkitSource } from '../content/projects/jev-toolkit.sour…
+     12| import { websocketInspector } from '../content/projects/websocket-insp…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  12:40:07
+   Duration  488ms (worker 99%, environment 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in ./apps/web
+

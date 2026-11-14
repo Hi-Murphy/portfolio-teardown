@@ -4,7 +4,13 @@ import { describe, expect, test } from 'vitest';
 
 import type { AxeScanResults } from '../src/a11y-axe.ts';
 import { EXIT } from '../src/exit-codes.ts';
-import { SITE_STATE_IDS, summarizeAxeResults, type SiteAxeStateResult } from '../src/site-axe.ts';
+import { PROJECT_SOURCES, projectPath } from '../src/project-sources.ts';
+import {
+  SITE_STATE_IDS,
+  SITE_STATES,
+  summarizeAxeResults,
+  type SiteAxeStateResult,
+} from '../src/site-axe.ts';
 
 async function seriousFixture(): Promise<AxeScanResults> {
   return JSON.parse(
@@ -67,5 +73,28 @@ describe('site axe summary', () => {
       'project-flows-step1',
       'project-no-webgl',
     ]);
+  });
+
+  test('project states cover every project path and shared states appear once', () => {
+    const projectStateIds = SITE_STATE_IDS.filter((id) => id.startsWith('project-'));
+    const expectedProjectStates = PROJECT_SOURCES.flatMap((source) =>
+      projectStateIds.map((id) => ({ id, path: projectPath(source) })),
+    );
+    const actualProjectStates = SITE_STATES.filter((state) => state.routeGroup === 'project').map(
+      ({ id, path }) => ({ id, path }),
+    );
+
+    expect(actualProjectStates).toEqual(expectedProjectStates);
+
+    const sharedStates = SITE_STATES.filter((state) => state.routeGroup !== 'project');
+    expect(sharedStates.map((state) => state.id)).toEqual([
+      'home',
+      'home-poster',
+      'home-reduced',
+      'projects',
+    ]);
+    expect(new Set(SITE_STATES.map((state) => `${state.id}@${state.path}`)).size).toBe(
+      SITE_STATES.length,
+    );
   });
 });

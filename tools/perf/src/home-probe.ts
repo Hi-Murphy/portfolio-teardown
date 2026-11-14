@@ -4,11 +4,11 @@ import { pathToFileURL } from 'node:url';
 
 import type { Browser, BrowserContextOptions, Page } from 'playwright';
 
-import { websocketInspectorSource } from '../../../apps/web/content/projects/websocket-inspector.source.ts';
 import { siteSource } from '../../../apps/web/content/site.source.ts';
 import { evaluateTabWalk, type FocusStep } from './a11y-probe.ts';
 import { chromiumVersion, launch } from './browser.ts';
 import { CliError, EXIT } from './exit-codes.ts';
+import { PROJECT_SOURCES } from './project-sources.ts';
 
 export const HOME_PROBE_GROUPS = ['order', 'fold', 'responsive', 'structure', 'copy'] as const;
 export type HomeProbeGroup = (typeof HOME_PROBE_GROUPS)[number];
@@ -641,13 +641,15 @@ export function evaluateCopy(
 }
 
 export function homeProbeConfig(): HomeProbeConfig {
+  const heroProject = PROJECT_SOURCES[0];
+
   return {
     identityName: siteSource.identity.name,
     eyebrow: siteSource.hero.eyebrow,
     headline: siteSource.hero.headline,
     primaryCta: siteSource.hero.primaryCta.label,
-    projectName: websocketInspectorSource.meta.name,
-    projectTagline: websocketInspectorSource.meta.tagline ?? '',
+    projectName: heroProject.meta.name,
+    projectTagline: heroProject.meta.tagline ?? '',
     projectsNote: siteSource.projects.emptyNote,
     contactTitle: siteSource.contact.title,
   };
@@ -1464,8 +1466,8 @@ export function heroNarrationCompositions(project: NarrationProject): string[] {
 async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<string[]> {
   const strings: string[] = [];
   flattenStrings(siteSource, strings);
-  flattenStrings(websocketInspectorSource, strings);
-  strings.push(...heroNarrationCompositions(websocketInspectorSource));
+  for (const project of PROJECT_SOURCES) flattenStrings(project, strings);
+  strings.push(...heroNarrationCompositions(PROJECT_SOURCES[0]));
   strings.push(...(await techLabels(rootDir)));
   strings.push(
     `${siteSource.identity.role} · ${siteSource.identity.location}`,

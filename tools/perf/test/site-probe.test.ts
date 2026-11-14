@@ -1,14 +1,26 @@
 import { describe, expect, test } from 'vitest';
 
 import { evaluateTabWalk, type FocusStep } from '../src/a11y-probe.ts';
+import { PROJECT_SOURCES, projectPath } from '../src/project-sources.ts';
 import {
+  cardOrderMatches,
+  clsRoutes,
+  evaluateCardChips,
   evaluateCls,
   evaluateDrawFrames,
   evaluateFallbackHtml,
   evaluateHeroEagerNoInteraction,
   evaluateHeroLoopRunning,
+  evaluateHorizontalScroll,
+  expectedTeardownCounts,
   heroContainsPoster,
+  outlineCountsFromHtml,
   parseHeroLiveMode,
+  parseRegistryLabels,
+  SITE_PROBE_CI_GROUPS,
+  SITE_PROBE_GROUPS,
+  teardownCountsMatch,
+  tourTimeoutMs,
   type ClsEntry,
   type ClsSource,
 } from '../src/site-probe.ts';
@@ -174,6 +186,76 @@ describe('HTML fallback assertions', () => {
   });
 });
 
+describe('cards helpers', () => {
+  test('parses quoted registry labels from source text', () => {
+    const sourceText = `
+      { id: 'kotlin', label: 'Kotlin', category: 'language' },
+      { id: 'nodejs', label: "Node.js", category: 'platform' },
+    `;
+
+    expect(parseRegistryLabels(sourceText)).toEqual(['Kotlin', 'Node.js']);
+  });
+
+  test('ignores an unquoted label-shaped value', () => {
+    const sourceText = "label: Kotlin\n{ id: 'room', label: 'Room' }";
+
+    expect(parseRegistryLabels(sourceText)).toEqual(['Room']);
+  });
+
+  test('matches card order exactly', () => {
+    expect(
+      cardOrderMatches(
+        ['websocket-inspector', 'jev-toolkit'],
+        ['websocket-inspector', 'jev-toolkit'],
+      ),
+    ).toBe(true);
+  });
+
+  test('rejects swapped card order', () => {
+    expect(
+      cardOrderMatches(
+        ['jev-toolkit', 'websocket-inspector'],
+        ['websocket-inspector', 'jev-toolkit'],
+      ),
+    ).toBe(false);
+  });
+
+  test('passes one to four chips whose labels are in the registry', () => {
+    expect(evaluateCardChips(['Kotlin', 'Room'], ['Kotlin', 'Room', 'Node.js'])).toEqual({
+      pass: true,
+      count: 2,
+      unknown: [],
+    });
+  });
+
+  test('rejects five chips and a label outside the registry', () => {
+    expect(
+      evaluateCardChips(['Kotlin', 'Room', 'Node.js', 'Android', 'WebSocket'], ['Kotlin']),
+    ).toEqual({
+      pass: false,
+      count: 5,
+      unknown: ['Room', 'Node.js', 'Android', 'WebSocket'],
+    });
+  });
+
+  test('passes a document that does not overflow horizontally', () => {
+    expect(evaluateHorizontalScroll(390, 390)).toEqual({
+      pass: true,
+      scrollWidth: 390,
+      clientWidth: 390,
+    });
+  });
+
+  test('rejects a document wider than its client width', () => {
+    expect(evaluateHorizontalScroll(391, 390).pass).toBe(false);
+  });
+
+  test('registers cards in the full and CI group lists', () => {
+    expect(SITE_PROBE_GROUPS).toContain('cards');
+    expect(SITE_PROBE_CI_GROUPS).toContain('cards');
+  });
+});
+
 describe('hero live mode', () => {
   test('recognizes the compile-time eager and gated modes', () => {
     expect(parseHeroLiveMode('eager')).toBe('eager');
@@ -216,5 +298,77 @@ describe('hero live mode', () => {
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'unknown' })).toBe(
       false,
     );
+  });
+});
+
+describe('clsRoutes', () => {
+  test('includes home, the project index, and every project source once', () => {
+    const routes = clsRoutes(new URL('http://127.0.0.1:4173'));
+
+    expect(routes.map((route) => route.path)).toEqual([
+      '/',
+      '/projects',
+      ...PROJECT_SOURCES.map((source) => projectPath(source)),
+    ]);
+    expect(routes.every((route) => route.base === 'site')).toBe(true);
+  });
+});
+
+describe('teardown helpers', () => {
+  test('counts outline layers and component items by structure', () => {
+    const html = `
+      <section data-site-outline>
+        <h2>Example</h2>
+        <section><h3>Metrics</h3><dl><div><dt>One</dt></div></dl></section>
+        <div>
+          <section><h3>Layer one</h3><ul><li>Part A</li><li>Part B</li></ul></section>
+          <section><h3>Layer two</h3><ul><li>Part C</li></ul></section>
+        </div>
+        <ol><li>Flow one</li><li>Flow two</li></ol>
+      </section>
+    `;
+
+    expect(outlineCountsFromHtml(html)).toEqual({
+      present: true,
+      layers: 2,
+      components: 3,
+      flows: 2,
+    });
+  });
+
+  test('reports a missing outline as absent instead of counting unrelated lists', () => {
+    expect(outlineCountsFromHtml('<ul><li>Part</li></ul><ol><li>Flow</li></ol>')).toEqual({
+      present: false,
+      layers: 0,
+      components: 0,
+      flows: 0,
+    });
+  });
+
+  test('computes expected counts from a source module', () => {
+    const source = {
+      layers: [{ components: [{ id: 'a' }, { id: 'b' }] }, { components: [{ id: 'c' }] }],
+      flows: [{ id: 'one' }, { id: 'two' }],
+    };
+
+    expect(expectedTeardownCounts(source)).toEqual({ layers: 2, components: 3, flows: 2 });
+  });
+
+  test('rejects a count mismatch for the source-derived expectation', () => {
+    const expected = expectedTeardownCounts({
+      layers: [{ components: [{ id: 'a' }] }],
+      flows: [{ id: 'one' }],
+    });
+
+    expect(teardownCountsMatch({ layers: 1, components: 1, flows: 0 }, expected)).toBe(false);
+  });
+
+  test('scales the tour timeout at four seconds per path step plus fifteen seconds', () => {
+    expect(tourTimeoutMs(0)).toBe(15_000);
+    expect(tourTimeoutMs(8)).toBe(47_000);
+  });
+
+  test('rejects a negative path length', () => {
+    expect(() => tourTimeoutMs(-1)).toThrow(RangeError);
   });
 });

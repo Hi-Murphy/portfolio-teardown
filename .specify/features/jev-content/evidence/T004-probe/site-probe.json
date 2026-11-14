@@ -1,0 +1,1350 @@
+{
+  "kind": "site-probe",
+  "version": 2,
+  "baseUrl": "http://127.0.0.1:56837/",
+  "chromium": "156.0.8078.4",
+  "groups": [
+    {
+      "group": "routes",
+      "pass": true,
+      "checks": [
+        {
+          "name": "routes-home-title",
+          "pass": true,
+          "expected": "Timur Haryo — Software Engineer · Android & Developer Tools",
+          "actual": "Timur Haryo — Software Engineer · Android & Developer Tools"
+        },
+        {
+          "name": "routes-home-description",
+          "pass": true,
+          "expected": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+          "actual": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+        },
+        {
+          "name": "routes-projects-title",
+          "pass": true,
+          "expected": "Projects · Timur Haryo",
+          "actual": "Projects · Timur Haryo"
+        },
+        {
+          "name": "routes-projects-description",
+          "pass": true,
+          "expected": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+          "actual": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+        },
+        {
+          "name": "routes-project-title-websocket-inspector",
+          "pass": true,
+          "expected": "Scarlet Inspector · Timur Haryo",
+          "actual": "Scarlet Inspector · Timur Haryo"
+        },
+        {
+          "name": "routes-project-description-websocket-inspector",
+          "pass": true,
+          "expected": "Every WebSocket frame, captured and inspectable.",
+          "actual": "Every WebSocket frame, captured and inspectable."
+        },
+        {
+          "name": "routes-project-title-jev-toolkit",
+          "pass": true,
+          "expected": "JEV Benchmark · Timur Haryo",
+          "actual": "JEV Benchmark · Timur Haryo"
+        },
+        {
+          "name": "routes-project-description-jev-toolkit",
+          "pass": true,
+          "expected": "Measuring what an AI reads before it codes.",
+          "actual": "Measuring what an AI reads before it codes."
+        },
+        {
+          "name": "routes-unknown-project-status",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        },
+        {
+          "name": "routes-unknown-project-content",
+          "pass": true,
+          "expected": "not-found content",
+          "actual": {
+            "h1": "Page not found"
+          }
+        },
+        {
+          "name": "routes-/dev/engine-404",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        },
+        {
+          "name": "routes-/fixtures/fps-calibration-404",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        },
+        {
+          "name": "routes-/resume.pdf-404",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "cls",
+      "pass": true,
+      "checks": [
+        {
+          "name": "cls-/-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        }
+      ],
+      "data": {
+        "kind": "site-probe-cls",
+        "version": 1,
+        "baseUrl": "http://127.0.0.1:56837/",
+        "chromium": "156.0.8078.4",
+        "cells": [
+          {
+            "route": "/",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          }
+        ],
+        "pass": true
+      },
+      "lines": []
+    },
+    {
+      "group": "nojs",
+      "pass": true,
+      "checks": [
+        {
+          "name": "nojs-home-poster-and-list",
+          "pass": true,
+          "expected": {
+            "posters": 1,
+            "list": "cards"
+          },
+          "actual": {
+            "posters": 2,
+            "posterWidth": 350,
+            "cards": 2,
+            "outlines": 0
+          }
+        },
+        {
+          "name": "nojs-project-websocket-inspector-poster-and-list",
+          "pass": true,
+          "expected": {
+            "posters": 1,
+            "list": "outline"
+          },
+          "actual": {
+            "posters": 1,
+            "posterWidth": 348,
+            "cards": 0,
+            "outlines": 1
+          }
+        },
+        {
+          "name": "nojs-project-jev-toolkit-poster-and-list",
+          "pass": true,
+          "expected": {
+            "posters": 1,
+            "list": "outline"
+          },
+          "actual": {
+            "posters": 1,
+            "posterWidth": 348,
+            "cards": 0,
+            "outlines": 1
+          }
+        },
+        {
+          "name": "nojs-raw-home-poster-list",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "pass": true,
+            "poster": true,
+            "list": true,
+            "listKind": "cards"
+          }
+        },
+        {
+          "name": "nojs-raw-hero-poster",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "nojs-raw-project-websocket-inspector-poster-list",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "pass": true,
+            "poster": true,
+            "list": true,
+            "listKind": "outline"
+          }
+        },
+        {
+          "name": "nojs-raw-project-jev-toolkit-poster-list",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "pass": true,
+            "poster": true,
+            "list": true,
+            "listKind": "outline"
+          }
+        },
+        {
+          "name": "nojs-project-websocket-inspector-no-webgl-outline",
+          "pass": true,
+          "expected": {
+            "outline": true,
+            "message": true,
+            "canvases": 0
+          },
+          "actual": {
+            "outline": true,
+            "message": true,
+            "canvases": 0,
+            "text": "WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"
+          }
+        },
+        {
+          "name": "nojs-project-jev-toolkit-no-webgl-outline",
+          "pass": true,
+          "expected": {
+            "outline": true,
+            "message": true,
+            "canvases": 0
+          },
+          "actual": {
+            "outline": true,
+            "message": true,
+            "canvases": 0,
+            "text": "WebGL is unavailable for this teardown.How much of a repo does a model need to read before it decides where to look?ProblemCoding agents burn context on orientation. The expensive question is not what"
+          }
+        }
+      ],
+      "data": {
+        "captures": [
+          {
+            "name": "home",
+            "screenshot": "nojs-home.png",
+            "dump": "nojs-home.html",
+            "actual": {
+              "posters": 2,
+              "posterWidth": 350,
+              "cards": 2,
+              "outlines": 0
+            }
+          },
+          {
+            "name": "project-websocket-inspector",
+            "screenshot": "nojs-project-websocket-inspector.png",
+            "dump": "nojs-project-websocket-inspector.html",
+            "actual": {
+              "posters": 1,
+              "posterWidth": 348,
+              "cards": 0,
+              "outlines": 1
+            }
+          },
+          {
+            "name": "project-jev-toolkit",
+            "screenshot": "nojs-project-jev-toolkit.png",
+            "dump": "nojs-project-jev-toolkit.html",
+            "actual": {
+              "posters": 1,
+              "posterWidth": 348,
+              "cards": 0,
+              "outlines": 1
+            }
+          }
+        ]
+      },
+      "lines": []
+    },
+    {
+      "group": "reduced-motion",
+      "pass": true,
+      "checks": [
+        {
+          "name": "reduced-home-skipped",
+          "pass": true,
+          "expected": {
+            "liveState": "skipped",
+            "heroCanvases": 0,
+            "posterVisible": true
+          },
+          "actual": {
+            "liveState": "skipped",
+            "heroCanvases": 0,
+            "posterWidth": 817.609375
+          }
+        },
+        {
+          "name": "reduced-home-no-animations",
+          "pass": true,
+          "expected": "all samples 0",
+          "actual": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "reduced-poster-no-transition-websocket-inspector",
+          "pass": true,
+          "expected": "all durations 0",
+          "actual": "0s"
+        },
+        {
+          "name": "reduced-project-toggles-instant-websocket-inspector",
+          "pass": true,
+          "expected": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweeningNeverTrue": true
+          },
+          "actual": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweening": [
+              "false"
+            ]
+          }
+        },
+        {
+          "name": "reduced-project-no-animations-websocket-inspector",
+          "pass": true,
+          "expected": {
+            "implode": 0,
+            "explode": 0
+          },
+          "actual": {
+            "implode": 0,
+            "explode": 0
+          }
+        },
+        {
+          "name": "reduced-poster-no-transition-jev-toolkit",
+          "pass": true,
+          "expected": "all durations 0",
+          "actual": "0s"
+        },
+        {
+          "name": "reduced-project-toggles-instant-jev-toolkit",
+          "pass": true,
+          "expected": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweeningNeverTrue": true
+          },
+          "actual": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweening": [
+              "false"
+            ]
+          }
+        },
+        {
+          "name": "reduced-project-no-animations-jev-toolkit",
+          "pass": true,
+          "expected": {
+            "implode": 0,
+            "explode": 0
+          },
+          "actual": {
+            "implode": 0,
+            "explode": 0
+          }
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "draws",
+      "pass": true,
+      "checks": [
+        {
+          "name": "draws-project-websocket-inspector",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "pass": true,
+            "mode": 2,
+            "modeCount": 32,
+            "renderedFrames": 32,
+            "totalFrames": 32,
+            "counts": {
+              "2": 32
+            }
+          }
+        },
+        {
+          "name": "draws-project-jev-toolkit",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "pass": true,
+            "mode": 2,
+            "modeCount": 32,
+            "renderedFrames": 32,
+            "totalFrames": 32,
+            "counts": {
+              "2": 32
+            }
+          }
+        },
+        {
+          "name": "draws-hero",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "pass": true,
+            "mode": 2,
+            "modeCount": 100,
+            "renderedFrames": 100,
+            "totalFrames": 100,
+            "counts": {
+              "2": 100
+            }
+          }
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "drill",
+      "pass": true,
+      "checks": [
+        {
+          "name": "drill-tab-logical-order",
+          "pass": true,
+          "expected": [
+            "skip",
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme",
+            "hero:primary",
+            "card:websocket-inspector",
+            "card:jev-toolkit",
+            "contact:email",
+            "contact:github",
+            "contact:linkedin",
+            "footer:home",
+            "footer:top"
+          ],
+          "actual": [
+            "skip",
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme",
+            "hero:primary",
+            "card:websocket-inspector",
+            "card:jev-toolkit",
+            "contact:email",
+            "contact:github",
+            "contact:linkedin",
+            "footer:home",
+            "footer:top"
+          ]
+        },
+        {
+          "name": "drill-nav-dom-order",
+          "pass": true,
+          "expected": [
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme"
+          ],
+          "actual": [
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme"
+          ]
+        },
+        {
+          "name": "drill-no-resume-link",
+          "pass": true,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "drill-shift-tab-reverses",
+          "pass": true,
+          "expected": [
+            "footer:home",
+            "contact:linkedin",
+            "contact:github",
+            "contact:email",
+            "card:jev-toolkit",
+            "card:websocket-inspector",
+            "hero:primary",
+            "nav:theme",
+            "nav:linkedin",
+            "nav:github",
+            "nav:contact",
+            "nav:about",
+            "nav:projects",
+            "nav:home",
+            "skip"
+          ],
+          "actual": [
+            "footer:home",
+            "contact:linkedin",
+            "contact:github",
+            "contact:email",
+            "card:jev-toolkit",
+            "card:websocket-inspector",
+            "hero:primary",
+            "nav:theme",
+            "nav:linkedin",
+            "nav:github",
+            "nav:contact",
+            "nav:about",
+            "nav:projects",
+            "nav:home",
+            "skip"
+          ]
+        },
+        {
+          "name": "drill-no-trap",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "stoppedAfterLast": true,
+            "anchor": "footer:top",
+            "trap": false,
+            "repeated": null
+          }
+        },
+        {
+          "name": "drill-card-enter-url",
+          "pass": true,
+          "expected": "/projects/websocket-inspector",
+          "actual": "/projects/websocket-inspector"
+        },
+        {
+          "name": "drill-card-enter-viewer",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "drill-card-enter-h1",
+          "pass": true,
+          "expected": "Scarlet Inspector",
+          "actual": "Scarlet Inspector"
+        },
+        {
+          "name": "drill-soft-navigation",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "project": true,
+            "back": true
+          }
+        },
+        {
+          "name": "drill-back-card-reachable",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "drill-soft-nav-cls",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "entries": []
+          }
+        },
+        {
+          "name": "drill-projects-one-activation",
+          "pass": true,
+          "expected": "/projects",
+          "actual": "/projects"
+        },
+        {
+          "name": "drill-card-hrefs-200",
+          "pass": true,
+          "expected": "every status 200",
+          "actual": [
+            {
+              "href": "/projects/websocket-inspector",
+              "status": 200
+            },
+            {
+              "href": "/projects/jev-toolkit",
+              "status": 200
+            }
+          ]
+        }
+      ],
+      "data": {
+        "structure": {
+          "expected": [
+            {
+              "key": "skip",
+              "role": "a",
+              "name": "Skip to content",
+              "panel": "",
+              "tag": "a",
+              "href": "#main"
+            },
+            {
+              "key": "nav:home",
+              "role": "a",
+              "name": "TH Timur Haryo",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "nav:projects",
+              "role": "a",
+              "name": "Projects",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/projects"
+            },
+            {
+              "key": "nav:about",
+              "role": "a",
+              "name": "About",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#about"
+            },
+            {
+              "key": "nav:contact",
+              "role": "a",
+              "name": "Contact",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#contact"
+            },
+            {
+              "key": "nav:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "nav:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "nav:theme",
+              "role": "button",
+              "name": "Switch to dark theme",
+              "panel": "nav",
+              "tag": "button",
+              "href": null
+            },
+            {
+              "key": "hero:primary",
+              "role": "a",
+              "name": "See how it works",
+              "panel": "hero",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:websocket-inspector",
+              "role": "a",
+              "name": "Scarlet Inspector",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:jev-toolkit",
+              "role": "a",
+              "name": "JEV Benchmark",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/jev-toolkit"
+            },
+            {
+              "key": "contact:email",
+              "role": "a",
+              "name": "Email vibing.murphy@gmail.com",
+              "panel": "",
+              "tag": "a",
+              "href": "mailto:vibing.murphy@gmail.com"
+            },
+            {
+              "key": "contact:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "contact:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "footer:home",
+              "role": "a",
+              "name": "TH Timur Haryo Mahissanular",
+              "panel": "footer",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "footer:top",
+              "role": "a",
+              "name": "Back to top ↑",
+              "panel": "footer",
+              "tag": "a",
+              "href": "#main"
+            }
+          ],
+          "nav": [
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme"
+          ],
+          "hero": [
+            "hero:primary"
+          ],
+          "cards": [
+            "card:websocket-inspector",
+            "card:jev-toolkit"
+          ],
+          "contact": [
+            "contact:email",
+            "contact:github",
+            "contact:linkedin"
+          ],
+          "footer": [
+            "footer:home",
+            "footer:top"
+          ],
+          "resumeLinks": 0
+        },
+        "walk": {
+          "forward": [
+            {
+              "key": "skip",
+              "role": "a",
+              "name": "Skip to content",
+              "panel": "",
+              "tag": "a",
+              "href": "#main"
+            },
+            {
+              "key": "nav:home",
+              "role": "a",
+              "name": "TH Timur Haryo",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "nav:projects",
+              "role": "a",
+              "name": "Projects",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/projects"
+            },
+            {
+              "key": "nav:about",
+              "role": "a",
+              "name": "About",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#about"
+            },
+            {
+              "key": "nav:contact",
+              "role": "a",
+              "name": "Contact",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#contact"
+            },
+            {
+              "key": "nav:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "nav:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "nav:theme",
+              "role": "button",
+              "name": "Switch to dark theme",
+              "panel": "nav",
+              "tag": "button",
+              "href": null
+            },
+            {
+              "key": "hero:primary",
+              "role": "a",
+              "name": "See how it works",
+              "panel": "hero",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:websocket-inspector",
+              "role": "a",
+              "name": "Scarlet Inspector",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:jev-toolkit",
+              "role": "a",
+              "name": "JEV Benchmark",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/jev-toolkit"
+            },
+            {
+              "key": "contact:email",
+              "role": "a",
+              "name": "Email vibing.murphy@gmail.com",
+              "panel": "",
+              "tag": "a",
+              "href": "mailto:vibing.murphy@gmail.com"
+            },
+            {
+              "key": "contact:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "contact:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "footer:home",
+              "role": "a",
+              "name": "TH Timur Haryo Mahissanular",
+              "panel": "footer",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "footer:top",
+              "role": "a",
+              "name": "Back to top ↑",
+              "panel": "footer",
+              "tag": "a",
+              "href": "#main"
+            }
+          ],
+          "backward": [
+            {
+              "key": "footer:home",
+              "role": "a",
+              "name": "TH Timur Haryo Mahissanular",
+              "panel": "footer",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "contact:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "contact:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "contact:email",
+              "role": "a",
+              "name": "Email vibing.murphy@gmail.com",
+              "panel": "",
+              "tag": "a",
+              "href": "mailto:vibing.murphy@gmail.com"
+            },
+            {
+              "key": "card:jev-toolkit",
+              "role": "a",
+              "name": "JEV Benchmark",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/jev-toolkit"
+            },
+            {
+              "key": "card:websocket-inspector",
+              "role": "a",
+              "name": "Scarlet Inspector",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "hero:primary",
+              "role": "a",
+              "name": "See how it works",
+              "panel": "hero",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "nav:theme",
+              "role": "button",
+              "name": "Switch to dark theme",
+              "panel": "nav",
+              "tag": "button",
+              "href": null
+            },
+            {
+              "key": "nav:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "nav:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "nav:contact",
+              "role": "a",
+              "name": "Contact",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#contact"
+            },
+            {
+              "key": "nav:about",
+              "role": "a",
+              "name": "About",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#about"
+            },
+            {
+              "key": "nav:projects",
+              "role": "a",
+              "name": "Projects",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/projects"
+            },
+            {
+              "key": "nav:home",
+              "role": "a",
+              "name": "TH Timur Haryo",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "skip",
+              "role": "a",
+              "name": "Skip to content",
+              "panel": "",
+              "tag": "a",
+              "href": "#main"
+            }
+          ],
+          "anchor": {
+            "key": "footer:top",
+            "role": "a",
+            "name": "Back to top ↑",
+            "panel": "footer",
+            "tag": "a",
+            "href": "#main"
+          },
+          "stoppedAfterLast": true
+        },
+        "softCls": {
+          "total": 0,
+          "pass": true,
+          "sources": []
+        }
+      },
+      "lines": []
+    }
+  ],
+  "pass": true
+}

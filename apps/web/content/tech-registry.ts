@@ -9,5 +9,6 @@ export const SITE_REGISTRY = defineTechRegistry({
     { id: 'jetpack-compose', label: 'Jetpack Compose', category: 'framework' },
     { id: 'room', label: 'Room', category: 'storage' },
     { id: 'websocket', label: 'WebSocket', category: 'network' },
+    { id: 'nodejs', label: 'Node.js', category: 'platform' },
   ],
 });

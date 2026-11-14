@@ -1,0 +1,24 @@
+SITE_URL=https://hi-murphy.me
+OK   name actual="JEV Benchmark" expected="JEV Benchmark"
+OK   description actual="A zero-dependency Node harness that runs the same fifteen refactor tasks against a real Android codebase under three context strategies, scores what each one chose to read, and checks every claim it makes against the repository instead of trusting it." expected="A zero-dependency Node harness that runs the same fifteen refactor tasks against a real Android codebase under three context strategies, scores what each one chose to read, and checks every claim it makes against the repository instead of trusting it."
+OK   codeRepository actual="https://github.com/TimurHaryo/jev-toolkit" expected="https://github.com/TimurHaryo/jev-toolkit"
+OK   author.name actual="Timur Haryo Mahissanular" expected="Timur Haryo Mahissanular"
+OK   url actual="https://hi-murphy.me/projects/jev-toolkit" expected="https://hi-murphy.me/projects/jev-toolkit"
+OK   @type includes SoftwareApplication actual=["SoftwareApplication","SoftwareSourceCode"]
+JSON-LD:
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "SoftwareApplication",
+    "SoftwareSourceCode"
+  ],
+  "name": "JEV Benchmark",
+  "description": "A zero-dependency Node harness that runs the same fifteen refactor tasks against a real Android codebase under three context strategies, scores what each one chose to read, and checks every claim it makes against the repository instead of trusting it.",
+  "url": "https://hi-murphy.me/projects/jev-toolkit",
+  "author": {
+    "@type": "Person",
+    "name": "Timur Haryo Mahissanular",
+    "url": "https://hi-murphy.me"
+  },
+  "codeRepository": "https://github.com/TimurHaryo/jev-toolkit"
+}

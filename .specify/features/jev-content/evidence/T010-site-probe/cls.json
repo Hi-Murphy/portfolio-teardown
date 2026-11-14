@@ -1,0 +1,153 @@
+{
+  "kind": "site-probe-cls",
+  "version": 1,
+  "baseUrl": "http://127.0.0.1:51828/",
+  "chromium": "156.0.8078.4",
+  "cells": [
+    {
+      "route": "/",
+      "viewport": "desktop",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects",
+      "viewport": "desktop",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "viewport": "desktop",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/jev-toolkit",
+      "viewport": "desktop",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/",
+      "viewport": "desktop",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects",
+      "viewport": "desktop",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "viewport": "desktop",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/jev-toolkit",
+      "viewport": "desktop",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/",
+      "viewport": "mobile",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects",
+      "viewport": "mobile",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "viewport": "mobile",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/jev-toolkit",
+      "viewport": "mobile",
+      "palette": "light",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/",
+      "viewport": "mobile",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects",
+      "viewport": "mobile",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "viewport": "mobile",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    },
+    {
+      "route": "/projects/jev-toolkit",
+      "viewport": "mobile",
+      "palette": "dark",
+      "total": 0,
+      "pass": true,
+      "sources": [],
+      "entries": []
+    }
+  ],
+  "pass": true
+}
