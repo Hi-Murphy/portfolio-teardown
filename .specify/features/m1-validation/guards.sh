@@ -205,7 +205,7 @@ check_workflows() {
   local changes=() line path
   while IFS= read -r line; do
     [[ -n "$line" ]] && changes+=("$line")
-  done < <(git diff --name-status "$B" -- .github/workflows)
+  done < <(git diff --name-status "$B" -- .github/workflows | tr '\t' ' ')
 
   while IFS= read -r path; do
     [[ -n "$path" ]] || continue

@@ -127,3 +127,10 @@ BASH-OK
 exit=0
 
 T001-OK
+
+# Orchestrator review (2026-11-14): workflow guard compared "A<TAB>path" with "A path" and failed once T001 was committed; fixed with tr. Re-run:
+OK frozen
+OK product
+OK surfaces
+OK workflows
+OK touch
