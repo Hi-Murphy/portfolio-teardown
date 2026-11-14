@@ -12,7 +12,8 @@ Murphy chose **option A** on 2026-11-14 ("go A"): fix the clock now and re-seal 
 
 - `packages/xploder/src/react/useTourClock.ts`: when the effect finds that the tour position at "now" has already left the reducer's state (the last boundary has passed, so `positionAt` reports a different status), it dispatches `{ type: 'tick', now }` instead of returning without a timer. No other behaviour changes: same beat, same reducer, same timers for every other step.
 - New regression test `packages/xploder/test/tour-clock-boundary.test.tsx` (red before the fix, green after), added to `frozen-surface.s5.paths`.
-- `frozen-surface.generate-s5.sh` base moves to the fix commit; `frozen-surface.s5.manifest.json` is regenerated in the same slice with its note extended. S2–S4, S6, S7 and S8 manifests are untouched.
+- `frozen-surface.generate-s5.sh` base moves to the fix commit **`51d3fa7`**; `frozen-surface.s5.manifest.json` is regenerated with its note extended, and the S5 base/note assertion in `frozen-surface.test.ts` is updated to match (the S11.9 re-seal did the same). S2–S4, S6, S7 and S8 manifests are untouched.
+- **Keep `task/s13-jev-content` on origin after the squash merge:** `51d3fa7` must stay reachable for `frozen-surface.generate-s5.sh` (as `task/s11.9-home-composition` keeps `3aee8fc`).
 
 ## Not changed
 

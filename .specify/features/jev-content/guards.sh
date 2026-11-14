@@ -26,6 +26,7 @@ R1_XPLODER_PATHS=(
   packages/xploder/test/frozen-surface.s5.paths
   packages/xploder/test/frozen-surface.s5.manifest.json
   packages/xploder/test/frozen-surface.generate-s5.sh
+  packages/xploder/test/frozen-surface.test.ts
 )
 
 surfaces_s2s8_ok() {
@@ -53,7 +54,7 @@ allowed_paths_ok() {
     } | sort -u
   )
   [[ -n "$changed" ]] || return 0
-  unexpected=$(grep -vE '^(packages/xploder/src/react/useTourClock\.ts$|packages/xploder/test/tour-clock-boundary\.test\.tsx$|packages/xploder/test/frozen-surface\.(s5\.paths|s5\.manifest\.json|generate-s5\.sh)$|apps/web/content/projects/|apps/web/content/tech-registry\.ts$|apps/web/scripts/convert-content\.ts$|apps/web/test/|tools/perf/|\.github/workflows/perf\.yml$|\.specify/features/jev-content/)' <<<"$changed" || true)
+  unexpected=$(grep -vE '^(packages/xploder/src/react/useTourClock\.ts$|packages/xploder/test/tour-clock-boundary\.test\.tsx$|packages/xploder/test/frozen-surface\.(s5\.paths|s5\.manifest\.json|generate-s5\.sh|test\.ts)$|apps/web/content/projects/|apps/web/content/tech-registry\.ts$|apps/web/scripts/convert-content\.ts$|apps/web/test/|tools/perf/|\.github/workflows/perf\.yml$|\.specify/features/jev-content/)' <<<"$changed" || true)
   [[ -z "$unexpected" ]]
 }
 
