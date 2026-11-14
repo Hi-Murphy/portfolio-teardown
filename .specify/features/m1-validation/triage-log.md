@@ -4,7 +4,7 @@ Rubric: RFC §7 (Sev-1 blocker … Sev-4 idea). Close rule: zero Sev-1 / Sev-2 o
 
 | Id | Source | Cell / route | Finding | Sev | Decision | Owner | Status | Evidence |
 |---|---|---|---|---|---|---|---|---|
-| I-01 | AC5 degraded, no-JS ×4 cells | `/`, 390 + 1440, light + dark | With JS disabled, the visible hero poster is the imploded one **without** the numbered frame path. The flow poster only switches on via `motion-reduce:` or live state `skipped`, which never happens without JS | **Sev-2** (an AC5 check fails; core path works) | fix in slice: T008.1 (`noscript:` variant, two classes + regression test) | orchestrator | in progress (T008.1) | before: `T004-log-degraded.json`, `T004-screenshot-nojs-390-light.png` |
+| I-01 | AC5 degraded, no-JS ×4 cells | `/`, 390 + 1440, light + dark | With JS disabled, the visible hero poster is the imploded one **without** the numbered frame path. The flow poster only switches on via `motion-reduce:` or live state `skipped`, which never happens without JS | **Sev-2** (an AC5 check fails; core path works) | fixed in slice: T008.1 (`noscript:` variant, two classes + regression test) + T008.1b (probe measures the visible poster) | orchestrator | **fixed** | before: `T004-log-degraded.json`, `T004-screenshot-nojs-390-light.png`; after: `T008.1-log-degraded-after.json` (72/72), `T008.1-screenshot-nojs-*-after.png`, `T008.1-log-fix.md` |
 | I-02 | AC3 C4 external | LinkedIn profile link | Automated Chromium gets HTTP 999 (bot block) | — (not a defect) | closed by Murphy's browser evidence: document status **200** after redirect to LinkedIn's sign-in wall (`authwall`) for logged-out visitors (RFC §11, P1 decisions) | Murphy | closed | `T004-log-content.json`, `T004-screenshot-linkedin-devtools.png` |
 | I-03 | AC4 M2, D3 + D5 | `/` | Pausing during the storyboard's explode step lets that step settle once (labels fade in within ~1.5 s), then the hero is still. Pausing in any other phase freezes it at once | **Sev-3** (Murphy: "accept it", R6) | backlog | orchestrator | open, ships | `T004-log-pause.md`, `T004-screenshot-D3-m2-paused-{a,b}.png` |
 | I-04 | AC4 M6 warnings, D3 / D4 / D5 | `/`, project route | Console warning `THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.` (warning, not an error) | **Sev-4** | backlog (engine change: S5 frozen surface, needs its own slice) | orchestrator | open, ships | `T004-log-console-D3.txt`, `T005-screenshot-D4-m6-console-home.png` |
@@ -33,4 +33,4 @@ Rubric: RFC §7 (Sev-1 blocker … Sev-4 idea). Close rule: zero Sev-1 / Sev-2 o
 
 ## Close rule
 
-Open Sev-1: **0**. Open Sev-2: **I-01 until T008.1 lands** (then 0). Open Sev-3: I-03, I-05. Open Sev-4: I-04, I-08. Evidence gaps blocking ACs: I-06 (AC4), I-07 (AC1).
+Open Sev-1: **0**. Open Sev-2: **0** (I-01 fixed, T008.1). Open Sev-3: I-03, I-05. Open Sev-4: I-04, I-08. Evidence gaps blocking ACs: I-06 (AC4), I-07 (AC1).

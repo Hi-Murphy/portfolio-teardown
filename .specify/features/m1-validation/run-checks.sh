@@ -183,8 +183,8 @@ run_row G5 'CLS 0' \
 run_row G6 'weight below 3 MB' \
   "pnpm perf:weight \"$BASE/\" --out \"$OUT/G6/home\" && pnpm perf:weight \"$BASE/projects/websocket-inspector\" --out \"$OUT/G6/project\""
 
-run_row G7 'axe serious + critical' \
-  "pnpm a11y:axe:site --serve apps/web/out --out \"$OUT/G7\""
+run_row G7 'axe serious + critical + site:probe --ci (as CI a11y job)' \
+  "pnpm a11y:axe:site --serve apps/web/out --out \"$OUT/G7\" && pnpm site:probe --serve apps/web/out --ci --out \"$OUT/G7/site-probe\""
 
 run_row G8 'fixture exclusion + route surface' \
   "pnpm site:probe --serve apps/web/out --group routes --out \"$OUT/G8\""
