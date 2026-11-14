@@ -262,6 +262,7 @@ const POSTER_SCAN_MS = 4000;
 const IDLE_SCAN_MS = 5000;
 const HYDRATION_DELAY_MS = 250;
 const HERO_STALL_MS = 600;
+const DRILL_LATE_CHUNK_MS = 2000;
 const HERO_STALL_MARKER = 'data-hero-annotation';
 const MIN_RENDERED_FRAMES = 30;
 const EXPECTED_DRAW_CALLS = 2;
@@ -930,6 +931,7 @@ async function probeCell(
 
   if (route.base === 'site' && route.path === '/') {
     await activateHomeLive(page);
+    await waitForHeroSettled(page);
   } else if (route.base === 'site' && route.path.startsWith('/projects/')) {
     await activateProjectViewer(page);
   }
@@ -1294,6 +1296,7 @@ async function readDrillStructure(page: Page): Promise<{
 async function collectTabWalk(
   page: Page,
   expected: readonly DrillTabStep[],
+  betweenWalks?: () => Promise<void>,
 ): Promise<{
   readonly forward: DrillTabStep[];
   readonly backward: DrillTabStep[];
@@ -1317,6 +1320,8 @@ async function collectTabWalk(
   await page.keyboard.press('Tab');
   await readActiveTab(page);
 
+  await betweenWalks?.();
+
   await page.evaluate(() => {
     (document.activeElement as HTMLElement | null)?.blur();
     document.body.focus();
@@ -1338,13 +1343,39 @@ async function runDrillGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
   const context = await browser.newContext(contextOptions('light', VIEWPORTS[0] as Viewport));
   const page = await context.newPage();
   await installClsObserver(page, false);
+  let holdLateChunks = false;
+  let releaseLateChunks: (() => void) | undefined;
+  let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
+  const lateChunkGate = new Promise<void>((resolveGate) => {
+    releaseLateChunks = resolveGate;
+  });
+  const openLateChunkGate = () => {
+    if (!holdLateChunks) return;
+    holdLateChunks = false;
+    if (fallbackTimer !== undefined) clearTimeout(fallbackTimer);
+    fallbackTimer = undefined;
+    releaseLateChunks?.();
+  };
+  await page.route(/\/_next\/static\/.*\.js(?:\?.*)?$/, async (request) => {
+    if (holdLateChunks) await lateChunkGate;
+    await request.continue();
+  });
 
   try {
     await navigatePage(page, siteBase);
     await waitForHydration(page);
+    holdLateChunks = true;
+    fallbackTimer = setTimeout(openLateChunkGate, DRILL_LATE_CHUNK_MS);
+    await waitForHeroSettled(page);
     const structure = await readDrillStructure(page);
     const expectedKeys = structure.expected.map((step) => step.key);
-    const walk = await collectTabWalk(page, structure.expected);
+    const walk = await collectTabWalk(page, structure.expected, async () => {
+      openLateChunkGate();
+      await page.locator('[data-hero-loop-slot] button').waitFor({
+        state: 'visible',
+        timeout: WAIT_TIMEOUT_MS,
+      });
+    });
     const actualForward = walk.forward.map((step) => step.key);
     const expectedLast = expectedKeys.at(-1) ?? null;
     const walkVerdict = evaluateTabWalk(walk.forward, walk.backward, expectedKeys);
