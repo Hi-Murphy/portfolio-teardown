@@ -1,0 +1,214 @@
+# T002 red — pnpm --filter xploder exec vitest run test/emphasis-selected.test.ts; pnpm --filter web exec vitest run test/xploder-dom/viewer-selected.dom.test.tsx — commit e252b71
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t002/packages/xploder
+
+(node:46632) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/emphasis-selected.test.ts > selected emphasis > drives both component colours through the emphasis driver
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ❯ test/emphasis-selected.test.ts (5 tests | 3 failed) 19ms
+   ❯ selected emphasis (5)
+     × lights highlight and selected together 3ms
+     × lights selected without a highlight 0ms
+     × drives both component colours through the emphasis driver 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/emphasis-selected.test.ts > selected emphasis > lights highlight and selected together
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ test/emphasis-selected.test.ts:83:39
+     81|     const targets = emphasisTargets(layoutA, { ...input, highlight: B,…
+     82|
+     83|     expect(targets.hover[indexOf(A)]).toBe(1);
+       |                                       ^
+     84|     expect(targets.hover[indexOf(B)]).toBe(1);
+     85|     expect(targets.hover.reduce((sum, value) => sum + value, 0)).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  test/emphasis-selected.test.ts > selected emphasis > lights selected without a highlight
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ test/emphasis-selected.test.ts:91:39
+     89|     const targets = emphasisTargets(layoutA, { ...input, highlight: nu…
+     90|
+     91|     expect(targets.hover[indexOf(A)]).toBe(1);
+       |                                       ^
+     92|   });
+     93|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  test/emphasis-selected.test.ts > selected emphasis > drives both component colours through the emphasis driver
+AssertionError: selected red: expected 0.012983032338510335 to be close to 0.0030352698352941175, received difference is 0.009947762503216218, but expected 5e-7
+ ❯ expectColor test/emphasis-selected.test.ts:58:38
+     56|
+     57| function expectColor(actual: Color, expected: Color, message: string):…
+     58|   expect(actual.r, `${message} red`).toBeCloseTo(expected.r, 6);
+       |                                      ^
+     59|   expect(actual.g, `${message} green`).toBeCloseTo(expected.g, 6);
+     60|   expect(actual.b, `${message} blue`).toBeCloseTo(expected.b, 6);
+ ❯ test/emphasis-selected.test.ts:138:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 2 passed (5)
+   Start at  22:14:49
+   Duration  160ms (import 56%, transform 24%, tests 19%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s14-wt/t002/packages/xploder
+
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t002/apps/web
+
+(node:46654) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ❯ test/xploder-dom/viewer-selected.dom.test.tsx (7 tests | 5 failed) 114ms
+   × open A plus hover B lights both 42ms
+   × leaving B while A is open keeps A selected 9ms
+   × mouse hover survives closing A by slab toggle 9ms
+   × keyboard activation opens A and Escape returns focus with A highlighted 9ms
+   × Escape returns focus to the A proxy and keeps A highlighted 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both
+AssertionError: expected { highlight: 'tide-repository', …(1) } to deeply equal { highlight: 'tide-repository', …(1) }
+
+- Expected
++ Received
+
+  {
+    "highlight": "tide-repository",
+-   "selected": "tide-view-model",
++   "selected": null,
+  }
+
+ ❯ test/xploder-dom/viewer-selected.dom.test.tsx:148:20
+    146|   await move(B);
+    147|
+    148|   expect(viewed()).toEqual({ highlight: B, selected: A });
+       |                    ^
+    149| });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected
+AssertionError: expected { highlight: null, selected: null } to deeply equal { highlight: null, …(1) }
+
+- Expected
++ Received
+
+  {
+    "highlight": null,
+-   "selected": "tide-view-model",
++   "selected": null,
+  }
+
+ ❯ test/xploder-dom/viewer-selected.dom.test.tsx:157:20
+    155|
+    156|   await leave();
+    157|   expect(viewed()).toEqual({ highlight: null, selected: A });
+       |                    ^
+    158| });
+    159|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle
+AssertionError: expected { highlight: null, selected: null } to deeply equal { highlight: 'tide-view-model', …(1) }
+
+- Expected
++ Received
+
+  {
+-   "highlight": "tide-view-model",
++   "highlight": null,
+    "selected": null,
+  }
+
+ ❯ test/xploder-dom/viewer-selected.dom.test.tsx:174:20
+    172|
+    173|   await panelDispatch({ type: 'slab', hit: A });
+    174|   expect(viewed()).toEqual({ highlight: A, selected: null });
+       |                    ^
+    175| });
+    176|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted
+AssertionError: expected { highlight: 'tide-view-model', …(1) } to deeply equal { highlight: 'tide-view-model', …(1) }
+
+- Expected
++ Received
+
+  {
+    "highlight": "tide-view-model",
+-   "selected": "tide-view-model",
++   "selected": null,
+  }
+
+ ❯ test/xploder-dom/viewer-selected.dom.test.tsx:185:20
+    183|
+    184|   await act(async () => opener.click());
+    185|   expect(viewed()).toEqual({ highlight: A, selected: A });
+       |                    ^
+    186| });
+    187|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted
+AssertionError: expected { highlight: null, selected: null } to deeply equal { highlight: 'tide-view-model', …(1) }
+
+- Expected
++ Received
+
+  {
+-   "highlight": "tide-view-model",
++   "highlight": null,
+    "selected": null,
+  }
+
+ ❯ test/xploder-dom/viewer-selected.dom.test.tsx:197:20
+    195|   await escape();
+    196|   expect(document.activeElement).toBe(opener);
+    197|   expect(viewed()).toEqual({ highlight: A, selected: null });
+       |                    ^
+    198| });
+    199|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 2 passed (7)
+   Start at  22:14:49
+   Duration  497ms (environment 46%, tests 26%, import 18%, transform 10%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s14-wt/t002/apps/web
+
