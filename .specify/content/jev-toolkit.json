@@ -65,7 +65,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/bin/jev-bench.mjs"
+            }
+          ]
         },
         {
           "id": "report-cli",
@@ -78,7 +83,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/bin/jev-report.mjs"
+            }
+          ]
         },
         {
           "id": "accuracy-cli",
@@ -91,7 +101,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/bin/jev-accuracy.mjs"
+            }
+          ]
         },
         {
           "id": "installer",
@@ -104,7 +119,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/bin/jev-install.mjs"
+            }
+          ]
         }
       ]
     },
@@ -124,7 +144,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/adapters/dynamic-context/hook.mjs"
+            }
+          ]
         },
         {
           "id": "handback",
@@ -137,7 +162,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/adapters/handback-check/hook.mjs"
+            }
+          ]
         },
         {
           "id": "comment-policy",
@@ -150,7 +180,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/adapters/comment-policy/hook.mjs"
+            }
+          ]
         },
         {
           "id": "model-router",
@@ -163,7 +198,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/adapters/model-router/route.mjs"
+            }
+          ]
         }
       ]
     },
@@ -183,7 +223,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/client/jev-client.mjs"
+            }
+          ]
         },
         {
           "id": "token-budget",
@@ -196,7 +241,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/client/tokens.mjs"
+            }
+          ]
         },
         {
           "id": "path-guard",
@@ -209,7 +259,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/client/guard.mjs"
+            }
+          ]
         },
         {
           "id": "recorder",
@@ -222,7 +277,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/client/recorder.mjs"
+            }
+          ]
         }
       ]
     },
@@ -242,7 +302,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/bench/runner.mjs"
+            }
+          ]
         },
         {
           "id": "task-model",
@@ -255,7 +320,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/bench/tasks.mjs"
+            }
+          ]
         },
         {
           "id": "target-guard",
@@ -268,7 +338,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/bench/target.mjs"
+            }
+          ]
         },
         {
           "id": "pricing",
@@ -281,7 +356,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/bench/pricing.mjs"
+            }
+          ]
         },
         {
           "id": "judge",
@@ -294,7 +374,12 @@
             "nodejs"
           ],
           "metrics": [],
-          "links": []
+          "links": [
+            {
+              "label": "Source",
+              "url": "https://github.com/TimurHaryo/jev-toolkit/blob/main/src/bench/api-judge.mjs"
+            }
+          ]
         }
       ]
     },
