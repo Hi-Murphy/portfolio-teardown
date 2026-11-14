@@ -1,0 +1,193 @@
+{
+  "kind": "m1-site-checks-content",
+  "version": 1,
+  "generatedAt": "2026-11-14T02:05:26.534Z",
+  "exportDir": "apps/web/out",
+  "baseUrl": "http://127.0.0.1:PORT",
+  "preview": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app",
+  "checks": [
+    {
+      "id": "C2",
+      "pass": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "C3",
+      "pass": true,
+      "expected": {
+        "aboutBar": true,
+        "payloadBar": true,
+        "employerHits": 0,
+        "phraseHits": 0
+      },
+      "actual": {
+        "aboutBar": true,
+        "payloadPresent": true,
+        "payloadBar": true,
+        "scannedFiles": 58,
+        "employerHits": 0,
+        "phraseHits": 0,
+        "files": [],
+        "caseInsensitiveEmployerOccurrences": 0
+      }
+    },
+    {
+      "id": "C4-internal",
+      "pass": true,
+      "expected": {
+        "records": 4,
+        "status": "expected"
+      },
+      "actual": {
+        "records": 8,
+        "failures": []
+      }
+    },
+    {
+      "id": "C4-fragments",
+      "pass": true,
+      "expected": {
+        "sameDocumentTargets": "exist"
+      },
+      "actual": {
+        "links": 10,
+        "missing": []
+      }
+    },
+    {
+      "id": "C4-external",
+      "pass": false,
+      "expected": {
+        "links": 3,
+        "status": 200
+      },
+      "actual": {
+        "records": [
+          {
+            "href": "https://github.com/TimurHaryo",
+            "host": "https://github.com",
+            "status": 200,
+            "finalUrl": "https://github.com/TimurHaryo"
+          },
+          {
+            "href": "https://id.linkedin.com/in/timurharyo",
+            "host": "https://id.linkedin.com",
+            "status": 999,
+            "finalUrl": "https://id.linkedin.com/in/timurharyo"
+          },
+          {
+            "href": "https://github.com/TimurHaryo/websocket-inspector",
+            "host": "https://github.com",
+            "status": 200,
+            "finalUrl": "https://github.com/TimurHaryo/websocket-inspector"
+          }
+        ],
+        "failures": [
+          {
+            "href": "https://id.linkedin.com/in/timurharyo",
+            "host": "https://id.linkedin.com",
+            "status": 999,
+            "finalUrl": "https://id.linkedin.com/in/timurharyo"
+          }
+        ]
+      }
+    },
+    {
+      "id": "C4-mailto",
+      "pass": true,
+      "expected": {
+        "hrefs": [
+          "mailto:vibing.murphy@gmail.com"
+        ]
+      },
+      "actual": {
+        "hrefs": [
+          "mailto:vibing.murphy@gmail.com"
+        ],
+        "failures": []
+      }
+    }
+  ],
+  "links": {
+    "records": [
+      {
+        "href": "/",
+        "path": "/",
+        "host": "http://127.0.0.1:PORT",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "href": "/projects",
+        "path": "/projects",
+        "host": "http://127.0.0.1:PORT",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "href": "/projects/websocket-inspector",
+        "path": "/projects/websocket-inspector",
+        "host": "http://127.0.0.1:PORT",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "href": "/projects/unknown-slug",
+        "path": "/projects/unknown-slug",
+        "host": "http://127.0.0.1:PORT",
+        "status": 404,
+        "expected": 404
+      },
+      {
+        "href": "/",
+        "path": "/",
+        "host": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "href": "/projects",
+        "path": "/projects",
+        "host": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "href": "/projects/websocket-inspector",
+        "path": "/projects/websocket-inspector",
+        "host": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "href": "/projects/unknown-slug",
+        "path": "/projects/unknown-slug",
+        "host": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app",
+        "status": 404,
+        "expected": 404
+      }
+    ],
+    "failures": [],
+    "external": [
+      {
+        "href": "https://github.com/TimurHaryo",
+        "host": "https://github.com",
+        "status": 200,
+        "finalUrl": "https://github.com/TimurHaryo"
+      },
+      {
+        "href": "https://id.linkedin.com/in/timurharyo",
+        "host": "https://id.linkedin.com",
+        "status": 999,
+        "finalUrl": "https://id.linkedin.com/in/timurharyo"
+      },
+      {
+        "href": "https://github.com/TimurHaryo/websocket-inspector",
+        "host": "https://github.com",
+        "status": 200,
+        "finalUrl": "https://github.com/TimurHaryo/websocket-inspector"
+      }
+    ]
+  }
+}

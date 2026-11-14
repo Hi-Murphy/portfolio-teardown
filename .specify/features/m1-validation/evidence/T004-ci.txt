@@ -1,0 +1,16 @@
+T004 CI (PR #23, head 89db889)
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/4fPhWugCZvvxPoe5DComDcD7bdyy
+Vercel Preview Comments	pass	0	https://vercel.com/github
+a11y: axe (engine fixture export)	pass	2m3s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037303/job/132287743579
+a11y: axe (production routes)	pass	2m29s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037303/job/132287743432
+build (typecheck, lint, test, build)	pass	2m44s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037293/job/132287743086
+perf-gate: lighthouse (mobile)	pass	1m22s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037303/job/132287743742
+perf-gate: weight (< 3 MB)	pass	1m37s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037303/job/132287743568
+perf: eager-3d (measurement)	pass	4m13s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037310/job/132287743063
+perf: fixture exclusion	pass	24s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037303/job/132287743670
+perf: fps calibration	pass	53s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037303/job/132287743566
+perf: m1-validation (slow-class measurement) #1	pass	2m18s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037520/job/132287744312
+perf: m1-validation (slow-class measurement) #2	pass	2m15s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037520/job/132287744138
+perf: m1-validation (slow-class measurement) #3	pass	2m27s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037520/job/132287743886
+secrets (gitleaks)	pass	13s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037293/job/132287743368
+seo: meta + og	pass	59s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43543037293/job/132287743422

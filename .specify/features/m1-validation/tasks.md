@@ -30,7 +30,7 @@
 | T001 | ☑ guards 5/5 OK (`--final` flags the workflow as expected); `main-diff.sh` 0 bytes on both `/projects*` pages vs `ffda3a2`; `m1-validation.yml` = S11.9 workflow with renames only; orchestrator fixed a tab-vs-space bug in the workflow guard | 1 (Flash) + orchestrator review | evidence/T001-log-setup.txt | 3b9526b, e48b894 |
 | T002 | ☑ `site-checks.mjs` (content / degraded / devices) + `run-checks.sh`; 4 negative controls bite; D2 exits 3 without a phone. Orchestrator review fixed 3 method issues (R5: M1/M2 sampling window, S11.9 snap method, aborted prefetches logged not failed); D3 + D5 re-run 7/7 locally. Dry run surfaced 2 real findings for T004: no-JS poster without the numbered path; LinkedIn 999 | 1 (Flash) + orchestrator review | evidence/T002-log-scripts.txt | 5d31d01 |
 | T003 | ☑ draft PR #23; preview (branch alias) 200 at deploy `aa4cd53`, product tree = `ffda3a2` | orchestrator | evidence/T003-log-preview.txt | (this commit) |
-| T004 | ☐ | | | |
+| T004 | ☑ all CI green; G1–G13 PASS (Lighthouse CI median `/` 0.97/1.00, project 1.00/1.00; CLS 0; weight 460 KB / 201 KB; axe 0/0; reveal 678/645 ms slow class attempt 1; draws 2; `<main>` 0 bytes; surfaces empty); C1–C3 PASS; C4 LinkedIn 999 (I-02); AC5 64/72, no-JS poster lacks the numbered path (I-01); D3/D5 6/7, M2 pause mid-explode label fade-in (I-03); 3 harness bugs fixed + re-run (G3 SITE_URL, C4 fragments, Save-Data Tab walk) | orchestrator | evidence/T004-results.md | (this commit) |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |

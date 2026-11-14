@@ -1,0 +1,22 @@
+# M1 validation console capture D3
+# generated 2026-11-14T01:57:38.208Z
+# browser chromium 156.0.8078.4
+
+2026-11-14T01:57:19.442Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/ net::ERR_ABORTED
+2026-11-14T01:57:19.443Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects net::ERR_ABORTED
+2026-11-14T01:57:19.465Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects/websocket-inspector net::ERR_ABORTED
+2026-11-14T01:57:21.398Z main console.warning THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/39q-oox3f-dc0.js:7126
+2026-11-14T01:57:21.549Z main console.warning [.WebGL-0x11400448000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/:0
+2026-11-14T01:57:23.670Z main console.warning [.WebGL-0x11400448000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/:0
+2026-11-14T01:57:23.682Z main console.warning [.WebGL-0x11400448000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/:0
+2026-11-14T01:57:23.696Z main console.warning [.WebGL-0x11400448000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat) https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/:0
+2026-11-14T01:57:29.410Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects/websocket-inspector net::ERR_ABORTED
+2026-11-14T01:57:29.410Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects net::ERR_ABORTED
+2026-11-14T01:57:29.415Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/ net::ERR_ABORTED
+2026-11-14T01:57:29.445Z main console.warning THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/39q-oox3f-dc0.js:7126
+2026-11-14T01:57:33.074Z m4 requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/ net::ERR_ABORTED
+2026-11-14T01:57:33.075Z m4 requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects net::ERR_ABORTED
+2026-11-14T01:57:33.092Z m4 requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects/websocket-inspector net::ERR_ABORTED
+2026-11-14T01:57:34.807Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/ net::ERR_ABORTED
+2026-11-14T01:57:34.807Z main requestfailed HEAD https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects net::ERR_ABORTED
+2026-11-14T01:57:35.674Z main console.warning THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/39q-oox3f-dc0.js:7126

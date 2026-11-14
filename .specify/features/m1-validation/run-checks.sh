@@ -2,6 +2,8 @@
 set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
+# Build like CI's `seo: meta + og` job: canonical/OG URLs use the production origin (S12 T004 review).
+export SITE_URL=https://hi-murphy.me
 F=.specify/features/m1-validation
 mkdir -p /tmp/s12-checks "$F/evidence"
 

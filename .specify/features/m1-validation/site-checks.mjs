@@ -347,6 +347,7 @@ function collectLinks(exportDir) {
   const internal = new Map();
   const external = new Map();
   const mailto = new Set();
+  const fragments = [];
   const syntheticOrigin = 'https://export.invalid';
 
   for (const file of files) {
@@ -356,6 +357,17 @@ function collectLinks(exportDir) {
     for (const anchor of dom.window.document.querySelectorAll('a[href]')) {
       const href = anchor.getAttribute('href');
       if (href === null || href.trim() === '') continue;
+      // A same-page fragment (skip link) points into this document: check its target id,
+      // not an HTTP route (S12 orchestrator review of T004).
+      if (href.startsWith('#')) {
+        const id = decodeURIComponent(href.slice(1));
+        fragments.push({
+          file: relativePath(exportDir, file),
+          href,
+          found: id === '' || dom.window.document.getElementById(id) !== null,
+        });
+        continue;
+      }
       let resolved;
       try {
         resolved = new URL(href, documentUrl);
@@ -380,7 +392,7 @@ function collectLinks(exportDir) {
   for (const path of ['/', '/projects', PROJECT_PATH, UNKNOWN_PROJECT_PATH]) {
     if (!internal.has(path)) internal.set(path, path);
   }
-  return { internal, external, mailto };
+  return { internal, external, mailto, fragments };
 }
 
 async function fetchStatus(url) {
@@ -863,6 +875,8 @@ function isVisualOrder(left, right) {
 async function probeTabWalk(browser, base, mode, viewport, route) {
   const context = await browser.newContext(degradedContextOptions(mode, viewport, 'light'));
   const page = await context.newPage();
+  // Same Save-Data emulation as the poster checks (S12 orchestrator review of T004).
+  if (mode === 'savedata') await page.addInitScript(installSaveData);
   try {
     await page.goto(targetUrl(base, route), { waitUntil: 'load', timeout: WAIT_MS });
     await page.waitForTimeout(150);
@@ -995,6 +1009,15 @@ async function runContent(options, base) {
       internal.failures.length === 0,
       { records: links.internal.size, status: 'expected' },
       { records: internal.records.length, failures: internal.failures },
+    ),
+    check(
+      'C4-fragments',
+      links.fragments.every((fragment) => fragment.found),
+      { sameDocumentTargets: 'exist' },
+      {
+        links: links.fragments.length,
+        missing: links.fragments.filter((fragment) => !fragment.found),
+      },
     ),
     check(
       'C4-external',
