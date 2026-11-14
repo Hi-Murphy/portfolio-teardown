@@ -15,8 +15,20 @@ guard() {
   fi
 }
 
+# T008 option B (Murphy, 2026-11-14): the only authorised content commit is fe73c52 (one sentence in
+# websocket-inspector.json); see evidence/T008-log-possessive-hit.md.
+CONTENT_B_COMMIT=fe73c52
+
 brief_history_ok() {
-  test -z "$(git log --oneline 3b829d0..HEAD -- .specify/slices .specify/KICKOFF-S13.md .specify/content)"
+  local commits
+  commits=$(git log --format=%h --abbrev=7 3b829d0..HEAD -- .specify/slices .specify/KICKOFF-S13.md .specify/content)
+  [[ -z "$commits" || "$commits" == "$CONTENT_B_COMMIT" ]]
+}
+
+frozen_ok() {
+  git diff --quiet 3b829d0 -- .specify/slices .specify/KICKOFF-S13.md .specify/content \
+    ':(exclude).specify/content/websocket-inspector.json' &&
+    git diff --quiet "$CONTENT_B_COMMIT" -- .specify/content/websocket-inspector.json
 }
 
 # Revision 1 of 2 (evidence/R1-revision-note.md): only these xploder paths may differ from 3b829d0.
@@ -54,7 +66,7 @@ allowed_paths_ok() {
     } | sort -u
   )
   [[ -n "$changed" ]] || return 0
-  unexpected=$(grep -vE '^(packages/xploder/src/react/useTourClock\.ts$|packages/xploder/test/tour-clock-boundary\.test\.tsx$|packages/xploder/test/frozen-surface\.(s5\.paths|s5\.manifest\.json|generate-s5\.sh|test\.ts)$|apps/web/content/projects/|apps/web/content/tech-registry\.ts$|apps/web/scripts/convert-content\.ts$|apps/web/test/|tools/perf/|\.github/workflows/perf\.yml$|\.specify/features/jev-content/)' <<<"$changed" || true)
+  unexpected=$(grep -vE '^(\.specify/content/websocket-inspector\.json$|packages/xploder/src/react/useTourClock\.ts$|packages/xploder/test/tour-clock-boundary\.test\.tsx$|packages/xploder/test/frozen-surface\.(s5\.paths|s5\.manifest\.json|generate-s5\.sh|test\.ts)$|apps/web/content/projects/|apps/web/content/tech-registry\.ts$|apps/web/scripts/convert-content\.ts$|apps/web/test/|tools/perf/|\.github/workflows/perf\.yml$|\.specify/features/jev-content/)' <<<"$changed" || true)
   [[ -z "$unexpected" ]]
 }
 
@@ -65,7 +77,7 @@ gitleaks_ok() {
   gitleaks dir --no-banner .specify/features/jev-content >/dev/null 2>&1
 }
 
-guard FROZEN-OK git diff --quiet 3b829d0 -- .specify/slices .specify/KICKOFF-S13.md .specify/content
+guard FROZEN-OK frozen_ok
 guard BRIEF-HISTORY-OK brief_history_ok
 guard XPLODER-OK xploder_ok
 guard SURFACES-S2S8-OK surfaces_s2s8_ok
