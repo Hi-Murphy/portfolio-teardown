@@ -1,0 +1,57 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://127.0.0.1:4173/projects/jev-toolkit",
+  "finalUrl": "http://127.0.0.1:4173/projects/jev-toolkit",
+  "httpStatus": 200,
+  "startedAt": "2026-11-14T06:30:59.665Z",
+  "finishedAt": "2026-11-14T06:31:18.344Z",
+  "durationMs": 18679,
+  "argv": [
+    "http://127.0.0.1:4173/projects/jev-toolkit",
+    "--color-scheme",
+    "light",
+    "--out",
+    ".specify/features/jev-content/evidence/T005-evidence-jev-light",
+    "--wait-for",
+    "[data-site-workbench]"
+  ],
+  "colorScheme": "light",
+  "git": {
+    "sha": "e9841bfadbc1e3102d895d9febbb33eb7600b2ff",
+    "dirty": true
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 772
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 722
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 16924
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}

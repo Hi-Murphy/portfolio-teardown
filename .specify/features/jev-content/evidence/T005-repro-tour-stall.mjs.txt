@@ -1,0 +1,52 @@
+import { createRequire } from 'node:module';
+const require = createRequire('<worktree>/tools/perf/package.json');
+const { chromium } = require('playwright');
+const [base, slug, flowId, runs] = [process.argv[2], process.argv[3], process.argv[4], Number(process.argv[5] ?? 5)];
+const browser = await chromium.launch({ channel: process.env.CH || undefined, headless: true });
+for (let run = 0; run < runs; run += 1) {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  await context.addInitScript(() => {
+    const log = [];
+    window.__timers = log;
+    window.__muts = [];
+    window.__life = [];
+    for (const ev of ['freeze', 'resume', 'visibilitychange', 'pagehide', 'pageshow']) document.addEventListener(ev, () => window.__life.push([Math.round(performance.now()), ev, document.visibilityState]), { capture: true });
+    window.addEventListener('blur', () => window.__life.push([Math.round(performance.now()), 'blur']));
+    window.addEventListener('focus', () => window.__life.push([Math.round(performance.now()), 'focus']));
+    document.addEventListener('DOMContentLoaded', () => {
+      new MutationObserver((ms) => { for (const m of ms) { const v = m.target.getAttribute('data-xploder-tour'); window.__muts.push([Math.round(performance.now()), v]); } }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-xploder-tour'] });
+    });
+    const orig = window.setTimeout.bind(window);
+    window.setTimeout = (fn, delay, ...a) => {
+      const rec = { delay, at: performance.now(), fired: null, stack: (new Error().stack || '').split('\n')[2]?.trim().slice(0, 80) };
+      log.push(rec); if (log.length > 400) log.shift();
+      return orig(() => { rec.fired = performance.now(); fn(...a); }, delay);
+    };
+  });
+  const page = await context.newPage();
+  await page.goto(new URL(`/projects/${slug}`, base).href);
+  await page.locator('[data-site-control="explore-3d"]').click();
+  await page.locator('[data-xploder-ready="true"]').waitFor();
+  await page.getByRole('tab', { name: 'Flows', exact: true }).click();
+  const opt = page.locator(`[data-site-tour-flow-option="${flowId}"]`);
+  if (await opt.count()) await opt.click();
+  if (process.env.BTF) { await page.bringToFront(); const cdp = await context.newCDPSession(page); await cdp.send('Page.setWebLifecycleState', { state: 'active' }); await cdp.detach(); }
+  await page.locator('[data-site-tour-transport] button[aria-label="Start tour"]').click();
+  const t0 = Date.now(); const trace = []; let state = null;
+  while (Date.now() - t0 < 30000) {
+    if (process.env.BTF) await page.bringToFront();
+    const s = await page.evaluate(() => ({ tour: document.querySelector('[data-xploder-ready="true"]')?.getAttribute('data-xploder-tour'), pos: document.querySelector('[data-site-tour-position]')?.textContent?.trim(), vis: document.visibilityState, t: Math.round(performance.now()) }));
+    if (trace.length === 0 || trace.at(-1).tour !== s.tour || trace.at(-1).pos !== s.pos) trace.push({ ...s, ms: Date.now() - t0 });
+    state = s.tour; if (state === 'ended') break;
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  const timers = await page.evaluate(() => window.__timers.filter((r) => r.at > performance.now() - 20000).slice(-40).map((r) => ({ delay: Math.round(r.delay), at: Math.round(r.at), fired: r.fired === null ? null : Math.round(r.fired), late: r.fired === null ? null : Math.round(r.fired - r.at - r.delay), src: r.stack })));
+  console.log(JSON.stringify({ run, slug, flowId, ended: state === 'ended', ms: Date.now() - t0, trace: trace.map((x) => `${x.ms}:${x.tour}:${x.pos}:${x.vis}`) }));
+  if (state !== 'ended') { console.log('TIMERS', JSON.stringify(timers)); console.log('MUTS', JSON.stringify(await page.evaluate(() => window.__muts))); console.log('NOW', await page.evaluate(() => Math.round(performance.now())));
+    console.log('LIFE', JSON.stringify(await page.evaluate(() => window.__life)));
+    console.log('MC', JSON.stringify(await Promise.race([page.evaluate(() => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r('mc-ok'); c.port2.postMessage(1); })), new Promise((r) => setTimeout(() => r('mc-timeout'), 3000))])));
+    console.log('TO', JSON.stringify(await Promise.race([page.evaluate(() => new Promise((r) => setTimeout(() => r('timeout-ok'), 10))), new Promise((r) => setTimeout(() => r('timeout-stuck'), 3000))]))); }
+  else console.log('LIFE-OK', JSON.stringify(await page.evaluate(() => window.__life)));
+  await context.close();
+}
+await browser.close();

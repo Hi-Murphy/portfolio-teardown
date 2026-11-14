@@ -1,0 +1,416 @@
+{
+  "group": "teardown",
+  "pass": true,
+  "checks": [
+    {
+      "name": "teardown-websocket-inspector-outline-counts",
+      "pass": true,
+      "expected": {
+        "layers": 5,
+        "components": 16
+      },
+      "actual": {
+        "present": true,
+        "layers": 5,
+        "components": 16,
+        "flows": 0
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-outline-counts",
+      "pass": true,
+      "expected": {
+        "layers": 5,
+        "components": 20
+      },
+      "actual": {
+        "present": true,
+        "layers": 5,
+        "components": 20,
+        "flows": 0
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-layers-light",
+      "pass": true,
+      "expected": {
+        "layers": 5,
+        "parts": 16
+      },
+      "actual": {
+        "layers": 5,
+        "parts": 16,
+        "partsByLayer": [
+          4,
+          4,
+          3,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-flows-light",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "options": 2,
+        "headers": 0,
+        "count": 2
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-panel-light",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "attached": true,
+        "visible": true
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-tour-capture-path-light",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 7 of 7"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 11200,
+        "timeoutMs": 43000,
+        "state": "ended",
+        "position": "Step 7 of 7"
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-tour-inspect-path-light",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 7 of 7"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 11215,
+        "timeoutMs": 43000,
+        "state": "ended",
+        "position": "Step 7 of 7"
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-layers-light",
+      "pass": true,
+      "expected": {
+        "layers": 5,
+        "parts": 20
+      },
+      "actual": {
+        "layers": 5,
+        "parts": 20,
+        "partsByLayer": [
+          4,
+          4,
+          4,
+          5,
+          3
+        ]
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-flows-light",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "options": 2,
+        "headers": 0,
+        "count": 2
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-panel-light",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "attached": true,
+        "visible": true
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-tour-arm-run-light",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 8 of 8"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 12822,
+        "timeoutMs": 47000,
+        "state": "ended",
+        "position": "Step 8 of 8"
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-tour-judge-path-light",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 4 of 4"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 6461,
+        "timeoutMs": 31000,
+        "state": "ended",
+        "position": "Step 4 of 4"
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-layers-dark",
+      "pass": true,
+      "expected": {
+        "layers": 5,
+        "parts": 16
+      },
+      "actual": {
+        "layers": 5,
+        "parts": 16,
+        "partsByLayer": [
+          4,
+          4,
+          3,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-flows-dark",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "options": 2,
+        "headers": 0,
+        "count": 2
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-panel-dark",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "attached": true,
+        "visible": true
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-tour-capture-path-dark",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 7 of 7"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 11294,
+        "timeoutMs": 43000,
+        "state": "ended",
+        "position": "Step 7 of 7"
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-tour-inspect-path-dark",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 7 of 7"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 11224,
+        "timeoutMs": 43000,
+        "state": "ended",
+        "position": "Step 7 of 7"
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-layers-dark",
+      "pass": true,
+      "expected": {
+        "layers": 5,
+        "parts": 20
+      },
+      "actual": {
+        "layers": 5,
+        "parts": 20,
+        "partsByLayer": [
+          4,
+          4,
+          4,
+          5,
+          3
+        ]
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-flows-dark",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "options": 2,
+        "headers": 0,
+        "count": 2
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-panel-dark",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "attached": true,
+        "visible": true
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-tour-arm-run-dark",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 8 of 8"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 12874,
+        "timeoutMs": 47000,
+        "state": "ended",
+        "position": "Step 8 of 8"
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-tour-judge-path-dark",
+      "pass": true,
+      "expected": {
+        "state": "ended",
+        "position": "Step 4 of 4"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 6431,
+        "timeoutMs": 31000,
+        "state": "ended",
+        "position": "Step 4 of 4"
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-compact-column-light",
+      "pass": true,
+      "expected": {
+        "column": "shown",
+        "rows": 16,
+        "noOverflow": true
+      },
+      "actual": {
+        "column": "shown",
+        "rows": 16,
+        "scrollWidth": 412,
+        "clientWidth": 412
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-mobile-panel",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "attached": true,
+        "visible": true
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-mobile-tour",
+      "pass": true,
+      "expected": {
+        "flowId": "capture-path",
+        "state": "ended",
+        "position": "Step 7 of 7"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 11207,
+        "timeoutMs": 43000,
+        "state": "ended",
+        "position": "Step 7 of 7"
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-compact-column-light",
+      "pass": true,
+      "expected": {
+        "column": "shown",
+        "rows": 20,
+        "noOverflow": true
+      },
+      "actual": {
+        "column": "shown",
+        "rows": 20,
+        "scrollWidth": 412,
+        "clientWidth": 412
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-mobile-panel",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "attached": true,
+        "visible": true
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-mobile-tour",
+      "pass": true,
+      "expected": {
+        "flowId": "arm-run",
+        "state": "ended",
+        "position": "Step 8 of 8"
+      },
+      "actual": {
+        "ended": true,
+        "elapsedMs": 12874,
+        "timeoutMs": 47000,
+        "state": "ended",
+        "position": "Step 8 of 8"
+      }
+    },
+    {
+      "name": "teardown-websocket-inspector-compact-column-dark",
+      "pass": true,
+      "expected": {
+        "column": "shown",
+        "rows": 16,
+        "noOverflow": true
+      },
+      "actual": {
+        "column": "shown",
+        "rows": 16,
+        "scrollWidth": 412,
+        "clientWidth": 412
+      }
+    },
+    {
+      "name": "teardown-jev-toolkit-compact-column-dark",
+      "pass": true,
+      "expected": {
+        "column": "shown",
+        "rows": 20,
+        "noOverflow": true
+      },
+      "actual": {
+        "column": "shown",
+        "rows": 20,
+        "scrollWidth": 412,
+        "clientWidth": 412
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { JSDOM } from 'jsdom';
 import type { Browser, BrowserContext, BrowserContextOptions, Page } from 'playwright';
 
 import { siteSource } from '../../../apps/web/content/site.source.ts';
@@ -17,6 +18,7 @@ export const SITE_PROBE_GROUPS = [
   'nojs',
   'routes',
   'draws',
+  'teardown',
 ] as const;
 
 export type SiteProbeGroup = (typeof SITE_PROBE_GROUPS)[number];
@@ -26,6 +28,7 @@ export const SITE_PROBE_CI_GROUPS = [
   'routes',
   'nojs',
   'reduced-motion',
+  'teardown',
 ] as const satisfies readonly SiteProbeGroup[];
 
 type Palette = 'light' | 'dark';
@@ -232,6 +235,44 @@ const EXPECTED_NAV_KEYS = [
   'nav:linkedin',
   'nav:theme',
 ] as const;
+const PANEL_READY_SELECTOR = '[data-xploder-ready="true"][data-xploder-panel-ready="true"]';
+const MAX_TABS_TO_PROXY = 16;
+const TOUR_TIMEOUT_BASE_MS = 15_000;
+const TOUR_STEP_BUDGET_MS = 4_000;
+const LIVE_LAYERS_PANEL_SELECTOR =
+  '[data-site-explore-live] > [data-site-explore] [data-site-layers-panel]';
+const LIVE_LAYER_CHIP_SELECTOR =
+  '[data-site-explore-live] > [data-site-explore] [data-site-layer-chip]';
+const LIVE_LAYER_PARTS_SELECTOR =
+  '[data-site-explore-live] > [data-site-explore] [data-site-layer-parts] li';
+const LIVE_FLOWS_PANEL_SELECTOR =
+  '[data-site-explore-live] > [data-site-explore] [data-site-explore-panel="flows"]';
+
+export interface OutlineCounts {
+  readonly present: boolean;
+  readonly layers: number;
+  readonly components: number;
+  readonly flows: number;
+}
+
+export interface TeardownCounts {
+  readonly layers: number;
+  readonly components: number;
+  readonly flows: number;
+}
+
+export interface TeardownSource {
+  readonly layers: readonly { readonly components: readonly unknown[] }[];
+  readonly flows: readonly unknown[];
+}
+
+export interface TeardownTourResult {
+  readonly ended: boolean;
+  readonly elapsedMs: number;
+  readonly timeoutMs: number;
+  readonly position: string | null;
+  readonly state: string | null;
+}
 
 export function evaluateCls(entries: readonly ClsEntry[]): ClsVerdict {
   const total = entries.reduce((sum, entry) => sum + entry.value, 0);
@@ -306,6 +347,62 @@ export function evaluateHeroLoopRunning(state: HeroLoopRunningState): boolean {
     state.tour === null || ['idle', 'playing', 'paused', 'ended'].includes(state.tour);
 
   return state.heroLoop === 'running' && state.canvases === 1 && validTour;
+}
+
+export function outlineCountsFromHtml(html: string): OutlineCounts {
+  const dom = new JSDOM(html);
+
+  try {
+    const outline = dom.window.document.querySelector('[data-site-outline]');
+    if (outline === null) {
+      return { present: false, layers: 0, components: 0, flows: 0 };
+    }
+
+    const layerSections = [...outline.querySelectorAll('section')].filter((section) => {
+      const children = [...section.children];
+      return (
+        children.some((child) => child.tagName === 'H3') &&
+        children.some((child) => child.tagName === 'UL')
+      );
+    });
+    const components = layerSections.reduce((total, section) => {
+      const list = [...section.children].find((child) => child.tagName === 'UL');
+      return total + (list?.querySelectorAll(':scope > li').length ?? 0);
+    }, 0);
+
+    return {
+      present: true,
+      layers: layerSections.length,
+      components,
+      flows: outline.querySelectorAll('ol > li').length,
+    };
+  } finally {
+    dom.window.close();
+  }
+}
+
+export function expectedTeardownCounts(source: TeardownSource): TeardownCounts {
+  return {
+    layers: source.layers.length,
+    components: source.layers.reduce((total, layer) => total + layer.components.length, 0),
+    flows: source.flows.length,
+  };
+}
+
+export function teardownCountsMatch(actual: TeardownCounts, expected: TeardownCounts): boolean {
+  return (
+    actual.layers === expected.layers &&
+    actual.components === expected.components &&
+    actual.flows === expected.flows
+  );
+}
+
+export function tourTimeoutMs(pathLength: number): number {
+  if (!Number.isInteger(pathLength) || pathLength < 0) {
+    throw new RangeError('tour path length must be a non-negative integer');
+  }
+
+  return TOUR_TIMEOUT_BASE_MS + TOUR_STEP_BUDGET_MS * pathLength;
 }
 
 export function clsRoutes(siteBase?: URL, fixturesBase?: URL): ProbeRoute[] {
@@ -1776,6 +1873,461 @@ async function runDrawsGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
   return groupResult('draws', checks);
 }
 
+function errorDetail(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+async function waitForTourState(
+  page: Page,
+  state: string,
+  timeout = WAIT_TIMEOUT_MS,
+): Promise<void> {
+  const deadline = Date.now() + timeout;
+  let current: string | null = null;
+
+  while (Date.now() <= deadline) {
+    await page.bringToFront();
+    current = await page.evaluate(
+      () =>
+        document.querySelector('[data-xploder-ready="true"]')?.getAttribute('data-xploder-tour') ??
+        null,
+    );
+    if (current === state) return;
+
+    await new Promise<void>((resolveDelay) => setTimeout(resolveDelay, 100));
+  }
+
+  throw new Error(`tour did not reach ${state}; last state ${JSON.stringify(current)}`);
+}
+
+async function keepPageActive(page: Page): Promise<void> {
+  await page.bringToFront();
+  const session = await page.context().newCDPSession(page);
+  try {
+    await session.send('Page.setWebLifecycleState', { state: 'active' });
+  } finally {
+    await session.detach();
+  }
+}
+
+async function focusFirstProxyAndOpen(page: Page): Promise<void> {
+  await page.locator('[data-xploder-ready="true"]').focus();
+
+  for (let attempt = 0; attempt < MAX_TABS_TO_PROXY; attempt += 1) {
+    await page.keyboard.press('Tab');
+    const focused = await page.evaluate(() => {
+      const active = document.activeElement;
+      return active instanceof HTMLElement && active.matches('[data-xploder-proxy]');
+    });
+
+    if (focused) {
+      await page.keyboard.press('Enter');
+      return;
+    }
+  }
+
+  throw new Error('Tab did not reach the S8 navigator proxy');
+}
+
+async function openComponentPanel(page: Page): Promise<{
+  readonly attached: boolean;
+  readonly visible: boolean;
+}> {
+  await focusFirstProxyAndOpen(page);
+  await page.locator(PANEL_READY_SELECTOR).waitFor({ state: 'visible', timeout: WAIT_TIMEOUT_MS });
+
+  return await page.evaluate((selector) => {
+    const panel = document.querySelector(selector);
+    if (!(panel instanceof HTMLElement)) return { attached: false, visible: false };
+
+    const rect = panel.getBoundingClientRect();
+    const style = getComputedStyle(panel);
+    return {
+      attached: true,
+      visible:
+        rect.width > 0 &&
+        rect.height > 0 &&
+        style.visibility !== 'hidden' &&
+        style.display !== 'none' &&
+        Number(style.opacity) !== 0,
+    };
+  }, PANEL_READY_SELECTOR);
+}
+
+async function closeComponentPanel(page: Page): Promise<void> {
+  await page.locator('[data-xploder-panel-close]').click({ timeout: WAIT_TIMEOUT_MS });
+  await page.locator(PANEL_READY_SELECTOR).waitFor({ state: 'detached', timeout: WAIT_TIMEOUT_MS });
+}
+
+async function resetTeardownTour(page: Page): Promise<void> {
+  await page.getByRole('tab', { name: 'Layers', exact: true }).click({ timeout: WAIT_TIMEOUT_MS });
+  await waitForTourState(page, 'idle');
+}
+
+async function runTeardownTour(
+  page: Page,
+  flow: { readonly id: string; readonly path: readonly string[] },
+): Promise<TeardownTourResult> {
+  const timeoutMs = tourTimeoutMs(flow.path.length);
+  await keepPageActive(page);
+  await page.getByRole('tab', { name: 'Flows', exact: true }).click({ timeout: WAIT_TIMEOUT_MS });
+
+  const option = page.locator(`[data-site-tour-flow-option="${flow.id}"]`);
+  if ((await option.count()) > 0) {
+    await option.click({ timeout: WAIT_TIMEOUT_MS });
+    await page.waitForFunction(
+      (flowId) =>
+        [...document.querySelectorAll('[data-site-tour-flow-option]')].some(
+          (candidate) =>
+            candidate.getAttribute('data-site-tour-flow-option') === flowId &&
+            candidate.getAttribute('aria-pressed') === 'true',
+        ),
+      flow.id,
+      { timeout: WAIT_TIMEOUT_MS },
+    );
+  } else if ((await page.locator('[data-site-tour-flow-header]').count()) !== 1) {
+    throw new Error(`flow ${flow.id} has neither an option nor a single-flow header`);
+  }
+
+  await waitForTourState(page, 'idle');
+  await page
+    .locator('[data-site-tour-transport] button[aria-label="Start tour"]')
+    .click({ timeout: WAIT_TIMEOUT_MS });
+  const startedAt = Date.now();
+  let ended = true;
+
+  try {
+    await waitForTourState(page, 'ended', timeoutMs);
+  } catch {
+    ended = false;
+  }
+
+  const elapsedMs = Date.now() - startedAt;
+  const final = await page.evaluate(() => ({
+    state:
+      document.querySelector('[data-xploder-ready="true"]')?.getAttribute('data-xploder-tour') ??
+      null,
+    position:
+      document
+        .querySelector('[data-site-tour-position]')
+        ?.textContent?.replace(/\s+/g, ' ')
+        .trim() ?? null,
+  }));
+
+  return { ended: ended && final.state === 'ended', elapsedMs, timeoutMs, ...final };
+}
+
+async function probeDesktopTeardown(
+  browser: Browser,
+  source: (typeof PROJECT_SOURCES)[number],
+  palette: Palette,
+  siteBase: URL,
+  expected: TeardownCounts,
+  outDir: string,
+): Promise<SiteProbeCheck[]> {
+  const checks: SiteProbeCheck[] = [];
+  const slug = source.meta.slug;
+  const context = await browser.newContext(contextOptions(palette, VIEWPORTS[0] as Viewport));
+
+  try {
+    const page = await openPage(context, new URL(projectPath(source), siteBase));
+    await activateProjectViewer(page);
+    await page
+      .getByRole('tab', { name: 'Layers', exact: true })
+      .click({ timeout: WAIT_TIMEOUT_MS });
+    await page.locator(LIVE_LAYERS_PANEL_SELECTOR).waitFor({ state: 'visible' });
+
+    const layerCount = await page.locator(LIVE_LAYER_CHIP_SELECTOR).count();
+    const partCounts: number[] = [];
+    for (let index = 0; index < layerCount; index += 1) {
+      await page.locator(LIVE_LAYER_CHIP_SELECTOR).nth(index).click({ timeout: WAIT_TIMEOUT_MS });
+      await page.waitForFunction(
+        (selector) => document.querySelectorAll(selector).length > 0,
+        LIVE_LAYER_PARTS_SELECTOR,
+        { timeout: WAIT_TIMEOUT_MS },
+      );
+      partCounts.push(await page.locator(LIVE_LAYER_PARTS_SELECTOR).count());
+    }
+    const partsTotal = partCounts.reduce((total, count) => total + count, 0);
+    checks.push(
+      check(
+        `teardown-${slug}-layers-${palette}`,
+        layerCount === expected.layers && partsTotal === expected.components,
+        { layers: expected.layers, parts: expected.components },
+        { layers: layerCount, parts: partsTotal, partsByLayer: partCounts },
+      ),
+    );
+
+    await page.getByRole('tab', { name: 'Flows', exact: true }).click({ timeout: WAIT_TIMEOUT_MS });
+    await page.locator(LIVE_FLOWS_PANEL_SELECTOR).waitFor({ state: 'visible' });
+    const flowOptions = await page.locator('[data-site-tour-flow-option]').count();
+    const flowHeaders = await page.locator('[data-site-tour-flow-header]').count();
+    const flowCount = flowOptions > 0 ? flowOptions : flowHeaders;
+    checks.push(
+      check(`teardown-${slug}-flows-${palette}`, flowCount === expected.flows, expected.flows, {
+        options: flowOptions,
+        headers: flowHeaders,
+        count: flowCount,
+      }),
+    );
+
+    await resetTeardownTour(page);
+    const panel = await openComponentPanel(page);
+    checks.push(
+      check(`teardown-${slug}-panel-${palette}`, panel.attached && panel.visible, true, panel),
+    );
+    await page.screenshot({
+      path: join(outDir, `teardown-${slug}-panel-desktop-${palette}.png`),
+    });
+    await closeComponentPanel(page);
+    await navigatePage(page, new URL(projectPath(source), siteBase));
+    await activateProjectViewer(page);
+    await page.waitForTimeout(500);
+
+    for (const [flowIndex, flow] of source.flows.entries()) {
+      if (flowIndex > 0) {
+        await navigatePage(page, new URL(projectPath(source), siteBase));
+        await activateProjectViewer(page);
+        await page.waitForTimeout(500);
+      }
+
+      let tour: TeardownTourResult;
+      try {
+        tour = await runTeardownTour(page, flow);
+      } catch (error) {
+        tour = {
+          ended: false,
+          elapsedMs: 0,
+          timeoutMs: tourTimeoutMs(flow.path.length),
+          position: null,
+          state: null,
+        };
+        console.log(`teardown tour ${slug} ${flow.id} ${palette} error=${errorDetail(error)}`);
+      }
+
+      console.log(
+        `teardown tour ${slug} ${flow.id} ${palette} elapsedMs=${tour.elapsedMs} position=${JSON.stringify(tour.position)}`,
+      );
+      await page.screenshot({
+        path: join(outDir, `teardown-${slug}-tour-${flow.id}-ended-desktop-${palette}.png`),
+      });
+      checks.push(
+        check(
+          `teardown-${slug}-tour-${flow.id}-${palette}`,
+          tour.ended && tour.position === `Step ${flow.path.length} of ${flow.path.length}`,
+          { state: 'ended', position: `Step ${flow.path.length} of ${flow.path.length}` },
+          tour,
+        ),
+      );
+
+      try {
+        await resetTeardownTour(page);
+      } catch (error) {
+        console.log(`teardown reset ${slug} ${flow.id} ${palette} error=${errorDetail(error)}`);
+      }
+    }
+  } catch (error) {
+    checks.push(
+      check(`teardown-${slug}-desktop-${palette}-setup`, false, 'live workbench ready', {
+        error: errorDetail(error),
+      }),
+    );
+  } finally {
+    await context.close();
+  }
+
+  return checks;
+}
+
+async function probeMobileTeardown(
+  browser: Browser,
+  source: (typeof PROJECT_SOURCES)[number],
+  palette: Palette,
+  siteBase: URL,
+  expected: TeardownCounts,
+  outDir: string,
+): Promise<SiteProbeCheck[]> {
+  const checks: SiteProbeCheck[] = [];
+  const slug = source.meta.slug;
+  const context = await browser.newContext(contextOptions(palette, VIEWPORTS[1] as Viewport));
+
+  try {
+    const page = await openPage(context, new URL(projectPath(source), siteBase));
+    await activateProjectViewer(page);
+
+    try {
+      await page.waitForFunction(
+        () =>
+          document
+            .querySelector('[data-xploder-lettering-column]')
+            ?.getAttribute('data-xploder-lettering-column') === 'shown',
+        undefined,
+        { timeout: WAIT_TIMEOUT_MS },
+      );
+    } catch {
+      // The assertion below reports the observed state.
+    }
+
+    const compact = await page.evaluate(() => ({
+      column:
+        document
+          .querySelector('[data-xploder-lettering-column]')
+          ?.getAttribute('data-xploder-lettering-column') ?? null,
+      rows: document.querySelectorAll('[data-xploder-column-row]').length,
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    checks.push(
+      check(
+        `teardown-${slug}-compact-column-${palette}`,
+        compact.column === 'shown' &&
+          compact.rows === expected.components &&
+          compact.scrollWidth <= compact.clientWidth,
+        { column: 'shown', rows: expected.components, noOverflow: true },
+        compact,
+      ),
+    );
+    // Let the lettering fade finish so the screenshot shows the settled column.
+    await page
+      .waitForFunction(
+        () => document.getAnimations().every((animation) => animation.playState !== 'running'),
+        undefined,
+        { timeout: WAIT_TIMEOUT_MS },
+      )
+      .catch(() => undefined);
+    await page.locator('[data-site-stage]').screenshot({
+      path: join(outDir, `teardown-${slug}-compact-mobile-${palette}.png`),
+    });
+
+    if (palette === 'light') {
+      const panel = await openComponentPanel(page);
+      checks.push(
+        check(`teardown-${slug}-mobile-panel`, panel.attached && panel.visible, true, panel),
+      );
+      await page.screenshot({
+        path: join(outDir, `teardown-${slug}-panel-mobile-light.png`),
+      });
+      await closeComponentPanel(page);
+      await navigatePage(page, new URL(projectPath(source), siteBase));
+      await activateProjectViewer(page);
+      await page.waitForTimeout(500);
+
+      const firstFlow = source.flows[0];
+      if (firstFlow === undefined) {
+        checks.push(
+          check(`teardown-${slug}-mobile-tour`, false, 'first flow reaches ended', 'no flows'),
+        );
+      } else {
+        let tour: TeardownTourResult;
+        try {
+          tour = await runTeardownTour(page, firstFlow);
+        } catch (error) {
+          tour = {
+            ended: false,
+            elapsedMs: 0,
+            timeoutMs: tourTimeoutMs(firstFlow.path.length),
+            position: null,
+            state: null,
+          };
+          console.log(`teardown tour ${slug} ${firstFlow.id} mobile error=${errorDetail(error)}`);
+        }
+
+        console.log(
+          `teardown tour ${slug} ${firstFlow.id} mobile elapsedMs=${tour.elapsedMs} position=${JSON.stringify(tour.position)}`,
+        );
+        await page.screenshot({
+          path: join(outDir, `teardown-${slug}-tour-${firstFlow.id}-ended-mobile-light.png`),
+        });
+        checks.push(
+          check(
+            `teardown-${slug}-mobile-tour`,
+            tour.ended &&
+              tour.position === `Step ${firstFlow.path.length} of ${firstFlow.path.length}`,
+            {
+              flowId: firstFlow.id,
+              state: 'ended',
+              position: `Step ${firstFlow.path.length} of ${firstFlow.path.length}`,
+            },
+            tour,
+          ),
+        );
+        await resetTeardownTour(page).catch((error: unknown) => {
+          console.log(`teardown reset ${slug} ${firstFlow.id} mobile error=${errorDetail(error)}`);
+        });
+      }
+    }
+  } catch (error) {
+    checks.push(
+      check(`teardown-${slug}-mobile-${palette}-setup`, false, 'compact teardown ready', {
+        error: errorDetail(error),
+      }),
+    );
+  } finally {
+    await context.close();
+  }
+
+  return checks;
+}
+
+async function runTeardownGroup(
+  browser: Browser,
+  siteBase: URL,
+  siteDir: string | undefined,
+  outDir: string,
+): Promise<SiteProbeGroupResult> {
+  const checks: SiteProbeCheck[] = [];
+
+  if (siteDir === undefined) {
+    throw new CliError(EXIT.USAGE, 'group teardown requires --serve <dir>');
+  }
+
+  for (const source of PROJECT_SOURCES) {
+    const slug = source.meta.slug;
+    // The no-JS outline (S10) lists layers and their parts only; flows render in the live workbench.
+    const { layers, components } = expectedTeardownCounts(source);
+    const expected = { layers, components };
+    try {
+      const html = await readFile(join(siteDir, projectOutlinePath(source)), 'utf8');
+      const actual = outlineCountsFromHtml(html);
+      checks.push(
+        check(
+          `teardown-${slug}-outline-counts`,
+          actual.present && actual.layers === layers && actual.components === components,
+          expected,
+          actual,
+        ),
+      );
+    } catch {
+      checks.push(
+        check(`teardown-${slug}-outline-counts`, false, expected, {
+          present: false,
+          error: 'exported outline missing',
+        }),
+      );
+    }
+  }
+
+  for (const palette of PALETTES) {
+    for (const source of PROJECT_SOURCES) {
+      const expected = expectedTeardownCounts(source);
+      checks.push(
+        ...(await probeDesktopTeardown(browser, source, palette, siteBase, expected, outDir)),
+      );
+    }
+  }
+
+  for (const palette of PALETTES) {
+    for (const source of PROJECT_SOURCES) {
+      const expected = expectedTeardownCounts(source);
+      checks.push(
+        ...(await probeMobileTeardown(browser, source, palette, siteBase, expected, outDir)),
+      );
+    }
+  }
+
+  return groupResult('teardown', checks);
+}
+
 async function runGroup(
   group: SiteProbeGroup,
   browser: Browser,
@@ -1801,6 +2353,8 @@ async function runGroup(
       return await runRoutesGroup(browser, options.siteBase);
     case 'draws':
       return await runDrawsGroup(browser, options.siteBase);
+    case 'teardown':
+      return await runTeardownGroup(browser, options.siteBase, options.siteDir, options.outDir);
   }
 }
 
@@ -1833,7 +2387,14 @@ async function writeGroupArtifacts(outDir: string, result: SiteProbeGroupResult)
 
 export async function runSiteProbe(options: SiteProbeOptions): Promise<SiteProbeReport> {
   await mkdir(options.outDir, { recursive: true });
-  const browser = await launch();
+  const browser = await launch({
+    args: [
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-renderer-backgrounding',
+      '--disable-features=IntensiveWakeUpThrottling',
+    ],
+  });
   const browserVersion = chromiumVersion(browser);
   const groups: SiteProbeGroupResult[] = [];
 
