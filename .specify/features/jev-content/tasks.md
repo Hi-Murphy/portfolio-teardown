@@ -35,7 +35,7 @@
 | T005 | ☑ (teardown group: 30/30 × 3 runs; both projects × palettes: outline 5/20 + 5/16, live 5/20/2 + 5/16/2, panel, every tour `ended`, compact column 20/16 rows at 412 px, no overflow; outline check scoped to layers + parts — the S10 outline has no flows) | 1 (Flash, sandbox off) + orchestrator (outline scope, root cause, settled screenshots) | evidence/T005-teardown/, T005-log-teardown-3runs.txt, T005-evidence-jev-{light,dark}/, T005-log-tour-stall-rootcause.md | cc593b3 |
 | T005a | ☑ revision 1 of 2 (red → green; fix 51d3fa7; S5 re-sealed; stall repro after: 64/64 ended, 0 stalls) | 1 (Flash, sandbox off) for test + fix; orchestrator re-seal | evidence/T005a-log-{red,green,reseal,stall-after}.txt, R1-revision-note.md | cb7907b |
 | T006 | ☑ (cards 34/34: both surfaces × 390/1280 × light/dark; name/tagline/≤ 4 registry chips/href, order WSI → JEV, scrollWidth = 390 at 390 px, hrefs 200; home copy FAIL before (JEV strings unknown) → PASS after; structure 52/52) | 1 (Flash, sandbox off) | evidence/T006-cards/, T006-home/, T006-evidence-{home,projects}-{light,dark}/, T006-log-cards.txt | 9587cc3 |
-| T007 | ☐ | | | |
+| T007 | ☑ (2 clean builds, SITE_URL=https://hi-murphy.me: 4 PNG hashes identical; jev 2231a0eb… 1200×630 76 330 B; WSI = base 74e0a609…; home/projects change as expected (RFC E2); seo:probe PASS ×2 incl. --compare; head tags 9/9 absolute; sitemap has the route; JSON-LD 5/5 traced + SoftwareApplication) | 1 (Flash, sandbox off) | evidence/T007-* | 0ffbf0f |
 | T008 | ☐ | | | |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |

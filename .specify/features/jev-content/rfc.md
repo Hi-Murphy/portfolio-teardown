@@ -146,7 +146,7 @@ Everything below flows from `PROJECTS` through `INDEXABLE_ROUTES`. No SEO code c
 | `description` | `jev-toolkit.json` `meta.summary` |
 | `url` | `SITE_URL` + `/projects/` + `meta.slug` |
 | `codeRepository` | `jev-toolkit.json` `meta.links[label = "Source"].url` |
-| `author.name`, `author.url` | `site.json` `identity.name`, `SITE_URL` + `/` |
+| `author.name`, `author.url` | `site.json` `identity.name`; `absoluteUrl('/')` = the bare `SITE_URL` origin (S11 normalisation, no trailing slash) |
 
 Validation: `seo:probe` checks the vocabulary against `tools/perf/src/schema-vocab.json` (the S11 local equivalent of the schema.org validator). The JSON-LD describes the **harness** ("JEV Benchmark", authored by the site owner), not the JEV model, so it makes no "built JEV" claim (Q2).
 
