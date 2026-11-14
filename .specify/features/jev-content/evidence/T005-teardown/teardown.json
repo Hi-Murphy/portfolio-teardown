@@ -1,6 +1,6 @@
 {
   "group": "teardown",
-  "pass": false,
+  "pass": true,
   "checks": [
     {
       "name": "teardown-websocket-inspector-outline-counts",
@@ -77,7 +77,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 11300,
+        "elapsedMs": 11200,
         "timeoutMs": 43000,
         "state": "ended",
         "position": "Step 7 of 7"
@@ -92,7 +92,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 11203,
+        "elapsedMs": 11215,
         "timeoutMs": 43000,
         "state": "ended",
         "position": "Step 7 of 7"
@@ -138,16 +138,16 @@
     },
     {
       "name": "teardown-jev-toolkit-tour-arm-run-light",
-      "pass": false,
+      "pass": true,
       "expected": {
         "state": "ended",
         "position": "Step 8 of 8"
       },
       "actual": {
-        "ended": false,
-        "elapsedMs": 47085,
+        "ended": true,
+        "elapsedMs": 12822,
         "timeoutMs": 47000,
-        "state": "playing",
+        "state": "ended",
         "position": "Step 8 of 8"
       }
     },
@@ -160,7 +160,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 6401,
+        "elapsedMs": 6461,
         "timeoutMs": 31000,
         "state": "ended",
         "position": "Step 4 of 4"
@@ -213,7 +213,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 11284,
+        "elapsedMs": 11294,
         "timeoutMs": 43000,
         "state": "ended",
         "position": "Step 7 of 7"
@@ -228,7 +228,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 11203,
+        "elapsedMs": 11224,
         "timeoutMs": 43000,
         "state": "ended",
         "position": "Step 7 of 7"
@@ -281,7 +281,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 12875,
+        "elapsedMs": 12874,
         "timeoutMs": 47000,
         "state": "ended",
         "position": "Step 8 of 8"
@@ -289,16 +289,16 @@
     },
     {
       "name": "teardown-jev-toolkit-tour-judge-path-dark",
-      "pass": false,
+      "pass": true,
       "expected": {
         "state": "ended",
         "position": "Step 4 of 4"
       },
       "actual": {
-        "ended": false,
-        "elapsedMs": 31073,
+        "ended": true,
+        "elapsedMs": 6431,
         "timeoutMs": 31000,
-        "state": "playing",
+        "state": "ended",
         "position": "Step 4 of 4"
       }
     },
@@ -336,7 +336,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 11211,
+        "elapsedMs": 11207,
         "timeoutMs": 43000,
         "state": "ended",
         "position": "Step 7 of 7"
@@ -376,7 +376,7 @@
       },
       "actual": {
         "ended": true,
-        "elapsedMs": 12805,
+        "elapsedMs": 12874,
         "timeoutMs": 47000,
         "state": "ended",
         "position": "Step 8 of 8"

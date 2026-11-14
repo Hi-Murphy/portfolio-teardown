@@ -2187,7 +2187,15 @@ async function probeMobileTeardown(
         compact,
       ),
     );
-    await page.screenshot({
+    // Let the lettering fade finish so the screenshot shows the settled column.
+    await page
+      .waitForFunction(
+        () => document.getAnimations().every((animation) => animation.playState !== 'running'),
+        undefined,
+        { timeout: WAIT_TIMEOUT_MS },
+      )
+      .catch(() => undefined);
+    await page.locator('[data-site-stage]').screenshot({
       path: join(outDir, `teardown-${slug}-compact-mobile-${palette}.png`),
     });
 
