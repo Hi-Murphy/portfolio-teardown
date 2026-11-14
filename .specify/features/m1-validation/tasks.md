@@ -35,7 +35,7 @@
 | T006 | ✗ not run (R8, Murphy decision) → AC1 NOT MET; informal feedback: friends saw the preview earlier and liked it (not AC1 evidence) | — | evidence/T006-log-human-test.md | (this commit) |
 | T007 | ✗ not applicable (no sheets) | — | — | — |
 | T008 / T008.x | ☑ triage I-01…I-08 + H-01…H-08, backlog; **T008.1** fixed I-01 (Sev-2, no-JS numbered path: `noscript:` variant + test; degraded 72/72; full regression green) + T008.1b probe follow-up (CI caught it); CI all green at `e35e7de`, slow-class reveal 593/516 ms. Open: Sev-1 0, Sev-2 0, Sev-3 I-03/I-05, Sev-4 I-04/I-08; evidence gaps I-06 (AC4), I-07 (AC1) | T008, T008.1b orchestrator; T008.1 Flash + orchestrator review | triage-log.md, backlog.md, evidence/T008.1-log-fix.md | 26cb43f, e35e7de |
-| T009 | ☐ | | | |
+| T009 | ☑ workflow removed; guards `--final` OK; final run 16/17 (only the LinkedIn bot-block row, closed by Murphy evidence); CI green at `5621f3f`; report + AC self-check: MET AC2, AC3, AC5, AC6; NOT MET AC1, AC4, AC7 | orchestrator | report.md, evidence/AC-selfcheck.md, T009-ci.txt, T009-results.md | (this commit) |
 
 ---
 
