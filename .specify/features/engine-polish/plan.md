@@ -59,7 +59,6 @@ packages/xploder/
   src/react/TeardownViewer.tsx           EDIT  selected = open detail id; open/close highlight guard; name fallback [I-09, S8]
   src/overlay/model.ts                   EDIT  dimension notes avoid plate layer-name quads                   [I-05, S6]
   test/emphasis-selected.test.ts         NEW   (added to s5.paths)                                            [I-09]
-  test/viewer-selected.test.tsx          NEW   (added to s8.paths)                                            [I-09]
   test/overlay-note-clear.test.ts        NEW   (added to s6.paths)                                            [I-05]
   test/no-clock-warning.test.tsx         NEW   (no manifest)                                                  [I-04]
   test/frozen-surface.{s5,s6,s8}.paths, .sN.manifest.json, generate-sN.sh, frozen-surface.test.ts   RE-SEAL
@@ -67,6 +66,7 @@ apps/web/
   components/home/hero-section.tsx       EDIT  <BlueprintSheet /> moved after the content div                 [I-10]
   components/hero/hero-loop.ts           EDIT  remaining-time resume (`now` option)                           [I-03]
   test/home-hero-loop.test.tsx           EDIT  + resume-remaining cases                                       [I-03]
+  test/xploder-dom/viewer-selected.dom.test.tsx  NEW  jsdom: AC1 clauses on the real TeardownViewer (C4)    [I-09]
 tools/perf/
   src/site-probe.ts                      EDIT  waitForHeroSettled (drill, / CLS) + hero-marks-stable checks + stall proxy [I-10]
   test/site-probe.test.ts                EDIT  unit cases for the settled predicate + mark comparison         [I-10]
@@ -92,7 +92,7 @@ git diff --quiet $B -- tools/perf/src/{args,browser,budgets,evidence,exit-codes,
 for p in s5 s6 s8; do git diff --name-only $B -- $(sed "s#^#$X/#" $X/test/frozen-surface.$p.paths); done | sort -u \
   | grep -vxF -f <(grep -v '^#' $F/approved-xploder-src.txt) | (! grep -q .) && echo RESEAL-LIST-OK
 # the no-drive-by fence
-git diff --name-only $B | grep -vE "^($X/src/interaction/emphasis\.ts|$X/src/react/scene/Emphasis\.tsx|$X/src/react/TeardownViewer\.tsx|$X/src/overlay/model\.ts|$X/test/(emphasis-selected|viewer-selected|overlay-note-clear|no-clock-warning)\.test\.tsx?|$X/test/frozen-surface\..*|apps/web/components/home/hero-section\.tsx|apps/web/components/hero/hero-loop\.ts|apps/web/test/home-hero-loop\.test\.tsx|tools/perf/src/site-probe\.ts|tools/perf/test/site-probe\.test\.ts|pnpm-workspace\.yaml|pnpm-lock\.yaml|patches/@react-three__fiber@9\.8\.2\.patch|\.github/workflows/(eager-3d|eager-load|hero-eager)\.yml|$F/.*)$" \
+git diff --name-only $B | grep -vE "^($X/src/interaction/emphasis\.ts|$X/src/react/scene/Emphasis\.tsx|$X/src/react/TeardownViewer\.tsx|$X/src/overlay/model\.ts|$X/test/(emphasis-selected|overlay-note-clear|no-clock-warning)\.test\.tsx?|$X/test/frozen-surface\..*|apps/web/components/home/hero-section\.tsx|apps/web/components/hero/hero-loop\.ts|apps/web/test/home-hero-loop\.test\.tsx|apps/web/test/xploder-dom/viewer-selected\.dom\.test\.tsx|tools/perf/src/site-probe\.ts|tools/perf/test/site-probe\.test\.ts|pnpm-workspace\.yaml|pnpm-lock\.yaml|patches/@react-three__fiber@9\.8\.2\.patch|\.github/workflows/(eager-3d|eager-load|hero-eager)\.yml|$F/.*)$" \
   | (! grep -q .) && echo ALLOWED-PATHS-OK
 git diff --quiet $B -- package.json apps/web/package.json packages/xploder/package.json tools/perf/package.json && echo NO-NEW-DEPS-OK
 # AC2: no existing timeout/sleep constant changed (R4)
@@ -100,13 +100,13 @@ git diff --quiet $B -- package.json apps/web/package.json packages/xploder/packa
 gitleaks git --no-banner --log-opts="$B..HEAD" . && gitleaks dir --no-banner $F && echo GITLEAKS-OK
 ```
 
-`approved-xploder-src.txt` lists the four approved source files and the three new sealed tests (package-relative paths prefixed with `packages/xploder/`). A failing `ALLOWED-PATHS-OK` or `RESEAL-LIST-OK` is never fixed by widening the guard: it is a STOP and an escalation (kickoff Hard Rules 2 and 4).
+`approved-xploder-src.txt` lists the four approved source files and the two new sealed tests (C4) (package-relative paths prefixed with `packages/xploder/`). A failing `ALLOWED-PATHS-OK` or `RESEAL-LIST-OK` is never fixed by widening the guard: it is a STOP and an escalation (kickoff Hard Rules 2 and 4).
 
 ## Per-item plan (red test first, re-seal paired with the fix)
 
 | # | Item | Red commit | Fix commit | Re-seal commit | Evidence |
 |---|---|---|---|---|---|
-| 1 | I-09 | `emphasis-selected` + `viewer-selected` (red log) | `emphasis.ts`, `Emphasis.tsx`, `TeardownViewer.tsx` (green log) | S5 + S8: base → fix SHA, notes, `.paths` +2 tests, manifests, `frozen-surface.test.ts` | unit logs, 8 screenshots, `engine:probe` s7/s8 unchanged |
+| 1 | I-09 | `emphasis-selected` (package) + `viewer-selected.dom` (apps/web jsdom, C4) (red log) | `emphasis.ts`, `Emphasis.tsx`, `TeardownViewer.tsx` (green log) | S5 + S8: base → fix SHA, notes, `s5.paths` +1 test, manifests, `frozen-surface.test.ts` | unit logs, 8 screenshots, `engine:probe` s7/s8 unchanged |
 | 2 | I-10 | `hero-marks-stable-*` checks + stall proxy in `site-probe.ts` (red at 390×740, 360×740) | `hero-section.tsx` DOM order; `waitForHeroSettled` in the drill and the `/` CLS cell (green) | none | red/green logs, corner-mark table, `perf:parity` 0 px, 5 local runs (CI runs in T011) |
 | 3 | I-03 | `home-hero-loop` resume-remaining case (red: 1400 ≠ 1000) | `hero-loop.ts` (green) | none | unit logs, `pause-events.mjs` (16 cells, count = 1, frame equality R5), `reduced-motion` group |
 | 4 | I-05 | `overlay-note-clear` (red) | `overlay/model.ts` + equivalence test (green) | S6: base → fix SHA, note, `.paths` +1, manifest, `frozen-surface.test.ts` | unit logs, `overlap-matrix.mjs` table with callout mode (R3), screenshots |
@@ -121,6 +121,7 @@ gitleaks git --no-banner --log-opts="$B..HEAD" . && gitleaks dir --no-banner $F 
   - **Open:** `if (viewer.highlight !== id) actions.highlight(id)`.
   - **Close:** clear only if `highlight === id && pointer.source !== 'mouse' && !activeIsProxy(id)`.
   - `pointer` comes from `viewerMetadataOf(viewer)`, which already exists.
+- The wrapper gets `data-xploder-selected` (R6), written in the same layout-effect style as `data-xploder-highlight`.
 - `PartLettering` / `BlueprintOverlay` get `highlight={viewer.highlight ?? detailOpenId}`. `ComponentNavigator` keeps `highlight={viewer.highlight}`.
 
 ### I-10 implementation notes
@@ -173,7 +174,7 @@ gitleaks git --no-banner --log-opts="$B..HEAD" . && gitleaks dir --no-banner $F 
 | Check | Where | FR |
 |---|---|---|
 | `selected` lit with `highlight` | `packages/xploder/test/emphasis-selected.test.ts` | FR1 |
-| AC1's four clauses + close-while-hovered + Escape-to-proxy | `packages/xploder/test/viewer-selected.test.tsx` | FR1 |
+| AC1's four clauses + close-while-hovered + Escape-to-proxy | `apps/web/test/xploder-dom/viewer-selected.dom.test.tsx` (jsdom, C4) | FR1 |
 | S7/S8 probes unchanged | `engine:probe` (s7/s8 groups, fixture export) | FR1, FR7 |
 | settled predicate, mark comparison | `tools/perf/test/site-probe.test.ts` | FR2 |
 | marks stable under stalled HTML, CLS 0, drill | `site:probe --group cls,drill` (local ×5, CI ×5) | FR2 |

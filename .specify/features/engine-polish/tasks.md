@@ -94,7 +94,7 @@
 
 - **Seam:** open detail panel ↔ engine emphasis (RFC §3.1).
 - **Files:**
-  - **Red commit:** `packages/xploder/test/emphasis-selected.test.ts` and `packages/xploder/test/viewer-selected.test.tsx` (the `viewer-panels.test.tsx` harness: test renderer, `actions`, pointer inputs through `viewer.onPointerInput`, and the emphasis state read from the `Scene` props). Cases:
+  - **Red commit:** `packages/xploder/test/emphasis-selected.test.ts` (`emphasisTargets` with `selected`, plus `useEmphasisDriver` through the test renderer as `emphasis-scene.test.tsx` does: both instance colours lit) and `apps/web/test/xploder-dom/viewer-selected.dom.test.tsx` (C4: jsdom, the `a11y-panel-focus.dom.test.tsx` harness mounting the real `TeardownViewer`; pointer inputs through `viewer.onPointerInput`; panels opened through the navigator proxy or `panelsMetadataOf(panels).dispatch`; reads `data-xploder-highlight` and `data-xploder-selected` (R6) on the wrapper). Cases:
     - (a) A open + B hovered → A and B lit;
     - (b) B left → A lit;
     - (c) close with the pointer elsewhere → none;
@@ -107,7 +107,9 @@
   ```sh
   set -euo pipefail; mkdir -p /tmp/s14-checks .specify/features/engine-polish/evidence; E=.specify/features/engine-polish/evidence
   grep -Eq 'FAIL|failed' $E/T002-log-red.txt && echo RED-RECORDED
-  pnpm --filter xploder exec vitest run test/emphasis-selected.test.ts test/viewer-selected.test.tsx --reporter verbose 2>&1 | tee $E/T002-log-green.txt
+  pnpm --filter xploder exec vitest run test/emphasis-selected.test.ts --reporter verbose 2>&1 | tee $E/T002-log-green.txt
+  pnpm --filter web exec vitest run test/xploder-dom/viewer-selected.dom.test.tsx --reporter verbose 2>&1 | tee -a $E/T002-log-green.txt
+  pnpm --filter web exec vitest run test/xploder-dom   # the existing jsdom suites stay green
   pnpm --filter xploder exec vitest run test/emphasis.test.ts test/emphasis-scene.test.tsx test/pointer.test.ts test/viewer-panels.test.tsx test/viewer-handle.test.tsx   # sealed suites unchanged and green
   git diff --stat a9edbfc -- packages/xploder/src | tee -a $E/T002-log-green.txt   # exactly the 3 approved files
   pnpm typecheck && pnpm lint && pnpm test   # frozen-surface S5/S8 red is expected here until T003; all else green
@@ -123,9 +125,9 @@
 - **Seam:** S5/S8 manifests ↔ T002's fix SHA; real browser ↔ AC1.
 - **Files:**
   - `packages/xploder/test/frozen-surface.generate-s5.sh` / `-s8.sh` (`base=<T002 fix sha>`, notes);
-  - `frozen-surface.s5.paths` (+ `test/emphasis-selected.test.ts`) and `.s8.paths` (+ `test/viewer-selected.test.tsx`);
+  - `frozen-surface.s5.paths` (+ `test/emphasis-selected.test.ts`); `.s8.paths` unchanged (C4);
   - the regenerated manifests and `frozen-surface.test.ts` (`base`, `note`).
-  - Note texts: `Re-sealed in S14 at <sha>: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt.` (S5) and `… src/react/TeardownViewer.tsx — the open detail panel is the selected emphasis; open/close highlight sync keeps hover and keyboard focus (I-09) + test/viewer-selected.test.tsx; see …` (S8).
+  - Note texts: `Re-sealed in S14 at <sha>: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt.` (S5) and `… src/react/TeardownViewer.tsx — the open detail panel is the selected emphasis; open/close highlight sync keeps hover and keyboard focus; data-xploder-selected (I-09); see …` (S8).
 - **Check:**
   ```sh
   set -euo pipefail; mkdir -p /tmp/s14-checks .specify/features/engine-polish/evidence; E=.specify/features/engine-polish/evidence

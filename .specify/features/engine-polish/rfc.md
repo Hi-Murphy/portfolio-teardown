@@ -90,7 +90,7 @@
 
 **Re-seal:**
 - S5: `src/interaction/emphasis.ts` and `src/react/scene/Emphasis.tsx`; add `test/emphasis-selected.test.ts` to `frozen-surface.s5.paths`.
-- S8: `src/react/TeardownViewer.tsx`; add `test/viewer-selected.test.tsx` to `frozen-surface.s8.paths`.
+- S8: `src/react/TeardownViewer.tsx`; add `test/viewer-selected.test.tsx` to `frozen-surface.s8.paths` (superseded by C4: the test lives in `apps/web/test/xploder-dom/`, unsealed).
 - Procedure: §9.
 
 ---
@@ -268,7 +268,7 @@ In every row the probe then also awaits `document.fonts.ready` and two `requestA
 | I-09 | S5 | `src/react/scene/Emphasis.tsx` | forwards `selected` to `emphasisTargets` (**not named in the brief, Q1**) |
 | I-09 | S5 | `test/emphasis-selected.test.ts` (new) | added to `frozen-surface.s5.paths` |
 | I-09 | S8 | `src/react/TeardownViewer.tsx` | passes the open detail panel as `selected`; open/close highlight sync keeps hover and focus |
-| I-09 | S8 | `test/viewer-selected.test.tsx` (new) | added to `frozen-surface.s8.paths` |
+| I-09 | — | `apps/web/test/xploder-dom/viewer-selected.dom.test.tsx` (new, C4) | app test, not sealed |
 | I-05 | S6 | `src/overlay/model.ts` | dimension notes avoid the plate layer-name quads; other placements output-identical |
 | I-05 | S6 | `test/overlay-note-clear.test.ts` (new) | added to `frozen-surface.s6.paths` |
 | I-10, I-03, I-04, I-08 | none | — | app code, `tools/perf` (S10 file), dependency patch, CI files |
@@ -370,6 +370,8 @@ Escalation: Flash stuck ×2 → pause and report to Murphy with usage (standing 
 - **R2 — I-10's 0 px proof uses the existing tool.** `pnpm perf:parity --compare` against the T001 baseline covers the home hero at mobile/desktop × light/dark, so no new pixel-diff code is needed for the `BlueprintSheet` move.
 - **R3 — AC4 records the callout mode per cell.** The browser matrix logs `data-xploder-callouts` (`tags`/`columns`) for each cell. A hit in `columns` mode would need `src/overlay/columns.ts` (S6, not on the §9.1 list), so it is a STOP-and-ask, never a silent fix.
 - **R4 — "no timeout merely increased" becomes a guard.** `guards.sh` `TIMEOUT-NOT-RAISED-OK` fails if any existing `*_MS` or `timeout` numeric constant in `tools/perf/src/site-probe.ts` changes value.
+- **C4 — where I-09's viewer-level test can run (found at Stage 3 start).** No xploder test can mount the full `TeardownViewer`: the package has no DOM environment, and adding `jsdom` to it would be a new dependency. The `apps/web` suite already mounts it under jsdom (`apps/web/test/xploder-dom/*.dom.test.tsx`), so the viewer test moves there as `apps/web/test/xploder-dom/viewer-selected.dom.test.tsx`. It is app test code, so it is not sealed, and `frozen-surface.s8.paths` gains no test. The S5 unit test stays in the package and is sealed as planned.
+- **R6 — `data-xploder-selected` on the viewer wrapper.** It mirrors the existing `data-xploder-highlight`: it is set to the open detail panel's component id and removed when no detail panel is open, inside the approved `TeardownViewer.tsx`. It is how the jsdom test and the browser probe observe the `selected` emphasis input. Without it, the scene's emphasis would be invisible outside a WebGL context. This is an observability hook like the existing `data-xploder-*` attributes, not a feature.
 - **R5 — I-03's "no position jump" is a frame-equality check.** Hero frames from Pause + 2 s to Play + (remaining − 50 ms) must be pixel-identical, and the next phase must start within one frame of the remaining time. The settle counter is a committed feature-dir script (`pause-events.mjs`, the `pause-sweep` matrix with an event count column), not a new CI group.
 
 ---

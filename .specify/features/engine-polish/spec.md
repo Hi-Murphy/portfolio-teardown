@@ -15,7 +15,7 @@ I click a part and its detail panel opens. While I read it, I move the mouse ove
 
 **Why this priority:** Murphy found it on every project (S13 G2); the brief lists it first.
 
-**Independent Test:** `test/emphasis-selected.test.ts` + `test/viewer-selected.test.tsx` (red → green), plus browser screenshots on `/projects/websocket-inspector` (RFC §3).
+**Independent Test:** `packages/xploder/test/emphasis-selected.test.ts` + `apps/web/test/xploder-dom/viewer-selected.dom.test.tsx` (red → green; RFC C4), plus browser screenshots on `/projects/websocket-inspector` (RFC §3).
 
 **Acceptance Scenarios:**
 
