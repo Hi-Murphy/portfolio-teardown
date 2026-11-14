@@ -2,6 +2,7 @@ import { defineProject, type Project } from 'xploder';
 import { describe, expect, test } from 'vitest';
 
 import { getProject, cardModel, PROJECT_SLUGS, PROJECTS } from '../content/projects';
+import { jevToolkit } from '../content/projects/jev-toolkit';
 import { websocketInspector } from '../content/projects/websocket-inspector';
 import { SITE_REGISTRY } from '../content/tech-registry';
 
@@ -67,6 +68,18 @@ describe('project card model', () => {
     );
   });
 
+  test('maps the jev-toolkit meta and registry chips', () => {
+    const model = cardModel(jevToolkit);
+
+    expect(model).toStrictEqual({
+      slug: jevToolkit.meta.slug,
+      name: jevToolkit.meta.name,
+      tagline: jevToolkit.meta.tagline,
+      chips: expectedChips(['nodejs']),
+    });
+    expect(model.chips.length).toBeLessThanOrEqual(4);
+  });
+
   test('ranks by count before first appearance', () => {
     const model = cardModel(
       syntheticProject([
@@ -119,13 +132,14 @@ describe('project card model', () => {
 });
 
 describe('project index', () => {
-  test('exposes the websocket-inspector project and slug', () => {
-    expect(PROJECTS).toEqual([websocketInspector]);
-    expect(PROJECT_SLUGS).toEqual(['websocket-inspector']);
+  test('exposes the websocket-inspector and jev-toolkit projects and slugs', () => {
+    expect(PROJECTS).toEqual([websocketInspector, jevToolkit]);
+    expect(PROJECT_SLUGS).toEqual(['websocket-inspector', 'jev-toolkit']);
   });
 
   test('resolves a project by slug', () => {
     expect(getProject('websocket-inspector')).toBe(websocketInspector);
+    expect(getProject('jev-toolkit')).toBe(jevToolkit);
     expect(getProject('nope')).toBeUndefined();
   });
 });

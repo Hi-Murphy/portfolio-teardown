@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { parseProject } from 'xploder';
 import { describe, expect, test } from 'vitest';
 
+import { PROJECT_SLUGS } from '../content/projects';
 import { SITE_REGISTRY } from '../content/tech-registry';
 import { jevToolkit } from '../content/projects/jev-toolkit';
 import { jevToolkitSource } from '../content/projects/jev-toolkit.source';
@@ -104,4 +105,5 @@ test('completeness: content files, fidelity rows and converter entries agree', (
 
   expect(rowSlugs).toStrictEqual(contentSlugs);
   expect(converterSlugs).toStrictEqual(contentSlugs);
+  expect([...PROJECT_SLUGS].sort()).toStrictEqual(contentSlugs);
 });

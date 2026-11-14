@@ -1,0 +1,74 @@
+{
+  "group": "routes",
+  "pass": true,
+  "checks": [
+    {
+      "name": "routes-home-title",
+      "pass": true,
+      "expected": "Timur Haryo — Software Engineer · Android & Developer Tools",
+      "actual": "Timur Haryo — Software Engineer · Android & Developer Tools"
+    },
+    {
+      "name": "routes-home-description",
+      "pass": true,
+      "expected": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+      "actual": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+    },
+    {
+      "name": "routes-projects-title",
+      "pass": true,
+      "expected": "Projects · Timur Haryo",
+      "actual": "Projects · Timur Haryo"
+    },
+    {
+      "name": "routes-projects-description",
+      "pass": true,
+      "expected": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+      "actual": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+    },
+    {
+      "name": "routes-project-title",
+      "pass": true,
+      "expected": "Scarlet Inspector · Timur Haryo",
+      "actual": "Scarlet Inspector · Timur Haryo"
+    },
+    {
+      "name": "routes-project-description",
+      "pass": true,
+      "expected": "Every WebSocket frame, captured and inspectable.",
+      "actual": "Every WebSocket frame, captured and inspectable."
+    },
+    {
+      "name": "routes-unknown-project-status",
+      "pass": true,
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "routes-unknown-project-content",
+      "pass": true,
+      "expected": "not-found content",
+      "actual": {
+        "h1": "Page not found"
+      }
+    },
+    {
+      "name": "routes-/dev/engine-404",
+      "pass": true,
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "routes-/fixtures/fps-calibration-404",
+      "pass": true,
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "routes-/resume.pdf-404",
+      "pass": true,
+      "expected": 404,
+      "actual": 404
+    }
+  ]
+}
