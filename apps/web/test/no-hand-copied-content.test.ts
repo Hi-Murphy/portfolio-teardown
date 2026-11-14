@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { basename, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import ts from 'typescript';
@@ -11,14 +12,10 @@ const APP_ROOT = fileURLToPath(new URL('../app/', import.meta.url));
 const COMPONENTS_ROOT = fileURLToPath(new URL('../components/', import.meta.url));
 const CONTENT_ROOT = fileURLToPath(new URL('../content/', import.meta.url));
 const SEO_ROOT = fileURLToPath(new URL('../seo/', import.meta.url));
-const PROJECT_JSON_PATH = fileURLToPath(
-  new URL('../../../.specify/content/websocket-inspector.json', import.meta.url),
-);
+const PROJECT_JSON_ROOT = fileURLToPath(new URL('../../../.specify/content/', import.meta.url));
+const PROJECT_SOURCE_ROOT = fileURLToPath(new URL('../content/projects/', import.meta.url));
 const SITE_JSON_PATH = fileURLToPath(
   new URL('../../../.specify/content/site.json', import.meta.url),
-);
-const PROJECT_SOURCE_PATH = fileURLToPath(
-  new URL('../content/projects/websocket-inspector.source.ts', import.meta.url),
 );
 const SITE_SOURCE_PATH = fileURLToPath(new URL('../content/site.source.ts', import.meta.url));
 const MIN_COPY_LENGTH = 12;
@@ -53,6 +50,13 @@ type CopyRule = 'project-copy' | 'site-copy';
 interface SourceCopy {
   readonly value: string;
   readonly start: number;
+}
+
+interface ProjectFixture {
+  readonly slug: string;
+  readonly jsonPath: string;
+  readonly sourcePath: string;
+  readonly strings: readonly string[];
 }
 
 function longStrings(values: readonly (string | undefined)[]): string[] {
@@ -97,6 +101,30 @@ function collectSiteStrings(site: SiteCopy): string[] {
     site.meta.description,
   ]);
 }
+
+function readJson<T>(path: string): T {
+  return JSON.parse(readFileSync(path, 'utf8')) as T;
+}
+
+function collectProjectFixtures(): ProjectFixture[] {
+  return readdirSync(PROJECT_JSON_ROOT)
+    .filter((name) => name.endsWith('.json') && name !== 'site.json')
+    .sort((left, right) => left.localeCompare(right))
+    .map((name) => {
+      const slug = basename(name, '.json');
+      const jsonPath = join(PROJECT_JSON_ROOT, name);
+      const project = readJson<ProjectCopy>(jsonPath);
+
+      return {
+        slug,
+        jsonPath,
+        sourcePath: join(PROJECT_SOURCE_ROOT, `${slug}.source.ts`),
+        strings: collectProjectStrings(project),
+      };
+    });
+}
+
+const PROJECT_FIXTURES = collectProjectFixtures();
 
 function scriptKindFor(file: string): ts.ScriptKind {
   if (file.endsWith('.tsx')) return ts.ScriptKind.TSX;
@@ -160,18 +188,17 @@ function sourceFiles(root: string): string[] {
   return existsSync(root) ? collectSourceFiles(root) : [];
 }
 
-function scanForbiddenCopy(files: readonly string[]): Hit[] {
-  const projectJson = JSON.parse(readFileSync(PROJECT_JSON_PATH, 'utf8')) as ProjectCopy;
-  const siteJson = JSON.parse(readFileSync(SITE_JSON_PATH, 'utf8')) as SiteCopy;
-  const projectStrings = collectProjectStrings(projectJson);
-  const siteStrings = collectSiteStrings(siteJson);
-
+function scanForbiddenCopy(
+  files: readonly string[],
+  project: ProjectFixture,
+  siteStrings: readonly string[],
+): Hit[] {
   return files.flatMap((file) => {
     const text = readFileSync(file, 'utf8');
     const hits: Hit[] = [];
 
-    if (file !== PROJECT_SOURCE_PATH) {
-      hits.push(...scanTextForCopy(text, file, projectStrings, 'project-copy'));
+    if (file !== project.sourcePath) {
+      hits.push(...scanTextForCopy(text, file, project.strings, 'project-copy'));
     }
 
     if (file !== SITE_SOURCE_PATH) {
@@ -180,10 +207,6 @@ function scanForbiddenCopy(files: readonly string[]): Hit[] {
 
     return hits;
   });
-}
-
-function readJson<T>(path: string): T {
-  return JSON.parse(readFileSync(path, 'utf8')) as T;
 }
 
 function firstString(values: readonly string[], label: string): string {
@@ -195,9 +218,7 @@ function firstString(values: readonly string[], label: string): string {
 }
 
 describe('hand-copied content scanner', () => {
-  const project = readJson<ProjectCopy>(PROJECT_JSON_PATH);
   const site = readJson<SiteCopy>(SITE_JSON_PATH);
-  const projectStrings = collectProjectStrings(project);
   const siteStrings = collectSiteStrings(site);
 
   test('ignores canonical strings shorter than twelve characters', () => {
@@ -206,9 +227,10 @@ describe('hand-copied content scanner', () => {
     ]);
   });
 
-  test('the generated project source carries every collected project string', () => {
-    const text = readFileSync(PROJECT_SOURCE_PATH, 'utf8');
-    const missing = projectStrings.filter((value) => !text.includes(value));
+  test('every canonical project has a generated source module', () => {
+    const missing = PROJECT_FIXTURES.filter((project) => !existsSync(project.sourcePath)).map(
+      (project) => project.sourcePath,
+    );
 
     expect(missing).toEqual([]);
   });
@@ -220,24 +242,64 @@ describe('hand-copied content scanner', () => {
     expect(missing).toEqual([]);
   });
 
-  test('app, components and seo contain no hand-copied project or site content', () => {
-    const hits = scanForbiddenCopy([
-      ...sourceFiles(APP_ROOT),
-      ...sourceFiles(COMPONENTS_ROOT),
-      ...sourceFiles(SEO_ROOT),
-    ]);
+  describe.each(PROJECT_FIXTURES)('$slug', (project) => {
+    const sourceExists = existsSync(project.sourcePath);
 
-    expect(hits, formatHits(hits)).toEqual([]);
+    test('the generated project source carries every collected project string', () => {
+      const text = sourceExists ? readFileSync(project.sourcePath, 'utf8') : '';
+      const missing = project.strings.filter((value) => !text.includes(value));
+
+      expect(missing).toEqual([]);
+    });
+
+    test('app, components and seo contain no hand-copied project or site content', () => {
+      const hits = scanForbiddenCopy(
+        [...sourceFiles(APP_ROOT), ...sourceFiles(COMPONENTS_ROOT), ...sourceFiles(SEO_ROOT)],
+        project,
+        siteStrings,
+      );
+
+      expect(hits, formatHits(hits)).toEqual([]);
+    });
+
+    test('content copy appears only in its generated source module', () => {
+      const hits = scanForbiddenCopy(sourceFiles(CONTENT_ROOT), project, siteStrings);
+
+      expect(hits, formatHits(hits)).toEqual([]);
+    });
+
+    test('negative control catches hand-copied project content', () => {
+      const sample = firstString(project.strings, 'project');
+      const hits = scanTextForCopy(
+        `const copied = ${JSON.stringify(sample)};`,
+        'fixture.tsx',
+        [sample],
+        'project-copy',
+      );
+
+      expect(
+        hits.map((hit) => hit.rule),
+        formatHits(hits),
+      ).toEqual(['project-copy']);
+    });
   });
 
-  test('content copy appears only in its generated source module', () => {
-    const hits = scanForbiddenCopy(sourceFiles(CONTENT_ROOT));
+  test('negative control catches hand-copied site content', () => {
+    const sample = firstString(siteStrings, 'site');
+    const hits = scanTextForCopy(`<p>${sample}</p>`, 'fixture.tsx', [sample], 'site-copy');
 
-    expect(hits, formatHits(hits)).toEqual([]);
+    expect(
+      hits.map((hit) => hit.rule),
+      formatHits(hits),
+    ).toEqual(['site-copy']);
   });
 
-  test('negative control catches hand-copied project content', () => {
-    const sample = firstString(projectStrings, 'project');
+  test('negative control catches a jev-toolkit string planted in a fixture', () => {
+    const jevToolkit = PROJECT_FIXTURES.find((project) => project.slug === 'jev-toolkit');
+
+    if (jevToolkit === undefined) throw new Error('No jev-toolkit fixture found.');
+
+    const sample = firstString(jevToolkit.strings, 'jev-toolkit');
     const hits = scanTextForCopy(
       `const copied = ${JSON.stringify(sample)};`,
       'fixture.tsx',
@@ -249,15 +311,5 @@ describe('hand-copied content scanner', () => {
       hits.map((hit) => hit.rule),
       formatHits(hits),
     ).toEqual(['project-copy']);
-  });
-
-  test('negative control catches hand-copied site content', () => {
-    const sample = firstString(siteStrings, 'site');
-    const hits = scanTextForCopy(`<p>${sample}</p>`, 'fixture.tsx', [sample], 'site-copy');
-
-    expect(
-      hits.map((hit) => hit.rule),
-      formatHits(hits),
-    ).toEqual(['site-copy']);
   });
 });

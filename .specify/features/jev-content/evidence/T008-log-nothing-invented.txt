@@ -1,0 +1,42 @@
+
+ RUN  v5.0.5 /private/tmp/s13-wt/T008/apps/web
+
+ ✓ test/third-party-framing.test.ts > third-party framing > extracts the framing phrase from the canonical approach 1ms
+ ✓ test/third-party-framing.test.ts > third-party framing > the generated source carries the framing phrase verbatim 0ms
+ ✓ test/third-party-framing.test.ts > third-party framing > the exported page text carries the framing phrase (run pnpm build first) 1ms
+ ✓ test/third-party-framing.test.ts > third-party framing > web sources contain no built-by or first-person JEV framing 11ms
+ ✓ test/third-party-framing.test.ts > third-party framing > the export contains no built-by or first-person JEV framing 6ms
+ ✓ test/third-party-framing.test.ts > third-party framing > the deny-list does not flag the canonical approach 0ms
+ ✓ test/third-party-framing.test.ts > third-party framing > negative control catches synthetic JEV framing 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (a) generated module is strictly equal to the canonical JSON 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (c) content:convert --check exits 0 147ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > ignores canonical strings shorter than twelve characters 1ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > every canonical project has a generated source module 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > the generated site source carries every collected site string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > the generated project source carries every collected project string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > app, components and seo contain no hand-copied project or site content 76ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > content copy appears only in its generated source module 5ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > negative control catches hand-copied project content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > the generated project source carries every collected project string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > app, components and seo contain no hand-copied project or site content 41ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > content copy appears only in its generated source module 4ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > negative control catches hand-copied project content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches hand-copied site content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches a jev-toolkit string planted in a fixture 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (a) generated module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 2ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (c) content:convert --check exits 0 133ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > completeness: content files, fidelity rows and converter entries agree 0ms
+
+ Test Files  3 passed (3)
+      Tests  33 passed (33)
+   Start at  17:14:23
+   Duration  432ms (tests 63%, import 24%, transform 12%, worker 1%)
+
