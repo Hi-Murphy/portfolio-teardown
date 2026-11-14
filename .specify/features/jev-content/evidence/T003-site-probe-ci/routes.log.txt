@@ -1,0 +1,14 @@
+group: routes
+result: PASS
+PASS routes-home-title: expected "Timur Haryo — Software Engineer · Android & Developer Tools" actual "Timur Haryo — Software Engineer · Android & Developer Tools"
+PASS routes-home-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-projects-title: expected "Projects · Timur Haryo" actual "Projects · Timur Haryo"
+PASS routes-projects-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-project-title: expected "Scarlet Inspector · Timur Haryo" actual "Scarlet Inspector · Timur Haryo"
+PASS routes-project-description: expected "Every WebSocket frame, captured and inspectable." actual "Every WebSocket frame, captured and inspectable."
+PASS routes-unknown-project-status: expected 404 actual 404
+PASS routes-unknown-project-content: expected "not-found content" actual {"h1":"Page not found"}
+PASS routes-/dev/engine-404: expected 404 actual 404
+PASS routes-/fixtures/fps-calibration-404: expected 404 actual 404
+PASS routes-/resume.pdf-404: expected 404 actual 404
+summary: PASS (11 checks)

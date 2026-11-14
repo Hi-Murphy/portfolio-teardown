@@ -1,0 +1,103 @@
+{
+  "group": "nojs",
+  "pass": true,
+  "checks": [
+    {
+      "name": "nojs-home-poster-and-list",
+      "pass": true,
+      "expected": {
+        "posters": 1,
+        "list": "cards"
+      },
+      "actual": {
+        "posters": 2,
+        "posterWidth": 350,
+        "cards": 2,
+        "outlines": 0
+      }
+    },
+    {
+      "name": "nojs-project-poster-and-list",
+      "pass": true,
+      "expected": {
+        "posters": 1,
+        "list": "outline"
+      },
+      "actual": {
+        "posters": 1,
+        "posterWidth": 348,
+        "cards": 0,
+        "outlines": 1
+      }
+    },
+    {
+      "name": "nojs-raw-home-poster-list",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "pass": true,
+        "poster": true,
+        "list": true,
+        "listKind": "cards"
+      }
+    },
+    {
+      "name": "nojs-raw-project-poster-list",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "pass": true,
+        "poster": true,
+        "list": true,
+        "listKind": "outline"
+      }
+    },
+    {
+      "name": "nojs-raw-hero-poster",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "nojs-project-no-webgl-outline",
+      "pass": true,
+      "expected": {
+        "outline": true,
+        "message": true,
+        "canvases": 0
+      },
+      "actual": {
+        "outline": true,
+        "message": true,
+        "canvases": 0,
+        "text": "WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"
+      }
+    }
+  ],
+  "data": {
+    "captures": [
+      {
+        "name": "home",
+        "screenshot": "nojs-home.png",
+        "dump": "nojs-home.html",
+        "actual": {
+          "posters": 2,
+          "posterWidth": 350,
+          "cards": 2,
+          "outlines": 0
+        }
+      },
+      {
+        "name": "project",
+        "screenshot": "nojs-project.png",
+        "dump": "nojs-project.html",
+        "actual": {
+          "posters": 1,
+          "posterWidth": 348,
+          "cards": 0,
+          "outlines": 1
+        }
+      }
+    ]
+  }
+}

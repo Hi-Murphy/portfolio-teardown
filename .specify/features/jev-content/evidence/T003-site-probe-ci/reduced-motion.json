@@ -1,0 +1,87 @@
+{
+  "group": "reduced-motion",
+  "pass": true,
+  "checks": [
+    {
+      "name": "reduced-home-skipped",
+      "pass": true,
+      "expected": {
+        "liveState": "skipped",
+        "heroCanvases": 0,
+        "posterVisible": true
+      },
+      "actual": {
+        "liveState": "skipped",
+        "heroCanvases": 0,
+        "posterWidth": 817.609375
+      }
+    },
+    {
+      "name": "reduced-home-no-animations",
+      "pass": true,
+      "expected": "all samples 0",
+      "actual": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "reduced-poster-no-transition",
+      "pass": true,
+      "expected": "all durations 0",
+      "actual": "0s"
+    },
+    {
+      "name": "reduced-project-toggles-instant",
+      "pass": true,
+      "expected": {
+        "phases": [
+          "exploded",
+          "imploded",
+          "exploded"
+        ],
+        "tweeningNeverTrue": true
+      },
+      "actual": {
+        "phases": [
+          "exploded",
+          "imploded",
+          "exploded"
+        ],
+        "tweening": [
+          "false"
+        ]
+      }
+    },
+    {
+      "name": "reduced-project-no-animations",
+      "pass": true,
+      "expected": {
+        "implode": 0,
+        "explode": 0
+      },
+      "actual": {
+        "implode": 0,
+        "explode": 0
+      }
+    }
+  ]
+}

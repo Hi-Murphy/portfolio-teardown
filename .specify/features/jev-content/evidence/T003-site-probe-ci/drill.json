@@ -1,0 +1,614 @@
+{
+  "group": "drill",
+  "pass": true,
+  "checks": [
+    {
+      "name": "drill-tab-logical-order",
+      "pass": true,
+      "expected": [
+        "skip",
+        "nav:home",
+        "nav:projects",
+        "nav:about",
+        "nav:contact",
+        "nav:github",
+        "nav:linkedin",
+        "nav:theme",
+        "hero:primary",
+        "card:websocket-inspector",
+        "card:jev-toolkit",
+        "contact:email",
+        "contact:github",
+        "contact:linkedin",
+        "footer:home",
+        "footer:top"
+      ],
+      "actual": [
+        "skip",
+        "nav:home",
+        "nav:projects",
+        "nav:about",
+        "nav:contact",
+        "nav:github",
+        "nav:linkedin",
+        "nav:theme",
+        "hero:primary",
+        "card:websocket-inspector",
+        "card:jev-toolkit",
+        "contact:email",
+        "contact:github",
+        "contact:linkedin",
+        "footer:home",
+        "footer:top"
+      ]
+    },
+    {
+      "name": "drill-nav-dom-order",
+      "pass": true,
+      "expected": [
+        "nav:home",
+        "nav:projects",
+        "nav:about",
+        "nav:contact",
+        "nav:github",
+        "nav:linkedin",
+        "nav:theme"
+      ],
+      "actual": [
+        "nav:home",
+        "nav:projects",
+        "nav:about",
+        "nav:contact",
+        "nav:github",
+        "nav:linkedin",
+        "nav:theme"
+      ]
+    },
+    {
+      "name": "drill-no-resume-link",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "drill-shift-tab-reverses",
+      "pass": true,
+      "expected": [
+        "footer:home",
+        "contact:linkedin",
+        "contact:github",
+        "contact:email",
+        "card:jev-toolkit",
+        "card:websocket-inspector",
+        "hero:primary",
+        "nav:theme",
+        "nav:linkedin",
+        "nav:github",
+        "nav:contact",
+        "nav:about",
+        "nav:projects",
+        "nav:home",
+        "skip"
+      ],
+      "actual": [
+        "footer:home",
+        "contact:linkedin",
+        "contact:github",
+        "contact:email",
+        "card:jev-toolkit",
+        "card:websocket-inspector",
+        "hero:primary",
+        "nav:theme",
+        "nav:linkedin",
+        "nav:github",
+        "nav:contact",
+        "nav:about",
+        "nav:projects",
+        "nav:home",
+        "skip"
+      ]
+    },
+    {
+      "name": "drill-no-trap",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "stoppedAfterLast": true,
+        "anchor": "footer:top",
+        "trap": false,
+        "repeated": null
+      }
+    },
+    {
+      "name": "drill-card-enter-url",
+      "pass": true,
+      "expected": "/projects/websocket-inspector",
+      "actual": "/projects/websocket-inspector"
+    },
+    {
+      "name": "drill-card-enter-viewer",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "drill-card-enter-h1",
+      "pass": true,
+      "expected": "Scarlet Inspector",
+      "actual": "Scarlet Inspector"
+    },
+    {
+      "name": "drill-soft-navigation",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "project": true,
+        "back": true
+      }
+    },
+    {
+      "name": "drill-back-card-reachable",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "drill-soft-nav-cls",
+      "pass": true,
+      "expected": 0,
+      "actual": {
+        "total": 0,
+        "entries": []
+      }
+    },
+    {
+      "name": "drill-projects-one-activation",
+      "pass": true,
+      "expected": "/projects",
+      "actual": "/projects"
+    },
+    {
+      "name": "drill-card-hrefs-200",
+      "pass": true,
+      "expected": "every status 200",
+      "actual": [
+        {
+          "href": "/projects/websocket-inspector",
+          "status": 200
+        },
+        {
+          "href": "/projects/jev-toolkit",
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "data": {
+    "structure": {
+      "expected": [
+        {
+          "key": "skip",
+          "role": "a",
+          "name": "Skip to content",
+          "panel": "",
+          "tag": "a",
+          "href": "#main"
+        },
+        {
+          "key": "nav:home",
+          "role": "a",
+          "name": "TH Timur Haryo",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/"
+        },
+        {
+          "key": "nav:projects",
+          "role": "a",
+          "name": "Projects",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/projects"
+        },
+        {
+          "key": "nav:about",
+          "role": "a",
+          "name": "About",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/#about"
+        },
+        {
+          "key": "nav:contact",
+          "role": "a",
+          "name": "Contact",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/#contact"
+        },
+        {
+          "key": "nav:github",
+          "role": "a",
+          "name": "GitHub",
+          "panel": "nav",
+          "tag": "a",
+          "href": "https://github.com/TimurHaryo"
+        },
+        {
+          "key": "nav:linkedin",
+          "role": "a",
+          "name": "LinkedIn",
+          "panel": "nav",
+          "tag": "a",
+          "href": "https://id.linkedin.com/in/timurharyo"
+        },
+        {
+          "key": "nav:theme",
+          "role": "button",
+          "name": "Switch to dark theme",
+          "panel": "nav",
+          "tag": "button",
+          "href": null
+        },
+        {
+          "key": "hero:primary",
+          "role": "a",
+          "name": "See how it works",
+          "panel": "hero",
+          "tag": "a",
+          "href": "/projects/websocket-inspector"
+        },
+        {
+          "key": "card:websocket-inspector",
+          "role": "a",
+          "name": "Scarlet Inspector",
+          "panel": "",
+          "tag": "a",
+          "href": "/projects/websocket-inspector"
+        },
+        {
+          "key": "card:jev-toolkit",
+          "role": "a",
+          "name": "JEV Benchmark",
+          "panel": "",
+          "tag": "a",
+          "href": "/projects/jev-toolkit"
+        },
+        {
+          "key": "contact:email",
+          "role": "a",
+          "name": "Email vibing.murphy@gmail.com",
+          "panel": "",
+          "tag": "a",
+          "href": "mailto:vibing.murphy@gmail.com"
+        },
+        {
+          "key": "contact:github",
+          "role": "a",
+          "name": "GitHub",
+          "panel": "",
+          "tag": "a",
+          "href": "https://github.com/TimurHaryo"
+        },
+        {
+          "key": "contact:linkedin",
+          "role": "a",
+          "name": "LinkedIn",
+          "panel": "",
+          "tag": "a",
+          "href": "https://id.linkedin.com/in/timurharyo"
+        },
+        {
+          "key": "footer:home",
+          "role": "a",
+          "name": "TH Timur Haryo Mahissanular",
+          "panel": "footer",
+          "tag": "a",
+          "href": "/"
+        },
+        {
+          "key": "footer:top",
+          "role": "a",
+          "name": "Back to top ↑",
+          "panel": "footer",
+          "tag": "a",
+          "href": "#main"
+        }
+      ],
+      "nav": [
+        "nav:home",
+        "nav:projects",
+        "nav:about",
+        "nav:contact",
+        "nav:github",
+        "nav:linkedin",
+        "nav:theme"
+      ],
+      "hero": [
+        "hero:primary"
+      ],
+      "cards": [
+        "card:websocket-inspector",
+        "card:jev-toolkit"
+      ],
+      "contact": [
+        "contact:email",
+        "contact:github",
+        "contact:linkedin"
+      ],
+      "footer": [
+        "footer:home",
+        "footer:top"
+      ],
+      "resumeLinks": 0
+    },
+    "walk": {
+      "forward": [
+        {
+          "key": "skip",
+          "role": "a",
+          "name": "Skip to content",
+          "panel": "",
+          "tag": "a",
+          "href": "#main"
+        },
+        {
+          "key": "nav:home",
+          "role": "a",
+          "name": "TH Timur Haryo",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/"
+        },
+        {
+          "key": "nav:projects",
+          "role": "a",
+          "name": "Projects",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/projects"
+        },
+        {
+          "key": "nav:about",
+          "role": "a",
+          "name": "About",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/#about"
+        },
+        {
+          "key": "nav:contact",
+          "role": "a",
+          "name": "Contact",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/#contact"
+        },
+        {
+          "key": "nav:github",
+          "role": "a",
+          "name": "GitHub",
+          "panel": "nav",
+          "tag": "a",
+          "href": "https://github.com/TimurHaryo"
+        },
+        {
+          "key": "nav:linkedin",
+          "role": "a",
+          "name": "LinkedIn",
+          "panel": "nav",
+          "tag": "a",
+          "href": "https://id.linkedin.com/in/timurharyo"
+        },
+        {
+          "key": "nav:theme",
+          "role": "button",
+          "name": "Switch to dark theme",
+          "panel": "nav",
+          "tag": "button",
+          "href": null
+        },
+        {
+          "key": "hero:primary",
+          "role": "a",
+          "name": "See how it works",
+          "panel": "hero",
+          "tag": "a",
+          "href": "/projects/websocket-inspector"
+        },
+        {
+          "key": "card:websocket-inspector",
+          "role": "a",
+          "name": "Scarlet Inspector",
+          "panel": "",
+          "tag": "a",
+          "href": "/projects/websocket-inspector"
+        },
+        {
+          "key": "card:jev-toolkit",
+          "role": "a",
+          "name": "JEV Benchmark",
+          "panel": "",
+          "tag": "a",
+          "href": "/projects/jev-toolkit"
+        },
+        {
+          "key": "contact:email",
+          "role": "a",
+          "name": "Email vibing.murphy@gmail.com",
+          "panel": "",
+          "tag": "a",
+          "href": "mailto:vibing.murphy@gmail.com"
+        },
+        {
+          "key": "contact:github",
+          "role": "a",
+          "name": "GitHub",
+          "panel": "",
+          "tag": "a",
+          "href": "https://github.com/TimurHaryo"
+        },
+        {
+          "key": "contact:linkedin",
+          "role": "a",
+          "name": "LinkedIn",
+          "panel": "",
+          "tag": "a",
+          "href": "https://id.linkedin.com/in/timurharyo"
+        },
+        {
+          "key": "footer:home",
+          "role": "a",
+          "name": "TH Timur Haryo Mahissanular",
+          "panel": "footer",
+          "tag": "a",
+          "href": "/"
+        },
+        {
+          "key": "footer:top",
+          "role": "a",
+          "name": "Back to top ↑",
+          "panel": "footer",
+          "tag": "a",
+          "href": "#main"
+        }
+      ],
+      "backward": [
+        {
+          "key": "footer:home",
+          "role": "a",
+          "name": "TH Timur Haryo Mahissanular",
+          "panel": "footer",
+          "tag": "a",
+          "href": "/"
+        },
+        {
+          "key": "contact:linkedin",
+          "role": "a",
+          "name": "LinkedIn",
+          "panel": "",
+          "tag": "a",
+          "href": "https://id.linkedin.com/in/timurharyo"
+        },
+        {
+          "key": "contact:github",
+          "role": "a",
+          "name": "GitHub",
+          "panel": "",
+          "tag": "a",
+          "href": "https://github.com/TimurHaryo"
+        },
+        {
+          "key": "contact:email",
+          "role": "a",
+          "name": "Email vibing.murphy@gmail.com",
+          "panel": "",
+          "tag": "a",
+          "href": "mailto:vibing.murphy@gmail.com"
+        },
+        {
+          "key": "card:jev-toolkit",
+          "role": "a",
+          "name": "JEV Benchmark",
+          "panel": "",
+          "tag": "a",
+          "href": "/projects/jev-toolkit"
+        },
+        {
+          "key": "card:websocket-inspector",
+          "role": "a",
+          "name": "Scarlet Inspector",
+          "panel": "",
+          "tag": "a",
+          "href": "/projects/websocket-inspector"
+        },
+        {
+          "key": "hero:primary",
+          "role": "a",
+          "name": "See how it works",
+          "panel": "hero",
+          "tag": "a",
+          "href": "/projects/websocket-inspector"
+        },
+        {
+          "key": "nav:theme",
+          "role": "button",
+          "name": "Switch to dark theme",
+          "panel": "nav",
+          "tag": "button",
+          "href": null
+        },
+        {
+          "key": "nav:linkedin",
+          "role": "a",
+          "name": "LinkedIn",
+          "panel": "nav",
+          "tag": "a",
+          "href": "https://id.linkedin.com/in/timurharyo"
+        },
+        {
+          "key": "nav:github",
+          "role": "a",
+          "name": "GitHub",
+          "panel": "nav",
+          "tag": "a",
+          "href": "https://github.com/TimurHaryo"
+        },
+        {
+          "key": "nav:contact",
+          "role": "a",
+          "name": "Contact",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/#contact"
+        },
+        {
+          "key": "nav:about",
+          "role": "a",
+          "name": "About",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/#about"
+        },
+        {
+          "key": "nav:projects",
+          "role": "a",
+          "name": "Projects",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/projects"
+        },
+        {
+          "key": "nav:home",
+          "role": "a",
+          "name": "TH Timur Haryo",
+          "panel": "nav",
+          "tag": "a",
+          "href": "/"
+        },
+        {
+          "key": "skip",
+          "role": "a",
+          "name": "Skip to content",
+          "panel": "",
+          "tag": "a",
+          "href": "#main"
+        }
+      ],
+      "anchor": {
+        "key": "footer:top",
+        "role": "a",
+        "name": "Back to top ↑",
+        "panel": "footer",
+        "tag": "a",
+        "href": "#main"
+      },
+      "stoppedAfterLast": true
+    },
+    "softCls": {
+      "total": 0,
+      "pass": true,
+      "sources": []
+    }
+  }
+}
