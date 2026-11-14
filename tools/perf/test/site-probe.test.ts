@@ -3,16 +3,22 @@ import { describe, expect, test } from 'vitest';
 import { evaluateTabWalk, type FocusStep } from '../src/a11y-probe.ts';
 import { PROJECT_SOURCES, projectPath } from '../src/project-sources.ts';
 import {
+  cardOrderMatches,
   clsRoutes,
+  evaluateCardChips,
   evaluateCls,
   evaluateDrawFrames,
   evaluateFallbackHtml,
   evaluateHeroEagerNoInteraction,
   evaluateHeroLoopRunning,
+  evaluateHorizontalScroll,
   expectedTeardownCounts,
   heroContainsPoster,
   outlineCountsFromHtml,
   parseHeroLiveMode,
+  parseRegistryLabels,
+  SITE_PROBE_CI_GROUPS,
+  SITE_PROBE_GROUPS,
   teardownCountsMatch,
   tourTimeoutMs,
   type ClsEntry,
@@ -177,6 +183,76 @@ describe('HTML fallback assertions', () => {
   test('requires the poster to be inside the hero section', () => {
     expect(heroContainsPoster(`<section data-site-hero="">${poster}</section>`)).toBe(true);
     expect(heroContainsPoster(`<section data-site-hero=""></section>${poster}`)).toBe(false);
+  });
+});
+
+describe('cards helpers', () => {
+  test('parses quoted registry labels from source text', () => {
+    const sourceText = `
+      { id: 'kotlin', label: 'Kotlin', category: 'language' },
+      { id: 'nodejs', label: "Node.js", category: 'platform' },
+    `;
+
+    expect(parseRegistryLabels(sourceText)).toEqual(['Kotlin', 'Node.js']);
+  });
+
+  test('ignores an unquoted label-shaped value', () => {
+    const sourceText = "label: Kotlin\n{ id: 'room', label: 'Room' }";
+
+    expect(parseRegistryLabels(sourceText)).toEqual(['Room']);
+  });
+
+  test('matches card order exactly', () => {
+    expect(
+      cardOrderMatches(
+        ['websocket-inspector', 'jev-toolkit'],
+        ['websocket-inspector', 'jev-toolkit'],
+      ),
+    ).toBe(true);
+  });
+
+  test('rejects swapped card order', () => {
+    expect(
+      cardOrderMatches(
+        ['jev-toolkit', 'websocket-inspector'],
+        ['websocket-inspector', 'jev-toolkit'],
+      ),
+    ).toBe(false);
+  });
+
+  test('passes one to four chips whose labels are in the registry', () => {
+    expect(evaluateCardChips(['Kotlin', 'Room'], ['Kotlin', 'Room', 'Node.js'])).toEqual({
+      pass: true,
+      count: 2,
+      unknown: [],
+    });
+  });
+
+  test('rejects five chips and a label outside the registry', () => {
+    expect(
+      evaluateCardChips(['Kotlin', 'Room', 'Node.js', 'Android', 'WebSocket'], ['Kotlin']),
+    ).toEqual({
+      pass: false,
+      count: 5,
+      unknown: ['Room', 'Node.js', 'Android', 'WebSocket'],
+    });
+  });
+
+  test('passes a document that does not overflow horizontally', () => {
+    expect(evaluateHorizontalScroll(390, 390)).toEqual({
+      pass: true,
+      scrollWidth: 390,
+      clientWidth: 390,
+    });
+  });
+
+  test('rejects a document wider than its client width', () => {
+    expect(evaluateHorizontalScroll(391, 390).pass).toBe(false);
+  });
+
+  test('registers cards in the full and CI group lists', () => {
+    expect(SITE_PROBE_GROUPS).toContain('cards');
+    expect(SITE_PROBE_CI_GROUPS).toContain('cards');
   });
 });
 
