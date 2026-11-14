@@ -30,9 +30,9 @@
 |---|---|---|---|---|
 | T001 | ☑ (10 guards; negative control FAIL XPLODER + SURFACES-S2S8 + UI-UNCHANGED + ALLOWED-PATHS; base OG WSI = 74e0a609…; base weight / 452 728 · /projects 200 285 · WSI 199 733 B mobile; main-diff self-test 0 B) | 1 (Flash, sandbox off); orchestrator re-ran guards + self-diff | evidence/T001-log-{guard,base-og-hashes,base-weight}.txt | 17cbf24 |
 | T002 | ☑ (red: module missing; green 13/13 = 2 rows × 6 + completeness; JSON sha 8a1eff72… = header; WSI/site sources byte-unchanged) | 1 (Flash, sandbox off); orchestrator added drift proof (hand edit → (a)(b)(c) fail) | evidence/T002-log-fidelity-{red,green}.txt, T002-log-drift-proof.txt | 9a1c0e0 |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
+| T003 | ☑ (route exported; sitemap 4 URLs; `site:probe --ci` PASS, drill tabs both cards in order) | 1 (Flash, sandbox off) | evidence/T003-log-register.txt, T003-site-probe-ci/ | 6471fbe |
+| T004 | ☑ (PROJECT_SOURCES + order guard; routes/cls/nojs/reduced-motion/draws/drill PASS; draws 2/2/2; CLS 0 × 16 cells) | 1 (Flash, sandbox off) | evidence/T004-probe/, T004-log-probes-generic.txt | e9841bf |
+| T005 | ◐ BLOCKED (escalated). Probe done; outline check corrected by orchestrator (the S10 outline lists layers + parts, not flows). Live: 5/20/2, panel, compact column 20 rows at 412 px, both palettes PASS. Tours end in most runs but **intermittently stall on the last step**: pre-existing S5 `useTourClock` race, also on base `3b829d0` (WSI 3/16) | 1 (Flash, sandbox off) + orchestrator (outline fix, root cause) | evidence/T005-teardown/, T005-evidence-jev-{light,dark}/, T005-log-tour-stall-rootcause.md | branch `task/s13-jev-content-t005` @ ee7ad71 (not merged) |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
