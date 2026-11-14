@@ -7,7 +7,7 @@ package_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_root=$(CDPATH= cd -- "$package_dir/../.." && pwd)
 paths_file="$script_dir/frozen-surface.s5.paths"
 manifest_file="$script_dir/frozen-surface.s5.manifest.json"
-base=3aee8fc
+base=51d3fa7
 package_prefix=packages/xploder/
 
 cd "$repo_root"
@@ -24,7 +24,7 @@ trap 'rm -f "$tmp_file"' EXIT
 {
   printf '{\n'
   printf '  "base": "%s",\n' "$base"
-  printf '  "note": "%s",\n' 'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.'
+  printf '  "note": "%s",\n' 'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md.'
   printf '  "files": {\n'
 
   first=true
