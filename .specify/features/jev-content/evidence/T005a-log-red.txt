@@ -1,0 +1,41 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+(node:97253) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires just before the boundary
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ❯ test/tour-clock-boundary.test.tsx (3 tests | 1 failed) 16ms
+   ❯ useTourClock final boundary (3)
+     × ends when the final tick fires just before the boundary 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires just before the boundary
+AssertionError: expected 'playing' to be 'ended' // Object.is equality
+
+Expected: "ended"
+Received: "playing"
+
+ ❯ test/tour-clock-boundary.test.tsx:143:37
+    141|       });
+    142|
+    143|       expect(current().tour.status).toBe('ended');
+       |                                     ^
+    144|     } finally {
+    145|       await renderer.unmount();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  14:05:14
+   Duration  158ms (import 44%, transform 37%, tests 17%, worker 2%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in ./packages/xploder
+

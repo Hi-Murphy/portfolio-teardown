@@ -1,0 +1,8 @@
+# T005a re-seal (orchestrator)
+fix commit: 51d3fa7 (useTourClock.ts + tour-clock-boundary.test.tsx + s5.paths)
+generate-s5.sh base 3aee8fc -> 51d3fa7; note extended; frozen-surface.test.ts S5 base/note assertion updated (S11.9 precedent)
+ packages/xploder/test/frozen-surface.generate-s5.sh   | 4 ++--
+ packages/xploder/test/frozen-surface.s5.manifest.json | 7 ++++---
+ packages/xploder/test/frozen-surface.test.ts          | 4 ++--
+ 3 files changed, 8 insertions(+), 7 deletions(-)
+      Tests  6 passed (6)

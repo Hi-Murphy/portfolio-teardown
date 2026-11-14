@@ -30,9 +30,10 @@
 |---|---|---|---|---|
 | T001 | ☑ (10 guards; negative control FAIL XPLODER + SURFACES-S2S8 + UI-UNCHANGED + ALLOWED-PATHS; base OG WSI = 74e0a609…; base weight / 452 728 · /projects 200 285 · WSI 199 733 B mobile; main-diff self-test 0 B) | 1 (Flash, sandbox off); orchestrator re-ran guards + self-diff | evidence/T001-log-{guard,base-og-hashes,base-weight}.txt | 17cbf24 |
 | T002 | ☑ (red: module missing; green 13/13 = 2 rows × 6 + completeness; JSON sha 8a1eff72… = header; WSI/site sources byte-unchanged) | 1 (Flash, sandbox off); orchestrator added drift proof (hand edit → (a)(b)(c) fail) | evidence/T002-log-fidelity-{red,green}.txt, T002-log-drift-proof.txt | 9a1c0e0 |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
+| T003 | ☑ (route exported; sitemap 4 URLs; `site:probe --ci` PASS, drill tabs both cards in order) | 1 (Flash, sandbox off) | evidence/T003-log-register.txt, T003-site-probe-ci/ | 6471fbe |
+| T004 | ☑ (PROJECT_SOURCES + order guard; routes/cls/nojs/reduced-motion/draws/drill PASS; draws 2/2/2; CLS 0 × 16 cells) | 1 (Flash, sandbox off) | evidence/T004-probe/, T004-log-probes-generic.txt | e9841bf |
+| T005 | ◐ BLOCKED (escalated). Probe done; outline check corrected by orchestrator (the S10 outline lists layers + parts, not flows). Live: 5/20/2, panel, compact column 20 rows at 412 px, both palettes PASS. Tours end in most runs but **intermittently stall on the last step**: pre-existing S5 `useTourClock` race, also on base `3b829d0` (WSI 3/16) | 1 (Flash, sandbox off) + orchestrator (outline fix, root cause) | evidence/T005-teardown/, T005-evidence-jev-{light,dark}/, T005-log-tour-stall-rootcause.md | branch `task/s13-jev-content-t005` @ ee7ad71 (not merged) |
+| T005a | ☐ (revision 1 of 2) | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 | ☐ | | | |
@@ -181,7 +182,30 @@
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. If anything looks crowded with 20 parts on the phone: say so. Default: Sev-3 backlog unless a check fails (no panel/engine change allowed in scope).
 
-**STOP (G2).** Report: route 200, 5/20/2, panel, both tours ended, compact column, draws 2, screenshots; tiers.
+**STOP (G2)** moves to after T005a. Report: route 200, 5/20/2, panel, both tours ended, compact column, draws 2, screenshots; tiers.
+
+### T005a [US1] Revision 1 of 2: tour clock last-step fix (S5, test-first) + re-seal
+
+- **Seam:** `useTourClock` ↔ the tour reducer at the final boundary (`evidence/T005-log-tour-stall-rootcause.md`, scope in `evidence/R1-revision-note.md`).
+- **Files:** new `packages/xploder/test/tour-clock-boundary.test.tsx` (red first), `packages/xploder/src/react/useTourClock.ts` (the fix), `packages/xploder/test/frozen-surface.s5.paths` (+ the new test). The orchestrator then commits and re-seals: `frozen-surface.generate-s5.sh` base → the fix commit, note extended, manifest regenerated.
+- **Check:**
+  ```sh
+  set -euo pipefail; mkdir -p /tmp/s13-checks .specify/features/jev-content/evidence
+  E=.specify/features/jev-content/evidence
+  grep -Eq 'FAIL|failed|×' $E/T005a-log-red.txt && echo RED-RECORDED
+  pnpm --filter xploder exec vitest run test/tour-clock-boundary.test.tsx test/tour-clock.test.tsx test/tour.test.ts --reporter verbose 2>&1 | tee $E/T005a-log-green.txt
+  pnpm --filter xploder test
+  git diff --stat 3b829d0 -- packages/xploder   # only the R1 paths
+  bash .specify/features/jev-content/guards.sh  # SURFACES-S2S8 fails until the orchestrator re-seals S5; nothing else may fail
+  pnpm typecheck && pnpm lint && pnpm test && echo T005a-OK
+  ```
+- **Evidence:** `evidence/T005a-log-red.txt`, `T005a-log-green.txt`; after re-seal, `T005a-log-reseal.txt` and the stall repro on the fixed export (`T005a-log-stall-after.txt`: 0 stalls in ≥ 16 runs per project).
+- **WHAT MURPHY SHOULD TEST/VALIDATE:**
+  1. Optional: start a tour several times on `/projects/jev-toolkit` and see it always reach the end (default: the repro log).
+- **WHAT THE AGENT NEEDS FROM MURPHY:**
+  1. Nothing (decision recorded: revision 1 of 2, option A).
+
+**STOP (G2).**
 
 ---
 

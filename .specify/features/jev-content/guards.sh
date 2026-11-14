@@ -19,11 +19,30 @@ brief_history_ok() {
   test -z "$(git log --oneline 3b829d0..HEAD -- .specify/slices .specify/KICKOFF-S13.md .specify/content)"
 }
 
+# Revision 1 of 2 (evidence/R1-revision-note.md): only these xploder paths may differ from 3b829d0.
+R1_XPLODER_PATHS=(
+  packages/xploder/src/react/useTourClock.ts
+  packages/xploder/test/tour-clock-boundary.test.tsx
+  packages/xploder/test/frozen-surface.s5.paths
+  packages/xploder/test/frozen-surface.s5.manifest.json
+  packages/xploder/test/frozen-surface.generate-s5.sh
+  packages/xploder/test/frozen-surface.test.ts
+)
+
 surfaces_s2s8_ok() {
   local p
-  for p in frozen-surface{,.s5,.s6,.s7,.s8}.paths; do
+  # S2–S4, S6, S7, S8: byte-identical to the 3aee8fc seal.
+  for p in frozen-surface{,.s6,.s7,.s8}.paths; do
     git diff --quiet 3aee8fc -- $(sed 's#^#packages/xploder/#' "packages/xploder/test/$p") || return 1
   done
+  # S5: identical to 3aee8fc except the R1 paths; the re-sealed manifest is verified by the xploder test.
+  git diff --quiet 3aee8fc -- $(sed 's#^#packages/xploder/#' packages/xploder/test/frozen-surface.s5.paths) \
+    $(printf ":(exclude)%s " "${R1_XPLODER_PATHS[@]}") || return 1
+  pnpm --filter xploder exec vitest run test/frozen-surface.test.ts
+}
+
+xploder_ok() {
+  git diff --quiet 3b829d0 -- packages/xploder $(printf ":(exclude)%s " "${R1_XPLODER_PATHS[@]}")
 }
 
 allowed_paths_ok() {
@@ -35,7 +54,7 @@ allowed_paths_ok() {
     } | sort -u
   )
   [[ -n "$changed" ]] || return 0
-  unexpected=$(grep -vE '^(apps/web/content/projects/|apps/web/content/tech-registry\.ts$|apps/web/scripts/convert-content\.ts$|apps/web/test/|tools/perf/|\.github/workflows/perf\.yml$|\.specify/features/jev-content/)' <<<"$changed" || true)
+  unexpected=$(grep -vE '^(packages/xploder/src/react/useTourClock\.ts$|packages/xploder/test/tour-clock-boundary\.test\.tsx$|packages/xploder/test/frozen-surface\.(s5\.paths|s5\.manifest\.json|generate-s5\.sh|test\.ts)$|apps/web/content/projects/|apps/web/content/tech-registry\.ts$|apps/web/scripts/convert-content\.ts$|apps/web/test/|tools/perf/|\.github/workflows/perf\.yml$|\.specify/features/jev-content/)' <<<"$changed" || true)
   [[ -z "$unexpected" ]]
 }
 
@@ -48,7 +67,7 @@ gitleaks_ok() {
 
 guard FROZEN-OK git diff --quiet 3b829d0 -- .specify/slices .specify/KICKOFF-S13.md .specify/content
 guard BRIEF-HISTORY-OK brief_history_ok
-guard XPLODER-OK git diff --quiet 3b829d0 -- packages/xploder
+guard XPLODER-OK xploder_ok
 guard SURFACES-S2S8-OK surfaces_s2s8_ok
 guard UI-UNCHANGED-OK git diff --quiet 3b829d0 -- apps/web/app apps/web/components apps/web/seo
 guard S8-TOOLS-OK git diff --quiet 3b829d0 -- tools/perf/src/a11y-axe.ts tools/perf/src/a11y-probe.ts \
