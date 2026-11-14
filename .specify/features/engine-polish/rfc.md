@@ -1,6 +1,6 @@
 # RFC — S14 Engine & Hero Polish (six parked defects)
 
-**slice:** S14-engine-polish · **status:** DRAFT for Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-14-engine-polish.md` (frozen brief v1) · **branch:** `task/s14-engine-polish` · **base:** `a9edbfc` · **date:** 2026-11-14 · **revision counter:** 0 of 2
+**slice:** S14-engine-polish · **status:** APPROVED at Gate 1 (2026-11-14): all §13 defaults; refinements R1–R5 in §14 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-14-engine-polish.md` (frozen brief v1) · **branch:** `task/s14-engine-polish` · **base:** `a9edbfc` · **date:** 2026-11-14 · **revision counter:** 0 of 2
 
 > This RFC records design decisions only and does not change scope. Where it seems to conflict with the brief, the brief wins and the conflict becomes an open question (§11). Nothing is implemented.
 >
@@ -362,7 +362,15 @@ Escalation: Flash stuck ×2 → pause and report to Murphy with usage (standing 
 
 ## 14. Gate 1 record
 
-*(empty until Murphy answers)*
+**Murphy, 2026-11-14:** "yes defaults all for now. i will give feedback when i can test it later". Every §13 default is accepted (Q1–Q12), including the §9.1 re-seal list with `Emphasis.tsx`, the pnpm patch for I-04, and the I-03 reading (lock the count at 1 + resume from the remaining time). Murphy's hands-on feedback comes later and is not blocking.
+
+**Refinements made in Stage 2 after re-checking the defaults against the code** (Murphy pre-approves improvements at G1; none changes an AC):
+
+- **R1 — one base for every "before" number.** T001 captures every baseline once on `a9edbfc`: the base export, `perf:parity --write` (8 rest-state shots), tour step timing (5 runs per project), the console-warning count, the pause-event sweep and the I-05 overlap matrix. Every later comparison uses that snapshot.
+- **R2 — I-10's 0 px proof uses the existing tool.** `pnpm perf:parity --compare` against the T001 baseline covers the home hero at mobile/desktop × light/dark, so no new pixel-diff code is needed for the `BlueprintSheet` move.
+- **R3 — AC4 records the callout mode per cell.** The browser matrix logs `data-xploder-callouts` (`tags`/`columns`) for each cell. A hit in `columns` mode would need `src/overlay/columns.ts` (S6, not on the §9.1 list), so it is a STOP-and-ask, never a silent fix.
+- **R4 — "no timeout merely increased" becomes a guard.** `guards.sh` `TIMEOUT-NOT-RAISED-OK` fails if any existing `*_MS` or `timeout` numeric constant in `tools/perf/src/site-probe.ts` changes value.
+- **R5 — I-03's "no position jump" is a frame-equality check.** Hero frames from Pause + 2 s to Play + (remaining − 50 ms) must be pixel-identical, and the next phase must start within one frame of the remaining time. The settle counter is a committed feature-dir script (`pause-events.mjs`, the `pause-sweep` matrix with an event count column), not a new CI group.
 
 ---
 
