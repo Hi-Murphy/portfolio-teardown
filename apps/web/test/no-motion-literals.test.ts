@@ -111,6 +111,8 @@ const S10_SOURCE_FILES = [
   'content/projects/index.ts',
   'content/projects/websocket-inspector.source.ts',
   'content/projects/websocket-inspector.ts',
+  'content/projects/jev-toolkit.source.ts',
+  'content/projects/jev-toolkit.ts',
   'content/site-copy.ts',
   'content/site.source.ts',
   'content/site.ts',

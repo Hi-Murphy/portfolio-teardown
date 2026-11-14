@@ -1,0 +1,7 @@
+# T002 drift proof (orchestrator): tagline '.' -> '!' hand-edited in jev-toolkit.source.ts, then restored
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  test/content-fidelity.test.ts > jev-toolkit content fidelity > (c) content:convert --check exits 0
+ FAIL  test/content-fidelity.test.ts > jev-toolkit content fidelity > (a) generated module is strictly equal to the canonical JSON
+ FAIL  test/content-fidelity.test.ts > jev-toolkit content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project
+      Tests  4 failed | 9 passed (13)
+restored: content:convert --check -> jev-toolkit.source.ts is up to date
