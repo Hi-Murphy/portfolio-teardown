@@ -1,7 +1,7 @@
 # M1 Validation — MVP report
 
 **Slice:** S12-m1-validation · **Commit (CI-verified):** `5621f3f` · **Product tree:** `ffda3a2` + the I-01 fix (`apps/web/components/home/hero-section.tsx`, `apps/web/test/home-poster-noscript.test.tsx`) · **PR:** #23 (draft) · **Preview:** https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app · **Date:** 2026-11-14
-**Murphy's verdict:** ____ (filled by Murphy outside the agent's view)
+**Murphy's verdict (2026-11-14):** **M1 passed**. Murphy: "the NOT MET actually needs human participants and i'd like to skip them". The AC verdicts above are unchanged: AC1, AC4 and AC7 stay NOT MET, and their evidence gaps (I-06, I-07) stay open in `backlog.md`, owner Murphy.
 
 ## 1. AC verdicts
 
