@@ -1,0 +1,92 @@
+name: m1-validation
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    if: github.head_ref == 'task/s12-m1-validation'
+    name: 'perf: m1-validation (slow-class measurement) #${{ matrix.shard }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    env:
+      E: .evidence/ci/m1-validation
+      SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-1.64.1
+      - name: Install Playwright Chromium
+        run: pnpm --filter perf-tools exec playwright install --with-deps chromium
+      - name: Record host metadata
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          code=0
+          pnpm perf:host --out "$E/host-meta.json" || code=$?
+          echo "perf-host exit=${code}" | tee -a "$E/exit-codes.txt"
+          if [ -f "$E/host-meta.json" ]; then
+            node -e 'const fs=require("fs");const f=process.argv[1];const m=JSON.parse(fs.readFileSync(f,"utf8"));m.startedAt=new Date().toISOString();fs.writeFileSync(f,JSON.stringify(m,null,2)+"\n")' "$E/host-meta.json"
+          fi
+      - name: Build m1-validation
+        run: pnpm build
+      - name: Measure m1-validation
+        run: |
+          set -euo pipefail
+          mkdir -p "$E"
+          measure() {
+            local label=$1
+            shift
+            local code=0
+            "$@" || code=$?
+            echo "${label} exit=${code}" | tee -a "$E/exit-codes.txt"
+            return 0
+          }
+          pnpm serve:out --port 4320 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          curl --fail --silent --show-error --retry 60 --retry-delay 1 --retry-connrefused --max-time 2 http://127.0.0.1:4320/ >/dev/null
+          measure "lighthouse-r1" pnpm perf:lighthouse http://127.0.0.1:4320/ --out "$E/lighthouse-r1"
+          measure "lighthouse-r2" pnpm perf:lighthouse http://127.0.0.1:4320/ --out "$E/lighthouse-r2"
+          measure "probe-live" pnpm eager:probe --serve apps/web/out --route / --runs 2 --expect live-loop --out "$E/probe-live"
+          measure "probe-reduced-motion" pnpm eager:probe --serve apps/web/out --route / --runs 2 --reduced-motion --out "$E/probe-reduced-motion"
+          measure "probe-save-data" pnpm eager:probe --serve apps/web/out --route / --runs 2 --save-data --out "$E/probe-save-data"
+          cleanup
+          trap - EXIT
+      - name: Summarize m1-validation results
+        if: always()
+        run: |
+          set -uo pipefail
+          mkdir -p "$E"
+          code=0
+          node .specify/features/m1-validation/ci-summary.mjs --dir "$E" --shard "$SHARD" > "$E/summary.md" 2>&1 || code=$?
+          echo "ci-summary exit=${code}" | tee -a "$E/exit-codes.txt"
+          cat "$E/summary.md"
+          cat "$E/summary.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload m1-validation evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: m1-validation-${{ github.run_id }}-${{ github.run_attempt }}-s${{ matrix.shard }}
+          path: .evidence/ci/m1-validation
+          retention-days: 14
