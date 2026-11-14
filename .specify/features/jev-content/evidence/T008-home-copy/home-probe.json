@@ -1,7 +1,7 @@
 {
   "kind": "home-probe",
   "version": 1,
-  "baseUrl": "http://127.0.0.1:50424/",
+  "baseUrl": "http://127.0.0.1:51125/",
   "chromium": "156.0.8078.4",
   "approved": [
     "nav",
@@ -113,7 +113,7 @@
           "An inspector for the invisible half of Android networking.",
           "WebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blend together, and logcat gives you a wall of text with no notion of a session. Existing HTTP inspectors stop at request/response — they do not understand long-lived sockets.",
           "Mirror the decorator idea onto Scarlet: a WebSocketFactory wrapper and a WebSocket decorator record each frame into Room, tag it with a session identity resolved by a tracker, and surface the result through a foreground-service notification that opens a Compose UI. The library keeps a four-file public surface so internals stay free to change, and skips DI frameworks entirely — constructor parameters instead.",
-          "The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my JEV decision-hook research — fifteen refactor tasks across ten rule areas.",
+          "The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my research on JEV decision hooks — fifteen refactor tasks across ten rule areas.",
           "Public API surface",
           "4 files; everything else internal",
           "Concurrent sessions",
