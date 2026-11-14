@@ -371,6 +371,13 @@ AC1–AC7, `protocol.md` and the pass line are **unchanged**. Only the method ch
 
   The guard self-test is dropped (the guards are plain `git diff` / hash checks).
 
+### Stage 3 method fixes (orchestrator, 2026-11-14, T002 review)
+
+- **R5 — device-check method (AC4 text unchanged).** The T002 dry run showed three harness problems. They were fixed before any measurement counted.
+  - **(a) M1/M2:** the storyboard has hold beats, so two frames 1.5 s apart can be identical while it plays. "Moving" now means `data-hero-loop="running"` and a hero change within an 8 s window. "Paused" means `paused` and identical frames 3 s apart.
+  - **(b) M3/M4:** a 150 px wheel step correctly snaps back to the hero. The test now uses the S11.9 T011i snap method: (viewport − 100) down lands on Projects, then back up to 0. Under reduced motion, 180 px stays at 180.
+  - **(c) M6:** requests cancelled with `net::ERR_ABORTED` / `NS_BINDING_ABORTED` produce no console message. They are logged as `requestAborted` and not counted as failed loads (in practice, prefetch HEAD requests dropped on navigation). Console errors, page errors, other failed requests and HTTP ≥ 400 still fail M6.
+
 ### WHAT MURPHY SHOULD TEST/VALIDATE
 
 1. The script in §2.2: the wording you will read aloud, in English and Bahasa Indonesia.
