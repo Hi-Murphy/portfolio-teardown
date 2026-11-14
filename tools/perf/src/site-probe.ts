@@ -1451,8 +1451,13 @@ async function runNoJsGroup(
       await writeFile(join(outDir, dump), `${html}\n`, 'utf8');
       const actual = await page.evaluate(() => ({
         posters: document.querySelectorAll('[data-site-poster]').length,
-        posterWidth:
-          document.querySelector('[data-site-poster]')?.getBoundingClientRect().width ?? 0,
+        // `/` has two posters since S11.9 (imploded + numbered path); measure the visible one.
+        posterWidth: Math.max(
+          0,
+          ...[...document.querySelectorAll('[data-site-poster]')].map(
+            (poster) => poster.getBoundingClientRect().width,
+          ),
+        ),
         cards: document.querySelectorAll('[data-site-card]').length,
         outlines: document.querySelectorAll('[data-site-outline]').length,
       }));

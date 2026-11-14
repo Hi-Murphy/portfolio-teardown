@@ -1,0 +1,119 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects/websocket-inspector",
+  "finalUrl": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 937.5305,
+      "cls": 0,
+      "tbtMs": 89,
+      "fcpMs": 937.5305,
+      "siMs": 937.5305,
+      "totalByteWeight": 201353,
+      "benchmarkIndex": 2333,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1518.5304999999998,
+          "durMs": 139
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 909.5305,
+          "durMs": 64
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 910.002,
+      "cls": 0,
+      "tbtMs": 71,
+      "fcpMs": 910.002,
+      "siMs": 910.002,
+      "totalByteWeight": 201362,
+      "benchmarkIndex": 2318,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1519.002,
+          "durMs": 121
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 910.002,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 0.99,
+      "accessibility": 1,
+      "lcpMs": 909.8895,
+      "cls": 0,
+      "tbtMs": 125,
+      "fcpMs": 909.8895,
+      "siMs": 909.8895,
+      "totalByteWeight": 201352,
+      "benchmarkIndex": 2338,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1517.8895,
+          "durMs": 139
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 909.8895,
+          "durMs": 86
+        }
+      ]
+    }
+  ],
+  "medianRun": 1,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 910.002,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

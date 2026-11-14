@@ -1,0 +1,7 @@
+T003 — draft PR + preview (orchestrator), 2026-11-14T01:06Z
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/23 (draft, base main)
+Preview (branch alias, follows the branch head): https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app
+Deploy SHA: aa4cd53 (GitHub commit status context "Vercel": success, "Deployment has completed")
+Product tree at aa4cd53 vs ffda3a2: identical (apps/, packages/ no diff)
+Check: curl GET / -> 200
+Note: later pushes on this branch redeploy the same alias. Every sheet and the report record the deploy SHA at the time of use.

@@ -1,0 +1,5 @@
+# One product path per line, added only by a T008.x Sev-1/Sev-2 fix task.
+# Format: <path>  # I-NN <reason>
+apps/web/components/home/hero-section.tsx  # I-01 no-JS poster shows the numbered path (noscript: variant)
+apps/web/test/home-poster-noscript.test.tsx  # I-01 regression test
+tools/perf/src/site-probe.ts  # I-01 follow-up: nojs poster check measures the visible poster (two posters on / since S11.9)

@@ -1,0 +1,17 @@
+T009 CI on 5621f3f (PR #23): ci.yml 43551237257, perf.yml 43551237391
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/3wEGFsPjqcTcBcnBifj4hqF4MUeu
+Vercel Preview Comments	pass	0	https://vercel.com/github
+a11y: axe (engine fixture export)	pass	1m52s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237391/job/132313920984
+a11y: axe (production routes)	pass	3m1s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237391/job/132313920898
+build (typecheck, lint, test, build)	pass	2m22s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237257/job/132313920474
+perf-gate: lighthouse (mobile)	pass	1m31s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237391/job/132313920989
+perf-gate: weight (< 3 MB)	pass	1m40s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237391/job/132313920971
+perf: eager-3d (measurement)	pass	3m43s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237264/job/132313920045
+perf: fixture exclusion	pass	20s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237391/job/132313920918
+perf: fps calibration	pass	59s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237391/job/132313920809
+seo: meta + og	pass	1m4s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237257/job/132313920424
+secrets (gitleaks)	pass	19s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43551237257/job/132313920235
+
+Lighthouse (CI, preview, median of 3): / perf 0.99 (0.99, 0.99, 0.98) a11y 1.00; /projects/websocket-inspector perf 1.00 (1, 1, 1) a11y 1.00; CLS 0 in all runs
+Weight (CI, preview): / 460,600 B mobile / 484,153 B desktop; project 201,133 B / 224,707 B
+Slow-class reveal (product-identical head e35e7de, m1-validation run 43550185247 shard 2, benchmarkIndex 2260-2351.5): 593 / 516 ms, 0 trusted events

@@ -1,0 +1,184 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/",
+  "finalUrl": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 0.97,
+      "accessibility": 1,
+      "lcpMs": 948.65,
+      "cls": 0,
+      "tbtMs": 191.0000000000001,
+      "fcpMs": 948.65,
+      "siMs": 1174.3731047422148,
+      "totalByteWeight": 460781,
+      "benchmarkIndex": 2238,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/1cewo0o69h0ay.js",
+          "startMs": 1534.0980000000002,
+          "durMs": 147
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/39q-oox3f-dc0.js",
+          "startMs": 2739.994,
+          "durMs": 114
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/",
+          "startMs": 1068.65,
+          "durMs": 80
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 914.65,
+          "durMs": 70
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 1018.65,
+          "durMs": 50.000000000000114
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wy428qbsae89.js",
+          "startMs": 3500.5540000000005,
+          "durMs": 50
+        }
+      ]
+    },
+    {
+      "performance": 0.98,
+      "accessibility": 1,
+      "lcpMs": 933.802,
+      "cls": 0,
+      "tbtMs": 173,
+      "fcpMs": 933.802,
+      "siMs": 1210.8648068649316,
+      "totalByteWeight": 460796,
+      "benchmarkIndex": 2230,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1620.8020000000001,
+          "durMs": 143
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/39q-oox3f-dc0.js",
+          "startMs": 2958.802,
+          "durMs": 112
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/",
+          "startMs": 1092.8020000000001,
+          "durMs": 90
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 1034.8020000000001,
+          "durMs": 58
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 907.802,
+          "durMs": 56
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wy428qbsae89.js",
+          "startMs": 3258.802,
+          "durMs": 52
+        }
+      ]
+    },
+    {
+      "performance": 0.95,
+      "accessibility": 1,
+      "lcpMs": 909.913,
+      "cls": 0,
+      "tbtMs": 252,
+      "fcpMs": 909.913,
+      "siMs": 1226.0939136442498,
+      "totalByteWeight": 460779,
+      "benchmarkIndex": 2320.5,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "startMs": 1628.913,
+          "durMs": 172
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/39q-oox3f-dc0.js",
+          "startMs": 2964.913,
+          "durMs": 118
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/",
+          "startMs": 1094.913,
+          "durMs": 97
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 909.913,
+          "durMs": 58
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wy428qbsae89.js",
+          "startMs": 3264.913,
+          "durMs": 54
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 1042.913,
+          "durMs": 52
+        },
+        {
+          "url": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app/_next/static/immutable/chunks/0wy428qbsae89.js",
+          "startMs": 3564.913,
+          "durMs": 52
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 0.97,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 948.65,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
