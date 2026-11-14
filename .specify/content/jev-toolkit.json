@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "slug": "jev-toolkit",
+    "name": "JEV Benchmark",
+    "tagline": "Measuring what an AI reads before it codes.",
+    "summary": "A zero-dependency Node harness that runs the same fifteen refactor tasks against a real Android codebase under three context strategies, scores what each one chose to read, and checks every claim it makes against the repository instead of trusting it.",
+    "year": 2026,
+    "role": "Solo engineer — harness, adapters, fixtures, scoring, analysis",
+    "tags": [
+      "Node",
+      "Benchmarking",
+      "AI tooling",
+      "Android"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/TimurHaryo/jev-toolkit"
+      }
+    ]
+  },
+  "story": {
+    "headline": "How much of a repo does a model need to read before it decides where to look?",
+    "problem": "Coding agents burn context on orientation. The expensive question is not what a piece of code does — it is which six files matter for this task. Agents answer that by reading far more than they need, and nobody measures whether the skipping was right.",
+    "approach": "A zero-dependency Node harness runs fifteen refactor tasks against a real Android codebase under three arms: full context, the JEV decision model (a third-party service I do not own), and a native baseline. Each arm's section selection is scored against hand-labelled gold sections, the code it produces is compiled, and every claim about tests is checked against the repository rather than trusted.",
+    "outcome": "Selective context cut median input tokens by 25% and cost by 17%, and every arm compiled on all 45 runs — but it lost recall against gold sections (0.79 vs 1.00). The honest result is a trade-off curve, not a victory, which is exactly what a benchmark is for.",
+    "metrics": [
+      {
+        "label": "Median input tokens",
+        "value": "21,448 vs 28,721 (−25%)"
+      },
+      {
+        "label": "Median cost / session",
+        "value": "$0.0093 vs $0.0112 (−17%)"
+      },
+      {
+        "label": "Gold-section recall",
+        "value": "0.79 vs 1.00 — the trade-off"
+      },
+      {
+        "label": "Compile pass",
+        "value": "45 of 45 runs — 100%"
+      },
+      {
+        "label": "Harness",
+        "value": "277 tests · 0 runtime dependencies"
+      }
+    ]
+  },
+  "layers": [
+    {
+      "id": "surface",
+      "name": "Harness surface",
+      "description": "What a person types.",
+      "components": [
+        {
+          "id": "bench-cli",
+          "name": "Bench CLI",
+          "summary": "Runs one arm over one task set.",
+          "description": "Entry point: parses the arm, the target and the repeat count, resets the target repository to its baseline tag, then hands control to the runner.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "report-cli",
+          "name": "Report CLI",
+          "summary": "Turns raw runs into a readable table.",
+          "description": "Reads the per-run artefacts and prints the median/p90 table by arm — tokens, cache, cost, duration, recall.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "accuracy-cli",
+          "name": "Accuracy CLI",
+          "summary": "Scores decisions against gold labels.",
+          "description": "Compares each run's selected sections with the hand-labelled gold set and reports precision/recall per task and arm.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "installer",
+          "name": "Installer",
+          "summary": "Writes a target's hooks and rules.",
+          "description": "Installs the hook settings and the per-arm CLAUDE.md variant into a target repository, so an arm is a configuration rather than a fork.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "arms",
+      "name": "Measured arms",
+      "description": "The strategies under test.",
+      "components": [
+        {
+          "id": "dyn-context",
+          "name": "Dynamic ctx",
+          "summary": "Picks which sections of the repo to read.",
+          "description": "The arm under test: a hook asks the decision model which files and sections matter for the task, then injects only those.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "handback",
+          "name": "Hand-back",
+          "summary": "Checks what a subagent claims it did.",
+          "description": "Pre-hook snapshots the tree; post-hook compares each claim — tests run, tests passing, build — against the actual repository state.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "comment-policy",
+          "name": "Comment policy",
+          "summary": "Decides which comments to reject.",
+          "description": "Classifies narration comments (what changed, why this way) versus contract comments, and blocks the former before they land.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "model-router",
+          "name": "Model router",
+          "summary": "Chooses the tier per task.",
+          "description": "Routes a task to a cheap or an expensive model by its shape; measured for tier choice, exploration need and change requests.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "name": "Decision client",
+      "description": "The only code that talks to the model.",
+      "components": [
+        {
+          "id": "jev-client",
+          "name": "JEV client",
+          "summary": "One typed call to the decision model.",
+          "description": "HTTP client with schema validation, timeouts and a replay mode so a run can be re-scored without spending tokens.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "token-budget",
+          "name": "Token budget",
+          "summary": "Keeps the state inside a hard ceiling.",
+          "description": "Counts and trims the decision state to the configured budget before each call — the mechanism that makes 25% fewer tokens possible.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "path-guard",
+          "name": "Path guard",
+          "summary": "Refuses to read outside the target.",
+          "description": "Validates every path against the allowed roots so a benchmark run can never wander into the rest of the machine.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "recorder",
+          "name": "Recorder",
+          "summary": "Writes the run down as it happens.",
+          "description": "Appends each request, decision and response to a run log that the report and the accuracy pass both read.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "core",
+      "name": "Bench core",
+      "description": "Repeatability lives here.",
+      "components": [
+        {
+          "id": "runner",
+          "name": "Runner",
+          "summary": "One task, one arm, one clean tree.",
+          "description": "Drives the agent CLI, captures usage, enforces the turn cap and records incomplete runs rather than dropping them.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "task-model",
+          "name": "Task model",
+          "summary": "The fifteen tasks, as data.",
+          "description": "Task ids, prompts, expected areas and gold sections — the same fifteen tasks for every arm, so arms differ only in strategy.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "target-guard",
+          "name": "Target",
+          "summary": "Resets the world between runs.",
+          "description": "Asserts the target is a git repo under an allowed root, resets it to the baseline tag and produces the diff stat after each run.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "pricing",
+          "name": "Pricing",
+          "summary": "Turns tokens into money.",
+          "description": "Per-model input, output, cache-read and cache-write rates, applied to every priced run so cost is comparable across arms.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "judge",
+          "name": "API judge",
+          "summary": "Scores claims by model, not by vibes.",
+          "description": "A structured judge that classifies claims and comments against a rubric; its agreement with human labels is reported, not assumed.",
+          "kind": "module",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence",
+      "description": "What the numbers rest on.",
+      "components": [
+        {
+          "id": "fixtures",
+          "name": "Fixtures",
+          "summary": "Recorded cases for offline scoring.",
+          "description": "Frozen request/response cases so the scoring code can be tested and re-run without touching a live model.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "gold",
+          "name": "Gold labels",
+          "summary": "The hand-labelled answer key.",
+          "description": "The sections a human says each task actually needs — the standard every arm is scored against, including the arm that loses.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        },
+        {
+          "id": "reports",
+          "name": "Reports",
+          "summary": "Where a run becomes a number.",
+          "description": "Per-run JSON plus the median/p90 tables by arm; the raw material for every figure this project claims.",
+          "kind": "store",
+          "status": "shipped",
+          "techs": [
+            "nodejs"
+          ],
+          "metrics": [],
+          "links": []
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "arm-run",
+      "label": "One arm, one task",
+      "description": "A single measured run: reset the target, ask the model what to read, let the agent work, record everything.",
+      "path": [
+        "bench-cli",
+        "task-model",
+        "target-guard",
+        "dyn-context",
+        "jev-client",
+        "token-budget",
+        "runner",
+        "reports"
+      ]
+    },
+    {
+      "id": "judge-path",
+      "label": "Score it",
+      "description": "After the runs: compare what each arm read against the answer key, then price and publish.",
+      "path": [
+        "reports",
+        "judge",
+        "gold",
+        "accuracy-cli"
+      ]
+    }
+  ]
+}
