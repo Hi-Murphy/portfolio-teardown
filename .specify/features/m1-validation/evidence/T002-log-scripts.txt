@@ -1,0 +1,202 @@
+# T002 — site-checks.mjs + run-checks.sh
+
+Harness checks only. Product measurements are recorded for T004 triage; T002-OK means the harness ran and the controls behaved as designed.
+
+## a) Parse, shell syntax, formatting
+
+$ node --check .specify/features/m1-validation/site-checks.mjs
+exit 0
+$ bash -n .specify/features/m1-validation/run-checks.sh
+exit 0
+$ pnpm exec prettier --check .specify/features/m1-validation/site-checks.mjs .specify/features/m1-validation/run-checks.sh
+Checking formatting...
+All matched files use Prettier code style!
+exit 0
+
+## b) Build and suites
+
+$ pnpm build
+exit 0
+✓ Compiled successfully in 515ms
+  Finished TypeScript in 963ms ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 269ms
+  Finalizing page optimization ...
+
+$ node .specify/features/m1-validation/site-checks.mjs --part content --serve apps/web/out --out <local-path>/s12-checks/T002-content-final-build.rgzAzI
+
+exit 6
+PASS C2 []
+PASS C3 {"aboutBar":true,"payloadPresent":true,"payloadBar":true,"scannedFiles":58,"employerHits":0,"phraseHits":0,"files":[],"caseInsensitiveEmployerOccurrences":0}
+PASS C4-internal {"records":8,"failures":[]}
+FAIL C4-external {"records":[{"href":"https://github.com/TimurHaryo","host":"https://github.com","status":200,"finalUrl":"https://github.com/TimurHaryo"},{"href":"https://id.linkedin.com/in/timurharyo","host":"https://id.linkedin.com","status":999,"finalUrl":"https://id.linkedin.com/in/timurharyo"},{"href":"https://github.com/TimurHaryo/websocket-inspector","host":"https://github.com","status":200,"finalUrl":"https://github.com/TimurHaryo/websocket-inspector"}],"failures":[{"href":"https://id.linkedin.com/in/timurharyo","host":"https://id.linkedin.com","status":999,"finalUrl":"https://id.linkedin.com/in/timurharyo"}]}
+PASS C4-mailto {"hrefs":["mailto:vibing.murphy@gmail.com"],"failures":[]}
+
+$ node .specify/features/m1-validation/site-checks.mjs --part degraded --serve apps/web/out --out <local-path>/s12-checks/T002-degraded-final-build.bMPX4j
+
+exit 6
+FAIL degraded-nojs-390-light-poster {"poster":true,"flow":false,"lines":0}
+FAIL degraded-nojs-390-light-steps []
+PASS degraded-nojs-390-light-canvas 0
+PASS degraded-nojs-390-light-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-nojs-390-light-layout {"noHorizontalScroll":true,"posterBox":{"x":20,"y":393.78125,"width":350,"height":256,"left":20,"right":370,"top":393.78125,"bottom":649.78125},"posterInsideHero":true,"cls":"n/a (no JS)","stableNoJsPoster":true}
+FAIL degraded-nojs-390-dark-poster {"poster":true,"flow":false,"lines":0}
+FAIL degraded-nojs-390-dark-steps []
+PASS degraded-nojs-390-dark-canvas 0
+PASS degraded-nojs-390-dark-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-nojs-390-dark-layout {"noHorizontalScroll":true,"posterBox":{"x":20,"y":393.78125,"width":350,"height":256,"left":20,"right":370,"top":393.78125,"bottom":649.78125},"posterInsideHero":true,"cls":"n/a (no JS)","stableNoJsPoster":true}
+FAIL degraded-nojs-1440-light-poster {"poster":true,"flow":false,"lines":0}
+FAIL degraded-nojs-1440-light-steps []
+PASS degraded-nojs-1440-light-canvas 0
+PASS degraded-nojs-1440-light-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-nojs-1440-light-layout {"noHorizontalScroll":true,"posterBox":{"x":484.796875,"y":59.5,"width":907.203125,"height":702,"left":484.796875,"right":1392,"top":59.5,"bottom":761.5},"posterInsideHero":true,"cls":"n/a (no JS)","stableNoJsPoster":tr…
+FAIL degraded-nojs-1440-dark-poster {"poster":true,"flow":false,"lines":0}
+FAIL degraded-nojs-1440-dark-steps []
+PASS degraded-nojs-1440-dark-canvas 0
+PASS degraded-nojs-1440-dark-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-nojs-1440-dark-layout {"noHorizontalScroll":true,"posterBox":{"x":484.796875,"y":59.5,"width":907.203125,"height":702,"left":484.796875,"right":1392,"top":59.5,"bottom":761.5},"posterInsideHero":true,"cls":"n/a (no JS)","stableNoJsPoster":tr…
+PASS degraded-reduced-390-light-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-reduced-390-light-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-reduced-390-light-canvas 0
+PASS degraded-reduced-390-light-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-reduced-390-light-layout {"noHorizontalScroll":true,"posterBox":{"x":20,"y":393.78125,"width":350,"height":256,"left":20,"right":370,"top":393.78125,"bottom":649.78125},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-reduced-390-dark-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-reduced-390-dark-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-reduced-390-dark-canvas 0
+PASS degraded-reduced-390-dark-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-reduced-390-dark-layout {"noHorizontalScroll":true,"posterBox":{"x":20,"y":393.78125,"width":350,"height":256,"left":20,"right":370,"top":393.78125,"bottom":649.78125},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-reduced-1440-light-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-reduced-1440-light-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-reduced-1440-light-canvas 0
+PASS degraded-reduced-1440-light-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-reduced-1440-light-layout {"noHorizontalScroll":true,"posterBox":{"x":484.796875,"y":59.5,"width":907.203125,"height":702,"left":484.796875,"right":1392,"top":59.5,"bottom":761.5},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-reduced-1440-dark-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-reduced-1440-dark-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-reduced-1440-dark-canvas 0
+PASS degraded-reduced-1440-dark-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-reduced-1440-dark-layout {"noHorizontalScroll":true,"posterBox":{"x":484.796875,"y":59.5,"width":907.203125,"height":702,"left":484.796875,"right":1392,"top":59.5,"bottom":761.5},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-savedata-390-light-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-savedata-390-light-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-savedata-390-light-canvas 0
+PASS degraded-savedata-390-light-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-savedata-390-light-layout {"noHorizontalScroll":true,"posterBox":{"x":20,"y":393.78125,"width":350,"height":256,"left":20,"right":370,"top":393.78125,"bottom":649.78125},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-savedata-390-dark-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-savedata-390-dark-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-savedata-390-dark-canvas 0
+PASS degraded-savedata-390-dark-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-savedata-390-dark-layout {"noHorizontalScroll":true,"posterBox":{"x":20,"y":393.78125,"width":350,"height":256,"left":20,"right":370,"top":393.78125,"bottom":649.78125},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-savedata-1440-light-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-savedata-1440-light-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-savedata-1440-light-canvas 0
+PASS degraded-savedata-1440-light-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-savedata-1440-light-layout {"noHorizontalScroll":true,"posterBox":{"x":484.796875,"y":59.5,"width":907.203125,"height":702,"left":484.796875,"right":1392,"top":59.5,"bottom":761.5},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-savedata-1440-dark-poster {"poster":true,"flow":true,"lines":1}
+PASS degraded-savedata-1440-dark-steps ["1:1","2:2","3:3","4:4","5:5","6:6","7:7"]
+PASS degraded-savedata-1440-dark-canvas 0
+PASS degraded-savedata-1440-dark-animation {"screenshots":true,"runningHero":0,"loop":null}
+PASS degraded-savedata-1440-dark-layout {"noHorizontalScroll":true,"posterBox":{"x":484.796875,"y":59.5,"width":907.203125,"height":702,"left":484.796875,"right":1392,"top":59.5,"bottom":761.5},"posterInsideHero":true,"cls":0,"stableNoJsPoster":null}
+PASS degraded-tab-nojs-390-home {"reached":14,"expected":14,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-nojs-390-project {"reached":15,"expected":14,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-nojs-1440-home {"reached":14,"expected":14,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-nojs-1440-project {"reached":15,"expected":14,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-reduced-390-home {"reached":15,"expected":15,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-reduced-390-project {"reached":22,"expected":22,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-reduced-1440-home {"reached":15,"expected":15,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-reduced-1440-project {"reached":22,"expected":22,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-savedata-390-home {"reached":16,"expected":16,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-savedata-390-project {"reached":22,"expected":22,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-savedata-1440-home {"reached":16,"expected":16,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+PASS degraded-tab-savedata-1440-project {"reached":22,"expected":22,"missing":[],"repeated":null,"backwards":[],"invisibleFocus":[],"returnedToBody":true,"steps":[{"key":"tab:0:a:Skip to content","tag":"a","name":"Skip to content","sectionIndex":-1,"rect":{"x…
+artifact <local-path>/s12-checks/T002-degraded-final-build.bMPX4j/degraded.json
+
+$ node .specify/features/m1-validation/site-checks.mjs --part devices --cell D3 --serve apps/web/out --out <local-path>/s12-checks/T002-D3-final-build.FqNKOf
+
+exit 6
+PASS M1 {"loop":"running","canvases":1,"screenshotsDiffer":true}
+FAIL M2 {"pausedIdentical":true,"resumedDifferent":false,"pauseLabel":"Pause animation","playLabelVisible":true}
+FAIL M3 {"method":"mouse.wheel","scrollY":0,"top":900,"scrollPadding":0}
+PASS M4 {"method":"mouse.wheel","emulated":false,"scrollY":150,"top":750,"scrollPadding":0,"poster":true,"canvases":0}
+PASS M5 {"panelOpen":true,"panelClosed":true,"closeMethod":"close-control"}
+FAIL M6 {"consoleErrors":0,"warnings":7,"pageErrors":0,"requestFailed":11,"httpErrors":0}
+PASS M7 {"home":{"before":true,"after":0},"project":{"before":true,"after":0}}
+
+$ node .specify/features/m1-validation/site-checks.mjs --part devices --cell D5 --serve apps/web/out --out <local-path>/s12-checks/T002-D5-final-build.OALABz
+
+exit 6
+PASS M1 {"loop":"running","canvases":1,"screenshotsDiffer":true}
+FAIL M2 {"pausedIdentical":true,"resumedDifferent":false,"pauseLabel":"Pause animation","playLabelVisible":true}
+PASS M3 {"method":"mouse.wheel","scrollY":900,"top":0,"scrollPadding":0}
+PASS M4 {"method":"mouse.wheel","emulated":false,"scrollY":150,"top":750,"scrollPadding":0,"poster":true,"canvases":0}
+PASS M5 {"panelOpen":true,"panelClosed":true,"closeMethod":"close-control"}
+PASS M6 {"consoleErrors":0,"warnings":6,"pageErrors":0,"requestFailed":0,"httpErrors":0}
+PASS M7 {"home":{"before":true,"after":0},"project":{"before":true,"after":0}}
+
+$ node .specify/features/m1-validation/site-checks.mjs --part devices --cell D2 --serve apps/web/out --out <local-path>/s12-checks/T002-D2-final-build.1vri00
+no Android device: run adb forward first
+exit 3
+
+## c) Negative controls on scratch exports
+
+Scratch root: <local-path>/s12-checks/neg-delivery.wzTm0L
+
+NEG TODO: bites
+FAIL C2 [{"file":"index.html","where":"text","match":"TODO"}]
+PASS C3 {"aboutBar":true,"payloadPresent":true,"payloadBar":true,"scannedFiles":58,"employerHits":0,"phraseHits":0,"files":[],"caseInsensitiveEmployerOccurrences":0}
+NEG redaction bar removed: bites
+PASS C2 []
+FAIL C3 {"aboutBar":false,"payloadPresent":true,"payloadBar":true,"scannedFiles":58,"employerHits":0,"phraseHits":0,"files":[],"caseInsensitiveEmployerOccurrences":0}
+NEG canvas inside visible poster: bites
+FAIL degraded-nojs-390-light-canvas 1
+FAIL degraded-nojs-390-dark-canvas 1
+FAIL degraded-nojs-1440-light-canvas 1
+FAIL degraded-nojs-1440-dark-canvas 1
+NEG step 1 removed from visible flow poster: bites
+FAIL degraded-nojs-390-light-steps ["2:2","3:3","4:4","5:5","6:6","7:7"]
+FAIL degraded-nojs-390-dark-steps ["2:2","3:3","4:4","5:5","6:6","7:7"]
+FAIL degraded-nojs-1440-light-steps ["2:2","3:3","4:4","5:5","6:6","7:7"]
+FAIL degraded-nojs-1440-dark-steps ["2:2","3:3","4:4","5:5","6:6","7:7"]
+
+## d) Runner subset
+
+
+$ bash .specify/features/m1-validation/run-checks.sh --only G8,C1 --skip-build --out <local-path>/s12-checks/T002-runner-final-build.35nyPU
+PASS G8
+PASS C1
+| Id | Check | Exit | Result | Artifact |
+| --- | --- | ---: | --- | --- |
+| G8 | fixture exclusion + route surface | 0 | PASS | <local-path>/s12-checks/T002-runner-final-build.35nyPU/G8 |
+| C1 | visible copy tests + home copy probe | 0 | PASS | <local-path>/s12-checks/T002-runner-final-build.35nyPU/C1 |
+
+exit 0
+
+Integration note: .specify/features/m1-validation/guards.sh is absent from this worktree (T001 not present); T002 does not create T001 files.
+
+T002-OK
+
+== Orchestrator review (2026-11-14) ==
+Harness fixes after the dry run (method only; RFC R5):
+- M1/M2: the storyboard has hold beats, so a fixed 1.5 s frame pair can be identical while the loop runs. Now: data-hero-loop must read running/paused, and "moving" = the hero changes within an 8 s window (500 ms samples). Paused = attribute paused + frames 3 s apart identical.
+- M3/M4: a 150 px wheel is under half a screen, so mandatory snap correctly returns to the hero. Now the S11.9 T011i method: (viewport - 100) down lands on Projects, the same distance up returns to 0; reduced motion: 180 px stays at 180 (no snap).
+- M6: requests cancelled with net::ERR_ABORTED / NS_BINDING_ABORTED (prefetch HEAD requests dropped on navigation; no console message) are counted as requestAborted and logged, not as failed loads. Console errors, page errors, other failed requests and HTTP >= 400 still fail.
+Real findings kept for T004 (not harness bugs): no-JS shows the imploded poster without the numbered path (the flow poster is display:none unless motion-reduce or live-state=skipped, see hero-section.tsx); LinkedIn 999 to headless Chromium.
+
+Re-run after fixes, local export:
+-- D3
+PASS M1 {"loop":"running","canvases":1,"changed":true,"afterMs":500}
+PASS M2 {"pausedLoop":"paused","pausedIdentical":true,"playLabelVisible":true,"resumedLoop":"running","resumed":{"changed":true,"afterMs":1500}}
+PASS M3 {"method":"mouse.wheel","down":{"scrollY":900,"top":0,"scrollPadding":0},"up":{"scrollY":0,"top":900,"scrollPadding":0}}
+PASS M4 {"method":"mouse.wheel","emulated":false,"scrollY":180,"top":720,"scrollPadding":0,"poster":true,"canvases":0}
+PASS M5 {"panelOpen":true,"panelClosed":true,"closeMethod":"close-control"}
+PASS M6 {"consoleErrors":0,"warnings":7,"pageErrors":0,"requestFailed":0,"requestAborted":11,"httpErrors":0}
+PASS M7 {"home":{"before":true,"after":0},"project":{"before":true,"after":0}}
+-- D5
+PASS M1 {"loop":"running","canvases":1,"changed":true,"afterMs":500}
+PASS M2 {"pausedLoop":"paused","pausedIdentical":true,"playLabelVisible":true,"resumedLoop":"running","resumed":{"changed":true,"afterMs":1500}}
+PASS M3 {"method":"mouse.wheel","down":{"scrollY":900,"top":0,"scrollPadding":0},"up":{"scrollY":0,"top":900,"scrollPadding":0}}
+PASS M4 {"method":"mouse.wheel","emulated":false,"scrollY":180,"top":720,"scrollPadding":0,"poster":true,"canvases":0}
+PASS M5 {"panelOpen":true,"panelClosed":true,"closeMethod":"close-control"}
+PASS M6 {"consoleErrors":0,"warnings":6,"pageErrors":0,"requestFailed":0,"requestAborted":0,"httpErrors":0}
+PASS M7 {"home":{"before":true,"after":0},"project":{"before":true,"after":0}}
