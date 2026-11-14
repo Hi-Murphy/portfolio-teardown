@@ -1,6 +1,6 @@
 {
-  "base": "3aee8fc",
-  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.",
+  "base": "51d3fa7",
+  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md.",
   "files": {
     "src/interaction/caption.ts": "08fe42ec8ef4bd9c6c19746886a183ef55ac5bc377f6dc8d9cba963120b08e3b",
     "src/interaction/emphasis.ts": "4b358ac968b8a520626be5e4cf4eb1e893b449149f2c7d4119c48f2022d176e1",
@@ -16,7 +16,7 @@
     "src/react/scene/ViewScroll.tsx": "027634d2eb470f6b14928fe49f1734302538b141167f3f34e411799da2061e60",
     "src/react/usePointerPick.ts": "f6de593f2f943e40c51994e679189977c5a632a1f2d722ab2aaca64a1485b826",
     "src/react/useTeardownViewer.ts": "fa3c6ac00054a323aa81513e359b1a87f938c9a6d6b05bd2a37a5c5ca057cdbd",
-    "src/react/useTourClock.ts": "b4b7f9d084c2f8dcb4aa846f2bc896a023cb48c155d0f7ee999deae59be4d65f",
+    "src/react/useTourClock.ts": "e6f64a61e3058234fa9f64eaa9e4f9af6f48dc2b7e8b7929456910cbf1013310",
     "test/__snapshots__/fixture-c.test.ts.snap": "068f1fe58eb36a96c619a6d9fa1eb17e47fe3f017b3d9878942578ecba4844dd",
     "test/caption.test.ts": "e53b223afc31591d186f914c29f703177c9e5c5bc4b7a2f585435a8316d59738",
     "test/emphasis-scene.test.tsx": "cd136440fbfa9f66de94d4b06ec6459f47fdfcdd20c7a448991f29168503de44",
@@ -29,6 +29,7 @@
     "test/pick.test.ts": "6cbf2829c100bbc6c585626e147e844f11473e518298b1bc26d295373bb78592",
     "test/pointer.test.ts": "ff54eb3ce625b3f8aa6c87be17fab5e2395037d60bf0f730afb92f1263f64b4f",
     "test/scroll.test.ts": "1409360080cc57e772b807a339e98416323bff92a1c4251095ce5c31b4b7fae4",
+    "test/tour-clock-boundary.test.tsx": "64d2ee7a8ca540bb3fe219308accf8cc71f798637b7e21c53d6afbc62b1bca70",
     "test/tour-clock.test.tsx": "4c2334fc7839fa2be52ca09cdf487c9b19e1a26c19a72520071439b89acf25ba",
     "test/tour.test.ts": "f644baf6b192b44c0eea57d366c8a342585d252046cb9a44f9a7ee2128364b17",
     "test/view-scroll.test.tsx": "6ad28a220e9da7f44e8eb1ee8196dad605b5e6faca7fb1176741f3b822dfa1ab",

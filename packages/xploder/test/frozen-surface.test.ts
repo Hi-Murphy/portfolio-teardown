@@ -162,9 +162,9 @@ describe('frozen S5 surface', () => {
     const manifest = manifestS5Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('3aee8fc');
+    expect(manifest.base).toBe('51d3fa7');
     expect(manifest.note).toBe(
-      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md.',
+      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(25);
 

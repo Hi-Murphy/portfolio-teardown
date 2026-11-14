@@ -17,7 +17,14 @@ export function useTourClock(
     if (state.status !== 'playing') return;
 
     const timestamp = now();
-    const { nextBoundary } = positionAt(state, timestamp, flows, motion.durations.tourBeat);
+    const position = positionAt(state, timestamp, flows, motion.durations.tourBeat);
+
+    if (position.status !== state.status) {
+      dispatch({ type: 'tick', now: timestamp });
+      return;
+    }
+
+    const { nextBoundary } = position;
 
     if (nextBoundary === null) return;
 
