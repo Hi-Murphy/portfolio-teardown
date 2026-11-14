@@ -1,0 +1,10 @@
+# command=node /private/tmp/s14-wt/t003/.specify/features/engine-polish/i09-browser.mjs /private/tmp/s14-wt/t003 http://127.0.0.1:4614 .specify/features/engine-polish/evidence target=http://127.0.0.1:4614/projects/websocket-inspector chromium=156.0.8078.4 commit=6bc21e329e075d9e56f684fca21e7a5a47d4fd80
+desktop light hover-b A=frame-row B=inspector-launcher C=inspector-ui panel=right attrs={"highlight":"inspector-launcher","selected":"frame-row"} A=[151,189,195] B=[145,186,192] C=[192,199,205] |A-B|=[6,3,3] |A-C|=[41,10,10]
+desktop light left-b A=frame-row B=inspector-launcher C=inspector-ui panel=right attrs={"highlight":null,"selected":"frame-row"} A=[148,187,194] B=[206,213,219] C=[192,199,205] A-vs-hover-A=[3,2,1]
+desktop dark hover-b A=frame-row B=inspector-launcher C=inspector-ui panel=right attrs={"highlight":"inspector-launcher","selected":"frame-row"} A=[48,109,134] B=[50,113,138] C=[60,85,111] |A-B|=[2,4,4] |A-C|=[12,24,23]
+desktop dark left-b A=frame-row B=inspector-launcher C=inspector-ui panel=right attrs={"highlight":null,"selected":"frame-row"} A=[49,111,136] B=[45,71,100] C=[60,85,111] A-vs-hover-A=[1,2,2]
+mobile light hover-b A=frame-row B=inspector-launcher C=inspector-ui panel=bottom attrs={"highlight":"inspector-launcher","selected":"frame-row"} A=[148,185,191] B=[148,185,191] C=[191,198,203] |A-B|=[0,0,0] |A-C|=[43,13,12]
+mobile light left-b A=frame-row B=inspector-launcher C=inspector-ui panel=bottom attrs={"highlight":null,"selected":"frame-row"} A=[148,185,191] B=[202,209,214] C=[191,198,203] A-vs-hover-A=[0,0,0]
+mobile dark hover-b A=frame-row B=inspector-launcher C=inspector-ui panel=bottom attrs={"highlight":"inspector-launcher","selected":"frame-row"} A=[53,113,137] B=[53,113,137] C=[62,86,113] |A-B|=[0,0,0] |A-C|=[9,27,24]
+mobile dark left-b A=frame-row B=inspector-launcher C=inspector-ui panel=bottom attrs={"highlight":null,"selected":"frame-row"} A=[53,113,137] B=[50,76,104] C=[62,86,113] A-vs-hover-A=[0,0,0]
+VERDICT PASS
