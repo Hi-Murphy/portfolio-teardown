@@ -78,13 +78,13 @@ export function HeroSection() {
                 <TeardownPoster
                   project={heroProject}
                   state="imploded"
-                  className={`${POSTER_FADE_CLASS} motion-reduce:hidden peer-data-[site-live-state=skipped]:hidden`}
+                  className={`${POSTER_FADE_CLASS} motion-reduce:hidden peer-data-[site-live-state=skipped]:hidden noscript:hidden`}
                 />
                 <TeardownPoster
                   project={heroProject}
                   state="exploded"
                   flowPath={heroProject.flows[0]?.path}
-                  className={`${POSTER_FADE_CLASS} hidden motion-reduce:block peer-data-[site-live-state=skipped]:block`}
+                  className={`${POSTER_FADE_CLASS} hidden motion-reduce:block peer-data-[site-live-state=skipped]:block noscript:block`}
                 />
               </div>
               <HeroCaption
