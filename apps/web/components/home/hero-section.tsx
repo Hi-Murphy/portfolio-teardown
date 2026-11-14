@@ -26,7 +26,6 @@ export function HeroSection() {
       className="relative flex min-h-[calc(100svh-2.8125rem)] flex-col overflow-hidden"
     >
       <HeroScrollMemory />
-      <BlueprintSheet />
       <div className="relative z-10 mx-auto flex w-full max-w-[88rem] flex-1 flex-col px-5 pb-14 pt-5 sm:px-8 sm:pb-16 sm:pt-8 lg:grid lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] lg:items-center lg:gap-12 lg:py-3">
         <div className="flex flex-col items-start gap-3 sm:gap-4">
           <p className="text-base font-semibold text-fg">{SITE.identity.name}</p>
@@ -96,6 +95,7 @@ export function HeroSection() {
           </HeroShowcaseProvider>
         )}
       </div>
+      <BlueprintSheet />
       <span
         aria-hidden="true"
         className="absolute bottom-3 left-1/2 h-7 w-px -translate-x-1/2 bg-gradient-to-b from-line-muted to-transparent sm:bottom-4"

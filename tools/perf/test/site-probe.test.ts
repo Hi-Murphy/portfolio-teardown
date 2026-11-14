@@ -14,9 +14,11 @@ import {
   evaluateHorizontalScroll,
   expectedTeardownCounts,
   heroContainsPoster,
+  heroSettledFromSnapshot,
   outlineCountsFromHtml,
   parseHeroLiveMode,
   parseRegistryLabels,
+  sameMarkBoxes,
   SITE_PROBE_CI_GROUPS,
   SITE_PROBE_GROUPS,
   teardownCountsMatch,
@@ -298,6 +300,110 @@ describe('hero live mode', () => {
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'unknown' })).toBe(
       false,
     );
+  });
+});
+
+describe('heroSettledFromSnapshot', () => {
+  test('settles a route without the live hero', () => {
+    expect(
+      heroSettledFromSnapshot({
+        liveMode: null,
+        liveState: null,
+        loopButton: false,
+        loopAttr: false,
+      }),
+    ).toBe(true);
+  });
+
+  test('settles eager and gated heroes once revealed with the loop mounted', () => {
+    for (const liveMode of ['eager', 'gated']) {
+      expect(
+        heroSettledFromSnapshot({
+          liveMode,
+          liveState: 'revealed',
+          loopButton: true,
+          loopAttr: true,
+        }),
+      ).toBe(true);
+    }
+  });
+
+  test('settles skipped and gated-idle heroes immediately', () => {
+    for (const liveMode of ['eager', 'gated']) {
+      expect(
+        heroSettledFromSnapshot({
+          liveMode,
+          liveState: 'skipped',
+          loopButton: false,
+          loopAttr: false,
+        }),
+      ).toBe(true);
+    }
+    expect(
+      heroSettledFromSnapshot({
+        liveMode: 'gated',
+        liveState: 'idle',
+        loopButton: false,
+        loopAttr: false,
+      }),
+    ).toBe(true);
+  });
+
+  test('does not settle a revealed hero without both loop markers', () => {
+    expect(
+      heroSettledFromSnapshot({
+        liveMode: 'eager',
+        liveState: 'revealed',
+        loopButton: false,
+        loopAttr: true,
+      }),
+    ).toBe(false);
+    expect(
+      heroSettledFromSnapshot({
+        liveMode: 'eager',
+        liveState: 'revealed',
+        loopButton: true,
+        loopAttr: false,
+      }),
+    ).toBe(false);
+  });
+
+  test('does not settle loading or eager-idle heroes', () => {
+    expect(
+      heroSettledFromSnapshot({
+        liveMode: 'eager',
+        liveState: 'loading',
+        loopButton: false,
+        loopAttr: false,
+      }),
+    ).toBe(false);
+    expect(
+      heroSettledFromSnapshot({
+        liveMode: 'eager',
+        liveState: 'idle',
+        loopButton: false,
+        loopAttr: false,
+      }),
+    ).toBe(false);
+  });
+});
+
+describe('sameMarkBoxes', () => {
+  const box = { x: 10, y: 20, width: 18, height: 18 };
+
+  test('accepts four identical boxes', () => {
+    expect(
+      sameMarkBoxes([box, box, box, box], [{ ...box }, { ...box }, { ...box }, { ...box }]),
+    ).toBe(true);
+  });
+
+  test('rejects a box that moved by half a pixel', () => {
+    expect(sameMarkBoxes([box], [{ ...box, x: box.x + 0.5 }])).toBe(false);
+    expect(sameMarkBoxes([box], [{ ...box, y: box.y - 0.5 }])).toBe(false);
+  });
+
+  test('rejects a different mark count', () => {
+    expect(sameMarkBoxes([box, box], [box])).toBe(false);
   });
 });
 
