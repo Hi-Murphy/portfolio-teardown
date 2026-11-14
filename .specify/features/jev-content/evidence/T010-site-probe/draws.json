@@ -1,0 +1,51 @@
+{
+  "group": "draws",
+  "pass": true,
+  "checks": [
+    {
+      "name": "draws-project-websocket-inspector",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "pass": true,
+        "mode": 2,
+        "modeCount": 31,
+        "renderedFrames": 31,
+        "totalFrames": 31,
+        "counts": {
+          "2": 31
+        }
+      }
+    },
+    {
+      "name": "draws-project-jev-toolkit",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "pass": true,
+        "mode": 2,
+        "modeCount": 32,
+        "renderedFrames": 32,
+        "totalFrames": 32,
+        "counts": {
+          "2": 32
+        }
+      }
+    },
+    {
+      "name": "draws-hero",
+      "pass": true,
+      "expected": 2,
+      "actual": {
+        "pass": true,
+        "mode": 2,
+        "modeCount": 103,
+        "renderedFrames": 103,
+        "totalFrames": 103,
+        "counts": {
+          "2": 103
+        }
+      }
+    }
+  ]
+}

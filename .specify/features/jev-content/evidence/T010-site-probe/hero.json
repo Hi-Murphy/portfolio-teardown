@@ -1,0 +1,107 @@
+{
+  "group": "hero",
+  "pass": true,
+  "checks": [
+    {
+      "name": "hero-ssr-poster",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "hero-first-paint-is-poster",
+      "pass": true,
+      "expected": {
+        "liveStateNot": "revealed",
+        "hasFcp": true
+      },
+      "actual": {
+        "fcpAt": 64,
+        "loadAt": 50.19999998807907,
+        "liveStateAtFcp": "loading",
+        "liveStateAtLoad": "idle"
+      }
+    },
+    {
+      "name": "hero-eager-no-interaction",
+      "pass": true,
+      "expected": {
+        "liveState": "revealed",
+        "canvases": 1,
+        "ready": true
+      },
+      "actual": {
+        "liveState": "revealed",
+        "canvases": 1,
+        "ready": true
+      }
+    },
+    {
+      "name": "hero-revealed-after-load",
+      "pass": true,
+      "expected": {
+        "afterLoad": true,
+        "liveState": "revealed"
+      },
+      "actual": {
+        "fcpAt": 64,
+        "loadAt": 50.19999998807907,
+        "liveStateAtFcp": "loading",
+        "liveStateAtLoad": "idle",
+        "liveStateAfterInteraction": "revealed"
+      }
+    },
+    {
+      "name": "hero-loop-running",
+      "pass": true,
+      "expected": {
+        "heroLoop": "running",
+        "canvases": 1,
+        "tour": "capture or inspect"
+      },
+      "actual": {
+        "heroLoop": "running",
+        "canvases": 1,
+        "tour": "playing"
+      }
+    },
+    {
+      "name": "hero-one-canvas-max",
+      "pass": true,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "hero-project-poster-websocket-inspector",
+      "pass": true,
+      "expected": {
+        "canvases": 0,
+        "poster": true,
+        "staticExplore": true,
+        "exploreControl": true
+      },
+      "actual": {
+        "canvases": 0,
+        "posterWidth": 1086,
+        "staticExploreVisible": true,
+        "controlVisible": true
+      }
+    },
+    {
+      "name": "hero-project-poster-jev-toolkit",
+      "pass": true,
+      "expected": {
+        "canvases": 0,
+        "poster": true,
+        "staticExplore": true,
+        "exploreControl": true
+      },
+      "actual": {
+        "canvases": 0,
+        "posterWidth": 1086,
+        "staticExploreVisible": true,
+        "controlVisible": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+S13/T010 G8/G10 — supplementary Lighthouse + weight
+Target: http://127.0.0.1:4173 (local production export, mobile Lighthouse, 3-run median)
+Budgets: Lighthouse performance/accessibility >= 0.95; CLS = 0 in every run; weight < 3,000,000 B mobile and desktop.
+
+| Route | Perf | A11y | CLS max | Mobile bytes | Desktop bytes | Result |
+|---|---:|---:|---:|---:|---:|---|
+| `/` | 1.00 | 1.00 | 0 | 454653 | 462893 | Lighthouse PASS; weight PASS |
+| `/projects` | 1.00 | 1.00 | 0 | 207718 | 215975 | Lighthouse PASS; weight PASS |
+| `/projects/jev-toolkit` | 1.00 | 1.00 | 0 | 202577 | 202540 | Lighthouse PASS; weight PASS |
+| `/projects/websocket-inspector` | 1.00 | 1.00 | 0 | 201677 | 201677 | Lighthouse PASS; weight PASS |
+
+CLI exit statuses:
+G8 / exit 0
+G10 / exit 0
+G8 /projects exit 0
+G10 /projects exit 0
+G8 /projects/jev-toolkit exit 0
+G10 /projects/jev-toolkit exit 0
+G8 /projects/websocket-inspector exit 0
+G10 /projects/websocket-inspector exit 0
+
+Artifacts: T010-G8-lh-{ ,projects,projects-jev-toolkit,projects-websocket-inspector}/lighthouse-summary.json and T010-G10-weight-{...}/weight.json.

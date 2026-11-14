@@ -1,0 +1,2582 @@
+{
+  "kind": "site-probe",
+  "version": 2,
+  "baseUrl": "http://127.0.0.1:51828/",
+  "chromium": "156.0.8078.4",
+  "groups": [
+    {
+      "group": "drill",
+      "pass": true,
+      "checks": [
+        {
+          "name": "drill-tab-logical-order",
+          "pass": true,
+          "expected": [
+            "skip",
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme",
+            "hero:primary",
+            "card:websocket-inspector",
+            "card:jev-toolkit",
+            "contact:email",
+            "contact:github",
+            "contact:linkedin",
+            "footer:home",
+            "footer:top"
+          ],
+          "actual": [
+            "skip",
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme",
+            "hero:primary",
+            "card:websocket-inspector",
+            "card:jev-toolkit",
+            "contact:email",
+            "contact:github",
+            "contact:linkedin",
+            "footer:home",
+            "footer:top"
+          ]
+        },
+        {
+          "name": "drill-nav-dom-order",
+          "pass": true,
+          "expected": [
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme"
+          ],
+          "actual": [
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme"
+          ]
+        },
+        {
+          "name": "drill-no-resume-link",
+          "pass": true,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "drill-shift-tab-reverses",
+          "pass": true,
+          "expected": [
+            "footer:home",
+            "contact:linkedin",
+            "contact:github",
+            "contact:email",
+            "card:jev-toolkit",
+            "card:websocket-inspector",
+            "hero:primary",
+            "nav:theme",
+            "nav:linkedin",
+            "nav:github",
+            "nav:contact",
+            "nav:about",
+            "nav:projects",
+            "nav:home",
+            "skip"
+          ],
+          "actual": [
+            "footer:home",
+            "contact:linkedin",
+            "contact:github",
+            "contact:email",
+            "card:jev-toolkit",
+            "card:websocket-inspector",
+            "hero:primary",
+            "nav:theme",
+            "nav:linkedin",
+            "nav:github",
+            "nav:contact",
+            "nav:about",
+            "nav:projects",
+            "nav:home",
+            "skip"
+          ]
+        },
+        {
+          "name": "drill-no-trap",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "stoppedAfterLast": true,
+            "anchor": "footer:top",
+            "trap": false,
+            "repeated": null
+          }
+        },
+        {
+          "name": "drill-card-enter-url",
+          "pass": true,
+          "expected": "/projects/websocket-inspector",
+          "actual": "/projects/websocket-inspector"
+        },
+        {
+          "name": "drill-card-enter-viewer",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "drill-card-enter-h1",
+          "pass": true,
+          "expected": "Scarlet Inspector",
+          "actual": "Scarlet Inspector"
+        },
+        {
+          "name": "drill-soft-navigation",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "project": true,
+            "back": true
+          }
+        },
+        {
+          "name": "drill-back-card-reachable",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "drill-soft-nav-cls",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "entries": []
+          }
+        },
+        {
+          "name": "drill-projects-one-activation",
+          "pass": true,
+          "expected": "/projects",
+          "actual": "/projects"
+        },
+        {
+          "name": "drill-card-hrefs-200",
+          "pass": true,
+          "expected": "every status 200",
+          "actual": [
+            {
+              "href": "/projects/websocket-inspector",
+              "status": 200
+            },
+            {
+              "href": "/projects/jev-toolkit",
+              "status": 200
+            }
+          ]
+        }
+      ],
+      "data": {
+        "structure": {
+          "expected": [
+            {
+              "key": "skip",
+              "role": "a",
+              "name": "Skip to content",
+              "panel": "",
+              "tag": "a",
+              "href": "#main"
+            },
+            {
+              "key": "nav:home",
+              "role": "a",
+              "name": "TH Timur Haryo",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "nav:projects",
+              "role": "a",
+              "name": "Projects",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/projects"
+            },
+            {
+              "key": "nav:about",
+              "role": "a",
+              "name": "About",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#about"
+            },
+            {
+              "key": "nav:contact",
+              "role": "a",
+              "name": "Contact",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#contact"
+            },
+            {
+              "key": "nav:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "nav:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "nav:theme",
+              "role": "button",
+              "name": "Switch to dark theme",
+              "panel": "nav",
+              "tag": "button",
+              "href": null
+            },
+            {
+              "key": "hero:primary",
+              "role": "a",
+              "name": "See how it works",
+              "panel": "hero",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:websocket-inspector",
+              "role": "a",
+              "name": "Scarlet Inspector",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:jev-toolkit",
+              "role": "a",
+              "name": "JEV Benchmark",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/jev-toolkit"
+            },
+            {
+              "key": "contact:email",
+              "role": "a",
+              "name": "Email vibing.murphy@gmail.com",
+              "panel": "",
+              "tag": "a",
+              "href": "mailto:vibing.murphy@gmail.com"
+            },
+            {
+              "key": "contact:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "contact:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "footer:home",
+              "role": "a",
+              "name": "TH Timur Haryo Mahissanular",
+              "panel": "footer",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "footer:top",
+              "role": "a",
+              "name": "Back to top ↑",
+              "panel": "footer",
+              "tag": "a",
+              "href": "#main"
+            }
+          ],
+          "nav": [
+            "nav:home",
+            "nav:projects",
+            "nav:about",
+            "nav:contact",
+            "nav:github",
+            "nav:linkedin",
+            "nav:theme"
+          ],
+          "hero": [
+            "hero:primary"
+          ],
+          "cards": [
+            "card:websocket-inspector",
+            "card:jev-toolkit"
+          ],
+          "contact": [
+            "contact:email",
+            "contact:github",
+            "contact:linkedin"
+          ],
+          "footer": [
+            "footer:home",
+            "footer:top"
+          ],
+          "resumeLinks": 0
+        },
+        "walk": {
+          "forward": [
+            {
+              "key": "skip",
+              "role": "a",
+              "name": "Skip to content",
+              "panel": "",
+              "tag": "a",
+              "href": "#main"
+            },
+            {
+              "key": "nav:home",
+              "role": "a",
+              "name": "TH Timur Haryo",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "nav:projects",
+              "role": "a",
+              "name": "Projects",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/projects"
+            },
+            {
+              "key": "nav:about",
+              "role": "a",
+              "name": "About",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#about"
+            },
+            {
+              "key": "nav:contact",
+              "role": "a",
+              "name": "Contact",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#contact"
+            },
+            {
+              "key": "nav:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "nav:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "nav:theme",
+              "role": "button",
+              "name": "Switch to dark theme",
+              "panel": "nav",
+              "tag": "button",
+              "href": null
+            },
+            {
+              "key": "hero:primary",
+              "role": "a",
+              "name": "See how it works",
+              "panel": "hero",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:websocket-inspector",
+              "role": "a",
+              "name": "Scarlet Inspector",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "card:jev-toolkit",
+              "role": "a",
+              "name": "JEV Benchmark",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/jev-toolkit"
+            },
+            {
+              "key": "contact:email",
+              "role": "a",
+              "name": "Email vibing.murphy@gmail.com",
+              "panel": "",
+              "tag": "a",
+              "href": "mailto:vibing.murphy@gmail.com"
+            },
+            {
+              "key": "contact:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "contact:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "footer:home",
+              "role": "a",
+              "name": "TH Timur Haryo Mahissanular",
+              "panel": "footer",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "footer:top",
+              "role": "a",
+              "name": "Back to top ↑",
+              "panel": "footer",
+              "tag": "a",
+              "href": "#main"
+            }
+          ],
+          "backward": [
+            {
+              "key": "footer:home",
+              "role": "a",
+              "name": "TH Timur Haryo Mahissanular",
+              "panel": "footer",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "contact:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "contact:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "contact:email",
+              "role": "a",
+              "name": "Email vibing.murphy@gmail.com",
+              "panel": "",
+              "tag": "a",
+              "href": "mailto:vibing.murphy@gmail.com"
+            },
+            {
+              "key": "card:jev-toolkit",
+              "role": "a",
+              "name": "JEV Benchmark",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/jev-toolkit"
+            },
+            {
+              "key": "card:websocket-inspector",
+              "role": "a",
+              "name": "Scarlet Inspector",
+              "panel": "",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "hero:primary",
+              "role": "a",
+              "name": "See how it works",
+              "panel": "hero",
+              "tag": "a",
+              "href": "/projects/websocket-inspector"
+            },
+            {
+              "key": "nav:theme",
+              "role": "button",
+              "name": "Switch to dark theme",
+              "panel": "nav",
+              "tag": "button",
+              "href": null
+            },
+            {
+              "key": "nav:linkedin",
+              "role": "a",
+              "name": "LinkedIn",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://id.linkedin.com/in/timurharyo"
+            },
+            {
+              "key": "nav:github",
+              "role": "a",
+              "name": "GitHub",
+              "panel": "nav",
+              "tag": "a",
+              "href": "https://github.com/TimurHaryo"
+            },
+            {
+              "key": "nav:contact",
+              "role": "a",
+              "name": "Contact",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#contact"
+            },
+            {
+              "key": "nav:about",
+              "role": "a",
+              "name": "About",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/#about"
+            },
+            {
+              "key": "nav:projects",
+              "role": "a",
+              "name": "Projects",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/projects"
+            },
+            {
+              "key": "nav:home",
+              "role": "a",
+              "name": "TH Timur Haryo",
+              "panel": "nav",
+              "tag": "a",
+              "href": "/"
+            },
+            {
+              "key": "skip",
+              "role": "a",
+              "name": "Skip to content",
+              "panel": "",
+              "tag": "a",
+              "href": "#main"
+            }
+          ],
+          "anchor": {
+            "key": "footer:top",
+            "role": "a",
+            "name": "Back to top ↑",
+            "panel": "footer",
+            "tag": "a",
+            "href": "#main"
+          },
+          "stoppedAfterLast": true
+        },
+        "softCls": {
+          "total": 0,
+          "pass": true,
+          "sources": []
+        }
+      },
+      "lines": []
+    },
+    {
+      "group": "hero",
+      "pass": true,
+      "checks": [
+        {
+          "name": "hero-ssr-poster",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "hero-first-paint-is-poster",
+          "pass": true,
+          "expected": {
+            "liveStateNot": "revealed",
+            "hasFcp": true
+          },
+          "actual": {
+            "fcpAt": 64,
+            "loadAt": 50.19999998807907,
+            "liveStateAtFcp": "loading",
+            "liveStateAtLoad": "idle"
+          }
+        },
+        {
+          "name": "hero-eager-no-interaction",
+          "pass": true,
+          "expected": {
+            "liveState": "revealed",
+            "canvases": 1,
+            "ready": true
+          },
+          "actual": {
+            "liveState": "revealed",
+            "canvases": 1,
+            "ready": true
+          }
+        },
+        {
+          "name": "hero-revealed-after-load",
+          "pass": true,
+          "expected": {
+            "afterLoad": true,
+            "liveState": "revealed"
+          },
+          "actual": {
+            "fcpAt": 64,
+            "loadAt": 50.19999998807907,
+            "liveStateAtFcp": "loading",
+            "liveStateAtLoad": "idle",
+            "liveStateAfterInteraction": "revealed"
+          }
+        },
+        {
+          "name": "hero-loop-running",
+          "pass": true,
+          "expected": {
+            "heroLoop": "running",
+            "canvases": 1,
+            "tour": "capture or inspect"
+          },
+          "actual": {
+            "heroLoop": "running",
+            "canvases": 1,
+            "tour": "playing"
+          }
+        },
+        {
+          "name": "hero-one-canvas-max",
+          "pass": true,
+          "expected": 1,
+          "actual": 1
+        },
+        {
+          "name": "hero-project-poster-websocket-inspector",
+          "pass": true,
+          "expected": {
+            "canvases": 0,
+            "poster": true,
+            "staticExplore": true,
+            "exploreControl": true
+          },
+          "actual": {
+            "canvases": 0,
+            "posterWidth": 1086,
+            "staticExploreVisible": true,
+            "controlVisible": true
+          }
+        },
+        {
+          "name": "hero-project-poster-jev-toolkit",
+          "pass": true,
+          "expected": {
+            "canvases": 0,
+            "poster": true,
+            "staticExplore": true,
+            "exploreControl": true
+          },
+          "actual": {
+            "canvases": 0,
+            "posterWidth": 1086,
+            "staticExploreVisible": true,
+            "controlVisible": true
+          }
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "cls",
+      "pass": true,
+      "checks": [
+        {
+          "name": "cls-/-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-desktop-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-desktop-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-mobile-light",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/websocket-inspector-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        },
+        {
+          "name": "cls-/projects/jev-toolkit-mobile-dark",
+          "pass": true,
+          "expected": 0,
+          "actual": {
+            "total": 0,
+            "sources": []
+          }
+        }
+      ],
+      "data": {
+        "kind": "site-probe-cls",
+        "version": 1,
+        "baseUrl": "http://127.0.0.1:51828/",
+        "chromium": "156.0.8078.4",
+        "cells": [
+          {
+            "route": "/",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "desktop",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "desktop",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "mobile",
+            "palette": "light",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/websocket-inspector",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          },
+          {
+            "route": "/projects/jev-toolkit",
+            "viewport": "mobile",
+            "palette": "dark",
+            "total": 0,
+            "pass": true,
+            "sources": [],
+            "entries": []
+          }
+        ],
+        "pass": true
+      },
+      "lines": []
+    },
+    {
+      "group": "reduced-motion",
+      "pass": true,
+      "checks": [
+        {
+          "name": "reduced-home-skipped",
+          "pass": true,
+          "expected": {
+            "liveState": "skipped",
+            "heroCanvases": 0,
+            "posterVisible": true
+          },
+          "actual": {
+            "liveState": "skipped",
+            "heroCanvases": 0,
+            "posterWidth": 817.609375
+          }
+        },
+        {
+          "name": "reduced-home-no-animations",
+          "pass": true,
+          "expected": "all samples 0",
+          "actual": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "reduced-poster-no-transition-websocket-inspector",
+          "pass": true,
+          "expected": "all durations 0",
+          "actual": "0s"
+        },
+        {
+          "name": "reduced-project-toggles-instant-websocket-inspector",
+          "pass": true,
+          "expected": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweeningNeverTrue": true
+          },
+          "actual": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweening": [
+              "false"
+            ]
+          }
+        },
+        {
+          "name": "reduced-project-no-animations-websocket-inspector",
+          "pass": true,
+          "expected": {
+            "implode": 0,
+            "explode": 0
+          },
+          "actual": {
+            "implode": 0,
+            "explode": 0
+          }
+        },
+        {
+          "name": "reduced-poster-no-transition-jev-toolkit",
+          "pass": true,
+          "expected": "all durations 0",
+          "actual": "0s"
+        },
+        {
+          "name": "reduced-project-toggles-instant-jev-toolkit",
+          "pass": true,
+          "expected": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweeningNeverTrue": true
+          },
+          "actual": {
+            "phases": [
+              "exploded",
+              "imploded",
+              "exploded"
+            ],
+            "tweening": [
+              "false"
+            ]
+          }
+        },
+        {
+          "name": "reduced-project-no-animations-jev-toolkit",
+          "pass": true,
+          "expected": {
+            "implode": 0,
+            "explode": 0
+          },
+          "actual": {
+            "implode": 0,
+            "explode": 0
+          }
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "nojs",
+      "pass": true,
+      "checks": [
+        {
+          "name": "nojs-home-poster-and-list",
+          "pass": true,
+          "expected": {
+            "posters": 1,
+            "list": "cards"
+          },
+          "actual": {
+            "posters": 2,
+            "posterWidth": 350,
+            "cards": 2,
+            "outlines": 0
+          }
+        },
+        {
+          "name": "nojs-project-websocket-inspector-poster-and-list",
+          "pass": true,
+          "expected": {
+            "posters": 1,
+            "list": "outline"
+          },
+          "actual": {
+            "posters": 1,
+            "posterWidth": 348,
+            "cards": 0,
+            "outlines": 1
+          }
+        },
+        {
+          "name": "nojs-project-jev-toolkit-poster-and-list",
+          "pass": true,
+          "expected": {
+            "posters": 1,
+            "list": "outline"
+          },
+          "actual": {
+            "posters": 1,
+            "posterWidth": 348,
+            "cards": 0,
+            "outlines": 1
+          }
+        },
+        {
+          "name": "nojs-raw-home-poster-list",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "pass": true,
+            "poster": true,
+            "list": true,
+            "listKind": "cards"
+          }
+        },
+        {
+          "name": "nojs-raw-hero-poster",
+          "pass": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "nojs-raw-project-websocket-inspector-poster-list",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "pass": true,
+            "poster": true,
+            "list": true,
+            "listKind": "outline"
+          }
+        },
+        {
+          "name": "nojs-raw-project-jev-toolkit-poster-list",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "pass": true,
+            "poster": true,
+            "list": true,
+            "listKind": "outline"
+          }
+        },
+        {
+          "name": "nojs-project-websocket-inspector-no-webgl-outline",
+          "pass": true,
+          "expected": {
+            "outline": true,
+            "message": true,
+            "canvases": 0
+          },
+          "actual": {
+            "outline": true,
+            "message": true,
+            "canvases": 0,
+            "text": "WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"
+          }
+        },
+        {
+          "name": "nojs-project-jev-toolkit-no-webgl-outline",
+          "pass": true,
+          "expected": {
+            "outline": true,
+            "message": true,
+            "canvases": 0
+          },
+          "actual": {
+            "outline": true,
+            "message": true,
+            "canvases": 0,
+            "text": "WebGL is unavailable for this teardown.How much of a repo does a model need to read before it decides where to look?ProblemCoding agents burn context on orientation. The expensive question is not what"
+          }
+        }
+      ],
+      "data": {
+        "captures": [
+          {
+            "name": "home",
+            "screenshot": "nojs-home.png",
+            "dump": "nojs-home.html",
+            "actual": {
+              "posters": 2,
+              "posterWidth": 350,
+              "cards": 2,
+              "outlines": 0
+            }
+          },
+          {
+            "name": "project-websocket-inspector",
+            "screenshot": "nojs-project-websocket-inspector.png",
+            "dump": "nojs-project-websocket-inspector.html",
+            "actual": {
+              "posters": 1,
+              "posterWidth": 348,
+              "cards": 0,
+              "outlines": 1
+            }
+          },
+          {
+            "name": "project-jev-toolkit",
+            "screenshot": "nojs-project-jev-toolkit.png",
+            "dump": "nojs-project-jev-toolkit.html",
+            "actual": {
+              "posters": 1,
+              "posterWidth": 348,
+              "cards": 0,
+              "outlines": 1
+            }
+          }
+        ]
+      },
+      "lines": []
+    },
+    {
+      "group": "routes",
+      "pass": true,
+      "checks": [
+        {
+          "name": "routes-home-title",
+          "pass": true,
+          "expected": "Timur Haryo — Software Engineer · Android & Developer Tools",
+          "actual": "Timur Haryo — Software Engineer · Android & Developer Tools"
+        },
+        {
+          "name": "routes-home-description",
+          "pass": true,
+          "expected": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+          "actual": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+        },
+        {
+          "name": "routes-projects-title",
+          "pass": true,
+          "expected": "Projects · Timur Haryo",
+          "actual": "Projects · Timur Haryo"
+        },
+        {
+          "name": "routes-projects-description",
+          "pass": true,
+          "expected": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+          "actual": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+        },
+        {
+          "name": "routes-project-title-websocket-inspector",
+          "pass": true,
+          "expected": "Scarlet Inspector · Timur Haryo",
+          "actual": "Scarlet Inspector · Timur Haryo"
+        },
+        {
+          "name": "routes-project-description-websocket-inspector",
+          "pass": true,
+          "expected": "Every WebSocket frame, captured and inspectable.",
+          "actual": "Every WebSocket frame, captured and inspectable."
+        },
+        {
+          "name": "routes-project-title-jev-toolkit",
+          "pass": true,
+          "expected": "JEV Benchmark · Timur Haryo",
+          "actual": "JEV Benchmark · Timur Haryo"
+        },
+        {
+          "name": "routes-project-description-jev-toolkit",
+          "pass": true,
+          "expected": "Measuring what an AI reads before it codes.",
+          "actual": "Measuring what an AI reads before it codes."
+        },
+        {
+          "name": "routes-unknown-project-status",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        },
+        {
+          "name": "routes-unknown-project-content",
+          "pass": true,
+          "expected": "not-found content",
+          "actual": {
+            "h1": "Page not found"
+          }
+        },
+        {
+          "name": "routes-/dev/engine-404",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        },
+        {
+          "name": "routes-/fixtures/fps-calibration-404",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        },
+        {
+          "name": "routes-/resume.pdf-404",
+          "pass": true,
+          "expected": 404,
+          "actual": 404
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "draws",
+      "pass": true,
+      "checks": [
+        {
+          "name": "draws-project-websocket-inspector",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "pass": true,
+            "mode": 2,
+            "modeCount": 31,
+            "renderedFrames": 31,
+            "totalFrames": 31,
+            "counts": {
+              "2": 31
+            }
+          }
+        },
+        {
+          "name": "draws-project-jev-toolkit",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "pass": true,
+            "mode": 2,
+            "modeCount": 32,
+            "renderedFrames": 32,
+            "totalFrames": 32,
+            "counts": {
+              "2": 32
+            }
+          }
+        },
+        {
+          "name": "draws-hero",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "pass": true,
+            "mode": 2,
+            "modeCount": 103,
+            "renderedFrames": 103,
+            "totalFrames": 103,
+            "counts": {
+              "2": 103
+            }
+          }
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "teardown",
+      "pass": true,
+      "checks": [
+        {
+          "name": "teardown-websocket-inspector-outline-counts",
+          "pass": true,
+          "expected": {
+            "layers": 5,
+            "components": 16
+          },
+          "actual": {
+            "present": true,
+            "layers": 5,
+            "components": 16,
+            "flows": 0
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-outline-counts",
+          "pass": true,
+          "expected": {
+            "layers": 5,
+            "components": 20
+          },
+          "actual": {
+            "present": true,
+            "layers": 5,
+            "components": 20,
+            "flows": 0
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-layers-light",
+          "pass": true,
+          "expected": {
+            "layers": 5,
+            "parts": 16
+          },
+          "actual": {
+            "layers": 5,
+            "parts": 16,
+            "partsByLayer": [
+              4,
+              4,
+              3,
+              2,
+              3
+            ]
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-flows-light",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "options": 2,
+            "headers": 0,
+            "count": 2
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-panel-light",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "attached": true,
+            "visible": true
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-tour-capture-path-light",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 7 of 7"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 11200,
+            "timeoutMs": 43000,
+            "state": "ended",
+            "position": "Step 7 of 7"
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-tour-inspect-path-light",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 7 of 7"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 11285,
+            "timeoutMs": 43000,
+            "state": "ended",
+            "position": "Step 7 of 7"
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-layers-light",
+          "pass": true,
+          "expected": {
+            "layers": 5,
+            "parts": 20
+          },
+          "actual": {
+            "layers": 5,
+            "parts": 20,
+            "partsByLayer": [
+              4,
+              4,
+              4,
+              5,
+              3
+            ]
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-flows-light",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "options": 2,
+            "headers": 0,
+            "count": 2
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-panel-light",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "attached": true,
+            "visible": true
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-tour-arm-run-light",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 8 of 8"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 12875,
+            "timeoutMs": 47000,
+            "state": "ended",
+            "position": "Step 8 of 8"
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-tour-judge-path-light",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 4 of 4"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 6495,
+            "timeoutMs": 31000,
+            "state": "ended",
+            "position": "Step 4 of 4"
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-layers-dark",
+          "pass": true,
+          "expected": {
+            "layers": 5,
+            "parts": 16
+          },
+          "actual": {
+            "layers": 5,
+            "parts": 16,
+            "partsByLayer": [
+              4,
+              4,
+              3,
+              2,
+              3
+            ]
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-flows-dark",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "options": 2,
+            "headers": 0,
+            "count": 2
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-panel-dark",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "attached": true,
+            "visible": true
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-tour-capture-path-dark",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 7 of 7"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 11285,
+            "timeoutMs": 43000,
+            "state": "ended",
+            "position": "Step 7 of 7"
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-tour-inspect-path-dark",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 7 of 7"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 11297,
+            "timeoutMs": 43000,
+            "state": "ended",
+            "position": "Step 7 of 7"
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-layers-dark",
+          "pass": true,
+          "expected": {
+            "layers": 5,
+            "parts": 20
+          },
+          "actual": {
+            "layers": 5,
+            "parts": 20,
+            "partsByLayer": [
+              4,
+              4,
+              4,
+              5,
+              3
+            ]
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-flows-dark",
+          "pass": true,
+          "expected": 2,
+          "actual": {
+            "options": 2,
+            "headers": 0,
+            "count": 2
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-panel-dark",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "attached": true,
+            "visible": true
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-tour-arm-run-dark",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 8 of 8"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 12888,
+            "timeoutMs": 47000,
+            "state": "ended",
+            "position": "Step 8 of 8"
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-tour-judge-path-dark",
+          "pass": true,
+          "expected": {
+            "state": "ended",
+            "position": "Step 4 of 4"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 6480,
+            "timeoutMs": 31000,
+            "state": "ended",
+            "position": "Step 4 of 4"
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-compact-column-light",
+          "pass": true,
+          "expected": {
+            "column": "shown",
+            "rows": 16,
+            "noOverflow": true
+          },
+          "actual": {
+            "column": "shown",
+            "rows": 16,
+            "scrollWidth": 412,
+            "clientWidth": 412
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-mobile-panel",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "attached": true,
+            "visible": true
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-mobile-tour",
+          "pass": true,
+          "expected": {
+            "flowId": "capture-path",
+            "state": "ended",
+            "position": "Step 7 of 7"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 11200,
+            "timeoutMs": 43000,
+            "state": "ended",
+            "position": "Step 7 of 7"
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-compact-column-light",
+          "pass": true,
+          "expected": {
+            "column": "shown",
+            "rows": 20,
+            "noOverflow": true
+          },
+          "actual": {
+            "column": "shown",
+            "rows": 20,
+            "scrollWidth": 412,
+            "clientWidth": 412
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-mobile-panel",
+          "pass": true,
+          "expected": true,
+          "actual": {
+            "attached": true,
+            "visible": true
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-mobile-tour",
+          "pass": true,
+          "expected": {
+            "flowId": "arm-run",
+            "state": "ended",
+            "position": "Step 8 of 8"
+          },
+          "actual": {
+            "ended": true,
+            "elapsedMs": 12873,
+            "timeoutMs": 47000,
+            "state": "ended",
+            "position": "Step 8 of 8"
+          }
+        },
+        {
+          "name": "teardown-websocket-inspector-compact-column-dark",
+          "pass": true,
+          "expected": {
+            "column": "shown",
+            "rows": 16,
+            "noOverflow": true
+          },
+          "actual": {
+            "column": "shown",
+            "rows": 16,
+            "scrollWidth": 412,
+            "clientWidth": 412
+          }
+        },
+        {
+          "name": "teardown-jev-toolkit-compact-column-dark",
+          "pass": true,
+          "expected": {
+            "column": "shown",
+            "rows": 20,
+            "noOverflow": true
+          },
+          "actual": {
+            "column": "shown",
+            "rows": 20,
+            "scrollWidth": 412,
+            "clientWidth": 412
+          }
+        }
+      ],
+      "lines": []
+    },
+    {
+      "group": "cards",
+      "pass": true,
+      "checks": [
+        {
+          "name": "cards-home-websocket-inspector-mobile-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-home-jev-toolkit-mobile-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-home-order-mobile-light",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-home-no-hscroll-mobile-light",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 390
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          }
+        },
+        {
+          "name": "cards-home-websocket-inspector-mobile-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-home-jev-toolkit-mobile-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-home-order-mobile-dark",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-home-no-hscroll-mobile-dark",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 390
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          }
+        },
+        {
+          "name": "cards-home-websocket-inspector-desktop-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-home-jev-toolkit-desktop-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-home-order-desktop-light",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-home-no-hscroll-desktop-light",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 1280
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 1280,
+            "clientWidth": 1280
+          }
+        },
+        {
+          "name": "cards-home-websocket-inspector-desktop-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-home-jev-toolkit-desktop-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-home-order-desktop-dark",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-home-no-hscroll-desktop-dark",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 1280
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 1280,
+            "clientWidth": 1280
+          }
+        },
+        {
+          "name": "cards-projects-websocket-inspector-mobile-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-projects-jev-toolkit-mobile-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-projects-order-mobile-light",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-projects-no-hscroll-mobile-light",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 390
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          }
+        },
+        {
+          "name": "cards-projects-websocket-inspector-mobile-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-projects-jev-toolkit-mobile-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-projects-order-mobile-dark",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-projects-no-hscroll-mobile-dark",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 390
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          }
+        },
+        {
+          "name": "cards-projects-websocket-inspector-desktop-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-projects-jev-toolkit-desktop-light",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-projects-order-desktop-light",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-projects-no-hscroll-desktop-light",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 1280
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 1280,
+            "clientWidth": 1280
+          }
+        },
+        {
+          "name": "cards-projects-websocket-inspector-desktop-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "tagline": "Every WebSocket frame, captured and inspectable.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/websocket-inspector"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "Scarlet Inspector",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 4,
+              "unknown": [],
+              "labels": [
+                "Kotlin",
+                "Android",
+                "Kotlin Coroutines",
+                "Jetpack Compose"
+              ]
+            },
+            "href": "/projects/websocket-inspector"
+          }
+        },
+        {
+          "name": "cards-projects-jev-toolkit-desktop-dark",
+          "pass": true,
+          "expected": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "tagline": "Measuring what an AI reads before it codes.",
+            "chips": {
+              "min": 1,
+              "max": 4,
+              "registry": "known labels"
+            },
+            "href": "/projects/jev-toolkit"
+          },
+          "actual": {
+            "count": 1,
+            "headingText": "JEV Benchmark",
+            "taglineFound": true,
+            "chips": {
+              "pass": true,
+              "count": 1,
+              "unknown": [],
+              "labels": [
+                "Node.js"
+              ]
+            },
+            "href": "/projects/jev-toolkit"
+          }
+        },
+        {
+          "name": "cards-projects-order-desktop-dark",
+          "pass": true,
+          "expected": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ],
+          "actual": [
+            "websocket-inspector",
+            "jev-toolkit"
+          ]
+        },
+        {
+          "name": "cards-projects-no-hscroll-desktop-dark",
+          "pass": true,
+          "expected": {
+            "scrollWidthAtMost": "clientWidth",
+            "viewportWidth": 1280
+          },
+          "actual": {
+            "pass": true,
+            "scrollWidth": 1280,
+            "clientWidth": 1280
+          }
+        },
+        {
+          "name": "cards-websocket-inspector-href-200",
+          "pass": true,
+          "expected": 200,
+          "actual": 200
+        },
+        {
+          "name": "cards-jev-toolkit-href-200",
+          "pass": true,
+          "expected": 200,
+          "actual": 200
+        }
+      ],
+      "lines": []
+    }
+  ],
+  "pass": true
+}

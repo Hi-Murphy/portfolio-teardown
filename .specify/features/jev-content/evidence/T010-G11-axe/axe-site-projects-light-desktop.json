@@ -1,0 +1,31 @@
+{
+  "kind": "site-axe",
+  "version": 1,
+  "routeGroup": "projects",
+  "palette": "light",
+  "viewport": {
+    "name": "desktop",
+    "width": 1280,
+    "height": 800,
+    "isMobile": false,
+    "hasTouch": false
+  },
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa",
+    "best-practice"
+  ],
+  "states": [
+    {
+      "state": "projects",
+      "routeGroup": "projects",
+      "path": "/projects",
+      "url": "http://127.0.0.1:52399/projects",
+      "violations": [],
+      "incomplete": []
+    }
+  ]
+}

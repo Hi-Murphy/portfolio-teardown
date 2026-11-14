@@ -1,0 +1,20 @@
+main-diff: using supplied base export
+projects: 237 diff lines (reported, not asserted)
+main-diff websocket-inspector: 943 bytes
+--- base websocket-inspector
++++ head websocket-inspector
+@@ -286,7 +286,7 @@
+ </div>
+ <div>
+ <h3 class="font-mono text-xs uppercase tracking-[0.16em] text-muted">Outcome</h3>
+-<p class="mt-2 text-sm leading-relaxed text-fg">The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my JEV decision-hook research — fifteen refactor tasks across ten rule areas.</p>
++<p class="mt-2 text-sm leading-relaxed text-fg">The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my research on JEV decision hooks — fifteen refactor tasks across ten rule areas.</p>
+ </div>
+ </div>
+ <section>
+
+G14 diff summary:
+- websocket-inspector.diff: 1 hunk, @@ -286,7 +286,7 @@; 1 removed line and 1 added line. The only content change is the authorized fe73c52 sentence.
+- projects.diff: 1 hunk, @@ -213,8 +213,233 @@; 225 added lines and 0 removed lines. Full hunk: T010-G14-diffs/projects.diff.
+- The websocket-inspector sentence "my research on JEV decision hooks" is absent from projects.diff (0 matches).
+- No other hunks appear in either diff.
