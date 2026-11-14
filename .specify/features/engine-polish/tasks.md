@@ -35,7 +35,7 @@
 | T001 | ☑ (8 guards OK; negative controls FAIL SURFACES-S2S4S7 + RESEAL-LIST + ALLOWED-PATHS; parity 8 shots; tour 2×5 runs (medians 11 204.8 / 12 804.4 ms); Clock warnings 3/3 routes; pause: settle ≤ 1 in 16/16 (3 cells settled before Pause), resume wait ≈ 1.41 s; overlap 10 hits, all `tags` mode; corner marks shift at 390×740 + 360×740 stalled) | 1 (Flash, sandbox off); orchestrator applied C4 to guards/approved list | evidence/T001-log-* | e252b71 |
 | T002 | ☑ (red: unit 3/5 fail, viewer 5/7 fail; green: 5/5 + 7/7, sealed suites 71/71, jsdom suites 11/11; only S5/S8 frozen-surface red until T003) | 1 (Flash, sandbox off); orchestrator re-ran checks, split red/fix commits | evidence/T002-log-{red,green}.txt | b29d54a (fix edde9d0) |
 | T003 | ☑ (S5 + S8 re-sealed at edde9d0, frozen-surface 6/6, xploder 640/640; S7 probe 93/93 and S8 a11y 75/75 identical to base; browser VERDICT PASS in 4 cells: hover-B → highlight B + selected A, left-B → selected A, A's tint = B's within 6/255) | orchestrator (re-seal) + 1 (Flash, browser evidence; B = 2.4 instead of 2.2 because 2.2's label ink skews the 5×5 sample) | evidence/T003-* | this merge |
-| T004 | ☐ | | | |
+| T004 | ☑ (red: FAIL hero-marks-stable-390x740 + 360x740, bottom marks 710 → 791.78, 1 shift each; fix: BlueprintSheet moved after content; green: 16 CLS cells 0.000000 + 3 mark checks PASS; parity 8 shots 0 px; perf 303/303, xploder 640/640, web 269 + 2 skipped) | 1 (Flash, sandbox off); orchestrator split red/fix commits | evidence/T004-log-{red,green,parity,diff,guard}.txt | edb7531 |
 | T005 | ☐ | | | |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
