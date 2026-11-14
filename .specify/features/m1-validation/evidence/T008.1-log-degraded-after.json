@@ -1,0 +1,3973 @@
+{
+  "kind": "m1-site-checks-degraded",
+  "version": 1,
+  "generatedAt": "2026-11-14T02:47:00.514Z",
+  "baseUrl": "http://127.0.0.1:PORT",
+  "expectedSteps": 7,
+  "checks": [
+    {
+      "id": "degraded-nojs-390-light-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-nojs-390-light-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-nojs-390-light-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-nojs-390-light-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-nojs-390-light-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 350,
+          "height": 256,
+          "left": 20,
+          "right": 370,
+          "top": 393.78125,
+          "bottom": 649.78125
+        },
+        "posterInsideHero": true,
+        "cls": "n/a (no JS)",
+        "stableNoJsPoster": true
+      }
+    },
+    {
+      "id": "degraded-nojs-390-dark-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-nojs-390-dark-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-nojs-390-dark-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-nojs-390-dark-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-nojs-390-dark-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 350,
+          "height": 256,
+          "left": 20,
+          "right": 370,
+          "top": 393.78125,
+          "bottom": 649.78125
+        },
+        "posterInsideHero": true,
+        "cls": "n/a (no JS)",
+        "stableNoJsPoster": true
+      }
+    },
+    {
+      "id": "degraded-nojs-1440-light-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-nojs-1440-light-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-nojs-1440-light-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-nojs-1440-light-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-nojs-1440-light-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 484.796875,
+          "y": 59.5,
+          "width": 907.203125,
+          "height": 702,
+          "left": 484.796875,
+          "right": 1392,
+          "top": 59.5,
+          "bottom": 761.5
+        },
+        "posterInsideHero": true,
+        "cls": "n/a (no JS)",
+        "stableNoJsPoster": true
+      }
+    },
+    {
+      "id": "degraded-nojs-1440-dark-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-nojs-1440-dark-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-nojs-1440-dark-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-nojs-1440-dark-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-nojs-1440-dark-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 484.796875,
+          "y": 59.5,
+          "width": 907.203125,
+          "height": 702,
+          "left": 484.796875,
+          "right": 1392,
+          "top": 59.5,
+          "bottom": 761.5
+        },
+        "posterInsideHero": true,
+        "cls": "n/a (no JS)",
+        "stableNoJsPoster": true
+      }
+    },
+    {
+      "id": "degraded-reduced-390-light-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-reduced-390-light-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-reduced-390-light-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-reduced-390-light-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-reduced-390-light-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 350,
+          "height": 256,
+          "left": 20,
+          "right": 370,
+          "top": 393.78125,
+          "bottom": 649.78125
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-reduced-390-dark-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-reduced-390-dark-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-reduced-390-dark-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-reduced-390-dark-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-reduced-390-dark-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 350,
+          "height": 256,
+          "left": 20,
+          "right": 370,
+          "top": 393.78125,
+          "bottom": 649.78125
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-reduced-1440-light-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-reduced-1440-light-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-reduced-1440-light-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-reduced-1440-light-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-reduced-1440-light-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 484.796875,
+          "y": 59.5,
+          "width": 907.203125,
+          "height": 702,
+          "left": 484.796875,
+          "right": 1392,
+          "top": 59.5,
+          "bottom": 761.5
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-reduced-1440-dark-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-reduced-1440-dark-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-reduced-1440-dark-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-reduced-1440-dark-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-reduced-1440-dark-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 484.796875,
+          "y": 59.5,
+          "width": 907.203125,
+          "height": 702,
+          "left": 484.796875,
+          "right": 1392,
+          "top": 59.5,
+          "bottom": 761.5
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-savedata-390-light-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-savedata-390-light-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-savedata-390-light-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-savedata-390-light-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-savedata-390-light-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 350,
+          "height": 256,
+          "left": 20,
+          "right": 370,
+          "top": 393.78125,
+          "bottom": 649.78125
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-savedata-390-dark-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-savedata-390-dark-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-savedata-390-dark-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-savedata-390-dark-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-savedata-390-dark-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 350,
+          "height": 256,
+          "left": 20,
+          "right": 370,
+          "top": 393.78125,
+          "bottom": 649.78125
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-savedata-1440-light-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-savedata-1440-light-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-savedata-1440-light-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-savedata-1440-light-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-savedata-1440-light-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 484.796875,
+          "y": 59.5,
+          "width": 907.203125,
+          "height": 702,
+          "left": 484.796875,
+          "right": 1392,
+          "top": 59.5,
+          "bottom": 761.5
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-savedata-1440-dark-poster",
+      "pass": true,
+      "expected": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      },
+      "actual": {
+        "poster": true,
+        "flow": true,
+        "lines": 1
+      }
+    },
+    {
+      "id": "degraded-savedata-1440-dark-steps",
+      "pass": true,
+      "expected": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "actual": [
+        "1:1",
+        "2:2",
+        "3:3",
+        "4:4",
+        "5:5",
+        "6:6",
+        "7:7"
+      ]
+    },
+    {
+      "id": "degraded-savedata-1440-dark-canvas",
+      "pass": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "id": "degraded-savedata-1440-dark-animation",
+      "pass": true,
+      "expected": {
+        "screenshots": "identical",
+        "runningHero": 0,
+        "loop": "not running"
+      },
+      "actual": {
+        "screenshots": true,
+        "runningHero": 0,
+        "loop": null
+      }
+    },
+    {
+      "id": "degraded-savedata-1440-dark-layout",
+      "pass": true,
+      "expected": {
+        "noHorizontalScroll": true,
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": true
+      },
+      "actual": {
+        "noHorizontalScroll": true,
+        "posterBox": {
+          "x": 484.796875,
+          "y": 59.5,
+          "width": 907.203125,
+          "height": 702,
+          "left": 484.796875,
+          "right": 1392,
+          "top": 59.5,
+          "bottom": 761.5
+        },
+        "posterInsideHero": true,
+        "cls": 0,
+        "stableNoJsPoster": null
+      }
+    },
+    {
+      "id": "degraded-tab-nojs-390-home",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 14,
+        "expected": 14,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 6,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 72.421875,
+              "y": 0,
+              "width": 62.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 134.6875,
+              "y": 0,
+              "width": 47.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 182.515625,
+              "y": 0,
+              "width": 60.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 252,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 296,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:a:See how it works",
+            "tag": "a",
+            "name": "See how it works",
+            "sectionIndex": 3,
+            "rect": {
+              "x": 20,
+              "y": 333.78125,
+              "width": 151.515625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:Scarlet Inspector",
+            "tag": "a",
+            "name": "Scarlet Inspector",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 37,
+              "y": 952,
+              "width": 144.140625,
+              "height": 21
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Email vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "Email vibing.murphy@gmail.com",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2044,
+              "width": 268.5625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2096,
+              "width": 78.875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2148,
+              "width": 88.765625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 16,
+              "y": 2273,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 296.703125,
+              "y": 2465,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-nojs-390-project",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 15,
+        "expected": 14,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 6,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 72.421875,
+              "y": 0,
+              "width": 62.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 134.6875,
+              "y": 0,
+              "width": 47.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 182.515625,
+              "y": 0,
+              "width": 60.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 252,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 296,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:a:← All projects",
+            "tag": "a",
+            "name": "← All projects",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 85,
+              "width": 90.703125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:Source",
+            "tag": "a",
+            "name": "Source",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 323.5,
+              "width": 46.46875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:section:An inspector for the invisible half of Android networking. PROBLEM WebSocket tra",
+            "tag": "section",
+            "name": "An inspector for the invisible half of Android networking. PROBLEM WebSocket tra",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 1038.296875,
+              "width": 350,
+              "height": 2680.75
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 3800.046875,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "vibing.murphy@gmail.com",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 3999.546875,
+              "width": 198.6875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 4043.546875,
+              "width": 73.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 4087.546875,
+              "width": 82.15625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 296.703125,
+              "y": 4188.546875,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-nojs-1440-home",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 14,
+        "expected": 14,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 168,
+              "y": 0,
+              "width": 123.375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 912.421875,
+              "y": 0,
+              "width": 70.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 986.6875,
+              "y": 0,
+              "width": 55.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1046.515625,
+              "y": 0,
+              "width": 68.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1132,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1180,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:a:See how it works",
+            "tag": "a",
+            "name": "See how it works",
+            "sectionIndex": 3,
+            "rect": {
+              "x": 48,
+              "y": 615.9375,
+              "width": 151.515625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:Scarlet Inspector",
+            "tag": "a",
+            "name": "Scarlet Inspector",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 197,
+              "y": 1028,
+              "width": 144.140625,
+              "height": 21
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Email vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "Email vibing.murphy@gmail.com",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 176,
+              "y": 1805,
+              "width": 268.5625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 476.5625,
+              "y": 1805,
+              "width": 78.875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 587.4375,
+              "y": 1805,
+              "width": 88.765625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 168,
+              "y": 1954,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 1194.703125,
+              "y": 2126.5,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-nojs-1440-project",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 15,
+        "expected": 14,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 168,
+              "y": 0,
+              "width": 123.375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 912.421875,
+              "y": 0,
+              "width": 70.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 986.6875,
+              "y": 0,
+              "width": 55.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1046.515625,
+              "y": 0,
+              "width": 68.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1132,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1180,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:a:← All projects",
+            "tag": "a",
+            "name": "← All projects",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 101,
+              "width": 90.703125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:Source",
+            "tag": "a",
+            "name": "Source",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 306.25,
+              "width": 46.46875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:section:An inspector for the invisible half of Android networking. PROBLEM WebSocket tra",
+            "tag": "section",
+            "name": "An inspector for the invisible half of Android networking. PROBLEM WebSocket tra",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 1060.25,
+              "width": 1088,
+              "height": 2047.75
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 168,
+              "y": 3213,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "vibing.murphy@gmail.com",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 3237.5,
+              "width": 198.6875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 3281.5,
+              "width": 73.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 3325.5,
+              "width": 82.15625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1194.703125,
+              "y": 3426.5,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-reduced-390-home",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 15,
+        "expected": 15,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 6,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 72.421875,
+              "y": 0,
+              "width": 62.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 134.6875,
+              "y": 0,
+              "width": 47.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 182.515625,
+              "y": 0,
+              "width": 60.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 252,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 296,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 340,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:See how it works",
+            "tag": "a",
+            "name": "See how it works",
+            "sectionIndex": 3,
+            "rect": {
+              "x": 20,
+              "y": 333.78125,
+              "width": 151.515625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Scarlet Inspector",
+            "tag": "a",
+            "name": "Scarlet Inspector",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 37,
+              "y": 952,
+              "width": 144.140625,
+              "height": 21
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:Email vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "Email vibing.murphy@gmail.com",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2044,
+              "width": 268.5625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2096,
+              "width": 78.875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2148,
+              "width": 88.765625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 16,
+              "y": 2273,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 296.703125,
+              "y": 2465,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-reduced-390-project",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 22,
+        "expected": 22,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 6,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 72.421875,
+              "y": 0,
+              "width": 62.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 134.6875,
+              "y": 0,
+              "width": 47.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 182.515625,
+              "y": 0,
+              "width": 60.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 252,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 296,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 340,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:← All projects",
+            "tag": "a",
+            "name": "← All projects",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 85,
+              "width": 90.703125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Source",
+            "tag": "a",
+            "name": "Source",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 323.5,
+              "width": 46.46875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:button:Explore in 3D",
+            "tag": "button",
+            "name": "Explore in 3D",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 117.4140625,
+              "y": 672.890625,
+              "width": 155.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:button:Layers",
+            "tag": "button",
+            "name": "Layers",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 100.5625,
+              "y": 1148.296875,
+              "width": 95.046875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:button:1 Inspection UI · 4 parts",
+            "tag": "button",
+            "name": "1 Inspection UI · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1213.296875,
+              "width": 179.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:button:2 Delivery & lifecycle · 4 parts",
+            "tag": "button",
+            "name": "2 Delivery & lifecycle · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1265.296875,
+              "width": 214.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:button:3 Capture · 3 parts",
+            "tag": "button",
+            "name": "3 Capture · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1317.296875,
+              "width": 152.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:15:button:4 Persistence · 2 parts",
+            "tag": "button",
+            "name": "4 Persistence · 2 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1369.296875,
+              "width": 173.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:16:button:5 Sample host · 3 parts",
+            "tag": "button",
+            "name": "5 Sample host · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1421.296875,
+              "width": 176.96875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:17:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1640.796875,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:18:a:vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "vibing.murphy@gmail.com",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1840.296875,
+              "width": 198.6875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:19:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1884.296875,
+              "width": 73.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:20:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1928.296875,
+              "width": 82.15625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:21:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 296.703125,
+              "y": 2029.296875,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-reduced-1440-home",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 15,
+        "expected": 15,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 168,
+              "y": 0,
+              "width": 123.375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 912.421875,
+              "y": 0,
+              "width": 70.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 986.6875,
+              "y": 0,
+              "width": 55.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1046.515625,
+              "y": 0,
+              "width": 68.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1132,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1180,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1228,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:See how it works",
+            "tag": "a",
+            "name": "See how it works",
+            "sectionIndex": 3,
+            "rect": {
+              "x": 48,
+              "y": 615.9375,
+              "width": 151.515625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Scarlet Inspector",
+            "tag": "a",
+            "name": "Scarlet Inspector",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 197,
+              "y": 1028,
+              "width": 144.140625,
+              "height": 21
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:Email vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "Email vibing.murphy@gmail.com",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 176,
+              "y": 1805,
+              "width": 268.5625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 476.5625,
+              "y": 1805,
+              "width": 78.875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 587.4375,
+              "y": 1805,
+              "width": 88.765625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 168,
+              "y": 1954,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 1194.703125,
+              "y": 2126.5,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-reduced-1440-project",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 22,
+        "expected": 22,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 168,
+              "y": 0,
+              "width": 123.375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 912.421875,
+              "y": 0,
+              "width": 70.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 986.6875,
+              "y": 0,
+              "width": 55.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1046.515625,
+              "y": 0,
+              "width": 68.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1132,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1180,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1228,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:← All projects",
+            "tag": "a",
+            "name": "← All projects",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 101,
+              "width": 90.703125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Source",
+            "tag": "a",
+            "name": "Source",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 306.25,
+              "width": 46.46875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:button:Explore in 3D",
+            "tag": "button",
+            "name": "Explore in 3D",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 642.4140625,
+              "y": 675.25,
+              "width": 155.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:button:Layers",
+            "tag": "button",
+            "name": "Layers",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 625.5625,
+              "y": 1126.25,
+              "width": 95.046875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:button:1 Inspection UI · 4 parts",
+            "tag": "button",
+            "name": "1 Inspection UI · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 197,
+              "y": 1191.25,
+              "width": 179.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:button:2 Delivery & lifecycle · 4 parts",
+            "tag": "button",
+            "name": "2 Delivery & lifecycle · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 384.4375,
+              "y": 1191.25,
+              "width": 214.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:button:3 Capture · 3 parts",
+            "tag": "button",
+            "name": "3 Capture · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 606.875,
+              "y": 1191.25,
+              "width": 152.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:15:button:4 Persistence · 2 parts",
+            "tag": "button",
+            "name": "4 Persistence · 2 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 767.0625,
+              "y": 1191.25,
+              "width": 173.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:16:button:5 Sample host · 3 parts",
+            "tag": "button",
+            "name": "5 Sample host · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 948.234375,
+              "y": 1191.25,
+              "width": 176.96875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:17:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 168,
+              "y": 1438.75,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:18:a:vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "vibing.murphy@gmail.com",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 1463.25,
+              "width": 198.6875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:19:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 1507.25,
+              "width": 73.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:20:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 1551.25,
+              "width": 82.15625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:21:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1194.703125,
+              "y": 1652.25,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-savedata-390-home",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 15,
+        "expected": 15,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 6,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 72.421875,
+              "y": 0,
+              "width": 62.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 134.6875,
+              "y": 0,
+              "width": 47.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 182.515625,
+              "y": 0,
+              "width": 60.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 252,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 296,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 340,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:See how it works",
+            "tag": "a",
+            "name": "See how it works",
+            "sectionIndex": 3,
+            "rect": {
+              "x": 20,
+              "y": 333.78125,
+              "width": 151.515625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Scarlet Inspector",
+            "tag": "a",
+            "name": "Scarlet Inspector",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 37,
+              "y": 952,
+              "width": 144.140625,
+              "height": 21
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:Email vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "Email vibing.murphy@gmail.com",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2044,
+              "width": 268.5625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2096,
+              "width": 78.875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 20,
+              "y": 2148,
+              "width": 88.765625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 16,
+              "y": 2273,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 296.703125,
+              "y": 2465,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-savedata-390-project",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 22,
+        "expected": 22,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 6,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 72.421875,
+              "y": 0,
+              "width": 62.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 134.6875,
+              "y": 0,
+              "width": 47.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 182.515625,
+              "y": 0,
+              "width": 60.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 252,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 296,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 340,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:← All projects",
+            "tag": "a",
+            "name": "← All projects",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 85,
+              "width": 90.703125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Source",
+            "tag": "a",
+            "name": "Source",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 20,
+              "y": 323.5,
+              "width": 46.46875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:button:Explore in 3D",
+            "tag": "button",
+            "name": "Explore in 3D",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 117.4140625,
+              "y": 672.890625,
+              "width": 155.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:button:Layers",
+            "tag": "button",
+            "name": "Layers",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 100.5625,
+              "y": 1148.296875,
+              "width": 95.046875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:button:1 Inspection UI · 4 parts",
+            "tag": "button",
+            "name": "1 Inspection UI · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1213.296875,
+              "width": 179.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:button:2 Delivery & lifecycle · 4 parts",
+            "tag": "button",
+            "name": "2 Delivery & lifecycle · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1265.296875,
+              "width": 214.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:button:3 Capture · 3 parts",
+            "tag": "button",
+            "name": "3 Capture · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1317.296875,
+              "width": 152.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:15:button:4 Persistence · 2 parts",
+            "tag": "button",
+            "name": "4 Persistence · 2 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1369.296875,
+              "width": 173.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:16:button:5 Sample host · 3 parts",
+            "tag": "button",
+            "name": "5 Sample host · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 37,
+              "y": 1421.296875,
+              "width": 176.96875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:17:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1640.796875,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:18:a:vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "vibing.murphy@gmail.com",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1840.296875,
+              "width": 198.6875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:19:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1884.296875,
+              "width": 73.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:20:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 16,
+              "y": 1928.296875,
+              "width": 82.15625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:21:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 296.703125,
+              "y": 2029.296875,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-savedata-1440-home",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 15,
+        "expected": 15,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 168,
+              "y": 0,
+              "width": 123.375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 912.421875,
+              "y": 0,
+              "width": 70.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 986.6875,
+              "y": 0,
+              "width": 55.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1046.515625,
+              "y": 0,
+              "width": 68.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1132,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1180,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1228,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:See how it works",
+            "tag": "a",
+            "name": "See how it works",
+            "sectionIndex": 3,
+            "rect": {
+              "x": 48,
+              "y": 615.9375,
+              "width": 151.515625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Scarlet Inspector",
+            "tag": "a",
+            "name": "Scarlet Inspector",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 197,
+              "y": 1028,
+              "width": 144.140625,
+              "height": 21
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:a:Email vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "Email vibing.murphy@gmail.com",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 176,
+              "y": 1805,
+              "width": 268.5625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 476.5625,
+              "y": 1805,
+              "width": 78.875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 4,
+            "rect": {
+              "x": 587.4375,
+              "y": 1805,
+              "width": 88.765625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 168,
+              "y": 1954,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 5,
+            "rect": {
+              "x": 1194.703125,
+              "y": 2126.5,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "degraded-tab-savedata-1440-project",
+      "pass": true,
+      "expected": {
+        "reached": "all visible controls",
+        "repeats": 0,
+        "visualOrder": "nondecreasing",
+        "focusVisible": true,
+        "returnedToBody": true
+      },
+      "actual": {
+        "reached": 22,
+        "expected": 22,
+        "missing": [],
+        "repeated": null,
+        "backwards": [],
+        "invisibleFocus": [],
+        "returnedToBody": true,
+        "steps": [
+          {
+            "key": "tab:0:a:Skip to content",
+            "tag": "a",
+            "name": "Skip to content",
+            "sectionIndex": -1,
+            "rect": {
+              "x": 12,
+              "y": 12,
+              "width": 134.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:1:a:TH Timur Haryo",
+            "tag": "a",
+            "name": "TH Timur Haryo",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 168,
+              "y": 0,
+              "width": 123.375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:2:a:Projects",
+            "tag": "a",
+            "name": "Projects",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 912.421875,
+              "y": 0,
+              "width": 70.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:3:a:About",
+            "tag": "a",
+            "name": "About",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 986.6875,
+              "y": 0,
+              "width": 55.828125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:4:a:Contact",
+            "tag": "a",
+            "name": "Contact",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1046.515625,
+              "y": 0,
+              "width": 68.484375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:5:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1132,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:6:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1180,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:7:button:Switch to dark theme",
+            "tag": "button",
+            "name": "Switch to dark theme",
+            "sectionIndex": 0,
+            "rect": {
+              "x": 1228,
+              "y": 0,
+              "width": 44,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:8:a:← All projects",
+            "tag": "a",
+            "name": "← All projects",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 101,
+              "width": 90.703125,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:9:a:Source",
+            "tag": "a",
+            "name": "Source",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 176,
+              "y": 306.25,
+              "width": 46.46875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:10:button:Explore in 3D",
+            "tag": "button",
+            "name": "Explore in 3D",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 642.4140625,
+              "y": 675.25,
+              "width": 155.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:11:button:Layers",
+            "tag": "button",
+            "name": "Layers",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 625.5625,
+              "y": 1126.25,
+              "width": 95.046875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:12:button:1 Inspection UI · 4 parts",
+            "tag": "button",
+            "name": "1 Inspection UI · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 197,
+              "y": 1191.25,
+              "width": 179.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:13:button:2 Delivery & lifecycle · 4 parts",
+            "tag": "button",
+            "name": "2 Delivery & lifecycle · 4 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 384.4375,
+              "y": 1191.25,
+              "width": 214.4375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:14:button:3 Capture · 3 parts",
+            "tag": "button",
+            "name": "3 Capture · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 606.875,
+              "y": 1191.25,
+              "width": 152.1875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:15:button:4 Persistence · 2 parts",
+            "tag": "button",
+            "name": "4 Persistence · 2 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 767.0625,
+              "y": 1191.25,
+              "width": 173.171875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:16:button:5 Sample host · 3 parts",
+            "tag": "button",
+            "name": "5 Sample host · 3 parts",
+            "sectionIndex": 1,
+            "rect": {
+              "x": 948.234375,
+              "y": 1191.25,
+              "width": 176.96875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:17:a:TH Timur Haryo Mahissanular",
+            "tag": "a",
+            "name": "TH Timur Haryo Mahissanular",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 168,
+              "y": 1438.75,
+              "width": 236.734375,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:18:a:vibing.murphy@gmail.com",
+            "tag": "a",
+            "name": "vibing.murphy@gmail.com",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 1463.25,
+              "width": 198.6875,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:19:a:GitHub",
+            "tag": "a",
+            "name": "GitHub",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 1507.25,
+              "width": 73.265625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:20:a:LinkedIn",
+            "tag": "a",
+            "name": "LinkedIn",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1064,
+              "y": 1551.25,
+              "width": 82.15625,
+              "height": 44
+            },
+            "focusVisible": true
+          },
+          {
+            "key": "tab:21:a:Back to top ↑",
+            "tag": "a",
+            "name": "Back to top ↑",
+            "sectionIndex": 2,
+            "rect": {
+              "x": 1194.703125,
+              "y": 1652.25,
+              "width": 77.296875,
+              "height": 44
+            },
+            "focusVisible": true
+          }
+        ]
+      }
+    }
+  ],
+  "screenshots": [
+    "degraded-nojs-390-light-motion-a.png",
+    "degraded-nojs-390-light-motion-b.png",
+    "degraded-nojs-390-light.png",
+    "degraded-nojs-390-dark-motion-a.png",
+    "degraded-nojs-390-dark-motion-b.png",
+    "degraded-nojs-390-dark.png",
+    "degraded-nojs-1440-light-motion-a.png",
+    "degraded-nojs-1440-light-motion-b.png",
+    "degraded-nojs-1440-light.png",
+    "degraded-nojs-1440-dark-motion-a.png",
+    "degraded-nojs-1440-dark-motion-b.png",
+    "degraded-nojs-1440-dark.png",
+    "degraded-reduced-390-light-motion-a.png",
+    "degraded-reduced-390-light-motion-b.png",
+    "degraded-reduced-390-light.png",
+    "degraded-reduced-390-dark-motion-a.png",
+    "degraded-reduced-390-dark-motion-b.png",
+    "degraded-reduced-390-dark.png",
+    "degraded-reduced-1440-light-motion-a.png",
+    "degraded-reduced-1440-light-motion-b.png",
+    "degraded-reduced-1440-light.png",
+    "degraded-reduced-1440-dark-motion-a.png",
+    "degraded-reduced-1440-dark-motion-b.png",
+    "degraded-reduced-1440-dark.png",
+    "degraded-savedata-390-light-motion-a.png",
+    "degraded-savedata-390-light-motion-b.png",
+    "degraded-savedata-390-light.png",
+    "degraded-savedata-390-dark-motion-a.png",
+    "degraded-savedata-390-dark-motion-b.png",
+    "degraded-savedata-390-dark.png",
+    "degraded-savedata-1440-light-motion-a.png",
+    "degraded-savedata-1440-light-motion-b.png",
+    "degraded-savedata-1440-light.png",
+    "degraded-savedata-1440-dark-motion-a.png",
+    "degraded-savedata-1440-dark-motion-b.png",
+    "degraded-savedata-1440-dark.png"
+  ]
+}
