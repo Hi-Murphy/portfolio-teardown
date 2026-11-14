@@ -1,6 +1,6 @@
 # RFC — S13 Project Data #2: jev-toolkit (wiring)
 
-**slice:** S13-jev-content · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-13-jev-content.md` (frozen brief v1) · **branch:** `task/s13-jev-content` · **base:** `3b829d0` · **date:** 2026-11-14
+**slice:** S13-jev-content · **status:** APPROVED at Gate 1 (2026-11-14): all §10 defaults accepted (§11) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-13-jev-content.md` (frozen brief v1) · **branch:** `task/s13-jev-content` · **base:** `3b829d0` · **date:** 2026-11-14
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§10). Nothing here is implemented yet.
 
@@ -237,4 +237,16 @@ One integration seam and one executable check per task. Fresh worktree per task 
 
 ## 11. Gate 1 record
 
-_Pending Murphy's review._
+**Gate 1 (Murphy, 2026-11-14): "approve with defaults".** Every §10 question resolves to its default:
+
+| Q | Decision |
+|---|---|
+| Q1 | `{ id: 'nodejs', label: 'Node.js', category: 'platform' }` in `tech-registry.ts` |
+| Q2 | `projectLd` unchanged; the entity is the harness, authored by the site owner |
+| Q3 | the "More teardowns in progress." tile stays after the two home cards |
+| Q4 | E1 accepted and measured; a per-slug split only if G8/G10 fail (escalate first) |
+| Q5 | `/projects` gets Lighthouse and weight steps in `perf.yml`, next to the jev-toolkit steps |
+| Q6 | eager hero verified locally (G13); no temporary workflow |
+| Q7 | probes iterate every project from the guarded `PROJECT_SOURCES` list (P1–P4); no `--project` flag |
+
+No R-refinements at Gate 1.
