@@ -1,0 +1,12 @@
+SITE_URL=https://hi-murphy.me
+base = evidence/T001-log-base-og-hashes.txt; build-1/build-2 = this run
+file | base | build-1 | build-2
+og/home.png | c4c9a7f3bf9e6259b3eedc18c94885a9781297c64ba983a1e4e2eb3b4cbc9edf | 312bead39820255a3b659b985a2c0aa20cc5f398670fc20575dfc617bb2f3a97 | 312bead39820255a3b659b985a2c0aa20cc5f398670fc20575dfc617bb2f3a97
+og/projects.png | 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22 | a5bd1ef656317599d07f90d19ff1acad0c8969fa219c7b4a84795c76a079baef | a5bd1ef656317599d07f90d19ff1acad0c8969fa219c7b4a84795c76a079baef
+og/projects/jev-toolkit.png | n/a | 2231a0eb01e7553bc49472af4366dbf0cb4bb70ed2bfee489a1a9e4ec0f419c9 | 2231a0eb01e7553bc49472af4366dbf0cb4bb70ed2bfee489a1a9e4ec0f419c9
+og/projects/websocket-inspector.png | 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3 | 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3 | 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+
+og/home.png: base c4c9a7f3bf9e6259b3eedc18c94885a9781297c64ba983a1e4e2eb3b4cbc9edf -> build 312bead39820255a3b659b985a2c0aa20cc5f398670fc20575dfc617bb2f3a97; CHANGED. Expected per RFC E2: both cards now list every project.
+og/projects.png: base 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22 -> build a5bd1ef656317599d07f90d19ff1acad0c8969fa219c7b4a84795c76a079baef; CHANGED. Expected per RFC E2: both cards now list every project.
+og/projects/websocket-inspector.png: base 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3 -> build 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3; UNCHANGED.
+og/projects/jev-toolkit.png: new card; identical across both builds.
