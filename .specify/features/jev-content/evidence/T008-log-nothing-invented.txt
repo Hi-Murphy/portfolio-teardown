@@ -1,5 +1,5 @@
 
- RUN  v5.0.5 /private/tmp/s13-wt/T008/apps/web
+ RUN  v5.0.5 ./apps/web
 
  ✓ test/third-party-framing.test.ts > third-party framing > extracts the framing phrase from the canonical approach 1ms
  ✓ test/third-party-framing.test.ts > third-party framing > the generated source carries the framing phrase verbatim 0ms
