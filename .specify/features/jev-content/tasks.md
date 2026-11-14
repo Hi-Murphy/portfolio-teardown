@@ -174,7 +174,7 @@
   bash .specify/features/jev-content/guards.sh
   pnpm typecheck && pnpm lint && pnpm test && echo T005-OK
   ```
-- **Evidence:** `evidence/T005-teardown/teardown.{json,log.txt}` + panel-open / tour-ended screenshots per viewport × palette · `T005-evidence-jev-{light,dark}/` (mobile + desktop screenshots, Lighthouse summary, `meta.json`) · `T005-log-teardown.txt`. websocket-inspector also passes `teardown` (4 / 16 / 2 from its module): a regression proof.
+- **Evidence:** `evidence/T005-teardown/teardown.{json,log.txt}` + panel-open / tour-ended screenshots per viewport × palette · `T005-evidence-jev-{light,dark}/` (mobile + desktop screenshots, Lighthouse summary, `meta.json`) · `T005-log-teardown.txt`. websocket-inspector also passes `teardown` (5 / 16 / 2 from its module): a regression proof.
 - **WHAT MURPHY SHOULD TEST/VALIDATE:**
   1. Look at the four `T005-evidence-jev-*` screenshots, or open `/projects/jev-toolkit` in Orca's browser (`pnpm dev`, `http://localhost:3000`), on desktop and narrowed to phone width (default: screenshots only).
   2. Optional: open a part's panel and run "Start tour" once (default: the probe's tour-ended shots).
