@@ -1,0 +1,154 @@
+{
+  "group": "nojs",
+  "pass": true,
+  "checks": [
+    {
+      "name": "nojs-home-poster-and-list",
+      "pass": true,
+      "expected": {
+        "posters": 1,
+        "list": "cards"
+      },
+      "actual": {
+        "posters": 2,
+        "posterWidth": 350,
+        "cards": 2,
+        "outlines": 0
+      }
+    },
+    {
+      "name": "nojs-project-websocket-inspector-poster-and-list",
+      "pass": true,
+      "expected": {
+        "posters": 1,
+        "list": "outline"
+      },
+      "actual": {
+        "posters": 1,
+        "posterWidth": 348,
+        "cards": 0,
+        "outlines": 1
+      }
+    },
+    {
+      "name": "nojs-project-jev-toolkit-poster-and-list",
+      "pass": true,
+      "expected": {
+        "posters": 1,
+        "list": "outline"
+      },
+      "actual": {
+        "posters": 1,
+        "posterWidth": 348,
+        "cards": 0,
+        "outlines": 1
+      }
+    },
+    {
+      "name": "nojs-raw-home-poster-list",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "pass": true,
+        "poster": true,
+        "list": true,
+        "listKind": "cards"
+      }
+    },
+    {
+      "name": "nojs-raw-hero-poster",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "nojs-raw-project-websocket-inspector-poster-list",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "pass": true,
+        "poster": true,
+        "list": true,
+        "listKind": "outline"
+      }
+    },
+    {
+      "name": "nojs-raw-project-jev-toolkit-poster-list",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "pass": true,
+        "poster": true,
+        "list": true,
+        "listKind": "outline"
+      }
+    },
+    {
+      "name": "nojs-project-websocket-inspector-no-webgl-outline",
+      "pass": true,
+      "expected": {
+        "outline": true,
+        "message": true,
+        "canvases": 0
+      },
+      "actual": {
+        "outline": true,
+        "message": true,
+        "canvases": 0,
+        "text": "WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"
+      }
+    },
+    {
+      "name": "nojs-project-jev-toolkit-no-webgl-outline",
+      "pass": true,
+      "expected": {
+        "outline": true,
+        "message": true,
+        "canvases": 0
+      },
+      "actual": {
+        "outline": true,
+        "message": true,
+        "canvases": 0,
+        "text": "WebGL is unavailable for this teardown.How much of a repo does a model need to read before it decides where to look?ProblemCoding agents burn context on orientation. The expensive question is not what"
+      }
+    }
+  ],
+  "data": {
+    "captures": [
+      {
+        "name": "home",
+        "screenshot": "nojs-home.png",
+        "dump": "nojs-home.html",
+        "actual": {
+          "posters": 2,
+          "posterWidth": 350,
+          "cards": 2,
+          "outlines": 0
+        }
+      },
+      {
+        "name": "project-websocket-inspector",
+        "screenshot": "nojs-project-websocket-inspector.png",
+        "dump": "nojs-project-websocket-inspector.html",
+        "actual": {
+          "posters": 1,
+          "posterWidth": 348,
+          "cards": 0,
+          "outlines": 1
+        }
+      },
+      {
+        "name": "project-jev-toolkit",
+        "screenshot": "nojs-project-jev-toolkit.png",
+        "dump": "nojs-project-jev-toolkit.html",
+        "actual": {
+          "posters": 1,
+          "posterWidth": 348,
+          "cards": 0,
+          "outlines": 1
+        }
+      }
+    ]
+  }
+}

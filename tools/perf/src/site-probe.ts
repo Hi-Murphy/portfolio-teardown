@@ -3,11 +3,11 @@ import { join } from 'node:path';
 
 import type { Browser, BrowserContext, BrowserContextOptions, Page } from 'playwright';
 
-import { websocketInspectorSource } from '../../../apps/web/content/projects/websocket-inspector.source.ts';
 import { siteSource } from '../../../apps/web/content/site.source.ts';
 import { evaluateTabWalk, type FocusStep } from './a11y-probe.ts';
 import { chromiumVersion, launch } from './browser.ts';
 import { CliError, EXIT } from './exit-codes.ts';
+import { PROJECT_SOURCES, projectOutlinePath, projectPath } from './project-sources.ts';
 
 export const SITE_PROBE_GROUPS = [
   'drill',
@@ -200,11 +200,11 @@ interface DrillTabStep extends FocusStep {
 const SITE_ROUTES: readonly Omit<ProbeRoute, 'base'>[] = [
   { label: '/', path: '/', hasViewer: true },
   { label: '/projects', path: '/projects', hasViewer: false },
-  {
-    label: '/projects/websocket-inspector',
-    path: '/projects/websocket-inspector',
+  ...PROJECT_SOURCES.map((source) => ({
+    label: projectPath(source),
+    path: projectPath(source),
     hasViewer: true,
-  },
+  })),
 ];
 const FIXTURE_ROUTE: Omit<ProbeRoute, 'base'> = {
   label: '/dev/engine?fixture=a',
@@ -223,8 +223,6 @@ const IDLE_SCAN_MS = 5000;
 const HYDRATION_DELAY_MS = 250;
 const MIN_RENDERED_FRAMES = 30;
 const EXPECTED_DRAW_CALLS = 2;
-const PROJECT_PATH = `/projects/${websocketInspectorSource.meta.slug}`;
-const PROJECT_OUTLINE_PATH = `projects/${websocketInspectorSource.meta.slug}.html`;
 const EXPECTED_NAV_KEYS = [
   'nav:home',
   'nav:projects',
@@ -996,11 +994,15 @@ async function runDrillGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
       (window as Window & { __siteProbeSoftNav?: boolean }).__siteProbeSoftNav = true;
     });
 
-    const cardSelector = `[data-site-card="${websocketInspectorSource.meta.slug}"] a[href="${PROJECT_PATH}"]`;
+    const primarySource = PROJECT_SOURCES[0];
+    const primaryProjectPath = projectPath(primarySource);
+    const cardSelector = `[data-site-card="${primarySource.meta.slug}"] a[href="${primaryProjectPath}"]`;
     const card = page.locator(cardSelector).first();
     await card.focus();
     await page.keyboard.press('Enter');
-    await page.waitForURL((url) => url.pathname === PROJECT_PATH, { timeout: WAIT_TIMEOUT_MS });
+    await page.waitForURL((url) => url.pathname === primaryProjectPath, {
+      timeout: WAIT_TIMEOUT_MS,
+    });
     const markerAfterProject = await page.evaluate(
       () => (window as Window & { __siteProbeSoftNav?: boolean }).__siteProbeSoftNav === true,
     );
@@ -1028,14 +1030,14 @@ async function runDrillGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
     );
 
     checks.push(
-      check('drill-card-enter-url', projectUrlPath === PROJECT_PATH, PROJECT_PATH, projectUrlPath),
-      check('drill-card-enter-viewer', projectViewerReady, true, projectViewerReady),
       check(
-        'drill-card-enter-h1',
-        h1 === websocketInspectorSource.meta.name,
-        websocketInspectorSource.meta.name,
-        h1,
+        'drill-card-enter-url',
+        projectUrlPath === primaryProjectPath,
+        primaryProjectPath,
+        projectUrlPath,
       ),
+      check('drill-card-enter-viewer', projectViewerReady, true, projectViewerReady),
+      check('drill-card-enter-h1', h1 === primarySource.meta.name, primarySource.meta.name, h1),
       check('drill-soft-navigation', markerAfterProject && markerAfterBack, true, {
         project: markerAfterProject,
         back: markerAfterBack,
@@ -1245,34 +1247,41 @@ async function runHeroGroup(
     contextOptions('light', VIEWPORTS[0] as Viewport),
   );
   try {
-    const projectPage = await openPage(projectContext, new URL(PROJECT_PATH, siteBase));
-    await waitForHydration(projectPage);
-    await projectPage.waitForTimeout(POSTER_SCAN_MS);
-    const projectPoster = await projectPage.evaluate(() => {
-      const poster = document.querySelector('[data-site-stage] [data-site-poster]');
-      const staticExplore = document.querySelector<HTMLElement>('[data-site-explore-static]');
-      const control = document.querySelector<HTMLElement>('[data-site-control="explore-3d"]');
-      const posterRect = poster?.getBoundingClientRect();
-      return {
-        canvases: document.querySelectorAll('canvas').length,
-        posterWidth: posterRect?.width ?? 0,
-        staticExploreVisible:
-          staticExplore !== null && staticExplore.getBoundingClientRect().height > 1,
-        controlVisible: control !== null && control.getBoundingClientRect().height >= 44,
-      };
-    });
-    checks.push(
-      check(
-        'hero-project-poster',
-        projectPoster.canvases === 0 &&
-          projectPoster.posterWidth > 1 &&
-          projectPoster.staticExploreVisible &&
-          projectPoster.controlVisible,
-        { canvases: 0, poster: true, staticExplore: true, exploreControl: true },
-        projectPoster,
-      ),
-    );
-    await projectPage.screenshot({ path: join(outDir, 'hero-project-poster.png'), fullPage: true });
+    for (const source of PROJECT_SOURCES) {
+      const slug = source.meta.slug;
+      const projectPage = await openPage(projectContext, new URL(projectPath(source), siteBase));
+      await waitForHydration(projectPage);
+      await projectPage.waitForTimeout(POSTER_SCAN_MS);
+      const projectPoster = await projectPage.evaluate(() => {
+        const poster = document.querySelector('[data-site-stage] [data-site-poster]');
+        const staticExplore = document.querySelector<HTMLElement>('[data-site-explore-static]');
+        const control = document.querySelector<HTMLElement>('[data-site-control="explore-3d"]');
+        const posterRect = poster?.getBoundingClientRect();
+        return {
+          canvases: document.querySelectorAll('canvas').length,
+          posterWidth: posterRect?.width ?? 0,
+          staticExploreVisible:
+            staticExplore !== null && staticExplore.getBoundingClientRect().height > 1,
+          controlVisible: control !== null && control.getBoundingClientRect().height >= 44,
+        };
+      });
+      checks.push(
+        check(
+          `hero-project-poster-${slug}`,
+          projectPoster.canvases === 0 &&
+            projectPoster.posterWidth > 1 &&
+            projectPoster.staticExploreVisible &&
+            projectPoster.controlVisible,
+          { canvases: 0, poster: true, staticExplore: true, exploreControl: true },
+          projectPoster,
+        ),
+      );
+      await projectPage.screenshot({
+        path: join(outDir, `hero-project-poster-${slug}.png`),
+        fullPage: true,
+      });
+      await projectPage.close();
+    }
   } finally {
     await projectContext.close();
   }
@@ -1340,81 +1349,93 @@ async function runReducedMotionGroup(
       ),
     );
 
-    await navigatePage(page, new URL(PROJECT_PATH, siteBase));
-    await activateProjectViewer(page);
-    const posterTransition = await page
-      .locator('[data-site-stage] [data-site-poster]')
-      .evaluate((element) => getComputedStyle(element).transitionDuration);
-    const allZeroDurations = posterTransition
-      .split(',')
-      .map((value) => value.trim())
-      .every((value) => Number.parseFloat(value) === 0);
-    checks.push(
-      check('reduced-poster-no-transition', allZeroDurations, 'all durations 0', posterTransition),
-    );
+    for (const source of PROJECT_SOURCES) {
+      const slug = source.meta.slug;
+      await navigatePage(page, new URL(projectPath(source), siteBase));
+      await activateProjectViewer(page);
+      const posterTransition = await page
+        .locator('[data-site-stage] [data-site-poster]')
+        .evaluate((element) => getComputedStyle(element).transitionDuration);
+      const allZeroDurations = posterTransition
+        .split(',')
+        .map((value) => value.trim())
+        .every((value) => Number.parseFloat(value) === 0);
+      checks.push(
+        check(
+          `reduced-poster-no-transition-${slug}`,
+          allZeroDurations,
+          'all durations 0',
+          posterTransition,
+        ),
+      );
 
-    await page.evaluate(() => {
-      const viewer = document.querySelector('[data-xploder-ready="true"]');
-      const state = { phases: [] as string[], tweening: [] as string[] };
-      (window as unknown as ReducedWindow).__siteProbeReduced = state;
-      if (viewer === null) return;
-      state.phases.push(viewer.getAttribute('data-xploder-state') ?? '');
-      state.tweening.push(viewer.getAttribute('data-xploder-tweening') ?? '');
-      new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-          if (mutation.attributeName === 'data-xploder-state') {
-            state.phases.push(viewer.getAttribute('data-xploder-state') ?? '');
+      await page.evaluate(() => {
+        const viewer = document.querySelector('[data-xploder-ready="true"]');
+        const state = { phases: [] as string[], tweening: [] as string[] };
+        (window as unknown as ReducedWindow).__siteProbeReduced = state;
+        if (viewer === null) return;
+        state.phases.push(viewer.getAttribute('data-xploder-state') ?? '');
+        state.tweening.push(viewer.getAttribute('data-xploder-tweening') ?? '');
+        new MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            if (mutation.attributeName === 'data-xploder-state') {
+              state.phases.push(viewer.getAttribute('data-xploder-state') ?? '');
+            }
+            if (mutation.attributeName === 'data-xploder-tweening') {
+              state.tweening.push(viewer.getAttribute('data-xploder-tweening') ?? '');
+            }
           }
-          if (mutation.attributeName === 'data-xploder-tweening') {
-            state.tweening.push(viewer.getAttribute('data-xploder-tweening') ?? '');
-          }
-        }
-      }).observe(viewer, {
-        attributes: true,
-        attributeFilter: ['data-xploder-state', 'data-xploder-tweening'],
+        }).observe(viewer, {
+          attributes: true,
+          attributeFilter: ['data-xploder-state', 'data-xploder-tweening'],
+        });
       });
-    });
 
-    await page.locator('[data-site-control="toggle"]').click();
-    await page.waitForFunction(
-      () =>
-        document
-          .querySelector('[data-xploder-ready="true"]')
-          ?.getAttribute('data-xploder-state') === 'imploded',
-      undefined,
-      { timeout: WAIT_TIMEOUT_MS },
-    );
-    const animationsAfterImplode = await page.evaluate(() => document.getAnimations().length);
-    await page.locator('[data-site-control="toggle"]').click();
-    await page.waitForFunction(
-      () =>
-        document
-          .querySelector('[data-xploder-ready="true"]')
-          ?.getAttribute('data-xploder-state') === 'exploded',
-      undefined,
-      { timeout: WAIT_TIMEOUT_MS },
-    );
-    const animationsAfterExplode = await page.evaluate(() => document.getAnimations().length);
-    const reduced = await page.evaluate(
-      () => (window as unknown as ReducedWindow).__siteProbeReduced ?? { phases: [], tweening: [] },
-    );
-    const directPhases = reduced.phases.every(
-      (phase) => phase === '' || phase === 'imploded' || phase === 'exploded',
-    );
-    checks.push(
-      check(
-        'reduced-project-toggles-instant',
-        directPhases && !reduced.tweening.includes('true'),
-        { phases: ['exploded', 'imploded', 'exploded'], tweeningNeverTrue: true },
-        reduced,
-      ),
-      check(
-        'reduced-project-no-animations',
-        animationsAfterImplode === 0 && animationsAfterExplode === 0,
-        { implode: 0, explode: 0 },
-        { implode: animationsAfterImplode, explode: animationsAfterExplode },
-      ),
-    );
+      await page.locator('[data-site-control="toggle"]').click();
+      await page.waitForFunction(
+        () =>
+          document
+            .querySelector('[data-xploder-ready="true"]')
+            ?.getAttribute('data-xploder-state') === 'imploded',
+        undefined,
+        { timeout: WAIT_TIMEOUT_MS },
+      );
+      const animationsAfterImplode = await page.evaluate(() => document.getAnimations().length);
+      await page.locator('[data-site-control="toggle"]').click();
+      await page.waitForFunction(
+        () =>
+          document
+            .querySelector('[data-xploder-ready="true"]')
+            ?.getAttribute('data-xploder-state') === 'exploded',
+        undefined,
+        { timeout: WAIT_TIMEOUT_MS },
+      );
+      const animationsAfterExplode = await page.evaluate(() => document.getAnimations().length);
+      const reduced = await page.evaluate(
+        () =>
+          (window as unknown as ReducedWindow).__siteProbeReduced ?? {
+            phases: [],
+            tweening: [],
+          },
+      );
+      const directPhases = reduced.phases.every(
+        (phase) => phase === '' || phase === 'imploded' || phase === 'exploded',
+      );
+      checks.push(
+        check(
+          `reduced-project-toggles-instant-${slug}`,
+          directPhases && !reduced.tweening.includes('true'),
+          { phases: ['exploded', 'imploded', 'exploded'], tweeningNeverTrue: true },
+          reduced,
+        ),
+        check(
+          `reduced-project-no-animations-${slug}`,
+          animationsAfterImplode === 0 && animationsAfterExplode === 0,
+          { implode: 0, explode: 0 },
+          { implode: animationsAfterImplode, explode: animationsAfterExplode },
+        ),
+      );
+    }
   } finally {
     await context.close();
   }
@@ -1439,13 +1460,25 @@ async function runNoJsGroup(
   const captures: unknown[] = [];
 
   try {
-    for (const [name, path, listKind] of [
-      ['home', '/', 'cards'],
-      ['project', PROJECT_PATH, 'outline'],
-    ] as const) {
-      await navigatePage(page, new URL(path, siteBase));
-      const screenshot = `nojs-${name}.png`;
-      const dump = `nojs-${name}.html`;
+    const pageRoutes = [
+      {
+        name: 'home',
+        path: '/',
+        listKind: 'cards' as const,
+        checkName: 'nojs-home-poster-and-list',
+      },
+      ...PROJECT_SOURCES.map((source) => ({
+        name: `project-${source.meta.slug}`,
+        path: projectPath(source),
+        listKind: 'outline' as const,
+        checkName: `nojs-project-${source.meta.slug}-poster-and-list`,
+      })),
+    ];
+
+    for (const route of pageRoutes) {
+      await navigatePage(page, new URL(route.path, siteBase));
+      const screenshot = `nojs-${route.name}.png`;
+      const dump = `nojs-${route.name}.html`;
       await page.screenshot({ path: join(outDir, screenshot), fullPage: true });
       const html = await page.content();
       await writeFile(join(outDir, dump), `${html}\n`, 'utf8');
@@ -1461,16 +1494,16 @@ async function runNoJsGroup(
         cards: document.querySelectorAll('[data-site-card]').length,
         outlines: document.querySelectorAll('[data-site-outline]').length,
       }));
-      const listCount = listKind === 'cards' ? actual.cards : actual.outlines;
+      const listCount = route.listKind === 'cards' ? actual.cards : actual.outlines;
       checks.push(
         check(
-          `nojs-${name}-poster-and-list`,
+          route.checkName,
           actual.posters > 0 && actual.posterWidth > 1 && listCount > 0,
-          { posters: 1, list: listKind },
+          { posters: 1, list: route.listKind },
           actual,
         ),
       );
-      captures.push({ name, screenshot, dump, actual });
+      captures.push({ name: route.name, screenshot, dump, actual });
     }
   } finally {
     await context.close();
@@ -1478,12 +1511,9 @@ async function runNoJsGroup(
 
   if (siteDir !== undefined) {
     const homeHtml = await readFile(join(siteDir, 'index.html'), 'utf8');
-    const projectHtml = await readFile(join(siteDir, PROJECT_OUTLINE_PATH), 'utf8');
     const homeVerdict = evaluateFallbackHtml(homeHtml, 'cards');
-    const projectVerdict = evaluateFallbackHtml(projectHtml, 'outline');
     checks.push(
       check('nojs-raw-home-poster-list', homeVerdict.pass, true, homeVerdict),
-      check('nojs-raw-project-poster-list', projectVerdict.pass, true, projectVerdict),
       check(
         'nojs-raw-hero-poster',
         heroContainsPoster(homeHtml),
@@ -1491,6 +1521,19 @@ async function runNoJsGroup(
         heroContainsPoster(homeHtml),
       ),
     );
+
+    for (const source of PROJECT_SOURCES) {
+      const projectHtml = await readFile(join(siteDir, projectOutlinePath(source)), 'utf8');
+      const projectVerdict = evaluateFallbackHtml(projectHtml, 'outline');
+      checks.push(
+        check(
+          `nojs-raw-project-${source.meta.slug}-poster-list`,
+          projectVerdict.pass,
+          true,
+          projectVerdict,
+        ),
+      );
+    }
   }
 
   const noWebglContext = await browser.newContext(
@@ -1509,32 +1552,39 @@ async function runNoJsGroup(
   });
 
   try {
-    const projectPage = await openPage(noWebglContext, new URL(PROJECT_PATH, siteBase));
-    await waitForHydration(projectPage);
-    await projectPage.locator('[data-site-control="explore-3d"]').click();
-    await projectPage.locator('[data-xploder-webgl="unavailable"]').waitFor({
-      state: 'visible',
-      timeout: WAIT_TIMEOUT_MS,
-    });
-    const noWebgl = await projectPage.evaluate(() => {
-      const outline = document.querySelector('[data-site-outline]');
-      const text = outline?.textContent ?? '';
-      return {
-        outline: outline !== null,
-        message: /WebGL is unavailable/i.test(text),
-        canvases: document.querySelectorAll('canvas').length,
-        text: text.slice(0, 200),
-      };
-    });
-    await projectPage.screenshot({ path: join(outDir, 'project-no-webgl.png'), fullPage: true });
-    checks.push(
-      check(
-        'nojs-project-no-webgl-outline',
-        noWebgl.outline && noWebgl.message && noWebgl.canvases === 0,
-        { outline: true, message: true, canvases: 0 },
-        noWebgl,
-      ),
-    );
+    for (const source of PROJECT_SOURCES) {
+      const slug = source.meta.slug;
+      const projectPage = await openPage(noWebglContext, new URL(projectPath(source), siteBase));
+      await waitForHydration(projectPage);
+      await projectPage.locator('[data-site-control="explore-3d"]').click();
+      await projectPage.locator('[data-xploder-webgl="unavailable"]').waitFor({
+        state: 'visible',
+        timeout: WAIT_TIMEOUT_MS,
+      });
+      const noWebgl = await projectPage.evaluate(() => {
+        const outline = document.querySelector('[data-site-outline]');
+        const text = outline?.textContent ?? '';
+        return {
+          outline: outline !== null,
+          message: /WebGL is unavailable/i.test(text),
+          canvases: document.querySelectorAll('canvas').length,
+          text: text.slice(0, 200),
+        };
+      });
+      await projectPage.screenshot({
+        path: join(outDir, `project-${slug}-no-webgl.png`),
+        fullPage: true,
+      });
+      checks.push(
+        check(
+          `nojs-project-${slug}-no-webgl-outline`,
+          noWebgl.outline && noWebgl.message && noWebgl.canvases === 0,
+          { outline: true, message: true, canvases: 0 },
+          noWebgl,
+        ),
+      );
+      await projectPage.close();
+    }
   } finally {
     await noWebglContext.close();
   }
@@ -1570,7 +1620,6 @@ async function runRoutesGroup(browser: Browser, siteBase: URL): Promise<SiteProb
   const checks: SiteProbeCheck[] = [];
   const context = await browser.newContext(contextOptions('light', VIEWPORTS[0] as Viewport));
   const siteName = siteSource.meta.siteName;
-  const projectName = websocketInspectorSource.meta.name;
 
   try {
     const root = await readRouteMetadata(context, siteBase, '/');
@@ -1605,21 +1654,24 @@ async function runRoutesGroup(browser: Browser, siteBase: URL): Promise<SiteProb
       ),
     );
 
-    const project = await readRouteMetadata(context, siteBase, PROJECT_PATH);
-    checks.push(
-      check(
-        'routes-project-title',
-        project.title === `${projectName} · ${siteName}`,
-        `${projectName} · ${siteName}`,
-        project.title,
-      ),
-      check(
-        'routes-project-description',
-        project.description === (websocketInspectorSource.meta.tagline ?? ''),
-        websocketInspectorSource.meta.tagline,
-        project.description,
-      ),
-    );
+    for (const source of PROJECT_SOURCES) {
+      const slug = source.meta.slug;
+      const project = await readRouteMetadata(context, siteBase, projectPath(source));
+      checks.push(
+        check(
+          `routes-project-title-${slug}`,
+          project.title === `${source.meta.name} · ${siteName}`,
+          `${source.meta.name} · ${siteName}`,
+          project.title,
+        ),
+        check(
+          `routes-project-description-${slug}`,
+          project.description === (source.meta.tagline ?? ''),
+          source.meta.tagline,
+          project.description,
+        ),
+      );
+    }
 
     const missing = await readRouteMetadata(context, siteBase, '/projects/does-not-exist', true);
     checks.push(
@@ -1669,20 +1721,26 @@ async function runDrawsGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
   await installDrawCounter(projectContext);
 
   try {
-    const page = await openPage(projectContext, new URL(PROJECT_PATH, siteBase));
-    await activateProjectViewer(page);
-    await page.waitForTimeout(500);
-    await page.evaluate(() => {
-      const state = (window as unknown as DrawWindow).__siteProbeDraws;
-      if (state !== undefined) state.frames.length = 0;
-    });
-    await page.locator('[data-site-control="rotate-right"]').click();
-    const projectFrames = await waitForRenderedFrames(page);
-    const projectVerdict = evaluateDrawFrames(projectFrames);
-    checks.push(check('draws-project', projectVerdict.pass, EXPECTED_DRAW_CALLS, projectVerdict));
-    console.log(
-      `draws project: mode=${projectVerdict.mode} rendered=${projectVerdict.renderedFrames} total=${projectVerdict.totalFrames} ${projectVerdict.pass ? 'PASS' : 'FAIL'}`,
-    );
+    for (const source of PROJECT_SOURCES) {
+      const slug = source.meta.slug;
+      const page = await openPage(projectContext, new URL(projectPath(source), siteBase));
+      await activateProjectViewer(page);
+      await page.waitForTimeout(500);
+      await page.evaluate(() => {
+        const state = (window as unknown as DrawWindow).__siteProbeDraws;
+        if (state !== undefined) state.frames.length = 0;
+      });
+      await page.locator('[data-site-control="rotate-right"]').click();
+      const projectFrames = await waitForRenderedFrames(page);
+      const projectVerdict = evaluateDrawFrames(projectFrames);
+      checks.push(
+        check(`draws-project-${slug}`, projectVerdict.pass, EXPECTED_DRAW_CALLS, projectVerdict),
+      );
+      console.log(
+        `draws project ${slug}: mode=${projectVerdict.mode} rendered=${projectVerdict.renderedFrames} total=${projectVerdict.totalFrames} ${projectVerdict.pass ? 'PASS' : 'FAIL'}`,
+      );
+      await page.close();
+    }
   } finally {
     await projectContext.close();
   }

@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest';
 
 import { evaluateTabWalk, type FocusStep } from '../src/a11y-probe.ts';
+import { PROJECT_SOURCES, projectPath } from '../src/project-sources.ts';
 import {
+  clsRoutes,
   evaluateCls,
   evaluateDrawFrames,
   evaluateFallbackHtml,
@@ -216,5 +218,18 @@ describe('hero live mode', () => {
     expect(evaluateHeroLoopRunning({ heroLoop: 'running', canvases: 1, tour: 'unknown' })).toBe(
       false,
     );
+  });
+});
+
+describe('clsRoutes', () => {
+  test('includes home, the project index, and every project source once', () => {
+    const routes = clsRoutes(new URL('http://127.0.0.1:4173'));
+
+    expect(routes.map((route) => route.path)).toEqual([
+      '/',
+      '/projects',
+      ...PROJECT_SOURCES.map((source) => projectPath(source)),
+    ]);
+    expect(routes.every((route) => route.base === 'site')).toBe(true);
   });
 });

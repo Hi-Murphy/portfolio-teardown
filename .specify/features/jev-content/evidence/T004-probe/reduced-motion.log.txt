@@ -1,0 +1,11 @@
+group: reduced-motion
+result: PASS
+PASS reduced-home-skipped: expected {"liveState":"skipped","heroCanvases":0,"posterVisible":true} actual {"liveState":"skipped","heroCanvases":0,"posterWidth":817.609375}
+PASS reduced-home-no-animations: expected "all samples 0" actual [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+PASS reduced-poster-no-transition-websocket-inspector: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-websocket-inspector: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-websocket-inspector: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+PASS reduced-poster-no-transition-jev-toolkit: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-jev-toolkit: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-jev-toolkit: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+summary: PASS (8 checks)
