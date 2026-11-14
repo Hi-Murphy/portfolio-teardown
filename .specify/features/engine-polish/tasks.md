@@ -32,7 +32,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
+| T001 | ☑ (8 guards OK; negative controls FAIL SURFACES-S2S4S7 + RESEAL-LIST + ALLOWED-PATHS; parity 8 shots; tour 2×5 runs (medians 11 204.8 / 12 804.4 ms); Clock warnings 3/3 routes; pause: settle ≤ 1 in 16/16 (3 cells settled before Pause), resume wait ≈ 1.41 s; overlap 10 hits, all `tags` mode; corner marks shift at 390×740 + 360×740 stalled) | 1 (Flash, sandbox off); orchestrator applied C4 to guards/approved list | evidence/T001-log-* | e252b71 |
 | T002 | ☐ | | | |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
