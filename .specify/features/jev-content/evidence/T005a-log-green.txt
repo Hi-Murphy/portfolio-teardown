@@ -1,0 +1,47 @@
+
+ RUN  v5.0.5 ./packages/xploder
+
+(node:97320) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:97321) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires just before the boundary
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/tour-clock.test.tsx > useTourClock > advances through every beat when the clock lags the timer
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires on time
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+stderr | test/tour-clock-boundary.test.tsx > useTourClock final boundary > advances intermediate steps at the same beats
+THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires just before the boundary 12ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires on time 2ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > advances intermediate steps at the same beats 2ms
+ ✓ test/tour-clock.test.tsx > useTourClock > advances through every beat when the clock lags the timer 12ms
+ ✓ test/tour.test.ts > tour step order > live-update follows its flow path beat by beat 1ms
+ ✓ test/tour.test.ts > tour step order > offline-read follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > nightly-reconciliation follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > pickup-ready follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > push-failed follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour clock > keeps elapsed time across pause and resume 0ms
+ ✓ test/tour.test.ts > tour clock > folds elapsed beats exactly once when an action and a tick share a timestamp 0ms
+ ✓ test/tour.test.ts > tour clock > reports the next boundary only while playing 0ms
+ ✓ test/tour.test.ts > tour lifecycle > steps from idle, past the end, and restarts from ended 0ms
+ ✓ test/tour.test.ts > tour lifecycle > stops to idle and switches only to known flows 0ms
+ ✓ test/tour.test.ts > tour lifecycle > has no active flow when the project has no flows 0ms
+ ✓ test/tour.test.ts > reduced motion cadence > uses the injected base beat when the resolved static twin has a zero beat 0ms
+ ✓ test/tour.test.ts > showFlowSelector > shows the selector only when there is a choice 0ms
+ ✓ test/tour.test.ts > reset > selects the first flow and returns to idle 0ms
+ ✓ test/tour.test.ts > review fixes (orchestrator) > stepping past the last step from paused ends with stepStartedAt = the step action time 0ms
+ ✓ test/tour.test.ts > review fixes (orchestrator) > selecting the already selected flow keeps a playing tour playing 0ms
+
+ Test Files  3 passed (3)
+      Tests  20 passed (20)
+   Start at  14:05:28
+   Duration  146ms (import 54%, transform 29%, tests 15%, worker 2%)
+
