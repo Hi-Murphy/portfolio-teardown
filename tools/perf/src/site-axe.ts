@@ -13,6 +13,7 @@ import {
 } from './a11y-axe.ts';
 import { chromiumVersion, launch } from './browser.ts';
 import { CliError, EXIT } from './exit-codes.ts';
+import { PROJECT_SOURCES, projectPath } from './project-sources.ts';
 
 export const SITE_ROUTE_GROUPS = ['home', 'projects', 'project'] as const;
 export type SiteRouteGroup = (typeof SITE_ROUTE_GROUPS)[number];
@@ -38,34 +39,32 @@ export interface SiteStateDefinition {
   readonly reducedMotion?: 'reduce';
 }
 
-export const SITE_STATES: readonly SiteStateDefinition[] = [
+const SHARED_SITE_STATES: readonly SiteStateDefinition[] = [
   { id: 'home', routeGroup: 'home', path: '/' },
   { id: 'home-poster', routeGroup: 'home', path: '/' },
   { id: 'home-reduced', routeGroup: 'home', path: '/', reducedMotion: 'reduce' },
   { id: 'projects', routeGroup: 'projects', path: '/projects' },
-  {
-    id: 'project-poster',
-    routeGroup: 'project',
-    path: '/projects/websocket-inspector',
-  },
-  { id: 'project-idle', routeGroup: 'project', path: '/projects/websocket-inspector' },
-  {
-    id: 'project-case-study',
-    routeGroup: 'project',
-    path: '/projects/websocket-inspector',
-  },
-  { id: 'project-detail', routeGroup: 'project', path: '/projects/websocket-inspector' },
-  {
-    id: 'project-flows-step1',
-    routeGroup: 'project',
-    path: '/projects/websocket-inspector',
-  },
-  {
-    id: 'project-no-webgl',
-    routeGroup: 'project',
-    path: '/projects/websocket-inspector',
-  },
 ] as const;
+
+const PROJECT_STATE_IDS = [
+  'project-poster',
+  'project-idle',
+  'project-case-study',
+  'project-detail',
+  'project-flows-step1',
+  'project-no-webgl',
+] as const satisfies readonly SiteStateId[];
+
+export const SITE_STATES: readonly SiteStateDefinition[] = [
+  ...SHARED_SITE_STATES,
+  ...PROJECT_SOURCES.flatMap((source) =>
+    PROJECT_STATE_IDS.map((id) => ({
+      id,
+      routeGroup: 'project' as const,
+      path: projectPath(source),
+    })),
+  ),
+];
 
 export type Palette = 'light' | 'dark';
 export type ViewportName = 'desktop' | 'mobile';
@@ -99,6 +98,7 @@ export interface SiteAxeCellDocument {
 
 export interface SiteAxeCellSummary extends AxeVerdictCounts {
   readonly id: string;
+  readonly paths: readonly string[];
   readonly routeGroup: SiteRouteGroup;
   readonly palette: Palette;
   readonly viewport: ViewportName;
@@ -428,6 +428,7 @@ function summarizeCell(
 
   return {
     id: `${routeGroup}/${palette}/${viewport}`,
+    paths: [...new Set(results.map((result) => result.path))],
     routeGroup,
     palette,
     viewport,
@@ -461,7 +462,7 @@ async function writeJson(path: string, value: unknown): Promise<void> {
 
 function logCell(cell: SiteAxeCellSummary, log: (line: string) => void): void {
   log(
-    `axe-site ${cell.id}: ${cell.states} states | serious ${cell.serious} critical ${cell.critical} moderate ${cell.moderate} minor ${cell.minor} | incomplete ${cell.incomplete}`,
+    `axe-site ${cell.id} [${cell.paths.join(', ')}]: ${cell.states} states | serious ${cell.serious} critical ${cell.critical} moderate ${cell.moderate} minor ${cell.minor} | incomplete ${cell.incomplete}`,
   );
 }
 

@@ -1,0 +1,225 @@
+{
+  "kind": "site-axe-summary",
+  "version": 1,
+  "baseUrl": "http://127.0.0.1:51290/",
+  "chromium": "156.0.8078.4",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa",
+    "best-practice"
+  ],
+  "states": [
+    "home",
+    "home-poster",
+    "home-reduced",
+    "projects",
+    "project-poster",
+    "project-idle",
+    "project-case-study",
+    "project-detail",
+    "project-flows-step1",
+    "project-no-webgl",
+    "project-poster",
+    "project-idle",
+    "project-case-study",
+    "project-detail",
+    "project-flows-step1",
+    "project-no-webgl"
+  ],
+  "cells": [
+    {
+      "id": "home/light/desktop",
+      "paths": [
+        "/"
+      ],
+      "routeGroup": "home",
+      "palette": "light",
+      "viewport": "desktop",
+      "states": 3,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 32
+    },
+    {
+      "id": "home/light/mobile",
+      "paths": [
+        "/"
+      ],
+      "routeGroup": "home",
+      "palette": "light",
+      "viewport": "mobile",
+      "states": 3,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 32
+    },
+    {
+      "id": "home/dark/desktop",
+      "paths": [
+        "/"
+      ],
+      "routeGroup": "home",
+      "palette": "dark",
+      "viewport": "desktop",
+      "states": 3,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 32
+    },
+    {
+      "id": "home/dark/mobile",
+      "paths": [
+        "/"
+      ],
+      "routeGroup": "home",
+      "palette": "dark",
+      "viewport": "mobile",
+      "states": 3,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 32
+    },
+    {
+      "id": "projects/light/desktop",
+      "paths": [
+        "/projects"
+      ],
+      "routeGroup": "projects",
+      "palette": "light",
+      "viewport": "desktop",
+      "states": 1,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "projects/light/mobile",
+      "paths": [
+        "/projects"
+      ],
+      "routeGroup": "projects",
+      "palette": "light",
+      "viewport": "mobile",
+      "states": 1,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "projects/dark/desktop",
+      "paths": [
+        "/projects"
+      ],
+      "routeGroup": "projects",
+      "palette": "dark",
+      "viewport": "desktop",
+      "states": 1,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "projects/dark/mobile",
+      "paths": [
+        "/projects"
+      ],
+      "routeGroup": "projects",
+      "palette": "dark",
+      "viewport": "mobile",
+      "states": 1,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "project/light/desktop",
+      "paths": [
+        "/projects/websocket-inspector",
+        "/projects/jev-toolkit"
+      ],
+      "routeGroup": "project",
+      "palette": "light",
+      "viewport": "desktop",
+      "states": 12,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 391
+    },
+    {
+      "id": "project/light/mobile",
+      "paths": [
+        "/projects/websocket-inspector",
+        "/projects/jev-toolkit"
+      ],
+      "routeGroup": "project",
+      "palette": "light",
+      "viewport": "mobile",
+      "states": 12,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 525
+    },
+    {
+      "id": "project/dark/desktop",
+      "paths": [
+        "/projects/websocket-inspector",
+        "/projects/jev-toolkit"
+      ],
+      "routeGroup": "project",
+      "palette": "dark",
+      "viewport": "desktop",
+      "states": 12,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 341
+    },
+    {
+      "id": "project/dark/mobile",
+      "paths": [
+        "/projects/websocket-inspector",
+        "/projects/jev-toolkit"
+      ],
+      "routeGroup": "project",
+      "palette": "dark",
+      "viewport": "mobile",
+      "states": 12,
+      "serious": 0,
+      "critical": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 475
+    }
+  ],
+  "serious": 0,
+  "critical": 0,
+  "moderate": 0,
+  "minor": 0,
+  "incomplete": 1860,
+  "failingRules": [],
+  "exitCode": 0
+}
