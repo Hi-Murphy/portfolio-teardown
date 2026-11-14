@@ -28,8 +28,8 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
+| T001 | ☑ (10 guards; negative control FAIL XPLODER + SURFACES-S2S8 + UI-UNCHANGED + ALLOWED-PATHS; base OG WSI = 74e0a609…; base weight / 452 728 · /projects 200 285 · WSI 199 733 B mobile; main-diff self-test 0 B) | 1 (Flash, sandbox off); orchestrator re-ran guards + self-diff | evidence/T001-log-{guard,base-og-hashes,base-weight}.txt | 17cbf24 |
+| T002 | ☑ (red: module missing; green 13/13 = 2 rows × 6 + completeness; JSON sha 8a1eff72… = header; WSI/site sources byte-unchanged) | 1 (Flash, sandbox off); orchestrator added drift proof (hand edit → (a)(b)(c) fail) | evidence/T002-log-fidelity-{red,green}.txt, T002-log-drift-proof.txt | 9a1c0e0 |
 | T003 | ☐ | | | |
 | T004 | ☐ | | | |
 | T005 | ☐ | | | |
