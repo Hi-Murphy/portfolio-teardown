@@ -1,0 +1,48 @@
+
+=== / ===
+mobile: 452728 bytes, 29 requests, PASS
+  139783 B  script  http://127.0.0.1:4174/_next/static/chunks/3vnmkhfgdnq2d.js
+  72267 B  script  http://127.0.0.1:4174/_next/static/chunks/1kgrt2f4mrm63.js
+  57916 B  script  http://127.0.0.1:4174/_next/static/chunks/1d5kkip1hlg-o.js
+  45887 B  script  http://127.0.0.1:4174/_next/static/chunks/10kujx8nsd3ck.js
+  39124 B  script  http://127.0.0.1:4174/_next/static/chunks/0ljhnvhe-a7zf.js
+desktop: 452728 bytes, 29 requests, PASS
+  139783 B  script  http://127.0.0.1:4174/_next/static/chunks/3vnmkhfgdnq2d.js
+  72267 B  script  http://127.0.0.1:4174/_next/static/chunks/1kgrt2f4mrm63.js
+  57916 B  script  http://127.0.0.1:4174/_next/static/chunks/1d5kkip1hlg-o.js
+  45887 B  script  http://127.0.0.1:4174/_next/static/chunks/10kujx8nsd3ck.js
+  39124 B  script  http://127.0.0.1:4174/_next/static/chunks/0ljhnvhe-a7zf.js
+pass: true
+weight.json: /tmp/s13-checks/base-weight-/weight.json
+
+=== /projects ===
+mobile: 200285 bytes, 23 requests, PASS
+  72267 B  script  http://127.0.0.1:4174/_next/static/chunks/1kgrt2f4mrm63.js
+  45887 B  script  http://127.0.0.1:4174/_next/static/chunks/10kujx8nsd3ck.js
+  11176 B  document  http://127.0.0.1:4174/projects
+  11095 B  fetch  http://127.0.0.1:4174/__next.!KHNpdGUp.__PAGE__.txt?_rsc=9Kyrjlw-Z8CAJXA4
+  9052 B  script  http://127.0.0.1:4174/_next/static/chunks/1jr83020c6cbx.js
+desktop: 200327 bytes, 23 requests, PASS
+  72267 B  script  http://127.0.0.1:4174/_next/static/chunks/1kgrt2f4mrm63.js
+  45887 B  script  http://127.0.0.1:4174/_next/static/chunks/10kujx8nsd3ck.js
+  11176 B  document  http://127.0.0.1:4174/projects
+  11095 B  fetch  http://127.0.0.1:4174/__next.!KHNpdGUp.__PAGE__.txt?_rsc=9Kyrjlw-Z8CAJXA4
+  9052 B  script  http://127.0.0.1:4174/_next/static/chunks/1jr83020c6cbx.js
+pass: true
+weight.json: /tmp/s13-checks/base-weight-projects/weight.json
+
+=== /projects/websocket-inspector ===
+mobile: 199733 bytes, 20 requests, PASS
+  72267 B  script  http://127.0.0.1:4174/_next/static/chunks/1kgrt2f4mrm63.js
+  45887 B  script  http://127.0.0.1:4174/_next/static/chunks/10kujx8nsd3ck.js
+  18418 B  document  http://127.0.0.1:4174/projects/websocket-inspector
+  11095 B  fetch  http://127.0.0.1:4174/__next.!KHNpdGUp.__PAGE__.txt?_rsc=qKisLfSG0fR0gM7B
+  9052 B  script  http://127.0.0.1:4174/_next/static/chunks/1jr83020c6cbx.js
+desktop: 199733 bytes, 20 requests, PASS
+  72267 B  script  http://127.0.0.1:4174/_next/static/chunks/1kgrt2f4mrm63.js
+  45887 B  script  http://127.0.0.1:4174/_next/static/chunks/10kujx8nsd3ck.js
+  18418 B  document  http://127.0.0.1:4174/projects/websocket-inspector
+  11095 B  fetch  http://127.0.0.1:4174/__next.!KHNpdGUp.__PAGE__.txt?_rsc=qKisLfSG0fR0gM7B
+  9052 B  script  http://127.0.0.1:4174/_next/static/chunks/1jr83020c6cbx.js
+pass: true
+weight.json: /tmp/s13-checks/base-weight-projects-websocket-inspector/weight.json
