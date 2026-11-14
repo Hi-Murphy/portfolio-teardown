@@ -36,7 +36,7 @@
 | T005a | ☑ revision 1 of 2 (red → green; fix 51d3fa7; S5 re-sealed; stall repro after: 64/64 ended, 0 stalls) | 1 (Flash, sandbox off) for test + fix; orchestrator re-seal | evidence/T005a-log-{red,green,reseal,stall-after}.txt, R1-revision-note.md | cb7907b |
 | T006 | ☑ (cards 34/34: both surfaces × 390/1280 × light/dark; name/tagline/≤ 4 registry chips/href, order WSI → JEV, scrollWidth = 390 at 390 px, hrefs 200; home copy FAIL before (JEV strings unknown) → PASS after; structure 52/52) | 1 (Flash, sandbox off) | evidence/T006-cards/, T006-home/, T006-evidence-{home,projects}-{light,dark}/, T006-log-cards.txt | 9587cc3 |
 | T007 | ☑ (2 clean builds, SITE_URL=https://hi-murphy.me: 4 PNG hashes identical; jev 2231a0eb… 1200×630 76 330 B; WSI = base 74e0a609…; home/projects change as expected (RFC E2); seo:probe PASS ×2 incl. --compare; head tags 9/9 absolute; sitemap has the route; JSON-LD 5/5 traced + SoftwareApplication) | 1 (Flash, sandbox off) | evidence/T007-* | 0ffbf0f |
-| T008 | ☐ | | | |
+| T008 | ☑ (per-project hand-copy scan + framing scan 33/33; framing verbatim in source + export (not skipped); deny-list 0 hits; home copy PASS. First run hit `my JEV decision-hook research` in canonical WSI content → Murphy option B: content commit fe73c52, re-convert 291a804) | 1 (Flash, sandbox off) + orchestrator (content commit at Murphy's request, guards, re-run) | evidence/T008-log-{nothing-invented.txt,possessive-hit.md}, T008-home-copy/ | 7325aa0 |
 | T009 | ☐ | | | |
 | T010 | ☐ | | | |
 
@@ -346,7 +346,7 @@
   pnpm home:probe --serve apps/web/out --group structure,copy --out $E/T010-home            # G5, G15
   pnpm eager:probe --serve apps/web/out --route / --runs 2 --expect live-loop --out $E/T010-G13-eager  # G13
   pnpm a11y:axe:site --serve apps/web/out --out $E/T010-G11-axe                             # G11
-  bash .specify/features/jev-content/main-diff.sh --base-out /tmp/s13-checks/base-out-3b829d0 --no-build | tee $E/T010-G14-main-diff.txt  # G14
+  bash .specify/features/jev-content/main-diff.sh --base-out /tmp/s13-checks/base-out-3b829d0 --no-build | tee $E/T010-G14-main-diff.txt  # G14: WSI differs only by the fe73c52 sentence (authorised)
   pnpm serve:out --port 4173 & SERVE=$!; sleep 3
   for r in "" projects projects/jev-toolkit projects/websocket-inspector; do
     pnpm perf:lighthouse "http://127.0.0.1:4173/$r" --categories performance,accessibility --out "$E/T010-G8-lh-${r//\//-}"   # G8 (supplementary)

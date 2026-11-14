@@ -252,3 +252,5 @@ One integration seam and one executable check per task. Fresh worktree per task 
 No R-refinements at Gate 1.
 
 **Revision 1 of 2 (Murphy, 2026-11-14: "go A").** Stage 3 T005 found a pre-existing S5 defect: the tour can stay `playing` on its last step (race in `packages/xploder/src/react/useTourClock.ts`; reproduces on base `3b829d0`; `evidence/T005-log-tour-stall-rootcause.md`). Murphy authorised fixing it in S13: the one-file clock fix + a new regression test, written test-first by the executor (task **T005a**), then an S5 re-seal at the fix commit. Scope, guards and Merlin note: `evidence/R1-revision-note.md`. AC1–AC7 unchanged.
+
+**Content decision (Murphy, 2026-11-14, T008 option B).** The `my|our JEV` deny rule hit canonical websocket-inspector copy ("my JEV decision-hook research"). Murphy chose to reword the content rather than add an exception: content-only commit `fe73c52` ("my research on JEV decision hooks"), made by the orchestrator at Murphy's request; re-converted in `291a804`. Guards admit exactly that commit. Evidence: `evidence/T008-log-possessive-hit.md`. Not a brief revision (no AC or scope change); counter stays at 1 of 2.
