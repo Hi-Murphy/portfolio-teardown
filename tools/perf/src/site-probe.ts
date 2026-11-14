@@ -931,6 +931,7 @@ async function probeCell(
 
   if (route.base === 'site' && route.path === '/') {
     await activateHomeLive(page);
+    await waitForHeroSettled(page);
   } else if (route.base === 'site' && route.path.startsWith('/projects/')) {
     await activateProjectViewer(page);
   }
@@ -1365,6 +1366,7 @@ async function runDrillGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
     await waitForHydration(page);
     holdLateChunks = true;
     fallbackTimer = setTimeout(openLateChunkGate, DRILL_LATE_CHUNK_MS);
+    await waitForHeroSettled(page);
     const structure = await readDrillStructure(page);
     const expectedKeys = structure.expected.map((step) => step.key);
     const walk = await collectTabWalk(page, structure.expected, async () => {
