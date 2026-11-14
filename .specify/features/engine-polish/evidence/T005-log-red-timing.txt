@@ -1,0 +1,16 @@
+# T005 red-timing diagnostic — command: custom Playwright trace of DRILL_LATE_CHUNK_MS stress; target http://127.0.0.1:4614/; chromium 156.0.8078.4; commit edb7531
+hydrationAtMs=87
+heroAtHydration={"state":"loading","loop":null,"button":false}
+structureReadElapsedMs=3 (same boundary as this trace)
+forwardWalkMs=25
+backwardWalkMs=11
+buttonVisibleAfterHydrationMs=6221
+pageLoopButtonAtPerformanceMs=6301.29999999702
+delayedRequestCount=6
+delayed[0]=/_next/static/chunks/3vnmkhfgdnq2d.js
+delayed[1]=/_next/static/chunks/0gx97qrp6qu57.js
+delayed[2]=/_next/static/chunks/4388rdi57woly.js
+delayed[3]=/_next/static/chunks/1d5kkip1hlg-o.js
+delayed[4]=/_next/static/chunks/44e494xwfirae.js
+delayed[5]=/_next/static/chunks/1_xxdyyym_2n9.js
+superseded: gate design, see T005-log-red.txt
