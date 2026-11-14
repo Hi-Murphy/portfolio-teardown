@@ -387,6 +387,10 @@ AC1–AC7, `protocol.md` and the pass line are **unchanged**. Only the method ch
 
 - **R7 — phone cells not run (Murphy: "skip for both phones").** Murphy has no cable or adapter to connect the iPhone (D1) or the Android phone (D2) to the Mac. The agent offered Android wireless debugging (no cable) and Safari network inspection for the iPhone; Murphy chose to skip both. D1 and D2 therefore have **no screenshots and no console logs**. Per RFC §4.2 a cell without evidence is unproven, so **AC4 is reported NOT MET** ("iOS Safari 17+ and Android Chrome mid-range not tested: no device connection"), escalated, never "passed with a note". D3/D4/D5 (desktop Chrome, Safari, Firefox) passed 7/7. The gap is recorded in the triage log as a blocked-evidence item (owner Murphy), not as a product defect.
 
+### P3 decision (Murphy, 2026-11-14)
+
+- **R8 — human test not run (Murphy: "im gonna skip this").** Murphy found the session procedure too heavy and chose not to run P1–P5. Some friends had already seen the page on the Vercel preview and liked it. That is recorded as **informal feedback only**. It is not AC1 evidence: those viewers had seen the site before (ineligible under `protocol.md` §2.6), and there was no 15-second exposure, no three questions and no verbatim sheet. **AC1 is reported NOT MET (not run)**, escalated, never "passed with a note". `protocol.md` stays frozen and unchanged, so the test can still be run later exactly as approved.
+
 ### WHAT MURPHY SHOULD TEST/VALIDATE
 
 1. The script in §2.2: the wording you will read aloud, in English and Bahasa Indonesia.

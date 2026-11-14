@@ -32,8 +32,8 @@
 | T003 | ☑ draft PR #23; preview (branch alias) 200 at deploy `aa4cd53`, product tree = `ffda3a2` | orchestrator | evidence/T003-log-preview.txt | (this commit) |
 | T004 | ☑ all CI green; G1–G13 PASS (Lighthouse CI median `/` 0.97/1.00, project 1.00/1.00; CLS 0; weight 460 KB / 201 KB; axe 0/0; reveal 678/645 ms slow class attempt 1; draws 2; `<main>` 0 bytes; surfaces empty); C1–C3 PASS; C4 LinkedIn 999 (I-02); AC5 64/72, no-JS poster lacks the numbered path (I-01); D3/D5 6/7, M2 pause mid-explode label fade-in (I-03); 3 harness bugs fixed + re-run (G3 SITE_URL, C4 fragments, Save-Data Tab walk) | orchestrator | evidence/T004-results.md | (this commit) |
 | T005 | ◐ D4 desktop Safari 26.6.2 7/7 (agent, Orca computer-use); D3/D5 7/7 under R6; **D1 iPhone + D2 Android not run (R7, Murphy: no cable) → AC4 NOT MET**; I-05 label overlap (visual) | orchestrator | evidence/T005-log-device-D4.md, T005-log-device-D{3,5}.md | (this commit) |
-| T006 | ☐ | | | |
-| T007 | ☐ | | | |
+| T006 | ✗ not run (R8, Murphy decision) → AC1 NOT MET; informal feedback: friends saw the preview earlier and liked it (not AC1 evidence) | — | evidence/T006-log-human-test.md | (this commit) |
+| T007 | ✗ not applicable (no sheets) | — | — | — |
 | T008 / T008.x | ☐ | | | |
 | T009 | ☐ | | | |
 
