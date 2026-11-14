@@ -1,0 +1,52 @@
+
+ RUN  v5.0.5 ./tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  23 passed (23)
+   Start at  13:28:34
+   Duration  423ms (import 86%, tests 11%, transform 2%)
+
+teardown tour websocket-inspector capture-path light elapsedMs=11200 position="Step 7 of 7"
+teardown tour websocket-inspector inspect-path light elapsedMs=11299 position="Step 7 of 7"
+teardown tour jev-toolkit arm-run light elapsedMs=12800 position="Step 8 of 8"
+teardown tour jev-toolkit judge-path light elapsedMs=6401 position="Step 4 of 4"
+teardown tour websocket-inspector capture-path dark elapsedMs=11199 position="Step 7 of 7"
+teardown tour websocket-inspector inspect-path dark elapsedMs=11202 position="Step 7 of 7"
+teardown tour jev-toolkit arm-run dark elapsedMs=12887 position="Step 8 of 8"
+teardown tour jev-toolkit judge-path dark elapsedMs=6502 position="Step 4 of 4"
+teardown tour websocket-inspector capture-path mobile elapsedMs=11303 position="Step 7 of 7"
+teardown tour jev-toolkit arm-run mobile elapsedMs=12900 position="Step 8 of 8"
+FAIL teardown-websocket-inspector-outline-counts: expected {"layers":5,"components":16,"flows":2} actual {"present":true,"layers":5,"components":16,"flows":0}
+FAIL teardown-jev-toolkit-outline-counts: expected {"layers":5,"components":20,"flows":2} actual {"present":true,"layers":5,"components":20,"flows":0}
+PASS teardown-websocket-inspector-layers-light: expected {"layers":5,"parts":16} actual {"layers":5,"parts":16,"partsByLayer":[4,4,3,2,3]}
+PASS teardown-websocket-inspector-flows-light: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-websocket-inspector-panel-light: expected true actual {"attached":true,"visible":true}
+PASS teardown-websocket-inspector-tour-capture-path-light: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11200,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-websocket-inspector-tour-inspect-path-light: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11299,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-jev-toolkit-layers-light: expected {"layers":5,"parts":20} actual {"layers":5,"parts":20,"partsByLayer":[4,4,4,5,3]}
+PASS teardown-jev-toolkit-flows-light: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-jev-toolkit-panel-light: expected true actual {"attached":true,"visible":true}
+PASS teardown-jev-toolkit-tour-arm-run-light: expected {"state":"ended","position":"Step 8 of 8"} actual {"ended":true,"elapsedMs":12800,"timeoutMs":47000,"state":"ended","position":"Step 8 of 8"}
+PASS teardown-jev-toolkit-tour-judge-path-light: expected {"state":"ended","position":"Step 4 of 4"} actual {"ended":true,"elapsedMs":6401,"timeoutMs":31000,"state":"ended","position":"Step 4 of 4"}
+PASS teardown-websocket-inspector-layers-dark: expected {"layers":5,"parts":16} actual {"layers":5,"parts":16,"partsByLayer":[4,4,3,2,3]}
+PASS teardown-websocket-inspector-flows-dark: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-websocket-inspector-panel-dark: expected true actual {"attached":true,"visible":true}
+PASS teardown-websocket-inspector-tour-capture-path-dark: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11199,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-websocket-inspector-tour-inspect-path-dark: expected {"state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11202,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-jev-toolkit-layers-dark: expected {"layers":5,"parts":20} actual {"layers":5,"parts":20,"partsByLayer":[4,4,4,5,3]}
+PASS teardown-jev-toolkit-flows-dark: expected 2 actual {"options":2,"headers":0,"count":2}
+PASS teardown-jev-toolkit-panel-dark: expected true actual {"attached":true,"visible":true}
+PASS teardown-jev-toolkit-tour-arm-run-dark: expected {"state":"ended","position":"Step 8 of 8"} actual {"ended":true,"elapsedMs":12887,"timeoutMs":47000,"state":"ended","position":"Step 8 of 8"}
+PASS teardown-jev-toolkit-tour-judge-path-dark: expected {"state":"ended","position":"Step 4 of 4"} actual {"ended":true,"elapsedMs":6502,"timeoutMs":31000,"state":"ended","position":"Step 4 of 4"}
+PASS teardown-websocket-inspector-compact-column-light: expected {"column":"shown","rows":16,"noOverflow":true} actual {"column":"shown","rows":16,"scrollWidth":412,"clientWidth":412}
+PASS teardown-websocket-inspector-mobile-panel: expected true actual {"attached":true,"visible":true}
+PASS teardown-websocket-inspector-mobile-tour: expected {"flowId":"capture-path","state":"ended","position":"Step 7 of 7"} actual {"ended":true,"elapsedMs":11303,"timeoutMs":43000,"state":"ended","position":"Step 7 of 7"}
+PASS teardown-jev-toolkit-compact-column-light: expected {"column":"shown","rows":20,"noOverflow":true} actual {"column":"shown","rows":20,"scrollWidth":412,"clientWidth":412}
+PASS teardown-jev-toolkit-mobile-panel: expected true actual {"attached":true,"visible":true}
+PASS teardown-jev-toolkit-mobile-tour: expected {"flowId":"arm-run","state":"ended","position":"Step 8 of 8"} actual {"ended":true,"elapsedMs":12900,"timeoutMs":47000,"state":"ended","position":"Step 8 of 8"}
+PASS teardown-websocket-inspector-compact-column-dark: expected {"column":"shown","rows":16,"noOverflow":true} actual {"column":"shown","rows":16,"scrollWidth":412,"clientWidth":412}
+PASS teardown-jev-toolkit-compact-column-dark: expected {"column":"shown","rows":20,"noOverflow":true} actual {"column":"shown","rows":20,"scrollWidth":412,"clientWidth":412}
+teardown: FAIL (30 checks)
+site-probe: FAIL
+artifacts: ./.specify/features/jev-content/evidence/T005-teardown

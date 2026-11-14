@@ -9,8 +9,12 @@ import {
   evaluateFallbackHtml,
   evaluateHeroEagerNoInteraction,
   evaluateHeroLoopRunning,
+  expectedTeardownCounts,
   heroContainsPoster,
+  outlineCountsFromHtml,
   parseHeroLiveMode,
+  teardownCountsMatch,
+  tourTimeoutMs,
   type ClsEntry,
   type ClsSource,
 } from '../src/site-probe.ts';
@@ -231,5 +235,64 @@ describe('clsRoutes', () => {
       ...PROJECT_SOURCES.map((source) => projectPath(source)),
     ]);
     expect(routes.every((route) => route.base === 'site')).toBe(true);
+  });
+});
+
+describe('teardown helpers', () => {
+  test('counts outline layers and component items by structure', () => {
+    const html = `
+      <section data-site-outline>
+        <h2>Example</h2>
+        <section><h3>Metrics</h3><dl><div><dt>One</dt></div></dl></section>
+        <div>
+          <section><h3>Layer one</h3><ul><li>Part A</li><li>Part B</li></ul></section>
+          <section><h3>Layer two</h3><ul><li>Part C</li></ul></section>
+        </div>
+        <ol><li>Flow one</li><li>Flow two</li></ol>
+      </section>
+    `;
+
+    expect(outlineCountsFromHtml(html)).toEqual({
+      present: true,
+      layers: 2,
+      components: 3,
+      flows: 2,
+    });
+  });
+
+  test('reports a missing outline as absent instead of counting unrelated lists', () => {
+    expect(outlineCountsFromHtml('<ul><li>Part</li></ul><ol><li>Flow</li></ol>')).toEqual({
+      present: false,
+      layers: 0,
+      components: 0,
+      flows: 0,
+    });
+  });
+
+  test('computes expected counts from a source module', () => {
+    const source = {
+      layers: [{ components: [{ id: 'a' }, { id: 'b' }] }, { components: [{ id: 'c' }] }],
+      flows: [{ id: 'one' }, { id: 'two' }],
+    };
+
+    expect(expectedTeardownCounts(source)).toEqual({ layers: 2, components: 3, flows: 2 });
+  });
+
+  test('rejects a count mismatch for the source-derived expectation', () => {
+    const expected = expectedTeardownCounts({
+      layers: [{ components: [{ id: 'a' }] }],
+      flows: [{ id: 'one' }],
+    });
+
+    expect(teardownCountsMatch({ layers: 1, components: 1, flows: 0 }, expected)).toBe(false);
+  });
+
+  test('scales the tour timeout at four seconds per path step plus fifteen seconds', () => {
+    expect(tourTimeoutMs(0)).toBe(15_000);
+    expect(tourTimeoutMs(8)).toBe(47_000);
+  });
+
+  test('rejects a negative path length', () => {
+    expect(() => tourTimeoutMs(-1)).toThrow(RangeError);
   });
 });

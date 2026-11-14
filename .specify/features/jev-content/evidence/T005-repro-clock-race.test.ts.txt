@@ -1,0 +1,22 @@
+import { describe, expect, test } from 'vitest';
+import { positionAt, tourReducer, type TourState } from '../src/interaction/tour';
+
+const flows = [{ id: 'f', path: ['a', 'b'] }];
+const beat = 1.6;
+
+describe('useTourClock last-step race (reproduction)', () => {
+  test('a tick just before the final boundary, then an effect just after it', () => {
+    let state: TourState = tourReducer({ flowId: 'f', status: 'idle', step: -1, anchor: 0 }, { type: 'play', now: 10 }, flows, beat);
+    state = tourReducer(state, { type: 'tick', now: 10 + beat }, flows, beat); // step 1 (last)
+    expect(state).toMatchObject({ status: 'playing', step: 1 });
+    const boundary = state.anchor + beat;
+    // timer fires 0.4 ms early (integer-truncated delay)
+    const afterEarlyTick = tourReducer(state, { type: 'tick', now: boundary - 0.0004 }, flows, beat);
+    expect(afterEarlyTick).toBe(state); // folds 0 beats, same object
+    // effect re-runs 0.2 ms after the boundary: this is what useTourClock computes
+    const { nextBoundary, status } = positionAt(afterEarlyTick, boundary + 0.0002, flows, beat);
+    console.log({ reducerStatus: afterEarlyTick.status, positionStatus: status, nextBoundary });
+    expect(afterEarlyTick.status).toBe('playing');
+    expect(nextBoundary).toBeNull(); // => useTourClock returns without scheduling: stuck 'playing'
+  });
+});
