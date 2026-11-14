@@ -1,0 +1,11 @@
+SITE_URL=https://hi-murphy.me
+project=jev-toolkit siteName=Timur Haryo
+OK   title actual="JEV Benchmark · Timur Haryo" expected="JEV Benchmark · Timur Haryo"
+OK   description actual="Measuring what an AI reads before it codes." expected="Measuring what an AI reads before it codes."
+OK   canonical actual="https://hi-murphy.me/projects/jev-toolkit" expected="https://hi-murphy.me/projects/jev-toolkit"
+OK   og:url actual="https://hi-murphy.me/projects/jev-toolkit" expected="https://hi-murphy.me/projects/jev-toolkit"
+OK   og:image actual="https://hi-murphy.me/og/projects/jev-toolkit.png" expected="https://hi-murphy.me/og/projects/jev-toolkit.png"
+OK   og:title actual="JEV Benchmark · Timur Haryo" expected="JEV Benchmark · Timur Haryo"
+OK   og:description actual="Measuring what an AI reads before it codes." expected="Measuring what an AI reads before it codes."
+OK   twitter:card actual="summary_large_image" expected="summary_large_image"
+OK   twitter:image actual="https://hi-murphy.me/og/projects/jev-toolkit.png" expected="https://hi-murphy.me/og/projects/jev-toolkit.png"

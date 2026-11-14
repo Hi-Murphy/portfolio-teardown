@@ -1,0 +1,185 @@
+SITE_URL=https://hi-murphy.me
+BUILD=1
+CLEAN=1 exit=0
+BUILD 1 exit=0
+$ SEO_EXPECT_OUT=out-seo-expect.json vitest run test/seo-expect.write.test.ts
+
+ RUN  v5.0.5 ./apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  16:48:01
+   Duration  131ms (transform 53%, import 42%, tests 3%, worker 2%)
+
+$ node tools/perf/src/cli/seo-probe.ts --out-dir apps/web/out --site-url https://hi-murphy.me --expect apps/web/out-seo-expect.json --out .specify/features/jev-content/evidence/T007-seo-build-1
+seo-probe: PASS
+artifacts: ./.specify/features/jev-content/evidence/T007-seo-build-1
+SEO_BUILD_1 exit=0
+
+SITE_URL=https://hi-murphy.me
+BUILD=2
+CLEAN=2 exit=0
+BUILD 2 exit=0
+$ SEO_EXPECT_OUT=out-seo-expect.json vitest run test/seo-expect.write.test.ts
+
+ RUN  v5.0.5 ./apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  16:48:12
+   Duration  103ms (import 68%, transform 24%, tests 5%, worker 3%)
+
+$ node tools/perf/src/cli/seo-probe.ts --out-dir apps/web/out --site-url https://hi-murphy.me --expect apps/web/out-seo-expect.json --compare .specify/features/jev-content/evidence/T007-seo-build-1/og-hashes.json --out .specify/features/jev-content/evidence/T007-seo-build-2
+seo-probe: PASS
+artifacts: ./.specify/features/jev-content/evidence/T007-seo-build-2
+SEO_BUILD_2 exit=0
+
+SITE_URL=https://hi-murphy.me
+FINAL CHECKS
+FROZEN-OK
+BRIEF-HISTORY-OK
+XPLODER-OK
+SURFACES-S2S8-OK
+UI-UNCHANGED-OK
+S8-TOOLS-OK
+OTHER-CI-OK
+ALLOWED-PATHS-OK
+CONVERT-CHECK-OK
+GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+tools/perf lint$ eslint .
+packages/xploder lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 ./packages/xploder
+packages/xploder test: 
+packages/xploder test: (node:19568) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19569) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19578) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 ./tools/perf
+tools/perf test: 
+packages/xploder test: (node:19582) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: (node:19599) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19601) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19605) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19610) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19621) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19635) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19637) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:19657) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  32 passed (32)
+tools/perf test:       Tests  294 passed (294)
+tools/perf test:    Start at  16:49:39
+tools/perf test:    Duration  3.16s (import 66%, tests 18%, transform 16%, worker 1%)
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: 
+packages/xploder test:  Test Files  64 passed (64)
+packages/xploder test:       Tests  635 passed (635)
+packages/xploder test:    Start at  16:49:38
+packages/xploder test:    Duration  34.26s (tests 85%, import 10%, transform 5%)
+packages/xploder test: 
+packages/xploder test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.0.5 ./apps/web
+apps/web test: 
+apps/web test: (node:19866) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: (node:19883) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+apps/web test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+apps/web test: (Use `node --trace-deprecation ...` to show where the warning was created)
+apps/web test: 
+apps/web test:  Test Files  46 passed | 1 skipped (47)
+apps/web test:       Tests  249 passed | 2 skipped (251)
+apps/web test:    Start at  16:50:13
+apps/web test:    Duration  1.92s (environment 33%, tests 25%, import 25%, transform 16%, worker 1%)
+apps/web test: 
+apps/web test:     Isolate  47 workers spawned · ~173ms startup each (spawn + environment, per file)
+apps/web test:              at least ~732ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: 
+apps/web test: Done
+T007-OK
