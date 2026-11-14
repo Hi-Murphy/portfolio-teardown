@@ -19,6 +19,7 @@ export const SITE_PROBE_GROUPS = [
   'routes',
   'draws',
   'teardown',
+  'cards',
 ] as const;
 
 export type SiteProbeGroup = (typeof SITE_PROBE_GROUPS)[number];
@@ -29,6 +30,7 @@ export const SITE_PROBE_CI_GROUPS = [
   'nojs',
   'reduced-motion',
   'teardown',
+  'cards',
 ] as const satisfies readonly SiteProbeGroup[];
 
 type Palette = 'light' | 'dark';
@@ -219,6 +221,16 @@ const VIEWPORTS: readonly Viewport[] = [
   { name: 'mobile', width: 412, height: 823, isMobile: true, hasTouch: true },
 ] as const;
 const PALETTES: readonly Palette[] = ['light', 'dark'] as const;
+const CARD_SURFACES = [
+  { name: 'home', path: '/' },
+  { name: 'projects', path: '/projects' },
+] as const;
+const CARD_VIEWPORTS: readonly Viewport[] = [
+  { name: 'mobile', width: 390, height: 844, isMobile: true, hasTouch: true },
+  { name: 'desktop', width: 1280, height: 800, isMobile: false, hasTouch: false },
+] as const;
+const CARD_CHIP_MIN = 1;
+const CARD_CHIP_MAX = 4;
 const WAIT_TIMEOUT_MS = 30_000;
 const SETTLE_MS = 3000;
 const POSTER_SCAN_MS = 4000;
@@ -327,6 +339,55 @@ export function evaluateFallbackHtml(
       : /<section\b[^>]*\bdata-site-outline\b/i.test(html);
 
   return { pass: poster && list, poster, list, listKind };
+}
+
+export interface CardChipVerdict {
+  readonly pass: boolean;
+  readonly count: number;
+  readonly unknown: readonly string[];
+}
+
+export interface HorizontalScrollVerdict {
+  readonly pass: boolean;
+  readonly scrollWidth: number;
+  readonly clientWidth: number;
+}
+
+function compactText(value: string): string {
+  return value.replace(/\s+/g, ' ').trim();
+}
+
+export function parseRegistryLabels(sourceText: string): string[] {
+  return [...sourceText.matchAll(/\blabel:\s*(['"])([^'"]+)\1/g)].flatMap((match) =>
+    match[2] === undefined ? [] : [match[2]],
+  );
+}
+
+export function cardOrderMatches(actual: readonly string[], expected: readonly string[]): boolean {
+  return (
+    actual.length === expected.length && actual.every((slug, index) => slug === expected[index])
+  );
+}
+
+export function evaluateCardChips(
+  labels: readonly string[],
+  registryLabels: readonly string[],
+): CardChipVerdict {
+  const registry = new Set(registryLabels.map(compactText));
+  const unknown = labels.map(compactText).filter((label) => !registry.has(label));
+
+  return {
+    pass: labels.length >= CARD_CHIP_MIN && labels.length <= CARD_CHIP_MAX && unknown.length === 0,
+    count: labels.length,
+    unknown,
+  };
+}
+
+export function evaluateHorizontalScroll(
+  scrollWidth: number,
+  clientWidth: number,
+): HorizontalScrollVerdict {
+  return { pass: scrollWidth <= clientWidth, scrollWidth, clientWidth };
 }
 
 export function heroContainsPoster(html: string): boolean {
@@ -2328,6 +2389,218 @@ async function runTeardownGroup(
   return groupResult('teardown', checks);
 }
 
+interface CardExpectation {
+  readonly slug: string;
+  readonly name: string;
+  readonly tagline: string | null;
+}
+
+interface CardSnapshot {
+  count: number;
+  headingText: string | null;
+  taglineFound: boolean;
+  chipLabels: string[];
+  href: string | null;
+}
+
+interface CardsPageSnapshot {
+  readonly cards: Readonly<Record<string, CardSnapshot>>;
+  readonly order: readonly string[];
+  readonly scrollWidth: number;
+  readonly clientWidth: number;
+}
+
+async function runCardsGroup(
+  browser: Browser,
+  siteBase: URL,
+  outDir: string,
+): Promise<SiteProbeGroupResult> {
+  const checks: SiteProbeCheck[] = [];
+  const registryLabels = parseRegistryLabels(
+    await readFile(new URL('../../../apps/web/content/tech-registry.ts', import.meta.url), 'utf8'),
+  );
+  const expectations: readonly CardExpectation[] = PROJECT_SOURCES.map((source) => ({
+    slug: source.meta.slug,
+    name: source.meta.name,
+    tagline: source.meta.tagline ?? null,
+  }));
+  const expectedSlugs = PROJECT_SOURCES.map((source) => source.meta.slug);
+
+  for (const surface of CARD_SURFACES) {
+    for (const viewport of CARD_VIEWPORTS) {
+      for (const palette of PALETTES) {
+        const context = await browser.newContext(contextOptions(palette, viewport));
+
+        try {
+          const page = await openPage(context, new URL(surface.path, siteBase));
+          await waitForHydration(page);
+          await page.evaluate(async () => {
+            await document.fonts.ready;
+          });
+
+          const snapshot = await page.evaluate((cards: readonly CardExpectation[]) => {
+            const compact = (value: string): string => value.replace(/\s+/g, ' ').trim();
+            const renderedCards = [...document.querySelectorAll<HTMLElement>('[data-site-card]')];
+            const snapshots: Record<string, CardSnapshot> = Object.fromEntries(
+              cards.map((card) => [
+                card.slug,
+                {
+                  count: 0,
+                  headingText: null,
+                  taglineFound: false,
+                  chipLabels: [],
+                  href: null,
+                },
+              ]),
+            );
+
+            for (const card of renderedCards) {
+              const slug = card.getAttribute('data-site-card') ?? '';
+              const expected = cards.find((candidate) => candidate.slug === slug);
+              const entry = snapshots[slug];
+              if (expected === undefined || entry === undefined) continue;
+
+              entry.count += 1;
+              const headingLink = card.querySelector<HTMLAnchorElement>(
+                'h1 a, h2 a, h3 a, h4 a, h5 a, h6 a',
+              );
+              entry.headingText =
+                headingLink === null ? null : compact(headingLink.textContent ?? '');
+              entry.href = headingLink?.getAttribute('href') ?? null;
+              entry.taglineFound =
+                expected.tagline !== null &&
+                [card, ...card.querySelectorAll('*')].some(
+                  (element) => compact(element.textContent ?? '') === expected.tagline,
+                );
+              entry.chipLabels = [
+                ...card.querySelectorAll<HTMLLIElement>('ul[aria-label="Tech"] > li'),
+              ].map((item) => {
+                const label = [...item.children].find(
+                  (child) =>
+                    child.tagName === 'SPAN' &&
+                    !child.hasAttribute('aria-hidden') &&
+                    !child.classList.contains('sr-only'),
+                );
+                return label === undefined ? '' : compact(label.textContent ?? '');
+              });
+            }
+
+            return {
+              cards: snapshots,
+              order: renderedCards.map((card) => card.getAttribute('data-site-card') ?? ''),
+              scrollWidth: document.documentElement.scrollWidth,
+              clientWidth: document.documentElement.clientWidth,
+            } satisfies CardsPageSnapshot;
+          }, expectations);
+
+          for (const expected of expectations) {
+            const actual = snapshot.cards[expected.slug] ?? {
+              count: 0,
+              headingText: null,
+              taglineFound: false,
+              chipLabels: [],
+              href: null,
+            };
+            const chips = evaluateCardChips(actual.chipLabels, registryLabels);
+            const pass =
+              actual.count === 1 &&
+              actual.headingText === compactText(expected.name) &&
+              actual.taglineFound &&
+              chips.pass &&
+              actual.href === `/projects/${expected.slug}`;
+            checks.push(
+              check(
+                `cards-${surface.name}-${expected.slug}-${viewport.name}-${palette}`,
+                pass,
+                {
+                  count: 1,
+                  headingText: expected.name,
+                  tagline: expected.tagline,
+                  chips: { min: CARD_CHIP_MIN, max: CARD_CHIP_MAX, registry: 'known labels' },
+                  href: `/projects/${expected.slug}`,
+                },
+                {
+                  count: actual.count,
+                  headingText: actual.headingText,
+                  taglineFound: actual.taglineFound,
+                  chips: { ...chips, labels: actual.chipLabels },
+                  href: actual.href,
+                },
+              ),
+            );
+          }
+
+          checks.push(
+            check(
+              `cards-${surface.name}-order-${viewport.name}-${palette}`,
+              cardOrderMatches(snapshot.order, expectedSlugs),
+              expectedSlugs,
+              snapshot.order,
+            ),
+          );
+          checks.push(
+            check(
+              `cards-${surface.name}-no-hscroll-${viewport.name}-${palette}`,
+              evaluateHorizontalScroll(snapshot.scrollWidth, snapshot.clientWidth).pass,
+              { scrollWidthAtMost: 'clientWidth', viewportWidth: viewport.width },
+              evaluateHorizontalScroll(snapshot.scrollWidth, snapshot.clientWidth),
+            ),
+          );
+
+          const screenshot = `cards-${surface.name}-${viewport.name}-${palette}.png`;
+          if (surface.name === 'home') {
+            const projects = page.locator('[data-home-section="projects"]');
+            await projects.scrollIntoViewIfNeeded();
+            await page
+              .waitForFunction(
+                () =>
+                  document.getAnimations().every((animation) => animation.playState !== 'running'),
+                undefined,
+                { timeout: WAIT_TIMEOUT_MS },
+              )
+              .catch(() => undefined);
+            await projects.screenshot({ path: join(outDir, screenshot) });
+          } else {
+            await page.screenshot({ path: join(outDir, screenshot), fullPage: true });
+          }
+        } catch (error) {
+          checks.push(
+            check(
+              `cards-${surface.name}-${viewport.name}-${palette}-setup`,
+              false,
+              'cards page ready',
+              { error: errorDetail(error) },
+            ),
+          );
+        } finally {
+          await context.close();
+        }
+      }
+    }
+  }
+
+  for (const source of PROJECT_SOURCES) {
+    const expected = 200;
+    let actual: number | string;
+
+    try {
+      const response = await fetch(new URL(projectPath(source), siteBase), {
+        method: 'GET',
+        redirect: 'follow',
+        signal: AbortSignal.timeout(WAIT_TIMEOUT_MS),
+      });
+      await response.body?.cancel().catch(() => undefined);
+      actual = response.status;
+    } catch (error) {
+      actual = errorDetail(error);
+    }
+
+    checks.push(check(`cards-${source.meta.slug}-href-200`, actual === expected, expected, actual));
+  }
+
+  return groupResult('cards', checks);
+}
+
 async function runGroup(
   group: SiteProbeGroup,
   browser: Browser,
@@ -2355,6 +2628,8 @@ async function runGroup(
       return await runDrawsGroup(browser, options.siteBase);
     case 'teardown':
       return await runTeardownGroup(browser, options.siteBase, options.siteDir, options.outDir);
+    case 'cards':
+      return await runCardsGroup(browser, options.siteBase, options.outDir);
   }
 }
 

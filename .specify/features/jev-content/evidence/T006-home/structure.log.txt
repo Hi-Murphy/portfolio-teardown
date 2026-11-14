@@ -1,0 +1,55 @@
+group: structure
+result: PASS
+PASS 390:structure-one-h1: expected 1 actual 1
+PASS 390:structure-heading-levels: expected [] actual []
+PASS 390:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 390:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390:structure-named-regions: expected [] actual []
+PASS 390:structure-skip-first: expected "skip" actual "skip"
+PASS 390:structure-no-positive-tabindex: expected [] actual []
+PASS 390:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 390:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,333.78125,20],[1,0,721.78125,326],[2,0,952,37],[2,0,1160.5,37],[4,0,2218.5,20],[4,0,2270.5,20],[4,0,2322.5,20],[5,0,2447.5,16],[5,0,2639.5,296.703125]]
+PASS 390:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+PASS 768:structure-one-h1: expected 1 actual 1
+PASS 768:structure-heading-levels: expected [] actual []
+PASS 768:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 768:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 768:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 768:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 768:structure-named-regions: expected [] actual []
+PASS 768:structure-skip-first: expected "skip" actual "skip"
+PASS 768:structure-no-positive-tabindex: expected [] actual []
+PASS 768:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 768:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,24],[0,0,0,384.421875],[0,0,0,458.6875],[0,0,0,518.515625],[0,0,0,604],[0,0,0,652],[0,0,0,700],[1,0,361.78125,32],[1,0,837.78125,692],[2,0,1152,53],[2,1,1152,413],[4,0,2107,32],[4,0,2107,332.5625],[4,0,2107,443.4375],[5,0,2256,24],[5,0,2428.5,666.703125]]
+PASS 768:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 768:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":692,"y":837.78125,"width":44,"height":44}}
+PASS 1440:structure-one-h1: expected 1 actual 1
+PASS 1440:structure-heading-levels: expected [] actual []
+PASS 1440:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 1440:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 1440:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 1440:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 1440:structure-named-regions: expected [] actual []
+PASS 1440:structure-skip-first: expected "skip" actual "skip"
+PASS 1440:structure-no-positive-tabindex: expected [] actual []
+PASS 1440:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:15:a:TH Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 1440:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,168],[0,0,0,912.421875],[0,0,0,986.6875],[0,0,0,1046.515625],[0,0,0,1132],[0,0,0,1180],[0,0,0,1228],[1,0,615.9375,48],[1,1,841.5,1348],[2,0,1028,197],[2,1,1028,749],[4,0,1889,176],[4,0,1889,476.5625],[4,0,1889,587.4375],[5,0,2038,168],[5,0,2210.5,1194.703125]]
+PASS 1440:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 1440:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":1348,"y":841.5,"width":44,"height":44}}
+PASS 390-reduced:structure-one-h1: expected 1 actual 1
+PASS 390-reduced:structure-heading-levels: expected [] actual []
+PASS 390-reduced:structure-section-headings: expected ["hero:h1","projects:h2","about:h2","contact:h2"] actual ["hero:h1","projects:h2","about:h2","contact:h2"]
+PASS 390-reduced:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390-reduced:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390-reduced:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390-reduced:structure-named-regions: expected [] actual []
+PASS 390-reduced:structure-skip-first: expected "skip" actual "skip"
+PASS 390-reduced:structure-no-positive-tabindex: expected [] actual []
+PASS 390-reduced:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:14:a:TH Timur Haryo Mahissanular","focus:13:a:LinkedIn","focus:12:a:GitHub","focus:11:a:Email vibing.murphy@gmail.com","focus:10:a:JEV Benchmark","focus:9:a:Scarlet Inspector","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"],"actualBackward":["focus:14:a:TH Timur Haryo Mahissanular","focus:13:a:LinkedIn","focus:12:a:GitHub","focus:11:a:Email vibing.murphy@gmail.com","focus:10:a:JEV Benchmark","focus:9:a:Scarlet Inspector","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:TH Timur Haryo","skip"]}
+PASS 390-reduced:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,333.78125,20],[2,0,952,37],[2,0,1160.5,37],[4,0,2218.5,20],[4,0,2270.5,20],[4,0,2322.5,20],[5,0,2447.5,16],[5,0,2639.5,296.703125]]
+PASS 390-reduced:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390-reduced:structure-hero-poster-path: expected {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":44} actual {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+summary: PASS (52 checks)
