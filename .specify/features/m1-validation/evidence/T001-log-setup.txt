@@ -1,0 +1,129 @@
+
+=== T001 setup checks ===
+repo: .
+branch: task/s12-m1-validation-t001
+
+=== a) guards ===
+$ bash .specify/features/m1-validation/guards.sh
+OK frozen
+OK product
+OK surfaces
+OK workflows
+OK touch
+exit=0
+
+=== b) main-diff ===
+$ bash .specify/features/m1-validation/main-diff.sh
+main-diff: building head export
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 74778 bytes c4c9a7f3bf9e6259b3eedc18c94885a9781297c64ba983a1e4e2eb3b4cbc9edf
+public/og/projects.png 69640 bytes 53c61f75d8e14a30afac818daac98d429c016a96dd65f7b6bc6bd028fca91d22
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 117ms
+  Running TypeScript ...
+  Finished TypeScript in 771ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/8) ...
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:PORT for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 266ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ └ ● /projects/websocket-inspector
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+main-diff: reusing cached base export
+main-diff projects: 0 bytes
+main-diff websocket-inspector: 0 bytes
+main-diff-exit=0
+
+=== c) workflow YAML parse and S11.9 diff ===
+$ ruby -ryaml -e 'YAML.load_file(ARGV[0])' .github/workflows/m1-validation.yml
+YAML-OK
+exit=0
+
+$ diff <(git show 2181d61^:.github/workflows/home-composition.yml) .github/workflows/m1-validation.yml
+1c1
+< name: home-composition
+---
+> name: m1-validation
+11,12c11,12
+<     if: github.head_ref == 'task/s11.9-home-composition'
+<     name: 'perf: home-composition (slow-class measurement) #${{ matrix.shard }}'
+---
+>     if: github.head_ref == 'task/s12-m1-validation'
+>     name: 'perf: m1-validation (slow-class measurement) #${{ matrix.shard }}'
+20c20
+<       E: .evidence/ci/home-composition
+---
+>       E: .evidence/ci/m1-validation
+47c47
+<       - name: Build home-composition
+---
+>       - name: Build m1-validation
+49c49
+<       - name: Measure home-composition
+---
+>       - name: Measure m1-validation
+76c76
+<       - name: Summarize home-composition results
+---
+>       - name: Summarize m1-validation results
+82c82
+<           node .specify/features/home-composition/ci-summary.mjs --dir "$E" --shard "$SHARD" > "$E/summary.md" 2>&1 || code=$?
+---
+>           node .specify/features/m1-validation/ci-summary.mjs --dir "$E" --shard "$SHARD" > "$E/summary.md" 2>&1 || code=$?
+86c86
+<       - name: Upload home-composition evidence
+---
+>       - name: Upload m1-validation evidence
+90,91c90,91
+<           name: home-composition-${{ github.run_id }}-${{ github.run_attempt }}-s${{ matrix.shard }}
+<           path: .evidence/ci/home-composition
+---
+>           name: m1-validation-${{ github.run_id }}-${{ github.run_attempt }}-s${{ matrix.shard }}
+>           path: .evidence/ci/m1-validation
+diff-exit=1 (differences are the expected renames only)
+
+=== d) ci-summary syntax ===
+$ node --check .specify/features/m1-validation/ci-summary.mjs
+NODE-OK
+exit=0
+
+=== e) shell syntax ===
+$ bash -n .specify/features/m1-validation/guards.sh
+BASH-OK
+exit=0
+
+$ bash -n .specify/features/m1-validation/main-diff.sh
+BASH-OK
+exit=0
+
+T001-OK
