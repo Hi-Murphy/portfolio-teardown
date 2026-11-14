@@ -1175,6 +1175,8 @@ async function gotoPage(page, url) {
   return response;
 }
 
+const PAUSE_SETTLE_MS = 2_000;
+
 async function changesWithin(capture, windowMs = 8_000, stepMs = 500) {
   const first = await capture();
   for (let elapsed = 0; elapsed < windowMs; elapsed += stepMs) {
@@ -1304,7 +1306,9 @@ async function runDevices(options, base) {
 
     const pauseButton = page.getByRole('button', { name: labels.pause, exact: true });
     await pauseButton.click({ timeout: WAIT_MS });
-    await page.waitForTimeout(500);
+    // R6 (Murphy, 2026-11-14): a step in flight when Pause is pressed (mid-explode) may settle
+    // once, within ~1.5 s; "paused" is judged from 2 s after the click.
+    await page.waitForTimeout(PAUSE_SETTLE_MS);
     const pausedLoop = await loopState();
     const m2a = await shot('m2-paused-a', hero);
     await page.waitForTimeout(3_000);
@@ -1325,7 +1329,12 @@ async function runDevices(options, base) {
           resumedLoop === 'running' &&
           m2Change.changed,
         {
-          paused: { loop: 'paused', framesOver3sIdentical: true, playLabel: true },
+          paused: {
+            loop: 'paused',
+            settleMs: PAUSE_SETTLE_MS,
+            framesOver3sIdentical: true,
+            playLabel: true,
+          },
           resumed: { loop: 'running', heroChangesWithinMs: 8_000 },
         },
         {

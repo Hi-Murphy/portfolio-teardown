@@ -378,6 +378,11 @@ AC1–AC7, `protocol.md` and the pass line are **unchanged**. Only the method ch
   - **(b) M3/M4:** a 150 px wheel step correctly snaps back to the hero. The test now uses the S11.9 T011i snap method: (viewport − 100) down lands on Projects, then back up to 0. Under reduced motion, 180 px stays at 180.
   - **(c) M6:** requests cancelled with `net::ERR_ABORTED` / `NS_BINDING_ABORTED` produce no console message. They are logged as `requestAborted` and not counted as failed loads (in practice, prefetch HEAD requests dropped on navigation). Console errors, page errors, other failed requests and HTTP ≥ 400 still fail M6.
 
+### P1 decisions (Murphy, 2026-11-14)
+
+- **R6 — pause check settle window (I-03, Murphy: "accept it").** T004 measured M2 FAIL on D3 and D5. Pressing Pause during the storyboard's explode step lets that step settle once: the engine's labels fade in within ~1.5 s, then the hero is still (`evidence/T004-log-pause.md`). Pausing in every other phase freezes it at once. Murphy accepted this as designed behaviour. M2 now judges "paused" from **2 s after the click** (frames 3 s apart identical, loop `paused`), and I-03 is **Sev-3**. This changes a check after a result existed, so it is recorded here and in the report. The T004 M2 FAIL stays in the evidence. AC4's text is unchanged.
+- **LinkedIn (I-02, Q11).** Murphy's DevTools screenshot (`evidence/T004-screenshot-linkedin-devtools.png`, tracking token redacted) shows the profile link ending on LinkedIn's sign-in wall (`authwall`) with document status **200** for a logged-out visitor. Under C4's rule (status after redirects) this is 200. The report records that logged-out visitors see LinkedIn's sign-in wall (LinkedIn behaviour, not the site's).
+
 ### WHAT MURPHY SHOULD TEST/VALIDATE
 
 1. The script in §2.2: the wording you will read aloud, in English and Bahasa Indonesia.

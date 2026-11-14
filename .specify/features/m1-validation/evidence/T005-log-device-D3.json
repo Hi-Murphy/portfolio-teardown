@@ -1,0 +1,168 @@
+{
+  "kind": "m1-site-checks-devices",
+  "version": 1,
+  "generatedAt": "2026-11-14T02:17:53.308Z",
+  "baseUrl": "https://portfolio-teardown-git-task-s12-m1-validation-murphy-3c4d.vercel.app",
+  "cell": "D3",
+  "browser": {
+    "name": "chromium",
+    "version": "156.0.8078.4",
+    "label": "chromium",
+    "userAgent": null
+  },
+  "consoleLog": "console-D3.txt",
+  "checks": [
+    {
+      "id": "M1",
+      "pass": true,
+      "expected": {
+        "loop": "running",
+        "canvas": true,
+        "heroChangesWithinMs": 8000
+      },
+      "actual": {
+        "loop": "running",
+        "canvases": 1,
+        "changed": true,
+        "afterMs": 500
+      }
+    },
+    {
+      "id": "M2",
+      "pass": true,
+      "expected": {
+        "paused": {
+          "loop": "paused",
+          "settleMs": 2000,
+          "framesOver3sIdentical": true,
+          "playLabel": true
+        },
+        "resumed": {
+          "loop": "running",
+          "heroChangesWithinMs": 8000
+        }
+      },
+      "actual": {
+        "pausedLoop": "paused",
+        "pausedIdentical": true,
+        "playLabelVisible": true,
+        "resumedLoop": "running",
+        "resumed": {
+          "changed": true,
+          "afterMs": 1500
+        }
+      }
+    },
+    {
+      "id": "M3",
+      "pass": true,
+      "expected": {
+        "down": {
+          "delta": 800,
+          "projectsTop": "scroll-padding ±2"
+        },
+        "up": {
+          "delta": -800,
+          "scrollY": "0 ±2"
+        }
+      },
+      "actual": {
+        "method": "mouse.wheel",
+        "down": {
+          "scrollY": 900,
+          "top": 0,
+          "scrollPadding": 0
+        },
+        "up": {
+          "scrollY": 0,
+          "top": 900,
+          "scrollPadding": 0
+        }
+      }
+    },
+    {
+      "id": "M4",
+      "pass": true,
+      "expected": {
+        "snap": false,
+        "scrollY": "180 ±20 (S11.9 T011i)",
+        "poster": true,
+        "canvas": 0
+      },
+      "actual": {
+        "method": "mouse.wheel",
+        "emulated": false,
+        "scrollY": 180,
+        "top": 720,
+        "scrollPadding": 0,
+        "poster": true,
+        "canvases": 0
+      }
+    },
+    {
+      "id": "M5",
+      "pass": true,
+      "expected": {
+        "panelOpen": true,
+        "panelClosed": true
+      },
+      "actual": {
+        "panelOpen": true,
+        "panelClosed": true,
+        "closeMethod": "close-control"
+      }
+    },
+    {
+      "id": "M6",
+      "pass": true,
+      "expected": {
+        "consoleErrors": 0,
+        "pageErrors": 0,
+        "requestFailed": 0,
+        "httpErrors": 0
+      },
+      "actual": {
+        "consoleErrors": 0,
+        "warnings": 7,
+        "pageErrors": 0,
+        "requestFailed": 0,
+        "requestAborted": 11,
+        "httpErrors": 0
+      }
+    },
+    {
+      "id": "M7",
+      "pass": true,
+      "expected": {
+        "home": true,
+        "project": true,
+        "scrollX": 0
+      },
+      "actual": {
+        "home": {
+          "before": true,
+          "after": 0
+        },
+        "project": {
+          "before": true,
+          "after": 0
+        }
+      }
+    }
+  ],
+  "screenshots": [
+    "device-D3-m1-0.png",
+    "device-D3-m1-1.png",
+    "device-D3-m2-paused-a.png",
+    "device-D3-m2-paused-b.png",
+    "device-D3-m2-resumed-0.png",
+    "device-D3-m2-resumed-1.png",
+    "device-D3-m2-resumed-2.png",
+    "device-D3-m2-resumed-3.png",
+    "device-D3-m3-down.png",
+    "device-D3-m3-up.png",
+    "device-D3-m4.png",
+    "device-D3-m5-open.png",
+    "device-D3-m5-closed.png"
+  ]
+}
