@@ -1,0 +1,6 @@
+group: draws
+result: PASS
+PASS draws-project-websocket-inspector: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-jev-toolkit: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":100,"renderedFrames":100,"totalFrames":100,"counts":{"2":100}}
+summary: PASS (3 checks)
