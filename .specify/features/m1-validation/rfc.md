@@ -383,6 +383,10 @@ AC1–AC7, `protocol.md` and the pass line are **unchanged**. Only the method ch
 - **R6 — pause check settle window (I-03, Murphy: "accept it").** T004 measured M2 FAIL on D3 and D5. Pressing Pause during the storyboard's explode step lets that step settle once: the engine's labels fade in within ~1.5 s, then the hero is still (`evidence/T004-log-pause.md`). Pausing in every other phase freezes it at once. Murphy accepted this as designed behaviour. M2 now judges "paused" from **2 s after the click** (frames 3 s apart identical, loop `paused`), and I-03 is **Sev-3**. This changes a check after a result existed, so it is recorded here and in the report. The T004 M2 FAIL stays in the evidence. AC4's text is unchanged.
 - **LinkedIn (I-02, Q11).** Murphy's DevTools screenshot (`evidence/T004-screenshot-linkedin-devtools.png`, tracking token redacted) shows the profile link ending on LinkedIn's sign-in wall (`authwall`) with document status **200** for a logged-out visitor. Under C4's rule (status after redirects) this is 200. The report records that logged-out visitors see LinkedIn's sign-in wall (LinkedIn behaviour, not the site's).
 
+### P2 decision (Murphy, 2026-11-14)
+
+- **R7 — phone cells not run (Murphy: "skip for both phones").** Murphy has no cable or adapter to connect the iPhone (D1) or the Android phone (D2) to the Mac. The agent offered Android wireless debugging (no cable) and Safari network inspection for the iPhone; Murphy chose to skip both. D1 and D2 therefore have **no screenshots and no console logs**. Per RFC §4.2 a cell without evidence is unproven, so **AC4 is reported NOT MET** ("iOS Safari 17+ and Android Chrome mid-range not tested: no device connection"), escalated, never "passed with a note". D3/D4/D5 (desktop Chrome, Safari, Firefox) passed 7/7. The gap is recorded in the triage log as a blocked-evidence item (owner Murphy), not as a product defect.
+
 ### WHAT MURPHY SHOULD TEST/VALIDATE
 
 1. The script in §2.2: the wording you will read aloud, in English and Bahasa Indonesia.

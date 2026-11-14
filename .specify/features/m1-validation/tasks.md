@@ -31,7 +31,7 @@
 | T002 | ☑ `site-checks.mjs` (content / degraded / devices) + `run-checks.sh`; 4 negative controls bite; D2 exits 3 without a phone. Orchestrator review fixed 3 method issues (R5: M1/M2 sampling window, S11.9 snap method, aborted prefetches logged not failed); D3 + D5 re-run 7/7 locally. Dry run surfaced 2 real findings for T004: no-JS poster without the numbered path; LinkedIn 999 | 1 (Flash) + orchestrator review | evidence/T002-log-scripts.txt | 5d31d01 |
 | T003 | ☑ draft PR #23; preview (branch alias) 200 at deploy `aa4cd53`, product tree = `ffda3a2` | orchestrator | evidence/T003-log-preview.txt | (this commit) |
 | T004 | ☑ all CI green; G1–G13 PASS (Lighthouse CI median `/` 0.97/1.00, project 1.00/1.00; CLS 0; weight 460 KB / 201 KB; axe 0/0; reveal 678/645 ms slow class attempt 1; draws 2; `<main>` 0 bytes; surfaces empty); C1–C3 PASS; C4 LinkedIn 999 (I-02); AC5 64/72, no-JS poster lacks the numbered path (I-01); D3/D5 6/7, M2 pause mid-explode label fade-in (I-03); 3 harness bugs fixed + re-run (G3 SITE_URL, C4 fragments, Save-Data Tab walk) | orchestrator | evidence/T004-results.md | (this commit) |
-| T005 | ☐ | | | |
+| T005 | ◐ D4 desktop Safari 26.6.2 7/7 (agent, Orca computer-use); D3/D5 7/7 under R6; **D1 iPhone + D2 Android not run (R7, Murphy: no cable) → AC4 NOT MET**; I-05 label overlap (visual) | orchestrator | evidence/T005-log-device-D4.md, T005-log-device-D{3,5}.md | (this commit) |
 | T006 | ☐ | | | |
 | T007 | ☐ | | | |
 | T008 / T008.x | ☐ | | | |
