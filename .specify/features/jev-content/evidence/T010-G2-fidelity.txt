@@ -1,0 +1,22 @@
+
+ RUN  v5.0.5 ./apps/web
+
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (a) generated module is strictly equal to the canonical JSON 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (c) content:convert --check exits 0 129ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (a) generated module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (c) content:convert --check exits 0 129ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > completeness: content files, fidelity rows and converter entries agree 0ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  17:25:48
+   Duration  354ms (tests 87%, import 10%, transform 2%)
+

@@ -1,0 +1,231 @@
+{
+  "kind": "eager-probe",
+  "version": 1,
+  "route": "/",
+  "routeName": "home",
+  "motion": "normal",
+  "expect": "live-loop",
+  "run": 2,
+  "url": "http://127.0.0.1:52362/",
+  "chromium": "156.0.8078.4",
+  "profile": "mobile",
+  "reducedMotion": "no-preference",
+  "deadlineMs": 2500,
+  "restWindowMs": 2000,
+  "reducedSettleMs": null,
+  "atDeadline": {
+    "observedAtMs": 2510.2000000029802,
+    "timeOriginMs": 1794652217127,
+    "loadAtMs": 54.400000005960464,
+    "readyAtMs": 200.30000001192093,
+    "liveStates": [
+      {
+        "value": "idle",
+        "t": 16.600000008940697
+      },
+      {
+        "value": "loading",
+        "t": 59.80000001192093
+      },
+      {
+        "value": "revealed",
+        "t": 203.40000000596046
+      }
+    ],
+    "eventCounts": {
+      "pointerdown": 0,
+      "pointermove": 0,
+      "pointerup": 0,
+      "mousedown": 0,
+      "mousemove": 0,
+      "mouseup": 0,
+      "click": 0,
+      "touchstart": 0,
+      "touchmove": 0,
+      "wheel": 0,
+      "scroll": 0,
+      "keydown": 0,
+      "focusin": 0
+    },
+    "trustedEvents": 0,
+    "canvasCount": 1,
+    "canvasRect": {
+      "x": 20,
+      "y": 393.78125,
+      "width": 372,
+      "height": 256
+    },
+    "liveState": "revealed",
+    "liveOpacity": "1",
+    "posterPresent": true,
+    "posterOpacity": "0",
+    "posterVisibility": "hidden",
+    "tour": "idle",
+    "tweening": "false",
+    "heroLoop": "running",
+    "backgroundRgb": "rgb(246, 243, 234)",
+    "readyAttribute": true
+  },
+  "afterRest": {
+    "observedAtMs": 4509.100000008941,
+    "timeOriginMs": 1794652217127,
+    "loadAtMs": 54.400000005960464,
+    "readyAtMs": 200.30000001192093,
+    "liveStates": [
+      {
+        "value": "idle",
+        "t": 16.600000008940697
+      },
+      {
+        "value": "loading",
+        "t": 59.80000001192093
+      },
+      {
+        "value": "revealed",
+        "t": 203.40000000596046
+      }
+    ],
+    "eventCounts": {
+      "pointerdown": 0,
+      "pointermove": 0,
+      "pointerup": 0,
+      "mousedown": 0,
+      "mousemove": 0,
+      "mouseup": 0,
+      "click": 0,
+      "touchstart": 0,
+      "touchmove": 0,
+      "wheel": 0,
+      "scroll": 27,
+      "keydown": 0,
+      "focusin": 0
+    },
+    "trustedEvents": 27,
+    "canvasCount": 1,
+    "canvasRect": {
+      "x": 20,
+      "y": 393.78125,
+      "width": 372,
+      "height": 256
+    },
+    "liveState": "revealed",
+    "liveOpacity": "1",
+    "posterPresent": true,
+    "posterOpacity": "0",
+    "posterVisibility": "hidden",
+    "tour": "idle",
+    "tweening": "false",
+    "heroLoop": "running",
+    "backgroundRgb": "rgb(246, 243, 234)",
+    "readyAttribute": true
+  },
+  "screenshot": {
+    "file": "eager-probe-home-normal-r2.deadline.png",
+    "width": 651,
+    "height": 450,
+    "colours": 983,
+    "nonBlank": true
+  },
+  "threeRequested": {
+    "requested": true,
+    "chunks": [
+      "/_next/static/chunks/1d5kkip1hlg-o.js",
+      "/_next/static/chunks/3vnmkhfgdnq2d.js"
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": [
+      {
+        "name": "canvas-present",
+        "pass": true,
+        "expected": true,
+        "actual": {
+          "x": 20,
+          "y": 393.78125,
+          "width": 372,
+          "height": 256
+        }
+      },
+      {
+        "name": "ready-by-deadline",
+        "pass": true,
+        "expected": 2500,
+        "actual": 200.30000001192093
+      },
+      {
+        "name": "revealed-by-deadline",
+        "pass": true,
+        "expected": 2500,
+        "actual": [
+          {
+            "value": "idle",
+            "t": 16.600000008940697
+          },
+          {
+            "value": "loading",
+            "t": 59.80000001192093
+          },
+          {
+            "value": "revealed",
+            "t": 203.40000000596046
+          }
+        ]
+      },
+      {
+        "name": "live-opacity",
+        "pass": true,
+        "expected": "1",
+        "actual": "1"
+      },
+      {
+        "name": "poster-hidden",
+        "pass": true,
+        "expected": "hidden",
+        "actual": "hidden"
+      },
+      {
+        "name": "no-trusted-events",
+        "pass": true,
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "canvas-non-blank",
+        "pass": true,
+        "expected": true,
+        "actual": {
+          "file": "eager-probe-home-normal-r2.deadline.png",
+          "width": 651,
+          "height": 450,
+          "colours": 983,
+          "nonBlank": true
+        }
+      },
+      {
+        "name": "loop-running",
+        "pass": true,
+        "expected": true,
+        "actual": {
+          "heroLoop": "running",
+          "tour": "idle",
+          "liveStates": [
+            {
+              "value": "idle",
+              "t": 16.600000008940697
+            },
+            {
+              "value": "loading",
+              "t": 59.80000001192093
+            },
+            {
+              "value": "revealed",
+              "t": 203.40000000596046
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "pass": true
+}

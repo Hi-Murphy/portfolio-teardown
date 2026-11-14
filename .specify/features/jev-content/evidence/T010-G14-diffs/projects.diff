@@ -1,0 +1,237 @@
+--- base projects
++++ head projects
+@@ -213,8 +213,233 @@
+ <a href="https://github.com/TimurHaryo/websocket-inspector" class="relative z-10 inline-flex min-h-11 w-fit items-center text-sm font-medium text-fg underline decoration-line underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">Source</a>
+ </div>
+ </article>
++<article data-site-card="jev-toolkit" class="group relative rounded border border-line/30 bg-surface p-4 sm:p-5 grid gap-4 sm:grid-cols-[10rem_minmax(0,1fr)] sm:items-start">
++<div aria-hidden="true" class="pointer-events-none aspect-[4/3] w-full rounded border border-line/20 bg-bg p-2">
++<svg aria-hidden="true" focusable="false" data-site-poster="" viewBox="-3.1960461330139998 -5.1309523809523805 6.3920922660279995 10.261904761904761" preserveAspectRatio="xMidYMid meet" class="h-full w-full">
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,1.9400000000000004 0,2.3400000000000003 0,2.4600000000000004 0.692820323027551,2.0600000000000005" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,1.9400000000000004 0,2.3400000000000003 0,2.4600000000000004 -0.692820323027551,2.0600000000000005" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,1.5400000000000005 0.692820323027551,1.9400000000000004 0,2.3400000000000003 -0.692820323027551,1.9400000000000004" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="layer" fill="var(--bp-paper)" stroke="var(--bp-line-muted)" stroke-width="1" stroke-linejoin="round">
++<polygon points="2.68467875173176,2.93 0.43301270189221935,4.23 0.43301270189221935,4.3100000000000005 2.68467875173176,3.0100000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-2.68467875173176,2.43 0.43301270189221935,4.23 0.43301270189221935,4.3100000000000005 -2.68467875173176,2.5100000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221935,1.1300000000000003 2.68467875173176,2.93 0.43301270189221935,4.23 -2.68467875173176,2.43" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.2598076211353316,0.39000000000000024 -0.43301270189221935,0.7900000000000003 -0.43301270189221935,0.9100000000000004 0.2598076211353316,0.5100000000000003" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-1.12583302491977,0.39000000000000024 -0.43301270189221935,0.7900000000000003 -0.43301270189221935,0.9100000000000004 -1.12583302491977,0.5100000000000003" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221924,-0.009999999999999565 0.2598076211353316,0.39000000000000024 -0.43301270189221935,0.7900000000000003 -1.12583302491977,0.39000000000000024" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="1.5588457268119897,2.4400000000000004 0.8660254037844387,2.8400000000000003 0.8660254037844387,2.9600000000000004 1.5588457268119897,2.5600000000000005" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.1732050807568877,2.4400000000000004 0.8660254037844387,2.8400000000000003 0.8660254037844387,2.9600000000000004 0.1732050807568877,2.5600000000000005" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.8660254037844387,2.0400000000000005 1.5588457268119897,2.4400000000000004 0.8660254037844387,2.8400000000000003 0.1732050807568877,2.4400000000000004" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.2598076211353316,2.6900000000000004 -0.43301270189221935,3.0900000000000003 -0.43301270189221935,3.2100000000000004 0.2598076211353316,2.8100000000000005" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-1.1258330249197703,2.6900000000000004 -0.43301270189221935,3.0900000000000003 -0.43301270189221935,3.2100000000000004 -1.1258330249197703,2.8100000000000005" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221935,2.2900000000000005 0.2598076211353316,2.6900000000000004 -0.43301270189221935,3.0900000000000003 -1.1258330249197703,2.6900000000000004" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="1.1258330249197703,0.8900000000000001 0.43301270189221935,1.29 0.43301270189221935,1.4100000000000001 1.1258330249197703,1.0100000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.2598076211353316,0.8900000000000001 0.43301270189221935,1.29 0.43301270189221935,1.4100000000000001 -0.2598076211353316,1.0100000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.43301270189221935,0.4900000000000002 1.1258330249197703,0.8900000000000001 0.43301270189221935,1.29 -0.2598076211353316,0.8900000000000001" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="layer" fill="var(--bp-paper)" stroke="var(--bp-line-muted)" stroke-width="1" stroke-linejoin="round">
++<polygon points="2.68467875173176,1.6300000000000003 0.43301270189221935,2.93 0.43301270189221935,3.0100000000000002 2.68467875173176,1.7100000000000004" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-2.68467875173176,1.1300000000000003 0.43301270189221935,2.93 0.43301270189221935,3.0100000000000002 -2.68467875173176,1.2100000000000004" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221935,-0.16999999999999948 2.68467875173176,1.6300000000000003 0.43301270189221935,2.93 -2.68467875173176,1.1300000000000003" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="-0.1732050807568877,1.1400000000000001 -0.8660254037844387,1.54 -0.8660254037844387,1.6600000000000001 -0.1732050807568877,1.2600000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-1.5588457268119897,1.1400000000000001 -0.8660254037844387,1.54 -0.8660254037844387,1.6600000000000001 -1.5588457268119897,1.2600000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.8660254037844387,0.7400000000000002 -0.1732050807568877,1.1400000000000001 -0.8660254037844387,1.54 -1.5588457268119897,1.1400000000000001" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,-0.66 0,-0.26000000000000006 0,-0.14000000000000007 0.692820323027551,-0.54" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,-0.66 0,-0.26000000000000006 0,-0.14000000000000007 -0.692820323027551,-0.54" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,-1.06 0.692820323027551,-0.66 0,-0.26000000000000006 -0.692820323027551,-0.66" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="1.991858428704209,1.3900000000000001 1.299038105676658,1.79 1.299038105676658,1.9100000000000001 1.991858428704209,1.5100000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.6062177826491071,1.3900000000000001 1.299038105676658,1.79 1.299038105676658,1.9100000000000001 0.6062177826491071,1.5100000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="1.299038105676658,0.9900000000000001 1.991858428704209,1.3900000000000001 1.299038105676658,1.79 0.6062177826491071,1.3900000000000001" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,1.6400000000000001 0,2.04 0,2.16 0.692820323027551,1.7600000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,1.6400000000000001 0,2.04 0,2.16 -0.692820323027551,1.7600000000000002" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,1.24 0.692820323027551,1.6400000000000001 0,2.04 -0.692820323027551,1.6400000000000001" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="layer" fill="var(--bp-paper)" stroke="var(--bp-line-muted)" stroke-width="1" stroke-linejoin="round">
++<polygon points="2.68467875173176,0.33000000000000007 0.43301270189221935,1.63 0.43301270189221935,1.71 2.68467875173176,0.4100000000000001" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-2.68467875173176,-0.16999999999999987 0.43301270189221935,1.63 0.43301270189221935,1.71 -2.68467875173176,-0.08999999999999986" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221935,-1.4699999999999998 2.68467875173176,0.33000000000000007 0.43301270189221935,1.63 -2.68467875173176,-0.16999999999999987" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="1.5588457268119897,-0.1600000000000001 0.8660254037844387,0.23999999999999988 0.8660254037844387,0.3599999999999999 1.5588457268119897,-0.04000000000000009" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.1732050807568877,-0.1600000000000001 0.8660254037844387,0.23999999999999988 0.8660254037844387,0.3599999999999999 0.1732050807568877,-0.04000000000000009" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.8660254037844387,-0.56 1.5588457268119897,-0.1600000000000001 0.8660254037844387,0.23999999999999988 0.1732050807568877,-0.1600000000000001" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="-0.1732050807568877,-0.1600000000000001 -0.8660254037844387,0.23999999999999988 -0.8660254037844387,0.3599999999999999 -0.1732050807568877,-0.04000000000000009" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-1.5588457268119897,-0.1600000000000001 -0.8660254037844387,0.23999999999999988 -0.8660254037844387,0.3599999999999999 -1.5588457268119897,-0.04000000000000009" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.8660254037844387,-0.56 -0.1732050807568877,-0.1600000000000001 -0.8660254037844387,0.23999999999999988 -1.5588457268119897,-0.1600000000000001" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,-1.96 0,-1.5599999999999998 0,-1.4399999999999997 0.692820323027551,-1.8399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,-1.96 0,-1.5599999999999998 0,-1.4399999999999997 -0.692820323027551,-1.8399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,-2.36 0.692820323027551,-1.96 0,-1.5599999999999998 -0.692820323027551,-1.96" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,0.33999999999999986 0,0.7399999999999998 0,0.8599999999999999 0.692820323027551,0.45999999999999985" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,0.33999999999999986 0,0.7399999999999998 0,0.8599999999999999 -0.692820323027551,0.45999999999999985" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,-0.06000000000000012 0.692820323027551,0.33999999999999986 0,0.7399999999999998 -0.692820323027551,0.33999999999999986" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="layer" fill="var(--bp-paper)" stroke="var(--bp-line-muted)" stroke-width="1" stroke-linejoin="round">
++<polygon points="2.68467875173176,-0.97 0.43301270189221935,0.32999999999999985 0.43301270189221935,0.4099999999999999 2.68467875173176,-0.8899999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-2.68467875173176,-1.47 0.43301270189221935,0.32999999999999985 0.43301270189221935,0.4099999999999999 -2.68467875173176,-1.39" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221935,-2.7699999999999996 2.68467875173176,-0.97 0.43301270189221935,0.32999999999999985 -2.68467875173176,-1.47" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="1.5588457268119897,-1.46 0.8660254037844387,-1.06 0.8660254037844387,-0.94 1.5588457268119897,-1.3399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.1732050807568877,-1.46 0.8660254037844387,-1.06 0.8660254037844387,-0.94 0.1732050807568877,-1.3399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.8660254037844387,-1.8599999999999999 1.5588457268119897,-1.46 0.8660254037844387,-1.06 0.1732050807568877,-1.46" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="-0.1732050807568877,-1.46 -0.8660254037844387,-1.06 -0.8660254037844387,-0.94 -0.1732050807568877,-1.3399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-1.5588457268119897,-1.46 -0.8660254037844387,-1.06 -0.8660254037844387,-0.94 -1.5588457268119897,-1.3399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.8660254037844387,-1.8599999999999999 -0.1732050807568877,-1.46 -0.8660254037844387,-1.06 -1.5588457268119897,-1.46" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,-3.2600000000000002 0,-2.8600000000000003 0,-2.74 0.692820323027551,-3.14" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,-3.2600000000000002 0,-2.8600000000000003 0,-2.74 -0.692820323027551,-3.14" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,-3.66 0.692820323027551,-3.2600000000000002 0,-2.8600000000000003 -0.692820323027551,-3.2600000000000002" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,-0.96 0,-0.56 0,-0.43999999999999995 0.692820323027551,-0.8399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,-0.96 0,-0.56 0,-0.43999999999999995 -0.692820323027551,-0.8399999999999999" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,-1.36 0.692820323027551,-0.96 0,-0.56 -0.692820323027551,-0.96" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="layer" fill="var(--bp-paper)" stroke="var(--bp-line-muted)" stroke-width="1" stroke-linejoin="round">
++<polygon points="2.68467875173176,-2.27 0.43301270189221935,-0.9700000000000002 0.43301270189221935,-0.8900000000000001 2.68467875173176,-2.19" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-2.68467875173176,-2.77 0.43301270189221935,-0.9700000000000002 0.43301270189221935,-0.8900000000000001 -2.68467875173176,-2.69" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.43301270189221935,-4.07 2.68467875173176,-2.27 0.43301270189221935,-0.9700000000000002 -2.68467875173176,-2.77" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="1.5588457268119897,-2.7600000000000002 0.8660254037844387,-2.3600000000000003 0.8660254037844387,-2.24 1.5588457268119897,-2.64" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.1732050807568877,-2.7600000000000002 0.8660254037844387,-2.3600000000000003 0.8660254037844387,-2.24 0.1732050807568877,-2.64" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0.8660254037844387,-3.16 1.5588457268119897,-2.7600000000000002 0.8660254037844387,-2.3600000000000003 0.1732050807568877,-2.7600000000000002" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="-0.1732050807568877,-2.7600000000000002 -0.8660254037844387,-2.3600000000000003 -0.8660254037844387,-2.24 -0.1732050807568877,-2.64" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-1.5588457268119897,-2.7600000000000002 -0.8660254037844387,-2.3600000000000003 -0.8660254037844387,-2.24 -1.5588457268119897,-2.64" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.8660254037844387,-3.16 -0.1732050807568877,-2.7600000000000002 -0.8660254037844387,-2.3600000000000003 -1.5588457268119897,-2.7600000000000002" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++<g data-site-poster-slab="" data-kind="component" fill="var(--bp-paper)" stroke="var(--bp-line)" stroke-width="1" stroke-linejoin="round">
++<polygon points="0.692820323027551,-2.2600000000000002 0,-1.8600000000000003 0,-1.7400000000000002 0.692820323027551,-2.14" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="-0.692820323027551,-2.2600000000000002 0,-1.8600000000000003 0,-1.7400000000000002 -0.692820323027551,-2.14" vector-effect="non-scaling-stroke">
++</polygon>
++<polygon points="0,-2.66 0.692820323027551,-2.2600000000000002 0,-1.8600000000000003 -0.692820323027551,-2.2600000000000002" fill="var(--bp-surface)" vector-effect="non-scaling-stroke">
++</polygon>
++</g>
++</svg>
+ </div>
++<div class="flex min-w-0 flex-col gap-3">
++<div class="flex flex-col gap-2">
++<h2 class="text-lg leading-tight">
++<a class="font-semibold text-fg underline decoration-line underline-offset-4 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/projects/jev-toolkit">JEV Benchmark</a>
++</h2>
++<p class="font-mono text-xs text-muted">2026 · Solo engineer — harness, adapters, fixtures, scoring, analysis</p>
++<p class="text-sm leading-relaxed text-fg">Measuring what an AI reads before it codes.</p>
++<p class="text-sm leading-relaxed text-muted">A zero-dependency Node harness that runs the same fifteen refactor tasks against a real Android codebase under three context strategies, scores what each one chose to read, and checks every claim it makes against the repository instead of trusting it.</p>
+ </div>
++<ul aria-label="Tech" class="flex flex-wrap gap-2">
++<li class="inline-flex items-center gap-1.5 rounded-full border border-line-muted/40 bg-bg px-2.5 py-1 font-mono text-xs text-fg">
++<span aria-hidden="true" class="h-2 w-2 rounded-full bg-tech-platform">
++</span>
++<span>Node.js</span>
++<span class="sr-only">, platform</span>
++</li>
++</ul>
++<a href="https://github.com/TimurHaryo/jev-toolkit" class="relative z-10 inline-flex min-h-11 w-fit items-center text-sm font-medium text-fg underline decoration-line underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">Source</a>
++</div>
++</article>
++</div>
++</div>
+ <!--$-->
+ <!--/$-->
+ </main>
+\ No newline at end of file

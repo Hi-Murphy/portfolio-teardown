@@ -1,0 +1,11 @@
+--- base websocket-inspector
++++ head websocket-inspector
+@@ -286,7 +286,7 @@
+ </div>
+ <div>
+ <h3 class="font-mono text-xs uppercase tracking-[0.16em] text-muted">Outcome</h3>
+-<p class="mt-2 text-sm leading-relaxed text-fg">The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my JEV decision-hook research — fifteen refactor tasks across ten rule areas.</p>
++<p class="mt-2 text-sm leading-relaxed text-fg">The sample host runs two Scarlet clients against one endpoint and the inspector captures both into separate sessions, with frames replayable in a list → detail flow from the notification. The app then became the benchmark target for my research on JEV decision hooks — fifteen refactor tasks across ten rule areas.</p>
+ </div>
+ </div>
+ <section>

@@ -1,0 +1,114 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/projects/websocket-inspector",
+  "finalUrl": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 934.1379999999999,
+      "cls": 0,
+      "tbtMs": 71,
+      "fcpMs": 934.1379999999999,
+      "siMs": 934.1379999999999,
+      "totalByteWeight": 203574,
+      "benchmarkIndex": 4088,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1564.758,
+          "durMs": 93
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 934.1379999999999,
+          "durMs": 78
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 930.6740000000001,
+      "cls": 0,
+      "tbtMs": 46,
+      "fcpMs": 930.6740000000001,
+      "siMs": 930.6740000000001,
+      "totalByteWeight": 203566,
+      "benchmarkIndex": 4001,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js",
+          "startMs": 1562.9379999999999,
+          "durMs": 75
+        },
+        {
+          "url": "Unattributable",
+          "startMs": 930.6740000000001,
+          "durMs": 71
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 967.0779999999999,
+      "cls": 0,
+      "tbtMs": 39,
+      "fcpMs": 967.0779999999999,
+      "siMs": 967.0779999999999,
+      "totalByteWeight": 203550,
+      "benchmarkIndex": 3844,
+      "longTasks": [
+        {
+          "url": "https://portfolio-teardown-git-task-s13-jev-content-murphy-3c4d.vercel.app/_next/static/immutable/chunks/3mp0u1k5ol4ah.js",
+          "startMs": 1584.366,
+          "durMs": 89
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 934.1379999999999,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}
