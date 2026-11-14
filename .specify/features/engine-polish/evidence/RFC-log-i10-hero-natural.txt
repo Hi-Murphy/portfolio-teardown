@@ -1,0 +1,5 @@
+# local production export (pnpm build @ a9edbfc) served by pnpm serve:out on 127.0.0.1:4614; Playwright Chromium 156.0.8078.4
+# node .specify/features/engine-polish/rfc-repro/hero-natural.mjs <repo>  (natural = section height with min-height removed)
+390 844 {"minH":"799px","secH":799,"natural":776.78125,"kids":[313,372],"lines":"P:24 P:16 H1:77 P:104 P:1 P:0 P:44","fonts":""}
+412 823 {"minH":"778px","secH":778,"natural":776.78125,"kids":[313,372],"lines":"P:24 P:16 H1:77 P:104 P:1 P:0 P:44","fonts":""}
+360 740 {"minH":"695px","secH":776.78125,"natural":776.78125,"kids":[313,372],"lines":"P:24 P:16 H1:77 P:104 P:1 P:0 P:66","fonts":""}

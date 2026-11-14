@@ -1,0 +1,5 @@
+# local production export (pnpm build @ a9edbfc) served by pnpm serve:out on 127.0.0.1:4614; Playwright Chromium 156.0.8078.4
+# node .specify/features/engine-polish/rfc-repro/i09.mjs <repo>
+click A (frame-row)          {"highlight":"frame-row","panel":""}
+hover B (inspector-service)  {"highlight":"inspector-service","panel":""}
+leave B (panel still open)   {"highlight":null,"panel":""}

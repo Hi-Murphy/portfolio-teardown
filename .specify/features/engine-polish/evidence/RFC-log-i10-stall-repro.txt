@@ -1,0 +1,11 @@
+# local production export (pnpm build @ a9edbfc) served by pnpm serve:out on 127.0.0.1:4614; Playwright Chromium 156.0.8078.4
+# stalled-HTML repro: node .specify/features/engine-polish/rfc-repro/chunk-server.mjs 4615 data-hero-annotation 600 (proxy that stalls / for 600 ms just before the hero caption), then node .specify/features/engine-polish/rfc-repro/chunk-probe.mjs <repo> http://127.0.0.1:4615/ (dark, mobile)
+360 740 [{"t":625,"v":0.00026882076333089845,"input":false,"src":["{\"x\":10,\"y\":710,\"width\":18,\"height\":18,\"top\":710,\"right\":28,\"bottom\":728,\"left\":10}->{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"top\":0,\"right\":0,\"bottom\":0,\"left\":0}","{\"x\":332,\"y\":710,\"width\":18,\"height\":18,\"top\":710,\"right\":350,\"bottom\":728,\"left\":332}->{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"top\":0,\"right\":0,\"bottom\":0,\"left\":0}"]}]
+390 740 [{"t":625,"v":0.00024814224307467554,"input":false,"src":["{\"x\":10,\"y\":710,\"width\":18,\"height\":18,\"top\":710,\"right\":28,\"bottom\":728,\"left\":10}->{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"top\":0,\"right\":0,\"bottom\":0,\"left\":0}","{\"x\":362,\"y\":710,\"width\":18,\"height\":18,\"top\":710,\"right\":380,\"bottom\":728,\"left\":362}->{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"top\":0,\"right\":0,\"bottom\":0,\"left\":0}"]}]
+390 844 []
+412 823 []
+# control: same probe, no stall (direct server)
+360 740 []
+390 740 []
+390 844 []
+412 823 []
