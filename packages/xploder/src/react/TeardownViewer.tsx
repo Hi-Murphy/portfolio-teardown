@@ -431,9 +431,11 @@ export function TeardownViewer({
     console.warn(PROJECT_MISMATCH_WARNING);
   }, [project, viewerProject]);
 
+  const detailOpenId = panelsHandle.state.kind === 'detail' ? panelsHandle.state.componentId : null;
   const emphasis = useMemo<EmphasisState>(
     () => ({
       highlight: viewer.highlight,
+      selected: detailOpenId,
       focusLayerId: viewer.focus.layerId,
       focusSuspended: viewer.tour.status !== 'idle',
       tourComponentId: position.componentId,
@@ -441,6 +443,7 @@ export function TeardownViewer({
       tourPlaying: viewer.tour.status === 'playing',
     }),
     [
+      detailOpenId,
       position.componentId,
       position.stepStartedAt,
       viewer.focus.layerId,
@@ -525,6 +528,18 @@ export function TeardownViewer({
 
     if (element === null) return;
 
+    if (detailOpenId === null) {
+      delete element.dataset.xploderSelected;
+    } else {
+      element.dataset.xploderSelected = detailOpenId;
+    }
+  }, [detailOpenId]);
+
+  useLayoutEffect(() => {
+    const element = wrapperRef.current;
+
+    if (element === null) return;
+
     if (viewer.focus.layerId === null) {
       delete element.dataset.xploderFocus;
     } else {
@@ -565,22 +580,27 @@ export function TeardownViewer({
     if (
       previous.kind === 'detail' &&
       (current.kind !== 'detail' || current.componentId !== previous.componentId) &&
-      viewer.highlight === previous.componentId
+      viewer.highlight === previous.componentId &&
+      pointer.source !== 'mouse' &&
+      !(
+        document.activeElement instanceof HTMLElement &&
+        document.activeElement.dataset.xploderProxy === previous.componentId &&
+        wrapperRef.current?.contains(document.activeElement) === true
+      )
     ) {
       viewer.actions.highlight(null);
     }
 
-    // Always re-assert as a program highlight (RFC D4): a mouse hover highlight would be
-    // cleared when the pointer leaves the stage for the panel.
     if (
       current.kind === 'detail' &&
-      (previous.kind !== 'detail' || previous.componentId !== current.componentId)
+      (previous.kind !== 'detail' || previous.componentId !== current.componentId) &&
+      viewer.highlight !== current.componentId
     ) {
       viewer.actions.highlight(current.componentId);
     }
 
     previousPanelStateRef.current = current;
-  }, [panelsHandle.state, viewer.actions, viewer.highlight]);
+  }, [panelsHandle.state, pointer.source, viewer.actions, viewer.highlight]);
 
   useLayoutEffect(() => {
     if (previousSlugRef.current === project.meta.slug) return;
@@ -663,7 +683,6 @@ export function TeardownViewer({
   }, [position, project, viewer.tour.flowId, viewer.tour.status, viewer.tour.step]);
 
   const webglFallback = fallback ?? <p>WebGL is unavailable for this architecture view.</p>;
-  const detailOpenId = panelsHandle.state.kind === 'detail' ? panelsHandle.state.componentId : null;
 
   return (
     <div
@@ -745,7 +764,7 @@ export function TeardownViewer({
                   phase={phase}
                   tour={viewer.tour}
                   focus={viewer.focus}
-                  highlight={viewer.highlight}
+                  highlight={viewer.highlight ?? detailOpenId}
                   look={look}
                   onTitleBlockShown={onTitleBlockShown}
                 />
@@ -762,7 +781,7 @@ export function TeardownViewer({
                 phase={phase}
                 tourStatus={viewer.tour.status}
                 focus={viewer.focus}
-                highlight={viewer.highlight}
+                highlight={viewer.highlight ?? detailOpenId}
                 wrapperRef={wrapperRef}
                 zoomFactor={viewer.rig.zoomFactor}
               />
