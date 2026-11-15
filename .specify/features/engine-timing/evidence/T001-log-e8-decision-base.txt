@@ -1,0 +1,7 @@
+# command: node .specify/features/engine-timing/settle-timing.mjs --decide .specify/features/engine-timing/evidence/T001-log-e8-base.md --cpu 4 --threshold-ms 50 | commit: 8c410f3 (base export) | context only — the binding decision is T014 on the final code
+websocket-inspector: pooled 50.0 ms median settle delay at CPU x4 (30 valid samples)
+websocket-inspector: per-motion explode 25.0, zoom 50.0, turn 50.0
+jev-toolkit: pooled 50.0 ms median settle delay at CPU x4 (30 valid samples)
+jev-toolkit: per-motion explode 16.7, zoom 66.6, turn 50.0
+rule: cache iff any project median > 50.0 ms
+DECISION NO-CACHE

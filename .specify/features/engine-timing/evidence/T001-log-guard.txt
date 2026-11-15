@@ -1,0 +1,18 @@
+FROZEN-OK
+SURFACES-S2S4S7-OK
+S3-TOOLS-OK
+RESEAL-LIST-OK
+ALLOWED-PATHS-OK
+NO-NEW-DEPS-OK
+AC1-SCAN-PENDING (3 hits)
+SEAL-TAG-OK
+TIMEOUT-NOT-RAISED-OK
+GITLEAKS-OK
+FAIL SURFACES-S2S4S7
+FAIL RESEAL-LIST
+FAIL ALLOWED-PATHS
+tag: seal/s5-00e6490
+target: 00e649045ad732a415242b527ee406c301528019
+message:
+S15 re-seal: s5
+s5: S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt.

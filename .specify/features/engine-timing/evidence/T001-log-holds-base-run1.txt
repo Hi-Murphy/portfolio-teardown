@@ -1,0 +1,22 @@
+# command: node storyboard-timing.mjs <repo> <baseUrl> | base: <url> | chromium: 156.0.8078.4 | commit: 8c410f3
+# labels: data-xploder-lettering=shown from MutationObserver; elements: [data-xploder-label], [data-xploder-lettering], [data-xploder-lettering-layer-label]
+# tour-end hold: data-xploder-tour=ended to the next data-hero-phase change in the same flow
+
+| viewport | phase | start ms | end ms | duration ms | labels visible ms | label elements |
+|---|---|---:|---:|---:|---:|---:|
+| 1440x900 | implode | 0 | 2202.5 | 2202.5 | 0 | 16 |
+| 1440x900 | explode | 2202.5 | 6803.5 | 4601 | 3396.6 | 16 |
+| 1440x900 | zoomin | 6803.5 | 9157.9 | 2354.4 | 1748.3 | 39 |
+| 1440x900 | capture | 9157.9 | 21960.5 | 12802.6 | 0 | 16 |
+| 1440x900 | inspect | 21960.5 | 34777.7 | 12817.2 | 0 | 16 |
+| 1440x900 | turn | 34777.7 | 39583.3 | 4805.6 | 2981.7 | 34 |
+| 390x844 | implode | 0 | 2204 | 2204 | 0 | 16 |
+| 390x844 | explode | 2204 | 6806.7 | 4602.7 | 3390.1 | 16 |
+| 390x844 | zoomin | 6806.7 | 9161.2 | 2354.5 | 1719.2 | 38 |
+| 390x844 | capture | 9161.2 | 21970.8 | 12809.6 | 0 | 16 |
+| 390x844 | inspect | 21970.8 | 34776.5 | 12805.7 | 0 | 16 |
+| 390x844 | turn | 34776.5 | 39578.5 | 4802 | 2949.8 | 30 |
+
+summary 1440x900: labelled exploded view visible 3.40 s; zoomed view visible 1.75 s; tour-end holds 1.60 s + 1.61 s; loop 39.58 s
+summary 390x844: labelled exploded view visible 3.39 s; zoomed view visible 1.72 s; tour-end holds 1.61 s + 1.61 s; loop 39.58 s
+SUMMARY_JSON [{"viewport":"1440x900","loopMs":39583.30000001192,"explodedLabelsMs":3396.5999999940395,"zoomedLabelsMs":1748.300000011921,"holdsMs":[1603.8999999761581,1607.4000000059605]},{"viewport":"390x844","loopMs":39578.5,"explodedLabelsMs":3390.0999999940395,"zoomedLabelsMs":1719.2000000178814,"holdsMs":[1611.9000000059605,1607.2999999821186]}]
