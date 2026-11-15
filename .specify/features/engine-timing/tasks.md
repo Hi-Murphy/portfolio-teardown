@@ -46,7 +46,7 @@
 | T005 | ☑ (red 2/3 fail: no `at`, held paused frame emits; green 3/3; unchanged overlay/scene suites green; stopped correctly at ALLOWED-PATHS for two jsdom tests needing `at: 0` → orchestrator allow-listed them, RFC R11) | 1 (Flash, sandbox off, 1 dispatch) + orchestrator (R11 guard edit, full suite) | evidence/T005-log-{red,green,reseal}.txt | 96e5c54 (fix 2c9187d) | `seal/s6-2c9187d` (pushed) |
 | T006 | ☑ (red: AC1 scan 1 hit PanelLayer:394, viewer-clock dom red; R7 scanner green on arrival with negative controls; green 13/13 + dom 12/12; AC1 scan → only src/time/clock.ts; AC1-SCAN-OK hard; build green; hero + draws probe PASS) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T006-log-{red,green,ac1-scan,reseal,g2-site-probe}.txt | 472e950 (fix 74394e9) | `seal/s5-s8-74394e9` (pushed) |
 | T007 | ☐ | | | | `seal/s5-s8-…` |
-| T008 | ☐ | | | | `seal/s6-…` |
+| T008 | ☑ (red 5/6 fail; green 6/6: frameloop never while paused, poses byte-identical at +0.5 s/+3 s, 0 settles, one repaint on resize, restore on resume, one settle after the tween end; regression suites 40/40) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T008-log-{red,green,reseal}.txt | merge on slice branch (fix ea61882) | `seal/s6-ea61882` (pushed) |
 | T009 | ☐ | | | | `seal/s8-…` |
 | T010 | ☐ | | | | — |
 | T011 | ☐ | | | | `seal/s6-…` |
