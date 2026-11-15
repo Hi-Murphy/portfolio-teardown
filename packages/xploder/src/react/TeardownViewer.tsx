@@ -142,6 +142,15 @@ const VISUALLY_HIDDEN_STYLE: CSSProperties = {
 const PROJECT_MISMATCH_WARNING =
   'TeardownViewer: pass the same project object to useTeardownViewer({ project }) and <TeardownViewer project>.';
 
+export function tourCommandActionsOf(actions: TeardownViewerHandle['actions']) {
+  return {
+    stop: actions.stop,
+    step: actions.step,
+    play: actions.play,
+    pause: actions.pauseTour,
+  };
+}
+
 export function TeardownViewer({
   project,
   viewer,
@@ -203,6 +212,7 @@ export function TeardownViewer({
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedPalette = palette ?? themePalette;
   const tokens = useMemo(() => resolveMotion(prefersReducedMotion), [prefersReducedMotion]);
+  const tourCommandActions = useMemo(() => tourCommandActionsOf(viewer.actions), [viewer.actions]);
   const resolvedLayoutOptions = useMemo(
     () => resolveViewerLayoutOptions(layoutOptions),
     [layoutOptions],
@@ -295,7 +305,7 @@ export function TeardownViewer({
       if (decision.tour?.type === 'jump') pendingTourJumpRef.current = true;
       if (decision.tour?.type === 'pause') pendingTourPauseRef.current = true;
 
-      executeTourCommand(viewer.actions, decision.tour);
+      executeTourCommand(tourCommandActions, decision.tour);
 
       if (decision.panelEvent !== null) {
         const next = panelReducer(panelsHandle.state, decision.panelEvent);
@@ -332,8 +342,8 @@ export function TeardownViewer({
       focusProxyOpener,
       panelsHandle,
       recordOpener,
+      tourCommandActions,
       project.flows,
-      viewer.actions,
       viewer.tour.flowId,
       viewer.tour.status,
       viewer.tour.step,
@@ -616,7 +626,7 @@ export function TeardownViewer({
     previousPanelKindRef.current = current;
 
     if (previous !== 'caseStudy' && current === 'caseStudy' && viewer.tour.status === 'playing') {
-      viewer.actions.pause();
+      viewer.actions.pauseTour();
     }
   }, [panelsHandle.state.kind, viewer.actions, viewer.tour.status]);
 

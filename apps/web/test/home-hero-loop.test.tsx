@@ -41,6 +41,8 @@ const { bootHeroStage, liveViewerProps, viewerActions, viewerStore } = vi.hoiste
       selectFlow: vi.fn(),
       play: vi.fn(),
       pause: vi.fn(),
+      resume: vi.fn(),
+      pauseTour: vi.fn(),
       stop: vi.fn(),
     },
   };
@@ -308,7 +310,7 @@ beforeEach(async () => {
       step: viewerStore.tour.step < 0 ? 0 : viewerStore.tour.step,
     });
   });
-  viewerActions.pause.mockImplementation(() => setTour({ status: 'paused' }));
+  viewerActions.pauseTour.mockImplementation(() => setTour({ status: 'paused' }));
   viewerActions.stop.mockImplementation(() => setTour({ status: 'idle', step: -1 }));
 
   Object.defineProperty(window, 'matchMedia', {
@@ -814,10 +816,10 @@ describe('hero stage storyboard', () => {
     await firstFrame();
     await advanceToCapture();
 
-    const pauses = viewerActions.pause.mock.calls.length;
+    const pauses = viewerActions.pauseTour.mock.calls.length;
     const plays = viewerActions.play.mock.calls.length;
     await clickLoopButton();
-    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 1);
+    expect(viewerActions.pauseTour).toHaveBeenCalledTimes(pauses + 1);
     expect(heroLoop()).toBe('paused');
     expect(loopButton()?.getAttribute('aria-label')).toBe(LABELS.play);
 
@@ -826,14 +828,14 @@ describe('hero stage storyboard', () => {
     expect(heroLoop()).toBe('running');
 
     setVisibility('hidden');
-    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 2);
+    expect(viewerActions.pauseTour).toHaveBeenCalledTimes(pauses + 2);
     expect(heroLoop()).toBe('paused');
     setVisibility('visible');
     expect(viewerActions.play).toHaveBeenCalledTimes(plays + 2);
     expect(heroLoop()).toBe('running');
 
     reportIntersection(false);
-    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 3);
+    expect(viewerActions.pauseTour).toHaveBeenCalledTimes(pauses + 3);
     expect(heroLoop()).toBe('paused');
     reportIntersection(true);
     expect(viewerActions.play).toHaveBeenCalledTimes(plays + 3);
@@ -862,22 +864,22 @@ describe('hero stage storyboard', () => {
     await firstFrame();
     await advanceToCapture();
 
-    viewerActions.pause.mockImplementation(() => {
+    viewerActions.pauseTour.mockImplementation(() => {
       setTour({ status: 'paused', step: Math.min(viewerStore.tour.step + 1, tourTotal - 1) });
     });
     viewerActions.play.mockImplementation(() => setTour({ status: 'playing' }));
     emitTour({ flowId: 'capture-path', status: 'playing', step: 4 });
-    const pauses = viewerActions.pause.mock.calls.length;
+    const pauses = viewerActions.pauseTour.mock.calls.length;
     const plays = viewerActions.play.mock.calls.length;
 
     await advance(TOUR_OVERDUE_MS + 32);
-    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 1);
+    expect(viewerActions.pauseTour).toHaveBeenCalledTimes(pauses + 1);
     expect(viewerActions.play).toHaveBeenCalledTimes(plays + 1);
     expect(heroTourStep()).toBe(5);
     expect(heroPhase()).toBe('capture');
 
     await advance(32);
-    expect(viewerActions.pause).toHaveBeenCalledTimes(pauses + 1);
+    expect(viewerActions.pauseTour).toHaveBeenCalledTimes(pauses + 1);
     expect(viewerActions.play).toHaveBeenCalledTimes(plays + 1);
 
     emitTour({ status: 'ended', step: tourTotal - 1 });
@@ -892,7 +894,7 @@ describe('hero stage storyboard', () => {
     await advanceToCapture();
 
     let restarted = 0;
-    viewerActions.pause.mockImplementation(() => {
+    viewerActions.pauseTour.mockImplementation(() => {
       setTour({ status: 'ended', step: tourTotal - 1 });
     });
     viewerActions.play.mockImplementation(() => {
@@ -918,7 +920,7 @@ describe('hero stage storyboard', () => {
     await firstFrame();
     await advanceToCapture();
 
-    const updatePauses = () => viewerActions.pause.mock.calls.length;
+    const updatePauses = () => viewerActions.pauseTour.mock.calls.length;
     const now = vi.spyOn(performance, 'now');
     await advance(TOUR_BEAT_MS / 2);
     expect(now.mock.calls.length).toBeGreaterThan(0);

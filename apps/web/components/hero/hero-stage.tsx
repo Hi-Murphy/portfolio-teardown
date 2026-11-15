@@ -91,7 +91,7 @@ export function HeroStage({
         rotateRight: () => viewer.actions.rotateRight(),
         selectFlow: (flowId) => viewer.actions.selectFlow(flowId),
         playTour: () => viewer.actions.play(),
-        pauseTour: () => viewer.actions.pause(),
+        pauseTour: () => viewer.actions.pauseTour(),
         stopTour: () => viewer.actions.stop(),
       },
       follow,
@@ -174,7 +174,7 @@ export function HeroStage({
         } else if (!previous.nudged && now - previous.changedAt > HERO_WATCHDOG_MS.overdue) {
           previous.nudging = true;
           previous.nudged = true;
-          actionsRef.current.pause();
+          actionsRef.current.pauseTour();
         }
       } else {
         previous.status = tour.status;
