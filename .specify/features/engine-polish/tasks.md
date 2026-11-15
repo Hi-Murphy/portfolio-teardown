@@ -41,9 +41,9 @@
 | T007 | ☑ (sweep 4 160 cells: red 956 offending (first: fixture C 768×720 zoom 1.25); green 0; equivalence: every non-dimension placement deep-equal in all 4 160 cells; red commit = test + `export` keyword only, orchestrator re-verified the assertion red) | 1 (Flash, sandbox off); orchestrator split red/fix commits | evidence/T007-log-{red,green}.txt | 9db9069 (fix b5a4713) |
 | T008 | ☑ (S6 re-sealed at b5a4713, frozen-surface 6/6, xploder 642/642; browser matrix 32 cells: TOTAL HITS 0 (was 10, all in tags mode); every moved note placed elsewhere, none newly hidden; 390 2×/3× notes hidden as before; no columns-mode hit) | orchestrator (re-seal) + 1 (Flash, browser matrix + 8 screenshots) | evidence/T008-* | this merge |
 | T009 | ☑ (red: warn-spy test fails on R3F 9.8.2; patch: Timer-backed store clock in the 3 dist builds, `patchedDependencies` in pnpm-workspace.yaml; lockfile minimised by the orchestrator to patch entries only; xploder 643/643 with 0 "THREE.Clock" in output; console 0/0/0 on 3 routes; parity 8/8 at 0 px; tour 15/15 boundaries within ±1.7 ms, totals +0.1/+1.1 ms; NO-NEW-DEPS-OK) | 1 (Flash, sandbox off); orchestrator minimised the lockfile, split red/fix commits | evidence/T009-* | this merge |
-| T010 | ☐ | | | |
-| T011 | ☐ | | | |
-| T012 | ☐ | | | |
+| T010 | ☑ (3 workflows deleted in 600a314, pushed over SSH; draft PR #25; required-contexts.sh: 7/7 completed + success, 0 stale runs, verdict PASS) | orchestrator | evidence/T010-* | 600a314 |
+| T011 | ☑ (CI 11/11 green first run; a11y production-routes job ×5 attempts all success: 0 CLS in 16 cells ×5, hero marks 3×5 PASS, drill 13×5 PASS; LH 1.00/1.00 ×4 routes; weight ≤ 0.50 MB; draws 2; eager hero 8/8 + live-loop 2/2) | orchestrator | evidence/T011-* | — |
+| T012 | ☑ (AC1–AC7 MET (AC6 'gone from main' completes at merge); guards 8/8; S2/S4/S7 + S3 diffs empty) | orchestrator | evidence/AC-selfcheck.md, T012-log-surfaces.txt | — |
 
 ---
 

@@ -1,0 +1,13 @@
+# T012 surfaces — commit 600a314 — 2026-11-15T02:24:55Z
+FROZEN-OK
+SURFACES-S2S4S7-OK
+S3-TOOLS-OK
+RESEAL-LIST-OK
+ALLOWED-PATHS-OK
+NO-NEW-DEPS-OK
+TIMEOUT-NOT-RAISED-OK
+GITLEAKS-OK
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+S2/S4/S7 git diff a9edbfc: empty
+S3 (21 files) git diff a9edbfc: empty

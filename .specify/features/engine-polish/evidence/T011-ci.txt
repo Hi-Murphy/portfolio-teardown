@@ -1,0 +1,17 @@
+# T011 CI — PR #25 head 600a314
+PR: https://github.com/Hi-Murphy/portfolio-teardown/pull/25
+CI run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43664792316
+perf run: https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43664792319 (a11y production-routes job: attempts 1–5, all success)
+preview: https://portfolio-teardown-git-task-s14-engine-polish-murphy-3c4d.vercel.app
+
+Vercel | pass
+Vercel Preview Comments | pass
+a11y: axe (engine fixture export) | pass
+a11y: axe (production routes) | pass
+build (typecheck, lint, test, build) | pass
+perf-gate: lighthouse (mobile) | pass
+perf-gate: weight (< 3 MB) | pass
+perf: fixture exclusion | pass
+perf: fps calibration | pass
+secrets (gitleaks) | pass
+seo: meta + og | pass
