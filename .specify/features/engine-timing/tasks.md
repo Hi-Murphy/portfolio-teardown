@@ -43,8 +43,8 @@
 | T002 | ☑ (red: suite fails to import; green 8/8; S5 re-sealed, frozen-surface 6/6; full suite xploder 651, web 273 + 6 skipped, perf 303) | 1 (Flash, sandbox off, 1 dispatch); orchestrator pushed the tag | evidence/T002-log-{red,green,reseal}.txt | 60823c9 (fix 12cc065) | `seal/s5-12cc065` (pushed) |
 | T003 | ☑ (red 4/4 fail; green 4/4; 5 unchanged scene suites 41/41; Scene.tsx only) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T003-log-{red,green,reseal}.txt | 06a91cc (fix d4efeaf) | `seal/s6-d4efeaf` (pushed) |
 | T004 | ☑ (red 4/4 fail; green 4/4; S13 originals byte-identical, 33/33 green on the new clock) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T004-log-{red,green,s13-reproof,reseal}.txt | 83bd930 (fix 1ff1d01) | `seal/s5-1ff1d01` (pushed) |
-| T005 | ☐ | | | | `seal/s6-…` |
-| T006 | ☐ | | | | `seal/s5-s8-…` |
+| T005 | ☑ (red 2/3 fail: no `at`, held paused frame emits; green 3/3; unchanged overlay/scene suites green; stopped correctly at ALLOWED-PATHS for two jsdom tests needing `at: 0` → orchestrator allow-listed them, RFC R11) | 1 (Flash, sandbox off, 1 dispatch) + orchestrator (R11 guard edit, full suite) | evidence/T005-log-{red,green,reseal}.txt | 96e5c54 (fix 2c9187d) | `seal/s6-2c9187d` (pushed) |
+| T006 | ☑ (red: AC1 scan 1 hit PanelLayer:394, viewer-clock dom red; R7 scanner green on arrival with negative controls; green 13/13 + dom 12/12; AC1 scan → only src/time/clock.ts; AC1-SCAN-OK hard; build green; hero + draws probe PASS) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T006-log-{red,green,ac1-scan,reseal,g2-site-probe}.txt | 472e950 (fix 74394e9) | `seal/s5-s8-74394e9` (pushed) |
 | T007 | ☐ | | | | `seal/s5-s8-…` |
 | T008 | ☐ | | | | `seal/s6-…` |
 | T009 | ☐ | | | | `seal/s8-…` |
