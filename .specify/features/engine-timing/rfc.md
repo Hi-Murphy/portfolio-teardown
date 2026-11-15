@@ -1,6 +1,6 @@
 # RFC — S15 Engine Timing & Events (E1, E2, E4, E5, E8)
 
-**slice:** S15-engine-timing · **status:** DRAFT for Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-15-engine-timing.md` (frozen brief v1) · **branch:** `task/s15-engine-timing` · **base:** `8c410f3` (S15 freeze; product code = S14 merge `7865770`) · **date:** 2026-11-15 · **revision counter:** 0 of 2
+**slice:** S15-engine-timing · **status:** APPROVED at Gate 1 (2026-11-15): all §12 defaults; refinements R1–R10 in §13 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-15-engine-timing.md` (frozen brief v1) · **branch:** `task/s15-engine-timing` · **base:** `8c410f3` (S15 freeze; product code = S14 merge `7865770`) · **date:** 2026-11-15 · **revision counter:** 0 of 2
 
 > This RFC records design decisions only and does not change scope. Where it seems to conflict with the brief, the brief wins and the conflict becomes an open question (§12). Nothing is implemented.
 >
@@ -442,3 +442,22 @@ The procedure is the S14 one, per step:
 3. **Q2 — the pause naming.** Default: `pause()`/`resume()` = scene freeze, tour pause = `pauseTour()`.
 4. **Q13 — the three brief defaults.** Default: 50 ms at CPU ×4, ≤ 1 frame, the event order as written.
 5. **Everything else (Q3–Q12).** Default: accept as written.
+
+---
+
+## 13. Gate 1 record
+
+**Murphy, 2026-11-15:** "yes all defaults". Every §12 default is accepted (Q1–Q13), including the §9.1 re-seal list, the tag-per-re-seal scheme, the S4-untouched reading (Q1), the `pause()`/`resume()` + `pauseTour()` naming (Q2) and the three brief defaults (50 ms at CPU ×4, ≤ 1 frame, the event order).
+
+**Refinements made in Stage 2 after re-checking the defaults against the code** (Murphy pre-approves improvements at G1; none changes an AC):
+
+- **R1 — host time in seconds, legacy `now` read through a ref.** `ClockHost.now()` returns **seconds**, not ms. The default host is then bit-identical to today's `defaultNow` (`performance.now() / 1000`). `clockFromNow(now)` returns the injected value exactly: no `× 1000 / 1000` round trip, which could move a value by one ulp in the S13 race. Tests pass `now` as inline lambdas (`tour-clock.test.tsx`), so the legacy clock reads the **latest** `now` through a ref updated every render, as the current `now` dependency does. §3.1's `ClockHost` comment changes accordingly; `setTimer` still takes ms.
+- **R2 — the rename lands with its callers.** If `pause()` became the freeze in one commit and the S8 callers (case-study auto-pause, the `executeTourCommand` adapter) moved in a later one, a tour pause on a project page would freeze the scene in between. §9.1 #6 therefore covers **S5 + S8** in one task (`useTeardownViewer.ts` + `TeardownViewer.tsx` caller changes + the app callers), tagged `seal/s5-s8-<sha>`. §9.1 #8 (DOM freeze) stays its own S8 step. The tag count is unchanged at 10 (+1).
+- **R3 — `viewer-handle.test.tsx` is not touched by the rename.** No xploder test calls `viewer.actions.pause()` (repo grep). The rename edits app code (`workbench-client.tsx`, `engine-playground.tsx`, `hero-stage.tsx`) and the hero stage tests' mocked viewer, which also gains `pause`, `resume`, `pauseTour` and a fake `clock`. The S14 I-03 controller tests (`controller()` harness) are untouched.
+- **R4 — the frame gate invalidates on resume itself.** R3F 9.8.2 `setFrameloop` only stores the mode (and resets the store clock, which nothing reads; S14 C1). It does not request a frame, so `<ClockGate>` calls `invalidate()` after `setFrameloop('demand')`. `advance` is the store's `advance(timestamp, runGlobalEffects)`.
+- **R5 — the viewer-clock jsdom test mocks `Scene`, not only `Canvas`.** The existing `xploder-dom` harness mocks `Canvas` to `null`, so no `Scene` props are visible. `viewer-clock.dom.test.tsx` mocks `Canvas` as a pass-through and `src/react/scene/Scene` as a prop-capturing stub.
+- **R6 — guard `getAnimations`.** jsdom has no `Element.getAnimations`. The DOM sweep runs only when `typeof wrapper.getAnimations === 'function'`, so jsdom suites stay green and old browsers degrade to the canvas-only freeze.
+- **R7 — precise rule for "fake" in AC1 (Q7).** Vitest fake timers also fake `Date` and `performance`: the hero tests read `Date.now()` under `vi.useFakeTimers()`. The scanner therefore fails an animation test that reads `Date.now(`/`performance.now(`/`new Date(` or calls `setTimeout(`/`setInterval(` **unless the same file installs `vi.useFakeTimers()`** (in `beforeEach` or the test). It also fails `await new Promise(… setTimeout …)` and `vi.useRealTimers()` outside `afterEach`, in every case.
+- **R8 — one base for every "before" number.** T001 takes every baseline once on `8c410f3`: holds (5 runs), tour timing (2 × 5), the S14 pause sweep (expect 1 settle while paused today), `settle-once`, `settle-timing`, the AC1 scan. Every later comparison uses that snapshot (the S14 R1 pattern).
+- **R9 — escalation wording reconciled.** Kickoff Hard Rule 11 says that if Flash is stuck twice, the orchestrator finishes the task personally. The standing policy (S02, kept in S14) is to pause and report to Murphy with the 5h/7d usage first. **Applied:** after two Flash failures, pause and report with usage; the orchestrator finishes the task personally on Murphy's "go". The finishing tier is reported either way.
+- **R10 — the phase is computed where the rest key lives.** `OverlayProjector` already tracks the rest key (§6.1), so it computes the `onSettled` phase (§7.1 precedence) and puts `phase` on the `settled` `OverlayEvent` in the **E4** step (§9.1 #9, S6). The E5 step (#10) is then S8-only: the emitter, the wiring and the DOM mirror.
