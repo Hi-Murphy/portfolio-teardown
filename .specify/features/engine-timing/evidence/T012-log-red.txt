@@ -1,0 +1,127 @@
+# command: pnpm --filter xploder exec vitest run test/viewer-events.test.ts --reporter verbose | commit: 19825af | exit: 1
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/viewer-events.test.ts [ test/viewer-events.test.ts ]
+Error: Cannot find module '../src/react/events' imported from <repo>/packages/xploder/test/viewer-events.test.ts
+ ❯ test/viewer-events.test.ts:3:1
+      1| import { describe, expect, test } from 'vitest';
+      2|
+      3| import { createViewerEvents, type ViewerEventHandlers } from '../src/r…
+       | ^
+      4|
+      5| interface Delivery {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_MODULE_NOT_FOUND' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  17:56:39
+   Duration  82ms (worker 97%, environment 3%)
+
+
+# command: pnpm --filter web exec vitest run test/xploder-dom/viewer-events.dom.test.tsx --reporter verbose | commit: 19825af | exit: 1
+
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:74252) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/xploder-dom/viewer-events.dom.test.tsx > the Scene stub no longer receives onSettled from TeardownViewer 29ms
+   → expected { clock: { …(8) }, …(19) } to not have property "onSettled"
+ × test/xploder-dom/viewer-events.dom.test.tsx > the first stats callback emits ready once and later stats callbacks do nothing 7ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ × test/xploder-dom/viewer-events.dom.test.tsx > settled emits once per call with phase and at, while moving emits nothing 6ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ × test/xploder-dom/viewer-events.dom.test.tsx > a settle before the first stats callback is delivered immediately after ready 8ms
+   → expected [] to deeply equal [ 'ready', 'settled:zoomed' ]
+ × test/xploder-dom/viewer-events.dom.test.tsx > a two-step tour emits tour-ended once when it reaches ended 15ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > pauseTour and stop are not tour ends 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/viewer-events.dom.test.tsx > the Scene stub no longer receives onSettled from TeardownViewer
+AssertionError: expected { clock: { …(8) }, …(19) } to not have property "onSettled"
+ ❯ test/xploder-dom/viewer-events.dom.test.tsx:212:28
+    210|   await mount(createFakeClock());
+    211|
+    212|   expect(sceneProps()).not.toHaveProperty('onSettled');
+       |                            ^
+    213| });
+    214|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  test/xploder-dom/viewer-events.dom.test.tsx > the first stats callback emits ready once and later stats callbacks do nothing
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/xploder-dom/viewer-events.dom.test.tsx:221:19
+    219|   await driveStats();
+    220|
+    221|   expect(onReady).toHaveBeenCalledTimes(1);
+       |                   ^
+    222|   expect(wrapper().dataset.xploderReady).toBe('true');
+    223|   expect(domEvents).toEqual([{ name: 'xploder:ready', detail: {} }]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  test/xploder-dom/viewer-events.dom.test.tsx > settled emits once per call with phase and at, while moving emits nothing
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/xploder-dom/viewer-events.dom.test.tsx:238:21
+    236|   await driveOverlay(settledEvent('exploded', 1));
+    237|
+    238|   expect(onSettled).toHaveBeenCalledTimes(1);
+       |                     ^
+    239|   expect(onSettled).toHaveBeenCalledWith('exploded');
+    240|   expect(domEvents).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  test/xploder-dom/viewer-events.dom.test.tsx > a settle before the first stats callback is delivered immediately after ready
+AssertionError: expected [] to deeply equal [ 'ready', 'settled:zoomed' ]
+
+- Expected
++ Received
+
+- [
+-   "ready",
+-   "settled:zoomed",
+- ]
++ []
+
+ ❯ test/xploder-dom/viewer-events.dom.test.tsx:264:17
+    262|   await driveStats();
+    263|
+    264|   expect(order).toEqual(['ready', 'settled:zoomed']);
+       |                 ^
+    265|   expect(domEvents).toEqual([
+    266|     { name: 'xploder:ready', detail: {} },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  test/xploder-dom/viewer-events.dom.test.tsx > a two-step tour emits tour-ended once when it reaches ended
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/xploder-dom/viewer-events.dom.test.tsx:288:23
+    286|
+    287|   expect(viewer().tour.status).toBe('ended');
+    288|   expect(onTourEnded).toHaveBeenCalledTimes(1);
+       |                       ^
+    289|   expect(onTourEnded).toHaveBeenCalledWith('flow');
+    290|   expect(domEvents.filter((event) => event.name === 'xploder:tour-ende…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  17:56:40
+   Duration  707ms (environment 57%, transform 20%, tests 12%, import 11%)
+

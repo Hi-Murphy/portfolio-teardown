@@ -57,6 +57,12 @@ import { usePointerPick } from './usePointerPick';
 import { useBlueprintPalette } from './usePalette';
 import { usePrefersReducedMotion } from './useReducedMotion';
 import {
+  createViewerEvents,
+  type SettlePhase,
+  type ViewerEventHandlers,
+  type ViewerEvents,
+} from './events';
+import {
   viewerMetadataOf,
   type TeardownViewerHandle,
   type ViewerProject,
@@ -92,7 +98,23 @@ export interface TeardownViewerProps {
   palette?: Palette;
   layoutOptions?: Partial<LayoutOptions>;
   onStats?: (stats: ViewerStats) => void;
-  onSettled?: (state: 'imploded' | 'exploded') => void;
+  /**
+   * Called once per viewer mount, after the first rendered frame sets
+   * `data-xploder-ready="true"`. It is always the first public viewer event: a settle already
+   * decided in that frame follows it in the same call. DOM mirror: `xploder:ready`.
+   */
+  onReady?: () => void;
+  /**
+   * Called once per settle transition with the phase that caused it. No settle is delivered
+   * while the engine clock is paused. DOM mirror: `xploder:settled` with `{ phase, at }`.
+   */
+  onSettled?: (phase: SettlePhase) => void;
+  /**
+   * Called once per tour `playing` → `ended` transition with its flow id. `pauseTour()` and
+   * `stop()` are not ends. A tour end waits until after any `onSettled` decided in the same
+   * frame. DOM mirror: `xploder:tour-ended` with `{ flowId }`.
+   */
+  onTourEnded?: (flowId: string) => void;
   panels?: ViewerPanelsHandle;
   registry?: TechRegistry;
   className?: string;
@@ -157,7 +179,9 @@ export function TeardownViewer({
   palette,
   layoutOptions,
   onStats,
+  onReady,
   onSettled,
+  onTourEnded,
   panels,
   registry,
   className,
@@ -177,6 +201,8 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
+  const eventHandlersRef = useRef<ViewerEventHandlers>({});
+  const [events, setEvents] = useState<ViewerEvents | null>(null);
   const [, rerender] = useReducer((n: number) => n + 1, 0);
   const [stagedGl] = useState<StagedRendererFactory>(
     () => (defaults: StagedRendererDefaults) =>
@@ -201,6 +227,7 @@ export function TeardownViewer({
   const { dispatch, recordOpener } = panelsMetadataOf(panelsHandle);
   const previousPanelStateRef = useRef<PanelState>(panelsHandle.state);
   const previousPanelKindRef = useRef(panelsHandle.state.kind);
+  const previousTourStatusRef = useRef<TeardownViewerHandle['tour']['status'] | null>(null);
   const previousSlugRef = useRef(project.meta.slug);
   const previousTourRef = useRef<{
     readonly flowId: string | null;
@@ -257,12 +284,17 @@ export function TeardownViewer({
     setScrollExtentPx(extent);
   }, []);
 
-  const onOverlay = useCallback((event: OverlayEvent) => {
-    overlayRef.current?.update(event);
-    letteringRef.current?.update(event);
-    panelLayerRef.current?.update(event);
-    navigatorRef.current?.update(event);
-  }, []);
+  const onOverlay = useCallback(
+    (event: OverlayEvent) => {
+      overlayRef.current?.update(event);
+      letteringRef.current?.update(event);
+      panelLayerRef.current?.update(event);
+      navigatorRef.current?.update(event);
+
+      if (event.kind === 'settled') events?.settled(event.phase, event.at);
+    },
+    [events],
+  );
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
     if (wrapperRef.current !== null) {
@@ -486,12 +518,32 @@ export function TeardownViewer({
       if (wrapperRef.current !== null && !readyRef.current) {
         readyRef.current = true;
         wrapperRef.current.dataset.xploderReady = 'true';
+        events?.ready();
       }
 
       onStats?.(stats);
     },
-    [onStats],
+    [events, onStats],
   );
+
+  useLayoutEffect(() => {
+    if (events !== null) return;
+
+    setEvents(createViewerEvents(() => eventHandlersRef.current));
+  }, [events]);
+
+  useLayoutEffect(() => {
+    eventHandlersRef.current = {
+      onReady,
+      onSettled,
+      onTourEnded,
+      dispatch(name, detail) {
+        wrapperRef.current?.dispatchEvent(
+          new CustomEvent(`xploder:${name}`, { bubbles: true, detail }),
+        );
+      },
+    };
+  }, [onReady, onSettled, onTourEnded]);
 
   useLayoutEffect(() => {
     const element = wrapperRef.current;
@@ -722,6 +774,17 @@ export function TeardownViewer({
   }, [panelsHandle.state.kind, viewer.actions, viewer.tour.status]);
 
   useLayoutEffect(() => {
+    const previous = previousTourStatusRef.current;
+    const current = viewer.tour.status;
+
+    previousTourStatusRef.current = current;
+
+    if (previous === 'playing' && current === 'ended' && viewer.tour.flowId !== null) {
+      events?.tourEnded(viewer.tour.flowId);
+    }
+  }, [events, viewer.tour.flowId, viewer.tour.status]);
+
+  useLayoutEffect(() => {
     const element = wrapperRef.current;
 
     if (element === null) return;
@@ -840,7 +903,6 @@ export function TeardownViewer({
                     rig={viewer.rig}
                     slug={project.meta.slug}
                     onPhase={onPhase}
-                    onSettled={onSettled}
                     onStats={onStatsChange}
                     emphasis={emphasis}
                     onEmphasisPhase={onEmphasisPhase}
