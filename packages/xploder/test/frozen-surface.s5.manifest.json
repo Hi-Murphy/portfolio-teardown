@@ -1,6 +1,6 @@
 {
-  "base": "74394e9",
-  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 12cc065: src/time/clock.ts + src/time/fake.ts — one injectable, pausable engine clock, the only host-time reader (E1) + test/clock.test.ts; see .specify/features/engine-timing/evidence/T002-log-green.txt. Re-sealed in S15 at 1ff1d01: src/react/useTeardownViewer.ts + src/react/useTourClock.ts — the viewer owns the engine clock (viewer.clock); tour boundaries on clock.schedule (E1) + test/tour-clock-engine.test.tsx; see .specify/features/engine-timing/evidence/T004-log-s13-reproof.txt. Re-sealed in S15 at 74394e9: test/no-time-reads.test.ts + test/no-real-timers.test.ts — the AC1 scanners (E1); see .specify/features/engine-timing/evidence/T006-log-green.txt.",
+  "base": "5d3abdb",
+  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 12cc065: src/time/clock.ts + src/time/fake.ts — one injectable, pausable engine clock, the only host-time reader (E1) + test/clock.test.ts; see .specify/features/engine-timing/evidence/T002-log-green.txt. Re-sealed in S15 at 1ff1d01: src/react/useTeardownViewer.ts + src/react/useTourClock.ts — the viewer owns the engine clock (viewer.clock); tour boundaries on clock.schedule (E1) + test/tour-clock-engine.test.tsx; see .specify/features/engine-timing/evidence/T004-log-s13-reproof.txt. Re-sealed in S15 at 74394e9: test/no-time-reads.test.ts + test/no-real-timers.test.ts — the AC1 scanners (E1); see .specify/features/engine-timing/evidence/T006-log-green.txt. Re-sealed in S15 at 5d3abdb: src/react/useTeardownViewer.ts — actions.pause()/resume() freeze and continue the scene on the engine clock (a playing tour is paused and resumed with it); tour-only pause is actions.pauseTour(); viewer.paused (E2, R12) + test/viewer-pause.test.tsx; see .specify/features/engine-timing/evidence/T007-log-green.txt.",
   "files": {
     "src/interaction/caption.ts": "08fe42ec8ef4bd9c6c19746886a183ef55ac5bc377f6dc8d9cba963120b08e3b",
     "src/interaction/emphasis.ts": "6aa58f76e86af6244b5360a5f7963c9fd25e46b2995b65a7a936a7e6bbdc98c0",
@@ -15,7 +15,7 @@
     "src/react/scene/PickBridge.tsx": "c5c8ea929945a1a3be1635d2e8d6d95d421bc457a0e792d0b73b489fa9cba32d",
     "src/react/scene/ViewScroll.tsx": "027634d2eb470f6b14928fe49f1734302538b141167f3f34e411799da2061e60",
     "src/react/usePointerPick.ts": "f6de593f2f943e40c51994e679189977c5a632a1f2d722ab2aaca64a1485b826",
-    "src/react/useTeardownViewer.ts": "d24e483987eca7ea5951339b5b1d83298e16549109135c06f2f20993ec25ca0b",
+    "src/react/useTeardownViewer.ts": "c857a5160c06538369ddff596b156b92ab2d9098bbf15c9d947dac580c6d0968",
     "src/react/useTourClock.ts": "6e8168e86e9074a80448adf6f0a6813e13013d99d53c5bf19b63702cbf91b8d2",
     "src/time/clock.ts": "a80cba7602f4e109ddb1577354901dd2db261c02adefc1896ceeef7c57f85067",
     "src/time/fake.ts": "fb3b9746b696c5dcd6610faa47d976941d6a52b377852d5c102e91b958405890",
@@ -40,6 +40,7 @@
     "test/tour-clock.test.tsx": "4c2334fc7839fa2be52ca09cdf487c9b19e1a26c19a72520071439b89acf25ba",
     "test/tour.test.ts": "f644baf6b192b44c0eea57d366c8a342585d252046cb9a44f9a7ee2128364b17",
     "test/view-scroll.test.tsx": "6ad28a220e9da7f44e8eb1ee8196dad605b5e6faca7fb1176741f3b822dfa1ab",
-    "test/viewer-handle.test.tsx": "ef64596bfb362317868e278e410d9e2d76b7d418c0861f588c09fe904f24f597"
+    "test/viewer-handle.test.tsx": "ef64596bfb362317868e278e410d9e2d76b7d418c0861f588c09fe904f24f597",
+    "test/viewer-pause.test.tsx": "77641b7dbf88c528348690781564f3796efdc1e4706139d9d2f92567195584a3"
   }
 }
