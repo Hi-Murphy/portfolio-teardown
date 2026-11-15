@@ -1,6 +1,6 @@
 {
-  "base": "b5a4713",
-  "note": "S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md. Re-sealed in S14 at b5a4713: src/overlay/model.ts — dimension notes avoid the plate layer-name quads; every other placement output-identical (I-05) + test/overlay-note-clear.test.ts; see .specify/features/engine-polish/evidence/T008-log-rects.md.",
+  "base": "d4efeaf",
+  "note": "S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md. Re-sealed in S14 at b5a4713: src/overlay/model.ts — dimension notes avoid the plate layer-name quads; every other placement output-identical (I-05) + test/overlay-note-clear.test.ts; see .specify/features/engine-polish/evidence/T008-log-rects.md. Re-sealed in S15 at d4efeaf: src/react/scene/Scene.tsx — every tween samples the injected engine clock (E1: explode, camera, emphasis) + test/scene-clock.test.tsx; see .specify/features/engine-timing/evidence/T003-log-green.txt.",
   "files": {
     "src/look/fills.ts": "3a53ce1ccc51b4a95fefac2c8845072a5f0372b8336d17cabbd6b155f73a526b",
     "src/look/product.ts": "6a4d6f52f4ba390ed7ca6557194539f686688d0c187fe1fd3b137af61a9c113a",
@@ -17,7 +17,7 @@
     "src/react/overlay/BlueprintOverlay.tsx": "70653e77291be6dd6a5e5a9bb02f8a42aef557ac4894105717041893f5022535",
     "src/react/overlay/CircuitTrace.tsx": "95c02847a9aeade6cb5b5aa3f30627242d1beeaf60d1d171f674542268d7d7f6",
     "src/react/scene/OverlayProjector.tsx": "9b94ea570aef39ca0e34a3db00b43453e177944f04179c3e101f832987043128",
-    "src/react/scene/Scene.tsx": "74c13f7f42bebd1d8c6747d9c02139c45f997005f5059d8ac1f5b6f2939f5dc0",
+    "src/react/scene/Scene.tsx": "48ce8b5463c9e2fab107810221f24126af0b26578c9b66dd1e5402fe822c6ac4",
     "src/react/scene/Slabs.tsx": "ea58cf449b1f95a8b9f5af346dc38e026cd3472fcc8f67301a8400ba745d71fc",
     "src/react/scene/blueprintMaterial.ts": "b9ff84affb402f1f801cc7162d4a6f0f5c593ec3b84c8b04f498e15028f2df7b",
     "test/blueprint-scene.test.tsx": "5ae5cc3a5d154e423e89ef131dfbb7affc6211535ef08520ebcc548fc9cf2af8",
@@ -34,6 +34,7 @@
     "test/overlay-timing.test.ts": "b448ead00dd27d96437ef4fb4eeb25a743295910ed834348fed3828a1888f6e5",
     "test/overlay-titleblock.test.ts": "3de6de197a6d807c7b3487cd275ae2f6e9465c04da362686f29a095ee8ff9b1f",
     "test/overlay-trace.test.ts": "9a907d6ed586c1c32c3715a39b4353754a97d9f0871a09aa43b6e532dd58b0fe",
-    "test/product-gap.test.ts": "51c481ec06fa0783b083781b2a0354288522ac8b9b421b5db50cbe3974c169a5"
+    "test/product-gap.test.ts": "51c481ec06fa0783b083781b2a0354288522ac8b9b421b5db50cbe3974c169a5",
+    "test/scene-clock.test.tsx": "d68261d4bb71c739d3f7b092229e50be1795de84a7d0956d2ff7cc5d1502c9f1"
   }
 }

@@ -1,0 +1,112 @@
+# command: pnpm --filter xploder exec vitest run test/scene-clock.test.tsx --reporter verbose | commit: ae58678daba2fb669d34e9abc8af0ab6a9e31279 | exit: 1
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:39995) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/scene-clock.test.tsx > engine clock: explode > samples explode progress only from the injected clock 21ms
+   → expected 0 to be greater than 0
+ × test/scene-clock.test.tsx > engine clock: camera > samples rotation and camera matrices only from the injected clock 7ms
+   → expected [ 0.7070848097710174, +0, …(14) ] to deeply equal [ 0.7071025702899012, +0, …(14) ]
+ × test/scene-clock.test.tsx > engine clock: camera > samples smooth zoom only from the injected clock 2ms
+   → expected 89.0954544295536 to be 89.09545442950497 // Object.is equality
+ × test/scene-clock.test.tsx > engine clock: emphasis > samples lift and instance matrices only from the injected clock 3ms
+   → expected 0.0022647535800933427 to be close to 0.05498573992282151, received difference is 0.05272098634272817, but expected 5e-8
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/scene-clock.test.tsx > engine clock: explode > samples explode progress only from the injected clock
+AssertionError: expected 0 to be greater than 0
+ ❯ test/scene-clock.test.tsx:167:23
+    165|
+    166|       for (const value of progress) {
+    167|         expect(value).toBeGreaterThan(0);
+       |                       ^
+    168|         expect(value).toBeLessThan(1);
+    169|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/scene-clock.test.tsx > engine clock: camera > samples rotation and camera matrices only from the injected clock
+AssertionError: expected [ 0.7070848097710174, +0, …(14) ] to deeply equal [ 0.7071025702899012, +0, …(14) ]
+
+- Expected
++ Received
+
+  [
+-   0.7071025702899012,
++   0.7070848097710174,
+    0,
+-   -0.7071109920581177,
++   -0.7071287519193971,
+    0,
+-   -0.40825072161169756,
++   -0.40826097527238797,
+    0.816496580927726,
+-   -0.4082458593015508,
++   -0.4082356052611922,
+    0,
+-   0.5773537073518654,
+-   0.5773502691896258,
+-   0.5773468310069114,
++   0.5773682082178778,
++   0.5773502691896257,
++   0.5773323296039672,
+    0,
+-   6.4631027767212545,
++   6.463265104573654,
+    6.463064288710117,
+-   6.46302580046978,
++   6.462863466606776,
+    1,
+  ]
+
+ ❯ test/scene-clock.test.tsx:222:47
+    220|           });
+    221|           camera.updateMatrixWorld();
+    222|           expect(camera.matrixWorld.elements).toEqual(heldMatrix);
+       |                                               ^
+    223|         }
+    224|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/scene-clock.test.tsx > engine clock: camera > samples smooth zoom only from the injected clock
+AssertionError: expected 89.0954544295536 to be 89.09545442950497 // Object.is equality
+
+- Expected
++ Received
+
+- 89.09545442950497
++ 89.0954544295536
+
+ ❯ test/scene-clock.test.tsx:246:27
+    244|
+    245|       await renderer.update(<Scene {...sceneProps({ clock, rig: zoomed…
+    246|       expect(camera.zoom).toBe(fitted);
+       |                           ^
+    247|
+    248|       await advanceClockTo(renderer, clock, motion.durations.implode /…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/scene-clock.test.tsx > engine clock: emphasis > samples lift and instance matrices only from the injected clock
+AssertionError: expected 0.0022647535800933427 to be close to 0.05498573992282151, received difference is 0.05272098634272817, but expected 5e-8
+ ❯ test/scene-clock.test.tsx:299:70
+    297|
+    298|       await advanceClockTo(renderer, clock, motion.durations.hoverSett…
+    299|       expect(instanceLift(components, index, placement.imploded[1])).t…
+       |                                                                      ^
+    300|
+    301|       const heldMatrix = instanceMatrix(components, index);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  14:06:17
+   Duration  182ms (import 53%, tests 29%, transform 17%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
