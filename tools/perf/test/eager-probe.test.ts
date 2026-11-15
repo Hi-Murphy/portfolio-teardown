@@ -7,10 +7,12 @@ import {
   eagerProbeExitCode,
   eagerProbeFileName,
   eagerProbeRouteName,
+  eagerRestWaitTargetMs,
   evaluateCanvasPixels,
   evaluateEagerProbe,
   evaluateGatedProbe,
   evaluateSaveDataProbe,
+  readyEventMatchesAttribute,
   type EagerProbeEventCounts,
   type EagerProbeRun,
   type EagerProbeSnapshot,
@@ -33,11 +35,15 @@ const NO_EVENTS: EagerProbeEventCounts = {
 };
 
 function snapshot(overrides: Partial<EagerProbeSnapshot> = {}): EagerProbeSnapshot {
+  const readyAtMs = overrides.readyAtMs === undefined ? 400 : overrides.readyAtMs;
+
   return {
     observedAtMs: 2_500,
     timeOriginMs: 0,
     loadAtMs: 100,
-    readyAtMs: 400,
+    readyAtMs,
+    readyEventAtMs: readyAtMs === null ? null : readyAtMs + 5,
+    settledAtMs: 500,
     liveStates: [
       { value: 'idle', t: 100 },
       { value: 'loading', t: 200 },
@@ -77,6 +83,7 @@ describe('evaluateEagerProbe', () => {
     expect(result.checks.map((entry) => entry.name)).toEqual([
       'canvas-present',
       'ready-by-deadline',
+      'ready-event-matches-attribute',
       'revealed-by-deadline',
       'live-opacity',
       'poster-hidden',
@@ -239,6 +246,28 @@ describe('evaluateCanvasPixels', () => {
     expect(
       evaluateCanvasPixels({ width: 2, height: 1, data: new Uint8Array(8) }, 'rgb(245, 245, 243)'),
     ).toEqual({ colours: 1, nonBlank: false });
+  });
+});
+
+describe('readyEventMatchesAttribute', () => {
+  test('accepts both values within one frame and both absent for non-live runs', () => {
+    expect(readyEventMatchesAttribute({ readyAtMs: 400, readyEventAtMs: 400 })).toBe(true);
+    expect(readyEventMatchesAttribute({ readyAtMs: 400, readyEventAtMs: 416.7 })).toBe(true);
+    expect(readyEventMatchesAttribute({ readyAtMs: null, readyEventAtMs: null })).toBe(true);
+  });
+
+  test('fails a missing side or a gap wider than one frame', () => {
+    expect(readyEventMatchesAttribute({ readyAtMs: 400, readyEventAtMs: 416.8 })).toBe(false);
+    expect(readyEventMatchesAttribute({ readyAtMs: 400, readyEventAtMs: null })).toBe(false);
+    expect(readyEventMatchesAttribute({ readyAtMs: null, readyEventAtMs: 400 })).toBe(false);
+  });
+});
+
+describe('eagerRestWaitTargetMs', () => {
+  test('uses the fixed deadline window unless a later settle extends it', () => {
+    expect(eagerRestWaitTargetMs(null)).toBe(4_500);
+    expect(eagerRestWaitTargetMs(3_000)).toBe(4_500);
+    expect(eagerRestWaitTargetMs(5_000)).toBe(5_000);
   });
 });
 

@@ -14,6 +14,7 @@ import {
   evaluateHorizontalScroll,
   expectedTeardownCounts,
   heroContainsPoster,
+  heroSettledFromEvents,
   heroSettledFromSnapshot,
   outlineCountsFromHtml,
   parseHeroLiveMode,
@@ -383,6 +384,65 @@ describe('heroSettledFromSnapshot', () => {
         liveState: 'idle',
         loopButton: false,
         loopAttr: false,
+      }),
+    ).toBe(false);
+  });
+});
+
+describe('heroSettledFromEvents', () => {
+  test('requires ready, then settled, then the existing structure', () => {
+    const structure = { loopButton: true, loopAttr: true };
+
+    expect(
+      heroSettledFromEvents({
+        events: [{ type: 'ready', at: 100, insideLive: true }],
+        loopButton: true,
+        loopAttr: true,
+      }),
+    ).toBe(false);
+    expect(
+      heroSettledFromEvents({
+        events: [
+          { type: 'ready', at: 100, insideLive: true },
+          { type: 'settled', at: 250, insideLive: true },
+        ],
+        loopButton: false,
+        loopAttr: true,
+      }),
+    ).toBe(false);
+    expect(
+      heroSettledFromEvents({
+        events: [
+          { type: 'ready', at: 100, insideLive: true },
+          { type: 'settled', at: 250, insideLive: true },
+        ],
+        ...structure,
+      }),
+    ).toBe(true);
+  });
+
+  test('does not count a settle that arrived before ready', () => {
+    expect(
+      heroSettledFromEvents({
+        events: [
+          { type: 'settled', at: 50, insideLive: true },
+          { type: 'ready', at: 100, insideLive: true },
+        ],
+        loopButton: true,
+        loopAttr: true,
+      }),
+    ).toBe(false);
+  });
+
+  test('ignores events that did not originate inside the live hero', () => {
+    expect(
+      heroSettledFromEvents({
+        events: [
+          { type: 'ready', at: 50, insideLive: false },
+          { type: 'settled', at: 60, insideLive: false },
+        ],
+        loopButton: true,
+        loopAttr: true,
       }),
     ).toBe(false);
   });
