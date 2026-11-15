@@ -25,8 +25,11 @@ function round(value) {
 
 async function installEventLog(page) {
   await page.addInitScript(() => {
-    const state = { events: [], support: false };
+    const storageKey = '__s15EventLog';
+    const stored = sessionStorage.getItem(storageKey);
+    const state = stored ? JSON.parse(stored) : { events: [], support: false };
     window.__s15EventLog = state;
+    const persist = () => sessionStorage.setItem(storageKey, JSON.stringify(state));
     for (const name of ['xploder:ready', 'xploder:settled', 'xploder:tour-ended']) {
       document.addEventListener(
         name,
@@ -38,6 +41,7 @@ async function installEventLog(page) {
             detail: event instanceof CustomEvent ? event.detail : null,
             at: performance.now(),
           });
+          persist();
         },
         true,
       );
