@@ -12,6 +12,7 @@ const repo = resolve(repoArg);
 const baseUrl = baseUrlArg.replace(/\/$/, '');
 const require = createRequire(resolve(repo, 'tools/perf/package.json'));
 const { chromium } = require('playwright');
+const motionChecks = [];
 const browser = await chromium.launch();
 const commit =
   process.env.S15_COMMIT ??
@@ -49,17 +50,31 @@ async function installEventLog(page) {
   });
 }
 
-async function waitForSettled(page) {
-  await page.waitForFunction(
-    () => {
-      const viewers = [...document.querySelectorAll('[data-xploder-ready="true"]')];
-      const viewer = viewers.at(-1);
-      const state = viewer?.getAttribute('data-xploder-state');
-      return state === 'exploded' || state === 'imploded';
-    },
-    undefined,
-    { timeout: 15_000 },
+// Waits for the next xploder:settled on this page (count grows past `before`) and returns its
+// phase, or null after the timeout. Scripted motions are judged on events, not attributes.
+async function settledCount(page) {
+  return await page.evaluate(
+    () => window.__s15EventLog.events.filter((event) => event.path === location.pathname && event.type === 'settled').length,
   );
+}
+
+async function waitForSettled(page, before, label, expectedPhase) {
+  const ok = await page
+    .waitForFunction(
+      (count) =>
+        window.__s15EventLog.events.filter((event) => event.path === location.pathname && event.type === 'settled').length > count,
+      before,
+      { timeout: 15_000 },
+    )
+    .then(() => true)
+    .catch(() => false);
+  await page.waitForTimeout(400); // a second settle for the same motion would land inside this window
+  const after = await settledCount(page);
+  const events = await page.evaluate(
+    () => window.__s15EventLog.events.filter((event) => event.path === location.pathname && event.type === 'settled'),
+  );
+  const phase = events.at(-1)?.detail?.phase ?? null;
+  motionChecks.push({ path: await page.evaluate(() => location.pathname), motion: label, expectedPhase, settles: ok ? after - before : 0, phase });
 }
 
 async function playFirstTour(page) {
@@ -147,18 +162,26 @@ try {
       await page.locator('[data-site-control="explore-3d"]').click();
       await page.locator('[data-xploder-ready="true"]').waitFor({ state: 'visible', timeout: 60_000 });
       await page.locator('[data-xploder-state]').first().focus();
-      await waitForSettled(page);
+      await page.waitForFunction(
+        () => window.__s15EventLog.events.some((event) => event.path === location.pathname && event.type === 'settled'),
+        undefined,
+        { timeout: 15_000 },
+      );
 
+      let before = await settledCount(page);
       await page.locator('[data-site-control="toggle"]').click();
-      await waitForSettled(page);
+      await waitForSettled(page, before, 'toggle-1', 'imploded');
+      before = await settledCount(page);
       await page.locator('[data-site-control="toggle"]').click();
-      await waitForSettled(page);
+      await waitForSettled(page, before, 'toggle-2', 'exploded');
       await page.locator('[data-xploder-state]').first().focus();
+      before = await settledCount(page);
       await page.keyboard.press('=');
-      await waitForSettled(page);
+      await waitForSettled(page, before, 'zoom-in', 'zoomed');
       await page.locator('[data-xploder-state]').first().focus();
+      before = await settledCount(page);
       await page.keyboard.press('ArrowRight');
-      await waitForSettled(page);
+      await waitForSettled(page, before, 'turn-right', 'turned');
       await playFirstTour(page);
     }
 
@@ -203,8 +226,18 @@ try {
         `| ${count.path} | ${count.ready} | ${count.settled} | ${count.tourEnded} | ${count.orderReadyFirst ? 'yes' : 'no'} |`,
       );
     }
+    console.log('');
+    console.log('| path | scripted motion | settled events | phase | expected phase | verdict |');
+    console.log('|---|---|---:|---|---|---|');
+    for (const check of motionChecks) {
+      const ok = check.settles === 1 && check.phase === check.expectedPhase;
+      if (!ok) orderPass = false;
+      console.log(
+        `| ${check.path} | ${check.motion} | ${check.settles} | ${check.phase} | ${check.expectedPhase} | ${ok ? 'ONCE' : 'NOT-ONCE'} |`,
+      );
+    }
     console.log(`ORDER ${orderPass ? 'PASS' : 'FAIL'}`);
-    console.log(`SUMMARY_JSON ${JSON.stringify({ counts, orderPass })}`);
+    console.log(`SUMMARY_JSON ${JSON.stringify({ counts, motionChecks, orderPass })}`);
   } finally {
     await context.close();
   }
