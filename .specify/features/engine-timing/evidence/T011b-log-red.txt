@@ -100,6 +100,4 @@ AssertionError: expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
 
 Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
 
-  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
-  │ teardown/s15-t011b/apps/web
-
+  × "pnpm recursive exec" failed in <repo>/apps/web
