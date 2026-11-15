@@ -1,0 +1,176 @@
+# T013 red — pnpm --filter web exec vitest run test/home-hero-loop.test.tsx --reporter verbose — commit 9b73eed
+
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t013/apps/web
+
+ × test/home-hero-loop.test.tsx > createHeroSequence > holds the exploded and zoomed views before starting capture 12ms
+   → expected 'capture' to be 'explode' // Object.is equality
+ × test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode 1ms
+   → expected 'inspect' to be 'capture' // Object.is equality
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause pauses the tour and follow; resume replays both 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during implode resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-explode resumes after the remaining step time 1ms
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time 1ms
+   → expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array []
+
+
+Number of calls: 1
+
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during zoom settle resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during the capture tour keeps the existing resume behavior 0ms
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause during a tour-end hold resumes after the remaining hold time 1ms
+   → expected 'inspect' to be 'capture' // Object.is equality
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > repeated pauses accumulate elapsed time within the same step 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause in the last millisecond resumes after the remaining millisecond 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume clamps elapsed time to zero when the clock has passed the deadline 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume advances an ended tour instead of replaying that flow 0ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs implode → explode → zoom → capture and narrates the first component 16ms
+ × test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again 4ms
+   → expected 'inspect' to be 'capture' // Object.is equality
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > pauses and resumes from the button, hidden tab, and off-screen observer 7ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > a user pause wins over automatic resumes 4ms
+ × test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues 12ms
+   → expected 'inspect' to be 'capture' // Object.is equality
+ × test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge 6ms
+   → expected 'inspect' to be 'capture' // Object.is equality
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > watches only while running and visible, and leaves on-time steps alone 12ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > never mounts the stage or storyboard under reduced motion 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > holds the exploded and zoomed views before starting capture
+AssertionError: expected 'capture' to be 'explode' // Object.is equality
+
+Expected: "explode"
+Received: "capture"
+
+ ❯ test/home-hero-loop.test.tsx:431:34
+    429|
+    430|     vi.advanceTimersByTime(EXPLODE_STORYBOARD_MS - 1);
+    431|     expect(sequence.state.phase).toBe('explode');
+       |                                  ^
+    432|     expect(actions.zoomIn).not.toHaveBeenCalled();
+    433|     vi.advanceTimersByTime(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode
+AssertionError: expected 'inspect' to be 'capture' // Object.is equality
+
+Expected: "capture"
+Received: "inspect"
+
+ ❯ test/home-hero-loop.test.tsx:462:34
+    460|
+    461|     sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    462|     expect(sequence.state.phase).toBe('capture');
+       |                                  ^
+    463|     vi.advanceTimersByTime(TOUR_END_HOLD_MS - 1);
+    464|     expect(sequence.state.phase).toBe('capture');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array []
+
+
+Number of calls: 1
+
+ ❯ test/home-hero-loop.test.tsx:573:37
+    571|     sequence.pause();
+    572|     vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    573|     expect(actions.rotateRight).not.toHaveBeenCalled();
+       |                                     ^
+    574|
+    575|     sequence.resume();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause during a tour-end hold resumes after the remaining hold time
+AssertionError: expected 'inspect' to be 'capture' // Object.is equality
+
+Expected: "capture"
+Received: "inspect"
+
+ ❯ test/home-hero-loop.test.tsx:637:34
+    635|     const plays = actions.playTour.mock.calls.length;
+    636|     sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    637|     expect(sequence.state.phase).toBe('capture');
+       |                                  ^
+    638|
+    639|     vi.advanceTimersByTime(elapsed);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again
+AssertionError: expected 'inspect' to be 'capture' // Object.is equality
+
+Expected: "capture"
+Received: "inspect"
+
+ ❯ test/home-hero-loop.test.tsx:778:25
+    776|
+    777|     emitTour({ flowId: 'capture-path', status: 'ended', step: tourTota…
+    778|     expect(heroPhase()).toBe('capture');
+       |                         ^
+    779|     await advance(TOUR_END_HOLD_MS - 1);
+    780|     expect(heroPhase()).toBe('capture');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues
+AssertionError: expected 'inspect' to be 'capture' // Object.is equality
+
+Expected: "capture"
+Received: "inspect"
+
+ ❯ test/home-hero-loop.test.tsx:885:25
+    883|
+    884|     emitTour({ status: 'ended', step: tourTotal - 1 });
+    885|     expect(heroPhase()).toBe('capture');
+       |                         ^
+    886|     await advance(TOUR_END_HOLD_MS);
+    887|     expect(heroPhase()).toBe('inspect');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge
+AssertionError: expected 'inspect' to be 'capture' // Object.is equality
+
+Expected: "capture"
+Received: "inspect"
+
+ ❯ test/home-hero-loop.test.tsx:911:25
+    909|     await advance(TOUR_OVERDUE_MS + 64);
+    910|     expect(restarted).toBe(0);
+    911|     expect(heroPhase()).toBe('capture');
+       |                         ^
+    912|     await advance(TOUR_END_HOLD_MS);
+    913|     expect(heroPhase()).toBe('inspect');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 14 passed (21)
+   Start at  10:05:37
+   Duration  406ms (environment 61%, tests 23%, import 12%, transform 2%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s14-wt/t013/apps/web
+
+
+# exit 1
