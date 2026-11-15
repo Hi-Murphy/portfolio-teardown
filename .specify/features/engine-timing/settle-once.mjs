@@ -34,6 +34,9 @@ const { chromium } = require('playwright');
 const { motion } = await import(
   pathToFileURL(resolve(repo, 'packages/xploder/src/motion/index.ts')).href
 );
+const { HERO_STORYBOARD_MS } = await import(
+  pathToFileURL(resolve(repo, 'apps/web/components/hero/hero-loop.ts')).href
+);
 const browser = await chromium.launch();
 const commit =
   process.env.S15_COMMIT ??
@@ -219,17 +222,6 @@ async function actionAt(page, action) {
   return await page.evaluate(() => window.__s15SettleTrace.motion.actionAt);
 }
 
-function firstStableFrame(frames, field, initial, start) {
-  let changed = false;
-  for (let index = 0; index < frames.length; index += 1) {
-    const frame = frames[index];
-    if (frame.t < start) continue;
-    if (!changed && frame[field] !== initial) changed = true;
-    if (changed && frame[field] === frames[index + 1]?.[field]) return frame;
-  }
-  return null;
-}
-
 function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
   const before = allFrames.filter((frame) => frame.t < start).at(-1) ?? null;
   const frames = allFrames.filter((frame) => frame.t >= start && frame.t <= end);
@@ -245,8 +237,13 @@ function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
     const settle = frames.find((frame) => frame.zoom !== before?.zoom);
     settles = settle === undefined ? [] : [settle];
   } else {
-    const settle = firstStableFrame(frames, 'azimuth', before?.azimuth, start);
-    settles = settle === null ? [] : [settle];
+    // data-xploder-azimuth is the target, so the turn's rest is the tween end (implode duration).
+    const first = frames.find((frame) => frame.t >= start);
+    const settle =
+      first === undefined
+        ? undefined
+        : frames.find((frame) => frame.t >= first.t + motion.durations.implode * 1000);
+    settles = settle === undefined ? [] : [settle];
   }
 
   let revealCount = 0;
@@ -258,7 +255,19 @@ function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
     previous = frame.visibleLabels;
     previousT = frame.t;
   }
-  return { settles, revealCount };
+  const endVisible = frames.at(-1)?.visibleLabels ?? 0;
+  return { settles, revealCount, endVisible };
+}
+
+// One settle per motion; one reveal per settle when the rest pose shows labels, none when it
+// shows none (the imploded pose has no tags); zero labels in every mid-tween capture.
+function onceVerdict({ settleCount, expectedSettles, revealCount, endVisible, captures }) {
+  const expectedReveals = endVisible > 0 ? expectedSettles : 0;
+  const settlesOk = settleCount === null || settleCount === expectedSettles;
+  const revealsOk = endVisible > 0 ? revealCount === expectedReveals : revealCount === 0;
+  return settlesOk && revealsOk && captures.every((capture) => capture.visibleLabels === 0)
+    ? 'ONCE'
+    : 'NOT-ONCE';
 }
 
 async function waitForPhase(page, name, after = -Infinity) {
@@ -276,14 +285,28 @@ async function waitForPhase(page, name, after = -Infinity) {
   );
 }
 
+// The turn phase holds three motions: zoom reset at the phase start, then a rotation after each
+// turn step (hero-loop.ts beginTurn/turn). Every other judged phase holds one.
+const TURN_MOTIONS = 3;
+
 async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
   const startEvent = await waitForPhase(page, phase);
   const start = startEvent.t;
   const captures = [];
+  const motionStarts =
+    phase === 'turn'
+      ? Array.from({ length: TURN_MOTIONS }, (_, index) => start + index * HERO_STORYBOARD_MS.turnStep)
+      : [start];
+  const captureTimes = motionStarts.flatMap((motionStart, index) =>
+    [0.25, 0.5, 0.75].map((fraction) => ({
+      at: motionStart + durationMs * fraction,
+      label: `${phase === 'turn' ? `m${index + 1}-` : ''}${Math.round(fraction * 100)}`,
+    })),
+  );
 
-  for (const fraction of [0.25, 0.5, 0.75]) {
-    const capture = await captureAt(page, start + durationMs * fraction);
-    const percent = Math.round(fraction * 100);
+  for (const { at, label } of captureTimes) {
+    const capture = await captureAt(page, at);
+    const percent = label;
     await page.locator('[data-xploder-ready="true"]').screenshot({
       path: resolve(outDir, `home-cpu${cpu}-${phase}-${percent}.png`),
     });
@@ -292,7 +315,8 @@ async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
 
   const endEvent = await waitForPhase(page, nextPhase, start + 1);
   const trace = await page.evaluate(() => window.__s15SettleTrace);
-  const analysisEnd = Math.min(endEvent.t, start + durationMs + 800);
+  const analysisEnd =
+    phase === 'turn' ? endEvent.t : Math.min(endEvent.t, start + durationMs + 800);
   const before = trace.frames.filter((frame) => frame.t < start).at(-1) ?? null;
   const frames = trace.frames.filter((frame) => frame.t >= start && frame.t <= analysisEnd);
   const settledEvents = trace.events.filter(
@@ -306,6 +330,8 @@ async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
   } else if (phase === 'explode') {
     const settle = frames.find((frame) => frame.state === 'exploded');
     settles = settle === undefined ? [] : [settle];
+  } else if (phase === 'turn') {
+    settles = null; // no attribute marks a camera settle before S15 events
   } else {
     const settle =
       firstFrame === undefined
@@ -328,18 +354,20 @@ async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
     project: '/',
     cpu,
     motion: phase,
-    settleCount: settles.length,
+    settleCount: settles === null ? 'n/a' : settles.length,
+    expectedSettles: phase === 'turn' ? TURN_MOTIONS : 1,
     revealCount,
     midVisibleLabels: captures.map((capture) => ({
       percent: capture.percent,
       visible: capture.visibleLabels,
     })),
-    verdict:
-      settles.length === 1 &&
-      revealCount === 1 &&
-      captures.every((capture) => capture.visibleLabels === 0)
-        ? 'ONCE'
-        : 'NOT-ONCE',
+    verdict: onceVerdict({
+      settleCount: settles === null ? null : settles.length,
+      expectedSettles: phase === 'turn' ? TURN_MOTIONS : 1,
+      revealCount,
+      endVisible: frames.at(-1)?.visibleLabels ?? 0,
+      captures,
+    }),
   };
 }
 
@@ -470,12 +498,14 @@ try {
             midTween: motionSpec.kind === 'zoom' ? 'instant' : 'sampled',
             tweenMs: round(duration),
             shape,
-            verdict:
-              summary.settles.length === 1 &&
-              summary.revealCount === 1 &&
-              captures.every((capture) => capture.visibleLabels === 0)
-                ? 'ONCE'
-                : 'NOT-ONCE',
+            endVisible: summary.endVisible,
+            verdict: onceVerdict({
+              settleCount: summary.settles.length,
+              expectedSettles: 1,
+              revealCount: summary.revealCount,
+              endVisible: summary.endVisible,
+              captures,
+            }),
           };
           results.push(result);
           printRow(result);

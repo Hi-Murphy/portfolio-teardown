@@ -197,10 +197,6 @@ function frameContaining(frames, timeMs) {
   return frames.find((frame) => frame.t >= timeMs) ?? null;
 }
 
-function firstChangedFrame(frames, field, initial, start) {
-  return frames.find((frame) => frame.t >= start && frame[field] !== initial) ?? null;
-}
-
 function firstFrameAtOrAfter(frames, timeMs) {
   return frames.find((frame) => frame.t >= timeMs) ?? null;
 }
@@ -209,7 +205,7 @@ console.log(
   `# command: node settle-timing.mjs <repo> <baseUrl> [--cpu ${cpuProfiles.join(',')}] [--runs ${runs}] | base: ${baseUrl} | chromium: ${browser.version()} | cpu: ${cpuProfiles.join(',')} | commit: ${commit}`,
 );
 console.log('# viewport: 412x823 DPR 1.75, hasTouch, isMobile');
-console.log('# visibility: effective opacity (ancestor product)');
+console.log('# visibility: effective opacity (ancestor product) > 0 = fade started (fade-in excluded)');
 
 const cells = [];
 let sawPlacementSamples = false;
@@ -265,7 +261,7 @@ try {
               const style = getComputedStyle(node);
               if (style.display === 'none' || style.visibility !== 'visible') return false;
               opacity *= Number(style.opacity);
-              if (node === document.body) return opacity > 0.01;
+              if (node === document.body) return opacity > 0;
               node = node.parentElement;
             }
             return false;
@@ -301,7 +297,7 @@ try {
             (event) => {
               if (trace.pendingKind !== 'zoom' && trace.pendingKind !== 'turn') return;
               const expected = trace.pendingKind === 'turn' ? 'ArrowRight' : '=';
-              if (event.key === expected) trace.actionAt = performance.now();
+              if (event.key === expected && trace.actionAt === null) trace.actionAt = performance.now();
             },
             true,
           );
@@ -418,7 +414,11 @@ try {
               restFrame = frames.find((frame) => frame.state === 'exploded') ?? null;
               restMethod = 'attribute-state';
             } else if (kind === 'zoom') {
-              restFrame = firstChangedFrame(frames, 'zoom', before?.zoom, start);
+              const finalZoom = frames.at(-1)?.zoom ?? null;
+              restFrame =
+                finalZoom === null || finalZoom === before?.zoom
+                  ? null
+                  : (frames.find((frame) => frame.t >= start && frame.zoom === finalZoom) ?? null);
               restMethod = 'attribute-zoom';
             } else {
               restFrame =
@@ -441,10 +441,8 @@ try {
             const visibleAfterRest = frames.find(
               (frame) => frame.t >= restFrame.t && frame.visibleLabels > 0,
             );
-            const paintedFrame =
-              visibleAfterRest === undefined
-                ? null
-                : (frames.find((frame) => frame.t > visibleAfterRest.t) ?? null);
+            // The frame whose rAF already sees the placed labels (fade started) is the frame that paints them.
+            const paintedFrame = visibleAfterRest ?? null;
             if (paintedFrame === null) {
               console.log(`# invalid ${project} x${cpu} ${kind} run ${run}: paint frame missing`);
               measured.push({ valid: false, reason: 'paint-missing', labelBehavior });
