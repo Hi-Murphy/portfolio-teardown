@@ -44,6 +44,7 @@
 | T010 | ☑ (3 workflows deleted in 600a314, pushed over SSH; draft PR #25; required-contexts.sh: 7/7 completed + success, 0 stale runs, verdict PASS) | orchestrator | evidence/T010-* | 600a314 |
 | T011 | ☑ (CI 11/11 green first run; a11y production-routes job ×5 attempts all success: 0 CLS in 16 cells ×5, hero marks 3×5 PASS, drill 13×5 PASS; LH 1.00/1.00 ×4 routes; weight ≤ 0.50 MB; draws 2; eager hero 8/8 + live-loop 2/2) | orchestrator | evidence/T011-* | — |
 | T012 | ☑ (AC1–AC7 MET (AC6 'gone from main' completes at merge); guards 8/8; S2/S4/S7 + S3 diffs empty) | orchestrator | evidence/AC-selfcheck.md, T012-log-surfaces.txt | — |
+| T013 | ☑ revision 1 of 2 (Murphy feedback, option Medium): red 7/21 → green 21/21; labelled exploded view visible 0.19 → 3.40 s, zoomed view 0.14 → 1.75 s, tour-end holds 0 → 1.61 s ×2, loop 39.6 s; AC3 still holds (settle 1 in all mid-explode cells, resume within 4.1 ms); hero/cls/drill/reduced-motion PASS, eager live-loop 2/2; orchestrator removed a production clock workaround and fixed the test arithmetic instead | 1 (Flash, sandbox off) + orchestrator (clean-up, re-run evidence) | evidence/R1-revision-note.md, T013-* | this merge |
 
 ---
 
