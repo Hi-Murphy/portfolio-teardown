@@ -7,7 +7,7 @@ import {
   type TeardownViewerHandle,
   type ViewerProject,
 } from '../src/react/useTeardownViewer';
-import { createEngineClock, type ClockHost, type ClockReader } from '../src/time/clock';
+import { createEngineClock, type ClockHost, type EngineClock } from '../src/time/clock';
 import { createFakeClock, type FakeClock } from '../src/time/fake';
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -59,7 +59,7 @@ class FakeWindow {
 
 interface ProbeProps {
   readonly project: ViewerProject;
-  readonly clock: ClockReader;
+  readonly clock: EngineClock;
   readonly capture: (viewer: TeardownViewerHandle) => void;
 }
 
@@ -145,7 +145,7 @@ async function advance(clock: AdvancingClock, seconds: number): Promise<void> {
 
 async function mount(
   project: ViewerProject,
-  clock: ClockReader,
+  clock: EngineClock,
   capture?: (viewer: TeardownViewerHandle) => void,
 ) {
   let viewer: TeardownViewerHandle | null = null;

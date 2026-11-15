@@ -1,0 +1,16 @@
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:39946) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/tour-clock-engine.test.tsx > useTourClock on the engine clock > ends when the final tick fires just before the boundary 10ms
+ ✓ test/tour-clock-engine.test.tsx > useTourClock on the engine clock > ends when the final tick fires on time 1ms
+ ✓ test/tour-clock-engine.test.tsx > useTourClock on the engine clock > advances intermediate steps at the same beats 1ms
+ ✓ test/tour-clock-engine.test.tsx > useTourClock on the engine clock > exposes the injected clock on the viewer handle 1ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  14:06:11
+   Duration  119ms (import 51%, transform 27%, tests 20%, worker 2%)
+
