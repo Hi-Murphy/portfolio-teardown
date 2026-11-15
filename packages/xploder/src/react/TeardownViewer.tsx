@@ -165,6 +165,7 @@ export function TeardownViewer({
   fallback,
 }: TeardownViewerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const domAnimationsRef = useRef<Set<Animation>>(new Set());
   const stageRef = useRef<HTMLDivElement>(null);
   const liveRegionRef = useRef<LiveRegionHandle>(null);
   const navigatorRef = useRef<ComponentNavigatorHandle>(null);
@@ -495,6 +496,69 @@ export function TeardownViewer({
     element.dataset.xploderTweening = 'false';
     element.dataset.xploderPulse = 'false';
   }, []);
+
+  useLayoutEffect(() => {
+    const wrapper = wrapperRef.current;
+
+    if (wrapper === null) return;
+
+    const clock = viewer.clock;
+    const held = domAnimationsRef.current;
+    let sweepFrame: number | null = null;
+
+    const cancelSweep = () => {
+      if (sweepFrame === null) return;
+
+      if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(sweepFrame);
+      sweepFrame = null;
+    };
+
+    const pauseRunning = () => {
+      if (typeof wrapper.getAnimations !== 'function') return;
+
+      for (const animation of wrapper.getAnimations({ subtree: true })) {
+        if (animation.playState !== 'running') continue;
+
+        animation.pause();
+        held.add(animation);
+      }
+    };
+
+    const update = (paused: boolean) => {
+      wrapper.dataset.xploderClock = paused ? 'paused' : 'running';
+
+      if (!paused) {
+        cancelSweep();
+
+        for (const animation of held) {
+          if (animation.playState === 'paused') animation.play();
+        }
+
+        held.clear();
+        return;
+      }
+
+      if (typeof wrapper.getAnimations !== 'function') return;
+
+      pauseRunning();
+
+      if (typeof requestAnimationFrame === 'function') {
+        cancelSweep();
+        sweepFrame = requestAnimationFrame(() => {
+          sweepFrame = null;
+          if (clock.paused) pauseRunning();
+        });
+      }
+    };
+
+    update(clock.paused);
+    const unsubscribe = clock.subscribe(update);
+
+    return () => {
+      cancelSweep();
+      unsubscribe();
+    };
+  }, [viewer.clock]);
 
   useLayoutEffect(() => {
     const stage = stageRef.current;

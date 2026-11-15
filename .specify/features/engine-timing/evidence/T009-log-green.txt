@@ -1,0 +1,96 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom --reporter verbose | base commit: 49c5a3f (fix working tree)
+
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:55871) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55866) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55867) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55868) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55870) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/a11y-navigator.dom.test.tsx > rovings through items, activates, bubbles other keys and rings only after focus 119ms
+ ✓ test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock 45ms
+ ✓ test/xploder-dom/a11y-live-region.dom.test.tsx > keeps one live region mounted and announces tour steps on the same node 54ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 78ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 14ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 61ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 13ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > data-xploder-clock follows the viewer clock 9ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause stops every running animation and leaves finished animations alone 11ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both 51ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected 13ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the next frame catches an animation created after the pause 6ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > resume plays the held animations and cancels the queued sweep 7ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause and resume do not throw without getAnimations 6ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > closing A with the pointer elsewhere clears both 40ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted 11ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > opening A while it is hovered keeps the highlight immediately 7ms
+
+ Test Files  6 passed (6)
+      Tests  19 passed (19)
+   Start at  14:56:19
+   Duration  857ms (environment 55%, import 20%, tests 14%, transform 11%)
+
+
+# command: pnpm build | base commit: 49c5a3f (fix working tree) | exit-after-dom: 0
+
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 75554 bytes 312bead39820255a3b659b985a2c0aa20cc5f398670fc20575dfc617bb2f3a97
+public/og/projects.png 93278 bytes a5bd1ef656317599d07f90d19ff1acad0c8969fa219c7b4a84795c76a079baef
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/og/projects/jev-toolkit.png 76330 bytes 2231a0eb01e7553bc49472af4366dbf0cb4bb70ed2bfee489a1a9e4ec0f419c9
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.ts took 1143ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1847ms
+  Running TypeScript ...
+  Finished TypeScript in 2.2s ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/9) ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/9) 
+  Generating static pages using 9 workers (4/9) 
+  Generating static pages using 9 workers (6/9) 
+✓ Generating static pages using 9 workers (9/9) in 298ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ ├ ● /projects/websocket-inspector
+│ └ ● /projects/jev-toolkit
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+
+# xploder-dom exit: 0 | build exit: 0
