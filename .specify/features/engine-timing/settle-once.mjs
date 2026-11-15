@@ -42,45 +42,181 @@ const commit =
   }).trim();
 
 mkdirSync(outDir, { recursive: true });
-const durationMs = {
-  explode: motion.durations.explode * 1000,
-  implode: motion.durations.implode * 1000,
-  zoom: motion.durations.implode * 1000,
-  turn: motion.durations.implode * 1000,
-};
+
+function installTrace() {
+  const trace = { frames: [], events: [], eventSupport: false, motion: null };
+  window.__s15SettleTrace = trace;
+  const labelSelector =
+    '[data-xploder-label],[data-xploder-lettering-kind],[data-xploder-lettering-layer-label]';
+
+  for (const name of ['xploder:ready', 'xploder:settled', 'xploder:tour-ended']) {
+    document.addEventListener(
+      name,
+      (event) => {
+        trace.eventSupport = true;
+        trace.events.push({
+          t: performance.now(),
+          kind: name.slice('xploder:'.length),
+          detail: event instanceof CustomEvent ? event.detail : null,
+        });
+      },
+      true,
+    );
+  }
+
+  let lastPhase = null;
+  new MutationObserver((records) => {
+    for (const record of records) {
+      if (record.type !== 'attributes' || record.attributeName !== 'data-hero-phase') continue;
+      const phase = record.target.getAttribute('data-hero-phase');
+      if (phase !== null && phase !== lastPhase) {
+        lastPhase = phase;
+        trace.events.push({ t: performance.now(), kind: 'phase', value: phase });
+      }
+    }
+  }).observe(document, {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['data-hero-phase'],
+  });
+
+  const effectiveVisible = (element) => {
+    if (element.getClientRects().length === 0) return false;
+    let opacity = 1;
+    let node = element;
+    while (node instanceof Element) {
+      const style = getComputedStyle(node);
+      if (style.display === 'none' || style.visibility !== 'visible') return false;
+      opacity *= Number(style.opacity);
+      if (node === document.body) return opacity > 0.01;
+      node = node.parentElement;
+    }
+    return false;
+  };
+  window.__s15EffectiveVisibleCount = () =>
+    [...document.querySelectorAll(labelSelector)].filter(effectiveVisible).length;
+
+  const frame = (t) => {
+    const viewer = document.querySelector('[data-xploder-ready="true"]');
+    trace.frames.push({
+      t,
+      visibleLabels: window.__s15EffectiveVisibleCount(),
+      state: viewer?.getAttribute('data-xploder-state') ?? null,
+      zoom: viewer?.getAttribute('data-xploder-zoom') ?? null,
+      azimuth: viewer?.getAttribute('data-xploder-azimuth') ?? null,
+    });
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+
+  window.addEventListener(
+    'click',
+    (event) => {
+      if (trace.motion?.awaiting !== 'click') return;
+      if (!(event.target instanceof Element)) return;
+      if (event.target.closest('[data-site-control="toggle"]') === null) return;
+      trace.motion.actionAt = performance.now();
+    },
+    true,
+  );
+  window.addEventListener(
+    'keydown',
+    (event) => {
+      if (trace.motion?.awaiting !== 'key') return;
+      const expected = trace.motion.kind === 'turn' ? 'ArrowRight' : '=';
+      if (event.key !== expected) return;
+      trace.motion.actionAt = performance.now();
+    },
+    true,
+  );
+}
 
 function round(value) {
   return Math.round(value * 10) / 10;
 }
 
-async function waitUntil(page, time) {
-  await page.waitForFunction((target) => performance.now() >= target, time, { timeout: 30_000 });
+function motionDurationMs(kind, shape) {
+  if (kind === 'explode') {
+    return (
+      (motion.durations.explode +
+        Math.max(0, shape.layerCount - 1) * motion.staggers.explodeLayer +
+        Math.max(0, shape.maxSlot) * motion.staggers.explodeComponent) *
+      1000
+    );
+  }
+  if (kind === 'implode') {
+    return (
+      (motion.durations.implode +
+        Math.max(0, shape.layerCount - 1) * motion.staggers.implodeLayer) *
+      1000
+    );
+  }
+  return kind === 'turn' ? motion.durations.implode * 1000 : 0;
+}
+
+async function firstFrameAtOrAfter(page, time) {
+  return await page.evaluate(
+    (target) =>
+      new Promise((resolveFrame) => {
+        const tick = (timestamp) => {
+          if (timestamp < target) requestAnimationFrame(tick);
+          else resolveFrame(timestamp);
+        };
+        requestAnimationFrame(tick);
+      }),
+    time,
+  );
+}
+
+async function captureAt(page, time) {
+  return await page.evaluate(
+    (target) =>
+      new Promise((resolveFrame) => {
+        const tick = (timestamp) => {
+          if (timestamp < target) requestAnimationFrame(tick);
+          else
+            resolveFrame({
+              t: timestamp,
+              visibleLabels: window.__s15EffectiveVisibleCount(),
+            });
+        };
+        requestAnimationFrame(tick);
+      }),
+    time,
+  );
+}
+
+async function readShape(page) {
+  const shape = await page.evaluate(() => {
+    const componentsPerLayer = [...document.querySelectorAll('[data-xploder-navigator] ul')]
+      .map((group) => group.querySelectorAll('[data-xploder-proxy]').length)
+      .filter((count) => count > 0);
+    return {
+      layerCount: componentsPerLayer.length,
+      maxSlot: componentsPerLayer.length === 0 ? 0 : Math.max(...componentsPerLayer) - 1,
+      componentsPerLayer,
+    };
+  });
+  if (shape.layerCount === 0) throw new Error('rendered layer proxies were not found');
+  return shape;
 }
 
 async function beginMotion(page, kind, trigger) {
   await page.evaluate(
     ({ motionKind, waitFor }) => {
-      window.__s15SettleTrace.motion = {
-        kind: motionKind,
-        awaiting: waitFor,
-        actionAt: null,
-      };
+      window.__s15SettleTrace.motion = { kind: motionKind, awaiting: waitFor, actionAt: null };
       window.__s15SettleTrace.events.length = 0;
     },
     { motionKind: kind, waitFor: trigger },
   );
 }
 
-async function actionAt(page, action, kind) {
+async function actionAt(page, action) {
   await action();
   await page.waitForFunction(() => window.__s15SettleTrace.motion?.actionAt !== null, undefined, {
     timeout: 10_000,
   });
-  return await page.evaluate(() => {
-    const value = window.__s15SettleTrace.motion.actionAt;
-    window.__s15SettleTrace.motion.actionAt = value;
-    return value;
-  });
+  return await page.evaluate(() => window.__s15SettleTrace.motion.actionAt);
 }
 
 function firstStableFrame(frames, field, initial, start) {
@@ -98,7 +234,6 @@ function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
   const before = allFrames.filter((frame) => frame.t < start).at(-1) ?? null;
   const frames = allFrames.filter((frame) => frame.t >= start && frame.t <= end);
   const events = trace.events.filter((event) => event.t >= start && event.t <= end);
-  const initial = before;
   let settles;
 
   if (trace.eventSupport) {
@@ -106,16 +241,81 @@ function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
   } else if (kind === 'explode' || kind === 'implode') {
     const settle = frames.find((frame) => frame.state === targetState);
     settles = settle === undefined ? [] : [settle];
+  } else if (kind === 'zoom') {
+    const settle = frames.find((frame) => frame.zoom !== before?.zoom);
+    settles = settle === undefined ? [] : [settle];
   } else {
-    const settle =
-      kind === 'zoom'
-        ? firstStableFrame(frames, 'zoom', initial?.zoom, start)
-        : firstStableFrame(frames, 'azimuth', initial?.azimuth, start);
+    const settle = firstStableFrame(frames, 'azimuth', before?.azimuth, start);
     settles = settle === null ? [] : [settle];
   }
 
   let revealCount = 0;
-  let previous = 0;
+  let previous = before?.visibleLabels ?? 0;
+  let previousT = -Infinity;
+  for (const frame of frames) {
+    if (frame.t === previousT) continue;
+    if (previous === 0 && frame.visibleLabels > 0) revealCount += 1;
+    previous = frame.visibleLabels;
+    previousT = frame.t;
+  }
+  return { settles, revealCount };
+}
+
+async function waitForPhase(page, name, after = -Infinity) {
+  await page.waitForFunction(
+    ({ phaseName, minimum }) =>
+      window.__s15SettleTrace.events.some(
+        (event) => event.kind === 'phase' && event.value === phaseName && event.t >= minimum,
+      ),
+    { phaseName: name, minimum: after },
+    { timeout: 120_000 },
+  );
+  const trace = await page.evaluate(() => window.__s15SettleTrace);
+  return trace.events.find(
+    (event) => event.kind === 'phase' && event.value === name && event.t >= after,
+  );
+}
+
+async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
+  const startEvent = await waitForPhase(page, phase);
+  const start = startEvent.t;
+  const captures = [];
+
+  for (const fraction of [0.25, 0.5, 0.75]) {
+    const capture = await captureAt(page, start + durationMs * fraction);
+    const percent = Math.round(fraction * 100);
+    await page.locator('[data-xploder-ready="true"]').screenshot({
+      path: resolve(outDir, `home-cpu${cpu}-${phase}-${percent}.png`),
+    });
+    captures.push({ percent, visibleLabels: capture.visibleLabels });
+  }
+
+  const endEvent = await waitForPhase(page, nextPhase, start + 1);
+  const trace = await page.evaluate(() => window.__s15SettleTrace);
+  const analysisEnd = Math.min(endEvent.t, start + durationMs + 800);
+  const before = trace.frames.filter((frame) => frame.t < start).at(-1) ?? null;
+  const frames = trace.frames.filter((frame) => frame.t >= start && frame.t <= analysisEnd);
+  const settledEvents = trace.events.filter(
+    (event) => event.t >= start && event.t <= analysisEnd && event.kind === 'settled',
+  );
+  const firstFrame = frames.find((frame) => frame.t >= start);
+  let settles;
+
+  if (trace.eventSupport) {
+    settles = settledEvents;
+  } else if (phase === 'explode') {
+    const settle = frames.find((frame) => frame.state === 'exploded');
+    settles = settle === undefined ? [] : [settle];
+  } else {
+    const settle =
+      firstFrame === undefined
+        ? null
+        : (frames.find((frame) => frame.t >= firstFrame.t + durationMs) ?? null);
+    settles = settle === null ? [] : [settle];
+  }
+
+  let revealCount = 0;
+  let previous = before?.visibleLabels ?? 0;
   let previousT = -Infinity;
   for (const frame of frames) {
     if (frame.t === previousT) continue;
@@ -124,7 +324,35 @@ function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
     previousT = frame.t;
   }
 
-  return { settles, revealCount };
+  return {
+    project: '/',
+    cpu,
+    motion: phase,
+    settleCount: settles.length,
+    revealCount,
+    midVisibleLabels: captures.map((capture) => ({
+      percent: capture.percent,
+      visible: capture.visibleLabels,
+    })),
+    verdict:
+      settles.length === 1 &&
+      revealCount === 1 &&
+      captures.every((capture) => capture.visibleLabels === 0)
+        ? 'ONCE'
+        : 'NOT-ONCE',
+  };
+}
+
+function printRow(result) {
+  const mid =
+    result.midTween === 'instant'
+      ? 'instant'
+      : result.midVisibleLabels
+          .map((capture) => `${capture.percent}%:${capture.visible}`)
+          .join(' ');
+  console.log(
+    `| ${result.project} | x${result.cpu} | ${result.motion} | ${result.settleCount} | ${result.revealCount} | ${mid} | ${result.verdict} |`,
+  );
 }
 
 console.log(
@@ -132,207 +360,159 @@ console.log(
 );
 
 const results = [];
-let signalLinePrinted = false;
-let tablePrinted = false;
+let headerPrinted = false;
 
 try {
   for (const cpu of cpuProfiles) {
     for (const project of ['websocket-inspector', 'jev-toolkit']) {
-      const route = `/projects/${project}`;
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-
       try {
         if (cpu > 1) {
           const cdp = await context.newCDPSession(page);
           await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
         }
-
-        await page.addInitScript(() => {
-          const trace = { frames: [], events: [], eventSupport: false, motion: null };
-          window.__s15SettleTrace = trace;
-          const labelSelector =
-            '[data-xploder-label],[data-xploder-lettering],[data-xploder-lettering-layer-label]';
-
-          for (const name of ['xploder:ready', 'xploder:settled', 'xploder:tour-ended']) {
-            document.addEventListener(
-              name,
-              (event) => {
-                trace.eventSupport = true;
-                trace.events.push({
-                  t: performance.now(),
-                  kind: name.slice('xploder:'.length),
-                  detail: event instanceof CustomEvent ? event.detail : null,
-                });
-              },
-              true,
-            );
-          }
-
-          const visible = (element) => {
-            const style = getComputedStyle(element);
-            return (
-              style.visibility !== 'hidden' &&
-              style.display !== 'none' &&
-              Number(style.opacity) > 0.01 &&
-              element.getClientRects().length > 0
-            );
-          };
-          const visibleCount = () =>
-            [...document.querySelectorAll(labelSelector)].filter(visible).length;
-
-          const frame = (t) => {
-            const viewer = document.querySelector('[data-xploder-ready="true"]');
-            trace.frames.push({
-              t,
-              visibleLabels: visibleCount(),
-              state: viewer?.getAttribute('data-xploder-state') ?? null,
-              zoom: viewer?.getAttribute('data-xploder-zoom') ?? null,
-              azimuth: viewer?.getAttribute('data-xploder-azimuth') ?? null,
-            });
-            requestAnimationFrame(frame);
-          };
-          requestAnimationFrame(frame);
-
-          window.addEventListener(
-            'click',
-            (event) => {
-              if (trace.motion?.awaiting !== 'click') return;
-              if (!(event.target instanceof Element)) return;
-              if (event.target.closest('[data-site-control="toggle"]') === null) return;
-              trace.motion.actionAt = performance.now();
-            },
-            true,
-          );
-          window.addEventListener(
-            'keydown',
-            (event) => {
-              if (trace.motion?.awaiting !== 'key') return;
-              const expected = trace.motion.kind === 'turn' ? 'ArrowRight' : '=';
-              if (event.key !== expected) return;
-              trace.motion.actionAt = performance.now();
-            },
-            true,
-          );
-        });
-
-        await page.goto(`${baseUrl}${route}`);
+        await page.addInitScript(installTrace);
+        await page.goto(`${baseUrl}/projects/${project}`);
         await page.locator('[data-site-control="explore-3d"]').click();
         await page.locator('[data-xploder-ready="true"]').waitFor({ state: 'visible', timeout: 60_000 });
         await page.locator('[data-xploder-state]').first().focus();
         await page.waitForTimeout(1000);
+        const shape = await readShape(page);
 
-        const initial = await page.evaluate(() => window.__s15SettleTrace.eventSupport);
-        if (!signalLinePrinted) {
-          const clock = await page.evaluate(
-            () => document.querySelector('[data-xploder-clock]') !== null,
-          );
+        if (!headerPrinted) {
+          const initial = await page.evaluate(() => ({
+            events: window.__s15SettleTrace.eventSupport,
+            clock: document.querySelector('[data-xploder-clock]') !== null,
+          }));
           console.log(
-            initial
-              ? `# signals: events${clock ? ' + clock' : ''} + attributes (S15)`
-              : clock
+            initial.events
+              ? `# signals: events${initial.clock ? ' + clock' : ''} + attributes (S15)`
+              : initial.clock
                 ? '# signals: clock + attributes (events absent)'
                 : '# signals: attributes (pre-S15)',
           );
-          signalLinePrinted = true;
-        }
-        if (!tablePrinted) {
+          console.log('# visibility: effective opacity (ancestor product)');
           console.log(
             '| project | cpu | motion | settles | label reveals | visible labels at 25/50/75% | verdict |',
           );
           console.log('|---|---:|---|---:|---:|---|---|');
-          tablePrinted = true;
+          headerPrinted = true;
         }
 
-        const motions = [
+        for (const motionSpec of [
           { kind: 'implode', trigger: 'click', target: 'imploded' },
           { kind: 'explode', trigger: 'click', target: 'exploded' },
           { kind: 'zoom', trigger: 'key', target: null },
           { kind: 'turn', trigger: 'key', target: null },
-        ];
-
-        for (const motion of motions) {
-          await beginMotion(page, motion.kind, motion.trigger);
-          const start = await actionAt(
-            page,
-            async () => {
-              if (motion.trigger === 'click') {
-                await page.locator('[data-site-control="toggle"]').click();
-              } else {
-                await page.locator('[data-xploder-state]').first().focus();
-                await page.keyboard.press(motion.kind === 'turn' ? 'ArrowRight' : '=');
-              }
-            },
-            motion.kind,
-          );
-
-          const duration = durationMs[motion.kind];
+        ]) {
+          await beginMotion(page, motionSpec.kind, motionSpec.trigger);
+          const start = await actionAt(page, async () => {
+            if (motionSpec.trigger === 'click') {
+              await page.locator('[data-site-control="toggle"]').click();
+            } else {
+              await page.locator('[data-xploder-state]').first().focus();
+              await page.keyboard.press(motionSpec.kind === 'turn' ? 'ArrowRight' : '=');
+            }
+          });
+          const firstFrame = await firstFrameAtOrAfter(page, start);
+          const duration = motionDurationMs(motionSpec.kind, shape);
           const captures = [];
-          for (const fraction of [0.25, 0.5, 0.75]) {
-            await waitUntil(page, start + duration * fraction);
-            const visibleLabels = await page.evaluate(() => {
-              const selector =
-                '[data-xploder-label],[data-xploder-lettering],[data-xploder-lettering-layer-label]';
-              return [...document.querySelectorAll(selector)].filter((element) => {
-                const style = getComputedStyle(element);
-                return (
-                  style.visibility !== 'hidden' &&
-                  style.display !== 'none' &&
-                  Number(style.opacity) > 0.01 &&
-                  element.getClientRects().length > 0
-                );
-              }).length;
-            });
-            const percent = Math.round(fraction * 100);
-            const path = resolve(
-              outDir,
-              `${project}-cpu${cpu}-${motion.kind}-${percent}.png`,
-            );
-            await page.locator('[data-xploder-ready="true"]').screenshot({ path });
-            captures.push({ percent, visibleLabels });
+
+          if (motionSpec.kind !== 'zoom') {
+            for (const fraction of [0.25, 0.5, 0.75]) {
+              const capture = await captureAt(page, firstFrame + duration * fraction);
+              const percent = Math.round(fraction * 100);
+              await page.locator('[data-xploder-ready="true"]').screenshot({
+                path: resolve(outDir, `${project}-cpu${cpu}-${motionSpec.kind}-${percent}.png`),
+              });
+              captures.push({ percent, visibleLabels: capture.visibleLabels });
+            }
           }
 
+          const minimumEnd = Math.max(firstFrame + duration + 700, firstFrame + 1000);
           await page.waitForFunction(
-            ({ actionStart, expectedDuration }) => {
+            ({ actionStart, expectedEnd }) => {
               const trace = window.__s15SettleTrace;
-              if (trace.eventSupport && trace.events.some((event) => event.kind === 'settled' && event.t >= actionStart)) {
+              if (
+                trace.eventSupport &&
+                trace.events.some((event) => event.kind === 'settled' && event.t >= actionStart)
+              ) {
                 return true;
               }
-              return performance.now() >= actionStart + expectedDuration + 1000;
+              return performance.now() >= expectedEnd;
             },
-            { actionStart: start, expectedDuration: duration },
+            { actionStart: start, expectedEnd: minimumEnd },
             { timeout: 15_000 },
           );
-          await page.waitForTimeout(300);
+          await page.waitForTimeout(250);
 
           const end = await page.evaluate(() => performance.now());
           const trace = await page.evaluate(() => window.__s15SettleTrace);
-          const summary = summarizeMotion(trace.frames, trace, motion.kind, start, end, motion.target);
-          const verdict =
-            summary.settles.length === 1 &&
-            summary.revealCount === 1 &&
-            captures.every((capture) => capture.visibleLabels === 0)
-              ? 'ONCE'
-              : 'NOT-ONCE';
-          results.push({
+          const summary = summarizeMotion(
+            trace.frames,
+            trace,
+            motionSpec.kind,
+            start,
+            end,
+            motionSpec.target,
+          );
+          const result = {
             project,
             cpu,
-            motion: motion.kind,
+            motion: motionSpec.kind,
             settleCount: summary.settles.length,
             revealCount: summary.revealCount,
             midVisibleLabels: captures.map((capture) => ({
               percent: capture.percent,
               visible: capture.visibleLabels,
             })),
-            verdict,
-          });
-          console.log(
-            `| ${project} | x${cpu} | ${motion.kind} | ${summary.settles.length} | ${summary.revealCount} | ${captures.map((capture) => `${capture.percent}%:${capture.visibleLabels}`).join(' ')} | ${verdict} |`,
-          );
+            midTween: motionSpec.kind === 'zoom' ? 'instant' : 'sampled',
+            tweenMs: round(duration),
+            shape,
+            verdict:
+              summary.settles.length === 1 &&
+              summary.revealCount === 1 &&
+              captures.every((capture) => capture.visibleLabels === 0)
+                ? 'ONCE'
+                : 'NOT-ONCE',
+          };
+          results.push(result);
+          printRow(result);
         }
       } finally {
         await context.close();
       }
+    }
+
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage();
+    try {
+      if (cpu > 1) {
+        const cdp = await context.newCDPSession(page);
+        await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
+      }
+      await page.addInitScript(installTrace);
+      await page.goto(`${baseUrl}/`);
+      await page.locator('[data-xploder-ready="true"]').waitFor({ state: 'visible', timeout: 60_000 });
+      await page.locator('[data-hero-phase="explode"]').waitFor({ timeout: 90_000 });
+      const shape = await readShape(page);
+      const explodeDuration = motionDurationMs('explode', shape);
+      const implodeDuration = motionDurationMs('turn', shape);
+
+      for (const result of [
+        await runHeroPhase(page, 'explode', 'zoomin', explodeDuration, cpu),
+        await runHeroPhase(page, 'zoomin', 'capture', implodeDuration, cpu),
+      ]) {
+        results.push(result);
+        printRow(result);
+      }
+      await waitForPhase(page, 'turn');
+      const turn = await runHeroPhase(page, 'turn', 'implode', implodeDuration, cpu);
+      results.push(turn);
+      printRow(turn);
+    } finally {
+      await context.close();
     }
   }
 } finally {

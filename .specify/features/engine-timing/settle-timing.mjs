@@ -54,21 +54,26 @@ if (decideIndex >= 0) {
   if (line === undefined) throw new Error(`${timingFile}: SUMMARY_JSON missing`);
   const summary = JSON.parse(line.slice('SUMMARY_JSON '.length));
   const cells = (summary.cells ?? []).filter((cell) => Number(cell.cpu) === cpu);
-  const medians = new Map();
+  const projects = new Map();
   for (const cell of cells) {
-    if (!medians.has(cell.project)) medians.set(cell.project, []);
-    if (cell.settleDelay?.median !== null && cell.settleDelay?.median !== undefined) {
-      medians.get(cell.project).push(cell.settleDelay.median);
-    }
+    if (!projects.has(cell.project)) projects.set(cell.project, { pooled: [], motions: new Map() });
+    const project = projects.get(cell.project);
+    const samples = (cell.settleSamples ?? []).filter((value) => Number.isFinite(value));
+    project.pooled.push(...samples);
+    project.motions.set(cell.motion, median(samples));
   }
 
   let cache = false;
-  for (const [project, values] of medians) {
-    const projectMedian = median(values);
+  for (const [name, project] of projects) {
+    const projectMedian = median(project.pooled);
     if (projectMedian !== null && projectMedian > threshold) cache = true;
+    const motionMedians = [...project.motions]
+      .map(([motion, value]) => `${motion} ${value === null ? 'missing' : value.toFixed(1)}`)
+      .join(', ');
     console.log(
-      `${project}: ${projectMedian === null ? 'missing' : projectMedian.toFixed(1)} ms median settle delay at CPU x${cpu}`,
+      `${name}: pooled ${projectMedian === null ? 'missing' : projectMedian.toFixed(1)} ms median settle delay at CPU x${cpu} (${project.pooled.length} valid samples)`,
     );
+    console.log(`${name}: per-motion ${motionMedians || 'missing'}`);
   }
   console.log(`rule: cache iff any project median > ${threshold.toFixed(1)} ms`);
   console.log(`DECISION ${cache ? 'CACHE' : 'NO-CACHE'}`);
@@ -99,11 +104,32 @@ const commit =
     encoding: 'utf8',
   }).trim();
 
-const durations = {
-  explode: motion.durations.explode * 1000,
-  zoom: motion.durations.implode * 1000,
-  turn: motion.durations.implode * 1000,
-};
+function motionDurationMs(kind, shape) {
+  if (kind === 'explode') {
+    return (
+      (motion.durations.explode +
+        Math.max(0, shape.layerCount - 1) * motion.staggers.explodeLayer +
+        Math.max(0, shape.maxSlot) * motion.staggers.explodeComponent) *
+      1000
+    );
+  }
+  return motion.durations.implode * 1000;
+}
+
+async function readShape(page) {
+  const shape = await page.evaluate(() => {
+    const componentsPerLayer = [...document.querySelectorAll('[data-xploder-navigator] ul')]
+      .map((group) => group.querySelectorAll('[data-xploder-proxy]').length)
+      .filter((count) => count > 0);
+    return {
+      layerCount: componentsPerLayer.length,
+      maxSlot: componentsPerLayer.length === 0 ? 0 : Math.max(...componentsPerLayer) - 1,
+      componentsPerLayer,
+    };
+  });
+  if (shape.layerCount === 0) throw new Error('rendered layer proxies were not found');
+  return shape;
+}
 
 async function prepareMotion(page, kind) {
   if (kind === 'explode') {
@@ -171,10 +197,19 @@ function frameContaining(frames, timeMs) {
   return frames.find((frame) => frame.t >= timeMs) ?? null;
 }
 
+function firstChangedFrame(frames, field, initial, start) {
+  return frames.find((frame) => frame.t >= start && frame[field] !== initial) ?? null;
+}
+
+function firstFrameAtOrAfter(frames, timeMs) {
+  return frames.find((frame) => frame.t >= timeMs) ?? null;
+}
+
 console.log(
   `# command: node settle-timing.mjs <repo> <baseUrl> [--cpu ${cpuProfiles.join(',')}] [--runs ${runs}] | base: ${baseUrl} | chromium: ${browser.version()} | cpu: ${cpuProfiles.join(',')} | commit: ${commit}`,
 );
 console.log('# viewport: 412x823 DPR 1.75, hasTouch, isMobile');
+console.log('# visibility: effective opacity (ancestor product)');
 
 const cells = [];
 let sawPlacementSamples = false;
@@ -202,11 +237,10 @@ try {
             support: false,
             actionAt: null,
             pendingKind: null,
-            labelVisibleAt: null,
           };
           window.__s15TimingTrace = trace;
           const labelSelector =
-            '[data-xploder-label],[data-xploder-lettering],[data-xploder-lettering-layer-label]';
+            '[data-xploder-label],[data-xploder-lettering-kind],[data-xploder-lettering-layer-label]';
 
           for (const name of ['xploder:ready', 'xploder:settled', 'xploder:tour-ended']) {
             document.addEventListener(
@@ -223,25 +257,24 @@ try {
             );
           }
 
-          let previousVisible = 0;
           const visible = (element) => {
-            const style = getComputedStyle(element);
-            return (
-              style.visibility !== 'hidden' &&
-              style.display !== 'none' &&
-              Number(style.opacity) > 0.01 &&
-              element.getClientRects().length > 0
-            );
+            if (element.getClientRects().length === 0) return false;
+            let opacity = 1;
+            let node = element;
+            while (node instanceof Element) {
+              const style = getComputedStyle(node);
+              if (style.display === 'none' || style.visibility !== 'visible') return false;
+              opacity *= Number(style.opacity);
+              if (node === document.body) return opacity > 0.01;
+              node = node.parentElement;
+            }
+            return false;
           };
           const visibleCount = () =>
             [...document.querySelectorAll(labelSelector)].filter(visible).length;
           const frame = (t) => {
             const viewer = document.querySelector('[data-xploder-ready="true"]');
             const visibleLabels = visibleCount();
-            if (previousVisible === 0 && visibleLabels > 0 && trace.labelVisibleAt === null) {
-              trace.labelVisibleAt = t;
-            }
-            previousVisible = visibleLabels;
             trace.frames.push({
               t,
               visibleLabels,
@@ -252,32 +285,6 @@ try {
             requestAnimationFrame(frame);
           };
           requestAnimationFrame(frame);
-
-          new MutationObserver((records) => {
-            for (const record of records) {
-              if (record.type !== 'attributes') continue;
-              if (
-                record.attributeName === 'data-xploder-lettering' &&
-                record.target.getAttribute('data-xploder-lettering') === 'shown' &&
-                trace.labelVisibleAt === null
-              ) {
-                trace.labelVisibleAt = performance.now();
-              }
-            }
-            for (const record of records) {
-              for (const node of record.addedNodes) {
-                if (!(node instanceof Element)) continue;
-                if (node.matches(labelSelector) || node.querySelector(labelSelector) !== null) {
-                  if (trace.labelVisibleAt === null) trace.labelVisibleAt = performance.now();
-                }
-              }
-            }
-          }).observe(document, {
-            subtree: true,
-            attributes: true,
-            childList: true,
-            attributeFilter: ['data-xploder-lettering'],
-          });
 
           window.addEventListener(
             'click',
@@ -304,6 +311,7 @@ try {
         await page.locator('[data-site-control="explore-3d"]').click();
         await page.locator('[data-xploder-ready="true"]').waitFor({ state: 'visible', timeout: 60_000 });
         await page.waitForTimeout(1000);
+        const shape = await readShape(page);
         if (!signalLinePrinted) {
           const detected = await page.evaluate(() => ({
             events: window.__s15TimingTrace.support,
@@ -320,9 +328,9 @@ try {
         }
         if (!tablePrinted) {
           console.log(
-            '| project | cpu | motion | settle delay ms median / p95 / max | task time ms median / p95 / max | placement self ms median / p95 / max | rest method | runs |',
+            '| project | cpu | motion | settle delay ms median / p95 / max | task time ms median / p95 / max | placement self ms median / p95 / max | rest method | labels | invalid | runs |',
           );
-          console.log('|---|---:|---|---|---|---|---|---:|');
+          console.log('|---|---:|---|---|---|---|---|---|---:|---:|');
           tablePrinted = true;
         }
 
@@ -337,11 +345,9 @@ try {
                 trace.events.length = 0;
                 trace.actionAt = null;
                 trace.pendingKind = motionKind;
-                trace.labelVisibleAt = null;
               },
               { motionKind: kind },
             );
-            const perfBefore = await page.evaluate(() => performance.now() * 1000);
             await cdp.send('Profiler.enable');
             await cdp.send('Profiler.setSamplingInterval', { interval: 100 });
             await cdp.send('Profiler.start');
@@ -349,30 +355,37 @@ try {
             await page.waitForFunction(() => window.__s15TimingTrace.actionAt !== null, undefined, {
               timeout: 10_000,
             });
+            const start = await page.evaluate(() => window.__s15TimingTrace.actionAt);
+            const firstFrameAt = await page.evaluate(
+              (actionStart) =>
+                new Promise((resolveFrame) => {
+                  const tick = (timestamp) => {
+                    if (timestamp < actionStart) requestAnimationFrame(tick);
+                    else resolveFrame(timestamp);
+                  };
+                  requestAnimationFrame(tick);
+                }),
+              start,
+            );
+            const expectedDuration = motionDurationMs(kind, shape);
+            const expectedEnd = firstFrameAt + expectedDuration + 800;
 
             await page
               .waitForFunction(
-                ({ minimum, expected }) => {
+                ({ actionStart, minimumEnd }) => {
                   const trace = window.__s15TimingTrace;
                   if (trace.support) {
-                    return trace.events.some((event) => event.kind === 'settled' && event.t >= minimum);
+                    return trace.events.some(
+                      (event) => event.kind === 'settled' && event.t >= actionStart,
+                    );
                   }
-                  return performance.now() >= expected;
+                  return performance.now() >= minimumEnd;
                 },
-                { minimum: perfBefore / 1000, expected: perfBefore / 1000 + durations[kind] + 800 },
+                { actionStart: start, minimumEnd: expectedEnd },
                 { timeout: 15_000 },
               )
               .catch(() => undefined);
-            await page
-              .waitForFunction(
-                () =>
-                  window.__s15TimingTrace.labelVisibleAt !== null ||
-                  window.__s15TimingTrace.frames.at(-1)?.visibleLabels > 0,
-                undefined,
-                { timeout: 8_000 },
-              )
-              .catch(() => undefined);
-            await page.waitForTimeout(200);
+            await page.waitForTimeout(350);
             const perfStopUs = await page.evaluate(() => performance.now() * 1000);
             const profiled = await cdp.send('Profiler.stop');
             await cdp.send('Profiler.disable').catch(() => undefined);
@@ -380,36 +393,71 @@ try {
             const trace = await page.evaluate(() => window.__s15TimingTrace);
             if (run === 0) continue;
             const frames = trace.frames;
-            const start = trace.actionAt;
-            if (start === null || frames.length === 0) continue;
+            if (start === null || frames.length === 0) {
+              console.log(`# invalid ${project} x${cpu} ${kind} run ${run}: no action/frames`);
+              measured.push({ valid: false, reason: 'no-frames', labelBehavior: 'missing' });
+              continue;
+            }
+            const before = frames.filter((frame) => frame.t < start).at(-1) ?? null;
+            const firstFrame = frames.find((frame) => frame.t >= start) ?? null;
             const settleEvent = trace.events.find(
               (event) => event.kind === 'settled' && event.t >= start,
             );
             let restFrame = null;
             let restMethod = null;
-            if (trace.support && settleEvent !== undefined) {
+            if (trace.support) {
+              if (settleEvent === undefined) {
+                console.log(`# invalid ${project} x${cpu} ${kind} run ${run}: settled event missing`);
+                measured.push({ valid: false, reason: 'event-missing', labelBehavior: 'missing' });
+                continue;
+              }
               const atMs = Number(settleEvent.detail?.at) * 1000;
               restFrame = frameContaining(frames, atMs);
               restMethod = 'event';
             } else if (kind === 'explode') {
               restFrame = frames.find((frame) => frame.state === 'exploded') ?? null;
               restMethod = 'attribute-state';
+            } else if (kind === 'zoom') {
+              restFrame = firstChangedFrame(frames, 'zoom', before?.zoom, start);
+              restMethod = 'attribute-zoom';
             } else {
-              const atEnd = frames.at(-1);
-              const target = kind === 'zoom' ? atEnd?.zoom : atEnd?.azimuth;
-              restFrame = frames.find(
-                (frame) => (kind === 'zoom' ? frame.zoom : frame.azimuth) === target,
-              );
-              restMethod = kind === 'zoom' ? 'attribute-zoom' : 'attribute-azimuth';
+              restFrame =
+                firstFrame === null
+                  ? null
+                  : firstFrameAtOrAfter(frames, firstFrame.t + motion.durations.implode * 1000);
+              restMethod = 'tween-duration';
+            }
+            if (restFrame === null) {
+              console.log(`# invalid ${project} x${cpu} ${kind} run ${run}: rest frame missing`);
+              measured.push({ valid: false, reason: 'rest-missing', labelBehavior: 'missing' });
+              continue;
             }
 
-            const visibleFrame = frames.find((frame) => frame.visibleLabels > 0) ?? null;
+            const labelHidden = frames.some(
+              (frame) =>
+                frame.t >= start && frame.t <= restFrame.t && frame.visibleLabels === 0,
+            );
+            const labelBehavior = labelHidden ? 'hidden' : 'no-hide';
+            const visibleAfterRest = frames.find(
+              (frame) => frame.t >= restFrame.t && frame.visibleLabels > 0,
+            );
             const paintedFrame =
-              trace.labelVisibleAt === null
-                ? visibleFrame
-                : frames.find((frame) => frame.t >= trace.labelVisibleAt) ?? null;
-            if (restFrame === null || paintedFrame === null) continue;
+              visibleAfterRest === undefined
+                ? null
+                : (frames.find((frame) => frame.t > visibleAfterRest.t) ?? null);
+            if (paintedFrame === null) {
+              console.log(`# invalid ${project} x${cpu} ${kind} run ${run}: paint frame missing`);
+              measured.push({ valid: false, reason: 'paint-missing', labelBehavior });
+              continue;
+            }
             const settleDelay = paintedFrame.t - restFrame.t;
+            if (settleDelay < 0) {
+              console.log(
+                `# invalid ${project} x${cpu} ${kind} run ${run}: negative delay ${round(settleDelay)} ms`,
+              );
+              measured.push({ valid: false, reason: 'negative-delay', labelBehavior });
+              continue;
+            }
 
             const profile = profiled.profile;
             const profileEnd =
@@ -439,28 +487,47 @@ try {
             }
 
             measured.push({
+              valid: true,
               settleDelay,
               taskMs,
               placementMs,
               restMethod,
-              paintMethod: trace.labelVisibleAt === null ? 'already-visible' : 'label-dom',
+              paintMethod: 'effective-label-dom',
+              labelBehavior,
             });
           }
 
-          const delays = measured.map((entry) => entry.settleDelay);
-          const tasks = measured.map((entry) => entry.taskMs);
-          const placements = measured
+          const valid = measured.filter((entry) => entry.valid);
+          const invalid = measured.filter((entry) => !entry.valid);
+          const delays = valid.map((entry) => entry.settleDelay);
+          const tasks = valid.map((entry) => entry.taskMs);
+          const placements = valid
             .map((entry) => entry.placementMs)
             .filter((value) => value !== null);
+          const hiddenRuns = valid.filter((entry) => entry.labelBehavior === 'hidden').length;
+          const noHideRuns = valid.filter((entry) => entry.labelBehavior === 'no-hide').length;
           const cell = {
             project,
             cpu,
             motion: kind,
-            runs: measured.length,
-            restMethods: [...new Set(measured.map((entry) => entry.restMethod))],
-            paintMethods: [...new Set(measured.map((entry) => entry.paintMethod))],
-            settleDelay: { median: round(median(delays)), p95: round(p95(delays)), max: round(Math.max(...delays)) },
-            taskTime: { median: round(median(tasks)), p95: round(p95(tasks)), max: round(Math.max(...tasks)) },
+            runs: valid.length,
+            attempts: measured.length,
+            invalidRuns: invalid.length,
+            invalidReasons: invalid.map((entry) => entry.reason),
+            noHideRuns,
+            restMethods: [...new Set(valid.map((entry) => entry.restMethod))],
+            paintMethods: [...new Set(valid.map((entry) => entry.paintMethod))],
+            settleSamples: delays.map(round),
+            settleDelay: {
+              median: round(median(delays)),
+              p95: round(p95(delays)),
+              max: delays.length === 0 ? null : round(Math.max(...delays)),
+            },
+            taskTime: {
+              median: round(median(tasks)),
+              p95: round(p95(tasks)),
+              max: tasks.length === 0 ? null : round(Math.max(...tasks)),
+            },
             placementSelf: {
               median: round(median(placements)),
               p95: round(p95(placements)),
@@ -469,7 +536,7 @@ try {
           };
           cells.push(cell);
           console.log(
-            `| ${project} | x${cpu} | ${kind} | ${cell.settleDelay.median} / ${cell.settleDelay.p95} / ${cell.settleDelay.max} | ${cell.taskTime.median} / ${cell.taskTime.p95} / ${cell.taskTime.max} | ${placements.length === 0 ? 'n/a' : `${cell.placementSelf.median} / ${cell.placementSelf.p95} / ${cell.placementSelf.max}`} | ${cell.restMethods.join(',')} | ${cell.runs} |`,
+            `| ${project} | x${cpu} | ${kind} | ${cell.settleDelay.median ?? 'n/a'} / ${cell.settleDelay.p95 ?? 'n/a'} / ${cell.settleDelay.max ?? 'n/a'} | ${cell.taskTime.median ?? 'n/a'} / ${cell.taskTime.p95 ?? 'n/a'} / ${cell.taskTime.max ?? 'n/a'} | ${placements.length === 0 ? 'n/a' : `${cell.placementSelf.median} / ${cell.placementSelf.p95} / ${cell.placementSelf.max}`} | ${cell.restMethods.join(',')} | ${noHideRuns === 0 ? 'hidden' : hiddenRuns === 0 ? 'no-hide' : `mixed (${noHideRuns} no-hide)`} | ${cell.invalidRuns} | ${cell.runs}/${cell.attempts} |`,
           );
         }
       } finally {

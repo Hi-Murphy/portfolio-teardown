@@ -1,86 +1,87 @@
-# command: node pause-freeze.mjs <repo> <baseUrl> [--cpu 1,4] [--viewports 1440x900,390x844] | base: <url> | chromium: 156.0.8078.4 | cpu: 1,4 | commit: 8c410f3
+# command: node pause-freeze.mjs <repo> <baseUrl> [--cpu 1,4] [--viewports 1440x900,390x844] | base: <base> | chromium: 156.0.8078.4 | cpu: 1,4 | commit: 8c410f3
 # signals: attributes (pre-S15)
-# explode@50 1440x900 x1: approaching 2445.7 ms active
-# explode@300 1440x900 x1: approaching 5822.3 ms active
-# explode@600 1440x900 x1: approaching 9255 ms active
-# explode@850 1440x900 x1: approaching 12632.9 ms active
-# zoomin-mid 1440x900 x1: approaching 22938.1 ms active
-# capture-mid-step 1440x900 x1: approaching 32053.1 ms active
-# capture-mid-draw 1440x900 x1: approaching 34784.8 ms active
-# inspect-mid-step 1440x900 x1: approaching 51125.8 ms active
-# turn-mid 1440x900 x1: approaching 74411.5 ms active
-# implode-mid 1440x900 x1: approaching 80741.3 ms active
-# explode@50 1440x900 x4: approaching 2725.5 ms active
-# explode@300 1440x900 x4: approaching 6098.9 ms active
-# explode@600 1440x900 x4: approaching 9532.9 ms active
-# explode@850 1440x900 x4: approaching 12908.6 ms active
-# zoomin-mid 1440x900 x4: approaching 23202.2 ms active
-# capture-mid-step 1440x900 x4: approaching 32313.7 ms active
-# capture-mid-draw 1440x900 x4: approaching 35047.5 ms active
-# inspect-mid-step 1440x900 x4: approaching 51386.8 ms active
-# turn-mid 1440x900 x4: approaching 74667.3 ms active
-# implode-mid 1440x900 x4: approaching 80991.5 ms active
-# explode@50 390x844 x1: approaching 2433.9 ms active
-# explode@300 390x844 x1: approaching 5814.5 ms active
-# explode@600 390x844 x1: approaching 9249.9 ms active
-# explode@850 390x844 x1: approaching 12631.7 ms active
-# zoomin-mid 390x844 x1: approaching 22948.4 ms active
-# capture-mid-step 390x844 x1: approaching 32074.5 ms active
-# capture-mid-draw 390x844 x1: approaching 34808.9 ms active
-# inspect-mid-step 390x844 x1: approaching 51151.5 ms active
-# turn-mid 390x844 x1: approaching 74457.7 ms active
-# implode-mid 390x844 x1: approaching 80793.8 ms active
-# explode@50 390x844 x4: approaching 2707.9 ms active
-# explode@300 390x844 x4: approaching 6068.9 ms active
-# explode@600 390x844 x4: approaching 9482.6 ms active
-# explode@850 390x844 x4: approaching 12847.5 ms active
-# zoomin-mid 390x844 x4: approaching 23118.8 ms active
-# capture-mid-step 390x844 x4: approaching 32203.5 ms active
-# capture-mid-draw 390x844 x4: approaching 34920 ms active
-# inspect-mid-step 390x844 x4: approaching 51251.7 ms active
-# turn-mid 390x844 x4: approaching 74496 ms active
-# implode-mid 390x844 x4: approaching 80808.8 ms active
+# visibility: effective opacity (ancestor product)
+# explode@50 1440x900 x1: click at 2447.3 ms, phase explode +53.1 ms (OK)
+# explode@300 1440x900 x1: click at 2678.2 ms, phase explode +301.6 ms (OK)
+# explode@600 1440x900 x1: click at 2978.5 ms, phase explode +603 ms (OK)
+# explode@850 1440x900 x1: click at 3228.1 ms, phase explode +852.7 ms (OK)
+# zoomin-mid 1440x900 x1: click at 7294.9 ms, phase zoomin +319.1 ms (OK)
+# capture-mid-step 1440x900 x1: click at 13260.4 ms, phase capture +814.4 ms (OK)
+# capture-mid-draw 1440x900 x1: click at 17576.1 ms, phase capture +5130.1 ms (OK)
+# inspect-mid-step 1440x900 x1: click at 32310.1 ms, phase inspect +816.3 ms (OK)
+# turn-mid 1440x900 x1: click at 47743.3 ms, phase turn +317.1 ms (OK)
+# implode-mid 1440x900 x1: click at 55693.7 ms, phase implode +320.4 ms (OK)
+# explode@50 1440x900 x4: click at 2733.7 ms, phase explode +57.1 ms (OK)
+# explode@300 1440x900 x4: click at 2958.5 ms, phase explode +300.2 ms (OK)
+# explode@600 1440x900 x4: click at 3256 ms, phase explode +600.3 ms (OK)
+# explode@850 1440x900 x4: click at 3507.4 ms, phase explode +850.7 ms (OK)
+# zoomin-mid 1440x900 x4: click at 7581.5 ms, phase zoomin +322.3 ms (OK)
+# capture-mid-step 1440x900 x4: click at 13532 ms, phase capture +815.7 ms (OK)
+# capture-mid-draw 1440x900 x4: click at 17848.6 ms, phase capture +5132.3 ms (OK)
+# inspect-mid-step 1440x900 x4: click at 32548.3 ms, phase inspect +808.4 ms (OK)
+# turn-mid 1440x900 x4: click at 47983 ms, phase turn +312.5 ms (OK)
+# implode-mid 1440x900 x4: click at 55930.1 ms, phase implode +318.2 ms (OK)
+# explode@50 390x844 x1: click at 2437.4 ms, phase explode +52.4 ms (OK)
+# explode@300 390x844 x1: click at 2670.1 ms, phase explode +302.6 ms (OK)
+# explode@600 390x844 x1: click at 2972.1 ms, phase explode +602.6 ms (OK)
+# explode@850 390x844 x1: click at 3222.5 ms, phase explode +853.7 ms (OK)
+# zoomin-mid 390x844 x1: click at 7295.1 ms, phase zoomin +320.3 ms (OK)
+# capture-mid-step 390x844 x1: click at 13243 ms, phase capture +807.8 ms (OK)
+# capture-mid-draw 390x844 x1: click at 17559.6 ms, phase capture +5124.4 ms (OK)
+# inspect-mid-step 390x844 x1: click at 32276.4 ms, phase inspect +806.5 ms (OK)
+# turn-mid 390x844 x1: click at 47710.9 ms, phase turn +309.6 ms (OK)
+# implode-mid 390x844 x1: click at 55658.4 ms, phase implode +313.5 ms (OK)
+# explode@50 390x844 x4: click at 2707.4 ms, phase explode +50.3 ms (OK)
+# explode@300 390x844 x4: click at 2939.8 ms, phase explode +300.7 ms (OK)
+# explode@600 390x844 x4: click at 3239.9 ms, phase explode +600.1 ms (OK)
+# explode@850 390x844 x4: click at 3473 ms, phase explode +850.6 ms (OK)
+# zoomin-mid 390x844 x4: click at 7545.3 ms, phase zoomin +306.9 ms (OK)
+# capture-mid-step 390x844 x4: click at 13493.1 ms, phase capture +805.7 ms (OK)
+# capture-mid-draw 390x844 x4: click at 19394.7 ms, phase capture +6707.3 ms (OK)
+# inspect-mid-step 390x844 x4: click at 32511.4 ms, phase inspect +810.3 ms (OK)
+# turn-mid 390x844 x4: click at 47928.4 ms, phase turn +305.3 ms (OK)
+# implode-mid 390x844 x4: click at 55859.4 ms, phase implode +304.6 ms (OK)
 
-| point | viewport | cpu | diff px +1f↔+0.5s | diff px +0.5s↔+3s | settles while paused | freeze latency ms | play→settle ms | play→next phase ms | first frame after play diff px |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| explode@50 | 1440x900 | x1 | 64635 | 65143 | 25 | n/a | 4990.9 | 4349.9 | 0 |
-| explode@300 | 1440x900 | x1 | 2437 | 0 | 0 | n/a | n/a | 1571.6 | 0 |
-| explode@600 | 1440x900 | x1 | 0 | 0 | 0 | n/a | 11911.7 | 11911.7 | 8 |
-| explode@850 | 1440x900 | x1 | 190743 | 61089 | 24 | n/a | 2057.1 | 4625.1 | 0 |
-| zoomin-mid | 1440x900 | x1 | 73287 | 5846 | 1 | n/a | 3217.3 | 2020.9 | 0 |
-| capture-mid-step | 1440x900 | x1 | 1886 | 0 | 0 | n/a | 3892.2 | 3254.5 | 0 |
-| capture-mid-draw | 1440x900 | x1 | 2286 | 0 | 0 | n/a | n/a | 1571.8 | 0 |
-| inspect-mid-step | 1440x900 | x1 | 0 | 0 | 0 | n/a | 11908.8 | 11908.9 | 6 |
-| turn-mid | 1440x900 | x1 | 186546 | 60599 | 24 | n/a | 2041 | 4605.7 | 0 |
-| implode-mid | 1440x900 | x1 | 72758 | 5384 | 1 | n/a | 3199.5 | 2018.6 | 0 |
-| explode@50 | 1440x900 | x4 | 55807 | 62470 | 25 | n/a | 4961.6 | 4317 | 0 |
-| explode@300 | 1440x900 | x4 | 2425 | 0 | 0 | n/a | n/a | 1586.6 | 0 |
-| explode@600 | 1440x900 | x4 | 0 | 0 | 0 | n/a | 11944.3 | 11944.3 | 3862 |
-| explode@850 | 1440x900 | x4 | 173568 | 50912 | 24 | n/a | 2080.3 | 4636.9 | 0 |
-| zoomin-mid | 1440x900 | x4 | 76145 | 9784 | 1 | n/a | 3231 | 2046.1 | 0 |
-| capture-mid-step | 1440x900 | x4 | 1886 | 0 | 0 | n/a | 3892.1 | 3261.4 | 0 |
-| capture-mid-draw | 1440x900 | x4 | 2283 | 0 | 0 | n/a | n/a | 1582.4 | 0 |
-| inspect-mid-step | 1440x900 | x4 | 0 | 0 | 0 | n/a | 11910.3 | 11910.3 | 5 |
-| turn-mid | 1440x900 | x4 | 171507 | 61089 | 24 | n/a | 2059.1 | 4618.2 | 0 |
-| implode-mid | 1440x900 | x4 | 72470 | 8538 | 1 | n/a | 3214.1 | 2027.1 | 0 |
-| explode@50 | 390x844 | x1 | 9567 | 13432 | 24 | n/a | 4989 | 4360.7 | 0 |
-| explode@300 | 390x844 | x1 | 7852 | 0 | 0 | n/a | n/a | 1668.4 | 0 |
-| explode@600 | 390x844 | x1 | 0 | 0 | 0 | n/a | 12118.5 | 12118.6 | 929 |
-| explode@850 | 390x844 | x1 | 22333 | 11414 | 23 | n/a | 2173.7 | 4737.8 | 0 |
-| zoomin-mid | 390x844 | x1 | 10926 | 1503 | 1 | n/a | 3296.5 | 2106 | 0 |
-| capture-mid-step | 390x844 | x1 | 9813 | 0 | 0 | n/a | 3953.8 | 3329 | 0 |
-| capture-mid-draw | 390x844 | x1 | 1590 | 0 | 0 | n/a | n/a | 1650.9 | 0 |
-| inspect-mid-step | 390x844 | x1 | 0 | 0 | 0 | n/a | 12089.3 | 12089.3 | 928 |
-| turn-mid | 390x844 | x1 | 31043 | 11332 | 23 | n/a | 2139.1 | 4712.3 | 0 |
-| implode-mid | 390x844 | x1 | 10939 | 1626 | 1 | n/a | 3297.5 | 2114.6 | 0 |
-| explode@50 | 390x844 | x4 | 9637 | 13455 | 24 | n/a | 4992 | 4356.9 | 0 |
-| explode@300 | 390x844 | x4 | 7847 | 0 | 0 | n/a | n/a | 1659.1 | 0 |
-| explode@600 | 390x844 | x4 | 0 | 0 | 0 | n/a | 12124.1 | 12124.1 | 929 |
-| explode@850 | 390x844 | x4 | 22293 | 11414 | 23 | n/a | 2171.8 | 4737.6 | 0 |
-| zoomin-mid | 390x844 | x4 | 10991 | 1730 | 1 | n/a | 3313.2 | 2118.2 | 0 |
-| capture-mid-step | 390x844 | x4 | 9813 | 0 | 0 | n/a | 3954.8 | 3321.2 | 0 |
-| capture-mid-draw | 390x844 | x4 | 1797 | 0 | 0 | n/a | n/a | 1640.4 | 0 |
-| inspect-mid-step | 390x844 | x4 | 0 | 0 | 0 | n/a | 12087.8 | 12087.9 | 928 |
-| turn-mid | 390x844 | x4 | 30953 | 11366 | 23 | n/a | 2153.8 | 4716.6 | 0 |
-| implode-mid | 390x844 | x4 | 10953 | 1689 | 1 | n/a | 3316.1 | 2115.9 | 0 |
-SUMMARY_JSON [{"point":"explode@50","viewport":"1440x900","cpu":1,"diffP1fP05":64635,"diffP05P3":65143,"settlesWhilePaused":25,"freezeLatencyMs":"n/a","playToSettleMs":4990.9,"playToNextPhaseMs":4349.9,"firstFrameAfterPlayDiff":0},{"point":"explode@300","viewport":"1440x900","cpu":1,"diffP1fP05":2437,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1571.6,"firstFrameAfterPlayDiff":0},{"point":"explode@600","viewport":"1440x900","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":11911.7,"playToNextPhaseMs":11911.7,"firstFrameAfterPlayDiff":8},{"point":"explode@850","viewport":"1440x900","cpu":1,"diffP1fP05":190743,"diffP05P3":61089,"settlesWhilePaused":24,"freezeLatencyMs":"n/a","playToSettleMs":2057.1,"playToNextPhaseMs":4625.1,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","viewport":"1440x900","cpu":1,"diffP1fP05":73287,"diffP05P3":5846,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3217.3,"playToNextPhaseMs":2020.9,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","viewport":"1440x900","cpu":1,"diffP1fP05":1886,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":3892.2,"playToNextPhaseMs":3254.5,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-draw","viewport":"1440x900","cpu":1,"diffP1fP05":2286,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1571.8,"firstFrameAfterPlayDiff":0},{"point":"inspect-mid-step","viewport":"1440x900","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":11908.8,"playToNextPhaseMs":11908.9,"firstFrameAfterPlayDiff":6},{"point":"turn-mid","viewport":"1440x900","cpu":1,"diffP1fP05":186546,"diffP05P3":60599,"settlesWhilePaused":24,"freezeLatencyMs":"n/a","playToSettleMs":2041,"playToNextPhaseMs":4605.7,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","viewport":"1440x900","cpu":1,"diffP1fP05":72758,"diffP05P3":5384,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3199.5,"playToNextPhaseMs":2018.6,"firstFrameAfterPlayDiff":0},{"point":"explode@50","viewport":"1440x900","cpu":4,"diffP1fP05":55807,"diffP05P3":62470,"settlesWhilePaused":25,"freezeLatencyMs":"n/a","playToSettleMs":4961.6,"playToNextPhaseMs":4317,"firstFrameAfterPlayDiff":0},{"point":"explode@300","viewport":"1440x900","cpu":4,"diffP1fP05":2425,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1586.6,"firstFrameAfterPlayDiff":0},{"point":"explode@600","viewport":"1440x900","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":11944.3,"playToNextPhaseMs":11944.3,"firstFrameAfterPlayDiff":3862},{"point":"explode@850","viewport":"1440x900","cpu":4,"diffP1fP05":173568,"diffP05P3":50912,"settlesWhilePaused":24,"freezeLatencyMs":"n/a","playToSettleMs":2080.3,"playToNextPhaseMs":4636.9,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","viewport":"1440x900","cpu":4,"diffP1fP05":76145,"diffP05P3":9784,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3231,"playToNextPhaseMs":2046.1,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","viewport":"1440x900","cpu":4,"diffP1fP05":1886,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":3892.1,"playToNextPhaseMs":3261.4,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-draw","viewport":"1440x900","cpu":4,"diffP1fP05":2283,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1582.4,"firstFrameAfterPlayDiff":0},{"point":"inspect-mid-step","viewport":"1440x900","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":11910.3,"playToNextPhaseMs":11910.3,"firstFrameAfterPlayDiff":5},{"point":"turn-mid","viewport":"1440x900","cpu":4,"diffP1fP05":171507,"diffP05P3":61089,"settlesWhilePaused":24,"freezeLatencyMs":"n/a","playToSettleMs":2059.1,"playToNextPhaseMs":4618.2,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","viewport":"1440x900","cpu":4,"diffP1fP05":72470,"diffP05P3":8538,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3214.1,"playToNextPhaseMs":2027.1,"firstFrameAfterPlayDiff":0},{"point":"explode@50","viewport":"390x844","cpu":1,"diffP1fP05":9567,"diffP05P3":13432,"settlesWhilePaused":24,"freezeLatencyMs":"n/a","playToSettleMs":4989,"playToNextPhaseMs":4360.7,"firstFrameAfterPlayDiff":0},{"point":"explode@300","viewport":"390x844","cpu":1,"diffP1fP05":7852,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1668.4,"firstFrameAfterPlayDiff":0},{"point":"explode@600","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":12118.5,"playToNextPhaseMs":12118.6,"firstFrameAfterPlayDiff":929},{"point":"explode@850","viewport":"390x844","cpu":1,"diffP1fP05":22333,"diffP05P3":11414,"settlesWhilePaused":23,"freezeLatencyMs":"n/a","playToSettleMs":2173.7,"playToNextPhaseMs":4737.8,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","viewport":"390x844","cpu":1,"diffP1fP05":10926,"diffP05P3":1503,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3296.5,"playToNextPhaseMs":2106,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","viewport":"390x844","cpu":1,"diffP1fP05":9813,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":3953.8,"playToNextPhaseMs":3329,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-draw","viewport":"390x844","cpu":1,"diffP1fP05":1590,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1650.9,"firstFrameAfterPlayDiff":0},{"point":"inspect-mid-step","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":12089.3,"playToNextPhaseMs":12089.3,"firstFrameAfterPlayDiff":928},{"point":"turn-mid","viewport":"390x844","cpu":1,"diffP1fP05":31043,"diffP05P3":11332,"settlesWhilePaused":23,"freezeLatencyMs":"n/a","playToSettleMs":2139.1,"playToNextPhaseMs":4712.3,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","viewport":"390x844","cpu":1,"diffP1fP05":10939,"diffP05P3":1626,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3297.5,"playToNextPhaseMs":2114.6,"firstFrameAfterPlayDiff":0},{"point":"explode@50","viewport":"390x844","cpu":4,"diffP1fP05":9637,"diffP05P3":13455,"settlesWhilePaused":24,"freezeLatencyMs":"n/a","playToSettleMs":4992,"playToNextPhaseMs":4356.9,"firstFrameAfterPlayDiff":0},{"point":"explode@300","viewport":"390x844","cpu":4,"diffP1fP05":7847,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1659.1,"firstFrameAfterPlayDiff":0},{"point":"explode@600","viewport":"390x844","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":12124.1,"playToNextPhaseMs":12124.1,"firstFrameAfterPlayDiff":929},{"point":"explode@850","viewport":"390x844","cpu":4,"diffP1fP05":22293,"diffP05P3":11414,"settlesWhilePaused":23,"freezeLatencyMs":"n/a","playToSettleMs":2171.8,"playToNextPhaseMs":4737.6,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","viewport":"390x844","cpu":4,"diffP1fP05":10991,"diffP05P3":1730,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3313.2,"playToNextPhaseMs":2118.2,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","viewport":"390x844","cpu":4,"diffP1fP05":9813,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":3954.8,"playToNextPhaseMs":3321.2,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-draw","viewport":"390x844","cpu":4,"diffP1fP05":1797,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1640.4,"firstFrameAfterPlayDiff":0},{"point":"inspect-mid-step","viewport":"390x844","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":12087.8,"playToNextPhaseMs":12087.9,"firstFrameAfterPlayDiff":928},{"point":"turn-mid","viewport":"390x844","cpu":4,"diffP1fP05":30953,"diffP05P3":11366,"settlesWhilePaused":23,"freezeLatencyMs":"n/a","playToSettleMs":2153.8,"playToNextPhaseMs":4716.6,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","viewport":"390x844","cpu":4,"diffP1fP05":10953,"diffP05P3":1689,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":3316.1,"playToNextPhaseMs":2115.9,"firstFrameAfterPlayDiff":0}]
+| point | phase at click | ms since phase start | status | viewport | cpu | diff px +1f↔+0.5s | diff px +0.5s↔+3s | settles while paused | freeze latency ms | play→settle ms | play→next phase ms | first frame after play diff px |
+|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| explode@50 | explode | 53.1 | OK | 1440x900 | x1 | 74046 | 81221 | 2 | n/a | 5228.5 | 4549.7 | 0 |
+| explode@300 | explode | 301.6 | OK | 1440x900 | x1 | 59189 | 59637 | 2 | n/a | 4979.2 | 4301.1 | 0 |
+| explode@600 | explode | 603 | OK | 1440x900 | x1 | 22211 | 51392 | 2 | n/a | 4665.3 | 3996.6 | 0 |
+| explode@850 | explode | 852.7 | OK | 1440x900 | x1 | 56279 | 1888 | 2 | n/a | 4431.9 | 3749.4 | 0 |
+| zoomin-mid | zoomin | 319.1 | OK | 1440x900 | x1 | 88368 | 0 | 1 | n/a | 37029.2 | 2036.8 | 0 |
+| capture-mid-step | capture | 814.4 | OK | 1440x900 | x1 | 0 | 0 | 0 | n/a | 31061.3 | 15116.7 | 4528 |
+| capture-mid-draw | capture | 5130.1 | OK | 1440x900 | x1 | 2871 | 0 | 0 | n/a | 26741 | 10796.4 | 6742 |
+| inspect-mid-step | inspect | 816.3 | OK | 1440x900 | x1 | 0 | 0 | 0 | n/a | 11999.7 | 11987.5 | 5318 |
+| turn-mid | turn | 317.1 | OK | 1440x900 | x1 | 118706 | 0 | 1 | n/a | 1953.3 | 4489.7 | 0 |
+| implode-mid | implode | 320.4 | OK | 1440x900 | x1 | 47584 | 5241 | 1 | n/a | n/a | 1880.6 | 0 |
+| explode@50 | explode | 57.1 | OK | 1440x900 | x4 | 74248 | 81017 | 2 | n/a | 5206.1 | 4540.9 | 0 |
+| explode@300 | explode | 300.2 | OK | 1440x900 | x4 | 55543 | 61179 | 2 | n/a | 4958.7 | 4298 | 0 |
+| explode@600 | explode | 600.3 | OK | 1440x900 | x4 | 21753 | 51392 | 2 | n/a | 4655.4 | 3999.7 | 0 |
+| explode@850 | explode | 850.7 | OK | 1440x900 | x4 | 54727 | 1888 | 2 | n/a | 4405.5 | 3748.7 | 0 |
+| zoomin-mid | zoomin | 322.3 | OK | 1440x900 | x4 | 64306 | 0 | 1 | n/a | 36988.7 | 2030.8 | 0 |
+| capture-mid-step | capture | 815.7 | OK | 1440x900 | x4 | 0 | 0 | 0 | n/a | 31033.1 | 15098.8 | 4515 |
+| capture-mid-draw | capture | 5132.3 | OK | 1440x900 | x4 | 2871 | 0 | 0 | n/a | 26712.9 | 10778.6 | 6742 |
+| inspect-mid-step | inspect | 808.4 | OK | 1440x900 | x4 | 0 | 0 | 0 | n/a | 12000.1 | 11996.4 | 5342 |
+| turn-mid | turn | 312.5 | OK | 1440x900 | x4 | 88536 | 0 | 1 | n/a | 1953.1 | 4491 | 0 |
+| implode-mid | implode | 318.2 | OK | 1440x900 | x4 | 40664 | 5241 | 1 | n/a | n/a | 1882 | 0 |
+| explode@50 | explode | 52.4 | OK | 390x844 | x1 | 10608 | 16064 | 2 | n/a | 5210.9 | 4549.1 | 0 |
+| explode@300 | explode | 302.6 | OK | 390x844 | x1 | 9117 | 12626 | 2 | n/a | 4960.7 | 4298.1 | 0 |
+| explode@600 | explode | 602.6 | OK | 390x844 | x1 | 3637 | 11414 | 2 | n/a | 4657.5 | 3996.3 | 0 |
+| explode@850 | explode | 853.7 | OK | 390x844 | x1 | 12125 | 5247 | 2 | n/a | 4410 | 3745.4 | 0 |
+| zoomin-mid | zoomin | 320.3 | OK | 390x844 | x1 | 15519 | 0 | 1 | n/a | 37003.8 | 2032.9 | 0 |
+| capture-mid-step | capture | 807.8 | OK | 390x844 | x1 | 0 | 0 | 0 | n/a | 31049.1 | 15112.9 | 794 |
+| capture-mid-draw | capture | 5124.4 | OK | 390x844 | x1 | 0 | 0 | 0 | n/a | 26729.9 | 10793.7 | 890 |
+| inspect-mid-step | inspect | 806.5 | OK | 390x844 | x1 | 0 | 0 | 0 | n/a | 12004.1 | 11999.3 | 903 |
+| turn-mid | turn | 309.6 | OK | 390x844 | x1 | 21212 | 0 | 1 | n/a | 1956.7 | 4496.4 | 0 |
+| implode-mid | implode | 313.5 | OK | 390x844 | x1 | 5541 | 0 | 1 | n/a | n/a | 1886.1 | 0 |
+| explode@50 | explode | 50.3 | OK | 390x844 | x4 | 10624 | 16082 | 2 | n/a | 5204.8 | 4548.8 | 0 |
+| explode@300 | explode | 300.7 | OK | 390x844 | x4 | 8859 | 12636 | 2 | n/a | 4956.8 | 4299.2 | 0 |
+| explode@600 | explode | 600.1 | OK | 390x844 | x4 | 3672 | 11414 | 2 | n/a | 4653.9 | 4000.1 | 0 |
+| explode@850 | explode | 850.6 | OK | 390x844 | x4 | 12125 | 5247 | 2 | n/a | 4405.1 | 3748.8 | 0 |
+| zoomin-mid | zoomin | 306.9 | OK | 390x844 | x4 | 15983 | 0 | 1 | n/a | 36986.3 | 2047.1 | 0 |
+| capture-mid-step | capture | 805.7 | OK | 390x844 | x4 | 0 | 0 | 0 | n/a | 31032.5 | 15107 | 799 |
+| capture-mid-draw | capture | 6707.3 | OK | 390x844 | x4 | 0 | 0 | 0 | n/a | 25126.5 | 9201 | 11930 |
+| inspect-mid-step | inspect | 810.3 | OK | 390x844 | x4 | 0 | 0 | 0 | n/a | 11995.8 | 11992.3 | 900 |
+| turn-mid | turn | 305.3 | OK | 390x844 | x4 | 20477 | 0 | 1 | n/a | 1950.6 | 4496.6 | 0 |
+| implode-mid | implode | 304.6 | OK | 390x844 | x4 | 5710 | 0 | 1 | n/a | n/a | 1894.3 | 0 |
+SUMMARY_JSON [{"point":"explode@50","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":53.1,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":74046,"diffP05P3":81221,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":5228.5,"playToNextPhaseMs":4549.7,"firstFrameAfterPlayDiff":0},{"point":"explode@300","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":301.6,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":59189,"diffP05P3":59637,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4979.2,"playToNextPhaseMs":4301.1,"firstFrameAfterPlayDiff":0},{"point":"explode@600","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":603,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":22211,"diffP05P3":51392,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4665.3,"playToNextPhaseMs":3996.6,"firstFrameAfterPlayDiff":0},{"point":"explode@850","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":852.7,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":56279,"diffP05P3":1888,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4431.9,"playToNextPhaseMs":3749.4,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","intendedPhase":"zoomin","phaseAtClick":"zoomin","msSincePhaseStart":319.1,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":88368,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":37029.2,"playToNextPhaseMs":2036.8,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":814.4,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":31061.3,"playToNextPhaseMs":15116.7,"firstFrameAfterPlayDiff":4528},{"point":"capture-mid-draw","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":5130.1,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":2871,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":26741,"playToNextPhaseMs":10796.4,"firstFrameAfterPlayDiff":6742},{"point":"inspect-mid-step","intendedPhase":"inspect","phaseAtClick":"inspect","msSincePhaseStart":816.3,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":11999.7,"playToNextPhaseMs":11987.5,"firstFrameAfterPlayDiff":5318},{"point":"turn-mid","intendedPhase":"turn","phaseAtClick":"turn","msSincePhaseStart":317.1,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":118706,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":1953.3,"playToNextPhaseMs":4489.7,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","intendedPhase":"implode","phaseAtClick":"implode","msSincePhaseStart":320.4,"status":"OK","viewport":"1440x900","cpu":1,"diffP1fP05":47584,"diffP05P3":5241,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1880.6,"firstFrameAfterPlayDiff":0},{"point":"explode@50","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":57.1,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":74248,"diffP05P3":81017,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":5206.1,"playToNextPhaseMs":4540.9,"firstFrameAfterPlayDiff":0},{"point":"explode@300","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":300.2,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":55543,"diffP05P3":61179,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4958.7,"playToNextPhaseMs":4298,"firstFrameAfterPlayDiff":0},{"point":"explode@600","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":600.3,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":21753,"diffP05P3":51392,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4655.4,"playToNextPhaseMs":3999.7,"firstFrameAfterPlayDiff":0},{"point":"explode@850","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":850.7,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":54727,"diffP05P3":1888,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4405.5,"playToNextPhaseMs":3748.7,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","intendedPhase":"zoomin","phaseAtClick":"zoomin","msSincePhaseStart":322.3,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":64306,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":36988.7,"playToNextPhaseMs":2030.8,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":815.7,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":31033.1,"playToNextPhaseMs":15098.8,"firstFrameAfterPlayDiff":4515},{"point":"capture-mid-draw","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":5132.3,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":2871,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":26712.9,"playToNextPhaseMs":10778.6,"firstFrameAfterPlayDiff":6742},{"point":"inspect-mid-step","intendedPhase":"inspect","phaseAtClick":"inspect","msSincePhaseStart":808.4,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":12000.1,"playToNextPhaseMs":11996.4,"firstFrameAfterPlayDiff":5342},{"point":"turn-mid","intendedPhase":"turn","phaseAtClick":"turn","msSincePhaseStart":312.5,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":88536,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":1953.1,"playToNextPhaseMs":4491,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","intendedPhase":"implode","phaseAtClick":"implode","msSincePhaseStart":318.2,"status":"OK","viewport":"1440x900","cpu":4,"diffP1fP05":40664,"diffP05P3":5241,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1882,"firstFrameAfterPlayDiff":0},{"point":"explode@50","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":52.4,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":10608,"diffP05P3":16064,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":5210.9,"playToNextPhaseMs":4549.1,"firstFrameAfterPlayDiff":0},{"point":"explode@300","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":302.6,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":9117,"diffP05P3":12626,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4960.7,"playToNextPhaseMs":4298.1,"firstFrameAfterPlayDiff":0},{"point":"explode@600","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":602.6,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":3637,"diffP05P3":11414,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4657.5,"playToNextPhaseMs":3996.3,"firstFrameAfterPlayDiff":0},{"point":"explode@850","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":853.7,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":12125,"diffP05P3":5247,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4410,"playToNextPhaseMs":3745.4,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","intendedPhase":"zoomin","phaseAtClick":"zoomin","msSincePhaseStart":320.3,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":15519,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":37003.8,"playToNextPhaseMs":2032.9,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":807.8,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":31049.1,"playToNextPhaseMs":15112.9,"firstFrameAfterPlayDiff":794},{"point":"capture-mid-draw","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":5124.4,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":26729.9,"playToNextPhaseMs":10793.7,"firstFrameAfterPlayDiff":890},{"point":"inspect-mid-step","intendedPhase":"inspect","phaseAtClick":"inspect","msSincePhaseStart":806.5,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":12004.1,"playToNextPhaseMs":11999.3,"firstFrameAfterPlayDiff":903},{"point":"turn-mid","intendedPhase":"turn","phaseAtClick":"turn","msSincePhaseStart":309.6,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":21212,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":1956.7,"playToNextPhaseMs":4496.4,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","intendedPhase":"implode","phaseAtClick":"implode","msSincePhaseStart":313.5,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":5541,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1886.1,"firstFrameAfterPlayDiff":0},{"point":"explode@50","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":50.3,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":10624,"diffP05P3":16082,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":5204.8,"playToNextPhaseMs":4548.8,"firstFrameAfterPlayDiff":0},{"point":"explode@300","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":300.7,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":8859,"diffP05P3":12636,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4956.8,"playToNextPhaseMs":4299.2,"firstFrameAfterPlayDiff":0},{"point":"explode@600","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":600.1,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":3672,"diffP05P3":11414,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4653.9,"playToNextPhaseMs":4000.1,"firstFrameAfterPlayDiff":0},{"point":"explode@850","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":850.6,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":12125,"diffP05P3":5247,"settlesWhilePaused":2,"freezeLatencyMs":"n/a","playToSettleMs":4405.1,"playToNextPhaseMs":3748.8,"firstFrameAfterPlayDiff":0},{"point":"zoomin-mid","intendedPhase":"zoomin","phaseAtClick":"zoomin","msSincePhaseStart":306.9,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":15983,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":36986.3,"playToNextPhaseMs":2047.1,"firstFrameAfterPlayDiff":0},{"point":"capture-mid-step","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":805.7,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":31032.5,"playToNextPhaseMs":15107,"firstFrameAfterPlayDiff":799},{"point":"capture-mid-draw","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":6707.3,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":25126.5,"playToNextPhaseMs":9201,"firstFrameAfterPlayDiff":11930},{"point":"inspect-mid-step","intendedPhase":"inspect","phaseAtClick":"inspect","msSincePhaseStart":810.3,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":"n/a","playToSettleMs":11995.8,"playToNextPhaseMs":11992.3,"firstFrameAfterPlayDiff":900},{"point":"turn-mid","intendedPhase":"turn","phaseAtClick":"turn","msSincePhaseStart":305.3,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":20477,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":1950.6,"playToNextPhaseMs":4496.6,"firstFrameAfterPlayDiff":0},{"point":"implode-mid","intendedPhase":"implode","phaseAtClick":"implode","msSincePhaseStart":304.6,"status":"OK","viewport":"390x844","cpu":4,"diffP1fP05":5710,"diffP05P3":0,"settlesWhilePaused":1,"freezeLatencyMs":"n/a","playToSettleMs":"n/a","playToNextPhaseMs":1894.3,"firstFrameAfterPlayDiff":0}]
