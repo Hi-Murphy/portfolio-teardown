@@ -1,0 +1,10 @@
+# command: node .specify/features/engine-timing/diag/label-frames.mjs <repo> <base> 4 turn | build: T011 head 340486c (apps/web/out) | chromium 156 | CPU x4 | 1440x900 | times = performance.now() at the frame read, relative to the data-hero-phase change
+# reading: at the turn phase start the tour stops and the zoom-out starts in one React update; the dimension note + lettering are visible for one frame, then hidden by the projector's moving on the next 3D frame (R14)
+  -35.8 inspect label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.953125
+  -19.5 inspect label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.953125
+    0.0 turn    label=  1 [dimension] lettering=shown letter=shown layer=0 camZoom=1.953125
+   14.1 turn    label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.9531061526151918
+   30.7 turn    label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.9526679970735448
+   47.4 turn    label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.9513098937001359
+   64.1 turn    label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.9488599946082015
+   81.1 turn    label=  0 [] lettering=hidden letter=hidden layer=0 camZoom=1.9452144199854924

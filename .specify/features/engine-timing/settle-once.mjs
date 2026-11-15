@@ -99,7 +99,11 @@ function installTrace() {
   window.__s15EffectiveVisibleCount = () =>
     [...document.querySelectorAll(labelSelector)].filter(effectiveVisible).length;
 
-  const frame = (t) => {
+  // Frame time = when this frame's DOM was read (performance.now), not the rAF vsync timestamp:
+  // under CPU throttling or a screenshot round-trip the rAF timestamp can predate the DOM state it
+  // sees by more than a frame, which would put a reveal that happened after a tween's end inside it.
+  const frame = () => {
+    const t = performance.now();
     const viewer = document.querySelector('[data-xploder-ready="true"]');
     trace.frames.push({
       t,
