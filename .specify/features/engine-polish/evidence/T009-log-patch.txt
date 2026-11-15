@@ -1,0 +1,5 @@
+# T009 patch grep — grep -c new THREE.*Clock() on three R3F dist builds — commit a070122
+node_modules/.pnpm/@react-three+fiber@9.8.2_patch_hash=63d316583ee86547da5110b2d8832ff2930b35c1f0992f2376f_0c8b248777c0af0eaddf593d8e605a20/node_modules/@react-three/fiber/dist/events-0dab3c53.cjs.dev.js:0
+node_modules/.pnpm/@react-three+fiber@9.8.2_patch_hash=63d316583ee86547da5110b2d8832ff2930b35c1f0992f2376f_0c8b248777c0af0eaddf593d8e605a20/node_modules/@react-three/fiber/dist/events-98e95d43.cjs.prod.js:0
+node_modules/.pnpm/@react-three+fiber@9.8.2_patch_hash=63d316583ee86547da5110b2d8832ff2930b35c1f0992f2376f_0c8b248777c0af0eaddf593d8e605a20/node_modules/@react-three/fiber/dist/events-e51d7528.esm.js:0
+# grep exit 1 (1 means zero matches)
