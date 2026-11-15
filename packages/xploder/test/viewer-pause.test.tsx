@@ -121,15 +121,18 @@ describe('whole-scene pause', () => {
 
       await run(() => current().actions.pause());
       expect(current().paused).toBe(true);
+      expect(current().tour.status).toBe('paused');
 
       const frozenAt = clock.now();
 
       await advance(clock, PAUSED_HOST_SECONDS);
       expect(current().tour.step).toBe(0);
+      expect(current().tour.status).toBe('paused');
       expect(clock.now()).toBeCloseTo(frozenAt, 9);
 
       await run(() => current().actions.resume());
       expect(current().paused).toBe(false);
+      expect(current().tour.status).toBe('playing');
 
       await advance(clock, halfBeat - CLOCK_TOLERANCE_SECONDS);
       expect(current().tour.step).toBe(0);
@@ -217,6 +220,64 @@ describe('whole-scene pause', () => {
 
       expect(current().target).toBe('exploded');
       expect(current().paused).toBe(true);
+    } finally {
+      await renderer.unmount();
+    }
+  });
+
+  test('pause while the tour is idle leaves it idle and resume does not start it', async () => {
+    const beat = motion.durations.tourBeat;
+    const clock = createFakeClock();
+    const { renderer, current } = await mount(threeStepProject, clock);
+
+    try {
+      expect(current().tour.status).toBe('idle');
+
+      await run(() => current().actions.pause());
+      expect(current().paused).toBe(true);
+      expect(current().tour.status).toBe('idle');
+
+      await advance(clock, PAUSED_HOST_SECONDS);
+      expect(current().tour.status).toBe('idle');
+
+      await run(() => current().actions.resume());
+      expect(current().paused).toBe(false);
+      expect(current().tour.status).toBe('idle');
+
+      await advance(clock, beat);
+      expect(current().tour.status).toBe('idle');
+      expect(current().tour.step).toBe(-1);
+    } finally {
+      await renderer.unmount();
+    }
+  });
+
+  test('play resumes the clock and the tour after a whole-scene pause', async () => {
+    const beat = motion.durations.tourBeat;
+    const halfBeat = beat / 2;
+    const clock = createFakeClock();
+    const { renderer, current } = await mount(threeStepProject, clock);
+
+    try {
+      await run(() => current().actions.play());
+      await advance(clock, halfBeat);
+      await run(() => current().actions.pause());
+
+      expect(current().paused).toBe(true);
+      expect(current().tour.status).toBe('paused');
+
+      await advance(clock, PAUSED_HOST_SECONDS);
+      await run(() => current().actions.play());
+
+      expect(current().paused).toBe(false);
+      expect(current().tour.status).toBe('playing');
+
+      await advance(clock, halfBeat - CLOCK_TOLERANCE_SECONDS);
+      expect(current().tour.step).toBe(0);
+
+      await advance(clock, CLOCK_TOLERANCE_SECONDS);
+      expect(current().tour.step).toBe(1);
+      expect(clock.now()).toBeCloseTo(beat, 9);
     } finally {
       await renderer.unmount();
     }

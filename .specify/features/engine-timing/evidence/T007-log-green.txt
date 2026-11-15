@@ -1,0 +1,181 @@
+
+# command: pnpm --filter xploder exec vitest run test/viewer-pause.test.tsx test/viewer-panels.test.tsx test/panel-tour-click.test.ts --reporter verbose | base commit: 960cc57 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:52930) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52929) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > fixture A exposes the expected live-update path 1ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + null 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the first occurrence before playback starts 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the next occurrence after the current step 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > wraps to the first occurrence when no later occurrence exists 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > returns null when the component is absent 0ms
+ ✓ test/panel-tour-click.test.ts > jumpSequence > stops, steps to the target, and resumes only when requested 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while playing lands on the target step and keeps playing 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while paused lands on the target step and stays paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping from ended returns to the first step, paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > pause then play resumes from the current step 0ms
+ ✓ test/viewer-pause.test.tsx > whole-scene pause > pause freezes the pending tour boundary and resume continues it exactly 11ms
+ ✓ test/viewer-pause.test.tsx > whole-scene pause > pauseTour pauses only the tour and play resumes it 2ms
+ ✓ test/viewer-pause.test.tsx > whole-scene pause > pause and resume are idempotent and paused re-renders on transition 1ms
+ ✓ test/viewer-pause.test.tsx > whole-scene pause > a command while paused is accepted without resuming the scene 1ms
+ ✓ test/viewer-pause.test.tsx > whole-scene pause > pause while the tour is idle leaves it idle and resume does not start it 2ms
+ ✓ test/viewer-pause.test.tsx > whole-scene pause > play resumes the clock and the tour after a whole-scene pause 1ms
+ ✓ test/viewer-panels.test.tsx > useViewerPanels > opens details, toggles the case study twice, and closes through the public actions 10ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while playing jumps there and keeps playing 3ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while paused jumps there and stays paused 1ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking outside the flow pauses, opens the detail, and Play resumes the same step 1ms
+ ✓ test/viewer-panels.test.tsx > pickAt > matches the S5 picker on 20 seeded rays through the real camera 6ms
+
+ Test Files  3 passed (3)
+      Tests  33 passed (33)
+   Start at  14:49:05
+   Duration  183ms (import 64%, transform 17%, tests 16%, worker 2%)
+
+
+# command: pnpm --filter web exec vitest run test/xploder-dom test/home-hero-loop.test.tsx --reporter verbose | base commit: 960cc57 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:52959) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52960) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52957) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52955) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52958) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > holds the exploded and zoomed views before starting capture 22ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause pauses the tour and follow; resume replays both 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during implode resumes after the remaining step time 2ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-explode resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during zoom settle resumes after the remaining step time 4ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during the capture tour keeps the existing resume behavior 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during a tour-end hold resumes after the remaining hold time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > repeated pauses accumulate elapsed time within the same step 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause in the last millisecond resumes after the remaining millisecond 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume clamps elapsed time to zero when the clock has passed the deadline 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume advances an ended tour instead of replaying that flow 1ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs implode → explode → zoom → capture and narrates the first component 25ms
+ ✓ test/xploder-dom/a11y-navigator.dom.test.tsx > rovings through items, activates, bubbles other keys and rings only after focus 108ms
+ ✓ test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock 43ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again 40ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > pauses and resumes from the button, hidden tab, and off-screen observer 10ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > a user pause wins over automatic resumes 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues 17ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge 15ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > watches only while running and visible, and leaves on-time steps alone 28ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > never mounts the stage or storyboard under reduced motion 3ms
+ ✓ test/xploder-dom/a11y-live-region.dom.test.tsx > keeps one live region mounted and announces tour steps on the same node 48ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 51ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 11ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 68ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 8ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both 52ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected 10ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > closing A with the pointer elsewhere clears both 31ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle 8ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted 8ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted 8ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > opening A while it is hovered keeps the highlight immediately 6ms
+
+ Test Files  7 passed (7)
+      Tests  35 passed (35)
+   Start at  14:49:05
+   Duration  867ms (environment 60%, import 16%, tests 13%, transform 10%)
+
+
+# command: pnpm --filter xploder exec vitest run test/viewer-panels.test.tsx test/panel-tour-click.test.ts test/viewer-handle.test.tsx test/tour-clock-boundary.test.ts test/tour-clock.test.ts --reporter verbose | base commit: 960cc57 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:52986) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52983) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52984) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:52985) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > fixture A exposes the expected live-update path 1ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-repository 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + tide-cache 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > idle + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > playing + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > paused + null 0ms
+ ✓ test/panel-tour-click.test.ts > resolveSlabClick > ended + null 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the first occurrence before playback starts 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > finds the next occurrence after the current step 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > wraps to the first occurrence when no later occurrence exists 0ms
+ ✓ test/panel-tour-click.test.ts > stepForComponent > returns null when the component is absent 0ms
+ ✓ test/panel-tour-click.test.ts > jumpSequence > stops, steps to the target, and resumes only when requested 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while playing lands on the target step and keeps playing 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping while paused lands on the target step and stays paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > jumping from ended returns to the first step, paused 0ms
+ ✓ test/panel-tour-click.test.ts > jump sequence with the sealed tour reducer > pause then play resumes from the current step 0ms
+ ✓ test/tour-clock.test.tsx > useTourClock > advances through every beat when the clock lags the timer 16ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires just before the boundary 12ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires on time 3ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > advances intermediate steps at the same beats 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > play auto-explodes and starts the first flow 14ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > plays, pauses, resumes, and stops 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > keeps focus stored but suspended during the tour, then restores it on stop 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > Escape stops the tour first, then releases focus, and ignores prevented events 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > a slug change resets highlight, focus, and tour 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > selectFlow stops a playing tour and selects the new flow in idle 1ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > ignores unknown component, layer, and flow ids 1ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > advances at the base tourBeat under the reduced-motion twin 1ms
+ ✓ test/viewer-panels.test.tsx > useViewerPanels > opens details, toggles the case study twice, and closes through the public actions 10ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while playing jumps there and keeps playing 3ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while paused jumps there and stays paused 1ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking outside the flow pauses, opens the detail, and Play resumes the same step 1ms
+ ✓ test/viewer-panels.test.tsx > pickAt > matches the S5 picker on 20 seeded rays through the real camera 6ms
+
+ Test Files  5 passed (5)
+      Tests  39 passed (39)
+   Start at  14:49:06
+   Duration  184ms (import 62%, tests 21%, transform 15%, worker 2%)
+
+# command: git diff --quiet 8c410f3 -- packages/xploder/src/react/panel/executeTourCommand.ts && echo S7-UNTOUCHED | base commit: 960cc57 (fix working tree) | exit: 0
+S7-UNTOUCHED
+
+# command: git diff --quiet 8c410f3 -- packages/xploder/test/viewer-panels.test.tsx packages/xploder/test/viewer-handle.test.tsx && echo SEALED-TESTS-UNCHANGED | base commit: 960cc57 (fix working tree) | exit: 0
+SEALED-TESTS-UNCHANGED

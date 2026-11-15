@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useReducer, useState, type KeyboardEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+  useSyncExternalStore,
+  type KeyboardEvent,
+} from 'react';
 
 import {
   azimuthOf,
@@ -72,8 +80,26 @@ export interface TeardownViewerInteractionActions {
   toggleFocus(layerId: string): void;
   releaseFocus(): void;
   selectFlow(flowId: string): void;
+  /**
+   * Resumes engine time, then starts playback: explodes an imploded scene and plays the tour.
+   * Clears the tour-resume memory recorded by pause().
+   */
   play(): void;
+  /**
+   * Freezes the whole scene: explode, camera, emphasis, tour time, overlay. A playing tour is
+   * paused at the frozen engine instant so resume() can continue it.
+   */
   pause(): void;
+  /**
+   * Continues the whole scene from the frozen frame. If the preceding pause() paused a playing
+   * tour and that tour is still paused, this also resumes the tour.
+   */
+  resume(): void;
+  /**
+   * Pauses only tour playback; engine time and scene motion continue. resume() does not start a
+   * tour paused this way; play() does.
+   */
+  pauseTour(): void;
   stop(): void;
   step(): void;
 }
@@ -82,6 +108,7 @@ export interface TeardownViewerHandle {
   readonly target: TeardownTarget;
   readonly rig: RigState;
   readonly clock: ClockReader;
+  readonly paused: boolean;
   /** Target azimuth in degrees, normalised to [0, 360). */
   readonly azimuthDegrees: number;
   /** Which zoom controls would change the zoom right now (disable the others). */
@@ -144,8 +171,12 @@ export function useTeardownViewer(
   const project = opts.project;
   const projectSlug = project?.meta.slug ?? null;
   const flows = project?.flows ?? EMPTY_FLOWS;
-  const [latest] = useState(() => ({ now: opts.now }));
-  // Keep the legacy clock on the newest inline `now` callback; this box is stable across renders.
+  const [latest] = useState(() => ({
+    now: opts.now,
+    tourStatus: 'idle' as TourStatus,
+    pausePausedTour: false,
+  }));
+  // Keep memoised actions reading the newest inline callback and tour status across renders.
   latest.now = opts.now;
   const [clock] = useState<EngineClock>(() => {
     if (opts.clock !== undefined) return opts.clock;
@@ -188,6 +219,11 @@ export function useTeardownViewer(
     initialTour(flows),
   );
   const [activeSlug, setActiveSlug] = useState(projectSlug);
+  const paused = useSyncExternalStore(
+    clock.subscribe,
+    () => clock.paused,
+    () => clock.paused,
+  );
 
   if (activeSlug !== projectSlug) {
     setActiveSlug(projectSlug);
@@ -218,10 +254,31 @@ export function useTeardownViewer(
       releaseFocus: () => dispatchFocus({ type: 'release' }),
       selectFlow: (flowId) => dispatchTour({ type: 'selectFlow', flowId, now: clock.now() }),
       play: () => {
+        clock.resume();
+        latest.pausePausedTour = false;
         setTarget((current) => (current === 'imploded' ? 'exploded' : current));
         dispatchTour({ type: 'play', now: clock.now() });
       },
-      pause: () => dispatchTour({ type: 'pause', now: clock.now() }),
+      pause: () => {
+        const tourStatus = latest.tourStatus;
+
+        clock.pause();
+
+        if (tourStatus === 'playing') {
+          latest.pausePausedTour = true;
+          dispatchTour({ type: 'pause', now: clock.now() });
+        }
+      },
+      resume: () => {
+        const resumeTour = latest.pausePausedTour && latest.tourStatus === 'paused';
+
+        clock.resume();
+
+        if (resumeTour) dispatchTour({ type: 'play', now: clock.now() });
+
+        latest.pausePausedTour = false;
+      },
+      pauseTour: () => dispatchTour({ type: 'pause', now: clock.now() }),
       stop: () => dispatchTour({ type: 'stop', now: clock.now() }),
       step: () => dispatchTour({ type: 'step', now: clock.now() }),
     }),
@@ -246,6 +303,7 @@ export function useTeardownViewer(
   );
 
   const position = positionAt(tour, clock.now(), flows, motion.durations.tourBeat);
+  latest.tourStatus = position.status;
   const escape = escapeTarget(position.status, focus);
 
   useEffect(() => {
@@ -286,6 +344,7 @@ export function useTeardownViewer(
       target,
       rig,
       clock,
+      paused,
       azimuthDegrees,
       can,
       highlight: pointer.highlight,
@@ -311,6 +370,7 @@ export function useTeardownViewer(
       flows,
       onKeyDown,
       onPointerInput,
+      paused,
       pointer.highlight,
       position.status,
       position.step,
