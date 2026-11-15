@@ -187,9 +187,9 @@ describe('frozen S6 surface', () => {
     const manifest = manifestS6Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('b5a4713');
+    expect(manifest.base).toBe('d4efeaf');
     expect(manifest.note).toBe(
-      'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md. Re-sealed in S14 at b5a4713: src/overlay/model.ts — dimension notes avoid the plate layer-name quads; every other placement output-identical (I-05) + test/overlay-note-clear.test.ts; see .specify/features/engine-polish/evidence/T008-log-rects.md.',
+      'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md. Re-sealed in S14 at b5a4713: src/overlay/model.ts — dimension notes avoid the plate layer-name quads; every other placement output-identical (I-05) + test/overlay-note-clear.test.ts; see .specify/features/engine-polish/evidence/T008-log-rects.md. Re-sealed in S15 at d4efeaf: src/react/scene/Scene.tsx — every tween samples the injected engine clock (E1: explode, camera, emphasis) + test/scene-clock.test.tsx; see .specify/features/engine-timing/evidence/T003-log-green.txt.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(25);
 
