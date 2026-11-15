@@ -469,3 +469,4 @@ The procedure is the S14 one, per step:
   - `pauseTour()` stays tour-only, and every project-page caller (the `tourCommandActionsOf` adapter, the case-study auto-pause, the workbench, the playground, the hero watchdog) uses it, so project pages keep today's behaviour exactly;
   - `stop()`, `step()` and `selectFlow()` do not touch the clock.
   - No AC changes. AC2's "zero settles, pixel-identical, Play continues from the same frame" is unaffected: the tour's own pause stores the elapsed time at the frozen instant.
+- **R13 — the hero clock reaches the leader through the showcase context (T010).** `hero-leader.tsx` sits outside `hero-stage.tsx` and only sees the showcase context, so its label waits can use the viewer clock only through that context. `hero-showcase.tsx` (and `hero-live.tsx` if the wiring passes through it) join the allow-list. Both are app code and unsealed, and the change is wiring only.

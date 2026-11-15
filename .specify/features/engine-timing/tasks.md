@@ -47,7 +47,7 @@
 | T006 | ☑ (red: AC1 scan 1 hit PanelLayer:394, viewer-clock dom red; R7 scanner green on arrival with negative controls; green 13/13 + dom 12/12; AC1 scan → only src/time/clock.ts; AC1-SCAN-OK hard; build green; hero + draws probe PASS) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T006-log-{red,green,ac1-scan,reseal,g2-site-probe}.txt | 472e950 (fix 74394e9) | `seal/s5-s8-74394e9` (pushed) |
 | T007 | ☑ (attempt 1 stopped correctly: S5 viewer-handle + S7 viewer-panels tests expect pause() → tour paused → R12; attempt 2: red 6/6 + dom 2/2 → green; sealed tests byte-identical and green; S7 untouched; engine:probe 2 orchestrator runs PASS (executor saw one earlier timeout, recorded)) | 1 (Flash, sandbox off, 2 dispatches; the first was a correct STOP, not a failure) | evidence/T007-log-{red,green,callers,engine-probe,engine-probe-orchestrator,reseal}.txt | 62dfeaa (fix 5d3abdb) | `seal/s5-s8-5d3abdb` (pushed) |
 | T008 | ☑ (red 5/6 fail; green 6/6: frameloop never while paused, poses byte-identical at +0.5 s/+3 s, 0 settles, one repaint on resize, restore on resume, one settle after the tween end; regression suites 40/40) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T008-log-{red,green,reseal}.txt | merge on slice branch (fix ea61882) | `seal/s6-ea61882` (pushed) |
-| T009 | ☐ | | | | `seal/s8-…` |
+| T009 | ☑ (red 4/7 fail; green xploder-dom 19/19; second sweep, no-getAnimations guard; build green) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T009-log-{red,green,reseal}.txt | merge on slice branch (fix 07b22cd) | `seal/s8-07b22cd` (pushed) |
 | T010 | ☐ | | | | — |
 | T011 | ☐ | | | | `seal/s6-…` |
 | T012 | ☐ | | | | `seal/s8-…` |
