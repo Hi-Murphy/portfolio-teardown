@@ -9,3 +9,5 @@ export const techRegistryJson: unknown = techRegistry;
 export const projectAJson: unknown = projectAUiApp;
 export const projectBJson: unknown = projectBPipeline;
 export const projectCJson: unknown = projectCLockerbay;
+export { createFakeClock } from '../../src/time/fake';
+export type { FakeClock } from '../../src/time/fake';
