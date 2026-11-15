@@ -1,0 +1,125 @@
+# command: pnpm --filter xploder exec vitest run test/tour-clock-engine.test.tsx --reporter verbose | commit: ae58678 | exit: 1
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:39257) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/tour-clock-engine.test.tsx > useTourClock on the engine clock > ends when the final tick fires just before the boundary 12ms
+   → expected { …(6) } to match object { status: 'playing', step: 1 }
+(4 matching properties omitted from actual)
+ × test/tour-clock-engine.test.tsx > useTourClock on the engine clock > ends when the final tick fires on time 1ms
+   → expected { …(6) } to match object { status: 'playing', step: 1 }
+(4 matching properties omitted from actual)
+ × test/tour-clock-engine.test.tsx > useTourClock on the engine clock > advances intermediate steps at the same beats 1ms
+   → expected { …(6) } to match object { status: 'playing', step: 1 }
+(4 matching properties omitted from actual)
+ × test/tour-clock-engine.test.tsx > useTourClock on the engine clock > exposes the injected clock on the viewer handle 1ms
+   → expected undefined to be { now: [Function now], …(7) } // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/tour-clock-engine.test.tsx > useTourClock on the engine clock > ends when the final tick fires just before the boundary
+AssertionError: expected { …(6) } to match object { status: 'playing', step: 1 }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "status": "playing",
+-   "step": 1,
++   "step": 0,
+  }
+
+ ❯ test/tour-clock-engine.test.tsx:192:30
+    190|
+    191|       await advance(manual, beat);
+    192|       expect(current().tour).toMatchObject({ status: 'playing', step: …
+       |                              ^
+    193|
+    194|       await advance(manual, beat + EARLY_TICK_SECONDS);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/tour-clock-engine.test.tsx > useTourClock on the engine clock > ends when the final tick fires on time
+AssertionError: expected { …(6) } to match object { status: 'playing', step: 1 }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "status": "playing",
+-   "step": 1,
++   "step": 0,
+  }
+
+ ❯ test/tour-clock-engine.test.tsx:211:30
+    209|
+    210|       await advance(clock, beat);
+    211|       expect(current().tour).toMatchObject({ status: 'playing', step: …
+       |                              ^
+    212|
+    213|       await advance(clock, beat);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/tour-clock-engine.test.tsx > useTourClock on the engine clock > advances intermediate steps at the same beats
+AssertionError: expected { …(6) } to match object { status: 'playing', step: 1 }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "status": "playing",
+-   "step": 1,
++   "step": 0,
+  }
+
+ ❯ test/tour-clock-engine.test.tsx:239:32
+    237|       for (let step = 1; step < path.length; step += 1) {
+    238|         await advance(clock, beat);
+    239|         expect(current().tour).toMatchObject({ status: 'playing', step…
+       |                                ^
+    240|       }
+    241|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/tour-clock-engine.test.tsx > useTourClock on the engine clock > exposes the injected clock on the viewer handle
+AssertionError: expected undefined to be { now: [Function now], …(7) } // Object.is equality
+
+- Expected:
+{
+  "advance": [Function advance],
+  "now": [Function now],
+  "pause": [Function pause],
+  "paused": false,
+  "pendingTimers": 0,
+  "resume": [Function resume],
+  "schedule": [Function schedule],
+  "subscribe": [Function subscribe],
+}
+
++ Received:
+undefined
+
+ ❯ test/tour-clock-engine.test.tsx:256:31
+    254|
+    255|     try {
+    256|       expect(current().clock).toBe(clock);
+       |                               ^
+    257|       expect(current().clock.now()).toBe(clock.now());
+    258|       expect(current().clock.now()).toBe(2.5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  14:04:28
+   Duration  119ms (import 57%, tests 27%, transform 14%, worker 2%)
+

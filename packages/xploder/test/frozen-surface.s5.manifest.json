@@ -1,6 +1,6 @@
 {
-  "base": "12cc065",
-  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 12cc065: src/time/clock.ts + src/time/fake.ts — one injectable, pausable engine clock, the only host-time reader (E1) + test/clock.test.ts; see .specify/features/engine-timing/evidence/T002-log-green.txt.",
+  "base": "1ff1d01",
+  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 12cc065: src/time/clock.ts + src/time/fake.ts — one injectable, pausable engine clock, the only host-time reader (E1) + test/clock.test.ts; see .specify/features/engine-timing/evidence/T002-log-green.txt. Re-sealed in S15 at 1ff1d01: src/react/useTeardownViewer.ts + src/react/useTourClock.ts — the viewer owns the engine clock (viewer.clock); tour boundaries on clock.schedule (E1) + test/tour-clock-engine.test.tsx; see .specify/features/engine-timing/evidence/T004-log-s13-reproof.txt.",
   "files": {
     "src/interaction/caption.ts": "08fe42ec8ef4bd9c6c19746886a183ef55ac5bc377f6dc8d9cba963120b08e3b",
     "src/interaction/emphasis.ts": "6aa58f76e86af6244b5360a5f7963c9fd25e46b2995b65a7a936a7e6bbdc98c0",
@@ -15,8 +15,8 @@
     "src/react/scene/PickBridge.tsx": "c5c8ea929945a1a3be1635d2e8d6d95d421bc457a0e792d0b73b489fa9cba32d",
     "src/react/scene/ViewScroll.tsx": "027634d2eb470f6b14928fe49f1734302538b141167f3f34e411799da2061e60",
     "src/react/usePointerPick.ts": "f6de593f2f943e40c51994e679189977c5a632a1f2d722ab2aaca64a1485b826",
-    "src/react/useTeardownViewer.ts": "fa3c6ac00054a323aa81513e359b1a87f938c9a6d6b05bd2a37a5c5ca057cdbd",
-    "src/react/useTourClock.ts": "e6f64a61e3058234fa9f64eaa9e4f9af6f48dc2b7e8b7929456910cbf1013310",
+    "src/react/useTeardownViewer.ts": "d24e483987eca7ea5951339b5b1d83298e16549109135c06f2f20993ec25ca0b",
+    "src/react/useTourClock.ts": "6e8168e86e9074a80448adf6f0a6813e13013d99d53c5bf19b63702cbf91b8d2",
     "src/time/clock.ts": "a80cba7602f4e109ddb1577354901dd2db261c02adefc1896ceeef7c57f85067",
     "src/time/fake.ts": "fb3b9746b696c5dcd6610faa47d976941d6a52b377852d5c102e91b958405890",
     "test/__snapshots__/fixture-c.test.ts.snap": "068f1fe58eb36a96c619a6d9fa1eb17e47fe3f017b3d9878942578ecba4844dd",
@@ -34,6 +34,7 @@
     "test/pointer.test.ts": "ff54eb3ce625b3f8aa6c87be17fab5e2395037d60bf0f730afb92f1263f64b4f",
     "test/scroll.test.ts": "1409360080cc57e772b807a339e98416323bff92a1c4251095ce5c31b4b7fae4",
     "test/tour-clock-boundary.test.tsx": "64d2ee7a8ca540bb3fe219308accf8cc71f798637b7e21c53d6afbc62b1bca70",
+    "test/tour-clock-engine.test.tsx": "0dd81d306a34c5075b6c29886baf7daffb09f1357585bfedd7c43d891a1afa9e",
     "test/tour-clock.test.tsx": "4c2334fc7839fa2be52ca09cdf487c9b19e1a26c19a72520071439b89acf25ba",
     "test/tour.test.ts": "f644baf6b192b44c0eea57d366c8a342585d252046cb9a44f9a7ee2128364b17",
     "test/view-scroll.test.tsx": "6ad28a220e9da7f44e8eb1ee8196dad605b5e6faca7fb1176741f3b822dfa1ab",
