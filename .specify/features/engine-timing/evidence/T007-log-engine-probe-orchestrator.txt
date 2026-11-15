@@ -1,0 +1,10 @@
+# command: pnpm serve:out --dir out-fixtures --port 4199 & pnpm engine:probe http://127.0.0.1:4199/ (×2, orchestrator) | commit: 62dfeaa (T007 merged)
+# note: the executor reported one earlier run that timed out waiting for tour step 2 before its recorded passing run; that failing run was not kept by the executor, so the orchestrator re-ran the probe twice on the merged head and records both runs here
+## run 1: exit 0, 198 PASS, 0 FAIL
+PASS tour-pause-holds: expected 3 actual 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0" actual [[0,1,2,3,4,5],[0,1,2,3,4],[0,1,2,3,4,5,6],[0,1,2,3,4]]
+pass: true
+## run 2: exit 0, 198 PASS, 0 FAIL
+PASS tour-pause-holds: expected 3 actual 3
+PASS tour-step-advances-one: expected "step numbers are contiguous from 0" actual [[0,1,2,3,4,5],[0,1,2,3,4],[0,1,2,3,4,5,6],[0,1,2,3,4]]
+pass: true
