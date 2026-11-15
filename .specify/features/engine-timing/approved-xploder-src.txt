@@ -1,0 +1,22 @@
+# Approved S5/S6/S8 re-seal paths (base 8c410f3).
+packages/xploder/src/time/clock.ts
+packages/xploder/src/time/fake.ts
+packages/xploder/src/react/useTeardownViewer.ts
+packages/xploder/src/react/useTourClock.ts
+packages/xploder/src/react/scene/Scene.tsx
+packages/xploder/src/react/scene/OverlayProjector.tsx
+packages/xploder/src/overlay/place.ts
+packages/xploder/src/react/TeardownViewer.tsx
+packages/xploder/src/react/panel/PanelLayer.tsx
+packages/xploder/src/react/events.ts
+packages/xploder/test/clock.test.ts
+packages/xploder/test/scene-clock.test.tsx
+packages/xploder/test/tour-clock-engine.test.tsx
+packages/xploder/test/overlay-clock.test.tsx
+packages/xploder/test/no-time-reads.test.ts
+packages/xploder/test/no-real-timers.test.ts
+packages/xploder/test/viewer-pause.test.tsx
+packages/xploder/test/scene-pause.test.tsx
+packages/xploder/test/overlay-settle-state.test.tsx
+packages/xploder/test/viewer-events.test.ts
+packages/xploder/test/overlay-projector.test.tsx
