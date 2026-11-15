@@ -3,7 +3,9 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { createFakeClock, type FakeClock } from 'xploder/fixtures';
 import { motion } from 'xploder/motion';
+import { clockFromNow, type EngineClock } from 'xploder/react';
 
 import { websocketInspector } from '../content/projects/websocket-inspector';
 import { HeroCaption } from '../components/hero/hero-caption';
@@ -15,38 +17,45 @@ import {
   type HeroTourState,
 } from '../components/hero/hero-loop';
 
-const { bootHeroStage, liveViewerProps, viewerActions, viewerStore } = vi.hoisted(() => {
-  const store = {
-    version: 0,
-    listeners: new Set<() => void>(),
-    tour: {
-      status: 'idle',
-      flowId: null as string | null,
-      step: -1,
-      total: 0,
-      flows: [] as { id: string; label: string }[],
-    },
-  };
+const { bootHeroStage, liveViewerProps, viewerActions, viewerState, viewerStore } = vi.hoisted(
+  () => {
+    const store = {
+      version: 0,
+      listeners: new Set<() => void>(),
+      tour: {
+        status: 'idle',
+        flowId: null as string | null,
+        step: -1,
+        total: 0,
+        flows: [] as { id: string; label: string }[],
+      },
+    };
 
-  return {
-    bootHeroStage: vi.fn(),
-    liveViewerProps: [] as { onFirstFrame?: () => void }[],
-    viewerStore: store,
-    viewerActions: {
-      explode: vi.fn(),
-      implode: vi.fn(),
-      zoomIn: vi.fn(),
-      zoomReset: vi.fn(),
-      rotateRight: vi.fn(),
-      selectFlow: vi.fn(),
-      play: vi.fn(),
-      pause: vi.fn(),
-      resume: vi.fn(),
-      pauseTour: vi.fn(),
-      stop: vi.fn(),
-    },
-  };
-});
+    return {
+      bootHeroStage: vi.fn(),
+      liveViewerProps: [] as { onFirstFrame?: () => void }[],
+      viewerStore: store,
+      viewerState: {
+        clock: null as EngineClock | null,
+        pausePausedTour: false,
+        calls: [] as string[],
+      },
+      viewerActions: {
+        explode: vi.fn(),
+        implode: vi.fn(),
+        zoomIn: vi.fn(),
+        zoomReset: vi.fn(),
+        rotateRight: vi.fn(),
+        selectFlow: vi.fn(),
+        play: vi.fn(),
+        pause: vi.fn(),
+        resume: vi.fn(),
+        pauseTour: vi.fn(),
+        stop: vi.fn(),
+      },
+    };
+  },
+);
 
 vi.mock('../components/hero/hero-boot', () => ({ bootHeroStage }));
 vi.mock('../components/viewer/live-viewer', async () => {
@@ -60,7 +69,7 @@ vi.mock('../components/viewer/live-viewer', async () => {
   return {
     useLiveViewer: () => {
       useSyncExternalStore(subscribe, snapshot, snapshot);
-      return { actions: viewerActions, tour: viewerStore.tour };
+      return { actions: viewerActions, tour: viewerStore.tour, clock: viewerState.clock };
     },
     LiveViewer: (props: { onFirstFrame?: () => void }) => {
       liveViewerProps.push(props);
@@ -298,6 +307,9 @@ beforeEach(async () => {
   viewerStore.version = 0;
   viewerStore.listeners.clear();
   viewerStore.tour = { status: 'idle', flowId: null, step: -1, total: 0, flows: [] };
+  viewerState.clock = clockFromNow(() => Date.now() / MS_PER_SECOND);
+  viewerState.pausePausedTour = false;
+  viewerState.calls.length = 0;
   for (const action of Object.values(viewerActions)) action.mockReset();
   bootHeroStage.mockReset();
 
@@ -305,12 +317,33 @@ beforeEach(async () => {
     setTour({ flowId, status: 'idle', step: -1, total: tourTotal });
   });
   viewerActions.play.mockImplementation(() => {
+    viewerState.calls.push('viewer.play');
+    viewerState.clock?.resume();
+    viewerState.pausePausedTour = false;
     setTour({
       status: 'playing',
       step: viewerStore.tour.step < 0 ? 0 : viewerStore.tour.step,
     });
   });
-  viewerActions.pauseTour.mockImplementation(() => setTour({ status: 'paused' }));
+  viewerActions.pause.mockImplementation(() => {
+    viewerState.calls.push('viewer.pause');
+    viewerState.clock?.pause();
+    if (viewerStore.tour.status === 'playing') {
+      viewerState.pausePausedTour = true;
+      setTour({ status: 'paused' });
+    }
+  });
+  viewerActions.resume.mockImplementation(() => {
+    viewerState.calls.push('viewer.resume');
+    const resumeTour = viewerState.pausePausedTour && viewerStore.tour.status === 'paused';
+    viewerState.clock?.resume();
+    if (resumeTour) setTour({ status: 'playing' });
+    viewerState.pausePausedTour = false;
+  });
+  viewerActions.pauseTour.mockImplementation(() => {
+    viewerState.calls.push('viewer.pauseTour');
+    setTour({ status: 'paused' });
+  });
   viewerActions.stop.mockImplementation(() => setTour({ status: 'idle', step: -1 }));
 
   Object.defineProperty(window, 'matchMedia', {
@@ -741,6 +774,136 @@ describe('createHeroSequence', () => {
     expect(actions.playTour).not.toHaveBeenCalled();
     expect(follow.start).toHaveBeenLastCalledWith(FLOW_B);
   });
+
+  function clockController() {
+    const clock = createFakeClock();
+    const actions = sequenceActions();
+    const follow = followDriver();
+    const schedule = vi.fn((callback: () => void, delayMs: number) =>
+      clock.schedule(delayMs / MS_PER_SECOND, callback),
+    );
+    const sequence = createHeroSequence({
+      actions,
+      follow,
+      captureFlow: FLOW_A,
+      inspectFlow: FLOW_B,
+      schedule,
+      cancel: (handle) => (handle as () => void)(),
+      now: () => clock.now() * MS_PER_SECOND,
+    });
+    return { actions, clock, follow, schedule, sequence };
+  }
+
+  function advanceClock(clock: FakeClock, milliseconds: number): void {
+    clock.advance(milliseconds / MS_PER_SECOND);
+  }
+
+  function pauseClock(clock: FakeClock, sequence: ReturnType<typeof createHeroSequence>): void {
+    clock.pause();
+    sequence.pause();
+  }
+
+  function resumeClock(clock: FakeClock, sequence: ReturnType<typeof createHeroSequence>): void {
+    clock.resume();
+    sequence.resume();
+  }
+
+  test('fake clock: pause during implode resumes after the remaining step time', () => {
+    const { actions, clock, follow, sequence } = clockController();
+    const remaining = HERO_STORYBOARD_MS.implode / 2;
+
+    sequence.start();
+    advanceClock(clock, remaining);
+    pauseClock(clock, sequence);
+    clock.advance(5);
+    expect(actions.explode).not.toHaveBeenCalled();
+    expect(follow.pause).toHaveBeenCalledTimes(1);
+
+    resumeClock(clock, sequence);
+    expect(follow.resume).toHaveBeenCalledTimes(1);
+    advanceClock(clock, remaining - 1);
+    expect(actions.explode).not.toHaveBeenCalled();
+    advanceClock(clock, 1);
+    expect(actions.explode).toHaveBeenCalledTimes(1);
+  });
+
+  test('fake clock: pause mid-explode resumes after the remaining step time', () => {
+    const { actions, clock, sequence } = clockController();
+    const elapsed = HERO_STORYBOARD_MS.explode - MS_PER_SECOND;
+    const remaining = HERO_STORYBOARD_MS.explode - elapsed;
+
+    sequence.start();
+    advanceClock(clock, HERO_STORYBOARD_MS.implode + elapsed);
+    expect(sequence.state.phase).toBe('explode');
+    pauseClock(clock, sequence);
+    clock.advance(5);
+    expect(actions.zoomIn).not.toHaveBeenCalled();
+
+    resumeClock(clock, sequence);
+    advanceClock(clock, remaining - 1);
+    expect(actions.zoomIn).not.toHaveBeenCalled();
+    advanceClock(clock, 1);
+    expect(actions.zoomIn).toHaveBeenCalledTimes(3);
+  });
+
+  test('fake clock: pause mid-turn resumes after the remaining step time', () => {
+    const { actions, clock, sequence } = clockController();
+    const remaining = HERO_STORYBOARD_MS.turnStep / 2;
+
+    sequence.start();
+    advanceClock(
+      clock,
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
+    );
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    advanceClock(clock, TOUR_END_HOLD_MS);
+    sequence.updateTour(tour({ flowId: FLOW_B, status: 'ended', step: 6 }));
+    advanceClock(clock, TOUR_END_HOLD_MS);
+    expect(sequence.state.phase).toBe('turn');
+    advanceClock(clock, remaining);
+    pauseClock(clock, sequence);
+    clock.advance(5);
+    expect(actions.rotateRight).not.toHaveBeenCalled();
+
+    resumeClock(clock, sequence);
+    advanceClock(clock, remaining - 1);
+    expect(actions.rotateRight).not.toHaveBeenCalled();
+    advanceClock(clock, 1);
+    expect(actions.rotateRight).toHaveBeenCalledTimes(1);
+  });
+
+  test('fake clock: pause during a tour-end hold resumes after the remaining hold time', () => {
+    const { actions, clock, follow, sequence } = clockController();
+    const elapsed = TOUR_END_HOLD_MS / 2;
+    const remaining = TOUR_END_HOLD_MS - elapsed;
+
+    sequence.start();
+    advanceClock(
+      clock,
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
+    );
+    const starts = vi.mocked(follow.start).mock.calls.length;
+    const plays = actions.playTour.mock.calls.length;
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    expect(sequence.state.phase).toBe('capture');
+
+    advanceClock(clock, elapsed);
+    pauseClock(clock, sequence);
+    clock.advance(5);
+    expect(sequence.state.phase).toBe('capture');
+    expect(follow.start).toHaveBeenCalledTimes(starts);
+
+    resumeClock(clock, sequence);
+    advanceClock(clock, remaining - 1);
+    expect(sequence.state.phase).toBe('capture');
+    expect(follow.start).toHaveBeenCalledTimes(starts);
+    expect(actions.playTour).toHaveBeenCalledTimes(plays);
+
+    advanceClock(clock, 1);
+    expect(sequence.state.phase).toBe('inspect');
+    expect(follow.start).toHaveBeenLastCalledWith(FLOW_B);
+    expect(actions.playTour).toHaveBeenCalledTimes(plays + 1);
+  });
 });
 
 function narrationPhase(phase: string): boolean {
@@ -840,6 +1003,47 @@ describe('hero stage storyboard', () => {
     reportIntersection(true);
     expect(viewerActions.play).toHaveBeenCalledTimes(plays + 3);
     expect(heroLoop()).toBe('running');
+  });
+
+  test('freezes the viewer before the storyboard on pause and resumes in reverse', async () => {
+    await renderHero();
+    await firstFrame();
+    await advanceToCapture();
+    viewerState.calls.length = 0;
+
+    await clickLoopButton();
+    const pause = viewerState.calls.indexOf('viewer.pause');
+    const pauseTour = viewerState.calls.indexOf('viewer.pauseTour');
+    expect(pause).toBeGreaterThanOrEqual(0);
+    expect(pauseTour).toBeGreaterThan(pause);
+
+    viewerState.calls.length = 0;
+    await clickLoopButton();
+    const resume = viewerState.calls.indexOf('viewer.resume');
+    const play = viewerState.calls.indexOf('viewer.play');
+    expect(resume).toBeGreaterThanOrEqual(0);
+    expect(play).toBeGreaterThan(resume);
+  });
+
+  test('schedules the storyboard on the viewer clock', async () => {
+    await renderHero();
+    const clock = viewerState.clock;
+    if (clock === null) throw new Error('viewer clock was not provided');
+    await firstFrame();
+
+    const remaining = HERO_STORYBOARD_MS.implode / 2;
+    await advance(remaining);
+    expect(heroPhase()).toBe('implode');
+
+    act(() => clock.pause());
+    await advance(10 * MS_PER_SECOND);
+    expect(heroPhase()).toBe('implode');
+
+    act(() => clock.resume());
+    await advance(remaining - 2);
+    expect(heroPhase()).toBe('implode');
+    await advance(2);
+    expect(heroPhase()).toBe('explode');
   });
 
   test('a user pause wins over automatic resumes', async () => {
