@@ -1,0 +1,43 @@
+# T007 red — pnpm --filter xploder exec vitest run test/overlay-note-clear.test.ts — commit df01ad7
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t007/packages/xploder
+
+stdout | test/overlay-note-clear.test.ts > dimension note clearance > never intersects a rendered plate layer name across the engine sweep
+cells=4160 noteCells=3040 layerQuads=13584 offendingCells=956; first fixture-c 768x720 zoom=1.25 turns=1 offsetY=-65.701 note=[[213.91,369.916],[281.91,369.916],[281.91,390.916],[213.91,390.916]] layer=services[[259.627,372.416],[329.775,412.916],[315.918,420.916],[245.77,380.416]]
+
+ ❯ test/overlay-note-clear.test.ts (1 test | 1 failed) 202ms
+   ❯ dimension note clearance (1)
+     × never intersects a rendered plate layer name across the engine sweep 201ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/overlay-note-clear.test.ts > dimension note clearance > never intersects a rendered plate layer name across the engine sweep
+AssertionError: cells=4160 noteCells=3040 layerQuads=13584 offendingCells=956; first fixture-c 768x720 zoom=1.25 turns=1 offsetY=-65.701 note=[[213.91,369.916],[281.91,369.916],[281.91,390.916],[213.91,390.916]] layer=services[[259.627,372.416],[329.775,412.916],[315.918,420.916],[245.77,380.416]]: expected 956 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 956
+
+ ❯ test/overlay-note-clear.test.ts:332:44
+    330|
+    331|       console.log(summary);
+    332|       expect(offendingCells.size, summary).toBe(0);
+       |                                            ^
+    333|     },
+    334|     SWEEP_TIMEOUT_MS,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:02:49
+   Duration  379ms (tests 65%, transform 20%, import 15%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s14-wt/t007/packages/xploder
+
+# exit code: 1

@@ -1,5 +1,6 @@
 import type { Phase } from '../engine/explode';
 import type { ProjectLayout } from '../layout';
+import { layerLetteringModel } from '../lettering/layers';
 import { look, type LookTokens } from '../look/tokens';
 import type { MotionTokens } from '../motion';
 import { emphasis } from '../motion/emphasis';
@@ -545,7 +546,7 @@ function columnModel(
   };
 }
 
-function tagsModel(
+export function tagsModel(
   frame: OverlayFrame,
   layout: ProjectLayout,
   project: OverlayProject,
@@ -553,7 +554,29 @@ function tagsModel(
   offsetY: number,
   look: LookTokens,
 ): OverlayModel {
-  const labels = tagLabels(frame, layout, project);
+  const componentHulls = frame.components.map((component) => component.hull);
+  const layerQuads = layerLetteringModel({
+    layers: frame.layers.map((layer) => ({
+      id: layer.id,
+      index: layer.index,
+      name: project.layers[layer.index]?.name ?? layer.id,
+      corners: layer.corners,
+    })),
+    components: frame.components.map((component) => ({
+      layerIndex: component.layerIndex,
+      hull: component.hull,
+    })),
+    canvasWidth: viewport.width,
+  }).flatMap((label) => (label.kind === 'face' ? [label.screen] : []));
+  const quadIndices = layerQuads.map((_, index) => componentHulls.length + index);
+  const labels = tagLabels(frame, layout, project).map((label) =>
+    label.kind === 'dimension'
+      ? label
+      : {
+          ...label,
+          excludeObstacles: [...(label.excludeObstacles ?? []), ...quadIndices],
+        },
+  );
   const meta = new Map<string, LabelMeta>();
 
   for (const label of labels) {
@@ -570,12 +593,7 @@ function tagsModel(
     });
   }
 
-  const result = placeLabels(
-    labels,
-    frame.components.map((component) => component.hull),
-    viewport,
-    look,
-  );
+  const result = placeLabels(labels, [...componentHulls, ...layerQuads], viewport, look);
   const renderLabels = result.placements.map((placement): OverlayLabel => {
     const labelMeta = meta.get(placement.key);
 
