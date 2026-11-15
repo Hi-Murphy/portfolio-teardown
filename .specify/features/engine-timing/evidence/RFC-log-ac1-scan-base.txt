@@ -1,0 +1,31 @@
+# command: grep -rnE 'performance\.now\(|Date\.now\(' packages/xploder/src ; grep -rnE 'setTimeout\(|setInterval\(' packages/xploder/src
+# commit: 8c410f3 | date 2026-11-15
+
+## time reads
+packages/xploder/src/react/useTeardownViewer.ts:131:  return performance.now() / 1000;
+packages/xploder/src/react/panel/PanelLayer.tsx:394:    const listeningSince = performance.now();
+packages/xploder/src/react/scene/Scene.tsx:44:  return performance.now() / 1000;
+
+## host timers
+packages/xploder/src/react/useTourClock.ts:32:    const timer = setTimeout(() => {
+packages/xploder/src/react/TeardownViewer.tsx:77:  return new Promise((resolve) => setTimeout(resolve));
+
+## animation-test real-time reads / timer use (test/)
+packages/xploder/test/viewer-panels.test.tsx:95:  vi.useFakeTimers();
+packages/xploder/test/tour-clock-boundary.test.tsx:107:  vi.useFakeTimers();
+packages/xploder/test/tour-clock-boundary.test.tsx:134:        vi.advanceTimersByTime(beatMilliseconds);
+packages/xploder/test/tour-clock-boundary.test.tsx:140:        vi.advanceTimersByTime(beatMilliseconds + 5);
+packages/xploder/test/tour-clock-boundary.test.tsx:167:        vi.advanceTimersByTime(beatMilliseconds);
+packages/xploder/test/tour-clock-boundary.test.tsx:173:        vi.advanceTimersByTime(beatMilliseconds);
+packages/xploder/test/tour-clock-boundary.test.tsx:211:          vi.advanceTimersByTime(beatMilliseconds);
+packages/xploder/test/tour-clock-boundary.test.tsx:218:        vi.advanceTimersByTime(beatMilliseconds);
+packages/xploder/test/tour-clock.test.tsx:83:  vi.useFakeTimers();
+packages/xploder/test/tour-clock.test.tsx:99:    vi.advanceTimersByTime(beatMilliseconds * MILLISECONDS_PER_SECOND);
+packages/xploder/test/tour-clock.test.tsx:114:        now={() => performance.now() / MILLISECONDS_PER_SECOND - lagSeconds}
+packages/xploder/test/tour-clock.test.tsx:128:          vi.advanceTimersByTime(beatMilliseconds);
+packages/xploder/test/viewer-handle.test.tsx:126:  vi.useFakeTimers();
+packages/xploder/test/viewer-handle.test.tsx:351:        vi.advanceTimersByTime(motion.durations.tourBeat * 1_000);
+packages/xploder/test/overlay-place-equivalence.test.ts:373:    let started = performance.now();
+packages/xploder/test/overlay-place-equivalence.test.ts:379:    oldSamples.push(performance.now() - started);
+packages/xploder/test/overlay-place-equivalence.test.ts:380:    started = performance.now();
+packages/xploder/test/overlay-place-equivalence.test.ts:386:    newSamples.push(performance.now() - started);
