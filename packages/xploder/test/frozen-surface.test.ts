@@ -162,9 +162,9 @@ describe('frozen S5 surface', () => {
     const manifest = manifestS5Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('edde9d0');
+    expect(manifest.base).toBe('12cc065');
     expect(manifest.note).toBe(
-      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt.',
+      'S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 12cc065: src/time/clock.ts + src/time/fake.ts — one injectable, pausable engine clock, the only host-time reader (E1) + test/clock.test.ts; see .specify/features/engine-timing/evidence/T002-log-green.txt.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(25);
 
