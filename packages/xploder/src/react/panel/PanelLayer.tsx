@@ -25,6 +25,7 @@ import type { PanelState } from '../../panel/state';
 import type { MotionTokens } from '../../motion';
 import type { TechRegistry } from '../../schema/tech';
 import type { Palette } from '../../theme';
+import { hostNow } from '../../time/clock';
 import { usePanelFocus } from '../a11y/usePanelFocus';
 import type { OverlayEvent } from '../scene/OverlayProjector';
 import { CaseStudyPanel } from './CaseStudyPanel';
@@ -391,7 +392,7 @@ export const PanelLayer = forwardRef<PanelLayerHandle, PanelLayerProps>(function
 
     // React may flush this effect while the opening click is still bubbling to `document`;
     // events created before the listeners existed never close the panel they opened.
-    const listeningSince = performance.now();
+    const listeningSince = hostNow();
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.timeStamp < listeningSince) return;

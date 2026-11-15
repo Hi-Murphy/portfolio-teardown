@@ -731,6 +731,7 @@ export function TeardownViewer({
                   fallback={webglFallback}
                 >
                   <Scene
+                    clock={viewer.clock}
                     layout={layout}
                     palette={resolvedPalette}
                     tokens={tokens}
