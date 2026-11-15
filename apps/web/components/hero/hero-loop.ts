@@ -6,10 +6,18 @@ const milliseconds = (seconds: number): number => seconds * MS_PER_SECOND;
 
 export const HERO_STORYBOARD_MS = {
   implode: milliseconds(motion.durations.implode + motion.durations.tourBeat),
-  explode: milliseconds(motion.durations.explode + motion.durations.tourPulse),
+  explode: milliseconds(
+    motion.durations.explode +
+      motion.durations.tourPulse +
+      motion.durations.tourBeat +
+      motion.durations.tourBeat,
+  ),
   zoomStep: milliseconds(motion.staggers.tourStep),
-  zoomSettle: milliseconds(motion.durations.implode + motion.staggers.tourStep),
+  zoomSettle: milliseconds(
+    motion.durations.implode + motion.staggers.tourStep + motion.durations.tourBeat,
+  ),
   turnStep: milliseconds(motion.durations.tourBeat),
+  tourEndHold: milliseconds(motion.durations.tourBeat),
 } as const;
 
 export const HERO_WATCHDOG_MS = {
@@ -147,7 +155,12 @@ export function createHeroSequence({
 
   const wait = (delayMs: number, run: () => void): void => {
     clearPending();
-    pending = { delayMs, run, startedAt: now(), elapsedMs: 0 };
+    pending = {
+      delayMs,
+      run,
+      startedAt: now(),
+      elapsedMs: 0,
+    };
     pendingHandle = schedule(() => {
       pending = null;
       pendingHandle = undefined;
@@ -241,7 +254,9 @@ export function createHeroSequence({
 
       suspended = true;
       cancelPending();
-      if (pending !== null) pending.elapsedMs += now() - pending.startedAt;
+      if (pending !== null) {
+        pending.elapsedMs += now() - pending.startedAt;
+      }
       if (isTourPhase(phase)) actions.pauseTour();
       follow.pause();
       notify();
@@ -250,12 +265,12 @@ export function createHeroSequence({
       if (disposed || !started || !suspended) return;
 
       suspended = false;
-      if (isTourPhase(phase) && tour.status === 'ended') {
-        advanceTour();
-        return;
-      }
+      if (isTourPhase(phase) && pending === null) {
+        if (tour.status === 'ended') {
+          advanceTour();
+          return;
+        }
 
-      if (isTourPhase(phase)) {
         follow.resume();
         actions.playTour();
       } else {
@@ -287,8 +302,7 @@ export function createHeroSequence({
       if (next.status === 'playing' && next.step >= 0) {
         follow.follow(next.flowId, next.step);
       } else if (next.status === 'ended') {
-        advanceTour();
-        return;
+        wait(HERO_STORYBOARD_MS.tourEndHold, advanceTour);
       } else if (next.status === 'idle' || next.status === 'paused') {
         actions.playTour();
       }
