@@ -545,7 +545,7 @@ function columnModel(
   };
 }
 
-function tagsModel(
+export function tagsModel(
   frame: OverlayFrame,
   layout: ProjectLayout,
   project: OverlayProject,
