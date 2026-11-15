@@ -1,6 +1,6 @@
 # RFC — S16 Label System (E3, E6)
 
-**slice:** S16-label-system · **status:** DRAFT for Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-16-label-system.md` (frozen brief v1) · **branch:** `task/s16-label-system` · **base:** `021c1ff` (S16 freeze; product code = S15 merge `fae4ac6`) · **date:** 2026-11-16 · **revision counter:** 0 of 2
+**slice:** S16-label-system · **status:** APPROVED at Gate 1 (2026-11-16): all §12 defaults; refinements R1–R8 in §13 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-16-label-system.md` (frozen brief v1) · **branch:** `task/s16-label-system` · **base:** `021c1ff` (S16 freeze; product code = S15 merge `fae4ac6`) · **date:** 2026-11-16 · **revision counter:** 0 of 2
 
 > This RFC records design decisions only and does not change scope. Where it seems to conflict with the brief, the brief wins and the conflict becomes an open question (§12). Nothing is implemented.
 >
@@ -399,3 +399,34 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
 3. **Q3 — conflict-gated Stage B with the §3.1 priorities.** Default: yes.
 4. **Q14 — the three brief defaults.** Default: confirm.
 5. **Everything else (Q1, Q2, Q4–Q7, Q9–Q13, Q15).** Default: accept as written.
+
+---
+
+## 13. Gate 1 record
+
+**Murphy, 2026-11-16:** "all defaults. go". Every §12 default is accepted (Q1–Q15), including:
+- the §9 re-seal list (7 tags: S6 ×4, S8 ×2, S7 ×1; no S2/S3/S4/S5 file);
+- keyboard focus = the selected slot, with the tile input in sync (Q8);
+- the conflict-gated Stage B with the §3.1 priorities (Q3);
+- the three brief defaults (four snaps, every changed cluster explained, existing emphasis style).
+
+**Refinements made in Stage 2 after re-checking the defaults against the code** (Murphy pre-approves improvements at G1; none changes an AC):
+
+- **R1 — the face-quad snapshot gets its own S8 file.** Today `PartLettering.update` projects every top face with `bridge.camera`, `bridge.progress` and a shared `Vector3`. That code moves verbatim into `src/react/labels/faces.ts` (new). `TeardownViewer.onOverlay` calls it, then calls `labelPass`. `src/react/labels` joins `frozen-surface.s8.paths` in re-seal #2. `TeardownViewer.tsx` (already 994 lines) only gains the call.
+- **R2 — "no camera yet" keeps today's early return.** If `bridge.camera` or `bridge.progress` is `null` at event time, the pass returns `lettering: null`. `PartLettering.update` then does what it does today in that case: `setMoving(false)` and return, with no new `settled` state. The overlay still receives its base model, as today (the overlay never read the bridge).
+- **R3 — an apply-time target check in the overlay (safety net).** §4.2 item 4 argues that the event-time target equals the apply-time target. To keep parity even if that ever fails, `BlueprintOverlay` compares `result.target` with `targetRef.current` when it applies a pending frame. On a mismatch it re-runs `labelPass` with the apply-time target through a viewer callback. That re-run counts as a pass, so AC4's count would expose it. No mismatch is expected; T005 and T011 report the count of these re-runs (expected 0).
+- **R4 — the imploded state still computes the lettering.** Today `PartLettering.update` builds lettering for imploded frames too, so the `data-xploder-lettering-count` and `-marks` attributes are set even though nothing is painted. The pass does the same, so the DOM identity check (§4.2 b) holds on imploded cells.
+- **R5 — gzip is measured by a feature-local script.** `pnpm bundle:manifest` reports raw bytes only. `bundle-gzip.mjs` (feature dir) sums `zlib.gzipSync(file, { level: 9 })` over every `.js` file under `apps/web/out/_next/static/`, base vs head. AC5 passes when Δ ≤ 2,048 bytes. The raw-byte `bundle:manifest --diff` is attached as well.
+- **R6 — S7 gets new entry points, not changed ones.**
+  - `letterPart` keeps its exact signature and output. A new `letterPartAvoiding(input & { obstacles })` returns `Lettering | null`: face → mark → `null`, where `null` means hidden.
+  - `layerLetteringModel` gains an optional `obstacles` field. When it is present (even empty), each placed face name is appended for the following layers. This is how plate names avoid each other.
+  - `compactColumn` is **not** changed. It can only conflict with P0–P3, and §3.1 shows that it never does; on a gate failure it is dropped through its existing `null` path.
+  - So every S7 test stays byte-identical.
+- **R7 — hidden labels on conflict are dropped from the render lists.**
+  - A label hidden by a Stage B fallback or the guarantee step is removed from `result.overlay.labels` (and counted in `hidden`) or from `result.lettering.items`.
+  - The CSS hide rules (C5, C7) are untouched.
+  - `data-xploder-lettering-count` and `-marks` count what is rendered, as today.
+- **R8 — the census is offline.**
+  - `label-matrix.mjs` (T001) only collects quads, screenshots and the label DOM.
+  - The pair test is a separate pure script, `label-sweep.mjs` (T006), run on the dumps. One sweep implementation therefore yields the S15 census (T001 dumps), the Stage A census and the Stage B result.
+  - The browser seeded control (§5.4) is a `--control` mode of `label-matrix.mjs`, added in T006.
