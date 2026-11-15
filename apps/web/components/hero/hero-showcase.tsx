@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import type { Project } from 'xploder';
+import type { ClockReader } from 'xploder/react';
 
 import type { HeroSequencePhase, HeroSequenceState } from './hero-loop';
 
@@ -38,7 +39,9 @@ export const EMPTY_HERO_SHOWCASE: HeroShowcaseState = {
 };
 
 interface HeroShowcaseContextValue extends HeroShowcaseState {
+  readonly clock: ClockReader | null;
   publish(state: HeroShowcaseState): void;
+  registerClock(clock: ClockReader | null): void;
   registerToggle(toggle: (() => void) | null): void;
   toggle(): void;
 }
@@ -47,7 +50,9 @@ const NOOP = (): void => undefined;
 
 const HeroShowcaseContext = createContext<HeroShowcaseContextValue>({
   ...EMPTY_HERO_SHOWCASE,
+  clock: null,
   publish: NOOP,
+  registerClock: NOOP,
   registerToggle: NOOP,
   toggle: NOOP,
 });
@@ -110,17 +115,21 @@ export interface HeroShowcaseProviderProps {
 
 export function HeroShowcaseProvider({ children }: HeroShowcaseProviderProps) {
   const [state, setState] = useState<HeroShowcaseState>(EMPTY_HERO_SHOWCASE);
+  const [clock, setClock] = useState<ClockReader | null>(null);
   const toggleRef = useRef<(() => void) | null>(null);
   const publish = useCallback((next: HeroShowcaseState) => {
     setState((current) => (sameShowcase(current, next) ? current : next));
+  }, []);
+  const registerClock = useCallback((next: ClockReader | null) => {
+    setClock((current) => (current === next ? current : next));
   }, []);
   const registerToggle = useCallback((toggle: (() => void) | null) => {
     toggleRef.current = toggle;
   }, []);
   const toggle = useCallback(() => toggleRef.current?.(), []);
   const value = useMemo(
-    () => ({ ...state, publish, registerToggle, toggle }),
-    [publish, registerToggle, state, toggle],
+    () => ({ ...state, clock, publish, registerClock, registerToggle, toggle }),
+    [clock, publish, registerClock, registerToggle, state, toggle],
   );
 
   return <HeroShowcaseContext value={value}>{children}</HeroShowcaseContext>;
