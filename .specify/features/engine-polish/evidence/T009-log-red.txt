@@ -1,0 +1,47 @@
+# T009 red — pnpm --filter xploder exec vitest run test/no-clock-warning.test.tsx — commit a070122
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t009/packages/xploder
+
+(node:98883) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/no-clock-warning.test.tsx > mounting an R3F root does not construct a deprecated THREE.Clock 11ms
+   → expected [ Array(1) ] to deeply equal []
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/no-clock-warning.test.tsx > mounting an R3F root does not construct a deprecated THREE.Clock
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   [
++     "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
++   ],
++ ]
+
+ ❯ test/no-clock-warning.test.tsx:21:25
+     19|   warn.mockRestore();
+     20|
+     21|   expect(clockWarnings).toEqual([]);
+       |                         ^
+     22| });
+     23|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:25:27
+   Duration  124ms (import 60%, tests 20%, transform 18%, worker 3%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s14-wt/t009/packages/xploder
+
+
+# exit 1

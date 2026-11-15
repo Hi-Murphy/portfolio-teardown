@@ -5,3 +5,5 @@ packages:
 allowBuilds:
   unrs-resolver: true
   esbuild: false
+patchedDependencies:
+  '@react-three/fiber@9.8.2': patches/@react-three__fiber@9.8.2.patch

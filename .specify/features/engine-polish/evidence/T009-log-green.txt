@@ -1,0 +1,22 @@
+# T009 green — pnpm --filter xploder exec vitest run test/no-clock-warning.test.tsx --reporter verbose — commit a070122
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t009/packages/xploder
+
+(node:1829) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/no-clock-warning.test.tsx > mounting an R3F root does not construct a deprecated Clock 9ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  08:37:02
+   Duration  98ms (import 71%, tests 20%, transform 6%, worker 3%)
+
+
+# full suite — pnpm --filter xploder test — commit a070122
+Test Files  67 passed (67)
+Tests  643 passed (643)
+# grep -Fc "THREE[.]Clock" /tmp/s14-checks/t009-xploder-full.txt => 0 matches
+# no deprecated clock-warning text occurs anywhere in the full vitest output
+
+# orchestrator note: the executor's first lockfile also collapsed two duplicate vitest/vite peer variants (no version change). It was replaced by a minimal lockfile edit (patchedDependencies + patch_hash only, 9 insertions / 6 deletions); `pnpm install --frozen-lockfile` passes with it; xploder 643/643 re-run, 0 "THREE.Clock" in the output; guards 8/8 OK. Same patch file and hash (63d31658...), so the parity/console/tour evidence stands.
