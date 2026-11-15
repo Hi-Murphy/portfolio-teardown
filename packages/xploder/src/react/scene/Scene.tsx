@@ -1,5 +1,5 @@
 import { useThree, type Frameloop } from '@react-three/fiber';
-import { useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 
 import type { Phase } from '../../engine/explode';
 import type { RigState } from '../../engine/camera';
@@ -122,6 +122,14 @@ export function Scene({
   const legacyClock = useMemo(() => (now === undefined ? null : clockFromNow(now)), [now]);
   const resolvedClock = clock ?? legacyClock ?? ownedClock;
   const engineNow = resolvedClock.now;
+  const azimuthRef = useRef<number | null>(null);
+  const handleAzimuth = useCallback(
+    (azimuth: number) => {
+      azimuthRef.current = azimuth;
+      onAzimuth?.(azimuth);
+    },
+    [onAzimuth],
+  );
   const emphasisDriver = useEmphasisDriver({
     layout,
     palette,
@@ -147,7 +155,13 @@ export function Scene({
         look={look}
         kinds={kinds}
       />
-      <CameraRig layout={layout} tokens={tokens} rig={rig} now={engineNow} onAzimuth={onAzimuth} />
+      <CameraRig
+        layout={layout}
+        tokens={tokens}
+        rig={rig}
+        now={engineNow}
+        onAzimuth={handleAzimuth}
+      />
       {scrollRef === undefined ? null : (
         <ViewScroll layout={layout} rig={rig} scrollRef={scrollRef} onExtent={onScrollExtent} />
       )}
@@ -159,6 +173,9 @@ export function Scene({
           layout={layout}
           progressRef={progressRef}
           clock={resolvedClock}
+          target={target}
+          rig={rig}
+          azimuthRef={azimuthRef}
           onOverlay={onOverlay}
           onOverlayScroll={onOverlayScroll ?? ignoreOverlayScroll}
         />

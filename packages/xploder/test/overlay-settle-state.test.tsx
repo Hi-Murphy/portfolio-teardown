@@ -165,9 +165,7 @@ describe('overlay settle state', () => {
       const before = settledEvents(events).length;
 
       await renderer.update(
-        <Scene
-          {...sceneProps({ clock, target: 'exploded', progressRef, onOverlay })}
-        />,
+        <Scene {...sceneProps({ clock, target: 'exploded', progressRef, onOverlay })} />,
       );
       await advanceClockTo(renderer, clock, EXPLODE_HOLD_SECONDS);
 
@@ -336,9 +334,7 @@ describe('overlay settle state', () => {
       const before = events.length;
       const turned: RigState = { ...INITIAL_RIG, step: 1, turns: 1 };
 
-      await renderer.update(
-        <Scene {...sceneProps({ clock, tokens, rig: turned, onOverlay })} />,
-      );
+      await renderer.update(<Scene {...sceneProps({ clock, tokens, rig: turned, onOverlay })} />);
       await renderer.advanceFrames(1, 0);
 
       const emitted = events.slice(before);
@@ -465,8 +461,8 @@ describe('overlay settle helpers', () => {
     expect(settlePhase(exploded, key({ target: 'exploded', zoomFactor: 1.25 }))).toBe('zoomed');
     expect(settlePhase(exploded, key({ target: 'exploded', turns: 1 }))).toBe('turned');
     expect(settlePhase(exploded, key({ target: 'exploded', width: 400 }))).toBe('exploded');
-    expect(
-      settlePhase(exploded, key({ target: 'exploded', zoomFactor: 1.25, turns: 1 })),
-    ).toBe('zoomed');
+    expect(settlePhase(exploded, key({ target: 'exploded', zoomFactor: 1.25, turns: 1 }))).toBe(
+      'zoomed',
+    );
   });
 });

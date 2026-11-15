@@ -271,8 +271,21 @@ describe('OverlayProjector', () => {
         VIEWPORT.width,
         VIEWPORT.height,
       );
-      camera.zoom *= 1.2;
+      const zoomFactor = 1.2;
+
+      camera.zoom *= zoomFactor;
       camera.updateProjectionMatrix();
+
+      await renderer.update(
+        <Scene
+          {...sceneProps({
+            target: 'exploded',
+            progressRef,
+            rig: { ...INITIAL_RIG, zoomFactor },
+            onOverlay: (event) => events.push(event),
+          })}
+        />,
+      );
 
       await renderer.advanceFrames(1, 0.1);
       await renderer.advanceFrames(1, 0.1);

@@ -1,0 +1,264 @@
+# command: pnpm --filter xploder exec vitest run test/overlay-settle-state.test.tsx test/overlay-projector.test.tsx --reporter verbose | commit: 1f3c4f2 | exit: 1
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:61982) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:61983) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid-explode without settling until the tween end (C4) 24ms
+   → expected [ …(2) ] to have a length of 1 but got 2
+ × test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid-turn without settling until the tween end 5ms
+   → expected [ …(2) ] to have a length of 1 but got 2
+ × test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid smooth zoom without settling until the tween end 5ms
+   → expected [ …(2) ] to have a length of 1 but got 2
+ × test/overlay-settle-state.test.tsx > overlay settle state > emits moving and settled in the same frame after a resize at rest 3ms
+   → expected [ 'moving' ] to deeply equal [ 'moving', 'settled' ]
+ × test/overlay-settle-state.test.tsx > overlay settle state > emits moving and settled in the same frame for a reduced-motion turn 3ms
+   → expected [ 'moving' ] to deeply equal [ 'moving', 'settled' ]
+ × test/overlay-settle-state.test.tsx > overlay settle state > gives an explode target precedence over a simultaneous zoom change 6ms
+   → expected undefined to be 'exploded' // Object.is equality
+ × test/overlay-settle-state.test.tsx > overlay settle state > reports the target on the first rest after mount 3ms
+   → expected undefined to be 'exploded' // Object.is equality
+ × test/overlay-settle-state.test.tsx > overlay settle helpers > restKeyOf records the tween targets 0ms
+   → restKeyOf is not a function
+ × test/overlay-settle-state.test.tsx > overlay settle helpers > isAtRest requires every explode progress to equal the target 0ms
+   → isAtRest is not a function
+ × test/overlay-settle-state.test.tsx > overlay settle helpers > isAtRest requires the rig azimuth and the camera fit product 0ms
+   → isAtRest is not a function
+ × test/overlay-settle-state.test.tsx > overlay settle helpers > settlePhase applies the target, zoom, turn, target precedence 0ms
+   → restKeyOf is not a function
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while imploded 19ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while imploded 4ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while imploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while imploded 2ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while exploded 2ms
+ × test/overlay-projector.test.tsx > OverlayProjector > emits moving once and then exactly one settled after a turn 6ms
+   → expected [ 'settled', 'moving' ] to deeply equal [ 'settled', 'moving', 'settled' ]
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reports a view-offset change without emitting moving 2ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > keeps a settled frame in content space under a view offset 2ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reuses projection buffers across frames after warm-up 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/overlay-projector.test.tsx > OverlayProjector > emits moving once and then exactly one settled after a turn
+AssertionError: expected [ 'settled', 'moving' ] to deeply equal [ 'settled', 'moving', 'settled' ]
+
+- Expected
++ Received
+
+  [
+    "settled",
+    "moving",
+-   "settled",
+  ]
+
+ ❯ test/overlay-projector.test.tsx:210:49
+    208|       seconds = motion.durations.implode;
+    209|       await renderer.advanceFrames(1, 0.1);
+    210|       expect(events.map((event) => event.kind)).toEqual(['settled', 'm…
+       |                                                 ^
+    211|
+    212|       await renderer.advanceFrames(1, 0.1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid-explode without settling until the tween end (C4)
+AssertionError: expected [ …(2) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ test/overlay-settle-state.test.tsx:175:37
+    173|
+    174|       expect(progressRef.current?.some((value) => value > 0 && value <…
+    175|       expect(settledEvents(events)).toHaveLength(before);
+       |                                     ^
+    176|
+    177|       for (const count of HELD_FRAMES) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid-turn without settling until the tween end
+AssertionError: expected [ …(2) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ test/overlay-settle-state.test.tsx:221:39
+    219|       for (const count of HELD_FRAMES) {
+    220|         await holdFrames(renderer, count);
+    221|         expect(settledEvents(events)).toHaveLength(before);
+       |                                       ^
+    222|       }
+    223|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid smooth zoom without settling until the tween end
+AssertionError: expected [ …(2) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ test/overlay-settle-state.test.tsx:271:39
+    269|       for (const count of HELD_FRAMES) {
+    270|         await holdFrames(renderer, count);
+    271|         expect(settledEvents(events)).toHaveLength(before);
+       |                                       ^
+    272|       }
+    273|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > emits moving and settled in the same frame after a resize at rest
+AssertionError: expected [ 'moving' ] to deeply equal [ 'moving', 'settled' ]
+
+- Expected
++ Received
+
+  [
+    "moving",
+-   "settled",
+  ]
+
+ ❯ test/overlay-settle-state.test.tsx:312:50
+    310|       const emitted = events.slice(before);
+    311|
+    312|       expect(emitted.map((event) => event.kind)).toEqual(['moving', 's…
+       |                                                  ^
+    313|
+    314|       const settled = settledEvents(emitted)[0];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > emits moving and settled in the same frame for a reduced-motion turn
+AssertionError: expected [ 'moving' ] to deeply equal [ 'moving', 'settled' ]
+
+- Expected
++ Received
+
+  [
+    "moving",
+-   "settled",
+  ]
+
+ ❯ test/overlay-settle-state.test.tsx:346:50
+    344|       const emitted = events.slice(before);
+    345|
+    346|       expect(emitted.map((event) => event.kind)).toEqual(['moving', 's…
+       |                                                  ^
+    347|       expect(settledEvents(emitted)[0]?.phase).toBe('turned');
+    348|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > gives an explode target precedence over a simultaneous zoom change
+AssertionError: expected undefined to be 'exploded' // Object.is equality
+
+- Expected:
+"exploded"
+
++ Received:
+undefined
+
+ ❯ test/overlay-settle-state.test.tsx:380:33
+    378|
+    379|       expect(settled).toHaveLength(1);
+    380|       expect(settled[0]?.phase).toBe('exploded');
+       |                                 ^
+    381|     } finally {
+    382|       await renderer.unmount();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle state > reports the target on the first rest after mount
+AssertionError: expected undefined to be 'exploded' // Object.is equality
+
+- Expected:
+"exploded"
+
++ Received:
+undefined
+
+ ❯ test/overlay-settle-state.test.tsx:400:33
+    398|
+    399|       expect(settled).toHaveLength(1);
+    400|       expect(settled[0]?.phase).toBe('exploded');
+       |                                 ^
+    401|     } finally {
+    402|       await renderer.unmount();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle helpers > restKeyOf records the tween targets
+TypeError: restKeyOf is not a function
+ ❯ key test/overlay-settle-state.test.tsx:140:10
+    138|
+    139| function key(overrides: Partial<RestKey> = {}): RestKey {
+    140|   return restKeyOf({
+       |          ^
+    141|     layout: layoutA,
+    142|     width: VIEWPORT.width,
+ ❯ test/overlay-settle-state.test.tsx:409:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle helpers > isAtRest requires every explode progress to equal the target
+TypeError: isAtRest is not a function
+ ❯ test/overlay-settle-state.test.tsx:431:12
+    429|     };
+    430|
+    431|     expect(isAtRest(rest)).toBe(true);
+       |            ^
+    432|
+    433|     const mid = progressFor(layoutA, 1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle helpers > isAtRest requires the rig azimuth and the camera fit product
+TypeError: isAtRest is not a function
+ ❯ test/overlay-settle-state.test.tsx:452:12
+    450|     };
+    451|
+    452|     expect(isAtRest(rest)).toBe(true);
+       |            ^
+    453|     expect(isAtRest({ ...rest, azimuth: null })).toBe(true);
+    454|     expect(isAtRest({ ...rest, azimuth: azimuthOf(0) })).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/12]⎯
+
+ FAIL  test/overlay-settle-state.test.tsx > overlay settle helpers > settlePhase applies the target, zoom, turn, target precedence
+TypeError: restKeyOf is not a function
+ ❯ key test/overlay-settle-state.test.tsx:140:10
+    138|
+    139| function key(overrides: Partial<RestKey> = {}): RestKey {
+    140|   return restKeyOf({
+       |          ^
+    141|     layout: layoutA,
+    142|     width: VIEWPORT.width,
+ ❯ test/overlay-settle-state.test.tsx:459:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/12]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  12 failed | 11 passed (23)
+   Start at  15:48:05
+   Duration  206ms (import 47%, tests 38%, transform 14%, worker 1%)
+
