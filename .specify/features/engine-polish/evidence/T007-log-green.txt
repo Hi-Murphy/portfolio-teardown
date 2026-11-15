@@ -1,0 +1,190 @@
+# T007 green — T007 Check block (unit, sealed suites, S7 diff, guards, typecheck, lint, test) — commit df01ad7
+RED-RECORDED
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t007/packages/xploder
+
+stdout | test/overlay-note-clear.test.ts > dimension note clearance > never intersects a rendered plate layer name across the engine sweep
+baseline-cell fixture-a note=[[282.764,451.908],[350.764,451.908],[350.764,472.908],[282.764,472.908]] hits=0
+baseline-cell fixture-b note=[[334.289,411.671],[402.289,411.671],[402.289,432.671],[334.289,432.671]] hits=0
+baseline-cell fixture-c note=[[349.606,449.459],[417.606,449.459],[417.606,470.459],[349.606,470.459]] hits=0
+baseline-cell real:websocket-inspector note=[[390.32,480.079],[458.32,480.079],[458.32,501.079],[390.32,501.079]] hits=0
+baseline-cell real:jev-toolkit note=[[349.606,449.459],[417.606,449.459],[417.606,470.459],[349.606,470.459]] hits=0
+cells=4160 noteCells=3040 layerQuads=13584 offendingCells=0
+
+ ✓ test/overlay-note-clear.test.ts > dimension note clearance > never intersects a rendered plate layer name across the engine sweep 271ms
+stdout | test/overlay-note-clear.test.ts > tags placement equivalence > keeps every non-dimension placement deep-equal before and after the note fix
+equivalence cells=4160 comparedCells=4160
+
+ ✓ test/overlay-note-clear.test.ts > tags placement equivalence > keeps every non-dimension placement deep-equal before and after the note fix 298ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  08:07:30
+   Duration  671ms (tests 92%, import 6%, transform 2%)
+
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t007/packages/xploder
+
+
+ Test Files  4 passed (4)
+      Tests  47 passed (47)
+   Start at  08:07:31
+   Duration  30.35s (tests 99%, import 1%)
+
+FROZEN-OK
+SURFACES-S2S4S7-OK
+S3-TOOLS-OK
+RESEAL-LIST-OK
+ALLOWED-PATHS-OK
+NO-NEW-DEPS-OK
+TIMEOUT-NOT-RAISED-OK
+GITLEAKS-OK
+$ pnpm -r --if-present typecheck
+packages/xploder typecheck$ tsc --noEmit
+tools/perf typecheck$ tsc --noEmit
+packages/xploder typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+tools/perf typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+$ pnpm -r --if-present lint && pnpm format:check
+packages/xploder lint$ eslint .
+tools/perf lint$ eslint .
+tools/perf lint: Done
+packages/xploder lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ pnpm -r --if-present test
+Scope: 3 of 4 workspace projects
+tools/perf test$ vitest run
+packages/xploder test$ vitest run
+packages/xploder test: 
+packages/xploder test:  RUN  v5.0.5 /private/tmp/s14-wt/t007/packages/xploder
+packages/xploder test: 
+tools/perf test: 
+tools/perf test:  RUN  v5.0.5 /private/tmp/s14-wt/t007/tools/perf
+tools/perf test: 
+packages/xploder test:  ❯ test/frozen-surface.test.ts (6 tests | 1 failed) 27ms
+packages/xploder test:    ❯ frozen S6 surface (1)
+packages/xploder test:      × matches every hash recorded from the base commit 7ms
+packages/xploder test: (node:95638) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95639) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95640) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95650) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95658) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95655) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95663) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95668) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95671) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95676) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95681) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: (node:95684) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+tools/perf test: 
+tools/perf test:  Test Files  32 passed (32)
+tools/perf test:       Tests  303 passed (303)
+tools/perf test:    Start at  08:08:11
+tools/perf test:    Duration  2.93s (import 76%, tests 21%, transform 2%, worker 1%)
+tools/perf test: 
+tools/perf test:     Isolate  32 workers spawned · ~104ms startup each (spawn + environment, per file)
+tools/perf test:              at least ~265ms faster with isolate: false — reuses workers across files instead of one per file
+tools/perf test: 
+tools/perf test: Done
+packages/xploder test: (node:95686) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+packages/xploder test: Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+packages/xploder test: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/xploder test: theme  role                   paper   surface
+packages/xploder test: light  paper                    1.00     1.06
+packages/xploder test: light  surface                  1.06     1.00
+packages/xploder test: light  grid                     1.19     1.26
+packages/xploder test: light  line                     7.58     8.06
+packages/xploder test: light  lineMuted                3.23     3.43
+packages/xploder test: light  ink                     13.71    14.58
+packages/xploder test: light  label                    7.33     7.79
+packages/xploder test: light  accent                   5.27     5.60
+packages/xploder test: light  steel                    5.23     5.56
+packages/xploder test: light  tech-language            5.74     6.10
+packages/xploder test: light  tech-platform            6.10     6.48
+packages/xploder test: light  tech-framework           6.30     6.70
+packages/xploder test: light  tech-library             4.93     5.24
+packages/xploder test: light  tech-storage             5.18     5.51
+packages/xploder test: light  tech-network             5.27     5.60
+packages/xploder test: light  tech-tooling             5.45     5.79
+packages/xploder test: light  tech-ai                  5.37     5.70
+packages/xploder test: dark   paper                    1.00     1.13
+packages/xploder test: dark   surface                  1.13     1.00
+packages/xploder test: dark   grid                     1.37     1.21
+packages/xploder test: dark   line                     9.36     8.25
+packages/xploder test: dark   lineMuted                3.78     3.33
+packages/xploder test: dark   ink                     14.81    13.06
+packages/xploder test: dark   label                    8.62     7.60
+packages/xploder test: dark   accent                   9.57     8.44
+packages/xploder test: dark   steel                    6.74     5.94
+packages/xploder test: dark   tech-language            7.93     6.99
+packages/xploder test: dark   tech-platform            8.33     7.35
+packages/xploder test: dark   tech-framework           8.17     7.21
+packages/xploder test: dark   tech-library             9.64     8.50
+packages/xploder test: dark   tech-storage             9.23     8.14
+packages/xploder test: dark   tech-network            10.01     8.83
+packages/xploder test: dark   tech-tooling            10.40     9.17
+packages/xploder test: dark   tech-ai                  7.54     6.65
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+packages/xploder test: 
+packages/xploder test:  FAIL  test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit
+packages/xploder test: AssertionError: src/overlay/model.ts: expected '8d63f0854d5e6705f2819ad0f502647b54896…' to be '63427b9eed60ea9fc07eae2b55214be66bc37…' // Object.is equality
+packages/xploder test: 
+packages/xploder test: Expected: "63427b9eed60ea9fc07eae2b55214be66bc37bbeb736d3a6cff4f1e767d77117"
+packages/xploder test: Received: "8d63f0854d5e6705f2819ad0f502647b548962bb1dc98c101e3d9107fc504814"
+packages/xploder test: 
+packages/xploder test:  ❯ test/frozen-surface.test.ts:205:47
+packages/xploder test:     203|       if (workingCopy === undefined) throw new Error(`Missing working …
+packages/xploder test:     204|
+packages/xploder test:     205|       expect(await sha256(workingCopy), path).toBe(expected);
+packages/xploder test:        |                                               ^
+packages/xploder test:     206|     }
+packages/xploder test:     207|   });
+packages/xploder test: 
+packages/xploder test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+packages/xploder test: 
+packages/xploder test: 
+packages/xploder test:  Test Files  1 failed | 65 passed (66)
+packages/xploder test:       Tests  1 failed | 641 passed (642)
+packages/xploder test:    Start at  08:08:11
+packages/xploder test:    Duration  33.91s (tests 88%, import 9%, transform 2%)
+packages/xploder test: 
+packages/xploder test: Failed
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /private/tmp/s14-wt/t007/packages/xploder
+
+[ELIFECYCLE] Test failed. See above for more details.
+# exit code: 1
