@@ -7,7 +7,7 @@ package_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_root=$(CDPATH= cd -- "$package_dir/../.." && pwd)
 paths_file="$script_dir/frozen-surface.s6.paths"
 manifest_file="$script_dir/frozen-surface.s6.manifest.json"
-base=2c9187d
+base=ea61882
 package_prefix=packages/xploder/
 
 cd "$repo_root"
@@ -24,7 +24,7 @@ trap 'rm -f "$tmp_file"' EXIT
 {
   printf '{\n'
   printf '  "base": "%s",\n' "$base"
-  printf '  "note": "%s",\n' 'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md. Re-sealed in S14 at b5a4713: src/overlay/model.ts — dimension notes avoid the plate layer-name quads; every other placement output-identical (I-05) + test/overlay-note-clear.test.ts; see .specify/features/engine-polish/evidence/T008-log-rects.md. Re-sealed in S15 at d4efeaf: src/react/scene/Scene.tsx — every tween samples the injected engine clock (E1: explode, camera, emphasis) + test/scene-clock.test.tsx; see .specify/features/engine-timing/evidence/T003-log-green.txt. Re-sealed in S15 at 2c9187d: src/react/scene/OverlayProjector.tsx + src/react/scene/Scene.tsx — overlay events stamped in engine time; none while the clock is paused (E1) + test/overlay-clock.test.tsx; see .specify/features/engine-timing/evidence/T005-log-green.txt.'
+  printf '  "note": "%s",\n' 'S06 seal (S07 RFC D1). Re-sealed in S10 at f65b13c: src/overlay/model.ts gained the tour-trail overlay (S10 Q16, Murphy-authorised revision; see .specify/features/site-shell/evidence/Q16-revision-note.md). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.8 at 057d89a: src/overlay/place.ts — output-identical lazy first-fit placement search with prepared obstacle bounds (E1a); see .specify/features/hero-eager/evidence/T006-log-e1a-ab.md. Re-sealed in S14 at b5a4713: src/overlay/model.ts — dimension notes avoid the plate layer-name quads; every other placement output-identical (I-05) + test/overlay-note-clear.test.ts; see .specify/features/engine-polish/evidence/T008-log-rects.md. Re-sealed in S15 at d4efeaf: src/react/scene/Scene.tsx — every tween samples the injected engine clock (E1: explode, camera, emphasis) + test/scene-clock.test.tsx; see .specify/features/engine-timing/evidence/T003-log-green.txt. Re-sealed in S15 at 2c9187d: src/react/scene/OverlayProjector.tsx + src/react/scene/Scene.tsx — overlay events stamped in engine time; none while the clock is paused (E1) + test/overlay-clock.test.tsx; see .specify/features/engine-timing/evidence/T005-log-green.txt. Re-sealed in S15 at ea61882: src/react/scene/Scene.tsx — ClockGate: no frames while the engine clock is paused, one repaint of the frozen pose on resize/theme (E2) + test/scene-pause.test.tsx; see .specify/features/engine-timing/evidence/T008-log-green.txt.'
   printf '  "files": {\n'
 
   first=true
