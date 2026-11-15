@@ -205,6 +205,7 @@ console.log(
   `# command: node settle-timing.mjs <repo> <baseUrl> [--cpu ${cpuProfiles.join(',')}] [--runs ${runs}] | base: ${baseUrl} | chromium: ${browser.version()} | cpu: ${cpuProfiles.join(',')} | commit: ${commit}`,
 );
 console.log('# viewport: 412x823 DPR 1.75, hasTouch, isMobile');
+if (options['rest-method'] === 'attributes') console.log('# rest method forced: attributes (events ignored, comparable with the pre-S15 base)');
 console.log('# visibility: effective opacity (ancestor product) > 0 = fade started (fade-in excluded)');
 
 const cells = [];
@@ -387,6 +388,8 @@ try {
             await cdp.send('Profiler.disable').catch(() => undefined);
 
             const trace = await page.evaluate(() => window.__s15TimingTrace);
+            // --rest-method attributes: ignore the S15 events so a run is comparable with a pre-S15 base.
+            if (options['rest-method'] === 'attributes') trace.support = false;
             if (run === 0) continue;
             const frames = trace.frames;
             if (start === null || frames.length === 0) {
