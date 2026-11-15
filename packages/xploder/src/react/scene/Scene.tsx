@@ -1,4 +1,5 @@
-import { useMemo, useState, type RefObject } from 'react';
+import { useThree, type Frameloop } from '@react-three/fiber';
+import { useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 
 import type { Phase } from '../../engine/explode';
 import type { RigState } from '../../engine/camera';
@@ -43,6 +44,55 @@ export interface SceneProps {
 }
 
 function ignoreOverlayScroll(): void {}
+
+interface ClockGateProps {
+  readonly clock: ClockReader;
+  readonly palette: Palette;
+  readonly look?: LookTokens;
+  readonly layout: ProjectLayout;
+  readonly kinds?: readonly ComponentKind[];
+}
+
+function ClockGate({ clock, palette, look, layout, kinds }: ClockGateProps) {
+  const setFrameloop = useThree((state) => state.setFrameloop);
+  const invalidate = useThree((state) => state.invalidate);
+  const advance = useThree((state) => state.advance);
+  const getState = useThree((state) => state.get);
+  const size = useThree((state) => state.size);
+  const dpr = useThree((state) => state.viewport.dpr);
+  const resumeFrameloop = useRef<Frameloop>('never');
+  const mounted = useRef(false);
+
+  useLayoutEffect(() => {
+    const pause = (): void => {
+      resumeFrameloop.current = getState().frameloop;
+      setFrameloop('never');
+    };
+
+    if (clock.paused) pause();
+
+    return clock.subscribe((paused) => {
+      if (paused) {
+        pause();
+        return;
+      }
+
+      setFrameloop(resumeFrameloop.current);
+      invalidate();
+    });
+  }, [clock, getState, invalidate, setFrameloop]);
+
+  useLayoutEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+
+    if (clock.paused) advance(clock.now());
+  }, [advance, clock, dpr, kinds, layout, look, palette, size.height, size.width]);
+
+  return null;
+}
 
 export function Scene({
   layout,
@@ -115,6 +165,13 @@ export function Scene({
       )}
       <Lights />
       <Stats layout={layout} onStats={onStats} />
+      <ClockGate
+        clock={resolvedClock}
+        palette={palette}
+        look={look}
+        layout={layout}
+        kinds={kinds}
+      />
     </>
   );
 }
