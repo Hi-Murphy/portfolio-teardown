@@ -38,7 +38,7 @@ AssertionError: src/react/panel/PanelLayer.tsx:394: const listeningSince = perfo
 
 Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
 
-  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  × "pnpm recursive exec" failed in <home-path>
   │ teardown/s15-t006/packages/xploder
 
 # command: pnpm --filter xploder exec vitest run test/no-real-timers.test.ts --reporter verbose | commit: 5def09d | exit: 0
@@ -109,6 +109,6 @@ undefined
 
 Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
 
-  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  × "pnpm recursive exec" failed in <home-path>
   │ teardown/s15-t006/apps/web
 

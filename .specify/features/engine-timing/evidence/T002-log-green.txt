@@ -1,5 +1,5 @@
 
- RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/s15-t002/packages/xploder
+ RUN  v5.0.5 <repo>/packages/xploder
 
  ✓ test/clock.test.ts > engine clock > now() advances with host time and freezes while paused 1ms
  ✓ test/clock.test.ts > engine clock > resume continues from the last running value without a jump 0ms
