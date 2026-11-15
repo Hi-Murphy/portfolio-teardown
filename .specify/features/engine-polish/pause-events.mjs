@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const [, , repoArg, baseUrlArg, screenshotArg = '/tmp/s14-checks/pause-frames'] = process.argv;
 if (!repoArg || !baseUrlArg) {
@@ -13,6 +14,9 @@ const repo = resolve(repoArg);
 const baseUrl = baseUrlArg.replace(/\/$/, '');
 const screenshotDir = resolve(screenshotArg);
 const require = createRequire(resolve(repo, 'tools/perf/package.json'));
+const { HERO_STORYBOARD_MS } = await import(
+  pathToFileURL(resolve(repo, 'apps/web/components/hero/hero-loop.ts')).href
+);
 const { chromium } = require('playwright');
 const browser = await chromium.launch();
 const commit =
@@ -35,12 +39,13 @@ console.log(
   `# command: node pause-events.mjs <repo> <baseUrl> [screenshotDir] | base: ${baseUrl} | chromium: ${browser.version()} | commit: ${commit}`,
 );
 console.log(
-  '| width | offset | cpu | stateSettles | labelBatches | resumeToNextPhaseMs | frameEqual |',
+  '| width | offset | cpu | midExplode | stateSettles | labelBatches | expectedRemainingMs | resumeToNextPhaseMs | resumeDeltaMs | frameEqual |',
 );
-console.log('|---|---:|---:|---:|---:|---:|---|');
+console.log('|---|---:|---:|---|---:|---:|---:|---:|---:|---|');
 
 try {
   let firstCell = true;
+  const results = [];
   for (const [width, height, mobile] of [
     [1440, 900, false],
     [390, 844, true],
@@ -184,9 +189,24 @@ try {
           const nextPhase = events.find((event) => event.t >= playAt && event.kind === 'phase');
           const resumeToNextPhaseMs =
             nextPhase === undefined ? null : round(nextPhase.t - playAt);
+          const explodePhase = events.find(
+            (event) => event.kind === 'phase' && event.value === 'explode',
+          );
+          if (explodePhase === undefined) throw new Error('explode phase start was not observed');
+          if (resumeToNextPhaseMs === null) throw new Error('next phase was not observed');
+          const stateAtPause =
+            events
+              .filter((event) => event.kind === 'state' && event.t <= pauseAt)
+              .at(-1)?.value ?? null;
+          const midExplode = stateAtPause !== 'exploded';
+          const expectedRemainingMs = round(
+            HERO_STORYBOARD_MS.explode - (pauseAt - explodePhase.t),
+          );
+          const resumeDeltaMs = round(resumeToNextPhaseMs - expectedRemainingMs);
+          results.push({ frameEqual, midExplode, resumeDeltaMs, stateSettles });
 
           console.log(
-            `| ${width}x${height} | ${offset} | x${cpu} | ${stateSettles} | ${labelBatches} | ${resumeToNextPhaseMs ?? 'missing'} | ${frameEqual} |`,
+            `| ${width}x${height} | ${offset} | x${cpu} | ${midExplode} | ${stateSettles} | ${labelBatches} | ${expectedRemainingMs} | ${resumeToNextPhaseMs} | ${resumeDeltaMs} | ${frameEqual} |`,
           );
         } finally {
           await context.close();
@@ -196,6 +216,22 @@ try {
       }
     }
   }
+
+  const midExplodeCells = results.filter((result) => result.midExplode);
+  const maxResumeDeltaMs = round(
+    Math.max(...results.map((result) => Math.abs(result.resumeDeltaMs))),
+  );
+  const yesNo = (value) => (value ? 'yes' : 'no');
+  console.log('');
+  console.log(
+    `settle count = 1 in every mid-explode cell: ${yesNo(midExplodeCells.every((result) => result.stateSettles === 1))}`,
+  );
+  console.log(
+    `frames equal while paused in every cell: ${yesNo(results.every((result) => result.frameEqual))}`,
+  );
+  console.log(
+    `max |resumeDeltaMs| over cells: ${maxResumeDeltaMs} ms (one frame = 16.7 ms)`,
+  );
 } finally {
   await browser.close();
 }

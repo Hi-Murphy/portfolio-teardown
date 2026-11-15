@@ -1,0 +1,30 @@
+# T006 green — pnpm --filter web exec vitest run test/home-hero-loop.test.tsx --reporter verbose — commit 64d9ef3
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t006/apps/web
+
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > starts imploded and calls explode, one zoom burst, and the capture follow in order 10ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause pauses the tour and follow; resume replays both 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during implode resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-explode resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during zoom settle resumes after the remaining step time 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during the capture tour keeps the existing resume behavior 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > repeated pauses accumulate elapsed time within the same step 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause in the last millisecond resumes after the remaining millisecond 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume clamps elapsed time to zero when the clock has passed the deadline 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume advances an ended tour instead of replaying that flow 0ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs implode → explode → zoom → capture and narrates the first component 16ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > pauses and resumes from the button, hidden tab, and off-screen observer 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > a user pause wins over automatic resumes 3ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge 5ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > watches only while running and visible, and leaves on-time steps alone 15ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > never mounts the stage or storyboard under reduced motion 1ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  07:55:24
+   Duration  428ms (environment 56%, tests 21%, import 13%, transform 10%, worker 1%)
+
