@@ -1,0 +1,143 @@
+# T006 red — pnpm --filter web exec vitest run test/home-hero-loop.test.tsx --reporter verbose — commit 64d9ef3
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t006/apps/web
+
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > starts imploded and calls explode, one zoom burst, and the capture follow in order 10ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause pauses the tour and follow; resume replays both 1ms
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause during implode resumes after the remaining step time 2ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause mid-explode resumes after the remaining step time 1ms
+   → expected "vi.fn()" to be called 3 times, but got 0 times
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time 1ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause during zoom settle resumes after the remaining step time 1ms
+   → expected "vi.fn()" to be called with arguments: [ 'fixture-capture' ]
+
+Number of calls: 0
+
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during the capture tour keeps the existing resume behavior 0ms
+ × test/home-hero-loop.test.tsx > createHeroSequence > repeated pauses accumulate elapsed time within the same step 3ms
+   → expected "vi.fn()" to be called 3 times, but got 0 times
+ × test/home-hero-loop.test.tsx > createHeroSequence > pause in the last millisecond resumes after the remaining millisecond 1ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ × test/home-hero-loop.test.tsx > createHeroSequence > resume clamps elapsed time to zero when the clock has passed the deadline 1ms
+   → expected 2200 to be +0 // Object.is equality
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume advances an ended tour instead of replaying that flow 0ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs implode → explode → zoom → capture and narrates the first component 17ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > pauses and resumes from the button, hidden tab, and off-screen observer 7ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > a user pause wins over automatic resumes 4ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge 5ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > watches only while running and visible, and leaves on-time steps alone 12ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > never mounts the stage or storyboard under reduced motion 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause during implode resumes after the remaining step time
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/home-hero-loop.test.tsx:514:29
+    512|     expect(actions.explode).not.toHaveBeenCalled();
+    513|     vi.advanceTimersByTime(1);
+    514|     expect(actions.explode).toHaveBeenCalledTimes(1);
+       |                             ^
+    515|   });
+    516|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause mid-explode resumes after the remaining step time
+AssertionError: expected "vi.fn()" to be called 3 times, but got 0 times
+ ❯ test/home-hero-loop.test.tsx:533:28
+    531|     expect(actions.zoomIn).not.toHaveBeenCalled();
+    532|     vi.advanceTimersByTime(1);
+    533|     expect(actions.zoomIn).toHaveBeenCalledTimes(3);
+       |                            ^
+    534|   });
+    535|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/home-hero-loop.test.tsx:556:33
+    554|     expect(actions.rotateRight).not.toHaveBeenCalled();
+    555|     vi.advanceTimersByTime(1);
+    556|     expect(actions.rotateRight).toHaveBeenCalledTimes(1);
+       |                                 ^
+    557|   });
+    558|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause during zoom settle resumes after the remaining step time
+AssertionError: expected "vi.fn()" to be called with arguments: [ 'fixture-capture' ]
+
+Number of calls: 0
+
+ ❯ test/home-hero-loop.test.tsx:575:26
+    573|     expect(follow.start).not.toHaveBeenCalled();
+    574|     vi.advanceTimersByTime(1);
+    575|     expect(follow.start).toHaveBeenCalledWith(FLOW_A);
+       |                          ^
+    576|   });
+    577|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > repeated pauses accumulate elapsed time within the same step
+AssertionError: expected "vi.fn()" to be called 3 times, but got 0 times
+ ❯ test/home-hero-loop.test.tsx:622:28
+    620|     expect(actions.zoomIn).not.toHaveBeenCalled();
+    621|     vi.advanceTimersByTime(1);
+    622|     expect(actions.zoomIn).toHaveBeenCalledTimes(3);
+       |                            ^
+    623|   });
+    624|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > pause in the last millisecond resumes after the remaining millisecond
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/home-hero-loop.test.tsx:637:29
+    635|     expect(actions.explode).not.toHaveBeenCalled();
+    636|     vi.advanceTimersByTime(1);
+    637|     expect(actions.explode).toHaveBeenCalledTimes(1);
+       |                             ^
+    638|   });
+    639|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  test/home-hero-loop.test.tsx > createHeroSequence > resume clamps elapsed time to zero when the clock has passed the deadline
+AssertionError: expected 2200 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2200
+
+ ❯ test/home-hero-loop.test.tsx:652:41
+    650|     sequence.resume();
+    651|
+    652|     expect(schedule.mock.lastCall?.[1]).toBe(0);
+       |                                         ^
+    653|     vi.advanceTimersByTime(0.1);
+    654|     expect(actions.explode).toHaveBeenCalledTimes(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 13 passed (20)
+   Start at  07:51:54
+   Duration  407ms (environment 61%, tests 24%, import 12%, transform 2%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s14-wt/t006/apps/web
+
+
+# exit code: 1
