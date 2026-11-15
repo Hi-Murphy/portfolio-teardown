@@ -430,3 +430,8 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
   - `label-matrix.mjs` (T001) only collects quads, screenshots and the label DOM.
   - The pair test is a separate pure script, `label-sweep.mjs` (T006), run on the dumps. One sweep implementation therefore yields the S15 census (T001 dumps), the Stage A census and the Stage B result.
   - The browser seeded control (§5.4) is a `--control` mode of `label-matrix.mjs`, added in T006.
+- **R9 — home hero cells are sweep-only (Stage 3, before T001).**
+  - The `/` hero runs a looping storyboard with a moving trace dot and pulses, so its screenshots are not frame-stable between runs.
+  - Pixel parity and DOM identity (AC2) therefore run on the kickoff's parity matrix: both projects plus fixtures A/B/C.
+  - The hero's settled states (explode hold, zoom hold) stay in the AC1 sweep as extra cells.
+  - `parity-compare.mjs` marks them `sweep-only`.
