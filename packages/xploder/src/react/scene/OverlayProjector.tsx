@@ -9,6 +9,7 @@ import type {
   OverlayLayerFrame,
   Vec2,
 } from '../../overlay/project';
+import type { ClockReader } from '../../time/clock';
 
 type MutableVec2 = [number, number];
 type ProjectorState = 'initial' | 'moving' | 'settled';
@@ -40,9 +41,10 @@ export interface OverlayProjectionBuffers {
 }
 
 export type OverlayEvent =
-  | { readonly kind: 'moving' }
+  | { readonly kind: 'moving'; readonly at: number }
   | {
       readonly kind: 'settled';
+      readonly at: number;
       readonly frame: OverlayFrame;
       readonly width: number;
       readonly height: number;
@@ -52,6 +54,7 @@ export type OverlayEvent =
 export interface OverlayProjectorProps {
   readonly layout: ProjectLayout;
   readonly progressRef?: RefObject<Float32Array | null>;
+  readonly clock: ClockReader;
   readonly onOverlay: (event: OverlayEvent) => void;
   readonly onOverlayScroll: (offsetY: number) => void;
 }
@@ -404,6 +407,7 @@ function signatureOf(
 export function OverlayProjector({
   layout,
   progressRef,
+  clock,
   onOverlay,
   onOverlayScroll,
 }: OverlayProjectorProps) {
@@ -443,6 +447,9 @@ export function OverlayProjector({
       onOverlayScrollRef.current(offsetY);
     }
 
+    if (clock.paused) return;
+
+    const at = clock.now();
     const progress = progressRef?.current ?? null;
     const signature = signatureOf(
       orthographicCamera,
@@ -459,7 +466,7 @@ export function OverlayProjector({
     if (previousSignature !== null && previousSignature !== signature) {
       if (stateRef.current !== 'moving') {
         stateRef.current = 'moving';
-        onOverlayRef.current({ kind: 'moving' });
+        onOverlayRef.current({ kind: 'moving', at });
       }
 
       invalidate();
@@ -480,6 +487,7 @@ export function OverlayProjector({
       stateRef.current = 'settled';
       onOverlayRef.current({
         kind: 'settled',
+        at,
         frame: snapshotOverlayFrame(buffers),
         width: size.width,
         height: size.height,

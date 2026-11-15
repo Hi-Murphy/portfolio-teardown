@@ -70,7 +70,8 @@ export function Scene({
 }: SceneProps) {
   const [ownedClock] = useState(() => createEngineClock());
   const legacyClock = useMemo(() => (now === undefined ? null : clockFromNow(now)), [now]);
-  const engineNow = (clock ?? legacyClock ?? ownedClock).now;
+  const resolvedClock = clock ?? legacyClock ?? ownedClock;
+  const engineNow = resolvedClock.now;
   const emphasisDriver = useEmphasisDriver({
     layout,
     palette,
@@ -107,6 +108,7 @@ export function Scene({
         <OverlayProjector
           layout={layout}
           progressRef={progressRef}
+          clock={resolvedClock}
           onOverlay={onOverlay}
           onOverlayScroll={onOverlayScroll ?? ignoreOverlayScroll}
         />

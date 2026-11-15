@@ -1,0 +1,95 @@
+# command: pnpm --filter xploder exec vitest run test/overlay-clock.test.tsx --reporter verbose | commit: 208c8b7 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:45719) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > stamps every emitted event with the clock time of its frame 30ms
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > emits nothing while paused, then resumes moving and settles once after the tween 14ms
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > still reports a view-offset change while paused 4ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  14:15:26
+   Duration  264ms (import 46%, tests 27%, transform 25%, worker 2%)
+
+
+# command: pnpm --filter xploder exec vitest run test/overlay-projector.test.tsx test/scene-clock.test.tsx test/scene.test.tsx --reporter verbose | commit: 208c8b7 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:45743) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:45742) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:45744) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/scene.test.tsx > Scene > renders fixture A with two instanced meshes 14ms
+ ✓ test/scene.test.tsx > Scene > renders fixture B with two instanced meshes 3ms
+ ✓ test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts 12ms
+ ✓ test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth 4ms
+ ✓ test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock 6ms
+ ✓ test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion 9ms
+ ✓ test/scene.test.tsx > Scene > uses the light palette material colors 2ms
+ ✓ test/scene.test.tsx > Scene > uses the dark palette material colors 3ms
+ ✓ test/scene-clock.test.tsx > engine clock: explode > samples explode progress only from the injected clock 37ms
+ ✓ test/scene-clock.test.tsx > engine clock: camera > samples rotation and camera matrices only from the injected clock 16ms
+ ✓ test/scene-clock.test.tsx > engine clock: camera > samples smooth zoom only from the injected clock 11ms
+ ✓ test/scene-clock.test.tsx > engine clock: emphasis > samples lift and instance matrices only from the injected clock 10ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while imploded 32ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while exploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while imploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while imploded 4ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while exploded 5ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while imploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > emits moving once and then exactly one settled after a turn 5ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reports a view-offset change without emitting moving 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > keeps a settled frame in content space under a view offset 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reuses projection buffers across frames after warm-up 2ms
+
+ Test Files  3 passed (3)
+      Tests  24 passed (24)
+   Start at  14:15:27
+   Duration  299ms (import 47%, tests 33%, transform 19%, worker 1%)
+
+
+# command: pnpm --filter web exec vitest run test/xploder-dom --reporter verbose | commit: 208c8b7 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:45776) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:45778) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:45779) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/a11y-navigator.dom.test.tsx > rovings through items, activates, bubbles other keys and rings only after focus 105ms
+ ✓ test/xploder-dom/a11y-live-region.dom.test.tsx > keeps one live region mounted and announces tour steps on the same node 47ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 69ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both 42ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected 14ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > closing A with the pointer elsewhere clears both 34ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle 10ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > opening A while it is hovered keeps the highlight immediately 7ms
+
+ Test Files  4 passed (4)
+      Tests  11 passed (11)
+   Start at  14:15:27
+   Duration  728ms (environment 55%, import 18%, tests 15%, transform 12%)
+
+
