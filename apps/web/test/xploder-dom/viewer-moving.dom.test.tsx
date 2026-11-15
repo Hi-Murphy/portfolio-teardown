@@ -148,8 +148,10 @@ function viewer(): TeardownViewerHandle {
 }
 
 async function mount(): Promise<void> {
-  if (clock === null) throw new Error('test clock was not created');
-  await act(async () => root?.render(<ViewerHarness clock={clock} />));
+  const currentClock = clock;
+
+  if (currentClock === null) throw new Error('test clock was not created');
+  await act(async () => root?.render(<ViewerHarness clock={currentClock} />));
 }
 
 function expectMoving(): void {

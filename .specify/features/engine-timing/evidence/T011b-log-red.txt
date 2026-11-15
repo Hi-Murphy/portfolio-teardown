@@ -1,0 +1,105 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom/viewer-moving.dom.test.tsx --reporter verbose | commit: da967ce | exit: 1
+
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:67053) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/xploder-dom/viewer-moving.dom.test.tsx > a turn sends one moving to every overlay consumer before a frame 25ms
+   → expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
+ × test/xploder-dom/viewer-moving.dom.test.tsx > a zoom sends one moving to every overlay consumer before a frame 3ms
+   → expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
+ × test/xploder-dom/viewer-moving.dom.test.tsx > an explode sends one moving to every overlay consumer before a frame 3ms
+   → expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > mount sends no moving 2ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a re-render without a target, turn, or zoom change sends no moving 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/viewer-moving.dom.test.tsx > a turn sends one moving to every overlay consumer before a frame
+AssertionError: expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "at": 2.5,
+-     "kind": "moving",
+-   },
+- ]
++ []
+
+ ❯ expectMoving test/xploder-dom/viewer-moving.dom.test.tsx:159:29
+    157|   const moving = { kind: 'moving', at: clock.now() };
+    158|
+    159|   expect(records.blueprint).toEqual([moving]);
+       |                             ^
+    160|   expect(records.lettering).toEqual([moving]);
+    161|   expect(records.panel).toEqual([moving]);
+ ❯ test/xploder-dom/viewer-moving.dom.test.tsx:178:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  test/xploder-dom/viewer-moving.dom.test.tsx > a zoom sends one moving to every overlay consumer before a frame
+AssertionError: expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "at": 2.5,
+-     "kind": "moving",
+-   },
+- ]
++ []
+
+ ❯ expectMoving test/xploder-dom/viewer-moving.dom.test.tsx:159:29
+    157|   const moving = { kind: 'moving', at: clock.now() };
+    158|
+    159|   expect(records.blueprint).toEqual([moving]);
+       |                             ^
+    160|   expect(records.lettering).toEqual([moving]);
+    161|   expect(records.panel).toEqual([moving]);
+ ❯ test/xploder-dom/viewer-moving.dom.test.tsx:187:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  test/xploder-dom/viewer-moving.dom.test.tsx > an explode sends one moving to every overlay consumer before a frame
+AssertionError: expected [] to deeply equal [ { kind: 'moving', at: 2.5 } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "at": 2.5,
+-     "kind": "moving",
+-   },
+- ]
++ []
+
+ ❯ expectMoving test/xploder-dom/viewer-moving.dom.test.tsx:159:29
+    157|   const moving = { kind: 'moving', at: clock.now() };
+    158|
+    159|   expect(records.blueprint).toEqual([moving]);
+       |                             ^
+    160|   expect(records.lettering).toEqual([moving]);
+    161|   expect(records.panel).toEqual([moving]);
+ ❯ test/xploder-dom/viewer-moving.dom.test.tsx:196:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 2 passed (5)
+   Start at  16:26:27
+   Duration  694ms (environment 57%, transform 20%, import 16%, tests 6%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/s15-t011b/apps/web
+

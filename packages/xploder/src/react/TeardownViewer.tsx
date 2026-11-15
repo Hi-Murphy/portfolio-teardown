@@ -206,6 +206,11 @@ export function TeardownViewer({
     readonly flowId: string | null;
     readonly step: number;
   } | null>(null);
+  const previousMotionRef = useRef<{
+    readonly target: TeardownViewerHandle['target'];
+    readonly turns: number;
+    readonly zoomFactor: number;
+  } | null>(null);
   const pendingTourJumpRef = useRef(false);
   const pendingTourPauseRef = useRef(false);
   const previousAnnouncementPanelRef = useRef<PanelState>(panelsHandle.state);
@@ -496,6 +501,28 @@ export function TeardownViewer({
     element.dataset.xploderTweening = 'false';
     element.dataset.xploderPulse = 'false';
   }, []);
+
+  useLayoutEffect(() => {
+    const previous = previousMotionRef.current;
+    const current = {
+      target: viewer.target,
+      turns: viewer.rig.turns,
+      zoomFactor: viewer.rig.zoomFactor,
+    };
+
+    previousMotionRef.current = current;
+
+    if (
+      previous === null ||
+      (previous.target === current.target &&
+        previous.turns === current.turns &&
+        previous.zoomFactor === current.zoomFactor)
+    ) {
+      return;
+    }
+
+    onOverlay({ kind: 'moving', at: viewer.clock.now() });
+  }, [onOverlay, viewer.clock, viewer.rig.turns, viewer.rig.zoomFactor, viewer.target]);
 
   useLayoutEffect(() => {
     const wrapper = wrapperRef.current;
