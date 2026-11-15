@@ -1,6 +1,6 @@
 # S14 Engine & Hero Polish: AC1–AC7 self-check
 
-**Branch:** `task/s14-engine-polish` · **PR:** #25 (draft) · **Head checked:** `600a314` (code), evidence commits on top · **Base:** `a9edbfc` · **Date:** 2026-11-15 · **Revision counter:** 0 of 2 (unused)
+**Branch:** `task/s14-engine-polish` · **PR:** #25 (draft) · **Head checked:** `600a314` (code), evidence commits on top · **Base:** `a9edbfc` · **Date:** 2026-11-15 · **Revision counter:** 1 of 2 used (T013, Murphy's storyboard-hold feedback)
 
 Verdicts are the orchestrator's reading of machine evidence. Murphy's hands-on validation is still pending and decides "S14 done".
 
@@ -13,6 +13,12 @@ Verdicts are the orchestrator's reading of machine evidence. Murphy's hands-on v
 | **AC5 (I-04)** | **MET** | <ul><li>Console: 0 `THREE.Clock` warnings on 3 routes, down from 1 each (`T009-log-console.txt` vs `T001-log-console-base.txt`).</li><li>Tour: 15/15 step boundaries within ±1.7 ms of the base median, totals +0.1 / +1.1 ms; the bound is ±16.7 ms (`T009-log-tour-parity.md`).</li><li>Parity: 8/8 shots at 0 px (`T009-log-parity.txt`).</li><li>The warn-spy test goes red → green (`T009-log-{red,green}.txt`).</li></ul> |
 | **AC6 (I-08)** | **MET on the PR; "gone from main" completes at merge** | <ul><li>The three files are deleted in `600a314` (`T010-log-i08-commit.txt`).</li><li>On PR #25, all **seven** required contexts are completed + success, there are 0 stale-workflow runs, and none is "expected" without a run (`T010-ci-required-contexts.json`, verdict PASS).</li><li>"Gone from `main`" is checked with `git ls-tree origin/main .github/workflows` after Murphy's merge.</li></ul> |
 | **AC7 (gates)** | **MET** | <ul><li>Full CI is green, 11/11 checks (`T011-ci.txt`).</li><li>Lighthouse mobile 1.00 / 1.00 on `/`, `/projects`, `/projects/jev-toolkit` and `/projects/websocket-inspector`, with CLS 0.</li><li>Weight ≤ 0.50 MB per route against a 3 MB budget.</li><li>2 draw calls on hero and project routes; the eager hero is intact (hero group 8/8, `eager:probe` live-loop 2/2), see `T011-log-gates.md` and `T011-log-local-gates.txt`.</li><li>Re-seals: S5 + S8 at `edde9d0`, S6 at `b5a4713`, each note naming file, reason and evidence. The S2/S4/S7 manifests and paths are byte-identical, and the 21 S3 tool files are unchanged (`guards.sh`, `T012-log-surfaces.txt`).</li></ul> |
+
+## Revision 1 of 2 (T013, after Murphy's first look at the preview)
+
+- **Feedback:** on the landing page the labelled exploded view "shows so fast"; Murphy chose option "Medium".
+- **Change:** the hero now holds the labelled exploded view 3.4 s (was 0.19 s), the zoomed view 1.75 s (was 0.14 s), and 1.6 s at each tour end (was 0). Only existing motion tokens are used, and only `hero-loop.ts` and its test changed (`R1-revision-note.md`, `T013-*`).
+- **Still holding:** AC3 (settle 1 per mid-explode cell, resume within 4.1 ms) and AC7 (CI 11/11 green on the new head; hero, cls, drill, reduced-motion and eager live-loop probes PASS).
 
 ## Re-seals (written reasons, in the manifests)
 
