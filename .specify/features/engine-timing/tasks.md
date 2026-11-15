@@ -39,8 +39,8 @@
 
 | Task | Status | Tier | Evidence | Merge SHA | Seal tag |
 |---|---|---|---|---|---|
-| T001 | ☐ | | | | — |
-| T002 | ☐ | | | | `seal/s5-…` |
+| T001 | ☑ (10 guards OK, AC1 PENDING 3 hits; negative controls FAIL SURFACES-S2S4S7 + RESEAL-LIST + ALLOWED-PATHS; holds 5 runs, self-compare PASS; pause sweep: 1–2 settles while paused in every mid-tween cell; pause-freeze 40/40 cells on target phase, non-zero diffs in most (today's pause is not a freeze); settle-once: hero zoomin ×4 and turn ×4/×6 show a mid-tween label reveal (AC3 browser red); E8 pooled ×4 median 50.0 ms both projects → NO-CACHE on the threshold, context only) | 1 (Flash, sandbox off, 2 dispatches: attempt 2 fixed instrument defects found in review); orchestrator fixed the allowed-paths regex and the settle-once / settle-timing definitions, re-ran both | evidence/T001-* | ff1789c | — |
+| T002 | ☑ (red: suite fails to import; green 8/8; S5 re-sealed, frozen-surface 6/6; full suite xploder 651, web 273 + 6 skipped, perf 303) | 1 (Flash, sandbox off, 1 dispatch); orchestrator pushed the tag | evidence/T002-log-{red,green,reseal}.txt | 60823c9 (fix 12cc065) | `seal/s5-12cc065` (pushed) |
 | T003 | ☐ | | | | `seal/s6-…` |
 | T004 | ☐ | | | | `seal/s5-…` |
 | T005 | ☐ | | | | `seal/s6-…` |
