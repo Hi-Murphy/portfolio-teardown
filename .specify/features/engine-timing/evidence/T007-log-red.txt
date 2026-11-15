@@ -1,0 +1,159 @@
+# command: pnpm --filter xploder exec vitest run test/viewer-pause.test.tsx --reporter verbose | commit: 142d1fbddd9c27f09c3081e6d95a3df6998cda86 | exit: 1
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:49585) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/viewer-pause.test.tsx > whole-scene pause > pause freezes the pending tour boundary and resume continues it exactly 11ms
+   → expected undefined to be true // Object.is equality
+ × test/viewer-pause.test.tsx > whole-scene pause > pauseTour pauses only the tour and play resumes it 1ms
+   → current(...).actions.pauseTour is not a function
+ × test/viewer-pause.test.tsx > whole-scene pause > pause and resume are idempotent and paused re-renders on transition 1ms
+   → expected undefined to be true // Object.is equality
+ × test/viewer-pause.test.tsx > whole-scene pause > a command while paused is accepted without resuming the scene 1ms
+   → expected undefined to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/viewer-pause.test.tsx > whole-scene pause > pause freezes the pending tour boundary and resume continues it exactly
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ test/viewer-pause.test.tsx:123:32
+    121|
+    122|       await run(() => current().actions.pause());
+    123|       expect(current().paused).toBe(true);
+       |                                ^
+    124|
+    125|       const frozenAt = clock.now();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/viewer-pause.test.tsx > whole-scene pause > pauseTour pauses only the tour and play resumes it
+TypeError: current(...).actions.pauseTour is not a function
+ ❯ test/viewer-pause.test.tsx:153:41
+    151|       await run(() => current().actions.play());
+    152|       await advance(clock, beat / 2);
+    153|       await run(() => current().actions.pauseTour());
+       |                                         ^
+    154|
+    155|       expect(current().tour.status).toBe('paused');
+ ❯ test/viewer-pause.test.tsx:90:48
+ ❯ process.env.NODE_ENV.exports.act ../../node_modules/.pnpm/react@19.3.1/node_modules/react/cjs/react.development.js:890:22
+ ❯ run test/viewer-pause.test.tsx:90:32
+ ❯ test/viewer-pause.test.tsx:153:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/viewer-pause.test.tsx > whole-scene pause > pause and resume are idempotent and paused re-renders on transition
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ test/viewer-pause.test.tsx:188:32
+    186|       });
+    187|
+    188|       expect(current().paused).toBe(true);
+       |                                ^
+    189|       expect(renders).toBeGreaterThan(beforePause);
+    190|       expect(transitions).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/viewer-pause.test.tsx > whole-scene pause > a command while paused is accepted without resuming the scene
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ test/viewer-pause.test.tsx:219:32
+    217|
+    218|       expect(current().target).toBe('exploded');
+    219|       expect(current().paused).toBe(true);
+       |                                ^
+    220|     } finally {
+    221|       await renderer.unmount();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  14:29:41
+   Duration  161ms (import 44%, transform 39%, tests 15%, worker 2%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <repo>
+  │ teardown/s15-t007/packages/xploder
+
+
+# command: pnpm --filter web exec vitest run test/xploder-dom/viewer-pause.dom.test.tsx --reporter verbose | commit: 142d1fbddd9c27f09c3081e6d95a3df6998cda86 | exit: 1
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:49608) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 40ms
+   → tourCommandActionsOf is not a function
+ × test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 11ms
+   → expected undefined to be false // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour
+TypeError: tourCommandActionsOf is not a function
+ ❯ test/xploder-dom/viewer-pause.dom.test.tsx:117:23
+    115|
+    116|   const actions = capture().viewer.actions;
+    117|   const tourActions = tourCommandActionsOf(actions);
+       |                       ^
+    118|
+    119|   expect(tourActions.pause).toBe(actions.pauseTour);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running
+AssertionError: expected undefined to be false // Object.is equality
+
+- Expected:
+false
+
++ Received:
+undefined
+
+ ❯ test/xploder-dom/viewer-pause.dom.test.tsx:137:35
+    135|   expect(wrapper().dataset.xploderTour).toBe('paused');
+    136|   expect(clock.paused).toBe(false);
+    137|   expect(capture().viewer.paused).toBe(false);
+       |                                   ^
+    138| });
+    139|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  14:29:42
+   Duration  867ms (environment 52%, transform 24%, import 15%, tests 8%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <repo>
+  │ teardown/s15-t007/apps/web
+
