@@ -1,0 +1,28 @@
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group hero,draws,reduced-motion --out /tmp/s15-checks/t011-site
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":84,"loadAt":72.5,"liveStateAtFcp":"loading","liveStateAtLoad":"idle"}
+PASS hero-eager-no-interaction: expected {"liveState":"revealed","canvases":1,"ready":true} actual {"liveState":"revealed","canvases":1,"ready":true}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":84,"loadAt":72.5,"liveStateAtFcp":"loading","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-loop-running: expected {"heroLoop":"running","canvases":1,"tour":"capture or inspect"} actual {"heroLoop":"running","canvases":1,"tour":"idle"}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster-websocket-inspector: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+PASS hero-project-poster-jev-toolkit: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (8 checks)
+draws project websocket-inspector: mode=2 rendered=32 total=32 PASS
+draws project jev-toolkit: mode=2 rendered=31 total=31 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project-websocket-inspector: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-jev-toolkit: expected 2 actual {"pass":true,"mode":2,"modeCount":31,"renderedFrames":31,"totalFrames":31,"counts":{"2":31}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (3 checks)
+PASS reduced-home-skipped: expected {"liveState":"skipped","heroCanvases":0,"posterVisible":true} actual {"liveState":"skipped","heroCanvases":0,"posterWidth":817.609375}
+PASS reduced-home-no-animations: expected "all samples 0" actual [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+PASS reduced-poster-no-transition-websocket-inspector: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-websocket-inspector: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-websocket-inspector: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+PASS reduced-poster-no-transition-jev-toolkit: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-jev-toolkit: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-jev-toolkit: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+reduced-motion: PASS (8 checks)
+site-probe: PASS
+artifacts: /tmp/s15-checks/t011-site

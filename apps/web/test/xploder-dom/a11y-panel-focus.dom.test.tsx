@@ -57,6 +57,7 @@ const frame: OverlayFrame = {
 const settledWide: OverlayEvent = {
   kind: 'settled',
   at: 0,
+  phase: 'exploded',
   frame,
   width: 800,
   height: 600,
@@ -66,6 +67,7 @@ const settledWide: OverlayEvent = {
 const settledNarrow: OverlayEvent = {
   kind: 'settled',
   at: 0,
+  phase: 'exploded',
   frame,
   width: 480,
   height: 600,
