@@ -74,7 +74,7 @@ export function WorkbenchClient({ slug, targets }: WorkbenchClientProps) {
   const restartTour = useCallback(() => jumpToStep(0), [jumpToStep]);
 
   const togglePlayback = useCallback(() => {
-    if (viewer.tour.status === 'playing') viewer.actions.pause();
+    if (viewer.tour.status === 'playing') viewer.actions.pauseTour();
     else viewer.actions.play();
   }, [viewer.actions, viewer.tour.status]);
 
@@ -86,7 +86,7 @@ export function WorkbenchClient({ slug, targets }: WorkbenchClientProps) {
       return;
     }
 
-    if (viewer.tour.status === 'playing') viewer.actions.pause();
+    if (viewer.tour.status === 'playing') viewer.actions.pauseTour();
     viewer.actions.implode();
   }, [exploreMode, viewer.actions, viewer.target, viewer.tour.status]);
 

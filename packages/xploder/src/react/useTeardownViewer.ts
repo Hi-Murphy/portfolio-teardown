@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useReducer, useState, type KeyboardEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+  useSyncExternalStore,
+  type KeyboardEvent,
+} from 'react';
 
 import {
   azimuthOf,
@@ -30,6 +38,7 @@ import {
 } from '../interaction/tour';
 import type { LayoutInput } from '../layout';
 import { motion } from '../motion';
+import { clockFromNow, createEngineClock, type ClockReader, type EngineClock } from '../time/clock';
 import { useTourClock } from './useTourClock';
 import { usePrefersReducedMotion } from './useReducedMotion';
 
@@ -71,8 +80,26 @@ export interface TeardownViewerInteractionActions {
   toggleFocus(layerId: string): void;
   releaseFocus(): void;
   selectFlow(flowId: string): void;
+  /**
+   * Resumes engine time, then starts playback: explodes an imploded scene and plays the tour.
+   * Clears the tour-resume memory recorded by pause().
+   */
   play(): void;
+  /**
+   * Freezes the whole scene: explode, camera, emphasis, tour time, overlay. A playing tour is
+   * paused at the frozen engine instant so resume() can continue it.
+   */
   pause(): void;
+  /**
+   * Continues the whole scene from the frozen frame. If the preceding pause() paused a playing
+   * tour and that tour is still paused, this also resumes the tour.
+   */
+  resume(): void;
+  /**
+   * Pauses only tour playback; engine time and scene motion continue. resume() does not start a
+   * tour paused this way; play() does.
+   */
+  pauseTour(): void;
   stop(): void;
   step(): void;
 }
@@ -80,6 +107,8 @@ export interface TeardownViewerInteractionActions {
 export interface TeardownViewerHandle {
   readonly target: TeardownTarget;
   readonly rig: RigState;
+  readonly clock: ClockReader;
+  readonly paused: boolean;
   /** Target azimuth in degrees, normalised to [0, 360). */
   readonly azimuthDegrees: number;
   /** Which zoom controls would change the zoom right now (disable the others). */
@@ -103,6 +132,7 @@ interface ViewerMetadata {
   readonly project: ViewerProject | undefined;
   readonly pointer: PointerState;
   readonly position: TourPosition;
+  readonly clock: ClockReader;
 }
 
 const EMPTY_FLOWS: readonly TourFlow[] = [];
@@ -121,14 +151,11 @@ const DEFAULT_METADATA: ViewerMetadata = {
   project: undefined,
   pointer: INITIAL_POINTER,
   position: EMPTY_POSITION,
+  clock: createEngineClock(),
 };
 
 export function viewerMetadataOf(viewer: TeardownViewerHandle): ViewerMetadata {
   return VIEWER_METADATA.get(viewer) ?? DEFAULT_METADATA;
-}
-
-function defaultNow(): number {
-  return performance.now() / 1000;
 }
 
 export function useTeardownViewer(
@@ -136,6 +163,7 @@ export function useTeardownViewer(
     initial?: TeardownTarget;
     project?: ViewerProject;
     now?: () => number;
+    clock?: EngineClock;
     smoothZoom?: boolean;
   } = {},
 ): TeardownViewerHandle {
@@ -143,7 +171,24 @@ export function useTeardownViewer(
   const project = opts.project;
   const projectSlug = project?.meta.slug ?? null;
   const flows = project?.flows ?? EMPTY_FLOWS;
-  const now = opts.now ?? defaultNow;
+  const [latest] = useState(() => ({
+    now: opts.now,
+    tourStatus: 'idle' as TourStatus,
+    pausePausedTour: false,
+  }));
+  // Keep memoised actions reading the newest inline callback and tour status across renders.
+  latest.now = opts.now;
+  const [clock] = useState<EngineClock>(() => {
+    if (opts.clock !== undefined) return opts.clock;
+    if (opts.now === undefined) return createEngineClock();
+
+    return clockFromNow(() => {
+      const current = latest.now;
+
+      if (current === undefined) throw new Error('legacy clock initialized without now');
+      return current();
+    });
+  });
   const [target, setTarget] = useState<TeardownTarget>(
     () => opts.initial ?? (prefersReducedMotion ? 'exploded' : 'imploded'),
   );
@@ -174,6 +219,11 @@ export function useTeardownViewer(
     initialTour(flows),
   );
   const [activeSlug, setActiveSlug] = useState(projectSlug);
+  const paused = useSyncExternalStore(
+    clock.subscribe,
+    () => clock.paused,
+    () => clock.paused,
+  );
 
   if (activeSlug !== projectSlug) {
     setActiveSlug(projectSlug);
@@ -182,7 +232,7 @@ export function useTeardownViewer(
     dispatchTour({ type: 'reset', flows });
   }
 
-  useTourClock(tour, flows, now, dispatchTour);
+  useTourClock(tour, flows, clock, dispatchTour);
 
   const dispatchAction = useCallback((action: RigAction) => dispatchRig(action), []);
 
@@ -202,16 +252,37 @@ export function useTeardownViewer(
       },
       toggleFocus: (layerId) => dispatchFocus({ type: 'toggle', layerId }),
       releaseFocus: () => dispatchFocus({ type: 'release' }),
-      selectFlow: (flowId) => dispatchTour({ type: 'selectFlow', flowId, now: now() }),
+      selectFlow: (flowId) => dispatchTour({ type: 'selectFlow', flowId, now: clock.now() }),
       play: () => {
+        clock.resume();
+        latest.pausePausedTour = false;
         setTarget((current) => (current === 'imploded' ? 'exploded' : current));
-        dispatchTour({ type: 'play', now: now() });
+        dispatchTour({ type: 'play', now: clock.now() });
       },
-      pause: () => dispatchTour({ type: 'pause', now: now() }),
-      stop: () => dispatchTour({ type: 'stop', now: now() }),
-      step: () => dispatchTour({ type: 'step', now: now() }),
+      pause: () => {
+        const tourStatus = latest.tourStatus;
+
+        clock.pause();
+
+        if (tourStatus === 'playing') {
+          latest.pausePausedTour = true;
+          dispatchTour({ type: 'pause', now: clock.now() });
+        }
+      },
+      resume: () => {
+        const resumeTour = latest.pausePausedTour && latest.tourStatus === 'paused';
+
+        clock.resume();
+
+        if (resumeTour) dispatchTour({ type: 'play', now: clock.now() });
+
+        latest.pausePausedTour = false;
+      },
+      pauseTour: () => dispatchTour({ type: 'pause', now: clock.now() }),
+      stop: () => dispatchTour({ type: 'stop', now: clock.now() }),
+      step: () => dispatchTour({ type: 'step', now: clock.now() }),
     }),
-    [componentIds, dispatchAction, dispatchFocus, dispatchPointer, dispatchTour, now],
+    [clock, componentIds, dispatchAction, dispatchFocus, dispatchPointer, dispatchTour],
   );
 
   const onPointerInput = useCallback(
@@ -231,7 +302,8 @@ export function useTeardownViewer(
     [dispatchRig],
   );
 
-  const position = positionAt(tour, now(), flows, motion.durations.tourBeat);
+  const position = positionAt(tour, clock.now(), flows, motion.durations.tourBeat);
+  latest.tourStatus = position.status;
   const escape = escapeTarget(position.status, focus);
 
   useEffect(() => {
@@ -243,7 +315,7 @@ export function useTeardownViewer(
       event.preventDefault();
 
       if (escape === 'stopTour') {
-        dispatchTour({ type: 'stop', now: now() });
+        dispatchTour({ type: 'stop', now: clock.now() });
       } else {
         dispatchFocus({ type: 'release' });
       }
@@ -252,7 +324,7 @@ export function useTeardownViewer(
     window.addEventListener('keydown', onEscape);
 
     return () => window.removeEventListener('keydown', onEscape);
-  }, [dispatchFocus, dispatchTour, escape, now]);
+  }, [clock, dispatchFocus, dispatchTour, escape]);
 
   const azimuthDegrees = useMemo(() => {
     const degrees = (azimuthOf(rig.turns) * 180) / Math.PI;
@@ -271,6 +343,8 @@ export function useTeardownViewer(
     () => ({
       target,
       rig,
+      clock,
+      paused,
       azimuthDegrees,
       can,
       highlight: pointer.highlight,
@@ -291,10 +365,12 @@ export function useTeardownViewer(
       actions,
       azimuthDegrees,
       can,
+      clock,
       focus.layerId,
       flows,
       onKeyDown,
       onPointerInput,
+      paused,
       pointer.highlight,
       position.status,
       position.step,
@@ -307,7 +383,7 @@ export function useTeardownViewer(
     ],
   );
 
-  VIEWER_METADATA.set(handle, { project, pointer, position });
+  VIEWER_METADATA.set(handle, { project, pointer, position, clock });
 
   return handle;
 }

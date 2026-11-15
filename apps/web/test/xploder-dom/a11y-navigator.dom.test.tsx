@@ -105,6 +105,8 @@ test('rovings through items, activates, bubbles other keys and rings only after 
   act(() =>
     navigatorRef.current?.update({
       kind: 'settled',
+      at: 0,
+      phase: 'exploded',
       frame,
       width: 640,
       height: 480,

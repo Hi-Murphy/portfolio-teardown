@@ -1,0 +1,25 @@
+# command: (cd packages/xploder && pnpm exec vitest run test/zz-rfc-repro-dup-frame.test.tsx --silent=false --reporter=verbose) — file copied from .specify/features/engine-timing/rfc-repro/dup-frame.test.tsx into packages/xploder/test/ for the run, then removed
+# commit: 8c410f3 (S15 freeze; product code = S14 merge 7865770) | node v24.19.0 | vitest 5.0.5 | date 2026-11-15
+# exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+stdout | test/zz-rfc-repro-dup-frame.test.tsx > RFC repro: duplicate frame mid-explode > logs overlay events across a held clock mid-tween
+explode duration (s)=0.9
+settled@0.000
+moving@0.100
+frame t=0.1 progress[0..2]=0.5330,0.2531,0.0000
+frame t=0.2 progress[0..2]=0.7881,0.6602,0.4527
+settled@0.200
+frame t=0.2 progress[0..2]=0.7881,0.6602,0.4527
+frame t=0.2 progress[0..2]=0.7881,0.6602,0.4527
+moving@0.300
+frame t=0.3 progress[0..2]=0.9029,0.8448,0.7521
+
+ ✓ test/zz-rfc-repro-dup-frame.test.tsx > RFC repro: duplicate frame mid-explode > logs overlay events across a held clock mid-tween 18ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  11:25:17
+   Duration  150ms (import 63%, tests 19%, transform 17%, worker 2%)

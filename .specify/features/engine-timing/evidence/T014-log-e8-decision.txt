@@ -1,0 +1,26 @@
+# command: node .specify/features/engine-timing/settle-timing.mjs --decide <file> --cpu 4 --threshold-ms 50 | commit: 9df0a02 | G1 threshold 50 ms at CPU x4, either project, pooled median of every valid settle sample
+
+## binding (RFC §8 definition: rest frame = the frame of the xploder:settled event)
+websocket-inspector: pooled 50.0 ms median settle delay at CPU x4 (30 valid samples)
+websocket-inspector: per-motion explode 49.9, zoom 83.3, turn 33.3
+jev-toolkit: pooled 50.0 ms median settle delay at CPU x4 (30 valid samples)
+jev-toolkit: per-motion explode 50.0, zoom 100.0, turn 33.4
+rule: cache iff any project median > 50.0 ms
+DECISION NO-CACHE
+
+## like-for-like with the pre-S15 base (rest from attributes, as base had no events)
+websocket-inspector: pooled 33.3 ms median settle delay at CPU x4 (30 valid samples)
+websocket-inspector: per-motion explode 16.7, zoom 50.0, turn 33.3
+jev-toolkit: pooled 33.3 ms median settle delay at CPU x4 (30 valid samples)
+jev-toolkit: per-motion explode 16.6, zoom 50.0, turn 33.4
+rule: cache iff any project median > 50.0 ms
+DECISION NO-CACHE
+
+## base 8c410f3 (attributes; T001-log-e8-decision-base.txt)
+websocket-inspector: pooled 50.0 ms median settle delay at CPU x4 (30 valid samples)
+websocket-inspector: per-motion explode 25.0, zoom 50.0, turn 50.0
+jev-toolkit: pooled 50.0 ms median settle delay at CPU x4 (30 valid samples)
+jev-toolkit: per-motion explode 16.7, zoom 66.6, turn 50.0
+DECISION NO-CACHE
+
+reading: both methods give NO-CACHE. The event-anchored delay starts one rendered frame earlier (at the settle decision itself; a throttled frame is ~33 ms at CPU x4), which is why it reads one rendered frame longer than the attribute-anchored one for the same build. Like for like, the median settle delay at CPU x4 fell from 50.0 ms (base) to 33.3 ms (one frame) on both projects. Project-route zoom is the slowest motion (event-anchored x4 median 83–100 ms, task time 32–50 ms: an instant zoom re-places ~40–48 labels); placement self time is not attributable in the minified export, so task time is reported instead (no number invented).

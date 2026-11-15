@@ -1,0 +1,64 @@
+# command: pnpm --filter xploder exec vitest run test/overlay-clock.test.tsx --reporter verbose | commit: 5def09df4e84ce9d23f800f57608e4dc33698bcc | exit: 1
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:44093) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/overlay-clock.test.tsx > overlay engine clock > stamps every emitted event with the clock time of its frame 18ms
+   → expected undefined to be 0.016666666666666666 // Object.is equality
+ × test/overlay-clock.test.tsx > overlay engine clock > emits nothing while paused, then resumes moving and settles once after the tween 5ms
+   → expected 3 to be 1 // Object.is equality
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > still reports a view-offset change while paused 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/overlay-clock.test.tsx > overlay engine clock > stamps every emitted event with the clock time of its frame
+AssertionError: expected undefined to be 0.016666666666666666 // Object.is equality
+
+- Expected:
+0.016666666666666666
+
++ Received:
+undefined
+
+ ❯ test/overlay-clock.test.tsx:119:30
+    117|       if (first === undefined) throw new Error('OverlayProjector did n…
+    118|       expect(first.event.kind).toBe('settled');
+    119|       expect(first.event.at).toBe(first.emittedAt);
+       |                              ^
+    120|
+    121|       const turned: RigState = { ...INITIAL_RIG, step: 1, turns: 1 };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/overlay-clock.test.tsx > overlay engine clock > emits nothing while paused, then resumes moving and settles once after the tween
+AssertionError: expected 3 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 3
+
+ ❯ test/overlay-clock.test.tsx:170:29
+    168|       }
+    169|
+    170|       expect(events.length).toBe(beforePause);
+       |                             ^
+    171|
+    172|       const end = explodeEnd(layoutA);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  14:14:19
+   Duration  167ms (import 52%, transform 23%, tests 23%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <repo>/packages/xploder
+

@@ -7,7 +7,10 @@ src/react/scene/Scene.tsx
 src/react/scene/Slabs.tsx
 src/react/scene/blueprintMaterial.ts
 test/blueprint-scene.test.tsx
+test/overlay-clock.test.tsx
 test/overlay-projector.test.tsx
+test/scene-clock.test.tsx
+test/scene-pause.test.tsx
 test/look-fills.test.ts
 test/look-tokens.test.ts
 test/overlay-columns.test.ts
@@ -17,6 +20,7 @@ test/overlay-note-clear.test.ts
 test/overlay-parts.test.ts
 test/overlay-place.test.ts
 test/overlay-project.test.ts
+test/overlay-settle-state.test.tsx
 test/overlay-timing.test.ts
 test/overlay-titleblock.test.ts
 test/overlay-trace.test.ts

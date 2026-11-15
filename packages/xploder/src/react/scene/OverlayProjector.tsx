@@ -2,20 +2,41 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef, type RefObject } from 'react';
 import { Vector3, type OrthographicCamera } from 'three';
 
-import type { ComponentSlab, LayerSlab, ProjectLayout } from '../../layout';
+import { azimuthOf, type RigState } from '../../engine/camera';
+import { fitZoom, type ComponentSlab, type LayerSlab, type ProjectLayout } from '../../layout';
 import type {
   OverlayComponentFrame,
   OverlayFrame,
   OverlayLayerFrame,
   Vec2,
 } from '../../overlay/project';
+import type { ClockReader } from '../../time/clock';
 
 type MutableVec2 = [number, number];
 type ProjectorState = 'initial' | 'moving' | 'settled';
 
 const COMPONENT_POINT_COUNT = 8;
-const SIGNATURE_SEED = 2166136261;
-const SIGNATURE_PRIME = 16777619;
+
+export type SettlePhase = 'imploded' | 'exploded' | 'zoomed' | 'turned';
+
+export interface OverlayRestKey {
+  readonly layout: ProjectLayout;
+  readonly width: number;
+  readonly height: number;
+  readonly target: 'imploded' | 'exploded';
+  readonly turns: number;
+  readonly zoomFactor: number;
+}
+
+export interface OverlayRestState {
+  readonly progress: ArrayLike<number> | null | undefined;
+  readonly target: 'imploded' | 'exploded';
+  readonly azimuth: number | null;
+  readonly turns: number;
+  readonly cameraZoom: number;
+  readonly fitZoom: number;
+  readonly zoomFactor: number;
+}
 
 export interface OverlayLayerBuffer {
   readonly id: string;
@@ -40,9 +61,11 @@ export interface OverlayProjectionBuffers {
 }
 
 export type OverlayEvent =
-  | { readonly kind: 'moving' }
+  | { readonly kind: 'moving'; readonly at: number }
   | {
       readonly kind: 'settled';
+      readonly at: number;
+      readonly phase: SettlePhase;
       readonly frame: OverlayFrame;
       readonly width: number;
       readonly height: number;
@@ -52,8 +75,50 @@ export type OverlayEvent =
 export interface OverlayProjectorProps {
   readonly layout: ProjectLayout;
   readonly progressRef?: RefObject<Float32Array | null>;
+  readonly clock: ClockReader;
+  readonly target: 'imploded' | 'exploded';
+  readonly rig: RigState;
+  readonly azimuthRef: RefObject<number | null>;
   readonly onOverlay: (event: OverlayEvent) => void;
   readonly onOverlayScroll: (offsetY: number) => void;
+}
+
+export function restKeyOf(input: OverlayRestKey): OverlayRestKey {
+  return input;
+}
+
+export function isAtRest(input: OverlayRestState): boolean {
+  const target = input.target === 'exploded' ? 1 : 0;
+
+  if (input.progress !== null && input.progress !== undefined) {
+    for (let index = 0; index < input.progress.length; index += 1) {
+      if (input.progress[index] !== target) return false;
+    }
+  }
+
+  if (input.azimuth !== null && input.azimuth !== azimuthOf(input.turns)) return false;
+
+  return input.cameraZoom === input.fitZoom * input.zoomFactor;
+}
+
+function sameRestKey(left: OverlayRestKey, right: OverlayRestKey): boolean {
+  return (
+    left.layout === right.layout &&
+    left.width === right.width &&
+    left.height === right.height &&
+    left.target === right.target &&
+    left.turns === right.turns &&
+    left.zoomFactor === right.zoomFactor
+  );
+}
+
+export function settlePhase(previous: OverlayRestKey | null, next: OverlayRestKey): SettlePhase {
+  if (previous === null) return next.target;
+  if (previous.target !== next.target) return next.target;
+  if (previous.zoomFactor !== next.zoomFactor) return 'zoomed';
+  if (previous.turns !== next.turns) return 'turned';
+
+  return next.target;
 }
 
 function point(): MutableVec2 {
@@ -366,52 +431,21 @@ export function snapshotOverlayFrame(buffers: OverlayProjectionBuffers): Overlay
   return { layers, components };
 }
 
-function mixSignature(hash: number, value: number, scratch: DataView): number {
-  scratch.setFloat64(0, value, true);
-
-  const low = scratch.getUint32(0, true);
-  const high = scratch.getUint32(4, true);
-
-  return Math.imul(Math.imul(hash ^ low, SIGNATURE_PRIME) ^ high, SIGNATURE_PRIME) >>> 0;
-}
-
-function signatureOf(
-  camera: OrthographicCamera,
-  width: number,
-  height: number,
-  progress: ArrayLike<number> | null,
-  count: number,
-  scratch: DataView,
-): number {
-  let hash = SIGNATURE_SEED;
-
-  for (let index = 0; index < 16; index += 1) {
-    hash = mixSignature(hash, camera.matrixWorld.elements[index] ?? 0, scratch);
-  }
-
-  hash = mixSignature(hash, camera.zoom, scratch);
-  hash = mixSignature(hash, width, scratch);
-  hash = mixSignature(hash, height, scratch);
-  hash = mixSignature(hash, progress?.length ?? 0, scratch);
-
-  for (let index = 0; index < count; index += 1) {
-    hash = mixSignature(hash, progressAt(progress, index), scratch);
-  }
-
-  return hash;
-}
-
 export function OverlayProjector({
   layout,
   progressRef,
+  clock,
+  target,
+  rig,
+  azimuthRef,
   onOverlay,
   onOverlayScroll,
 }: OverlayProjectorProps) {
   const { camera, size, invalidate } = useThree();
   const buffers = useMemo(() => createOverlayProjectionBuffers(layout), [layout]);
   const vector = useMemo(() => new Vector3(), []);
-  const signatureScratch = useMemo(() => new DataView(new ArrayBuffer(8)), []);
-  const signatureRef = useRef<number | null>(null);
+  const keyRef = useRef<OverlayRestKey | null>(null);
+  const settledKeyRef = useRef<OverlayRestKey | null>(null);
   const stateRef = useRef<ProjectorState>('initial');
   const offsetRef = useRef<number | null>(null);
   const onOverlayRef = useRef(onOverlay);
@@ -426,7 +460,8 @@ export function OverlayProjector({
   }, [onOverlayScroll]);
 
   useLayoutEffect(() => {
-    signatureRef.current = null;
+    keyRef.current = null;
+    settledKeyRef.current = null;
     stateRef.current = 'initial';
   }, [layout]);
 
@@ -443,30 +478,42 @@ export function OverlayProjector({
       onOverlayScrollRef.current(offsetY);
     }
 
+    if (clock.paused) return;
+
+    const at = clock.now();
     const progress = progressRef?.current ?? null;
-    const signature = signatureOf(
-      orthographicCamera,
-      size.width,
-      size.height,
+    const key = restKeyOf({
+      layout,
+      width: size.width,
+      height: size.height,
+      target,
+      turns: rig.turns,
+      zoomFactor: rig.zoomFactor,
+    });
+    const previousKey = keyRef.current;
+    keyRef.current = key;
+    const keyChanged = previousKey !== null && !sameRestKey(previousKey, key);
+    const rest = isAtRest({
       progress,
-      layout.layers.length + layout.components.length,
-      signatureScratch,
-    );
-    const previousSignature = signatureRef.current;
+      target,
+      azimuth: azimuthRef.current,
+      turns: rig.turns,
+      cameraZoom: orthographicCamera.zoom,
+      fitZoom: fitZoom(layout.bounds.exploded, size),
+      zoomFactor: rig.zoomFactor,
+    });
 
-    signatureRef.current = signature;
-
-    if (previousSignature !== null && previousSignature !== signature) {
-      if (stateRef.current !== 'moving') {
-        stateRef.current = 'moving';
-        onOverlayRef.current({ kind: 'moving' });
-      }
-
-      invalidate();
-      return;
+    if (
+      (keyChanged || (stateRef.current === 'settled' && !rest)) &&
+      stateRef.current !== 'moving'
+    ) {
+      stateRef.current = 'moving';
+      onOverlayRef.current({ kind: 'moving', at });
     }
 
-    if (previousSignature === null || stateRef.current === 'moving') {
+    if (rest && stateRef.current !== 'settled') {
+      const phase = settlePhase(settledKeyRef.current, key);
+
       projectOverlayFrameBuffer(
         buffers,
         layout,
@@ -478,14 +525,19 @@ export function OverlayProjector({
         vector,
       );
       stateRef.current = 'settled';
+      settledKeyRef.current = key;
       onOverlayRef.current({
         kind: 'settled',
+        at,
+        phase,
         frame: snapshotOverlayFrame(buffers),
         width: size.width,
         height: size.height,
         offsetY,
       });
     }
+
+    if (!rest) invalidate();
   });
 
   return null;

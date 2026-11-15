@@ -1,0 +1,23 @@
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+ ✓ test/clock.test.ts > engine clock > now() advances with host time and freezes while paused 1ms
+ ✓ test/clock.test.ts > engine clock > resume continues from the last running value without a jump 0ms
+ ✓ test/clock.test.ts > engine clock > pause and resume are idempotent and notify once per transition 0ms
+ ✓ test/clock.test.ts > engine clock > pausing suspends a timer and preserves its remaining engine time 0ms
+ ✓ test/clock.test.ts > engine clock > timers fire in due order, cancellation is idempotent, and paused schedules wait for resume 0ms
+ ✓ test/clock.test.ts > engine clock > schedule with from makes no host read and now makes exactly the required reads 0ms
+ ✓ test/clock.test.ts > engine clock > clockFromNow preserves injected values exactly and resolves timers at call time 1ms
+ ✓ test/clock.test.ts > engine clock > browserHost and hostNow read the stubbed performance clock 0ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  13:20:31
+   Duration  91ms (transform 61%, import 22%, tests 11%, worker 6%)
+
+packages/xploder/src/time/clock.ts:35:  now: () => performance.now() / MILLISECONDS_PER_SECOND,
+packages/xploder/src/time/clock.ts:36:  setTimer: (callback, delayMs) => setTimeout(callback, delayMs),
+packages/xploder/src/time/clock.ts:37:  clearTimer: (handle) => clearTimeout(handle as ReturnType<typeof setTimeout>),
+packages/xploder/src/time/clock.ts:149:    setTimer: (callback, delayMs) => globalThis.setTimeout(callback, delayMs),
+packages/xploder/src/time/clock.ts:151:      globalThis.clearTimeout(handle as ReturnType<typeof globalThis.setTimeout>),
+packages/xploder/src/time/clock.ts:157:  return performance.now();

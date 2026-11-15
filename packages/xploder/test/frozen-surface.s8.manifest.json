@@ -1,22 +1,23 @@
 {
-  "base": "edde9d0",
-  "note": "S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md. Fixed at 1a99569: default-lane re-render when the staged renderer settles (S11.6 L1, D-P3). L4 at 0ac2148: R3F configuration in the next task (S11.6 L4). Compacted at 470acd8 (S11.6 T008b, bytes). Re-sealed in S14 at edde9d0: src/react/TeardownViewer.tsx — the open detail panel is the selected emphasis; open/close highlight sync keeps hover and keyboard focus; data-xploder-selected (I-09); see .specify/features/engine-polish/evidence/T003-log-reseal.txt.",
+  "base": "8f27462",
+  "note": "S08 seal (S10 RFC D13). S10 changes no xploder source; a later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.6 at 405bca1: src/react/TeardownViewer.tsx — async renderer factory: WebGLRenderer construction in its own idle slice (S11.6 L1); see .specify/features/staged-canvas-mount/evidence/T005-log-l1-ab.md. Fixed at 1a99569: default-lane re-render when the staged renderer settles (S11.6 L1, D-P3). L4 at 0ac2148: R3F configuration in the next task (S11.6 L4). Compacted at 470acd8 (S11.6 T008b, bytes). Re-sealed in S14 at edde9d0: src/react/TeardownViewer.tsx — the open detail panel is the selected emphasis; open/close highlight sync keeps hover and keyboard focus; data-xploder-selected (I-09); see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 74394e9: src/react/TeardownViewer.tsx + src/react/panel/PanelLayer.tsx — the Scene runs on the viewer's engine clock; panel event cutoff via hostNow() (E1); see .specify/features/engine-timing/evidence/T006-log-ac1-scan.txt. Re-sealed in S15 at 5d3abdb: src/react/TeardownViewer.tsx — tour commands and the case-study auto-pause use pauseTour() (tourCommandActionsOf adapter; S7 executeTourCommand unchanged) (E2); see .specify/features/engine-timing/evidence/T007-log-callers.txt. Re-sealed in S15 at 07b22cd: src/react/TeardownViewer.tsx — viewer DOM animations paused and resumed with the engine clock (second sweep on the next frame); data-xploder-clock (E2); see .specify/features/engine-timing/evidence/T009-log-green.txt. Re-sealed in S15 at b8c7c49: src/react/TeardownViewer.tsx — overlay consumers get moving in the same commit as a target/turn/zoom change, so no label paints for a frame between a state change and the projector's moving (E4, R14); see .specify/features/engine-timing/evidence/T011b-log-turn-frames.txt. Re-sealed in S15 at 8f27462: src/react/TeardownViewer.tsx + src/react/events.ts — public events onReady / onSettled(phase) / onTourEnded with a documented order and a DOM CustomEvent mirror (E5) + test/viewer-events.test.ts; see .specify/features/engine-timing/evidence/T012-log-green.txt.",
   "files": {
     "src/a11y/announce.ts": "005c6582369764846c7339bffb9f090d338896284104faa6242a124cb32c386d",
     "src/a11y/contrast.ts": "589f7df5f4e5fd84d9e39fe4bd618beb7c0d16d946a2e6b4acd9c731cd072e86",
     "src/a11y/look.ts": "5dd0b6bd77a30e1cedb7f0ca4a45bc1f67512e738afbe1341daa8858f7279167",
     "src/a11y/navigator.ts": "c52064532eec64f2b73a9d6b5e0f761cf49949f94edc816ebc681f94171579a1",
     "src/a11y/reveal.ts": "ccc24e4b6d931bb48c612eab4e3e6ba5aeb664dc47f64560a2ef712cdf8a1ea8",
-    "src/react/TeardownViewer.tsx": "cc47b0e95e33c6e1491ae525484be69dcb81d33b1d5f174c1f8862f32cca3b84",
+    "src/react/TeardownViewer.tsx": "4c281d4b25a662b9558f904b3c9e30eb83e4cd72630dd0d007e1a6717202352a",
     "src/react/a11y/CanvasBoundary.tsx": "c8fc939ba76e63ab6e9a4a8646dc17f353b91bb0c350fdb2c992d3652a6f953c",
     "src/react/a11y/ComponentNavigator.tsx": "255a6bb359efa21675032a62801d85452c62122ac96a795709d606244f373920",
     "src/react/a11y/LiveRegion.tsx": "c822135d2378a0e73ac084ac22bf7435c1f968cce1b5e1c0d87a92e5a9fd4591",
     "src/react/a11y/usePanelFocus.ts": "11b36b7ff3a18c29934be45af5d2aa366c33d8d76e3178aabe4bbd34eca93e29",
     "src/react/a11y/webgl.ts": "bd96befd643b721a306c42a6401876c3fab6686d389054d0d0dd455f03a9545c",
+    "src/react/events.ts": "9e9ddd9ecdfe3d5f15d9ad9ac35521f579a57d931c5c868f85df639924fbaab1",
     "src/react/lettering/PartLettering.tsx": "9fb4f94252b57f70363010d6845f698f9ce27e062ce1477839235e3e16a41638",
     "src/react/lettering/faceNames.ts": "9d9e339000a2b660686bcaa481672c3077751059e2417627aa27d2fe48c72587",
     "src/react/panel/DetailPanel.tsx": "90f68e346c7fd11d2c71ce9508dc2e8e99d9eb207ecacad4fdfef7fb901b5e38",
-    "src/react/panel/PanelLayer.tsx": "5b9c36b2a1f6a38b2d095dfe276f3e70bdd237004bc984fcd7e4807ac7477756",
+    "src/react/panel/PanelLayer.tsx": "a0a859ffdee3c37c880bda436f727864689279ee67e3fb2c43f6e97248619b20",
     "src/react/panel/TechChips.tsx": "2b49e542abf814425e9d9ae2a3bcb7d47df90d5f3ff6904bf00857ee5e2a306d",
     "src/react/panel/useViewerPanels.ts": "26b545e04ce3b1e157fbaf60473246fc6504c090bfe2dd61df93aafc0b95451a",
     "test/a11y-announce.test.ts": "feafae46eb83eb6df7022a16604f6929be12e960178af81faac4e39e18e6f292",
@@ -25,6 +26,7 @@
     "test/a11y-motion-matrix.test.ts": "b08daf44a81b2b03b7da06e73648ce7fbc5cc3b00ffadad17166a98f4223e3ff",
     "test/a11y-navigator.test.ts": "1d11038b9a340533526e2dde4ce4c60a9f1fec333d41f0c9ba1748c4624404c7",
     "test/a11y-reveal.test.ts": "eccbd3d50d336b7978b5a53501674b72b4cb21a1ac93fe9b20715d2850a59ec6",
-    "test/lettering-face-names.test.ts": "a002f2aeb887a3ce0d09c1ae254e08aa967567b0aff04ba50dcb2fd9e78bcfb6"
+    "test/lettering-face-names.test.ts": "a002f2aeb887a3ce0d09c1ae254e08aa967567b0aff04ba50dcb2fd9e78bcfb6",
+    "test/viewer-events.test.ts": "12cb49132c18974372cd4f8ef4230cd65d25e2ffd841104cf2f65b8170c208ac"
   }
 }

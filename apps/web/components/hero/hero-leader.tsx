@@ -68,6 +68,7 @@ export interface HeroLeaderProps {
 
 export function HeroLeader({ name }: HeroLeaderProps) {
   const showcase = useHeroShowcase();
+  const clock = showcase.clock;
   const reducedMotion = useMediaQuery(motion.reducedMotion.query);
   const desktop = useMediaQuery(HERO_DESKTOP_QUERY);
   const [labelState, setLabelState] = useState<HeroLabelState>(EMPTY_HERO_LABEL_STATE);
@@ -104,8 +105,14 @@ export function HeroLeader({ name }: HeroLeaderProps) {
 
   useEffect(() => {
     const controller = createHeroLabelController({
-      schedule: (callback, delayMs) => window.setTimeout(callback, delayMs),
-      cancel: (handle) => window.clearTimeout(handle as number),
+      schedule:
+        clock === null
+          ? (callback, delayMs) => window.setTimeout(callback, delayMs)
+          : (callback, delayMs) => clock.schedule(delayMs / MS_PER_SECOND, callback),
+      cancel:
+        clock === null
+          ? (handle) => window.clearTimeout(handle as number)
+          : (handle) => (handle as () => void)(),
       onChange: setLabelState,
     });
     controllerRef.current = controller;
@@ -114,7 +121,7 @@ export function HeroLeader({ name }: HeroLeaderProps) {
       controller.dispose();
       controllerRef.current = null;
     };
-  }, []);
+  }, [clock]);
 
   useEffect(() => {
     controllerRef.current?.update(target, reducedMotion);

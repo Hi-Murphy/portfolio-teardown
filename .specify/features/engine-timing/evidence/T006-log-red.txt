@@ -1,0 +1,114 @@
+# command: pnpm --filter xploder exec vitest run test/no-time-reads.test.ts --reporter verbose | commit: 5def09d | exit: 1
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+ × test/no-time-reads.test.ts > AC1 host-time scan > xploder source outside src/time contains no host-time reads 14ms
+   → src/react/panel/PanelLayer.tsx:394: const listeningSince = performance.now();: expected [ Array(1) ] to deeply equal []
+ ✓ test/no-time-reads.test.ts > AC1 host-time scan > the scanner reports a planted host-time read 0ms
+ ✓ test/no-time-reads.test.ts > AC1 host-time scan > lineOf points at the matching line 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/no-time-reads.test.ts > AC1 host-time scan > xploder source outside src/time contains no host-time reads
+AssertionError: src/react/panel/PanelLayer.tsx:394: const listeningSince = performance.now();: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "src/react/panel/PanelLayer.tsx:394: const listeningSince = performance.now();",
++ ]
+
+ ❯ test/no-time-reads.test.ts:90:35
+     88|     const hits = scanTimeReads(collectSourceFiles());
+     89|
+     90|     expect(hits, hits.join('\n')).toEqual([]);
+       |                                   ^
+     91|   });
+     92|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  14:13:28
+   Duration  81ms (tests 66%, import 19%, transform 8%, worker 8%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <home-path>
+  │ teardown/s15-t006/packages/xploder
+
+# command: pnpm --filter xploder exec vitest run test/no-real-timers.test.ts --reporter verbose | commit: 5def09d | exit: 0
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > every animation test uses the engine clock or fake timers 12ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports real wait in a Promise 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports vi.useRealTimers outside afterEach 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports performance.now without fake timers 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports Date.now without fake timers 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports new Date without fake timers 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports setTimeout without fake timers 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > the scanner reports setInterval without fake timers 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > vi.useFakeTimers permits time reads and timers 0ms
+ ✓ test/no-real-timers.test.ts > AC1 real-timer scan > vi.useRealTimers is accepted in afterEach 0ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  14:13:28
+   Duration  79ms (tests 64%, import 20%, transform 8%, worker 8%)
+
+# command: pnpm --filter web exec vitest run test/xploder-dom/viewer-clock.dom.test.tsx --reporter verbose | commit: 5def09d | exit: 1
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:43681) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock 34ms
+   → expected undefined to be { now: [Function now], …(7) } // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock
+AssertionError: expected undefined to be { now: [Function now], …(7) } // Object.is equality
+
+- Expected:
+{
+  "advance": [Function advance],
+  "now": [Function now],
+  "pause": [Function pause],
+  "paused": false,
+  "pendingTimers": 0,
+  "resume": [Function resume],
+  "schedule": [Function schedule],
+  "subscribe": [Function subscribe],
+}
+
++ Received:
+undefined
+
+ ❯ test/xploder-dom/viewer-clock.dom.test.tsx:85:44
+     83|
+     84|   expect(sceneCapture.props.length).toBeGreaterThan(0);
+     85|   expect(sceneCapture.props.at(-1)?.clock).toBe(clock);
+       |                                            ^
+     86| });
+     87|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  14:13:29
+   Duration  448ms (environment 60%, import 22%, transform 9%, tests 9%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <home-path>
+  │ teardown/s15-t006/apps/web
+

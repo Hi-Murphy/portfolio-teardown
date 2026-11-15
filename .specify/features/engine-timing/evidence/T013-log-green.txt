@@ -1,0 +1,68 @@
+# command: pnpm --filter perf-tools exec vitest run test/site-probe.test.ts test/eager-probe.test.ts --reporter verbose | commit: fix working tree (red 8682126) | exit: 0
+
+ RUN  v5.0.5 <repo>/tools/perf
+
+ ✓ test/eager-probe.test.ts > evaluateEagerProbe > passes a normal run only when the canvas is visible and the view stays idle 1ms
+ ✓ test/eager-probe.test.ts > evaluateEagerProbe > reports each failed deadline condition independently 0ms
+ ✓ test/eager-probe.test.ts > evaluateEagerProbe > live-loop accepts a playing or paused tour while the loop runs 0ms
+ ✓ test/eager-probe.test.ts > evaluateEagerProbe > live keeps ambient-idle and ignores the loop attribute 0ms
+ ✓ test/eager-probe.test.ts > evaluateEagerProbe > passes reduced motion only with no canvas or ready marker and a visible poster 0ms
+ ✓ test/eager-probe.test.ts > evaluateCanvasPixels > accepts more than one colour when the canvas is not uniformly the page background 0ms
+ ✓ test/eager-probe.test.ts > evaluateCanvasPixels > rejects a uniform background or a single transparent colour 0ms
+ ✓ test/eager-probe.test.ts > readyEventMatchesAttribute > accepts both values within one frame and both absent for non-live runs 0ms
+ ✓ test/eager-probe.test.ts > readyEventMatchesAttribute > fails a missing side or a gap wider than one frame 0ms
+ ✓ test/eager-probe.test.ts > eagerRestWaitTargetMs > uses the fixed deadline window unless a later settle extends it 0ms
+ ✓ test/eager-probe.test.ts > evaluateGatedProbe > passes only when the gated route has no canvas, ready marker, or input 0ms
+ ✓ test/eager-probe.test.ts > evaluateSaveDataProbe > passes only with a visible poster and live state skipped 0ms
+ ✓ test/eager-probe.test.ts > eager probe artifacts > uses the route and motion names from the evidence contract 0ms
+ ✓ test/eager-probe.test.ts > eager probe artifacts > exits 6 when any run fails 0ms
+ ✓ test/eager-probe.test.ts > eager probe artifacts > keeps interaction APIs out of the probe implementation 1ms
+ ✓ test/site-probe.test.ts > evaluateCls > passes recorded entries whose total is zero 1ms
+ ✓ test/site-probe.test.ts > evaluateCls > fails any positive total and reports its sources 0ms
+ ✓ test/site-probe.test.ts > evaluateCls > counts shifts with recent input 0ms
+ ✓ test/site-probe.test.ts > evaluateTabWalk > accepts a complete forward walk whose Shift+Tab walk reverses it 0ms
+ ✓ test/site-probe.test.ts > evaluateTabWalk > reports a focus cycle that repeats before the last target 0ms
+ ✓ test/site-probe.test.ts > evaluateDrawFrames > takes the mode over rendered frames and ignores idle zero-draw frames 0ms
+ ✓ test/site-probe.test.ts > evaluateDrawFrames > fails when fewer than 30 frames rendered 0ms
+ ✓ test/site-probe.test.ts > evaluateDrawFrames > fails when the rendered-frame mode is not two 0ms
+ ✓ test/site-probe.test.ts > HTML fallback assertions > finds the poster and card list in home HTML bytes 0ms
+ ✓ test/site-probe.test.ts > HTML fallback assertions > finds the poster and outline in project HTML bytes 0ms
+ ✓ test/site-probe.test.ts > HTML fallback assertions > rejects a missing poster or the wrong list kind 0ms
+ ✓ test/site-probe.test.ts > HTML fallback assertions > requires the poster to be inside the hero section 0ms
+ ✓ test/site-probe.test.ts > cards helpers > parses quoted registry labels from source text 0ms
+ ✓ test/site-probe.test.ts > cards helpers > ignores an unquoted label-shaped value 0ms
+ ✓ test/site-probe.test.ts > cards helpers > matches card order exactly 0ms
+ ✓ test/site-probe.test.ts > cards helpers > rejects swapped card order 0ms
+ ✓ test/site-probe.test.ts > cards helpers > passes one to four chips whose labels are in the registry 0ms
+ ✓ test/site-probe.test.ts > cards helpers > rejects five chips and a label outside the registry 0ms
+ ✓ test/site-probe.test.ts > cards helpers > passes a document that does not overflow horizontally 0ms
+ ✓ test/site-probe.test.ts > cards helpers > rejects a document wider than its client width 0ms
+ ✓ test/site-probe.test.ts > cards helpers > registers cards in the full and CI group lists 0ms
+ ✓ test/site-probe.test.ts > hero live mode > recognizes the compile-time eager and gated modes 0ms
+ ✓ test/site-probe.test.ts > hero live mode > rejects a missing or unknown mode attribute 0ms
+ ✓ test/site-probe.test.ts > hero live mode > requires reveal, exactly one canvas, and the ready marker without input 0ms
+ ✓ test/site-probe.test.ts > hero live mode > requires a running loop, exactly one canvas, and a valid tour state 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromSnapshot > settles a route without the live hero 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromSnapshot > settles eager and gated heroes once revealed with the loop mounted 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromSnapshot > settles skipped and gated-idle heroes immediately 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromSnapshot > does not settle a revealed hero without both loop markers 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromSnapshot > does not settle loading or eager-idle heroes 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromEvents > requires ready, then settled, then the existing structure 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromEvents > does not count a settle that arrived before ready 0ms
+ ✓ test/site-probe.test.ts > heroSettledFromEvents > ignores events that did not originate inside the live hero 0ms
+ ✓ test/site-probe.test.ts > sameMarkBoxes > accepts four identical boxes 0ms
+ ✓ test/site-probe.test.ts > sameMarkBoxes > rejects a box that moved by half a pixel 0ms
+ ✓ test/site-probe.test.ts > sameMarkBoxes > rejects a different mark count 0ms
+ ✓ test/site-probe.test.ts > clsRoutes > includes home, the project index, and every project source once 0ms
+ ✓ test/site-probe.test.ts > teardown helpers > counts outline layers and component items by structure 35ms
+ ✓ test/site-probe.test.ts > teardown helpers > reports a missing outline as absent instead of counting unrelated lists 4ms
+ ✓ test/site-probe.test.ts > teardown helpers > computes expected counts from a source module 0ms
+ ✓ test/site-probe.test.ts > teardown helpers > rejects a count mismatch for the source-derived expectation 0ms
+ ✓ test/site-probe.test.ts > teardown helpers > scales the tour timeout at four seconds per path step plus fifteen seconds 0ms
+ ✓ test/site-probe.test.ts > teardown helpers > rejects a negative path length 0ms
+
+ Test Files  2 passed (2)
+      Tests  58 passed (58)
+   Start at  18:28:48
+   Duration  451ms (import 88%, tests 8%, transform 3%, worker 1%)
+

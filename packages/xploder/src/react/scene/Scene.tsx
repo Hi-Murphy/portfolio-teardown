@@ -1,4 +1,5 @@
-import type { RefObject } from 'react';
+import { useThree, type Frameloop } from '@react-three/fiber';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 
 import type { Phase } from '../../engine/explode';
 import type { RigState } from '../../engine/camera';
@@ -7,6 +8,7 @@ import type { ProjectLayout } from '../../layout';
 import type { MotionTokens } from '../../motion';
 import type { ComponentKind } from '../../schema/constants';
 import type { Palette } from '../../theme';
+import { clockFromNow, createEngineClock, type ClockReader } from '../../time/clock';
 import { CameraRig } from './CameraRig';
 import { useEmphasisDriver, type EmphasisPhase, type EmphasisState } from './Emphasis';
 import { Lights } from './Lights';
@@ -22,6 +24,7 @@ export interface SceneProps {
   readonly tokens: MotionTokens;
   readonly target: 'imploded' | 'exploded';
   readonly rig: RigState;
+  readonly clock?: ClockReader;
   readonly now?: () => number;
   readonly slug?: string;
   readonly onPhase?: (phase: Phase) => void;
@@ -40,11 +43,56 @@ export interface SceneProps {
   readonly onOverlayScroll?: (offsetY: number) => void;
 }
 
-function defaultNow(): number {
-  return performance.now() / 1000;
+function ignoreOverlayScroll(): void {}
+
+interface ClockGateProps {
+  readonly clock: ClockReader;
+  readonly palette: Palette;
+  readonly look?: LookTokens;
+  readonly layout: ProjectLayout;
+  readonly kinds?: readonly ComponentKind[];
 }
 
-function ignoreOverlayScroll(): void {}
+function ClockGate({ clock, palette, look, layout, kinds }: ClockGateProps) {
+  const setFrameloop = useThree((state) => state.setFrameloop);
+  const invalidate = useThree((state) => state.invalidate);
+  const advance = useThree((state) => state.advance);
+  const getState = useThree((state) => state.get);
+  const size = useThree((state) => state.size);
+  const dpr = useThree((state) => state.viewport.dpr);
+  const resumeFrameloop = useRef<Frameloop>('never');
+  const mounted = useRef(false);
+
+  useLayoutEffect(() => {
+    const pause = (): void => {
+      resumeFrameloop.current = getState().frameloop;
+      setFrameloop('never');
+    };
+
+    if (clock.paused) pause();
+
+    return clock.subscribe((paused) => {
+      if (paused) {
+        pause();
+        return;
+      }
+
+      setFrameloop(resumeFrameloop.current);
+      invalidate();
+    });
+  }, [clock, getState, invalidate, setFrameloop]);
+
+  useLayoutEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+
+    if (clock.paused) advance(clock.now());
+  }, [advance, clock, dpr, kinds, layout, look, palette, size.height, size.width]);
+
+  return null;
+}
 
 export function Scene({
   layout,
@@ -52,7 +100,8 @@ export function Scene({
   tokens,
   target,
   rig,
-  now = defaultNow,
+  clock,
+  now,
   slug = layout.layers[0]?.id ?? 'xploder',
   onPhase,
   onSettled,
@@ -69,11 +118,23 @@ export function Scene({
   onOverlay,
   onOverlayScroll,
 }: SceneProps) {
+  const [ownedClock] = useState(() => createEngineClock());
+  const legacyClock = useMemo(() => (now === undefined ? null : clockFromNow(now)), [now]);
+  const resolvedClock = clock ?? legacyClock ?? ownedClock;
+  const engineNow = resolvedClock.now;
+  const azimuthRef = useRef<number | null>(null);
+  const handleAzimuth = useCallback(
+    (azimuth: number) => {
+      azimuthRef.current = azimuth;
+      onAzimuth?.(azimuth);
+    },
+    [onAzimuth],
+  );
   const emphasisDriver = useEmphasisDriver({
     layout,
     palette,
     tokens,
-    now,
+    now: engineNow,
     state: emphasis,
     onPhase: onEmphasisPhase,
   });
@@ -86,7 +147,7 @@ export function Scene({
         tokens={tokens}
         target={target}
         slug={slug}
-        now={now}
+        now={engineNow}
         onPhase={onPhase}
         onSettled={onSettled}
         emphasis={emphasisDriver}
@@ -94,7 +155,13 @@ export function Scene({
         look={look}
         kinds={kinds}
       />
-      <CameraRig layout={layout} tokens={tokens} rig={rig} now={now} onAzimuth={onAzimuth} />
+      <CameraRig
+        layout={layout}
+        tokens={tokens}
+        rig={rig}
+        now={engineNow}
+        onAzimuth={handleAzimuth}
+      />
       {scrollRef === undefined ? null : (
         <ViewScroll layout={layout} rig={rig} scrollRef={scrollRef} onExtent={onScrollExtent} />
       )}
@@ -105,12 +172,23 @@ export function Scene({
         <OverlayProjector
           layout={layout}
           progressRef={progressRef}
+          clock={resolvedClock}
+          target={target}
+          rig={rig}
+          azimuthRef={azimuthRef}
           onOverlay={onOverlay}
           onOverlayScroll={onOverlayScroll ?? ignoreOverlayScroll}
         />
       )}
       <Lights />
       <Stats layout={layout} onStats={onStats} />
+      <ClockGate
+        clock={resolvedClock}
+        palette={palette}
+        look={look}
+        layout={layout}
+        kinds={kinds}
+      />
     </>
   );
 }

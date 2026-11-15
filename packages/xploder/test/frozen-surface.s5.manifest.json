@@ -1,6 +1,6 @@
 {
-  "base": "edde9d0",
-  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt.",
+  "base": "5d3abdb",
+  "note": "S05 seal (S06 RFC D1). A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S11.9 at 3aee8fc: src/react/useTeardownViewer.ts — opt-in camera zoom tween (R10); see .specify/features/home-composition/evidence/T011l-log-zoom.md. Re-sealed in S13 (revision 1 of 2) at 51d3fa7: src/react/useTourClock.ts — dispatch the final tick when the last boundary has already passed (tour could stay playing on its last step) + test/tour-clock-boundary.test.tsx; see .specify/features/jev-content/evidence/R1-revision-note.md. Re-sealed in S14 at edde9d0: src/interaction/emphasis.ts + src/react/scene/Emphasis.tsx — optional selected emphasis input lit alongside highlight (I-09) + test/emphasis-selected.test.ts; see .specify/features/engine-polish/evidence/T003-log-reseal.txt. Re-sealed in S15 at 12cc065: src/time/clock.ts + src/time/fake.ts — one injectable, pausable engine clock, the only host-time reader (E1) + test/clock.test.ts; see .specify/features/engine-timing/evidence/T002-log-green.txt. Re-sealed in S15 at 1ff1d01: src/react/useTeardownViewer.ts + src/react/useTourClock.ts — the viewer owns the engine clock (viewer.clock); tour boundaries on clock.schedule (E1) + test/tour-clock-engine.test.tsx; see .specify/features/engine-timing/evidence/T004-log-s13-reproof.txt. Re-sealed in S15 at 74394e9: test/no-time-reads.test.ts + test/no-real-timers.test.ts — the AC1 scanners (E1); see .specify/features/engine-timing/evidence/T006-log-green.txt. Re-sealed in S15 at 5d3abdb: src/react/useTeardownViewer.ts — actions.pause()/resume() freeze and continue the scene on the engine clock (a playing tour is paused and resumed with it); tour-only pause is actions.pauseTour(); viewer.paused (E2, R12) + test/viewer-pause.test.tsx; see .specify/features/engine-timing/evidence/T007-log-green.txt.",
   "files": {
     "src/interaction/caption.ts": "08fe42ec8ef4bd9c6c19746886a183ef55ac5bc377f6dc8d9cba963120b08e3b",
     "src/interaction/emphasis.ts": "6aa58f76e86af6244b5360a5f7963c9fd25e46b2995b65a7a936a7e6bbdc98c0",
@@ -15,10 +15,13 @@
     "src/react/scene/PickBridge.tsx": "c5c8ea929945a1a3be1635d2e8d6d95d421bc457a0e792d0b73b489fa9cba32d",
     "src/react/scene/ViewScroll.tsx": "027634d2eb470f6b14928fe49f1734302538b141167f3f34e411799da2061e60",
     "src/react/usePointerPick.ts": "f6de593f2f943e40c51994e679189977c5a632a1f2d722ab2aaca64a1485b826",
-    "src/react/useTeardownViewer.ts": "fa3c6ac00054a323aa81513e359b1a87f938c9a6d6b05bd2a37a5c5ca057cdbd",
-    "src/react/useTourClock.ts": "e6f64a61e3058234fa9f64eaa9e4f9af6f48dc2b7e8b7929456910cbf1013310",
+    "src/react/useTeardownViewer.ts": "c857a5160c06538369ddff596b156b92ab2d9098bbf15c9d947dac580c6d0968",
+    "src/react/useTourClock.ts": "6e8168e86e9074a80448adf6f0a6813e13013d99d53c5bf19b63702cbf91b8d2",
+    "src/time/clock.ts": "a80cba7602f4e109ddb1577354901dd2db261c02adefc1896ceeef7c57f85067",
+    "src/time/fake.ts": "fb3b9746b696c5dcd6610faa47d976941d6a52b377852d5c102e91b958405890",
     "test/__snapshots__/fixture-c.test.ts.snap": "068f1fe58eb36a96c619a6d9fa1eb17e47fe3f017b3d9878942578ecba4844dd",
     "test/caption.test.ts": "e53b223afc31591d186f914c29f703177c9e5c5bc4b7a2f585435a8316d59738",
+    "test/clock.test.ts": "c1cbca673da1e9d96b12ffba05b23a33d5db5284ee9830a8c4c17123f8d1dfd1",
     "test/emphasis-scene.test.tsx": "cd136440fbfa9f66de94d4b06ec6459f47fdfcdd20c7a448991f29168503de44",
     "test/emphasis-selected.test.ts": "1b8bd2cabd08e3b5c70ce5706d5f1a072a0efb337d9ad5c9bb52812a7acae7e5",
     "test/emphasis-tokens.test.ts": "1385c829f9a2617547ce1b8e00b10801c89429ae1f781827af1c6d01f4dfc8ae",
@@ -26,14 +29,18 @@
     "test/fixture-c.test.ts": "abeb4c423cbe1f92b5ad4b96b0f52358d6c4795eb8c56ffa386d9f55bbd0ab27",
     "test/fixtures/project-c-lockerbay.json": "a806d7475c3fd48c51e0e88aae7900fd12fe51ce5d096768673e11a6b6cbc54e",
     "test/focus.test.ts": "acf06c3801e8fe5c8029aa3d5ba7e90afe95d43dbf3a430120a4dea70838227b",
+    "test/no-real-timers.test.ts": "2ae852d838ee2b5a3981828992926164e83532dd79273adbe71b6863a060340e",
+    "test/no-time-reads.test.ts": "f0c51caae93f47eeb0e3b682c07eb6c62876bba5d84c9b7cd1d84175fcd182e6",
     "test/pick-scene.test.tsx": "b1b58da4f33da45bf928726d7b4c64c1786d0eac69fb04e97d7a4586b661cd1b",
     "test/pick.test.ts": "6cbf2829c100bbc6c585626e147e844f11473e518298b1bc26d295373bb78592",
     "test/pointer.test.ts": "ff54eb3ce625b3f8aa6c87be17fab5e2395037d60bf0f730afb92f1263f64b4f",
     "test/scroll.test.ts": "1409360080cc57e772b807a339e98416323bff92a1c4251095ce5c31b4b7fae4",
     "test/tour-clock-boundary.test.tsx": "64d2ee7a8ca540bb3fe219308accf8cc71f798637b7e21c53d6afbc62b1bca70",
+    "test/tour-clock-engine.test.tsx": "0dd81d306a34c5075b6c29886baf7daffb09f1357585bfedd7c43d891a1afa9e",
     "test/tour-clock.test.tsx": "4c2334fc7839fa2be52ca09cdf487c9b19e1a26c19a72520071439b89acf25ba",
     "test/tour.test.ts": "f644baf6b192b44c0eea57d366c8a342585d252046cb9a44f9a7ee2128364b17",
     "test/view-scroll.test.tsx": "6ad28a220e9da7f44e8eb1ee8196dad605b5e6faca7fb1176741f3b822dfa1ab",
-    "test/viewer-handle.test.tsx": "ef64596bfb362317868e278e410d9e2d76b7d418c0861f588c09fe904f24f597"
+    "test/viewer-handle.test.tsx": "ef64596bfb362317868e278e410d9e2d76b7d418c0861f588c09fe904f24f597",
+    "test/viewer-pause.test.tsx": "77641b7dbf88c528348690781564f3796efdc1e4706139d9d2f92567195584a3"
   }
 }

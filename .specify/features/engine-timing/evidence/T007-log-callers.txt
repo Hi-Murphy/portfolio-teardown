@@ -1,0 +1,41 @@
+# command: grep -rnE '\.pause\(\)|actions\.pause\b' packages/xploder/src apps/web/components apps/web/app apps/web/test
+# Every remaining hit is classified below. The app has no unintended scene freeze.
+
+packages/xploder/src/react/panel/executeTourCommand.ts:14:    actions.pause();
+packages/xploder/src/react/useTeardownViewer.ts:265:        clock.pause();
+apps/web/components/hero/hero-loop.ts:261:      follow.pause();
+apps/web/components/hero/hero-stage.tsx:124:    if (userPaused || hidden || offscreen) controller.pause();
+apps/web/test/home-hero-loop.test.tsx:507:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:526:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:547:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:572:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:591:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:614:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:641:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:666:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:671:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:686:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:704:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:721:    sequence.pause();
+apps/web/test/home-hero-loop.test.tsx:734:    sequence.pause();
+apps/web/test/xploder-dom/viewer-pause.dom.test.tsx:121:  await act(async () => tourActions.pause());
+
+# Line-by-line intent
+# packages/xploder/src/react/panel/executeTourCommand.ts:14 — TOUR-ONLY: the S7 executor calls its generic pause action; TeardownViewer passes tourCommandActionsOf(...), whose pause is viewer.actions.pauseTour. S7 is unchanged.
+# packages/xploder/src/react/useTeardownViewer.ts:265 — SCENE FREEZE: clock.pause() is the intended whole-scene pause implementation.
+# apps/web/components/hero/hero-loop.ts:261 — UNRELATED: follow.pause() pauses the hero follow controller, not the viewer or its engine clock.
+# apps/web/components/hero/hero-stage.tsx:124 — UNRELATED: controller.pause() pauses the hero storyboard controller, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:507 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:526 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:547 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:572 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:591 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:614 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:641 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:666 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:671 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:686 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:704 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:721 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/home-hero-loop.test.tsx:734 — UNRELATED: sequence.pause() pauses the test storyboard sequence, not the viewer or its engine clock.
+# apps/web/test/xploder-dom/viewer-pause.dom.test.tsx:121 — TOUR-ONLY: tourActions.pause is the adapter identity viewer.actions.pauseTour.

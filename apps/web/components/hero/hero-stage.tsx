@@ -8,6 +8,7 @@ import { createHeroFollow } from './hero-follow';
 import {
   HERO_WATCHDOG_MS,
   INITIAL_HERO_SEQUENCE_STATE,
+  MS_PER_SECOND,
   createHeroSequence,
   type HeroLoopState,
   type HeroSequence,
@@ -15,7 +16,7 @@ import {
   type HeroTourState,
   type HeroTourStatus,
 } from './hero-loop';
-import { showcaseForSequence, type HeroShowcaseState } from './hero-showcase';
+import { showcaseForSequence, useHeroShowcase, type HeroShowcaseState } from './hero-showcase';
 
 const CAPTURE_FLOW = 'capture-path';
 const INSPECT_FLOW = 'inspect-path';
@@ -48,8 +49,11 @@ export function HeroStage({
   onShowcaseChange,
 }: HeroStageProps) {
   const viewer = useLiveViewer({ project, initial: 'imploded', smoothZoom: true });
+  const { registerClock } = useHeroShowcase();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const controllerRef = useRef<HeroSequence | null>(null);
+  const figureAnimationsRef = useRef<Set<Animation>>(new Set());
+  const userPausedRef = useRef(false);
   const tourRef = useRef<HeroTourState>(viewer.tour);
   const actionsRef = useRef(viewer.actions);
   const watchRef = useRef<TourWatchState>({
@@ -71,6 +75,12 @@ export function HeroStage({
     actionsRef.current = viewer.actions;
   }, [viewer.actions, viewer.tour]);
 
+  useEffect(() => {
+    registerClock(viewer.clock);
+
+    return () => registerClock(null);
+  }, [registerClock, viewer.clock]);
+
   const publish = useCallback(
     (next: HeroSequenceState) => {
       setSequence(next);
@@ -91,14 +101,15 @@ export function HeroStage({
         rotateRight: () => viewer.actions.rotateRight(),
         selectFlow: (flowId) => viewer.actions.selectFlow(flowId),
         playTour: () => viewer.actions.play(),
-        pauseTour: () => viewer.actions.pause(),
+        pauseTour: () => viewer.actions.pauseTour(),
         stopTour: () => viewer.actions.stop(),
       },
       follow,
       captureFlow: CAPTURE_FLOW,
       inspectFlow: INSPECT_FLOW,
-      schedule: (callback, delayMs) => window.setTimeout(callback, delayMs),
-      cancel: (handle) => window.clearTimeout(handle as number),
+      schedule: (callback, delayMs) => viewer.clock.schedule(delayMs / MS_PER_SECOND, callback),
+      cancel: (handle) => (handle as () => void)(),
+      now: () => viewer.clock.now() * MS_PER_SECOND,
       onChange: publish,
     });
     controllerRef.current = controller;
@@ -107,23 +118,68 @@ export function HeroStage({
       controller.dispose();
       controllerRef.current = null;
     };
-  }, [project, publish, viewer.actions]);
+  }, [project, publish, viewer.actions, viewer.clock]);
+
+  const toggle = useCallback(() => {
+    const next = !userPausedRef.current;
+    userPausedRef.current = next;
+    if (next) viewer.actions.pause();
+    setUserPaused(next);
+  }, [viewer.actions]);
 
   useEffect(() => {
-    onLoopControl?.({
-      toggle: () => setUserPaused((current) => !current),
-    });
+    onLoopControl?.({ toggle });
 
     return () => onLoopControl?.(null);
-  }, [onLoopControl]);
+  }, [onLoopControl, toggle]);
 
   useEffect(() => {
     const controller = controllerRef.current;
     if (controller === null || !sequence.started) return;
 
-    if (userPaused || hidden || offscreen) controller.pause();
-    else controller.resume();
-  }, [hidden, offscreen, sequence.started, userPaused]);
+    const paused = userPaused || hidden || offscreen;
+    const held = figureAnimationsRef.current;
+    const figure = wrapperRef.current?.closest('figure') ?? null;
+
+    if (!paused) {
+      viewer.actions.resume();
+      controller.resume();
+      for (const animation of held) {
+        if (animation.playState === 'paused') animation.play();
+      }
+      held.clear();
+      return;
+    }
+
+    viewer.actions.pause();
+    controller.pause();
+
+    if (figure === null || typeof figure.getAnimations !== 'function') return;
+
+    let sweepFrame: number | null = null;
+    const pauseRunning = () => {
+      for (const animation of figure.getAnimations({ subtree: true })) {
+        if (animation.playState !== 'running') continue;
+
+        animation.pause();
+        held.add(animation);
+      }
+    };
+
+    pauseRunning();
+    if (typeof requestAnimationFrame === 'function') {
+      sweepFrame = requestAnimationFrame(() => {
+        sweepFrame = null;
+        if (userPaused || hidden || offscreen) pauseRunning();
+      });
+    }
+
+    return () => {
+      if (sweepFrame !== null && typeof cancelAnimationFrame === 'function') {
+        cancelAnimationFrame(sweepFrame);
+      }
+    };
+  }, [hidden, offscreen, sequence.started, userPaused, viewer.actions]);
 
   const tourStatus = viewer.tour.status;
   const tourFlowId = viewer.tour.flowId;
@@ -174,7 +230,7 @@ export function HeroStage({
         } else if (!previous.nudged && now - previous.changedAt > HERO_WATCHDOG_MS.overdue) {
           previous.nudging = true;
           previous.nudged = true;
-          actionsRef.current.pause();
+          actionsRef.current.pauseTour();
         }
       } else {
         previous.status = tour.status;

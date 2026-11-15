@@ -7,6 +7,7 @@ src/react/overlay/TourCaption.tsx
 src/react/usePointerPick.ts
 src/react/useTourClock.ts
 src/react/useTeardownViewer.ts
+src/time
 test/fixtures/project-c-lockerbay.json
 test/pick.test.ts
 test/pick-scene.test.tsx
@@ -15,6 +16,7 @@ test/focus.test.ts
 test/tour.test.ts
 test/tour-clock.test.tsx
 test/tour-clock-boundary.test.tsx
+test/tour-clock-engine.test.tsx
 test/emphasis.test.ts
 test/emphasis-selected.test.ts
 test/emphasis-scene.test.tsx
@@ -24,4 +26,8 @@ test/fixture-c.test.ts
 test/scroll.test.ts
 test/view-scroll.test.tsx
 test/viewer-handle.test.tsx
+test/viewer-pause.test.tsx
+test/clock.test.ts
+test/no-time-reads.test.ts
+test/no-real-timers.test.ts
 test/__snapshots__/fixture-c.test.ts.snap

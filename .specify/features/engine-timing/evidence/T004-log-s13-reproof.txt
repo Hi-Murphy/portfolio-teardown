@@ -1,0 +1,57 @@
+# command: git diff --quiet 8c410f3 -- packages/xploder/test/tour-clock-boundary.test.tsx packages/xploder/test/tour-clock.test.tsx && echo S13-TESTS-UNCHANGED; pnpm --filter xploder exec vitest run test/tour-clock-boundary.test.tsx test/tour-clock.test.tsx test/viewer-handle.test.tsx test/viewer-panels.test.tsx test/tour.test.ts --reporter verbose | commit: 2980542 | exit: 0
+
+S13-TESTS-UNCHANGED
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:39875) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:39874) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:39878) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:39877) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/tour-clock.test.tsx > useTourClock > advances through every beat when the clock lags the timer 13ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires just before the boundary 13ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > ends when the final tick fires on time 2ms
+ ✓ test/tour-clock-boundary.test.tsx > useTourClock final boundary > advances intermediate steps at the same beats 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > play auto-explodes and starts the first flow 12ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > plays, pauses, resumes, and stops 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > keeps focus stored but suspended during the tour, then restores it on stop 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > Escape stops the tour first, then releases focus, and ignores prevented events 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > a slug change resets highlight, focus, and tour 2ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > selectFlow stops a playing tour and selects the new flow in idle 1ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > ignores unknown component, layer, and flow ids 1ms
+ ✓ test/viewer-handle.test.tsx > useTeardownViewer interaction handle > advances at the base tourBeat under the reduced-motion twin 1ms
+ ✓ test/tour.test.ts > tour step order > live-update follows its flow path beat by beat 1ms
+ ✓ test/tour.test.ts > tour step order > offline-read follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > nightly-reconciliation follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > pickup-ready follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour step order > push-failed follows its flow path beat by beat 0ms
+ ✓ test/tour.test.ts > tour clock > keeps elapsed time across pause and resume 0ms
+ ✓ test/tour.test.ts > tour clock > folds elapsed beats exactly once when an action and a tick share a timestamp 0ms
+ ✓ test/tour.test.ts > tour clock > reports the next boundary only while playing 0ms
+ ✓ test/tour.test.ts > tour lifecycle > steps from idle, past the end, and restarts from ended 0ms
+ ✓ test/tour.test.ts > tour lifecycle > stops to idle and switches only to known flows 0ms
+ ✓ test/tour.test.ts > tour lifecycle > has no active flow when the project has no flows 0ms
+ ✓ test/tour.test.ts > reduced motion cadence > uses the injected base beat when the resolved static twin has a zero beat 0ms
+ ✓ test/tour.test.ts > showFlowSelector > shows the selector only when there is a choice 0ms
+ ✓ test/tour.test.ts > reset > selects the first flow and returns to idle 0ms
+ ✓ test/tour.test.ts > review fixes (orchestrator) > stepping past the last step from paused ends with stepStartedAt = the step action time 0ms
+ ✓ test/tour.test.ts > review fixes (orchestrator) > selecting the already selected flow keeps a playing tour playing 0ms
+ ✓ test/viewer-panels.test.tsx > useViewerPanels > opens details, toggles the case study twice, and closes through the public actions 10ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while playing jumps there and keeps playing 3ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking a later path step while paused jumps there and stays paused 1ms
+ ✓ test/viewer-panels.test.tsx > tour command executor with the real viewer handle > clicking outside the flow pauses, opens the detail, and Play resumes the same step 1ms
+ ✓ test/viewer-panels.test.tsx > pickAt > matches the S5 picker on 20 seeded rays through the real camera 6ms
+
+ Test Files  5 passed (5)
+      Tests  33 passed (33)
+   Start at  14:06:03
+   Duration  237ms (import 46%, transform 38%, tests 14%, worker 2%)
+

@@ -1,0 +1,36 @@
+# T017 surfaces | head 3b721fe | base 8c410f3
+## guards.sh
+FROZEN-OK
+SURFACES-S2S4S7-OK
+S3-TOOLS-OK
+RESEAL-LIST-OK
+ALLOWED-PATHS-OK
+NO-NEW-DEPS-OK
+AC1-SCAN-OK
+SEAL-TAG-OK
+TIMEOUT-NOT-RAISED-OK
+GITLEAKS-OK
+exit 0
+
+## S2/S4 + S7 empty diff (manifests, .paths, generators and every listed path)
+(empty above = no change)
+
+## S3 tool files empty diff
+(empty above = no change)
+
+## changed sealed sources (S5/S6/S8) vs base
+ packages/xploder/src/react/TeardownViewer.tsx      | 188 +++++++++++++++++++--
+ packages/xploder/src/react/events.ts               | 102 +++++++++++
+ packages/xploder/src/react/index.ts                |   3 +
+ packages/xploder/src/react/panel/PanelLayer.tsx    |   3 +-
+ .../xploder/src/react/scene/OverlayProjector.tsx   | 174 ++++++++++++-------
+ packages/xploder/src/react/scene/Scene.tsx         |  94 ++++++++++-
+ packages/xploder/src/react/useTeardownViewer.ts    | 110 ++++++++++--
+ packages/xploder/src/react/useTourClock.ts         |  26 +--
+ packages/xploder/src/time/clock.ts                 | 158 +++++++++++++++++
+ packages/xploder/src/time/fake.ts                  |  90 ++++++++++
+ 10 files changed, 837 insertions(+), 111 deletions(-)
+
+## frozen-surface tests
+ Test Files  1 passed (1)
+      Tests  6 passed (6)

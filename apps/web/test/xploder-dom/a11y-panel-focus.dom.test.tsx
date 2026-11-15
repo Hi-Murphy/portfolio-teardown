@@ -56,6 +56,8 @@ const frame: OverlayFrame = {
 
 const settledWide: OverlayEvent = {
   kind: 'settled',
+  at: 0,
+  phase: 'exploded',
   frame,
   width: 800,
   height: 600,
@@ -64,6 +66,8 @@ const settledWide: OverlayEvent = {
 
 const settledNarrow: OverlayEvent = {
   kind: 'settled',
+  at: 0,
+  phase: 'exploded',
   frame,
   width: 480,
   height: 600,
@@ -176,7 +180,7 @@ test('focuses the detail heading on open and after a dock change or visibility r
   expect(secondDock).not.toBe(firstDock);
   expect(document.activeElement).toBe(heading());
 
-  await act(async () => panelRef.current?.update({ kind: 'moving' }));
+  await act(async () => panelRef.current?.update({ kind: 'moving', at: 0 }));
   await act(async () => panelRef.current?.update(settledNarrow));
 
   expect(document.activeElement).toBe(heading());

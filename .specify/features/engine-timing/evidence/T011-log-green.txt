@@ -1,0 +1,222 @@
+# command: pnpm --filter xploder exec vitest run test/overlay-settle-state.test.tsx test/overlay-projector.test.tsx test/overlay-clock.test.tsx test/scene-pause.test.tsx test/scene-clock.test.tsx test/scene.test.tsx --reporter verbose | commit: fix working tree (red 1f3c4f2) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:63959) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63957) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63958) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63960) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63961) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:63956) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | test/overlay-clock.test.tsx > overlay engine clock > emits nothing while paused, then resumes moving and settles once after the tween
+An update to Slabs inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to CameraRig inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to OverlayProjector inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Scene inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | test/overlay-clock.test.tsx > overlay engine clock > emits nothing while paused, then resumes moving and settles once after the tween
+An update to Slabs inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to CameraRig inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to OverlayProjector inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Scene inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ test/scene.test.tsx > Scene > renders fixture A with two instanced meshes 19ms
+ ✓ test/scene.test.tsx > Scene > renders fixture B with two instanced meshes 2ms
+ ✓ test/scene.test.tsx > Scene > reports changed renderer stats with layout instance counts 7ms
+ ✓ test/scene.test.tsx > Scene > uses an orthographic camera, no controls, and the initial azimuth 3ms
+ ✓ test/scene.test.tsx > Scene > animates a right turn from 45 to 135 degrees on the injected clock 3ms
+ ✓ test/scene.test.tsx > Scene > reports phases once per settle and cuts under reduced motion 6ms
+ ✓ test/scene.test.tsx > Scene > uses the light palette material colors 2ms
+ ✓ test/scene.test.tsx > Scene > uses the dark palette material colors 3ms
+stderr | test/overlay-clock.test.tsx > overlay engine clock > still reports a view-offset change while paused
+An update to Slabs inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to CameraRig inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to OverlayProjector inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Scene inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > stamps every emitted event with the clock time of its frame 29ms
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > emits nothing while paused, then resumes moving and settles once after the tween 17ms
+ ✓ test/overlay-clock.test.tsx > overlay engine clock > still reports a view-offset change while paused 4ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while imploded 25ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 0 while exploded 4ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while imploded 6ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 1 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while imploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 2 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while imploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > matches the pure twin at azimuth 3 while exploded 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > emits moving once and then exactly one settled after a turn 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reports a view-offset change without emitting moving 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > keeps a settled frame in content space under a view offset 3ms
+ ✓ test/overlay-projector.test.tsx > OverlayProjector > reuses projection buffers across frames after warm-up 2ms
+ ✓ test/scene-clock.test.tsx > engine clock: explode > samples explode progress only from the injected clock 41ms
+ ✓ test/scene-clock.test.tsx > engine clock: camera > samples rotation and camera matrices only from the injected clock 15ms
+ ✓ test/scene-clock.test.tsx > engine clock: camera > samples smooth zoom only from the injected clock 10ms
+ ✓ test/scene-clock.test.tsx > engine clock: emphasis > samples lift and instance matrices only from the injected clock 6ms
+ ✓ test/scene-pause.test.tsx > ClockGate > freezes explode progress while paused 32ms
+ ✓ test/scene-pause.test.tsx > ClockGate > freezes a turn while paused 11ms
+ ✓ test/scene-pause.test.tsx > ClockGate > freezes smooth zoom while paused 8ms
+ ✓ test/scene-pause.test.tsx > ClockGate > freezes highlight lift while paused 6ms
+ ✓ test/scene-pause.test.tsx > ClockGate > repaints the frozen pose exactly once when a paused canvas resizes 7ms
+ ✓ test/scene-pause.test.tsx > ClockGate > resumes the tween from the frozen sample and settles once 8ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid-explode without settling until the tween end (C4) 34ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid-turn without settling until the tween end 11ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > holds extra frames mid smooth zoom without settling until the tween end 11ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > emits moving and settled in the same frame after a resize at rest 3ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > emits moving and settled in the same frame for a reduced-motion turn 4ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > gives an explode target precedence over a simultaneous zoom change 7ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle state > reports the target on the first rest after mount 2ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle helpers > restKeyOf records the tween targets 0ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle helpers > isAtRest requires every explode progress to equal the target 0ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle helpers > isAtRest requires the rig azimuth and the camera fit product 0ms
+ ✓ test/overlay-settle-state.test.tsx > overlay settle helpers > settlePhase applies the target, zoom, turn, target precedence 0ms
+
+ Test Files  6 passed (6)
+      Tests  44 passed (44)
+   Start at  16:04:44
+   Duration  287ms (import 46%, tests 31%, transform 22%, worker 1%)
+
+SIGNATURE-REMOVED
+ Test Files  6 passed (6)
+      Tests  19 passed (19)
+   Start at  16:04:44
+   Duration  753ms (environment 56%, import 19%, tests 13%, transform 12%)
+
+
+
+pause-freeze re-check (390x844, cpu1)
+| point | phase at click | ms since phase start | status | viewport | cpu | diff px +1f↔+0.5s | diff px +0.5s↔+3s | settles while paused | freeze latency ms | play→settle ms | play→next phase ms | first frame after play diff px |
+|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| explode@50 | explode | 53.2 | OK | 390x844 | x1 | 0 | 0 | 0 | 1 | 1145.5 | 4548 | 5004 |
+| explode@300 | explode | 301.7 | OK | 390x844 | x1 | 0 | 0 | 0 | 1.3 | 896.3 | 4299.1 | 7842 |
+| explode@600 | explode | 603.5 | OK | 390x844 | x1 | 0 | 0 | 0 | 1.2 | 593.1 | 3997.4 | 4526 |
+| explode@850 | explode | 852.9 | OK | 390x844 | x1 | 0 | 0 | 0 | 1.9 | 345.4 | 3748.5 | 1456 |
+| zoomin-mid | zoomin | 319.6 | OK | 390x844 | x1 | 0 | 0 | 0 | 0.8 | 319.8 | 2035.3 | 19388 |
+| capture-mid-step | capture | 804.5 | OK | 390x844 | x1 | 0 | 0 | 0 | 1.5 | 31067.5 | 15128.4 | 799 |
+| capture-mid-draw | capture | 5121 | OK | 390x844 | x1 | 0 | 0 | 0 | 0.4 | 26743.4 | 10804.3 | 1593 |
+| inspect-mid-step | inspect | 805.4 | OK | 390x844 | x1 | 0 | 0 | 0 | 0.7 | 12003.6 | 12000.9 | 900 |
+| turn-mid | turn | 319.4 | OK | 390x844 | x1 | 0 | 0 | 0 | 0.2 | 324 | 4483.1 | 15874 |
+| implode-mid | implode | 312.2 | OK | 390x844 | x1 | 0 | 0 | 0 | 0.3 | 456.1 | 1889.3 | 8999 |
+SUMMARY_JSON [{"point":"explode@50","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":53.2,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":1,"playToSettleMs":1145.5,"playToNextPhaseMs":4548,"firstFrameAfterPlayDiff":5004},{"point":"explode@300","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":301.7,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":1.3,"playToSettleMs":896.3,"playToNextPhaseMs":4299.1,"firstFrameAfterPlayDiff":7842},{"point":"explode@600","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":603.5,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":1.2,"playToSettleMs":593.1,"playToNextPhaseMs":3997.4,"firstFrameAfterPlayDiff":4526},{"point":"explode@850","intendedPhase":"explode","phaseAtClick":"explode","msSincePhaseStart":852.9,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":1.9,"playToSettleMs":345.4,"playToNextPhaseMs":3748.5,"firstFrameAfterPlayDiff":1456},{"point":"zoomin-mid","intendedPhase":"zoomin","phaseAtClick":"zoomin","msSincePhaseStart":319.6,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":0.8,"playToSettleMs":319.8,"playToNextPhaseMs":2035.3,"firstFrameAfterPlayDiff":19388},{"point":"capture-mid-step","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":804.5,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":1.5,"playToSettleMs":31067.5,"playToNextPhaseMs":15128.4,"firstFrameAfterPlayDiff":799},{"point":"capture-mid-draw","intendedPhase":"capture","phaseAtClick":"capture","msSincePhaseStart":5121,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":0.4,"playToSettleMs":26743.4,"playToNextPhaseMs":10804.3,"firstFrameAfterPlayDiff":1593},{"point":"inspect-mid-step","intendedPhase":"inspect","phaseAtClick":"inspect","msSincePhaseStart":805.4,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":0.7,"playToSettleMs":12003.6,"playToNextPhaseMs":12000.9,"firstFrameAfterPlayDiff":900},{"point":"turn-mid","intendedPhase":"turn","phaseAtClick":"turn","msSincePhaseStart":319.4,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":0.2,"playToSettleMs":324,"playToNextPhaseMs":4483.1,"firstFrameAfterPlayDiff":15874},{"point":"implode-mid","intendedPhase":"implode","phaseAtClick":"implode","msSincePhaseStart":312.2,"status":"OK","viewport":"390x844","cpu":1,"diffP1fP05":0,"diffP05P3":0,"settlesWhilePaused":0,"freezeLatencyMs":0.3,"playToSettleMs":456.1,"playToNextPhaseMs":1889.3,"firstFrameAfterPlayDiff":8999}]
+

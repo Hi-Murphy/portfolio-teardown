@@ -1,0 +1,21 @@
+# command: bash packages/xploder/test/frozen-surface.generate-s8.sh | base: 74394e9 | exit: 0
+wrote packages/xploder/test/frozen-surface.s8.manifest.json (24 files)
+# command: bash packages/xploder/test/frozen-surface.generate-s5.sh | base: 74394e9 | exit: 0
+wrote packages/xploder/test/frozen-surface.s5.manifest.json (39 files)
+# command: pnpm --filter xploder exec vitest run test/frozen-surface.test.ts --reporter verbose | base: 74394e9 | exit: 0
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > matches every hash recorded from the base commit 3ms
+ ✓ test/frozen-surface.test.ts > frozen S2/S4 surface > the hash helper detects a one-byte change 0ms
+ ✓ test/frozen-surface.test.ts > frozen S5 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S7 surface > matches every hash recorded from the base commit 1ms
+ ✓ test/frozen-surface.test.ts > frozen S8 surface > matches every hash recorded from the base commit 1ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  14:15:17
+   Duration  183ms (transform 69%, import 24%, tests 6%, worker 1%)
+
+# pushed: aa631e0ef00d1530d348ed557646f46293749a76	refs/tags/seal/s5-s8-74394e9

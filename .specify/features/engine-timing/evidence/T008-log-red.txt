@@ -1,0 +1,104 @@
+# command: pnpm --filter xploder exec vitest run test/scene-pause.test.tsx --reporter verbose | commit: cc216d6bd1d29d1a958df2842de9dda8213a1e98 | exit: 1
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:50312) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/scene-pause.test.tsx > ClockGate > freezes explode progress while paused 22ms
+   → expected 'demand' to be 'never' // Object.is equality
+ × test/scene-pause.test.tsx > ClockGate > freezes a turn while paused 5ms
+   → expected 'demand' to be 'never' // Object.is equality
+ × test/scene-pause.test.tsx > ClockGate > freezes smooth zoom while paused 5ms
+   → expected 'demand' to be 'never' // Object.is equality
+ × test/scene-pause.test.tsx > ClockGate > freezes highlight lift while paused 3ms
+   → expected 'demand' to be 'never' // Object.is equality
+ × test/scene-pause.test.tsx > ClockGate > repaints the frozen pose exactly once when a paused canvas resizes 4ms
+   → expected "Mock" to be called 1 times, but got 0 times
+ ✓ test/scene-pause.test.tsx > ClockGate > resumes the tween from the frozen sample and settles once 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/scene-pause.test.tsx > ClockGate > freezes explode progress while paused
+AssertionError: expected 'demand' to be 'never' // Object.is equality
+
+Expected: "never"
+Received: "demand"
+
+ ❯ test/scene-pause.test.tsx:247:62
+    245|
+    246|       await pauseFromDemand(renderer, clock);
+    247|       expect(renderer.scene.fiber.root.getState().frameloop).toBe('nev…
+       |                                                              ^
+    248|
+    249|       await holdPaused(renderer, clock);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  test/scene-pause.test.tsx > ClockGate > freezes a turn while paused
+AssertionError: expected 'demand' to be 'never' // Object.is equality
+
+Expected: "never"
+Received: "demand"
+
+ ❯ test/scene-pause.test.tsx:272:62
+    270|
+    271|       await pauseFromDemand(renderer, clock);
+    272|       expect(renderer.scene.fiber.root.getState().frameloop).toBe('nev…
+       |                                                              ^
+    273|
+    274|       await holdPaused(renderer, clock);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  test/scene-pause.test.tsx > ClockGate > freezes smooth zoom while paused
+AssertionError: expected 'demand' to be 'never' // Object.is equality
+
+Expected: "never"
+Received: "demand"
+
+ ❯ test/scene-pause.test.tsx:302:62
+    300|
+    301|       await pauseFromDemand(renderer, clock);
+    302|       expect(renderer.scene.fiber.root.getState().frameloop).toBe('nev…
+       |                                                              ^
+    303|
+    304|       await holdPaused(renderer, clock);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  test/scene-pause.test.tsx > ClockGate > freezes highlight lift while paused
+AssertionError: expected 'demand' to be 'never' // Object.is equality
+
+Expected: "never"
+Received: "demand"
+
+ ❯ test/scene-pause.test.tsx:330:62
+    328|
+    329|       await pauseFromDemand(renderer, clock);
+    330|       expect(renderer.scene.fiber.root.getState().frameloop).toBe('nev…
+       |                                                              ^
+    331|
+    332|       await holdPaused(renderer, clock);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  test/scene-pause.test.tsx > ClockGate > repaints the frozen pose exactly once when a paused canvas resizes
+AssertionError: expected "Mock" to be called 1 times, but got 0 times
+ ❯ test/scene-pause.test.tsx:365:25
+    363|       });
+    364|
+    365|       expect(renderSpy).toHaveBeenCalledTimes(1);
+       |                         ^
+    366|       expect(progressRef.current).toEqual(heldProgress);
+    367|       expect(cameraAzimuth(cameraOf(renderer))).toBe(heldAzimuth);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  14:31:48
+   Duration  195ms (import 44%, tests 33%, transform 22%, worker 1%)
+
