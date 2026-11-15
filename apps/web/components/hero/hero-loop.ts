@@ -66,6 +66,7 @@ export interface HeroSequenceOptions {
   readonly inspectFlow: string;
   readonly schedule: (callback: () => void, delayMs: number) => unknown;
   readonly cancel: (handle: unknown) => void;
+  readonly now?: () => number;
   readonly onChange?: (state: HeroSequenceState) => void;
 }
 
@@ -106,6 +107,7 @@ export function createHeroSequence({
   inspectFlow,
   schedule,
   cancel,
+  now = () => performance.now(),
   onChange,
 }: HeroSequenceOptions): HeroSequence {
   let phase: HeroSequencePhase = 'idle';
@@ -114,7 +116,12 @@ export function createHeroSequence({
   let disposed = false;
   let tour = EMPTY_HERO_TOUR_STATE;
   let turnSteps = 0;
-  let pending: { readonly run: () => void; readonly delayMs: number } | null = null;
+  let pending: {
+    readonly run: () => void;
+    readonly delayMs: number;
+    readonly startedAt: number;
+    elapsedMs: number;
+  } | null = null;
   let pendingHandle: unknown;
 
   const snapshot = (): HeroSequenceState => ({
@@ -140,7 +147,7 @@ export function createHeroSequence({
 
   const wait = (delayMs: number, run: () => void): void => {
     clearPending();
-    pending = { delayMs, run };
+    pending = { delayMs, run, startedAt: now(), elapsedMs: 0 };
     pendingHandle = schedule(() => {
       pending = null;
       pendingHandle = undefined;
@@ -153,7 +160,7 @@ export function createHeroSequence({
     if (pending === null) return;
 
     const next = pending;
-    wait(next.delayMs, next.run);
+    wait(Math.max(0, next.delayMs - next.elapsedMs), next.run);
   };
 
   const beginFlow = (next: Extract<HeroSequencePhase, 'capture' | 'inspect'>): void => {
@@ -234,6 +241,7 @@ export function createHeroSequence({
 
       suspended = true;
       cancelPending();
+      if (pending !== null) pending.elapsedMs += now() - pending.startedAt;
       if (isTourPhase(phase)) actions.pauseTour();
       follow.pause();
       notify();
