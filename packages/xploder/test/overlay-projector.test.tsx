@@ -207,7 +207,7 @@ describe('OverlayProjector', () => {
 
       seconds = motion.durations.implode;
       await renderer.advanceFrames(1, 0.1);
-      expect(events.map((event) => event.kind)).toEqual(['settled', 'moving']);
+      expect(events.map((event) => event.kind)).toEqual(['settled', 'moving', 'settled']);
 
       await renderer.advanceFrames(1, 0.1);
       expect(events.map((event) => event.kind)).toEqual(['settled', 'moving', 'settled']);
