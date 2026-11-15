@@ -1,0 +1,92 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom/viewer-pause.dom.test.tsx --reporter verbose | commit: 62dfeaa | exit: 1
+
+
+ RUN  v5.0.5 <repo>/apps/web
+
+(node:55716) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 44ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 10ms
+ × test/xploder-dom/viewer-pause.dom.test.tsx > data-xploder-clock follows the viewer clock 7ms
+   → expected undefined to be 'running' // Object.is equality
+ × test/xploder-dom/viewer-pause.dom.test.tsx > pause stops every running animation and leaves finished animations alone 6ms
+   → expected "vi.fn()" to be called with arguments: [ { subtree: true } ]
+
+Number of calls: 0
+
+ × test/xploder-dom/viewer-pause.dom.test.tsx > the next frame catches an animation created after the pause 5ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ × test/xploder-dom/viewer-pause.dom.test.tsx > resume plays the held animations and cancels the queued sweep 6ms
+   → expected "vi.fn()" to be called 1 times, but got 0 times
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause and resume do not throw without getAnimations 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/viewer-pause.dom.test.tsx > data-xploder-clock follows the viewer clock
+AssertionError: expected undefined to be 'running' // Object.is equality
+
+- Expected:
+"running"
+
++ Received:
+undefined
+
+ ❯ test/xploder-dom/viewer-pause.dom.test.tsx:214:42
+    212|
+    213|   await mount(clock);
+    214|   expect(wrapper().dataset.xploderClock).toBe('running');
+       |                                          ^
+    215|
+    216|   await act(async () => capture().viewer.actions.pause());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/xploder-dom/viewer-pause.dom.test.tsx > pause stops every running animation and leaves finished animations alone
+AssertionError: expected "vi.fn()" to be called with arguments: [ { subtree: true } ]
+
+Number of calls: 0
+
+ ❯ test/xploder-dom/viewer-pause.dom.test.tsx:235:25
+    233|   await act(async () => capture().viewer.actions.pause());
+    234|
+    235|   expect(getAnimations).toHaveBeenCalledWith({ subtree: true });
+       |                         ^
+    236|   expect(first.pause).toHaveBeenCalledTimes(1);
+    237|   expect(second.pause).toHaveBeenCalledTimes(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/xploder-dom/viewer-pause.dom.test.tsx > the next frame catches an animation created after the pause
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/xploder-dom/viewer-pause.dom.test.tsx:255:23
+    253|
+    254|   await act(async () => capture().viewer.actions.pause());
+    255|   expect(first.pause).toHaveBeenCalledTimes(1);
+       |                       ^
+    256|
+    257|   animations.push(late);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/xploder-dom/viewer-pause.dom.test.tsx > resume plays the held animations and cancels the queued sweep
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ test/xploder-dom/viewer-pause.dom.test.tsx:279:22
+    277|   await act(async () => capture().viewer.actions.resume());
+    278|
+    279|   expect(first.play).toHaveBeenCalledTimes(1);
+       |                      ^
+    280|   expect(first.playState).toBe('running');
+    281|   expect(wrapper().dataset.xploderClock).toBe('running');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 passed (7)
+   Start at  14:55:46
+   Duration  812ms (environment 50%, transform 24%, import 15%, tests 11%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <repo>/apps/web
