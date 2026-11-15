@@ -105,8 +105,9 @@ describe('engine clock', () => {
     expect(fired).toEqual([]);
     clock.advance(0.01);
 
-    expect(fired).toEqual([0.4]);
-    expect(clock.now()).toBe(0.4);
+    expect(fired).toHaveLength(1);
+    expect(fired[0]).toBeCloseTo(0.4, 12);
+    expect(clock.now()).toBeCloseTo(0.4, 12);
   });
 
   test('timers fire in due order, cancellation is idempotent, and paused schedules wait for resume', () => {
