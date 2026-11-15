@@ -1,0 +1,44 @@
+# T004 red — pnpm site:probe --serve apps/web/out --group cls --out /tmp/s14-checks/t004-red — commit d66642c — chromium 156.0.8078.4
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group cls --out /tmp/s14-checks/t004-red
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls /projects/jev-toolkit desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls /projects/jev-toolkit desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls /projects/jev-toolkit mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls /projects/jev-toolkit mobile dark total=0.000000 PASS
+cls hero-marks-stable-390x844 shifts=0 PASS
+cls hero-marks-stable-390x740 shifts=1 FAIL
+cls hero-marks-stable-360x740 shifts=1 FAIL
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS hero-marks-stable-390x844: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0,"entries":[]}
+FAIL hero-marks-stable-390x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":710,"width":18,"height":18},{"x":362,"y":710,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":1,"entries":[{"value":0.00024814224307467554,"startTime":621.8999999910593,"hadRecentInput":false}]}
+FAIL hero-marks-stable-360x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":710,"width":18,"height":18},{"x":332,"y":710,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":1,"entries":[{"value":0.00026882076333089845,"startTime":623.5,"hadRecentInput":false}]}
+cls: FAIL (19 checks)
+site-probe: FAIL
+artifacts: /tmp/s14-checks/t004-red
+[ELIFECYCLE] Command failed with exit code 6.

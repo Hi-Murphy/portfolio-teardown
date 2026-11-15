@@ -1,0 +1,18 @@
+# T014 — seal-base tags (improvement #7) — orchestrator — 2026-11-15
+# tags (annotated, pushed to origin):
+#   seal/s2-s4-3aee8fc -> 3aee8fc   (frozen-surface.manifest.json, S2/S4)
+#   seal/s5-s8-edde9d0 -> edde9d0   (frozen-surface.s5 + .s8 manifests)
+#   seal/s6-b5a4713    -> b5a4713   (frozen-surface.s6.manifest.json)
+#   seal/s7-5b22987    -> 5b22987   (frozen-surface.s7.manifest.json)
+# proof: fresh `git clone --single-branch --branch main --no-tags`, i.e. no slice branches
+3aee8fc absent before tag fetch
+edde9d0 absent before tag fetch
+b5a4713 absent before tag fetch
+# git fetch origin 'refs/tags/seal/*:refs/tags/seal/*'
+3aee8fc reachable via tags
+edde9d0 reachable via tags
+b5a4713 reachable via tags
+5b22987 reachable via tags
+# file hashes read through the tags equal the manifest entries
+git show edde9d0:packages/xploder/src/interaction/emphasis.ts | sha256 = 6aa58f76e86af624… = frozen-surface.s5.manifest.json "src/interaction/emphasis.ts"
+git show b5a4713:packages/xploder/src/overlay/model.ts       | sha256 = 8d63f0854d5e6705… = frozen-surface.s6.manifest.json "src/overlay/model.ts"

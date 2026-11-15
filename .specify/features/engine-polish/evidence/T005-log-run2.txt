@@ -1,0 +1,59 @@
+# T005 run 2 — pnpm site:probe --serve apps/web/out --group drill,cls --out /tmp/s14-checks/t005-run2 — target apps/web/out — commit edb7531 (worktree dirty: T005 fix + gate fallback)
+$ pnpm site:probe --serve apps/web/out --group drill,cls --out /tmp/s14-checks/t005-run2
+$ node tools/perf/src/cli/site-probe.ts --serve apps/web/out --group drill,cls --out /tmp/s14-checks/t005-run2
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> hero:pause -> card:websocket-inspector -> card:jev-toolkit -> contact:email -> contact:github -> contact:linkedin -> footer:home -> footer:top PASS
+PASS drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","hero:pause","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","hero:pause","card:websocket-inspector","card:jev-toolkit","contact:email","contact:github","contact:linkedin","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+PASS drill-shift-tab-reverses: expected ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:pause","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","contact:linkedin","contact:github","contact:email","card:jev-toolkit","card:websocket-inspector","hero:pause","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+PASS drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200},{"href":"/projects/jev-toolkit","status":200}]
+drill: PASS (13 checks)
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls /projects/jev-toolkit desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls /projects/jev-toolkit desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls /projects/jev-toolkit mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls /projects/jev-toolkit mobile dark total=0.000000 PASS
+cls hero-marks-stable-390x844 shifts=0 PASS
+cls hero-marks-stable-390x740 shifts=0 PASS
+cls hero-marks-stable-360x740 shifts=0 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS hero-marks-stable-390x844: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-390x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-360x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+cls: PASS (19 checks)
+site-probe: PASS
+artifacts: /tmp/s14-checks/t005-run2

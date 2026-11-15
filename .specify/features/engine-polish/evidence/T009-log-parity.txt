@@ -1,0 +1,15 @@
+# T009 parity — pnpm perf:parity --serve apps/web/out --compare /tmp/s14-checks/parity-base — commit a070122
+$ node tools/perf/src/cli/parity.ts --serve apps/web/out --compare /tmp/s14-checks/parity-base
+home-mobile-light: 0 px
+home-mobile-dark: 0 px
+home-desktop-light: 0 px
+home-desktop-dark: 0 px
+project-mobile-light: 0 px
+project-mobile-dark: 0 px
+project-desktop-light: 0 px
+project-desktop-dark: 0 px
+parity: PASS (8 shots, 0 px)
+parity: baseline parity.json
+parity: comparison /private/tmp/s14-wt/t009/.evidence/parity-compare/parity-compare.json
+
+# exit 0

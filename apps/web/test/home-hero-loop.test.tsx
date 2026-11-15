@@ -10,6 +10,7 @@ import { HeroCaption } from '../components/hero/hero-caption';
 import {
   createHeroSequence,
   HERO_STORYBOARD_MS,
+  MS_PER_SECOND,
   type HeroFollowDriver,
   type HeroTourState,
 } from '../components/hero/hero-loop';
@@ -77,6 +78,15 @@ const FLOW_A = 'fixture-capture';
 const FLOW_B = 'fixture-inspect';
 const TOUR_BEAT_MS = motion.durations.tourBeat * 1000;
 const TOUR_OVERDUE_MS = TOUR_BEAT_MS * 1.5;
+const EXPLODE_STORYBOARD_MS =
+  (motion.durations.explode +
+    motion.durations.tourPulse +
+    motion.durations.tourBeat +
+    motion.durations.tourBeat) *
+  MS_PER_SECOND;
+const ZOOM_SETTLE_STORYBOARD_MS =
+  (motion.durations.implode + motion.staggers.tourStep + motion.durations.tourBeat) * MS_PER_SECOND;
+const TOUR_END_HOLD_MS = TOUR_BEAT_MS;
 
 let HeroLive: HeroLiveComponent;
 let HeroShowcaseProvider: HeroShowcaseProviderComponent;
@@ -384,21 +394,25 @@ afterEach(async () => {
 });
 
 describe('createHeroSequence', () => {
-  function controller() {
+  function controller(options: { readonly now?: () => number } = {}) {
     const actions = sequenceActions();
     const follow = followDriver();
+    const schedule = vi.fn((callback: () => void, delayMs: number) =>
+      window.setTimeout(callback, delayMs),
+    );
     const sequence = createHeroSequence({
       actions,
       follow,
       captureFlow: FLOW_A,
       inspectFlow: FLOW_B,
-      schedule: (callback, delayMs) => window.setTimeout(callback, delayMs),
+      schedule,
       cancel: (handle) => window.clearTimeout(handle as number),
+      now: options.now ?? (() => Date.now()),
     });
-    return { actions, follow, sequence };
+    return { actions, follow, schedule, sequence };
   }
 
-  test('starts imploded and calls explode, one zoom burst, and the capture follow in order', () => {
+  test('holds the exploded and zoomed views before starting capture', () => {
     const { actions, follow, sequence } = controller();
 
     sequence.start();
@@ -412,15 +426,18 @@ describe('createHeroSequence', () => {
     expect(sequence.state.phase).toBe('explode');
     expect(actions.explode).toHaveBeenCalledTimes(1);
 
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.explode);
+    vi.advanceTimersByTime(EXPLODE_STORYBOARD_MS - 1);
+    expect(sequence.state.phase).toBe('explode');
+    expect(actions.zoomIn).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
     expect(sequence.state.phase).toBe('zoomin');
     expect(actions.zoomIn).toHaveBeenCalledTimes(3);
     expect(follow.start).not.toHaveBeenCalled();
 
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.zoomStep);
-    expect(actions.zoomIn).toHaveBeenCalledTimes(3);
-
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.zoomSettle);
+    vi.advanceTimersByTime(ZOOM_SETTLE_STORYBOARD_MS - 1);
+    expect(sequence.state.phase).toBe('zoomin');
+    expect(follow.start).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
     expect(sequence.state.phase).toBe('capture');
     expect(follow.start).toHaveBeenLastCalledWith(FLOW_A);
     expect(actions.selectFlow).toHaveBeenLastCalledWith(FLOW_A);
@@ -441,6 +458,10 @@ describe('createHeroSequence', () => {
     expect(follow.follow).toHaveBeenNthCalledWith(2, FLOW_A, 2);
 
     sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    expect(sequence.state.phase).toBe('capture');
+    vi.advanceTimersByTime(TOUR_END_HOLD_MS - 1);
+    expect(sequence.state.phase).toBe('capture');
+    vi.advanceTimersByTime(1);
     expect(sequence.state.phase).toBe('inspect');
     expect(follow.start).toHaveBeenLastCalledWith(FLOW_B);
     expect(actions.selectFlow).toHaveBeenLastCalledWith(FLOW_B);
@@ -449,6 +470,10 @@ describe('createHeroSequence', () => {
     expect(follow.follow).toHaveBeenLastCalledWith(FLOW_B, 5);
 
     sequence.updateTour(tour({ flowId: FLOW_B, status: 'ended', step: 6 }));
+    expect(sequence.state.phase).toBe('inspect');
+    vi.advanceTimersByTime(TOUR_END_HOLD_MS - 1);
+    expect(sequence.state.phase).toBe('inspect');
+    vi.advanceTimersByTime(1);
     expect(sequence.state.phase).toBe('turn');
     expect(actions.stopTour).toHaveBeenCalledTimes(1);
     expect(actions.zoomReset).toHaveBeenCalledTimes(2);
@@ -490,21 +515,196 @@ describe('createHeroSequence', () => {
     expect(sequence.state.status).toBe('running');
   });
 
-  test('pause during a token wait cancels the callback and resume schedules a fresh wait', () => {
+  test('pause during implode resumes after the remaining step time', () => {
     const { actions, follow, sequence } = controller();
+    const remaining = HERO_STORYBOARD_MS.implode / 2;
 
     sequence.start();
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode / 2);
+    vi.advanceTimersByTime(remaining);
     sequence.pause();
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode);
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
     expect(actions.explode).not.toHaveBeenCalled();
     expect(follow.pause).toHaveBeenCalledTimes(1);
 
     sequence.resume();
     expect(follow.resume).toHaveBeenCalledTimes(1);
-    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode - 1);
+    vi.advanceTimersByTime(remaining - 1);
     expect(actions.explode).not.toHaveBeenCalled();
     vi.advanceTimersByTime(1);
+    expect(actions.explode).toHaveBeenCalledTimes(1);
+  });
+
+  test('pause mid-explode resumes after the remaining step time', () => {
+    const { actions, sequence } = controller();
+    const elapsed = HERO_STORYBOARD_MS.explode - MS_PER_SECOND;
+    const remaining = HERO_STORYBOARD_MS.explode - elapsed;
+
+    sequence.start();
+    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode + elapsed);
+    expect(sequence.state.phase).toBe('explode');
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    expect(actions.zoomIn).not.toHaveBeenCalled();
+
+    sequence.resume();
+    vi.advanceTimersByTime(remaining - 1);
+    expect(actions.zoomIn).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(actions.zoomIn).toHaveBeenCalledTimes(3);
+  });
+
+  test('pause mid-turn resumes after the remaining step time', () => {
+    const { actions, sequence } = controller();
+    const remaining = HERO_STORYBOARD_MS.turnStep / 2;
+
+    sequence.start();
+    vi.advanceTimersByTime(
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
+    );
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    vi.advanceTimersByTime(TOUR_END_HOLD_MS);
+    sequence.updateTour(tour({ flowId: FLOW_B, status: 'ended', step: 6 }));
+    vi.advanceTimersByTime(TOUR_END_HOLD_MS);
+    expect(sequence.state.phase).toBe('turn');
+    vi.advanceTimersByTime(remaining);
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    expect(actions.rotateRight).not.toHaveBeenCalled();
+
+    sequence.resume();
+    vi.advanceTimersByTime(remaining - 1);
+    expect(actions.rotateRight).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(actions.rotateRight).toHaveBeenCalledTimes(1);
+  });
+
+  test('pause during zoom settle resumes after the remaining step time', () => {
+    const { follow, sequence } = controller();
+    const remaining = HERO_STORYBOARD_MS.zoomSettle / 2;
+
+    sequence.start();
+    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode);
+    expect(sequence.state.phase).toBe('zoomin');
+    vi.advanceTimersByTime(remaining);
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    expect(follow.start).not.toHaveBeenCalled();
+
+    sequence.resume();
+    vi.advanceTimersByTime(remaining - 1);
+    expect(follow.start).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(follow.start).toHaveBeenCalledWith(FLOW_A);
+  });
+
+  test('pause during the capture tour keeps the existing resume behavior', () => {
+    const { actions, follow, sequence } = controller();
+
+    sequence.start();
+    vi.advanceTimersByTime(
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
+    );
+    sequence.updateTour(tour({ status: 'playing', step: 0 }));
+    const starts = vi.mocked(follow.start).mock.calls.length;
+    const selections = actions.selectFlow.mock.calls.length;
+    const plays = actions.playTour.mock.calls.length;
+
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    expect(sequence.state.phase).toBe('capture');
+    expect(follow.start).toHaveBeenCalledTimes(starts);
+    expect(actions.selectFlow).toHaveBeenCalledTimes(selections);
+
+    sequence.resume();
+    expect(sequence.state.phase).toBe('capture');
+    expect(follow.resume).toHaveBeenCalledTimes(1);
+    expect(actions.playTour).toHaveBeenCalledTimes(plays + 1);
+  });
+
+  test('pause during a tour-end hold resumes after the remaining hold time', () => {
+    const { actions, follow, sequence } = controller();
+    const elapsed = TOUR_END_HOLD_MS / 2;
+    const remaining = TOUR_END_HOLD_MS - elapsed;
+
+    sequence.start();
+    vi.advanceTimersByTime(
+      HERO_STORYBOARD_MS.implode + HERO_STORYBOARD_MS.explode + HERO_STORYBOARD_MS.zoomSettle,
+    );
+    const starts = vi.mocked(follow.start).mock.calls.length;
+    const plays = actions.playTour.mock.calls.length;
+    sequence.updateTour(tour({ status: 'ended', step: 2 }));
+    expect(sequence.state.phase).toBe('capture');
+
+    vi.advanceTimersByTime(elapsed);
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    expect(sequence.state.phase).toBe('capture');
+    expect(follow.start).toHaveBeenCalledTimes(starts);
+
+    sequence.resume();
+    vi.advanceTimersByTime(remaining - 1);
+    expect(sequence.state.phase).toBe('capture');
+    expect(follow.start).toHaveBeenCalledTimes(starts);
+    expect(actions.playTour).toHaveBeenCalledTimes(plays);
+
+    vi.advanceTimersByTime(1);
+    expect(sequence.state.phase).toBe('inspect');
+    expect(follow.start).toHaveBeenLastCalledWith(FLOW_B);
+    expect(actions.playTour).toHaveBeenCalledTimes(plays + 1);
+  });
+
+  test('repeated pauses accumulate elapsed time within the same step', () => {
+    const { actions, sequence } = controller();
+    const firstElapsed = HERO_STORYBOARD_MS.explode - MS_PER_SECOND;
+    const secondElapsed = Math.floor(HERO_STORYBOARD_MS.explode / 7);
+    const remaining = HERO_STORYBOARD_MS.explode - firstElapsed - secondElapsed;
+
+    sequence.start();
+    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode + firstElapsed);
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    sequence.resume();
+
+    vi.advanceTimersByTime(secondElapsed);
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    sequence.resume();
+
+    vi.advanceTimersByTime(remaining - 1);
+    expect(actions.zoomIn).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(actions.zoomIn).toHaveBeenCalledTimes(3);
+  });
+
+  test('pause in the last millisecond resumes after the remaining millisecond', () => {
+    const { actions, sequence } = controller();
+
+    sequence.start();
+    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode - 1);
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    sequence.resume();
+
+    vi.advanceTimersByTime(0);
+    expect(actions.explode).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(actions.explode).toHaveBeenCalledTimes(1);
+  });
+
+  test('resume clamps elapsed time to zero when the clock has passed the deadline', () => {
+    const clockOverrun = 2;
+    let clockOffset = 0;
+    const { actions, schedule, sequence } = controller({ now: () => Date.now() + clockOffset });
+
+    sequence.start();
+    vi.advanceTimersByTime(HERO_STORYBOARD_MS.implode - 1);
+    clockOffset = clockOverrun;
+    sequence.pause();
+    vi.advanceTimersByTime(5 * MS_PER_SECOND);
+    sequence.resume();
+
+    expect(schedule.mock.lastCall?.[1]).toBe(0);
+    vi.advanceTimersByTime(0.1);
     expect(actions.explode).toHaveBeenCalledTimes(1);
   });
 
@@ -574,11 +774,19 @@ describe('hero stage storyboard', () => {
     await advanceToCapture();
 
     emitTour({ flowId: 'capture-path', status: 'ended', step: tourTotal - 1 });
+    expect(heroPhase()).toBe('capture');
+    await advance(TOUR_END_HOLD_MS - 1);
+    expect(heroPhase()).toBe('capture');
+    await advance(1);
     expect(heroPhase()).toBe('inspect');
     expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('inspect-path');
     expect(projectLine()).toBe(expectedProjectLine());
 
     emitTour({ flowId: 'inspect-path', status: 'ended', step: tourTotal - 1 });
+    expect(heroPhase()).toBe('inspect');
+    await advance(TOUR_END_HOLD_MS - 1);
+    expect(heroPhase()).toBe('inspect');
+    await advance(1);
     expect(heroPhase()).toBe('turn');
     expect(viewerActions.stop).toHaveBeenCalled();
     expect(viewerActions.zoomReset).toHaveBeenCalledTimes(2);
@@ -673,6 +881,8 @@ describe('hero stage storyboard', () => {
     expect(viewerActions.play).toHaveBeenCalledTimes(plays + 1);
 
     emitTour({ status: 'ended', step: tourTotal - 1 });
+    expect(heroPhase()).toBe('capture');
+    await advance(TOUR_END_HOLD_MS);
     expect(heroPhase()).toBe('inspect');
   });
 
@@ -697,6 +907,8 @@ describe('hero stage storyboard', () => {
 
     await advance(TOUR_OVERDUE_MS + 64);
     expect(restarted).toBe(0);
+    expect(heroPhase()).toBe('capture');
+    await advance(TOUR_END_HOLD_MS);
     expect(heroPhase()).toBe('inspect');
     expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('inspect-path');
   });

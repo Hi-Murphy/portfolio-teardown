@@ -90,6 +90,7 @@ export function useEmphasisDriver({
   const { invalidate } = useThree();
   const onPhaseRef = useRef(onPhase);
   const highlight = state?.highlight ?? null;
+  const selected = state?.selected ?? null;
   const focusLayerId = state?.focusLayerId ?? null;
   const focusSuspended = state?.focusSuspended ?? false;
   const tourComponentId = state?.tourComponentId ?? null;
@@ -107,11 +108,12 @@ export function useEmphasisDriver({
         ? null
         : emphasisTargets(layout, {
             highlight,
+            selected,
             focusLayerId,
             focusSuspended,
             tourComponentId,
           }),
-    [enabled, focusLayerId, focusSuspended, highlight, layout, tourComponentId],
+    [enabled, focusLayerId, focusSuspended, highlight, layout, selected, tourComponentId],
   );
 
   const channels = useMemo(() => {

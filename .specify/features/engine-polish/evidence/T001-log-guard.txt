@@ -1,0 +1,12 @@
+# command: bash .specify/features/engine-polish/guards.sh | target: working tree vs base a9edbfc | chromium: 156.0.8078.4 | commit: a9edbfc
+FROZEN-OK
+SURFACES-S2S4S7-OK
+S3-TOOLS-OK
+RESEAL-LIST-OK
+ALLOWED-PATHS-OK
+NO-NEW-DEPS-OK
+TIMEOUT-NOT-RAISED-OK
+GITLEAKS-OK
+FAIL SURFACES-S2S4S7
+FAIL RESEAL-LIST
+FAIL ALLOWED-PATHS

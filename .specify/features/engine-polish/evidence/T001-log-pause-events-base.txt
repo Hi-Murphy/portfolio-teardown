@@ -1,0 +1,19 @@
+# command: node pause-events.mjs <repo> <baseUrl> [screenshotDir] | base: http://127.0.0.1:4614 | chromium: 156.0.8078.4 | commit: a9edbfc
+| width | offset | cpu | stateSettles | labelBatches | resumeToNextPhaseMs | frameEqual |
+|---|---:|---:|---:|---:|---:|---|
+| 1440x900 | 50 | x1 | 1 | 1 | 1407.5 | true |
+| 1440x900 | 50 | x4 | 1 | 1 | 1404.8 | true |
+| 1440x900 | 300 | x1 | 1 | 1 | 1408.3 | true |
+| 1440x900 | 300 | x4 | 1 | 1 | 1405.7 | true |
+| 1440x900 | 600 | x1 | 1 | 1 | 1407.5 | true |
+| 1440x900 | 600 | x4 | 1 | 1 | 1406.4 | true |
+| 1440x900 | 850 | x1 | 1 | 1 | 1408.4 | true |
+| 1440x900 | 850 | x4 | 0 | 0 | 1406.5 | true |
+| 390x844 | 50 | x1 | 1 | 1 | 1407.7 | true |
+| 390x844 | 50 | x4 | 1 | 1 | 1407.3 | true |
+| 390x844 | 300 | x1 | 1 | 1 | 1408.3 | true |
+| 390x844 | 300 | x4 | 1 | 1 | 1405.8 | true |
+| 390x844 | 600 | x1 | 1 | 1 | 1408.2 | true |
+| 390x844 | 600 | x4 | 1 | 1 | 1406 | true |
+| 390x844 | 850 | x1 | 0 | 1 | 761.6 | true |
+| 390x844 | 850 | x4 | 0 | 0 | 1405.7 | true |

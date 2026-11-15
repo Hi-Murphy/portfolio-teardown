@@ -1,0 +1,11 @@
+# command: node tour-timing.mjs <repo> <baseUrl> | base: http://127.0.0.1:4614 | chromium: 156.0.8078.4 | commit: a9edbfc
+{"project":"websocket-inspector","flow":"capture-path","run":1,"boundariesMs":[2.6,1606.8,3205.5,4802.5,6404.6,8004.6,9604.4],"totalMs":11204.5}
+{"project":"websocket-inspector","flow":"capture-path","run":2,"boundariesMs":[2.5,1604.6,3206,4805.7,6405.4,8004.8,9606.2],"totalMs":11204.8}
+{"project":"websocket-inspector","flow":"capture-path","run":3,"boundariesMs":[2.6,1605.6,3205.5,4805.6,6404.7,8006.5,9605.2],"totalMs":11205}
+{"project":"websocket-inspector","flow":"capture-path","run":4,"boundariesMs":[2.6,1605.7,3205.9,4805.7,6404.5,8005.4,9605.4],"totalMs":11204.9}
+{"project":"websocket-inspector","flow":"capture-path","run":5,"boundariesMs":[2.5,1604.6,3206.1,4806,6403.3,8003.6,9604.6],"totalMs":11204.8}
+{"project":"jev-toolkit","flow":"arm-run","run":1,"boundariesMs":[2.5,1604.4,3203.9,4803.7,6404.1,8005.5,9604.2,11204.6],"totalMs":12803.1}
+{"project":"jev-toolkit","flow":"arm-run","run":2,"boundariesMs":[2.6,1605.9,3205.7,4807,6406.1,8005.3,9605.1,11205.3],"totalMs":12806.5}
+{"project":"jev-toolkit","flow":"arm-run","run":3,"boundariesMs":[2.7,1608.8,3208.8,4808.2,6408.2,8006.3,9607.6,11207.7],"totalMs":12807.4}
+{"project":"jev-toolkit","flow":"arm-run","run":4,"boundariesMs":[2.5,1606,3205.8,4804.3,6405.8,8006.3,9605.4,11206.1],"totalMs":12803.8}
+{"project":"jev-toolkit","flow":"arm-run","run":5,"boundariesMs":[2.7,1606.5,3205.6,4804.9,6405.3,8005.7,9605.4,11205.1],"totalMs":12804.4}

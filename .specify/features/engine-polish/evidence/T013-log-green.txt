@@ -1,0 +1,50 @@
+# T013 green — pnpm --filter web exec vitest run test/home-hero-loop.test.tsx --reporter verbose — commit 9b73eed (working tree)
+
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t013/apps/web
+
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > holds the exploded and zoomed views before starting capture 10ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > follows each tour step and transitions capture → inspect → turn → implode 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause pauses the tour and follow; resume replays both 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during implode resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-explode resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause mid-turn resumes after the remaining step time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during zoom settle resumes after the remaining step time 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during the capture tour keeps the existing resume behavior 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause during a tour-end hold resumes after the remaining hold time 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > repeated pauses accumulate elapsed time within the same step 1ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > pause in the last millisecond resumes after the remaining millisecond 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume clamps elapsed time to zero when the clock has passed the deadline 0ms
+ ✓ test/home-hero-loop.test.tsx > createHeroSequence > resume advances an ended tour instead of replaying that flow 0ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs implode → explode → zoom → capture and narrates the first component 16ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > runs capture → inspect → turn → implode → capture again 10ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > pauses and resumes from the button, hidden tab, and off-screen observer 6ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > a user pause wins over automatic resumes 3ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > nudges a stalled tour once with pause then play, then continues 8ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > advances an ended last step instead of replaying it after a nudge 7ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > watches only while running and visible, and leaves on-time steps alone 11ms
+ ✓ test/home-hero-loop.test.tsx > hero stage storyboard > never mounts the stage or storyboard under reduced motion 1ms
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  10:20:31
+   Duration  398ms (environment 62%, tests 23%, import 12%, transform 2%)
+
+
+# exit 0
+
+# no motion literals — pnpm --filter web exec vitest run test/no-motion-literals.test.ts
+
+
+ RUN  v5.0.5 /private/tmp/s14-wt/t013/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  10:20:32
+   Duration  86ms (tests 74%, import 15%, transform 7%, worker 4%)
+
+
+# exit 0
+
+# orchestrator note: the executor added a second clock (performance.now alongside the injected `now`) to hero-loop.ts to keep the T006 test "repeated pauses accumulate elapsed time" green. Root cause was test arithmetic: explode/7 is fractional at 4600 ms (it was 200 ms at 1400) and the fake clock is whole-millisecond. The production workaround was removed; the test now uses Math.floor(explode / 7). Re-verified: red 7/21 against the previous hero-loop.ts, green 21/21 + no-motion-literals 16/16; browser evidence (storyboard, pause-events, probes) re-run on the cleaned code.

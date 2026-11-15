@@ -1,0 +1,7 @@
+# Approved S5/S6/S8 reseal paths (base a9edbfc).
+packages/xploder/src/interaction/emphasis.ts
+packages/xploder/src/react/scene/Emphasis.tsx
+packages/xploder/src/react/TeardownViewer.tsx
+packages/xploder/src/overlay/model.ts
+packages/xploder/test/emphasis-selected.test.ts
+packages/xploder/test/overlay-note-clear.test.ts

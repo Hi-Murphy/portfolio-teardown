@@ -1,0 +1,9 @@
+# T013 probes (re-run on the cleaned fix, commit 9b73eed+worktree)
+hero: PASS (8 checks)
+cls: PASS (19 checks)
+drill: PASS (13 checks)
+reduced-motion: PASS (8 checks)
+site-probe: PASS
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)

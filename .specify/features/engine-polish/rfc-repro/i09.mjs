@@ -1,0 +1,18 @@
+import { createRequire } from 'node:module';
+const require = createRequire(process.argv[2] + '/tools/perf/package.json');
+const { chromium } = require('playwright');
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+const p = await ctx.newPage();
+await p.goto('http://127.0.0.1:4614/projects/websocket-inspector');
+await p.locator('[data-site-control="explore-3d"]').click();
+await p.waitForSelector('[data-xploder-ready="true"]'); await p.waitForTimeout(2500);
+const center = async (id) => p.evaluate((id) => { const r = document.querySelector(`[data-xploder-proxy="${id}"]`).getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]; }, id);
+const state = async (label) => console.log(label.padEnd(28), JSON.stringify(await p.evaluate(() => { const v = document.querySelector('[data-xploder-state]'); return { highlight: v.getAttribute('data-xploder-highlight'), panel: document.querySelector('[data-xploder-panel-surface]')?.getAttribute('data-xploder-panel-surface') ?? null }; })));
+const ids = await p.evaluate(() => [...document.querySelectorAll('[data-xploder-proxy]')].map((e) => e.getAttribute('data-xploder-proxy')));
+const [A, B] = [ids[3], ids[5]];
+const a = await center(A); const bb = await center(B);
+await p.mouse.move(...a); await p.mouse.click(...a); await p.waitForTimeout(600); await state(`click A (${A})`);
+await p.mouse.move(...bb); await p.waitForTimeout(400); await state(`hover B (${B})`);
+await p.mouse.move(5, 5); await p.waitForTimeout(400); await state('leave B (panel still open)');
+await b.close();

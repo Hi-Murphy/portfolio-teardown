@@ -1,0 +1,22 @@
+{
+  "pr": 25, "head": "600a314fc0b7fdd36a0d818efef8ed3ed1d3130c",
+  "required": [
+  "a11y: axe (production routes)",
+  "build (typecheck, lint, test, build)",
+  "perf-gate: lighthouse (mobile)",
+  "perf-gate: weight (< 3 MB)",
+  "perf: fixture exclusion",
+  "secrets (gitleaks)",
+  "seo: meta + og"
+],
+  "checks": [
+    {"context": "a11y: axe (production routes)", "status": "completed", "conclusion": "success", "ok": true},
+    {"context": "build (typecheck, lint, test, build)", "status": "completed", "conclusion": "success", "ok": true},
+    {"context": "perf-gate: lighthouse (mobile)", "status": "completed", "conclusion": "success", "ok": true},
+    {"context": "perf-gate: weight (< 3 MB)", "status": "completed", "conclusion": "success", "ok": true},
+    {"context": "perf: fixture exclusion", "status": "completed", "conclusion": "success", "ok": true},
+    {"context": "secrets (gitleaks)", "status": "completed", "conclusion": "success", "ok": true},
+    {"context": "seo: meta + og", "status": "completed", "conclusion": "success", "ok": true}
+  ],
+  "requiredCount": 7, "staleWorkflowRuns": 0, "verdict": "PASS"
+}

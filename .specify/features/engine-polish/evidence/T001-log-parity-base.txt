@@ -1,0 +1,11 @@
+# command: pnpm perf:parity --serve /tmp/s14-checks/base-out --write /tmp/s14-checks/parity-base | target: base a9edbfc export | chromium: 156.0.8078.4 | commit: a9edbfc
+home-mobile-light: 721x1440 screenshot-home-mobile-light.png
+home-mobile-dark: 721x1440 screenshot-home-mobile-dark.png
+home-desktop-light: 1350x940 screenshot-home-desktop-light.png
+home-desktop-dark: 1350x940 screenshot-home-desktop-dark.png
+project-mobile-light: 721x1440 screenshot-project-mobile-light.png
+project-mobile-dark: 721x1440 screenshot-project-mobile-dark.png
+project-desktop-light: 1350x940 screenshot-project-desktop-light.png
+project-desktop-dark: 1350x940 screenshot-project-desktop-dark.png
+parity: WROTE 8 shots
+parity: baseline /tmp/s14-checks/parity-base/parity.json

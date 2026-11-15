@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createServer } from 'node:http';
 import { join } from 'node:path';
 
 import { JSDOM } from 'jsdom';
@@ -65,6 +66,18 @@ export interface ClsVerdict {
   total: number;
   pass: boolean;
   sources: ClsSource[];
+}
+
+export interface HeroSettledSnapshot {
+  readonly liveMode: string | null;
+  readonly liveState: string | null;
+  readonly loopButton: boolean;
+  readonly loopAttr: boolean;
+}
+
+export interface HeroStallProxy {
+  readonly url: URL;
+  close(): Promise<void>;
 }
 
 export interface DrawFrame {
@@ -173,6 +186,13 @@ interface ClsWindow {
   };
 }
 
+interface HeroMarksWindow {
+  __siteProbeHeroMarks?: {
+    first: ClsRect[] | null;
+    shifts: { value: number; startTime: number; hadRecentInput: boolean }[];
+  };
+}
+
 interface PaintWindow {
   __siteProbePaint?: {
     fcpAt: number | null;
@@ -220,6 +240,11 @@ const VIEWPORTS: readonly Viewport[] = [
   { name: 'desktop', width: 1280, height: 800, isMobile: false, hasTouch: false },
   { name: 'mobile', width: 412, height: 823, isMobile: true, hasTouch: true },
 ] as const;
+const HERO_MARK_VIEWPORTS: readonly Viewport[] = [
+  { name: 'mobile', width: 390, height: 844, isMobile: true, hasTouch: true },
+  { name: 'mobile', width: 390, height: 740, isMobile: true, hasTouch: true },
+  { name: 'mobile', width: 360, height: 740, isMobile: true, hasTouch: true },
+] as const;
 const PALETTES: readonly Palette[] = ['light', 'dark'] as const;
 const CARD_SURFACES = [
   { name: 'home', path: '/' },
@@ -236,6 +261,9 @@ const SETTLE_MS = 3000;
 const POSTER_SCAN_MS = 4000;
 const IDLE_SCAN_MS = 5000;
 const HYDRATION_DELAY_MS = 250;
+const HERO_STALL_MS = 600;
+const DRILL_LATE_CHUNK_MS = 2000;
+const HERO_STALL_MARKER = 'data-hero-annotation';
 const MIN_RENDERED_FRAMES = 30;
 const EXPECTED_DRAW_CALLS = 2;
 const EXPECTED_NAV_KEYS = [
@@ -399,6 +427,29 @@ export function parseHeroLiveMode(value: string | null | undefined): HeroLiveMod
   return value === 'eager' || value === 'gated' ? value : null;
 }
 
+export function heroSettledFromSnapshot(snapshot: HeroSettledSnapshot): boolean {
+  if (snapshot.liveMode === null && snapshot.liveState === null) return true;
+  if (snapshot.liveState === 'skipped') return true;
+  if (snapshot.liveState === 'revealed') return snapshot.loopButton && snapshot.loopAttr;
+  return snapshot.liveMode === 'gated' && snapshot.liveState === 'idle';
+}
+
+export function sameMarkBoxes(left: readonly ClsRect[], right: readonly ClsRect[]): boolean {
+  return (
+    left.length === right.length &&
+    left.every((box, index) => {
+      const other = right[index];
+      return (
+        other !== undefined &&
+        box.x === other.x &&
+        box.y === other.y &&
+        box.width === other.width &&
+        box.height === other.height
+      );
+    })
+  );
+}
+
 export function evaluateHeroEagerNoInteraction(state: HeroEagerNoInteractionState): boolean {
   return state.liveState === 'revealed' && state.canvases === 1 && state.ready;
 }
@@ -494,6 +545,61 @@ function groupResult(
     checks,
     ...(data === undefined ? {} : { data }),
     lines: [],
+  };
+}
+
+export async function startHeroStallProxy(target: URL): Promise<HeroStallProxy> {
+  const server = createServer(async (request, response) => {
+    try {
+      const url = new URL(request.url ?? '/', target);
+      const upstream = await fetch(url);
+      const body = Buffer.from(await upstream.arrayBuffer());
+      const headers = Object.fromEntries(
+        [...upstream.headers].filter(
+          ([key]) => !['content-length', 'content-encoding', 'transfer-encoding'].includes(key),
+        ),
+      );
+      response.writeHead(upstream.status, headers);
+
+      if (request.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) {
+        const html = body.toString('utf8');
+        const marker = html.indexOf(HERO_STALL_MARKER);
+        if (marker >= 0) {
+          const tagStart = html.lastIndexOf('<', marker);
+          const split = tagStart >= 0 ? tagStart : marker;
+          response.write(html.slice(0, split));
+          setTimeout(() => response.end(html.slice(split)), HERO_STALL_MS);
+          return;
+        }
+      }
+
+      response.end(body);
+    } catch (error) {
+      response.writeHead(502, { 'content-type': 'text/plain' });
+      response.end(error instanceof Error ? error.message : String(error));
+    }
+  });
+
+  await new Promise<void>((resolveListen, rejectListen) => {
+    server.once('error', rejectListen);
+    server.listen(0, '127.0.0.1', () => {
+      server.off('error', rejectListen);
+      resolveListen();
+    });
+  });
+  const address = server.address();
+  if (address === null || typeof address === 'string') throw new Error('stall proxy did not bind');
+
+  return {
+    url: new URL(`http://127.0.0.1:${address.port}/`),
+    close: () =>
+      new Promise<void>((resolveClose, rejectClose) => {
+        server.closeAllConnections();
+        server.close((error) => {
+          if (error) rejectClose(error);
+          else resolveClose();
+        });
+      }),
   };
 }
 
@@ -738,6 +844,34 @@ async function waitForHydration(page: Page): Promise<void> {
   });
 }
 
+async function waitForHeroSettled(page: Page): Promise<void> {
+  await page.waitForFunction(
+    () => {
+      const live = document.querySelector('[data-site-live]');
+      if (live === null) return true;
+
+      const mode = live.getAttribute('data-site-live-mode');
+      const state = live.getAttribute('data-site-live-state');
+      if (state === 'skipped') return true;
+      if (state === 'revealed') {
+        return (
+          document.querySelector('[data-hero-loop-slot] button') !== null &&
+          document.querySelector('[data-hero-loop]') !== null
+        );
+      }
+
+      return mode === 'gated' && state === 'idle';
+    },
+    undefined,
+    { timeout: WAIT_TIMEOUT_MS },
+  );
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise<void>((resolveFrame) => requestAnimationFrame(() => resolveFrame()));
+    await new Promise<void>((resolveFrame) => requestAnimationFrame(() => resolveFrame()));
+  });
+}
+
 async function waitForViewerReady(page: Page): Promise<void> {
   await page.locator('[data-xploder-ready="true"]').waitFor({
     state: 'visible',
@@ -797,6 +931,7 @@ async function probeCell(
 
   if (route.base === 'site' && route.path === '/') {
     await activateHomeLive(page);
+    await waitForHeroSettled(page);
   } else if (route.base === 'site' && route.path.startsWith('/projects/')) {
     await activateProjectViewer(page);
   }
@@ -829,6 +964,102 @@ async function probeCell(
 
 function formatTotal(total: number): string {
   return total.toFixed(6);
+}
+
+async function runHeroMarkChecks(browser: Browser, siteBase: URL): Promise<SiteProbeCheck[]> {
+  const proxy = await startHeroStallProxy(siteBase);
+  const checks: SiteProbeCheck[] = [];
+
+  try {
+    for (const viewport of HERO_MARK_VIEWPORTS) {
+      const name = `hero-marks-stable-${viewport.width}x${viewport.height}`;
+      const context = await browser.newContext(contextOptions('dark', viewport));
+
+      try {
+        const page = await context.newPage();
+        await page.addInitScript(() => {
+          const target = window as unknown as HeroMarksWindow;
+          const state = {
+            first: null as ClsRect[] | null,
+            shifts: [] as { value: number; startTime: number; hadRecentInput: boolean }[],
+          };
+          target.__siteProbeHeroMarks = state;
+
+          new PerformanceObserver((list) => {
+            for (const item of list.getEntries() as (PerformanceEntry & {
+              value: number;
+              hadRecentInput: boolean;
+            })[]) {
+              state.shifts.push({
+                value: item.value,
+                startTime: item.startTime,
+                hadRecentInput: item.hadRecentInput === true,
+              });
+            }
+          }).observe({ type: 'layout-shift', buffered: true });
+
+          const sample = () => {
+            if (state.first !== null) return;
+            const marks = [...document.querySelectorAll('[data-site-hero] span')].filter(
+              (element) => element.classList.contains('h-[18px]'),
+            );
+            if (marks.length === 4) {
+              state.first = marks.map((mark) => {
+                const rect = mark.getBoundingClientRect();
+                return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+              });
+              return;
+            }
+            requestAnimationFrame(sample);
+          };
+          requestAnimationFrame(sample);
+        });
+
+        await navigatePage(page, new URL('/', proxy.url));
+        await waitForHeroSettled(page);
+
+        const result = await page.evaluate(() => {
+          const state = (window as unknown as HeroMarksWindow).__siteProbeHeroMarks;
+          const marks = [...document.querySelectorAll('[data-site-hero] span')].filter((element) =>
+            element.classList.contains('h-[18px]'),
+          );
+          return {
+            first: state?.first ?? null,
+            after: marks.map((mark) => {
+              const rect = mark.getBoundingClientRect();
+              return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+            }),
+            shifts: state?.shifts ?? [],
+          };
+        });
+
+        const pass =
+          result.first !== null &&
+          result.after.length === 4 &&
+          sameMarkBoxes(result.first, result.after) &&
+          result.shifts.length === 0;
+        console.log(`cls ${name} shifts=${result.shifts.length} ${pass ? 'PASS' : 'FAIL'}`);
+        checks.push(
+          check(
+            name,
+            pass,
+            { boxes: result.first, shifts: 0 },
+            {
+              boxes: result.after,
+              shifts: result.shifts.length,
+              entries: result.shifts,
+            },
+          ),
+        );
+      } finally {
+        await context.close();
+      }
+    }
+  } finally {
+    await proxy.close();
+  }
+
+  return checks;
 }
 
 async function runClsGroup(
@@ -874,6 +1105,9 @@ async function runClsGroup(
       sources: cell.sources,
     }),
   );
+  if (options.siteBase !== undefined) {
+    checks.push(...(await runHeroMarkChecks(browser, options.siteBase)));
+  }
 
   return groupResult('cls', checks, report);
 }
@@ -1062,6 +1296,7 @@ async function readDrillStructure(page: Page): Promise<{
 async function collectTabWalk(
   page: Page,
   expected: readonly DrillTabStep[],
+  betweenWalks?: () => Promise<void>,
 ): Promise<{
   readonly forward: DrillTabStep[];
   readonly backward: DrillTabStep[];
@@ -1085,6 +1320,8 @@ async function collectTabWalk(
   await page.keyboard.press('Tab');
   await readActiveTab(page);
 
+  await betweenWalks?.();
+
   await page.evaluate(() => {
     (document.activeElement as HTMLElement | null)?.blur();
     document.body.focus();
@@ -1106,13 +1343,39 @@ async function runDrillGroup(browser: Browser, siteBase: URL): Promise<SiteProbe
   const context = await browser.newContext(contextOptions('light', VIEWPORTS[0] as Viewport));
   const page = await context.newPage();
   await installClsObserver(page, false);
+  let holdLateChunks = false;
+  let releaseLateChunks: (() => void) | undefined;
+  let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
+  const lateChunkGate = new Promise<void>((resolveGate) => {
+    releaseLateChunks = resolveGate;
+  });
+  const openLateChunkGate = () => {
+    if (!holdLateChunks) return;
+    holdLateChunks = false;
+    if (fallbackTimer !== undefined) clearTimeout(fallbackTimer);
+    fallbackTimer = undefined;
+    releaseLateChunks?.();
+  };
+  await page.route(/\/_next\/static\/.*\.js(?:\?.*)?$/, async (request) => {
+    if (holdLateChunks) await lateChunkGate;
+    await request.continue();
+  });
 
   try {
     await navigatePage(page, siteBase);
     await waitForHydration(page);
+    holdLateChunks = true;
+    fallbackTimer = setTimeout(openLateChunkGate, DRILL_LATE_CHUNK_MS);
+    await waitForHeroSettled(page);
     const structure = await readDrillStructure(page);
     const expectedKeys = structure.expected.map((step) => step.key);
-    const walk = await collectTabWalk(page, structure.expected);
+    const walk = await collectTabWalk(page, structure.expected, async () => {
+      openLateChunkGate();
+      await page.locator('[data-hero-loop-slot] button').waitFor({
+        state: 'visible',
+        timeout: WAIT_TIMEOUT_MS,
+      });
+    });
     const actualForward = walk.forward.map((step) => step.key);
     const expectedLast = expectedKeys.at(-1) ?? null;
     const walkVerdict = evaluateTabWalk(walk.forward, walk.backward, expectedKeys);

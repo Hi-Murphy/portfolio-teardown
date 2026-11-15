@@ -71,6 +71,7 @@ export function createChannels(count: number, timing: ChannelTiming): Channels {
 
 export interface EmphasisInput {
   readonly highlight: string | null;
+  readonly selected?: string | null;
   readonly focusLayerId: string | null;
   readonly focusSuspended: boolean;
   readonly tourComponentId: string | null;
@@ -89,6 +90,12 @@ export function emphasisTargets(layout: ProjectLayout, input: EmphasisInput): Em
 
   if (input.highlight !== null) {
     const index = layout.components.findIndex((component) => component.id === input.highlight);
+
+    if (index !== -1) hover[index] = 1;
+  }
+
+  if (input.selected !== null && input.selected !== undefined) {
+    const index = layout.components.findIndex((component) => component.id === input.selected);
 
     if (index !== -1) hover[index] = 1;
   }
