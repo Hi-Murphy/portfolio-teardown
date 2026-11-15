@@ -11,6 +11,7 @@ export const EAGER_PROBE_DEADLINE_MS = 2_500;
 export const EAGER_PROBE_REST_MS = 2_000;
 export const EAGER_PROBE_REDUCED_SETTLE_MS = 5_000;
 export const EAGER_PROBE_WAIT_MS = 30_000;
+export const EAGER_PROBE_READY_EVENT_TOLERANCE_MS = 16.7;
 
 export type EagerProbeMotion = 'normal' | 'reduce';
 export type EagerProbeExpectation = 'live' | 'gated' | 'live-loop';
@@ -48,6 +49,8 @@ export interface EagerProbeSnapshot {
   readonly timeOriginMs: number;
   readonly loadAtMs: number | null;
   readonly readyAtMs: number | null;
+  readonly readyEventAtMs: number | null;
+  readonly settledAtMs: number | null;
   readonly liveStates: readonly EagerProbeLiveState[];
   readonly eventCounts: EagerProbeEventCounts;
   readonly trustedEvents: number;
@@ -119,6 +122,8 @@ interface EagerProbeWindow {
     timeOriginMs: number;
     loadAtMs: number | null;
     readyAtMs: number | null;
+    readyEventAtMs: number | null;
+    settledAtMs: number | null;
     liveStates: EagerProbeLiveState[];
     eventCounts: EagerProbeEventCounts;
     trustedEvents: number;
@@ -160,11 +165,28 @@ function installProbe(): void {
     timeOriginMs: performance.timeOrigin,
     loadAtMs: null as number | null,
     readyAtMs: null as number | null,
+    readyEventAtMs: null as number | null,
+    settledAtMs: null as number | null,
     liveStates: [] as EagerProbeLiveState[],
     eventCounts,
     trustedEvents: 0,
   };
   target.__eagerProbe = state;
+
+  document.addEventListener(
+    'xploder:ready',
+    () => {
+      if (state.readyEventAtMs === null) state.readyEventAtMs = performance.now();
+    },
+    true,
+  );
+  document.addEventListener(
+    'xploder:settled',
+    () => {
+      if (state.settledAtMs === null) state.settledAtMs = performance.now();
+    },
+    true,
+  );
 
   const recordEvent = (event: Event): void => {
     if (!event.isTrusted) return;
@@ -288,6 +310,8 @@ async function readSnapshot(page: Page): Promise<EagerProbeSnapshot> {
       timeOriginMs: state.timeOriginMs,
       loadAtMs: state.loadAtMs,
       readyAtMs: state.readyAtMs,
+      readyEventAtMs: state.readyEventAtMs,
+      settledAtMs: state.settledAtMs,
       liveStates: [...state.liveStates],
       eventCounts: { ...state.eventCounts },
       trustedEvents: state.trustedEvents,
@@ -357,6 +381,22 @@ function check(name: string, pass: boolean, expected: unknown, actual: unknown):
   return { name, pass, expected, actual };
 }
 
+export function readyEventMatchesAttribute(
+  snapshot: Pick<EagerProbeSnapshot, 'readyAtMs' | 'readyEventAtMs'>,
+): boolean {
+  if (snapshot.readyAtMs === null || snapshot.readyEventAtMs === null) {
+    return snapshot.readyAtMs === null && snapshot.readyEventAtMs === null;
+  }
+
+  return (
+    Math.abs(snapshot.readyEventAtMs - snapshot.readyAtMs) <= EAGER_PROBE_READY_EVENT_TOLERANCE_MS
+  );
+}
+
+export function eagerRestWaitTargetMs(settledAtMs: number | null): number {
+  return Math.max(EAGER_PROBE_DEADLINE_MS + EAGER_PROBE_REST_MS, settledAtMs ?? 0);
+}
+
 export function evaluateEagerProbe(
   motion: EagerProbeMotion,
   atDeadline: EagerProbeSnapshot,
@@ -387,6 +427,16 @@ export function evaluateEagerProbe(
     checks.push(
       check('canvas-present', canvasPresent, true, atDeadline.canvasRect),
       check('ready-by-deadline', readyByDeadline, EAGER_PROBE_DEADLINE_MS, atDeadline.readyAtMs),
+      check(
+        'ready-event-matches-attribute',
+        readyEventMatchesAttribute(atDeadline),
+        EAGER_PROBE_READY_EVENT_TOLERANCE_MS,
+        {
+          readyAtMs: atDeadline.readyAtMs,
+          readyEventAtMs: atDeadline.readyEventAtMs,
+          settledAtMs: atDeadline.settledAtMs,
+        },
+      ),
       check(
         'revealed-by-deadline',
         revealedByDeadline,
@@ -423,6 +473,16 @@ export function evaluateEagerProbe(
         readyAttribute: atDeadline.readyAttribute,
       }),
       check(
+        'ready-event-matches-attribute',
+        readyEventMatchesAttribute(atDeadline),
+        EAGER_PROBE_READY_EVENT_TOLERANCE_MS,
+        {
+          readyAtMs: atDeadline.readyAtMs,
+          readyEventAtMs: atDeadline.readyEventAtMs,
+          settledAtMs: atDeadline.settledAtMs,
+        },
+      ),
+      check(
         'poster-visible',
         posterVisible,
         { opacity: '1', visibility: 'visible' },
@@ -447,6 +507,16 @@ export function evaluateGatedProbe(snapshot: EagerProbeSnapshot): EagerProbeVerd
       readyAttribute: snapshot.readyAttribute,
     }),
     check(
+      'ready-event-matches-attribute',
+      readyEventMatchesAttribute(snapshot),
+      EAGER_PROBE_READY_EVENT_TOLERANCE_MS,
+      {
+        readyAtMs: snapshot.readyAtMs,
+        readyEventAtMs: snapshot.readyEventAtMs,
+        settledAtMs: snapshot.settledAtMs,
+      },
+    ),
+    check(
       'poster-visible',
       posterVisible,
       { opacity: '1', visibility: 'visible' },
@@ -470,6 +540,16 @@ export function evaluateSaveDataProbe(snapshot: EagerProbeSnapshot): EagerProbeV
       readyAtMs: snapshot.readyAtMs,
       readyAttribute: snapshot.readyAttribute,
     }),
+    check(
+      'ready-event-matches-attribute',
+      readyEventMatchesAttribute(snapshot),
+      EAGER_PROBE_READY_EVENT_TOLERANCE_MS,
+      {
+        readyAtMs: snapshot.readyAtMs,
+        readyEventAtMs: snapshot.readyEventAtMs,
+        settledAtMs: snapshot.settledAtMs,
+      },
+    ),
     check(
       'poster-visible',
       posterVisible,
@@ -623,8 +703,12 @@ export async function runEagerProbe(options: EagerProbeRunOptions): Promise<Eage
         atDeadline,
       );
       await page.waitForFunction(
-        ({ deadlineMs, restMs }) => performance.now() >= deadlineMs + restMs,
-        { deadlineMs: EAGER_PROBE_DEADLINE_MS, restMs: EAGER_PROBE_REST_MS },
+        (targetMs) => {
+          const settledAtMs =
+            (window as unknown as EagerProbeWindow).__eagerProbe?.settledAtMs ?? 0;
+          return performance.now() >= Math.max(targetMs, settledAtMs);
+        },
+        eagerRestWaitTargetMs(atDeadline.settledAtMs),
         { timeout: EAGER_PROBE_WAIT_MS },
       );
       afterRest = await readSnapshot(page);

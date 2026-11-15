@@ -75,6 +75,20 @@ export interface HeroSettledSnapshot {
   readonly loopAttr: boolean;
 }
 
+export type HeroProbeEventType = 'ready' | 'settled';
+
+export interface HeroProbeEvent {
+  readonly type: HeroProbeEventType;
+  readonly at: number;
+  readonly insideLive: boolean;
+}
+
+export interface HeroSettledEventSnapshot {
+  readonly events: readonly HeroProbeEvent[];
+  readonly loopButton: boolean;
+  readonly loopAttr: boolean;
+}
+
 export interface HeroStallProxy {
   readonly url: URL;
   close(): Promise<void>;
@@ -190,6 +204,12 @@ interface HeroMarksWindow {
   __siteProbeHeroMarks?: {
     first: ClsRect[] | null;
     shifts: { value: number; startTime: number; hadRecentInput: boolean }[];
+  };
+}
+
+interface HeroEventsWindow {
+  __siteProbeEvents?: {
+    events: HeroProbeEvent[];
   };
 }
 
@@ -432,6 +452,21 @@ export function heroSettledFromSnapshot(snapshot: HeroSettledSnapshot): boolean 
   if (snapshot.liveState === 'skipped') return true;
   if (snapshot.liveState === 'revealed') return snapshot.loopButton && snapshot.loopAttr;
   return snapshot.liveMode === 'gated' && snapshot.liveState === 'idle';
+}
+
+export function heroSettledFromEvents(snapshot: HeroSettledEventSnapshot): boolean {
+  const readyIndex = snapshot.events.findIndex(
+    (event) => event.type === 'ready' && event.insideLive,
+  );
+  if (readyIndex < 0) return false;
+
+  const ready = snapshot.events[readyIndex] ?? null;
+  if (ready === null) return false;
+  const settled = snapshot.events
+    .slice(readyIndex + 1)
+    .some((event) => event.type === 'settled' && event.insideLive && event.at >= ready.at);
+
+  return settled && snapshot.loopButton && snapshot.loopAttr;
 }
 
 export function sameMarkBoxes(left: readonly ClsRect[], right: readonly ClsRect[]): boolean {
@@ -817,6 +852,7 @@ async function navigatePage(page: Page, url: URL, allowHttpError = false): Promi
   let response;
 
   try {
+    await installHeroEventCapture(page);
     response = await page.goto(url.href, { waitUntil: 'load', timeout: WAIT_TIMEOUT_MS });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
@@ -831,6 +867,34 @@ async function navigatePage(page: Page, url: URL, allowHttpError = false): Promi
   }
 
   return page;
+}
+
+const heroEventCapturePages = new WeakSet<Page>();
+
+async function installHeroEventCapture(page: Page): Promise<void> {
+  if (heroEventCapturePages.has(page)) return;
+  heroEventCapturePages.add(page);
+
+  await page.addInitScript(() => {
+    const target = window as unknown as HeroEventsWindow;
+    const state = { events: [] as HeroProbeEvent[] };
+    target.__siteProbeEvents = state;
+
+    for (const name of ['xploder:ready', 'xploder:settled'] as const) {
+      document.addEventListener(
+        name,
+        (event) => {
+          const element = event.target instanceof Element ? event.target : null;
+          state.events.push({
+            type: name === 'xploder:ready' ? 'ready' : 'settled',
+            at: performance.now(),
+            insideLive: element !== null && element.closest('[data-site-live]') !== null,
+          });
+        },
+        true,
+      );
+    }
+  });
 }
 
 async function openPage(context: BrowserContext, url: URL, allowHttpError = false): Promise<Page> {
@@ -854,7 +918,17 @@ async function waitForHeroSettled(page: Page): Promise<void> {
       const state = live.getAttribute('data-site-live-state');
       if (state === 'skipped') return true;
       if (state === 'revealed') {
+        const events = (window as unknown as HeroEventsWindow).__siteProbeEvents?.events ?? [];
+        const readyIndex = events.findIndex((event) => event.type === 'ready' && event.insideLive);
+        const ready = readyIndex < 0 ? null : (events[readyIndex] ?? null);
+        const settled =
+          ready !== null &&
+          events
+            .slice(readyIndex + 1)
+            .some((event) => event.type === 'settled' && event.insideLive && event.at >= ready.at);
+
         return (
+          settled &&
           document.querySelector('[data-hero-loop-slot] button') !== null &&
           document.querySelector('[data-hero-loop]') !== null
         );
