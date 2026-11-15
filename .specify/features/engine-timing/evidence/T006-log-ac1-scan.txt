@@ -1,0 +1,3 @@
+# command: grep -rnE 'performance\.now\(|Date\.now\(' packages/xploder/src
+packages/xploder/src/time/clock.ts:35:  now: () => performance.now() / MILLISECONDS_PER_SECOND,
+packages/xploder/src/time/clock.ts:157:  return performance.now();

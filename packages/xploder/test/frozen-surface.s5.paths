@@ -27,4 +27,6 @@ test/scroll.test.ts
 test/view-scroll.test.tsx
 test/viewer-handle.test.tsx
 test/clock.test.ts
+test/no-time-reads.test.ts
+test/no-real-timers.test.ts
 test/__snapshots__/fixture-c.test.ts.snap
