@@ -1,0 +1,23 @@
+# git ls-remote --tags origin 'seal/*' | head 3b721fe
+8b0c75c0797ca8e7a8040fdb8fbcf315d2e91c6f	refs/tags/seal/s2-s4-3aee8fc
+0ea32d6b28f81732c1492288f1a9d6bfea11f05f	refs/tags/seal/s5-12cc065
+184182c5417a918a225c4d52625c2b1d5d312696	refs/tags/seal/s5-1ff1d01
+0f29e4baa91a910afe529b97d1c31579744ec77f	refs/tags/seal/s5-s8-5d3abdb
+aa631e0ef00d1530d348ed557646f46293749a76	refs/tags/seal/s5-s8-74394e9
+bf031b9c58d13efb9617412d098bab1465b14ab6	refs/tags/seal/s5-s8-edde9d0
+77ae7512a79c8c6b8b1461ee3ad74b4511b91081	refs/tags/seal/s6-2c9187d
+d23f8a7d8e26fcc013823eae34e89645715d2278	refs/tags/seal/s6-8506837
+b6d2b142b7c1103952f5675c1c28ed571a766883	refs/tags/seal/s6-b5a4713
+23ec66963e2a3de55c4dbac739f480ac0274f940	refs/tags/seal/s6-d4efeaf
+840ab1c4d18773eda00ed1536b94501cdc525d2e	refs/tags/seal/s6-ea61882
+4159946dd0b9386007d780d13f58c5031265064e	refs/tags/seal/s7-5b22987
+102a0628171c65d3971327480f27b8b8dc5e8f85	refs/tags/seal/s8-07b22cd
+0cc1dde35ed5983eb141cf915fe51a35cf1e70a1	refs/tags/seal/s8-8f27462
+48fe80019c6db98024230e22dea155e4a250bc0d	refs/tags/seal/s8-b8c7c49
+
+# manifest bases
+packages/xploder/test/frozen-surface.manifest.json: 3aee8fc
+packages/xploder/test/frozen-surface.s5.manifest.json: 5d3abdb
+packages/xploder/test/frozen-surface.s6.manifest.json: 8506837
+packages/xploder/test/frozen-surface.s7.manifest.json: 5b22987
+packages/xploder/test/frozen-surface.s8.manifest.json: 8f27462

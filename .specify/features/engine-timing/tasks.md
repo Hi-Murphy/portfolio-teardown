@@ -55,8 +55,8 @@
 | T013 | ☑ (red 7/58 fail → green 58/58; site-probe waits on xploder:ready → first xploder:settled → structure; eager-probe ready-event vs attribute ≤ 0.2 ms, settledAtMs, rest window only grows; site:probe --ci PASS, eager:probe live-loop ×2 PASS, engine:probe PASS; TIMEOUT-NOT-RAISED-OK; event log: ready first and once per route, 1 settled per motion with the right phase on both projects (8/8 ONCE), / 6 settles + 2 tour ends per loop) | 1 (Flash, sandbox off, 1 dispatch) + orchestrator (event-log per-motion check, re-run) | evidence/T013-log-{red,green,probes,event-order}.* | 6f46047 | — |
 | T014 | ☑ (final head 9df0a02, 412×823 mobile, ×1/×4/×6, 10 runs × 3 motions × 2 projects, 0 invalid; binding event-anchored pooled ×4 median 50.0 ms both projects → NO-CACHE; like-for-like with base (attributes) 50.0 → 33.3 ms; zoom is the slowest motion (×4 83–100 ms event-anchored); placement self time not attributable in the minified export → task time reported) | orchestrator | evidence/T014-log-e8-{timing,timing-attributes,decision}.* | this commit | — |
 | T015 | n/a — T014 NO-CACHE; place.ts unchanged | — | evidence/T015-log-skipped.txt | — | n/a |
-| T016 | ☐ | | | | — |
-| T017 | ☐ | | | | — |
+| T016 | ☑ (branch pushed, draft PR #26; CI 11/11 green incl. 7/7 required; LH / 0.99/1.00, /projects 1.00/1.00, /projects/jev-toolkit 1.00/1.00; CLS 0; axe 0/0; weight 0.47 MB; draws 2; hero/reduced-motion/cls PASS; tour timing PASS; holds: boundaries ±3.3 ms, 390 explodedLabels +17.3 ms (one frame by design, accepted at G4), pooled 15 runs PASS; 15 seal tags on origin, every base matched) | orchestrator | evidence/T016-* | — | — |
+| T017 | ☑ (AC1–AC6 MET; guards 10/10; S2/S4/S3/S7 diffs empty; frozen-surface 6/6) | orchestrator | evidence/AC-selfcheck.md, T017-log-surfaces.txt | — | — |
 
 ---
 
