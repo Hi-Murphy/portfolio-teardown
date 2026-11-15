@@ -1,0 +1,53 @@
+# command: pnpm --filter xploder exec vitest run test/scene-clock.test.tsx --reporter verbose | base commit: d8c8f88 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:40046) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/scene-clock.test.tsx > engine clock: explode > samples explode progress only from the injected clock 21ms
+ ✓ test/scene-clock.test.tsx > engine clock: camera > samples rotation and camera matrices only from the injected clock 6ms
+ ✓ test/scene-clock.test.tsx > engine clock: camera > samples smooth zoom only from the injected clock 4ms
+ ✓ test/scene-clock.test.tsx > engine clock: emphasis > samples lift and instance matrices only from the injected clock 4ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  14:06:24
+   Duration  166ms (import 53%, tests 31%, transform 15%, worker 1%)
+
+
+# command: pnpm --filter xploder exec vitest run test/scene.test.tsx test/camera-zoom.test.tsx test/emphasis-scene.test.tsx test/overlay-projector.test.tsx test/blueprint-scene.test.tsx | base commit: d8c8f88 (fix working tree) | exit: 0
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:40069) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:40066) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:40068) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:40070) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:40067) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  5 passed (5)
+      Tests  41 passed (41)
+   Start at  14:06:24
+   Duration  252ms (import 49%, transform 27%, tests 23%, worker 1%)
+
+
+# command: git diff --stat 8c410f3 -- packages/xploder/src | base commit: d8c8f88 (fix working tree) | exit: 0
+
+ packages/xploder/src/react/index.ts        |   2 +
+ packages/xploder/src/react/scene/Scene.tsx |  20 ++--
+ packages/xploder/src/time/clock.ts         | 158 +++++++++++++++++++++++++++++
+ packages/xploder/src/time/fake.ts          |  90 ++++++++++++++++
+ 4 files changed, 261 insertions(+), 9 deletions(-)
