@@ -259,6 +259,21 @@ function summarizeMotion(allFrames, trace, kind, start, end, targetState) {
   return { settles, revealCount, endVisible };
 }
 
+// Hidden → visible transitions in traced frames that start inside the tween window
+// [from, from + durationMs). Labels still on screen in the first frame(s) of a motion (before the
+// overlay's moving event hides them) are a carry-over, not an appearance; only a reappearance
+// before the tween ends is mid-animation flicker.
+function midTweenReveals(frames, from, durationMs) {
+  let previous = frames.filter((frame) => frame.t < from).at(-1)?.visibleLabels ?? 0;
+  let reveals = 0;
+  for (const frame of frames) {
+    if (frame.t < from || frame.t >= from + durationMs) continue;
+    if (previous === 0 && frame.visibleLabels > 0) reveals += 1;
+    previous = frame.visibleLabels;
+  }
+  return reveals;
+}
+
 // One settle per motion; one reveal per settle when the rest pose shows labels, none when it
 // shows none (the imploded pose has no tags); zero labels in every mid-tween capture.
 function onceVerdict({ settleCount, expectedSettles, revealCount, endVisible, captures }) {
@@ -352,6 +367,7 @@ async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
 
   return {
     project: '/',
+    midTweenFrameMax: motionStarts.reduce((sum, motionStart) => sum + midTweenReveals(frames, motionStart, durationMs), 0),
     cpu,
     motion: phase,
     settleCount: settles === null ? 'n/a' : settles.length,
@@ -365,8 +381,12 @@ async function runHeroPhase(page, phase, nextPhase, durationMs, cpu) {
       settleCount: settles === null ? null : settles.length,
       expectedSettles: phase === 'turn' ? TURN_MOTIONS : 1,
       revealCount,
-      endVisible: frames.at(-1)?.visibleLabels ?? 0,
-      captures,
+      // The next phase may already hide the labels in the last frame, so a hero phase's rest pose
+      // counts as labelled when any frame in the window showed labels.
+      endVisible: Math.max(0, ...frames.map((frame) => frame.visibleLabels)),
+      captures: motionStarts.map((motionStart) => ({
+        visibleLabels: midTweenReveals(frames, motionStart, durationMs),
+      })),
     }),
   };
 }
@@ -379,7 +399,7 @@ function printRow(result) {
           .map((capture) => `${capture.percent}%:${capture.visible}`)
           .join(' ');
   console.log(
-    `| ${result.project} | x${result.cpu} | ${result.motion} | ${result.settleCount} | ${result.revealCount} | ${mid} | ${result.verdict} |`,
+    `| ${result.project} | x${result.cpu} | ${result.motion} | ${result.settleCount} | ${result.revealCount} | ${mid} | ${result.midTween === 'instant' ? 'instant' : (result.midTweenFrameMax ?? 'n/a')} | ${result.verdict} |`,
   );
 }
 
@@ -422,9 +442,9 @@ try {
           );
           console.log('# visibility: effective opacity (ancestor product)');
           console.log(
-            '| project | cpu | motion | settles | label reveals | visible labels at 25/50/75% | verdict |',
+            '| project | cpu | motion | settles | label reveals | visible labels at 25/50/75% (screenshots) | mid-tween reveals (every frame) | verdict |',
           );
-          console.log('|---|---:|---|---:|---:|---|---|');
+          console.log('|---|---:|---|---:|---:|---|---:|---|');
           headerPrinted = true;
         }
 
@@ -499,12 +519,21 @@ try {
             tweenMs: round(duration),
             shape,
             endVisible: summary.endVisible,
+            midTweenFrameMax:
+              motionSpec.kind === 'zoom' ? 0 : midTweenReveals(trace.frames, start, duration),
             verdict: onceVerdict({
               settleCount: summary.settles.length,
               expectedSettles: 1,
               revealCount: summary.revealCount,
               endVisible: summary.endVisible,
-              captures,
+              // Every traced frame inside the tween counts, not only the three screenshots: a
+              // screenshot at CPU x6 can land after the tween has ended. A reappearance fails.
+              captures: [
+                {
+                  visibleLabels:
+                    motionSpec.kind === 'zoom' ? 0 : midTweenReveals(trace.frames, start, duration),
+                },
+              ],
             }),
           };
           results.push(result);
