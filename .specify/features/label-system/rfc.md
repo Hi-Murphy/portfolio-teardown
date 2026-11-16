@@ -444,3 +444,7 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
   - `parity-compare.mjs --stable` then requires **0 px on every pixel-stable cell** (Stage A, and Stage B for every cell whose base sweep has 0 hits), and DOM identity on every DOM-stable cell.
   - **Pixel-unstable cells** cannot be decided by pixels for any build, including S15 against itself. They are listed with their diff masks as "base-unstable", never as a PASS. They are covered by the T002 exact-input oracle (the pass equals the S15 composition on every input, including those states).
   - AC2's text is unchanged. The DOM-identity check of §4.2 b (an RFC addition, not an AC) applies to DOM-stable cells only.
+- **R10 — re-seal #3 is an S6 + S8 pair (found while preparing T004).**
+  - `BlueprintOverlay`'s handle signature (`update(event, result)`) and its only call site in `TeardownViewer` must land in one commit.
+  - So §9 #3 regenerates both the S6 and the S8 manifests and is tagged `seal/s6-s8-<sha>`. The tag count stays at 7.
+  - The same task also replaces the T003 pass-count arithmetic with a per-viewer counter, so two viewers on one page never share counts.
