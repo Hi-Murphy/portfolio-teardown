@@ -40,6 +40,7 @@ export interface BlueprintOverlayProps {
   readonly tour: Pick<TeardownViewerHandle['tour'], 'flowId' | 'status' | 'step'>;
   readonly focus: TeardownViewerHandle['focus'];
   readonly highlight: string | null;
+  readonly selected?: string | null;
   readonly look: LookTokens;
   readonly onTitleBlockShown?: (shown: boolean) => void;
   readonly onRepass?: (event: OverlayEvent, target: TeardownTarget) => LabelPassResult;
@@ -193,6 +194,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       tour,
       focus,
       highlight,
+      selected,
       look,
       onTitleBlockShown,
       onRepass,
@@ -327,8 +329,8 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     const model = useMemo<OverlayModel | null>(() => {
       if (baseModel === null) return null;
 
-      return overlayStateModel(baseModel, project, focus, tour, highlight, look);
-    }, [baseModel, focus, highlight, look, project, tour]);
+      return overlayStateModel(baseModel, project, focus, tour, highlight, look, selected);
+    }, [baseModel, focus, highlight, look, project, selected, tour]);
 
     const trace = useMemo<TraceModel | null>(() => {
       if (settled === null || !visible) return null;
@@ -445,6 +447,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
               key={label.key}
               data-xploder-label={label.key}
               data-xploder-emphasis={label.emphasis === true ? 'true' : undefined}
+              data-xploder-emphasis-slot={label.emphasisSlot}
               style={labelStyle(label, palette, look, transition)}
             >
               {label.text}

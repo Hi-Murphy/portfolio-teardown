@@ -1,0 +1,46 @@
+# command: pnpm --filter xploder exec vitest run test/overlay-emphasis-slots.test.ts test/overlay-model.test.ts test/overlay-tour-trail.test.ts --reporter verbose | exit: 0
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t009/packages/xploder
+
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > emphasises selected and hovered parts in their own slots 4ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > keeps the old six-argument call deep-equal to the single emphasis 1ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > emphasises selected and hovered parts in their own slots 2ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > keeps the old six-argument call deep-equal to the single emphasis 1ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > uses one label and one leader when both slots hold the same id 1ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > emphasises only selected when hover is null 1ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > lets the tour trail ignore both slots 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > uses fixture A in a columns viewport as the trail precondition 5ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > shows one label and one leader for the first step 2ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > builds the visited labels and leaders in path order through step 3 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > keeps the trail while the tour is paused 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > returns an empty model for an unknown flow 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > returns an empty model outside the columns mode 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > leaves the idle base model unchanged 1ms
+ ✓ test/overlay-model.test.ts > overlay visibility > shows only when every visible condition is aligned 1ms
+ ✓ test/overlay-model.test.ts > overlay visibility > hides when the target changed but the phase still matches the old state 0ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 3ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > replaces every on-drawing annotation with a title block when imploded 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps exploded annotations free of a title block 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims title block rows outside the focused layer 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > drops labels for a frame from another layout without throwing 0ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > skips trace vertices that are absent from the frame 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short on-part tags with a screen-reader name below the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text in columns at the wide threshold 0ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports placement hidden count when tags cannot all fit 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 2ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns the title block in content space after an offset round trip 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and no leaders at rest 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > adds one accent elbow leader and one emphasis for the highlighted part 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > clears the trace while idle 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > routes the path prefix through settled content-space anchors when paused 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > flags the signal dot only while playing 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > uses the static twin under reduced motion 0ms
+
+ Test Files  3 passed (3)
+      Tests  36 passed (36)
+   Start at  23:09:41
+   Duration  130ms (import 58%, transform 21%, tests 18%, worker 2%)
+

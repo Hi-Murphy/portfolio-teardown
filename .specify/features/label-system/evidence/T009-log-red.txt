@@ -1,0 +1,151 @@
+# command: pnpm --filter xploder exec vitest run test/overlay-emphasis-slots.test.ts --reporter verbose | commit: cbdfc67 | exit: 1
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t009/packages/xploder
+
+ × test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > emphasises selected and hovered parts in their own slots 6ms
+   → expected [ { …(12) } ] to strictly equal [ …(2) ]
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > keeps the old six-argument call deep-equal to the single emphasis 1ms
+ × test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > emphasises selected and hovered parts in their own slots 2ms
+   → expected [ { …(11) } ] to strictly equal [ …(2) ]
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > keeps the old six-argument call deep-equal to the single emphasis 1ms
+ × test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > uses one label and one leader when both slots hold the same id 1ms
+   → expected undefined to be 'hover selected' // Object.is equality
+ × test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > emphasises only selected when hover is null 1ms
+   → expected [] to strictly equal [ 'part:beachgoer' ]
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > lets the tour trail ignore both slots 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > emphasises selected and hovered parts in their own slots
+AssertionError: expected [ { …(12) } ] to strictly equal [ …(2) ]
+
+- Expected
++ Received
+
+@@ -1,24 +1,8 @@
+  [
+    {
+      "anchor": [
+-       195,
+-       232.1325904742997,
+-     ],
+-     "h": 21,
+-     "key": "part:beachgoer",
+-     "kind": "tag",
+-     "layerIndex": 0,
+-     "opacity": 1,
+-     "srText": "Beachgoer",
+-     "text": "1.1",
+-     "w": 31,
+-     "x": 179.5,
+-     "y": 221.6325904742997,
+-   },
+-   {
+-     "anchor": [
+        258,
+        268.50565743324614,
+      ],
+      "emphasis": true,
+      "h": 21,
+
+ ❯ test/overlay-emphasis-slots.test.ts:73:31
+     71|     const hovered = label(model, HOVER);
+     72|
+     73|     expect(emphasized(model)).toStrictEqual([selected, hovered]);
+       |                               ^
+     74|     expect(selected?.emphasis).toBe(true);
+     75|     expect(selected?.emphasisSlot).toBe('selected');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > emphasises selected and hovered parts in their own slots
+AssertionError: expected [ { …(11) } ] to strictly equal [ …(2) ]
+
+- Expected
++ Received
+
+@@ -1,23 +1,8 @@
+  [
+    {
+      "anchor": [
+-       640,
+-       128.54428152492667,
+-     ],
+-     "h": 21,
+-     "key": "part:beachgoer",
+-     "kind": "part",
+-     "layerIndex": 0,
+-     "opacity": 1,
+-     "text": "1.1 Beachgoer",
+-     "w": 105,
+-     "x": 863.6785376749199,
+-     "y": 158.66774193548386,
+-   },
+-   {
+-     "anchor": [
+        716.7994375672769,
+        172.88445747800586,
+      ],
+      "emphasis": true,
+      "h": 21,
+
+ ❯ test/overlay-emphasis-slots.test.ts:73:31
+     71|     const hovered = label(model, HOVER);
+     72|
+     73|     expect(emphasized(model)).toStrictEqual([selected, hovered]);
+       |                               ^
+     74|     expect(selected?.emphasis).toBe(true);
+     75|     expect(selected?.emphasisSlot).toBe('selected');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > uses one label and one leader when both slots hold the same id
+AssertionError: expected undefined to be 'hover selected' // Object.is equality
+
+- Expected:
+"hover selected"
+
++ Received:
+undefined
+
+ ❯ test/overlay-emphasis-slots.test.ts:132:38
+    130|     expect(targets).toHaveLength(1);
+    131|     expect(targets[0]?.key).toBe(`part:${SELECTED}`);
+    132|     expect(targets[0]?.emphasisSlot).toBe('hover selected');
+       |                                      ^
+    133|     expect(model.strokes.filter((stroke) => stroke.kind === 'leader'))…
+    134|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > emphasises only selected when hover is null
+AssertionError: expected [] to strictly equal [ 'part:beachgoer' ]
+
+- Expected
++ Received
+
+- [
+-   "part:beachgoer",
+- ]
++ []
+
+ ❯ test/overlay-emphasis-slots.test.ts:147:59
+    145|     );
+    146|
+    147|     expect(emphasized(model).map((target) => target.key)).toStrictEqua…
+       |                                                           ^
+    148|     expect(label(model, SELECTED)?.emphasisSlot).toBe('selected');
+    149|     expect(label(model, HOVER)?.emphasisSlot).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 passed (7)
+   Start at  23:08:05
+   Duration  125ms (import 50%, transform 30%, tests 18%, worker 2%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s16-wt/t009/packages/xploder
+

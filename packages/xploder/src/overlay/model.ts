@@ -81,6 +81,7 @@ export interface OverlayLabel {
   readonly srText?: string;
   readonly anchor?: Vec2;
   readonly emphasis?: boolean;
+  readonly emphasisSlot?: string;
   readonly opacity: number;
 }
 
@@ -689,35 +690,55 @@ export function overlayHighlight(
   base: OverlayModel,
   highlight: string | null | undefined,
   look: LookTokens,
+  selected?: string | null,
 ): OverlayModel {
-  if (highlight === null || highlight === undefined) return base;
+  const slots = new Map<string, string>();
 
-  const key = `part:${highlight}`;
-  const target = base.labels.find((label) => label.key === key);
+  if (highlight != null) slots.set(`part:${highlight}`, 'hover');
+  if (selected != null) {
+    const key = `part:${selected}`;
 
-  if (target === undefined) return base;
-
-  const labels = base.labels.map((label) =>
-    label.key === key ? { ...label, emphasis: true } : label,
-  );
-
-  if (base.calloutMode !== 'columns' || target.anchor === undefined) {
-    return { ...base, labels };
+    slots.set(key, slots.has(key) ? 'hover selected' : 'selected');
   }
+  if (slots.size === 0) return base;
 
-  const middleY = target.y + target.h / 2;
-  const leader: OverlayStroke = {
-    key: `leader:${key}`,
-    kind: 'leader',
-    points: [[target.x, middleY], [target.x - 12, middleY], target.anchor],
-    role: look.callouts.emphasisRole,
-    opacity: target.opacity,
-  };
+  const labels = base.labels.map((label) => {
+    const slot = slots.get(label.key);
+
+    return slot === undefined
+      ? label
+      : { ...label, emphasis: true, ...(selected == null ? {} : { emphasisSlot: slot }) };
+  });
+
+  if (base.calloutMode !== 'columns') return { ...base, labels };
+
+  const leaders = labels.flatMap((target): OverlayStroke[] => {
+    if (target.emphasis !== true || target.anchor === undefined) return [];
+
+    const middleY = target.y + target.h / 2;
+
+    return [
+      {
+        key: `leader:${target.key}`,
+        kind: 'leader',
+        points: [[target.x, middleY], [target.x - 12, middleY], target.anchor],
+        role: look.callouts.emphasisRole,
+        opacity: target.opacity,
+      },
+    ];
+  });
+
+  if (leaders.length === 0) return { ...base, labels };
 
   return {
     ...base,
     labels,
-    strokes: [...base.strokes.filter((candidate) => candidate.key !== leader.key), leader],
+    strokes: [
+      ...base.strokes.filter(
+        (candidate) => !leaders.some((leader) => leader.key === candidate.key),
+      ),
+      ...leaders,
+    ],
   };
 }
 
@@ -786,6 +807,7 @@ export function overlayStateModel(
   },
   highlight: string | null | undefined,
   look: LookTokens,
+  selected?: string | null,
 ): OverlayModel {
   if (tour.status !== 'idle') return tourTrailModel(base, project, tour, look);
 
@@ -825,7 +847,7 @@ export function overlayStateModel(
               },
       };
 
-  return overlayHighlight(focused, highlight, look);
+  return overlayHighlight(focused, highlight, look, selected);
 }
 
 export function overlayModel(input: OverlayModelInput): OverlayModel {
