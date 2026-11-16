@@ -1,0 +1,65 @@
+# command: pnpm --filter xploder exec vitest run test/label-sweep.test.ts --reporter verbose | commit: 9f5e07e | exit: 1
+
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+stdout | test/label-sweep.test.ts > label sweep > model census
+model census (Stage A): 1152 cases, 5 with intersections, 7 pairs
+model census (Stage A) pair kind: dimension × mark = 3
+model census (Stage A) pair kind: face × mark = 2
+model census (Stage A) pair kind: mark × face = 2
+model census (gated): 1152 cases, 5 with intersections, 7 pairs, guarded -1152
+
+ ✓ test/label-sweep.test.ts > label sweep > quadsIntersect predicate table 1ms
+ ✓ test/label-sweep.test.ts > label sweep > label-sweep.mjs predicate agrees on 10,000 random quad pairs 28ms
+ ✓ test/label-sweep.test.ts > label sweep > seeded unit control reports the shifted copy and not the touching copy 1ms
+ ✓ test/label-sweep.test.ts > label sweep > model census 1ms
+ × test/label-sweep.test.ts > label sweep > AC1 model sweep: 0 intersections and 0 guarded 3ms
+   → expected 7 to be +0 // Object.is equality
+ ✓ test/label-sweep.test.ts > label sweep > AC2 by construction: no Stage A pair is bit-identical to S15 281ms
+ × test/label-sweep.test.ts > label sweep > seeded obstacle-blind overlay label is resolved by the gate 3ms
+   → expected 1 to be greater than 1
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/label-sweep.test.ts > label sweep > AC1 model sweep: 0 intersections and 0 guarded
+AssertionError: expected 7 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 7
+
+ ❯ test/label-sweep.test.ts:782:38
+    780|     'AC1 model sweep: 0 intersections and 0 guarded',
+    781|     () => {
+    782|       expect(GATED_CENSUS.pairCount).toBe(0);
+       |                                      ^
+    783|       expect(GATED_CENSUS.casesWithPairs).toBe(0);
+    784|       expect(GATED_CENSUS.guarded).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/label-sweep.test.ts > label sweep > seeded obstacle-blind overlay label is resolved by the gate
+AssertionError: expected 1 to be greater than 1
+ ❯ test/label-sweep.test.ts:861:37
+    859|       expect(sweepPairs(result.labels)).toEqual([]);
+    860|       expect(result.labels.some((label) => label.visible && label.key …
+    861|       expect(result.overlay.hidden).toBeGreaterThan(base.overlay.hidde…
+       |                                     ^
+    862|       expect(guarded).toBe(0);
+    863|     },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  17:56:35
+   Duration  966ms (import 62%, tests 35%, transform 3%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <repo>/packages/xploder
+

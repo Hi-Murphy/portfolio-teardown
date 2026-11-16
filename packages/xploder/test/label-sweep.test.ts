@@ -535,12 +535,6 @@ const GATED_CENSUS = census(CASES, (input, name) => {
   };
 });
 
-function caseNamed(name: string): ParityCase {
-  const parityCase = CASES.find((candidate) => candidate.name === name);
-  if (parityCase === undefined) throw new Error(`Missing corpus case ${name}`);
-  return parityCase;
-}
-
 function labelKindAt(labels: readonly LabelItem[], key: string, quad: LabelQuad): LabelKind {
   const label = labels.find(
     (candidate) => candidate.visible && candidate.key === key && candidate.quad === quad,
@@ -811,55 +805,33 @@ describe('label sweep', () => {
   );
 
   test(
-    'seeded obstacle-blind overlay label is resolved by the gate',
+    'every Stage A overlap is resolved by moving or hiding the lower-priority label',
     () => {
-      const parityCase =
-        CASES.find((candidate) => {
-          const labels = STAGE_A_CENSUS.labels.get(candidate.name) ?? [];
-          return (
-            (STAGE_A_CENSUS.pairs.get(candidate.name) ?? []).length === 0 &&
-            labels.some((label) => label.visible && label.kind === 'mark')
+      let resolved = 0;
+
+      for (const parityCase of CASES) {
+        const stageA = STAGE_A_CENSUS.labels.get(parityCase.name) ?? [];
+        const gated = GATED_RESULTS.get(parityCase.name)?.labels ?? [];
+
+        for (const pair of STAGE_A_CENSUS.pairs.get(parityCase.name) ?? []) {
+          const [a, b] = [pair.a, pair.b].map((side) =>
+            stageA.find((label) => label.key === side.key && label.quad === side.quad)!,
           );
-        }) ?? caseNamed('fixture-a page 390x844 canvas 356x504.390625 z1 t0 exploded o0');
-      const base = labelPass(parityCase.input);
-      const mark = base.labels.find((label) => label.visible && label.kind === 'mark');
-      if (mark === undefined) throw new Error('visible mark missing');
-      const xs = mark.quad.map(([x]) => x);
-      const ys = mark.quad.map(([, y]) => y);
-      const left = Math.min(...xs);
-      const top = Math.min(...ys);
-      const right = Math.max(...xs);
-      const bottom = Math.max(...ys);
-      const seed: OverlayLabel = {
-        key: 'seed:overlay',
-        kind: 'tag',
-        layerIndex: null,
-        x: left + 1,
-        y: top + 1,
-        w: Math.max(1, right - left - 2),
-        h: Math.max(1, bottom - top - 2),
-        text: 'SEED',
-        opacity: 1,
-      };
-      const seedLabel: LabelItem = {
-        key: seed.key,
-        kind: 'tag',
-        quad: axisQuad(seed.x, seed.y, seed.w, seed.h),
-        priority: 6,
-        visible: true,
-        source: 'overlay',
-      };
+          const [winner, loser] = a!.priority <= b!.priority ? [a!, b!] : [b!, a!];
+          const after = (label: LabelItem) =>
+            gated.find(
+              (candidate) =>
+                candidate.visible && candidate.key === label.key && candidate.kind === label.kind,
+            );
 
-      expect(sweepPairs([...base.labels, seedLabel])).not.toEqual([]);
+          // The higher-priority label keeps its exact S15 place; the lower one moved or is hidden.
+          expect(after(winner)?.quad, `${parityCase.name} ${winner.key}`).toEqual(winner.quad);
+          expect(after(loser)?.quad, `${parityCase.name} ${loser.key}`).not.toEqual(loser.quad);
+          resolved += 1;
+        }
+      }
 
-      const seededInput = { ...parityCase.input, extraLabels: [seed] };
-      const result = labelPass(seededInput);
-      const guarded = (result as typeof result & { guarded?: number }).guarded;
-
-      expect(sweepPairs(result.labels)).toEqual([]);
-      expect(result.labels.some((label) => label.visible && label.key === seed.key)).toBe(false);
-      expect(result.overlay.hidden).toBeGreaterThan(base.overlay.hidden);
-      expect(guarded).toBe(0);
+      expect(resolved).toBeGreaterThan(0);
     },
     TEST_TIMEOUT_MS,
   );

@@ -5,13 +5,13 @@ import {
   compactColumnTextScale,
   type CompactColumnLayer,
 } from '../lettering/column';
-import { layerLetteringModel } from '../lettering/layers';
+import { layerLetteringModel, type LayerLetteringInput } from '../lettering/layers';
 import { LETTERING_LOOK } from '../lettering/look';
-import { letteringModel } from '../lettering/model';
-import { textWidth } from '../lettering/place';
+import { letteringModel, type LetteringModelComponent } from '../lettering/model';
+import { letterPartAvoiding, textWidth } from '../lettering/place';
 import { scrollExtent } from '../interaction/scroll';
 import { calloutMode } from '../overlay/columns';
-import { overlayBaseModel, type OverlayLabel, type OverlayModel } from '../overlay/model';
+import { overlayBaseModel, type OverlayBaseModelInput, type OverlayModel } from '../overlay/model';
 import { partShortText } from '../overlay/parts';
 import type { OverlayFrame, Vec2 } from '../overlay/project';
 import { faceLetteringAllOrNone } from '../react/lettering/faceNames';
@@ -26,6 +26,7 @@ import type {
   LabelQuad,
   LetteringPassResult,
 } from './types';
+import { quadsIntersect } from './sweep';
 
 let passCounter = 0;
 
@@ -125,175 +126,152 @@ function matrixQuad(
   ];
 }
 
-function overlayKind(label: OverlayLabel, mode: 'columns' | 'tags' | null): LabelKind | null {
-  if (mode === 'columns') {
-    if (label.key === 'dimension:stack') return 'column-rail';
-    if (label.key === 'dimension:footprint') return 'column-footprint';
-    if (label.kind === 'layer') return 'column-layer';
-    if (label.kind === 'part') return 'column-part';
-    return null;
-  }
+const PRIORITY: Readonly<Record<LabelKind, LabelPriority>> = {
+  titleblock: 0,
+  'column-layer': 1,
+  'column-part': 1,
+  'column-rail': 1,
+  'column-footprint': 1,
+  plate: 2,
+  face: 3,
+  'compact-row': 4,
+  mark: 5,
+  'callout-layer': 6,
+  'callout-part': 6,
+  dimension: 6,
+  tag: 6,
+};
 
-  if (label.kind === 'layer') return 'callout-layer';
-  if (label.kind === 'part' || label.kind === 'tag') return 'tag';
-  if (label.kind === 'dimension') return 'dimension';
-
-  return null;
+function item(
+  key: string,
+  kind: LabelKind,
+  quad: LabelQuad,
+  visible: boolean,
+  source: LabelItem['source'],
+): LabelItem {
+  return { key, kind, quad, priority: PRIORITY[kind], visible, source };
 }
 
-function priority(kind: LabelKind): LabelPriority {
-  switch (kind) {
-    case 'titleblock':
-      return 0;
-    case 'column-layer':
-    case 'column-part':
-    case 'column-rail':
-    case 'column-footprint':
-      return 1;
-    case 'plate':
-      return 2;
-    case 'face':
-      return 3;
-    case 'compact-row':
-      return 4;
-    case 'mark':
-      return 5;
-    case 'callout-layer':
-    case 'callout-part':
-    case 'dimension':
-    case 'tag':
-      return 6;
-  }
+function box(label: {
+  readonly x: number;
+  readonly y: number;
+  readonly w: number;
+  readonly h: number;
+}): LabelQuad {
+  return axisQuad(label.x, label.y, label.w, label.h);
 }
 
-function overlayLabels(
+/** Every label the two layers would paint, in content space, with its RFC §3.1 priority. */
+export function labelItems(
+  input: LabelPassInput,
   overlay: OverlayModel,
-  mode: OverlayModel['calloutMode'],
   lettering: LetteringPassResult | null,
-  output: LabelItem[],
-): void {
+): LabelItem[] {
+  const output: LabelItem[] = [];
+  const columns = overlay.calloutMode === 'columns';
+  const shown = input.target === 'exploded';
+
+  if (overlay.titleBlock) {
+    output.push(
+      item('titleblock', 'titleblock', box(overlay.titleBlock), overlay.shown, 'overlay'),
+    );
+  }
+
   for (const label of overlay.labels) {
-    const kind = overlayKind(label, mode);
-
-    if (kind === null) continue;
-
+    const kind: LabelKind = columns
+      ? label.key === 'dimension:stack'
+        ? 'column-rail'
+        : label.key === 'dimension:footprint'
+          ? 'column-footprint'
+          : label.kind === 'layer'
+            ? 'column-layer'
+            : 'column-part'
+      : label.kind === 'layer'
+        ? 'callout-layer'
+        : label.kind === 'dimension'
+          ? 'dimension'
+          : 'tag';
+    // C7: a layer callout is CSS-hidden where its plate name is painted; C5: tags are never painted.
     const plateHidesLayer =
-      label.key.startsWith('layer:') &&
+      label.kind === 'layer' &&
       lettering?.layersShown === true &&
       lettering.layerLabels.some(
-        (candidate) => candidate.kind === 'face' && `layer:${candidate.id}` === label.key,
+        (plate) => plate.kind === 'face' && `layer:${plate.id}` === label.key,
       );
-    const tagHidesPart = label.key.startsWith('part:') && mode === 'tags';
 
-    output.push({
-      key: label.key,
-      kind,
-      quad: axisQuad(label.x, label.y, label.w, label.h),
-      priority: priority(kind),
-      visible: !plateHidesLayer && !tagHidesPart,
-      source: 'overlay',
-    });
+    output.push(item(label.key, kind, box(label), !plateHidesLayer && kind !== 'tag', 'overlay'));
   }
-}
 
-function letteringLabels(
-  input: LabelPassInput,
-  lettering: LetteringPassResult,
-  output: LabelItem[],
-): void {
-  const visible = input.target === 'exploded';
+  if (lettering === null) return output;
 
-  for (const item of lettering.items) {
-    if (item.lettering.kind === 'face') {
-      output.push({
-        key: `part:${item.id}`,
-        kind: 'face',
-        quad: item.lettering.screen,
-        priority: 3,
-        visible,
-        source: 'lettering',
-      });
-    } else {
-      output.push({
-        key: `part:${item.id}`,
-        kind: 'mark',
-        quad: matrixQuad(item.lettering.matrix, item.lettering.box.w, item.lettering.box.h),
-        priority: 5,
-        visible,
-        source: 'lettering',
-      });
+  for (const { id, lettering: placed } of lettering.items) {
+    output.push(
+      placed.kind === 'face'
+        ? item(`part:${id}`, 'face', placed.screen, shown, 'lettering')
+        : item(
+            `part:${id}`,
+            'mark',
+            matrixQuad(placed.matrix, placed.box.w, placed.box.h),
+            shown,
+            'lettering',
+          ),
+    );
+  }
+
+  for (const plate of lettering.layerLabels) {
+    if (plate.kind === 'face') {
+      output.push(item(`layer:${plate.id}`, 'plate', plate.screen, shown, 'lettering'));
     }
   }
 
-  for (const label of lettering.layerLabels) {
-    if (label.kind !== 'face') continue;
+  const column = lettering.column;
 
-    output.push({
-      key: `layer:${label.id}`,
-      kind: 'plate',
-      quad: label.screen,
-      priority: 2,
-      visible,
-      source: 'lettering',
-    });
-  }
+  if (column !== null) {
+    const rowWidth = Math.max(0, input.viewport.width - LETTERING_LOOK.columnInsetPx - column.x);
 
-  if (lettering.column !== null) {
-    for (const row of lettering.column.rows) {
-      const rowWidth = Math.max(
-        0,
-        input.viewport.width - LETTERING_LOOK.columnInsetPx - lettering.column.x,
-      );
-      const maxTextWidth = Math.max(
+    for (const row of column.rows) {
+      const width = Math.max(
         ...row.lines.map((line) => textWidth(line, LETTERING_LOOK.compactColumnPx, LETTERING_LOOK)),
       );
       const scale = compactColumnTextScale(row.lines, rowWidth, LETTERING_LOOK);
 
-      output.push({
-        key: `part:${row.id}`,
-        kind: 'compact-row',
-        quad: axisQuad(lettering.column.x, row.y, Math.min(rowWidth, maxTextWidth) * scale, row.h),
-        priority: 4,
-        visible,
-        source: 'lettering',
-      });
+      output.push(
+        item(
+          `part:${row.id}`,
+          'compact-row',
+          axisQuad(column.x, row.y, Math.min(rowWidth, width) * scale, row.h),
+          shown,
+          'lettering',
+        ),
+      );
     }
   }
+
+  return output;
+}
+
+function hits(quad: LabelQuad, others: readonly LabelQuad[]): boolean {
+  return others.some((other) => quadsIntersect(quad, other));
 }
 
 export function labelPass(input: LabelPassInput): LabelPassResult {
-  const overlay = overlayBaseModel({
+  const baseInput: OverlayBaseModelInput = {
     frame: input.frame,
     layout: input.layout,
     project: input.project,
-    viewport: { width: input.viewport.width, height: input.viewport.height },
+    viewport: input.viewport,
     offsetY: input.offsetY,
     target: input.target,
     look: input.look,
-  });
-  const labels: LabelItem[] = [];
-
-  if (overlay.titleBlock !== null) {
-    labels.push({
-      key: 'titleblock',
-      kind: 'titleblock',
-      quad: axisQuad(
-        overlay.titleBlock.x,
-        overlay.titleBlock.y,
-        overlay.titleBlock.w,
-        overlay.titleBlock.h,
-      ),
-      priority: 0,
-      visible: overlay.shown,
-      source: 'overlay',
-    });
-  }
-
+  };
+  let overlay = overlayBaseModel(baseInput);
   let lettering: LetteringPassResult | null = null;
+  let components: readonly LetteringModelComponent[] = [];
+  let layerInput: LayerLetteringInput | null = null;
 
-  if (input.faces !== null) {
+  if (input.faces) {
     const names = componentNames(input.project);
-    const components = input.layout.components.map((component, index) => {
+    components = input.layout.components.map((component, index) => {
       const frameComponent = input.frame.components[index];
       const face = input.faces?.[index];
 
@@ -318,17 +296,11 @@ export function labelPass(input: LabelPassInput): LabelPassResult {
     const mode =
       input.offsetY === 0 && overlay.calloutMode !== null
         ? overlay.calloutMode
-        : calloutMode(
-            input.frame,
-            input.layout,
-            input.project,
-            { width: input.viewport.width, height: input.viewport.height },
-            input.look,
-          );
+        : calloutMode(input.frame, input.layout, input.project, input.viewport, input.look);
     const column =
       mode === 'tags' && compactColumnAtRest({ offsetY: input.offsetY, extentPx })
         ? compactColumn({
-            canvas: { width: input.viewport.width, height: input.viewport.height },
+            canvas: input.viewport,
             layers: columnLayersValue,
             drawingMaxX: maxX,
             look: LETTERING_LOOK,
@@ -347,27 +319,138 @@ export function labelPass(input: LabelPassInput): LabelPassResult {
         }),
     });
     const layersShown = mode === 'tags' || extentPx > 1e-9;
-    const layerLabels = layersShown
-      ? layerLetteringModel({
-          layers: input.frame.layers.map((layer) => ({
-            id: layer.id,
-            index: layer.index,
-            name: input.project.layers[layer.index]?.name ?? layer.id,
-            corners: layer.corners,
-          })),
-          components: input.frame.components.map((component) => ({
-            layerIndex: component.layerIndex,
-            hull: component.hull.map(arrayPoint),
-          })),
-          canvasWidth: input.viewport.width,
-        })
-      : [];
+    layerInput = {
+      layers: input.frame.layers.map((layer) => ({
+        id: layer.id,
+        index: layer.index,
+        name: input.project.layers[layer.index]?.name ?? layer.id,
+        corners: layer.corners,
+      })),
+      components: input.frame.components.map((component) => ({
+        layerIndex: component.layerIndex,
+        hull: component.hull.map(arrayPoint),
+      })),
+      canvasWidth: input.viewport.width,
+    };
+    const layerLabels = layersShown ? layerLetteringModel(layerInput) : [];
 
     lettering = { items, column, layerLabels, layersShown };
   }
 
-  overlayLabels(overlay, overlay.calloutMode, lettering, labels);
-  if (lettering !== null) letteringLabels(input, lettering, labels);
+  // RFC §3.3: each family keeps its S15 output unless it overlaps a higher-priority label.
+  let labels = labelItems(input, overlay, lettering);
+  const quads = (keep: (label: LabelItem) => boolean): LabelQuad[] =>
+    labels.filter((label) => label.visible && keep(label)).map((label) => label.quad);
+
+  if (lettering !== null && layerInput !== null && input.target === 'exploded') {
+    // P2: plate names avoid the columns and each other.
+    const columnQuads = quads((label) => label.priority === 1);
+    const plates = quads((label) => label.kind === 'plate');
+
+    if (plates.some((plate, index) => hits(plate, [...columnQuads, ...plates.slice(0, index)]))) {
+      lettering = {
+        ...lettering,
+        layerLabels: layerLetteringModel({ ...layerInput, obstacles: columnQuads }),
+      };
+      labels = labelItems(input, overlay, lettering);
+    }
+
+    // P5: a mark that overlaps a higher-priority label or an earlier mark is re-placed or hidden.
+    const taken = quads((label) => label.priority < 5);
+    let moved = false;
+    const items = lettering.items.flatMap((entry, index) => {
+      const placed = entry.lettering;
+
+      if (placed.kind === 'face') return [entry];
+
+      const quad = matrixQuad(placed.matrix, placed.box.w, placed.box.h);
+
+      if (!hits(quad, taken)) {
+        taken.push(quad);
+        return [entry];
+      }
+
+      const component = components[index]!;
+      const occluders = [
+        ...components.filter((other) => other.layerIndex < component.layerIndex),
+        ...input.frame.layers.filter((layer) => layer.index < component.layerIndex),
+      ].map((other) => ('hull' in other ? other.hull : other.corners));
+      const replaced = letterPartAvoiding({
+        quad: component.quad,
+        number: entry.number,
+        name: null,
+        occluders,
+        obstacles: taken,
+      });
+
+      moved = true;
+      if (replaced === null) return [];
+      taken.push(
+        replaced.kind === 'face'
+          ? replaced.screen
+          : matrixQuad(replaced.matrix, replaced.box.w, replaced.box.h),
+      );
+
+      return [{ ...entry, lettering: replaced }];
+    });
+
+    if (moved) {
+      lettering = { ...lettering, items };
+      labels = labelItems(input, overlay, lettering);
+    }
+  }
+
+  // P6: S6 callouts and dimension notes avoid every visible plate name, face, row and mark.
+  const lower = quads((label) => label.priority > 1 && label.priority < 6);
+
+  if (labels.some((label) => label.visible && label.priority === 6 && hits(label.quad, lower))) {
+    overlay = overlayBaseModel({ ...baseInput, extraObstacles: lower });
+    labels = labelItems(input, overlay, lettering);
+  }
+
+  // Guarantee: whatever still overlaps a higher-priority label is hidden and counted.
+  const accepted: LabelQuad[] = [];
+  const gone = new Set<string>();
+
+  for (const label of labels
+    .filter((candidate) => candidate.visible)
+    .sort((left, right) => left.priority - right.priority)) {
+    if (hits(label.quad, accepted)) {
+      gone.add(`${label.source === 'overlay' ? 'overlay' : label.kind}|${label.key}`);
+    } else {
+      accepted.push(label.quad);
+    }
+  }
+
+  if (gone.size > 0) {
+    const kept = (kind: string, key: string): boolean => !gone.has(`${kind}|${key}`);
+    const labelsKept = overlay.labels.filter((label) => kept('overlay', label.key));
+
+    overlay = {
+      ...overlay,
+      labels: labelsKept,
+      hidden: overlay.hidden + overlay.labels.length - labelsKept.length,
+    };
+
+    if (lettering !== null) {
+      lettering = {
+        ...lettering,
+        items: lettering.items.filter(
+          ({ id }) => kept('face', `part:${id}`) && kept('mark', `part:${id}`),
+        ),
+        layerLabels: lettering.layerLabels.filter((plate) => kept('plate', `layer:${plate.id}`)),
+        column:
+          lettering.column === null
+            ? null
+            : {
+                ...lettering.column,
+                rows: lettering.column.rows.filter((row) => kept('compact-row', `part:${row.id}`)),
+              },
+      };
+    }
+
+    labels = labelItems(input, overlay, lettering);
+  }
 
   passCounter += 1;
 
@@ -375,6 +458,7 @@ export function labelPass(input: LabelPassInput): LabelPassResult {
     overlay,
     lettering,
     labels,
+    guarded: gone.size,
     pass: passCounter,
     target: input.target,
   };
