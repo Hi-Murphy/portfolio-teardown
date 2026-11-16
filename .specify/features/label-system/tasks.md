@@ -42,7 +42,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA | Seal tag |
 |---|---|---|---|---|---|
-| T001 | ⚠ STOP (guards 9/9 OK + 4 negative controls bite; gzip base 472,002 B; timing base 12 cells 10/10; matrix 2,052 cells × 2 runs, 0 settle timeouts; **noise floor FAIL**: base vs base 218/2,040 cells non-zero px (323,141 px), 1,763 DOM-number drift; cause = S4/S5 scroll-extent feedback + parallel load, see T001-log-noise-diagnosis.md → escalated to Murphy) | 1 (Flash, sandbox off, 1 dispatch); orchestrator diagnosis | evidence/T001-* | 3bc97b6 | — |
+| T001 | ☑ after R11 (guards 9/9 OK + 4 negative controls bite; gzip base 472,002 B; timing base 12 cells 10/10; first 4-worker noise floor FAIL → diagnosed (S4/S5 scroll-extent feedback + load), Murphy chose option A; 3 serial base runs × 2,052 cells, 0 settle timeouts, 54 min each; pixel-stable 1,734 / 2,040, DOM-stable 242, pixel-unstable 306 (257 of them `middle`)) | 1 (Flash, sandbox off, 1 dispatch); orchestrator diagnosis, R11 tooling, serial base runs | evidence/T001-* | 3bc97b6 + 9f5da5b | — |
 | T002 | ☐ | | | | `seal/s6-…` |
 | T003 | ☐ | | | | `seal/s8-…` |
 | T004 | ☐ | | | | `seal/s6-…` |
