@@ -16,6 +16,7 @@ const argv = process.argv.slice(2);
 const bases = [];
 const heads = [];
 let stableFile = null;
+let baseSweepFile = null;
 
 for (let index = 0; index < argv.length; index += 2) {
   const value = argv[index + 1];
@@ -24,16 +25,21 @@ for (let index = 0; index < argv.length; index += 2) {
   if (argv[index] === '--base') bases.push(resolve(value));
   else if (argv[index] === '--head') heads.push(resolve(value));
   else if (argv[index] === '--stable') stableFile = resolve(value);
+  else if (argv[index] === '--base-sweep') baseSweepFile = resolve(value);
 }
 
 if (stableFile === null || bases.length === 0 || heads.length === 0) {
   console.error(
-    'usage: node reproduce-check.mjs --stable <stable.json> --base <run>... --head <run>...',
+    'usage: node reproduce-check.mjs --stable <stable.json> [--base-sweep <census.json>] --base <run>... --head <run>...',
   );
   process.exit(2);
 }
 
 const stable = JSON.parse(readFileSync(stableFile, 'utf8'));
+// Stage B (AC2): a cell where any S15 run had an overlap may change; it is reported by
+// parity-compare --base-sweep with its clusters, not gated here.
+const baseSweep = baseSweepFile === null ? null : JSON.parse(readFileSync(baseSweepFile, 'utf8'));
+const hadOverlap = (cellId) => Number(baseSweep?.cells?.[cellId]?.hits ?? 0) > 0;
 
 function readCells(directory) {
   return new Map(
@@ -74,7 +80,7 @@ const failures = [];
 const rows = [];
 
 for (const [cellId, status] of Object.entries(stable.cells)) {
-  if (!status.px && !status.dom) continue;
+  if ((!status.px && !status.dom) || hadOverlap(cellId)) continue;
   gated += 1;
 
   // First head run against the first base run: the T005 comparison.
