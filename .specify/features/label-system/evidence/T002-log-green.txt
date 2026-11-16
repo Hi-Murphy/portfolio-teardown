@@ -1,0 +1,13 @@
+# command: pnpm --filter xploder exec vitest run test/label-pass-parity.test.ts --reporter verbose | commit: 826704ea78e5b3ffe62bb39bf70df78a446aef59 | exit: 0
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t002/packages/xploder
+
+stdout | test/label-pass-parity.test.ts > labelPass parity > matches the frozen S15 overlay and lettering compositions exactly
+cases: 2272, differing values: 0
+
+ ✓ test/label-pass-parity.test.ts > labelPass parity > matches the frozen S15 overlay and lettering compositions exactly 4570ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  11:53:16
+   Duration  4.73s (tests 98%, transform 1%, import 1%)
