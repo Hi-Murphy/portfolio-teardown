@@ -61,7 +61,7 @@ export interface PartLetteringProps {
   readonly phase: Phase | null;
   readonly tourStatus: TourStatus;
   readonly focus: { readonly layerId: string | null; readonly suspended: boolean };
-  readonly highlight: string | null;
+  readonly emphasis: { readonly hover: string | null; readonly selected: string | null };
   readonly wrapperRef: RefObject<HTMLDivElement | null>;
   readonly zoomFactor?: number;
 }
@@ -125,7 +125,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       phase,
       tourStatus,
       focus,
-      highlight,
+      emphasis: slots,
       wrapperRef,
       zoomFactor = 1,
     },
@@ -274,12 +274,98 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
         ? emphasis.dim.level
         : 1;
     };
-    const numberColor = (id: string): string =>
-      highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
-    const faceNumberColor = (id: string): string =>
-      highlight === id ? palette.ink : palette[look.annotation.partRole];
-    const faceNameColor = (id: string): string =>
-      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+    const emphasisSlot = (id: string): 'hover selected' | 'hover' | 'selected' | undefined => {
+      const hover = slots.hover === id;
+      const selected = slots.selected === id;
+
+      return hover ? (selected ? 'hover selected' : 'hover') : selected ? 'selected' : undefined;
+    };
+    const renderItem = (
+      item: ComponentLettering,
+      slot: ReturnType<typeof emphasisSlot>,
+    ): React.ReactNode => {
+      const lettering = item.lettering;
+      const opacity = layerOpacity(item.id);
+      const highlight = slot === undefined ? null : item.id;
+      const numberColor = (id: string): string =>
+        highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
+      const faceNumberColor = (id: string): string =>
+        highlight === id ? palette.ink : palette[look.annotation.partRole];
+      const faceNameColor = (id: string): string =>
+        highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+      const color = numberColor(item.id);
+
+      if (lettering.kind === 'mark') {
+        return (
+          <div
+            key={item.id}
+            data-xploder-lettering={item.id}
+            data-xploder-lettering-kind="mark"
+            data-xploder-emphasis-slot={slot}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: lettering.box.w,
+              height: lettering.box.h,
+              transformOrigin: '0 0',
+              transform: `matrix(${lettering.matrix.join(',')})`,
+              pointerEvents: 'auto',
+              userSelect: 'text',
+              whiteSpace: 'nowrap',
+              font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+              color,
+              opacity,
+              ...(transition === undefined ? {} : { transition }),
+            }}
+          >
+            {item.number}
+          </div>
+        );
+      }
+
+      return (
+        <div
+          key={item.id}
+          data-xploder-lettering={item.id}
+          data-xploder-lettering-kind="face"
+          data-xploder-emphasis-slot={slot}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: lettering.box.w,
+            height: lettering.box.h,
+            transformOrigin: '0 0',
+            transform: `matrix(${lettering.matrix.join(',')})`,
+            pointerEvents: 'auto',
+            userSelect: 'text',
+            whiteSpace: 'nowrap',
+            font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+            color: faceNumberColor(item.id),
+            borderColor: numberColor(item.id),
+            opacity,
+            ...(transition === undefined ? {} : { transition }),
+          }}
+        >
+          {item.number}
+          {lettering.namePx === null
+            ? null
+            : lettering.nameLines.map((line, index) => (
+                <div
+                  key={`${item.id}-name-${index}`}
+                  style={{
+                    font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                    textTransform: 'uppercase',
+                    color: faceNameColor(item.id),
+                  }}
+                >
+                  {line}
+                </div>
+              ))}
+        </div>
+      );
+    };
 
     return (
       <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
@@ -324,7 +410,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
           {columnShown
             ? column.rows.map((row) => {
                 const opacity = layerOpacityByIndex(row.layerIndex);
-                const emphasized = highlight === row.id;
+                const emphasized = emphasisSlot(row.id) !== undefined;
                 const nameColor = emphasized ? palette[look.callouts.emphasisRole] : palette.label;
                 const firstLine = row.lines[0] ?? row.number;
                 const firstRemainder = firstLine.startsWith(row.number)
@@ -340,6 +426,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                   <div
                     key={row.id}
                     data-xploder-column-row={row.id}
+                    data-xploder-emphasis-slot={emphasisSlot(row.id)}
                     data-xploder-column-layer={row.layerIndex}
                     style={{
                       position: 'absolute',
@@ -390,80 +477,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                 );
               })
             : null}
-          {items.map((item) => {
-            const lettering = item.lettering;
-            const opacity = layerOpacity(item.id);
-            const color = numberColor(item.id);
-
-            if (lettering.kind === 'mark') {
-              return (
-                <div
-                  key={item.id}
-                  data-xploder-lettering={item.id}
-                  data-xploder-lettering-kind="mark"
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    width: lettering.box.w,
-                    height: lettering.box.h,
-                    transformOrigin: '0 0',
-                    transform: `matrix(${lettering.matrix.join(',')})`,
-                    pointerEvents: 'auto',
-                    userSelect: 'text',
-                    whiteSpace: 'nowrap',
-                    font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                    color,
-                    opacity,
-                    ...(transition === undefined ? {} : { transition }),
-                  }}
-                >
-                  {item.number}
-                </div>
-              );
-            }
-
-            return (
-              <div
-                key={item.id}
-                data-xploder-lettering={item.id}
-                data-xploder-lettering-kind="face"
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                  width: lettering.box.w,
-                  height: lettering.box.h,
-                  transformOrigin: '0 0',
-                  transform: `matrix(${lettering.matrix.join(',')})`,
-                  pointerEvents: 'auto',
-                  userSelect: 'text',
-                  whiteSpace: 'nowrap',
-                  font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                  color: faceNumberColor(item.id),
-                  borderColor: numberColor(item.id),
-                  opacity,
-                  ...(transition === undefined ? {} : { transition }),
-                }}
-              >
-                {item.number}
-                {lettering.namePx === null
-                  ? null
-                  : lettering.nameLines.map((line, index) => (
-                      <div
-                        key={`${item.id}-name-${index}`}
-                        style={{
-                          font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                          textTransform: 'uppercase',
-                          color: faceNameColor(item.id),
-                        }}
-                      >
-                        {line}
-                      </div>
-                    ))}
-              </div>
-            );
-          })}
+          {items.map((item) => renderItem(item, emphasisSlot(item.id)))}
           {layerLabelsShown
             ? (settled?.layerLabels ?? []).map((label) => {
                 const opacity = layerOpacityByIndex(label.layerIndex);
