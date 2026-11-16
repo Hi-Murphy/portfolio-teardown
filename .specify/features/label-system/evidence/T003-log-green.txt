@@ -1,0 +1,69 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom --reporter verbose | commit: 36ba240 | exit: 0
+
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t003/apps/web
+
+(node:27923) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27930) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27925) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27924) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27927) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27928) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27931) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27926) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/a11y-navigator.dom.test.tsx > rovings through items, activates, bubbles other keys and rings only after focus 92ms
+ ✓ test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock 50ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > the Scene stub no longer receives onSettled from TeardownViewer 45ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > the first stats callback emits ready once and later stats callbacks do nothing 10ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > settled emits once per call with phase and at, while moving emits nothing 17ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > a settle before the first stats callback is delivered immediately after ready 12ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > one settle runs one pass and the lettering renders that result 86ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > a two-step tour emits tour-ended once when it reaches ended 38ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > pauseTour and stop are not tour ends 19ms
+ ✓ test/xploder-dom/a11y-live-region.dom.test.tsx > keeps one live region mounted and announces tour steps on the same node 50ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a turn sends one moving to every overlay consumer before a frame 45ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a zoom sends one moving to every overlay consumer before a frame 8ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > an explode sends one moving to every overlay consumer before a frame 9ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > mount sends no moving 4ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a re-render without a target, turn, or zoom change sends no moving 14ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a re-render from emphasis and tour state does not run another pass 40ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a moving event does not run a pass 17ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a second settled event object runs a second pass 15ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a missing camera still counts the pass but keeps the prior lettering state 11ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 72ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 17ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both 71ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected 22ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 103ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 10ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > data-xploder-clock follows the viewer clock 13ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause stops every running animation and leaves finished animations alone 8ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the next frame catches an animation created after the pause 6ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > resume plays the held animations and cancels the queued sweep 8ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause and resume do not throw without getAnimations 7ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > closing A with the pointer elsewhere clears both 36ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted 10ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > opening A while it is hovered keeps the highlight immediately 6ms
+
+ Test Files  9 passed (9)
+      Tests  35 passed (35)
+   Start at  12:00:12
+   Duration  969ms (environment 55%, import 18%, tests 14%, transform 12%)
