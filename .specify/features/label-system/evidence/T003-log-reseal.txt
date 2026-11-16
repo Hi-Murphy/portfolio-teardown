@@ -1,0 +1,16 @@
+wrote packages/xploder/test/frozen-surface.s8.manifest.json (27 files)
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t003/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  12:01:03
+   Duration  265ms (transform 79%, import 16%, tests 4%, worker 1%)
+
+# command: pnpm --filter xploder exec vitest run | commit: 8e6f2eb | exit: 0
+
+ Test Files  78 passed (78)
+      Tests  706 passed (706)
+   Start at  12:01:07
+   Duration  31.73s (tests 87%, import 7%, transform 5%)
