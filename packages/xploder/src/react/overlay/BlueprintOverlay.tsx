@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import type { Phase } from '../../engine/explode';
+import type { LabelPassResult } from '../../labels/types';
 import type { ProjectLayout } from '../../layout';
 import type { LookTokens } from '../../look/tokens';
 import type { MotionTokens } from '../../motion';
@@ -41,10 +42,11 @@ export interface BlueprintOverlayProps {
   readonly highlight: string | null;
   readonly look: LookTokens;
   readonly onTitleBlockShown?: (shown: boolean) => void;
+  readonly onRepass?: (event: OverlayEvent, target: TeardownTarget) => LabelPassResult;
 }
 
 export interface BlueprintOverlayHandle {
-  update(event: OverlayEvent): void;
+  update(event: OverlayEvent, result?: LabelPassResult): void;
   setScroll(offsetY: number): void;
 }
 
@@ -55,7 +57,13 @@ interface SettledFrame {
   readonly height: number;
   readonly offsetY: number;
   readonly target: TeardownTarget;
+  readonly overlay: OverlayModel | null;
 }
+
+type PendingFrame = Omit<SettledFrame, 'target'> & {
+  readonly event: Extract<OverlayEvent, { kind: 'settled' }>;
+  readonly resultTarget: TeardownTarget | null;
+};
 
 const ROOT_STYLE: CSSProperties = {
   position: 'absolute',
@@ -187,6 +195,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       highlight,
       look,
       onTitleBlockShown,
+      onRepass,
     },
     ref,
   ) {
@@ -215,7 +224,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
 
     // A settled frame can arrive a frame before React commits the explode phase that
     // produced it; keep it pending and apply it once phase and target agree.
-    const pendingRef = useRef<Omit<SettledFrame, 'target'> | null>(null);
+    const pendingRef = useRef<PendingFrame | null>(null);
 
     useLayoutEffect(() => {
       layoutRef.current = layout;
@@ -238,11 +247,25 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       pendingRef.current = null;
       setScroll(pending.offsetY);
       setMoving(false);
-      setSettled({ ...pending, target: targetRef.current });
-    }, [setScroll]);
+      const target = targetRef.current;
+      const overlay =
+        pending.overlay !== null && pending.resultTarget !== target && onRepass !== undefined
+          ? onRepass(pending.event, target).overlay
+          : pending.overlay;
+
+      setSettled({
+        frame: pending.frame,
+        layout: pending.layout,
+        width: pending.width,
+        height: pending.height,
+        offsetY: pending.offsetY,
+        target,
+        overlay,
+      });
+    }, [onRepass, setScroll]);
 
     const update = useCallback(
-      (event: OverlayEvent) => {
+      (event: OverlayEvent, result?: LabelPassResult) => {
         if (event.kind === 'moving') {
           pendingRef.current = null;
           fadeAnimationRef.current?.cancel();
@@ -255,11 +278,14 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
         }
 
         pendingRef.current = {
+          event,
           frame: event.frame,
           layout: layoutRef.current,
           width: event.width,
           height: event.height,
           offsetY: event.offsetY,
+          overlay: result?.overlay ?? null,
+          resultTarget: result?.target ?? null,
         };
         applyPending();
       },
@@ -284,15 +310,18 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     const baseModel = useMemo<OverlayModel | null>(() => {
       if (settled === null) return null;
 
-      return overlayBaseModel({
-        frame: settled.frame,
-        layout,
-        project,
-        viewport: { width: settled.width, height: settled.height },
-        offsetY: settled.offsetY,
-        target: settled.target,
-        look,
-      });
+      return (
+        settled.overlay ??
+        overlayBaseModel({
+          frame: settled.frame,
+          layout,
+          project,
+          viewport: { width: settled.width, height: settled.height },
+          offsetY: settled.offsetY,
+          target: settled.target,
+          look,
+        })
+      );
     }, [layout, look, project, settled]);
 
     const model = useMemo<OverlayModel | null>(() => {

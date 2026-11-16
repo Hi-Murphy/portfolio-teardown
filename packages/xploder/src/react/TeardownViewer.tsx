@@ -20,7 +20,7 @@ import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
 import { labelPass } from '../labels/pass';
-import type { LabelPassResult } from '../labels/types';
+import type { LabelPassInput, LabelPassResult } from '../labels/types';
 import { resolveViewerLayoutOptions } from '../look/product';
 import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
@@ -225,13 +225,14 @@ export function TeardownViewer({
   const labelVectorRef = useRef(new Vector3());
   const targetRef = useRef(viewer.target);
   const zoomFactorRef = useRef(viewer.rig.zoomFactor);
-  const passBaseRef = useRef<number | null>(null);
+  const labelPassCountRef = useRef(0);
   const passMemoRef = useRef<{
     readonly event: Extract<OverlayEvent, { kind: 'settled' }>;
     readonly layout: typeof layout;
     readonly project: typeof project;
     readonly look: typeof look;
     readonly target: 'imploded' | 'exploded';
+    readonly input: Omit<LabelPassInput, 'target'>;
     readonly result: LabelPassResult;
   } | null>(null);
   const readyRef = useRef(false);
@@ -316,36 +317,39 @@ export function TeardownViewer({
           result = memo.result;
         } else {
           const faces = snapshotFaces(pickBridgeRef.current, layout, event, labelVectorRef.current);
-
-          result = labelPass({
+          const extentPx = stageExtent(wrapperRef.current);
+          const zoomFactor = zoomFactorRef.current;
+          const input = {
             frame: event.frame,
             faces,
             viewport: { width: event.width, height: event.height },
             offsetY: event.offsetY,
-            extentPx: stageExtent(wrapperRef.current),
-            zoomFactor: zoomFactorRef.current,
+            extentPx,
+            zoomFactor,
             target: targetRef.current,
             layout,
             project,
             look,
-          });
+          };
+
+          result = labelPass(input);
+          labelPassCountRef.current += 1;
           passMemoRef.current = {
             event,
             layout,
             project,
             look,
             target: targetRef.current,
+            input,
             result,
           };
         }
 
-        if (passBaseRef.current === null) passBaseRef.current = result.pass - 1;
-
         if (wrapperRef.current !== null) {
-          wrapperRef.current.dataset.xploderLabelPasses = String(result.pass - passBaseRef.current);
+          wrapperRef.current.dataset.xploderLabelPasses = String(labelPassCountRef.current);
         }
 
-        overlayRef.current?.update(event);
+        overlayRef.current?.update(event, result);
         letteringRef.current?.update(event, result);
       } else {
         overlayRef.current?.update(event);
@@ -359,6 +363,24 @@ export function TeardownViewer({
     },
     [events, layout, project],
   );
+
+  const repass = useCallback((event: OverlayEvent, target: 'imploded' | 'exploded') => {
+    const memo = passMemoRef.current;
+
+    if (memo === null || memo.event !== event) {
+      throw new Error('label re-pass without a stored pass');
+    }
+
+    const result = labelPass({ ...memo.input, target });
+
+    labelPassCountRef.current += 1;
+
+    if (wrapperRef.current !== null) {
+      wrapperRef.current.dataset.xploderLabelPasses = String(labelPassCountRef.current);
+    }
+
+    return result;
+  }, []);
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
     if (wrapperRef.current !== null) {
@@ -1000,6 +1022,7 @@ export function TeardownViewer({
                   highlight={viewer.highlight ?? detailOpenId}
                   look={look}
                   onTitleBlockShown={onTitleBlockShown}
+                  onRepass={repass}
                 />
               </div>
               <PartLettering

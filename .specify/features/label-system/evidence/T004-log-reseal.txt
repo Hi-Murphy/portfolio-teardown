@@ -1,0 +1,12 @@
+# command: bash packages/xploder/test/frozen-surface.generate-s6.sh; bash packages/xploder/test/frozen-surface.generate-s8.sh; pnpm --filter xploder exec vitest run test/frozen-surface.test.ts | commit: 5d62338 | exit: 0
+wrote packages/xploder/test/frozen-surface.s6.manifest.json (42 files)
+wrote packages/xploder/test/frozen-surface.s8.manifest.json (27 files)
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t004/packages/xploder
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  12:09:57
+   Duration  261ms (transform 79%, import 17%, tests 4%, worker 1%)
+
