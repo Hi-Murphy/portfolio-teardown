@@ -312,8 +312,13 @@ async function measure(page, task, name, expected, action, options = {}) {
     actionFailure = error instanceof Error ? error.message : String(error);
   }
 
+  // A resize that leaves the viewer box unchanged is not a motion: no settle, no pass expected.
+  const expectSettle =
+    typeof options.waitForSettle === 'function'
+      ? await options.waitForSettle()
+      : options.waitForSettle === true;
   let settleTimedOut = false;
-  if (options.waitForSettle === true) {
+  if (expectSettle) {
     settleTimedOut = await waitForSettled(page, before.settles);
   }
 
@@ -322,7 +327,7 @@ async function measure(page, task, name, expected, action, options = {}) {
   const settles = after.settles - before.settles;
   const passes = after.passes - before.passes;
   const countPass =
-    options.waitForSettle === true
+    expectSettle
       ? passes === settles && settles >= 1
       : passes === 0 && settles === 0;
   const pass = countPass && actionFailure === null;
@@ -338,7 +343,7 @@ async function measure(page, task, name, expected, action, options = {}) {
     name,
     settles,
     passes,
-    expected,
+    expected: expectSettle ? expected : 'passes == settles == 0 (viewer size unchanged)',
     pass,
   });
 
@@ -378,11 +383,21 @@ async function clickStep(page, task, name, selector, expectedState) {
   }, { waitForSettle: true, motion: true });
 }
 
+function viewerSize(page) {
+  return page.evaluate((selector) => {
+    const canvas = document.querySelector(selector)?.querySelector('canvas');
+    const rect = canvas?.getBoundingClientRect();
+    return rect === undefined ? null : `${rect.width}x${rect.height}`;
+  }, WRAPPER);
+}
+
 async function resizeStep(page, task, name, width) {
+  const sizeBefore = await viewerSize(page);
   await measure(page, task, name, 'passes == settles >= 1', async () => {
     await page.setViewportSize({ width, height: task.height });
+    await page.evaluate(() => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))));
     return null;
-  }, { waitForSettle: true, motion: true });
+  }, { waitForSettle: async () => (await viewerSize(page)) !== sizeBefore, motion: true });
 }
 
 async function noPassStep(page, task, name, action) {
