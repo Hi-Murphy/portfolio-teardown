@@ -707,7 +707,7 @@ export function overlayHighlight(
 
     return slot === undefined
       ? label
-      : { ...label, emphasis: true, ...(selected == null ? {} : { emphasisSlot: slot }) };
+      : { ...label, emphasis: true, ...(selected === undefined ? {} : { emphasisSlot: slot }) };
   });
 
   if (base.calloutMode !== 'columns') return { ...base, labels };

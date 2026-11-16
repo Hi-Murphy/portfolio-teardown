@@ -1,0 +1,89 @@
+# command: vitest run overlay-emphasis-slots overlay-model overlay-tour-trail blueprint-scene label-pass-parity label-sweep --reporter verbose | orchestrator follow-up (hover-only slot attribute when the caller passes selected)
+
+ RUN  v5.0.5 <repo>/packages/xploder
+
+(node:78107) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > emphasises selected and hovered parts in their own slots 7ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in tags mode > keeps the old six-argument call deep-equal to the single emphasis 2ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > emphasises selected and hovered parts in their own slots 6ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slots in columns mode > keeps the old six-argument call deep-equal to the single emphasis 2ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > uses one label and one leader when both slots hold the same id 1ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > emphasises only selected when hover is null 1ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > marks a hover-only label once the caller passes the selected slot (null) 2ms
+ ✓ test/overlay-emphasis-slots.test.ts > overlay emphasis slot precedence > lets the tour trail ignore both slots 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > uses fixture A in a columns viewport as the trail precondition 10ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > shows one label and one leader for the first step 4ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > builds the visited labels and leaders in path order through step 3 2ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > keeps the trail while the tour is paused 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > returns an empty model for an unknown flow 1ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > returns an empty model outside the columns mode 5ms
+ ✓ test/overlay-tour-trail.test.ts > overlay tour trail > leaves the idle base model unchanged 2ms
+ ✓ test/overlay-model.test.ts > overlay visibility > shows only when every visible condition is aligned 2ms
+ ✓ test/overlay-model.test.ts > overlay visibility > hides when the target changed but the phase still matches the old state 0ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > hides every annotation while a tour is not idle 4ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > replaces every on-drawing annotation with a title block when imploded 1ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > keeps exploded annotations free of a title block 3ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims labels and leaders outside the focused layer 2ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > uses no dimming when focus is absent or suspended 5ms
+ ✓ test/overlay-model.test.ts > overlay model visibility > dims title block rows outside the focused layer 1ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > drops labels for a frame from another layout without throwing 3ms
+ ✓ test/overlay-model.test.ts > overlay fixture switch defenses > skips trace vertices that are absent from the frame 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses short on-part tags with a screen-reader name below the wide threshold 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > uses long part text in columns at the wide threshold 1ms
+ ✓ test/overlay-model.test.ts > overlay model labels > sets every label box to the deterministic size model 2ms
+ ✓ test/overlay-model.test.ts > overlay model labels > reports placement hidden count when tags cannot all fit 5ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns content-space labels and strokes after an offset round trip 4ms
+ ✓ test/overlay-model.test.ts > overlay model labels > returns the title block in content space after an offset round trip 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > includes both dimension groups and no leaders at rest 0ms
+ ✓ test/overlay-model.test.ts > overlay model strokes > adds one accent elbow leader and one emphasis for the highlighted part 1ms
+ ✓ test/overlay-model.test.ts > overlay trace model > clears the trace while idle 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > routes the path prefix through settled content-space anchors when paused 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > flags the signal dot only while playing 0ms
+ ✓ test/overlay-model.test.ts > overlay trace model > uses the static twin under reduced motion 0ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > patches both Lambert materials in the light palette 22ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > patches both Lambert materials in the dark palette 4ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > the shader reads the uniform objects Slabs writes, untone-mapped 11ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > mounts linear instance fills in the light palette 3ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > mounts linear instance fills in the dark palette 4ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > rewrites instanceFill when the palette changes 4ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > leaves the S5 scene path untouched without look 4ms
+ ✓ test/blueprint-scene.test.tsx > blueprint scene > wires the product layout default through TeardownViewer 0ms
+stdout | test/label-sweep.test.ts > label sweep > model census
+model census (Stage A): 1152 cases, 5 with intersections, 7 pairs
+model census (Stage A) pair kind: dimension × mark = 3
+model census (Stage A) pair kind: face × mark = 2
+model census (Stage A) pair kind: mark × face = 2
+model census (gated): 1152 cases, 0 with intersections, 0 pairs, guarded 0
+
+ ✓ test/label-sweep.test.ts > label sweep > quadsIntersect predicate table 1ms
+ ✓ test/label-sweep.test.ts > label sweep > label-sweep.mjs predicate agrees on 10,000 random quad pairs 12ms
+ ✓ test/label-sweep.test.ts > label sweep > seeded unit control reports the shifted copy and not the touching copy 2ms
+ ✓ test/label-sweep.test.ts > label sweep > model census 1ms
+ ✓ test/label-sweep.test.ts > label sweep > AC1 model sweep: 0 intersections and 0 guarded 0ms
+ ✓ test/label-sweep.test.ts > label sweep > AC2 by construction: no Stage A pair is bit-identical to S15 376ms
+ ✓ test/label-sweep.test.ts > label sweep > every Stage A overlap is resolved by moving or hiding the lower-priority label 1ms
+stdout | test/label-pass-parity.test.ts > labelPass parity > matches the frozen S15 overlay and lettering compositions exactly
+CONFLICT random-9 fixture-c 642x267 exploded: part:notifier × part:retry-scheduler
+CONFLICT random-71 fixture-c 887x532 exploded: part:booking-service × part:slot-planner
+CONFLICT random-160 fixture-c 263x265 exploded: layer:services × part:audit-trail
+CONFLICT random-160 fixture-c 263x265 exploded: part:pickup-api × layer:edge
+CONFLICT random-164 fixture-c 801x226 exploded: dimension:stack × part:retry-scheduler
+CONFLICT random-164 fixture-c 801x226 exploded: dimension:stack × part:audit-trail
+CONFLICT random-180 fixture-c 607x785 exploded: part:booking-service × part:slot-planner
+CONFLICT random-259 jev-toolkit 1273x572 exploded: part:runner × part:pricing
+CONFLICT random-393 fixture-c 511x224 exploded: dimension:footprint × part:push-gateway
+CONFLICT random-393 fixture-c 511x224 exploded: dimension:footprint × part:locker-hardware
+CONFLICT random-473 fixture-c 1105x293 exploded: layer:storage × part:notifier
+CONFLICT random-473 fixture-c 1105x293 exploded: part:recipient × layer:edge
+CONFLICT random-593 fixture-c 1401x629 exploded: part:booking-service × part:notifier
+cases: 2272, conflicting cases: 9, conflicting pairs: 13, differing values: 0
+
+ ✓ test/label-pass-parity.test.ts > labelPass parity > matches the frozen S15 overlay and lettering compositions exactly 5679ms
+
+ Test Files  6 passed (6)
+      Tests  53 passed (53)
+   Start at  23:13:27
+   Duration  5.92s (tests 77%, import 19%, transform 3%)
+

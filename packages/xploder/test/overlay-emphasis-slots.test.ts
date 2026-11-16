@@ -150,6 +150,23 @@ describe('overlay emphasis slot precedence', () => {
     expect(model.strokes.filter((stroke) => stroke.kind === 'leader')).toHaveLength(1);
   });
 
+  test('marks a hover-only label once the caller passes the selected slot (null)', () => {
+    const base = baseFor(COLUMNS);
+    const slotted = overlayStateModel(
+      base,
+      project,
+      IDLE_FOCUS,
+      { status: 'idle' },
+      HOVER,
+      look,
+      null,
+    );
+    const oldCall = overlayStateModel(base, project, IDLE_FOCUS, { status: 'idle' }, HOVER, look);
+
+    expect(label(slotted, HOVER)?.emphasisSlot).toBe('hover');
+    expect(label(oldCall, HOVER)?.emphasisSlot).toBeUndefined();
+  });
+
   test('lets the tour trail ignore both slots', () => {
     const base = baseFor(COLUMNS);
     const tour = { status: 'playing', flowId: 'live-update', step: 2 } as const;
