@@ -1,0 +1,53 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom/label-pass.dom.test.tsx --reporter verbose | commit: edf10c8 | exit: 1
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t004/apps/web
+
+(node:29783) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > one settle runs one pass and the lettering renders that result 47ms
+ × test/xploder-dom/label-pass.dom.test.tsx > the overlay renders the pass model after one base-model call 22ms
+   → expected "vi.fn()" to be called 1 times, but got 2 times
+ × test/xploder-dom/label-pass.dom.test.tsx > an apply-time target mismatch re-passes once and renders the returned overlay 3ms
+   → expected "vi.fn()" to be called once, but got 0 times
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a re-render from emphasis and tour state does not run another pass 10ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a moving event does not run a pass 7ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a second settled event object runs a second pass 7ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a missing camera still counts the pass but keeps the prior lettering state 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/label-pass.dom.test.tsx > the overlay renders the pass model after one base-model call
+AssertionError: expected "vi.fn()" to be called 1 times, but got 2 times
+ ❯ test/xploder-dom/label-pass.dom.test.tsx:278:31
+    276|
+    277|   expect(labelPassSpy).toHaveBeenCalledTimes(1);
+    278|   expect(overlayBaseModelSpy).toHaveBeenCalledTimes(1);
+       |                               ^
+    279|
+    280|   const rendered = Array.from(wrapper().querySelectorAll<HTMLElement>(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/xploder-dom/label-pass.dom.test.tsx > an apply-time target mismatch re-passes once and renders the returned overlay
+AssertionError: expected "vi.fn()" to be called once, but got 0 times
+ ❯ test/xploder-dom/label-pass.dom.test.tsx:364:20
+    362|   await render('imploded', 'imploded');
+    363|
+    364|   expect(onRepass).toHaveBeenCalledOnce();
+       |                    ^
+    365|   expect(onRepass).toHaveBeenCalledWith(pendingEvent, 'imploded');
+    366|   expect(repassedValue).not.toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  12:06:20
+   Duration  489ms (environment 48%, tests 24%, import 18%, transform 10%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s16-wt/t004/apps/web
+

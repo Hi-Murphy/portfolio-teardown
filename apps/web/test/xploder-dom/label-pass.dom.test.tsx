@@ -11,9 +11,17 @@ import { TeardownViewer, useTeardownViewer, type TeardownViewerHandle } from 'xp
 import { labelPass } from '../../../../packages/xploder/src/labels/pass';
 import type { LabelPassResult } from '../../../../packages/xploder/src/labels/types';
 import { resolveViewerLayoutOptions } from '../../../../packages/xploder/src/look/product';
+import { look } from '../../../../packages/xploder/src/look/tokens';
+import { resolveMotion } from '../../../../packages/xploder/src/motion';
+import { overlayBaseModel } from '../../../../packages/xploder/src/overlay/model';
 import { overlayFrame } from '../../../../packages/xploder/src/overlay/project';
+import {
+  BlueprintOverlay,
+  type BlueprintOverlayHandle,
+} from '../../../../packages/xploder/src/react/overlay/BlueprintOverlay';
 import type { OverlayEvent } from '../../../../packages/xploder/src/react/scene/OverlayProjector';
 import type { PickBridgeHandle } from '../../../../packages/xploder/src/react/scene/PickBridge';
+import { blueprint } from '../../../../packages/xploder/src/theme';
 
 vi.mock('../../../../packages/xploder/src/labels/pass', async (importOriginal) => {
   const actual =
@@ -34,6 +42,18 @@ vi.mock('../../../../packages/xploder/src/labels/pass', async (importOriginal) =
         },
       };
     }),
+  };
+});
+
+vi.mock('../../../../packages/xploder/src/overlay/model', async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import('../../../../packages/xploder/src/overlay/model')>();
+
+  return {
+    ...actual,
+    overlayBaseModel: vi.fn((input: Parameters<typeof actual.overlayBaseModel>[0]) =>
+      actual.overlayBaseModel(input),
+    ),
   };
 });
 
@@ -73,6 +93,7 @@ const componentIds = project.layers.flatMap((layer) =>
 const layerId = project.layers[0]?.id;
 const flowId = project.flows?.[1]?.id;
 const labelPassSpy = vi.mocked(labelPass);
+const overlayBaseModelSpy = vi.mocked(overlayBaseModel);
 
 if (layerId === undefined) throw new Error('fixture has no layer');
 if (flowId === undefined) throw new Error('fixture has no second flow');
@@ -80,6 +101,7 @@ if (flowId === undefined) throw new Error('fixture has no second flow');
 interface SceneStubProps {
   readonly pickBridgeRef?: RefObject<PickBridgeHandle>;
   readonly onOverlay?: (event: OverlayEvent) => void;
+  readonly onPhase?: (phase: 'imploded' | 'exploded') => void;
 }
 
 type ViewerClock = ReturnType<typeof createFakeClock>;
@@ -130,6 +152,7 @@ beforeEach(() => {
   clock = createFakeClock();
   viewerCapture.current = null;
   labelPassSpy.mockClear();
+  overlayBaseModelSpy.mockClear();
   sceneCapture.props.length = 0;
 });
 
@@ -210,6 +233,10 @@ async function drive(event: OverlayEvent): Promise<void> {
   await act(async () => sceneProps().onOverlay?.(event));
 }
 
+async function drivePhase(phase: 'imploded' | 'exploded'): Promise<void> {
+  await act(async () => sceneProps().onPhase?.(phase));
+}
+
 function result(index = 0): LabelPassResult {
   const value = labelPassSpy.mock.results[index]?.value;
 
@@ -239,6 +266,110 @@ test('one settle runs one pass and the lettering renders that result', async () 
   expect(labelPassSpy).toHaveBeenCalledTimes(1);
   expect(result().lettering?.items).toHaveLength(1);
   expectLettering(result());
+});
+
+test('the overlay renders the pass model after one base-model call', async () => {
+  await mount();
+
+  await drivePhase('exploded');
+  await drive(settled());
+
+  expect(labelPassSpy).toHaveBeenCalledTimes(1);
+  expect(overlayBaseModelSpy).toHaveBeenCalledTimes(1);
+
+  const rendered = Array.from(wrapper().querySelectorAll<HTMLElement>('[data-xploder-label]')).map(
+    (element) => ({
+      key: element.dataset.xploderLabel,
+      text: element.firstChild?.textContent,
+    }),
+  );
+
+  expect(rendered).toEqual(
+    result().overlay.labels.map((label) => ({ key: label.key, text: label.text })),
+  );
+});
+
+test('an apply-time target mismatch re-passes once and renders the returned overlay', async () => {
+  const tokens = resolveMotion(false);
+  const overlayHandle: { current: BlueprintOverlayHandle | null } = { current: null };
+  const input = {
+    frame,
+    faces: null,
+    viewport,
+    offsetY: 0,
+    extentPx: null,
+    zoomFactor: 1,
+    target: 'exploded' as const,
+    layout,
+    project,
+    look,
+  };
+  const initial = labelPass(input);
+  let repassedValue: LabelPassResult | null = null;
+  const onRepass = vi.fn((_event: OverlayEvent, target: 'imploded' | 'exploded') => {
+    const repassed = labelPass({ ...input, target });
+    const value: LabelPassResult = {
+      ...repassed,
+      overlay: {
+        ...repassed.overlay,
+        labels: [
+          ...repassed.overlay.labels,
+          {
+            key: 'repass:proof',
+            kind: 'layer',
+            layerIndex: 0,
+            x: 0,
+            y: 0,
+            w: 80,
+            h: 16,
+            text: 'REPASS PROOF',
+            opacity: 1,
+          },
+        ],
+      },
+    };
+
+    repassedValue = value;
+    return value;
+  });
+  const render = async (target: 'imploded' | 'exploded', phase: 'imploded' | 'exploded' | null) => {
+    await act(async () =>
+      root?.render(
+        <BlueprintOverlay
+          ref={overlayHandle}
+          project={project}
+          layout={layout}
+          palette={blueprint.light}
+          tokens={tokens}
+          target={target}
+          phase={phase}
+          tour={{ flowId: null, status: 'idle', step: -1 }}
+          focus={{ layerId: null, suspended: false }}
+          highlight={null}
+          look={look}
+          onRepass={onRepass}
+        />,
+      ),
+    );
+  };
+
+  await render('exploded', null);
+  const pendingEvent = settled();
+
+  await act(async () => overlayHandle.current?.update(pendingEvent, initial));
+  expect(onRepass).not.toHaveBeenCalled();
+
+  await render('imploded', 'imploded');
+
+  expect(onRepass).toHaveBeenCalledOnce();
+  expect(onRepass).toHaveBeenCalledWith(pendingEvent, 'imploded');
+  expect(repassedValue).not.toBeNull();
+  expect((repassedValue as LabelPassResult | null)?.pass).toBe(initial.pass + 1);
+  expect(
+    Array.from(container?.querySelectorAll('[data-xploder-label]') ?? []).map((element) =>
+      element.getAttribute('data-xploder-label'),
+    ),
+  ).toContain('repass:proof');
 });
 
 test('a re-render from emphasis and tour state does not run another pass', async () => {
