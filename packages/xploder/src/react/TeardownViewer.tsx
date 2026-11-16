@@ -12,13 +12,15 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react';
-import { WebGLRenderer } from 'three';
+import { Vector3, WebGLRenderer } from 'three';
 
 import { announce, type AnnounceEvent } from '../a11y/announce';
 import { PAN_PAGE_FRACTION, PAN_STEP_PX } from '../a11y/look';
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
+import { labelPass } from '../labels/pass';
+import type { LabelPassResult } from '../labels/types';
 import { resolveViewerLayoutOptions } from '../look/product';
 import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
@@ -33,6 +35,7 @@ import { CanvasBoundary } from './a11y/CanvasBoundary';
 import { ComponentNavigator, type ComponentNavigatorHandle } from './a11y/ComponentNavigator';
 import { LiveRegion, type LiveRegionHandle } from './a11y/LiveRegion';
 import { hasWebgl } from './a11y/webgl';
+import { snapshotFaces, stageExtent } from './labels/faces';
 import {
   LETTERING_HIDE_CSS,
   PartLettering,
@@ -219,6 +222,18 @@ export function TeardownViewer({
     progress: null,
     onFrame: null,
   });
+  const labelVectorRef = useRef(new Vector3());
+  const targetRef = useRef(viewer.target);
+  const zoomFactorRef = useRef(viewer.rig.zoomFactor);
+  const passBaseRef = useRef<number | null>(null);
+  const passMemoRef = useRef<{
+    readonly event: Extract<OverlayEvent, { kind: 'settled' }>;
+    readonly layout: typeof layout;
+    readonly project: typeof project;
+    readonly look: typeof look;
+    readonly target: 'imploded' | 'exploded';
+    readonly result: LabelPassResult;
+  } | null>(null);
   const readyRef = useRef(false);
   const warnedProjectRef = useRef(false);
   const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
@@ -286,14 +301,63 @@ export function TeardownViewer({
 
   const onOverlay = useCallback(
     (event: OverlayEvent) => {
-      overlayRef.current?.update(event);
-      letteringRef.current?.update(event);
+      if (event.kind === 'settled') {
+        const memo = passMemoRef.current;
+        let result: LabelPassResult;
+
+        if (
+          memo !== null &&
+          memo.event === event &&
+          memo.layout === layout &&
+          memo.project === project &&
+          memo.look === look &&
+          memo.target === targetRef.current
+        ) {
+          result = memo.result;
+        } else {
+          const faces = snapshotFaces(pickBridgeRef.current, layout, event, labelVectorRef.current);
+
+          result = labelPass({
+            frame: event.frame,
+            faces,
+            viewport: { width: event.width, height: event.height },
+            offsetY: event.offsetY,
+            extentPx: stageExtent(wrapperRef.current),
+            zoomFactor: zoomFactorRef.current,
+            target: targetRef.current,
+            layout,
+            project,
+            look,
+          });
+          passMemoRef.current = {
+            event,
+            layout,
+            project,
+            look,
+            target: targetRef.current,
+            result,
+          };
+        }
+
+        if (passBaseRef.current === null) passBaseRef.current = result.pass - 1;
+
+        if (wrapperRef.current !== null) {
+          wrapperRef.current.dataset.xploderLabelPasses = String(result.pass - passBaseRef.current);
+        }
+
+        overlayRef.current?.update(event);
+        letteringRef.current?.update(event, result);
+      } else {
+        overlayRef.current?.update(event);
+        letteringRef.current?.update(event);
+      }
+
       panelLayerRef.current?.update(event);
       navigatorRef.current?.update(event);
 
       if (event.kind === 'settled') events?.settled(event.phase, event.at);
     },
-    [events],
+    [events, layout, project],
   );
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
@@ -553,6 +617,11 @@ export function TeardownViewer({
     element.dataset.xploderTweening = 'false';
     element.dataset.xploderPulse = 'false';
   }, []);
+
+  useLayoutEffect(() => {
+    targetRef.current = viewer.target;
+    zoomFactorRef.current = viewer.rig.zoomFactor;
+  }, [viewer.rig.zoomFactor, viewer.target]);
 
   useLayoutEffect(() => {
     const previous = previousMotionRef.current;
