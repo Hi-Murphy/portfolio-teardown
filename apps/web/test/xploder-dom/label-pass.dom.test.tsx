@@ -11,13 +11,10 @@ import { TeardownViewer, useTeardownViewer, type TeardownViewerHandle } from 'xp
 import { labelPass } from '../../../../packages/xploder/src/labels/pass';
 import type { LabelPassResult } from '../../../../packages/xploder/src/labels/types';
 import { resolveViewerLayoutOptions } from '../../../../packages/xploder/src/look/product';
-import { look } from '../../../../packages/xploder/src/look/tokens';
-import { resolveMotion } from '../../../../packages/xploder/src/motion';
 import { overlayBaseModel } from '../../../../packages/xploder/src/overlay/model';
 import { overlayFrame } from '../../../../packages/xploder/src/overlay/project';
 import type { OverlayEvent } from '../../../../packages/xploder/src/react/scene/OverlayProjector';
 import type { PickBridgeHandle } from '../../../../packages/xploder/src/react/scene/PickBridge';
-import { blueprint } from '../../../../packages/xploder/src/theme';
 
 vi.mock('../../../../packages/xploder/src/labels/pass', async (importOriginal) => {
   const actual =
