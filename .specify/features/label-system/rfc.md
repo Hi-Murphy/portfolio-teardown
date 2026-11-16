@@ -458,3 +458,4 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
     - so the frame from the unchanged projector differed;
     - in most of them the head runs also disagree with each other.
   - Details: `evidence/T005-log-stageA-verdict.md`.
+- **STOP 1 decision (Murphy, 2026-11-16): "all defaults go".** R12 is accepted as the Stage A parity proof, and Stage B starts (T006 → T012).
