@@ -60,6 +60,7 @@ export interface LabelPassResult {
   readonly overlay: OverlayModel;
   readonly lettering: LetteringPassResult | null;
   readonly labels: readonly LabelItem[];
+  readonly guarded: number;
   readonly pass: number;
   readonly target: 'imploded' | 'exploded';
 }

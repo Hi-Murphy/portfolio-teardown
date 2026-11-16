@@ -147,7 +147,9 @@ export interface OverlayModelInput {
 export type OverlayBaseModelInput = Pick<
   OverlayModelInput,
   'frame' | 'layout' | 'project' | 'viewport' | 'offsetY' | 'target' | 'look'
->;
+> & {
+  readonly extraObstacles?: readonly (readonly Vec2[])[];
+};
 
 export interface TraceFlow {
   readonly path: readonly string[];
@@ -553,6 +555,7 @@ export function tagsModel(
   viewport: { readonly width: number; readonly height: number },
   offsetY: number,
   look: LookTokens,
+  extraObstacles: readonly (readonly Vec2[])[] = [],
 ): OverlayModel {
   const componentHulls = frame.components.map((component) => component.hull);
   const layerQuads = layerLetteringModel({
@@ -593,7 +596,12 @@ export function tagsModel(
     });
   }
 
-  const result = placeLabels(labels, [...componentHulls, ...layerQuads], viewport, look);
+  const result = placeLabels(
+    labels,
+    [...componentHulls, ...layerQuads, ...extraObstacles],
+    viewport,
+    look,
+  );
   const renderLabels = result.placements.map((placement): OverlayLabel => {
     const labelMeta = meta.get(placement.key);
 
@@ -623,6 +631,7 @@ export function overlayBaseModel({
   offsetY,
   target,
   look,
+  extraObstacles,
 }: OverlayBaseModelInput): OverlayModel {
   const viewportFrame = shiftFrame(frame, -offsetY);
 
@@ -665,7 +674,15 @@ export function overlayBaseModel({
     return columnModel(viewportFrame, layout, columns, offsetY, look);
   }
 
-  return tagsModel(viewportFrame, layout, project, viewport, offsetY, look);
+  return tagsModel(
+    viewportFrame,
+    layout,
+    project,
+    viewport,
+    offsetY,
+    look,
+    extraObstacles?.map((obstacle) => obstacle.map((point) => shiftPoint(point, -offsetY))),
+  );
 }
 
 export function overlayHighlight(

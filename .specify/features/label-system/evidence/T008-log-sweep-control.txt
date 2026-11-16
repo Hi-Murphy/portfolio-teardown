@@ -1,0 +1,5 @@
+# command: node label-matrix.mjs <repo> <baseUrl> --control --routes projects,home --out <dir> | base: http://127.0.0.1:4620 | chromium: 156.0.8078.4 | commit: bd55abf
+control websocket-inspector-1440-light-exploded-z3-top-t0: seed detected (1 pairs incl. seed)
+control home-1440-light-hero-explode-z0-n-a-t0: seed detected (1 pairs incl. seed)
+# command: node label-matrix.mjs <repo> <baseUrl> --control --routes fixtures --out <dir> | base: http://127.0.0.1:4621 | chromium: 156.0.8078.4 | commit: bd55abf
+control fixture-a-390-dark-exploded-z0-n-a-t0: seed detected (1 pairs incl. seed)

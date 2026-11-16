@@ -7,7 +7,8 @@ import { topFaceQuad, type FaceQuad } from '../src/lettering/faces';
 import { resolveViewerLayoutOptions } from '../src/look/product';
 import { look } from '../src/look/tokens';
 import { overlayFrame, projectPoint, type OverlayFrame, type Vec2 } from '../src/overlay/project';
-import { labelPass } from '../src/labels/pass';
+import { labelItems, labelPass } from '../src/labels/pass';
+import { sweepPairs } from '../src/labels/sweep';
 import type { LabelPassInput } from '../src/labels/types';
 import { projectAJson, projectBJson, projectCJson, techRegistryJson } from './fixtures';
 import { oracleLettering, oracleOverlay } from './oracles/labels-s15';
@@ -427,6 +428,8 @@ describe('labelPass parity', () => {
       const cases = [...matrixCases(), ...randomCases()];
       const differences: string[] = [];
       let differenceCount = 0;
+      let conflictCases = 0;
+      let conflictPairs = 0;
       let previousPass = 0;
 
       for (const parityCase of cases) {
@@ -440,14 +443,24 @@ describe('labelPass parity', () => {
         }
         previousPass = result.pass;
         expect(result.target, parityCase.name).toBe(parityCase.input.target);
+        const overlayOracle = oracleOverlay(parityCase.input);
+        const letteringOracle = oracleLettering(parityCase.input);
+        const conflicts = sweepPairs(labelItems(parityCase.input, overlayOracle, letteringOracle));
 
-        compareValues(result.overlay, oracleOverlay(parityCase.input), 'overlay', caseDifferences);
-        compareValues(
-          result.lettering,
-          oracleLettering(parityCase.input),
-          'lettering',
-          caseDifferences,
-        );
+        // AC1 on the random corpus too: whatever S15 overlapped, the gated pass leaves no pair.
+        expect(sweepPairs(result.labels), parityCase.name).toEqual([]);
+        expect(result.guarded, parityCase.name).toBe(0);
+
+        if (conflicts.length > 0) {
+          conflictCases += 1;
+          conflictPairs += conflicts.length;
+          for (const pair of conflicts) {
+            console.log(`CONFLICT ${parityCase.name}: ${pair.a.key} × ${pair.b.key}`);
+          }
+        } else {
+          compareValues(result.overlay, overlayOracle, 'overlay', caseDifferences);
+          compareValues(result.lettering, letteringOracle, 'lettering', caseDifferences);
+        }
 
         differenceCount += caseDifferences.length;
 
@@ -465,7 +478,9 @@ describe('labelPass parity', () => {
       }
 
       for (const difference of differences) console.log(`PARITY ${difference}`);
-      console.log(`cases: ${cases.length}, differing values: ${differenceCount}`);
+      console.log(
+        `cases: ${cases.length}, conflicting cases: ${conflictCases}, conflicting pairs: ${conflictPairs}, differing values: ${differenceCount}`,
+      );
       expect(differenceCount).toBe(0);
     },
     TEST_TIMEOUT_MS,

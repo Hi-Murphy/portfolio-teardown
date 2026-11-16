@@ -16,18 +16,14 @@ function axes(quad: LabelQuad): readonly Axis[] {
   const result: Axis[] = [];
 
   for (let index = 0; index < quad.length; index += 1) {
-    const from = quad[index];
-    const to = quad[(index + 1) % quad.length];
-
-    if (from === undefined || to === undefined) continue;
+    const from = quad[index]!;
+    const to = quad[(index + 1) % quad.length]!;
 
     const x = -(to[1] - from[1]);
     const y = to[0] - from[0];
     const length = Math.hypot(x, y);
 
-    if (length === 0) continue;
-
-    result.push([x / length, y / length]);
+    if (length) result.push([x / length, y / length]);
   }
 
   return result;
@@ -68,16 +64,9 @@ export function sweepPairs(items: readonly LabelItem[]): readonly SweepPair[] {
   const visible = items.filter((item) => item.visible);
   const pairs: SweepPair[] = [];
 
-  for (let left = 0; left < visible.length; left += 1) {
-    const a = visible[left];
-
-    if (a === undefined) continue;
-
-    for (let right = left + 1; right < visible.length; right += 1) {
-      const b = visible[right];
-
-      if (b === undefined || !quadsIntersect(a.quad, b.quad)) continue;
-
+  for (const [left, a] of visible.entries()) {
+    for (const b of visible.slice(left + 1)) {
+      if (!quadsIntersect(a.quad, b.quad)) continue;
       pairs.push({
         a: { key: a.key, quad: a.quad },
         b: { key: b.key, quad: b.quad },

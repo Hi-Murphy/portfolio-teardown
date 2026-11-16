@@ -1,0 +1,6 @@
+wrote packages/xploder/test/frozen-surface.s6.manifest.json (43 files)
+     × matches every hash recorded from the base commit 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  test/frozen-surface.test.ts > frozen S6 surface > matches every hash recorded from the base commit
+      Tests  1 failed | 5 passed (6)
+      Tests  6 passed (6)
