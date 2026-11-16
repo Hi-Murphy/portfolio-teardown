@@ -1,0 +1,11 @@
+Vercel	pass	0	https://vercel.com/murphy-3c4d/portfolio-teardown/wQHDunWoVFQsrwPYmwXrh81eJQx9	Deployment has completed
+Vercel Preview Comments	pass	0	https://vercel.com/github	
+a11y: axe (engine fixture export)	pass	2m22s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924563918/job/133500461605	
+a11y: axe (production routes)	pass	6m9s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924563918/job/133500462178	
+build (typecheck, lint, test, build)	pass	1m55s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924564420/job/133500463878	
+perf-gate: lighthouse (mobile)	pass	2m26s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924563918/job/133500462598	
+perf-gate: weight (< 3 MB)	pass	3m1s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924563918/job/133500462098	
+perf: fixture exclusion	pass	39s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924563918/job/133500462521	
+perf: fps calibration	pass	1m1s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924563918/job/133500462092	
+secrets (gitleaks)	pass	24s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924564420/job/133500464098	
+seo: meta + og	pass	1m11s	https://github.com/Hi-Murphy/portfolio-teardown/actions/runs/43924564420/job/133500463417	

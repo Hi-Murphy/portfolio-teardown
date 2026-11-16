@@ -1,0 +1,19 @@
+# S2/S4 + S5 + S3 empty-diff proof vs 021c1ff
+$ git diff --stat 021c1ff -- <every S2/S4 and S5 listed path, manifests, generators>
+(empty above = no change)
+
+$ git diff --stat 021c1ff -- tools/perf
+(empty above = no change)
+
+$ git diff --stat 021c1ff -- package.json apps/web/package.json packages/xploder/package.json tools/perf/package.json pnpm-lock.yaml
+(empty above = no new dependency)
+
+FROZEN-OK
+SURFACES-S2S4S5-OK
+S3-TOOLS-OK
+RESEAL-LIST-OK
+ALLOWED-PATHS-OK
+NO-NEW-DEPS-OK
+NO-TYPO-OK
+SEAL-TAG-OK
+GITLEAKS-OK

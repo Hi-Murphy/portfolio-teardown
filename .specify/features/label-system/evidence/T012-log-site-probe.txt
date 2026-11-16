@@ -1,0 +1,8 @@
+PASS cards-projects-jev-toolkit-desktop-dark: expected {"count":1,"headingText":"JEV Benchmark","tagline":"Measuring what an AI reads before it codes.","chips":{"min":1,"max":4,"registry":"known labels"},"href":"/projects/jev-toolkit"} actual {"count":1,"headingText":"JEV Benchmark","taglineFound":true,"chips":{"pass":true,"count":1,"unknown":[],"labels":["Node.js"]},"href":"/projects/jev-toolkit"}
+PASS cards-projects-order-desktop-dark: expected ["websocket-inspector","jev-toolkit"] actual ["websocket-inspector","jev-toolkit"]
+PASS cards-projects-no-hscroll-desktop-dark: expected {"scrollWidthAtMost":"clientWidth","viewportWidth":1280} actual {"pass":true,"scrollWidth":1280,"clientWidth":1280}
+PASS cards-websocket-inspector-href-200: expected 200 actual 200
+PASS cards-jev-toolkit-href-200: expected 200 actual 200
+cards: PASS (34 checks)
+site-probe: PASS
+artifacts: /Users/murphy/orca/workspaces/portfolio-teardown/task-s16-label-system/.evidence/site-probe
