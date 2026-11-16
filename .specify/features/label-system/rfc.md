@@ -459,3 +459,13 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
     - in most of them the head runs also disagree with each other.
   - Details: `evidence/T005-log-stageA-verdict.md`.
 - **STOP 1 decision (Murphy, 2026-11-16): "all defaults go".** R12 is accepted as the Stage A parity proof, and Stage B starts (T006 → T012).
+- **R13 — T007/T008 scope as built (orchestrator).**
+  - S7: only `place.ts` (`letterPartAvoiding`) and `layers.ts` (`obstacles`) changed. `model.ts` and `column.ts` are untouched, because the pass composes the primitives itself.
+  - Gate scope: P2 plate names, P5 marks and P6 callouts/notes are gated. P3 faces and P4 compact rows cannot overlap a higher family (§3.1), so the guarantee step covers them. Its count is asserted 0 on the 1,152 real-canvas matrix cases and the 2,272 random cases.
+  - The model corpus uses the measured viewer canvas sizes (`probes/canvas-size.mjs`), not window sizes; with window sizes the model missed the S15 overlaps.
+- **R14 — the R3 re-pass and the pass memo are removed in T010 (gzip budget).**
+  - After T008 the slice is at +1,752 B of 2,048 B.
+  - R3 never fired (0 re-passes in T005), and §4.2 item 4 shows it cannot.
+  - The memo only guarded against a duplicate delivery of one event, which does not happen.
+  - Removing both pays for the T009/T010 emphasis wiring. The pass count per settle is unchanged.
+  - The removal touches `BlueprintOverlay` (S6) and `TeardownViewer` (S8), so T010 re-seals S6 + S8 together (`seal/s6-s8-<sha>`). The tag count stays at 7.
