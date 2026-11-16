@@ -43,7 +43,6 @@ export interface BlueprintOverlayProps {
   readonly selected?: string | null;
   readonly look: LookTokens;
   readonly onTitleBlockShown?: (shown: boolean) => void;
-  readonly onRepass?: (event: OverlayEvent, target: TeardownTarget) => LabelPassResult;
 }
 
 export interface BlueprintOverlayHandle {
@@ -61,10 +60,7 @@ interface SettledFrame {
   readonly overlay: OverlayModel | null;
 }
 
-type PendingFrame = Omit<SettledFrame, 'target'> & {
-  readonly event: Extract<OverlayEvent, { kind: 'settled' }>;
-  readonly resultTarget: TeardownTarget | null;
-};
+type PendingFrame = Omit<SettledFrame, 'target'>;
 
 const ROOT_STYLE: CSSProperties = {
   position: 'absolute',
@@ -197,7 +193,6 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       selected,
       look,
       onTitleBlockShown,
-      onRepass,
     },
     ref,
   ) {
@@ -249,11 +244,6 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       pendingRef.current = null;
       setScroll(pending.offsetY);
       setMoving(false);
-      const target = targetRef.current;
-      const overlay =
-        pending.overlay !== null && pending.resultTarget !== target && onRepass !== undefined
-          ? onRepass(pending.event, target).overlay
-          : pending.overlay;
 
       setSettled({
         frame: pending.frame,
@@ -261,10 +251,10 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
         width: pending.width,
         height: pending.height,
         offsetY: pending.offsetY,
-        target,
-        overlay,
+        target: targetRef.current,
+        overlay: pending.overlay,
       });
-    }, [onRepass, setScroll]);
+    }, [setScroll]);
 
     const update = useCallback(
       (event: OverlayEvent, result?: LabelPassResult) => {
@@ -280,14 +270,12 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
         }
 
         pendingRef.current = {
-          event,
           frame: event.frame,
           layout: layoutRef.current,
           width: event.width,
           height: event.height,
           offsetY: event.offsetY,
           overlay: result?.overlay ?? null,
-          resultTarget: result?.target ?? null,
         };
         applyPending();
       },

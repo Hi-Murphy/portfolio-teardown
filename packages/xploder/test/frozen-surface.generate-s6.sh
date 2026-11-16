@@ -7,7 +7,7 @@ package_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_root=$(CDPATH= cd -- "$package_dir/../.." && pwd)
 paths_file="$script_dir/frozen-surface.s6.paths"
 manifest_file="$script_dir/frozen-surface.s6.manifest.json"
-base=4a05d60
+base=c8794b2
 package_prefix=packages/xploder/
 
 cd "$repo_root"
@@ -44,6 +44,14 @@ trap 'rm -f "$tmp_file"' EXIT
 
   printf '\n  }\n}\n'
 } > "$tmp_file"
+
+node - "$tmp_file" <<'NODE'
+const { readFileSync, writeFileSync } = require('node:fs');
+const file = process.argv[2];
+const manifest = JSON.parse(readFileSync(file, 'utf8'));
+manifest.note += ' Re-sealed in S16 at c8794b2: src/react/overlay/BlueprintOverlay.tsx — R3 re-pass removed (R14); see .specify/features/label-system/evidence/T010-log-green.txt.';
+writeFileSync(file, `${JSON.stringify(manifest, null, 2)}\n`);
+NODE
 
 if [[ ! -f "$manifest_file" ]] || ! cmp -s "$tmp_file" "$manifest_file"; then
   mv "$tmp_file" "$manifest_file"

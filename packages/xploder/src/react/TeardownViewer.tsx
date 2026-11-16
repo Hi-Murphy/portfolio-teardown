@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type FocusEvent as ReactFocusEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react';
@@ -20,7 +21,6 @@ import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
 import { labelPass } from '../labels/pass';
-import type { LabelPassInput, LabelPassResult } from '../labels/types';
 import { resolveViewerLayoutOptions } from '../look/product';
 import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
@@ -204,6 +204,7 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
+  const [focusedProxyId, setFocusedProxyId] = useState<string | null>(null);
   const eventHandlersRef = useRef<ViewerEventHandlers>({});
   const [events, setEvents] = useState<ViewerEvents | null>(null);
   const [, rerender] = useReducer((n: number) => n + 1, 0);
@@ -226,15 +227,6 @@ export function TeardownViewer({
   const targetRef = useRef(viewer.target);
   const zoomFactorRef = useRef(viewer.rig.zoomFactor);
   const labelPassCountRef = useRef(0);
-  const passMemoRef = useRef<{
-    readonly event: Extract<OverlayEvent, { kind: 'settled' }>;
-    readonly layout: typeof layout;
-    readonly project: typeof project;
-    readonly look: typeof look;
-    readonly target: 'imploded' | 'exploded';
-    readonly input: Omit<LabelPassInput, 'target'>;
-    readonly result: LabelPassResult;
-  } | null>(null);
   const readyRef = useRef(false);
   const warnedProjectRef = useRef(false);
   const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
@@ -303,47 +295,20 @@ export function TeardownViewer({
   const onOverlay = useCallback(
     (event: OverlayEvent) => {
       if (event.kind === 'settled') {
-        const memo = passMemoRef.current;
-        let result: LabelPassResult;
+        const result = labelPass({
+          frame: event.frame,
+          faces: snapshotFaces(pickBridgeRef.current, layout, event, labelVectorRef.current),
+          viewport: { width: event.width, height: event.height },
+          offsetY: event.offsetY,
+          extentPx: stageExtent(wrapperRef.current),
+          zoomFactor: zoomFactorRef.current,
+          target: targetRef.current,
+          layout,
+          project,
+          look,
+        });
 
-        if (
-          memo !== null &&
-          memo.event === event &&
-          memo.layout === layout &&
-          memo.project === project &&
-          memo.look === look &&
-          memo.target === targetRef.current
-        ) {
-          result = memo.result;
-        } else {
-          const faces = snapshotFaces(pickBridgeRef.current, layout, event, labelVectorRef.current);
-          const extentPx = stageExtent(wrapperRef.current);
-          const zoomFactor = zoomFactorRef.current;
-          const input = {
-            frame: event.frame,
-            faces,
-            viewport: { width: event.width, height: event.height },
-            offsetY: event.offsetY,
-            extentPx,
-            zoomFactor,
-            target: targetRef.current,
-            layout,
-            project,
-            look,
-          };
-
-          result = labelPass(input);
-          labelPassCountRef.current += 1;
-          passMemoRef.current = {
-            event,
-            layout,
-            project,
-            look,
-            target: targetRef.current,
-            input,
-            result,
-          };
-        }
+        labelPassCountRef.current += 1;
 
         if (wrapperRef.current !== null) {
           wrapperRef.current.dataset.xploderLabelPasses = String(labelPassCountRef.current);
@@ -363,24 +328,6 @@ export function TeardownViewer({
     },
     [events, layout, project],
   );
-
-  const repass = useCallback((event: OverlayEvent, target: 'imploded' | 'exploded') => {
-    const memo = passMemoRef.current;
-
-    if (memo === null || memo.event !== event) {
-      throw new Error('label re-pass without a stored pass');
-    }
-
-    const result = labelPass({ ...memo.input, target });
-
-    labelPassCountRef.current += 1;
-
-    if (wrapperRef.current !== null) {
-      wrapperRef.current.dataset.xploderLabelPasses = String(labelPassCountRef.current);
-    }
-
-    return result;
-  }, []);
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
     if (wrapperRef.current !== null) {
@@ -411,6 +358,7 @@ export function TeardownViewer({
     if (proxy === null) return false;
 
     proxy.focus({ preventScroll: true });
+    setFocusedProxyId(null);
     return true;
   }, []);
 
@@ -566,10 +514,11 @@ export function TeardownViewer({
   }, [project, viewerProject]);
 
   const detailOpenId = panelsHandle.state.kind === 'detail' ? panelsHandle.state.componentId : null;
+  const selected = detailOpenId ?? focusedProxyId;
   const emphasis = useMemo<EmphasisState>(
     () => ({
       highlight: viewer.highlight,
-      selected: detailOpenId,
+      selected,
       focusLayerId: viewer.focus.layerId,
       focusSuspended: viewer.tour.status !== 'idle',
       tourComponentId: position.componentId,
@@ -577,9 +526,9 @@ export function TeardownViewer({
       tourPlaying: viewer.tour.status === 'playing',
     }),
     [
-      detailOpenId,
       position.componentId,
       position.stepStartedAt,
+      selected,
       viewer.focus.layerId,
       viewer.highlight,
       viewer.tour.status,
@@ -591,6 +540,14 @@ export function TeardownViewer({
 
     setPhase(phase);
   }, []);
+
+  const onWrapperFocus = useCallback((event: ReactFocusEvent<HTMLDivElement>) => {
+    const target = event.target;
+
+    setFocusedProxyId(target instanceof HTMLElement ? (target.dataset.xploderProxy ?? null) : null);
+  }, []);
+
+  const onWrapperBlur = useCallback(() => setFocusedProxyId(null), []);
 
   const onEmphasisPhase = useCallback((phase: EmphasisPhase) => {
     if (wrapperRef.current === null) return;
@@ -772,12 +729,12 @@ export function TeardownViewer({
 
     if (element === null) return;
 
-    if (detailOpenId === null) {
+    if (selected === null) {
       delete element.dataset.xploderSelected;
     } else {
-      element.dataset.xploderSelected = detailOpenId;
+      element.dataset.xploderSelected = selected;
     }
-  }, [detailOpenId]);
+  }, [selected]);
 
   useLayoutEffect(() => {
     const element = wrapperRef.current;
@@ -948,6 +905,8 @@ export function TeardownViewer({
       aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown PageUp PageDown Home End + - 0"
       aria-describedby={keysHelpId}
       onKeyDown={onWrapperKeyDown}
+      onFocus={onWrapperFocus}
+      onBlur={onWrapperBlur}
       style={WRAPPER_STYLE}
       className={className}
       data-xploder-titleblock="hidden"
@@ -1019,10 +978,10 @@ export function TeardownViewer({
                   phase={phase}
                   tour={viewer.tour}
                   focus={viewer.focus}
-                  highlight={viewer.highlight ?? detailOpenId}
+                  highlight={viewer.highlight}
+                  selected={selected}
                   look={look}
                   onTitleBlockShown={onTitleBlockShown}
-                  onRepass={repass}
                 />
               </div>
               <PartLettering
@@ -1037,7 +996,7 @@ export function TeardownViewer({
                 phase={phase}
                 tourStatus={viewer.tour.status}
                 focus={viewer.focus}
-                highlight={viewer.highlight ?? detailOpenId}
+                emphasis={{ hover: viewer.highlight, selected }}
                 wrapperRef={wrapperRef}
                 zoomFactor={viewer.rig.zoomFactor}
               />

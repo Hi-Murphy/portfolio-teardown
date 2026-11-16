@@ -11,17 +11,10 @@ import { TeardownViewer, useTeardownViewer, type TeardownViewerHandle } from 'xp
 import { labelPass } from '../../../../packages/xploder/src/labels/pass';
 import type { LabelPassResult } from '../../../../packages/xploder/src/labels/types';
 import { resolveViewerLayoutOptions } from '../../../../packages/xploder/src/look/product';
-import { look } from '../../../../packages/xploder/src/look/tokens';
-import { resolveMotion } from '../../../../packages/xploder/src/motion';
 import { overlayBaseModel } from '../../../../packages/xploder/src/overlay/model';
 import { overlayFrame } from '../../../../packages/xploder/src/overlay/project';
-import {
-  BlueprintOverlay,
-  type BlueprintOverlayHandle,
-} from '../../../../packages/xploder/src/react/overlay/BlueprintOverlay';
 import type { OverlayEvent } from '../../../../packages/xploder/src/react/scene/OverlayProjector';
 import type { PickBridgeHandle } from '../../../../packages/xploder/src/react/scene/PickBridge';
-import { blueprint } from '../../../../packages/xploder/src/theme';
 
 vi.mock('../../../../packages/xploder/src/labels/pass', async (importOriginal) => {
   const actual =
@@ -287,89 +280,6 @@ test('the overlay renders the pass model after one base-model call', async () =>
   expect(rendered).toEqual(
     result().overlay.labels.map((label) => ({ key: label.key, text: label.text })),
   );
-});
-
-test('an apply-time target mismatch re-passes once and renders the returned overlay', async () => {
-  const tokens = resolveMotion(false);
-  const overlayHandle: { current: BlueprintOverlayHandle | null } = { current: null };
-  const input = {
-    frame,
-    faces: null,
-    viewport,
-    offsetY: 0,
-    extentPx: null,
-    zoomFactor: 1,
-    target: 'exploded' as const,
-    layout,
-    project,
-    look,
-  };
-  const initial = labelPass(input);
-  let repassedValue: LabelPassResult | null = null;
-  const onRepass = vi.fn((_event: OverlayEvent, target: 'imploded' | 'exploded') => {
-    const repassed = labelPass({ ...input, target });
-    const value: LabelPassResult = {
-      ...repassed,
-      overlay: {
-        ...repassed.overlay,
-        labels: [
-          ...repassed.overlay.labels,
-          {
-            key: 'repass:proof',
-            kind: 'layer',
-            layerIndex: 0,
-            x: 0,
-            y: 0,
-            w: 80,
-            h: 16,
-            text: 'REPASS PROOF',
-            opacity: 1,
-          },
-        ],
-      },
-    };
-
-    repassedValue = value;
-    return value;
-  });
-  const render = async (target: 'imploded' | 'exploded', phase: 'imploded' | 'exploded' | null) => {
-    await act(async () =>
-      root?.render(
-        <BlueprintOverlay
-          ref={overlayHandle}
-          project={project}
-          layout={layout}
-          palette={blueprint.light}
-          tokens={tokens}
-          target={target}
-          phase={phase}
-          tour={{ flowId: null, status: 'idle', step: -1 }}
-          focus={{ layerId: null, suspended: false }}
-          highlight={null}
-          look={look}
-          onRepass={onRepass}
-        />,
-      ),
-    );
-  };
-
-  await render('exploded', null);
-  const pendingEvent = settled();
-
-  await act(async () => overlayHandle.current?.update(pendingEvent, initial));
-  expect(onRepass).not.toHaveBeenCalled();
-
-  await render('imploded', 'imploded');
-
-  expect(onRepass).toHaveBeenCalledOnce();
-  expect(onRepass).toHaveBeenCalledWith(pendingEvent, 'imploded');
-  expect(repassedValue).not.toBeNull();
-  expect((repassedValue as LabelPassResult | null)?.pass).toBe(initial.pass + 1);
-  expect(
-    Array.from(container?.querySelectorAll('[data-xploder-label]') ?? []).map((element) =>
-      element.getAttribute('data-xploder-label'),
-    ),
-  ).toContain('repass:proof');
 });
 
 test('a re-render from emphasis and tour state does not run another pass', async () => {

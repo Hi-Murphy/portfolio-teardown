@@ -1,0 +1,77 @@
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t010/apps/web
+
+(node:81437) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81442) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81439) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81441) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81434) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81436) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81435) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:81438) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/a11y-navigator.dom.test.tsx > rovings through items, activates, bubbles other keys and rings only after focus 309ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a turn sends one moving to every overlay consumer before a frame 99ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a zoom sends one moving to every overlay consumer before a frame 18ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > an explode sends one moving to every overlay consumer before a frame 49ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > mount sends no moving 12ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a re-render without a target, turn, or zoom change sends no moving 6ms
+ ✓ test/xploder-dom/a11y-live-region.dom.test.tsx > keeps one live region mounted and announces tour steps on the same node 195ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > the Scene stub no longer receives onSettled from TeardownViewer 126ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > the first stats callback emits ready once and later stats callbacks do nothing 73ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > settled emits once per call with phase and at, while moving emits nothing 11ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 284ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 19ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > a settle before the first stats callback is delivered immediately after ready 31ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > a two-step tour emits tour-ended once when it reaches ended 68ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > pauseTour and stop are not tour ends 22ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > one settle runs one pass and the lettering renders that result 214ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both 207ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected 36ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 262ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 25ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > data-xploder-clock follows the viewer clock 55ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > the overlay renders the pass model after one base-model call 135ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a re-render from emphasis and tour state does not run another pass 22ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a moving event does not run a pass 20ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a second settled event object runs a second pass 19ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a missing camera still counts the pass but keeps the prior lettering state 14ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause stops every running animation and leaves finished animations alone 34ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the next frame catches an animation created after the pause 22ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > resume plays the held animations and cancels the queued sweep 12ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause and resume do not throw without getAnimations 44ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > closing A with the pointer elsewhere clears both 142ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle 34ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted 21ms
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 1: A open plus B hovered assigns selected and hover 396ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted 65ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > opening A while it is hovered keeps the highlight immediately 18ms
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 2: leaving B keeps A selected 139ms
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 3: closing A with the pointer elsewhere clears both slots 63ms
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 4: closing A while hovering it keeps the hover slot 79ms
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 5: keyboard focus on A without a panel fills both slots 104ms
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 6: keyboard focus on A plus B hover keeps focus as selected 79ms
+(node:81474) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock 95ms
+
+ Test Files  10 passed (10)
+      Tests  42 passed (42)
+   Start at  23:27:18
+   Duration  2.30s (environment 43%, tests 30%, import 16%, transform 11%)
