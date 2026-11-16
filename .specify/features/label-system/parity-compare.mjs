@@ -11,7 +11,7 @@ const { compareRgba, decodePng, diffRgbaMask, encodeGrayscalePng } = await impor
 
 function usage() {
   console.error(
-    'usage: node parity-compare.mjs <runA> <runB> [--base-sweep <sweep.json>]',
+    'usage: node parity-compare.mjs <runA> <runB> [--base-sweep <sweep.json>] [--stable <stable.json>]',
   );
   process.exit(2);
 }
@@ -19,10 +19,15 @@ function usage() {
 const argv = process.argv.slice(2);
 const positional = [];
 let baseSweepFile = null;
+let stableFile = null;
 for (let index = 0; index < argv.length; index += 1) {
   if (argv[index] === '--base-sweep') {
     baseSweepFile = argv[index + 1];
     if (baseSweepFile === undefined || baseSweepFile.startsWith('--')) usage();
+    index += 1;
+  } else if (argv[index] === '--stable') {
+    stableFile = argv[index + 1];
+    if (stableFile === undefined || stableFile.startsWith('--')) usage();
     index += 1;
   } else if (argv[index].startsWith('--')) {
     usage();
@@ -37,6 +42,10 @@ const runA = resolve(runAArg);
 const runB = resolve(runBArg);
 const baseSweep =
   baseSweepFile === null ? null : JSON.parse(readFileSync(resolve(baseSweepFile), 'utf8'));
+// RFC R11: with --stable, 0 px / DOM identity is required only where the base itself is stable
+// across its repeated runs; base-unstable cells are listed, never counted as PASS evidence.
+const stable =
+  stableFile === null ? null : JSON.parse(readFileSync(resolve(stableFile), 'utf8'));
 
 function readCells(directory) {
   const lines = readFileSync(join(directory, 'cells.jsonl'), 'utf8')
@@ -148,6 +157,7 @@ let pass = true;
 const rows = [];
 const clusterDetails = [];
 const sweepOnly = [];
+const unstable = [];
 
 mkdirSync(join(runB, 'diff'), { recursive: true });
 
@@ -190,11 +200,19 @@ for (const [cellId, cellA] of cellsA) {
   const normalisedDom =
     normaliseUseIds(cellA.dom ?? '') === normaliseUseIds(cellB.dom ?? '');
   const hits = Number(baseSweep?.cells?.[cellId]?.hits ?? 0);
+  const stableCell = stable === null ? { px: true, dom: true } : stable.cells?.[cellId];
+  if (stableCell === undefined) {
+    pass = false;
+    console.error(`# ${cellId}: missing from the stable set`);
+  }
+  const pxStable = stableCell?.px === true;
+  const domStable = stableCell?.dom === true;
+  if (!pxStable || !domStable) unstable.push({ cellId, px: differing, pxStable, domStable });
 
   if (baseSweep === null) {
-    if (differing !== 0 || !normalisedDom) pass = false;
+    if ((pxStable && differing !== 0) || (domStable && !normalisedDom)) pass = false;
   } else {
-    if (hits === 0 && differing !== 0) pass = false;
+    if (pxStable && hits === 0 && differing !== 0) pass = false;
     if (cellClusters.length > 0) {
       const changed = changedLabels(cellA, cellB);
       for (const cluster of cellClusters) {
@@ -209,7 +227,7 @@ for (const [cellId, cellA] of cellsA) {
           const newBox = label.newQuad === null ? null : bounds(label.newQuad);
           return overlapsBox(box, oldBox) || (newBox !== null && overlapsBox(box, newBox));
         });
-        if (candidates.length === 0) pass = false;
+        if (candidates.length === 0 && pxStable) pass = false;
         const pairs = (baseSweep?.cells?.[cellId]?.pairs ?? []).filter((pair) =>
           candidates.some((candidate) => JSON.stringify(pair).includes(String(candidate.key))),
         );
@@ -226,17 +244,27 @@ for (const [cellId, cellA] of cellsA) {
   }
 
   const pixelText = differing < 0 ? 'decode-error' : String(differing);
+  const stability = pxStable && domStable ? 'stable' : `base-unstable (${pxStable ? 'px ok' : 'px'}${domStable ? '' : ', dom'})`;
   rows.push(
-    `| \`${cellId}\` | ${pixelText} | ${rawDom ? 'PASS' : 'FAIL'} / ${normalisedDom ? 'PASS' : 'FAIL'} | ${cellClusters.length} |`,
+    `| \`${cellId}\` | ${pixelText} | ${rawDom ? 'PASS' : 'FAIL'} / ${normalisedDom ? 'PASS' : 'FAIL'} | ${cellClusters.length} | ${stability} |`,
   );
 }
 
-console.log('| cell | px | DOM raw / normalised | clusters |');
-console.log('|---|---:|---|---:|');
+console.log('| cell | px | DOM raw / normalised | clusters | base stability |');
+console.log('|---|---:|---|---:|---|');
 for (const row of rows) console.log(row);
 
 if (sweepOnly.length > 0) {
   console.log(`\nSweep-only cells (${sweepOnly.length}): ${sweepOnly.map((id) => `\`${id}\``).join(', ')}`);
+}
+
+if (stable !== null) {
+  const pxUnstable = unstable.filter((cell) => !cell.pxStable);
+  const domOnly = unstable.filter((cell) => cell.pxStable && !cell.domStable);
+  console.log(
+    `\nBase-unstable cells (RFC R11): ${pxUnstable.length} pixel-unstable (not decidable by pixels; covered by the T002 oracle), ${domOnly.length} DOM-number-unstable only (pixels still required 0 px).`,
+  );
+  for (const cell of pxUnstable) console.log(`- \`${cell.cellId}\`: ${cell.px} px vs base`);
 }
 
 if (baseSweep !== null && clusterDetails.length > 0) {

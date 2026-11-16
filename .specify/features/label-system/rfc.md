@@ -435,3 +435,12 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
   - Pixel parity and DOM identity (AC2) therefore run on the kickoff's parity matrix: both projects plus fixtures A/B/C.
   - The hero's settled states (explode hold, zoom hold) stay in the AC1 sweep as extra cells.
   - `parity-compare.mjs` marks them `sweep-only`.
+- **R11 — AC2 on a base that is not frame-stable (Murphy, 2026-11-16: "go A").**
+  - T001 found that the S15 base does not reproduce itself in every cell (`evidence/T001-log-noise-diagnosis.md`). After a turn or zoom while the viewer is zoomed, the S4/S5 scroll-extent feedback ends on a timing-dependent scroll offset and extent. Parallel browser pages add load noise on top.
+  - **The matrix runs serially** (`--workers 1`). The base is captured **three times** (`sbase1..3`).
+  - `stable-cells.mjs` marks a cell:
+    - **pixel-stable** if all three base runs are pixel-identical;
+    - **DOM-stable** if their label DOM strings are identical.
+  - `parity-compare.mjs --stable` then requires **0 px on every pixel-stable cell** (Stage A, and Stage B for every cell whose base sweep has 0 hits), and DOM identity on every DOM-stable cell.
+  - **Pixel-unstable cells** cannot be decided by pixels for any build, including S15 against itself. They are listed with their diff masks as "base-unstable", never as a PASS. They are covered by the T002 exact-input oracle (the pass equals the S15 composition on every input, including those states).
+  - AC2's text is unchanged. The DOM-identity check of §4.2 b (an RFC addition, not an AC) applies to DOM-stable cells only.

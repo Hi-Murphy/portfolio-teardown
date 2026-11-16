@@ -14,8 +14,7 @@
 - A failing `RESEAL-LIST-OK`, `ALLOWED-PATHS-OK`, `SURFACES-S2S4S5-OK` or `NO-TYPO-OK` guard is never "fixed" by widening the guard. It is a STOP and an escalation with evidence.
 
 **Hard STOPs inside tasks (no workaround):**
-- the noise floor (base vs base) is not 0 px in every cell;
-- Stage A shows any non-zero pixel or DOM diff, or any oracle mismatch;
+- Stage A shows a non-zero pixel diff on a pixel-stable cell, a DOM diff on a DOM-stable cell, or any oracle mismatch (RFC R11);
 - `guarded > 0` in a sweep;
 - a Stage B cluster has no attributed reason;
 - the gzip Δ exceeds 2,048 bytes;
@@ -217,16 +216,16 @@
   pnpm build:fixtures && rm -rf /tmp/s16-checks/a-out-fixtures && cp -R apps/web/out-fixtures /tmp/s16-checks/a-out-fixtures
   pnpm serve:out --dir /tmp/s16-checks/a-out --port 4618 & S1=$!
   pnpm serve:out --dir /tmp/s16-checks/a-out-fixtures --port 4619 & S2=$!; sleep 3
-  node $F/label-matrix.mjs $PWD http://127.0.0.1:4618 --out /tmp/s16-checks/stageA --routes projects,home
-  node $F/label-matrix.mjs $PWD http://127.0.0.1:4619 --out /tmp/s16-checks/stageA --routes fixtures
-  node $F/parity-compare.mjs /tmp/s16-checks/base1 /tmp/s16-checks/stageA > $E/T005-log-parity-stageA.md   # every cell: 0 px, DOM equal
+  node $F/label-matrix.mjs $PWD http://127.0.0.1:4618 --out /tmp/s16-checks/stageA --routes projects,home --workers 1
+  node $F/label-matrix.mjs $PWD http://127.0.0.1:4619 --out /tmp/s16-checks/stageA --routes fixtures --workers 1
+  node $F/parity-compare.mjs /tmp/s16-checks/sbase1 /tmp/s16-checks/stageA --stable $E/T001-log-stable-cells.json > $E/T005-log-parity-stageA.md   # R11: 0 px on every pixel-stable cell, DOM equal on every DOM-stable cell
   grep -q '^parity: PASS' $E/T005-log-parity-stageA.md
   node $F/label-passes.mjs $PWD http://127.0.0.1:4618 > $E/T005-log-passes-smoke.md                      # +1 per settle, 0 otherwise, 0 re-passes
   kill $S1 $S2
   node $F/bundle-gzip.mjs --diff /tmp/s16-checks/base-gzip.json /tmp/s16-checks/a-out | tee $E/T005-log-gzip.txt
   bash $F/guards.sh | tee $E/T005-log-guards.txt && pnpm typecheck && pnpm lint && pnpm test && echo T005-OK
   ```
-- **Evidence:** `T005-log-parity-stageA.md` (per-cell table: px, DOM, cell id) · `T005-log-passes-smoke.md` · `T005-log-gzip.txt` · `T005-log-guards.txt` · two sample screenshot pairs per route (`T005-screenshot-<route>-<cell>-{base,head}.png`).
+- **Evidence:** `T005-log-parity-stageA.md` (per-cell table: px, DOM, base stability; the base-unstable list, R11) · `T005-log-passes-smoke.md` · `T005-log-gzip.txt` · `T005-log-guards.txt` · two sample screenshot pairs per route (`T005-screenshot-<route>-<cell>-{base,head}.png`).
 - **Then:** stage-boundary commit `S16/stage-3A: model merge at 0 px`, and **STOP**. Report the parity table summary, pass counts, gzip Δ so far and tags pushed.
 - **WHAT MURPHY SHOULD TEST/VALIDATE:**
   1. Read `T005-log-parity-stageA.md`: every cell should read `0 px · DOM equal`.
@@ -253,7 +252,7 @@
   ```sh
   set -euo pipefail; mkdir -p /tmp/s16-checks .specify/features/label-system/evidence; E=.specify/features/label-system/evidence; F=.specify/features/label-system
   pnpm --filter xploder exec vitest run test/label-sweep.test.ts --reporter verbose 2>&1 | tee $E/T006-log-sweep-unit.txt   # seed detected; model census printed
-  node $F/label-sweep.mjs /tmp/s16-checks/base1 --json $E/T006-log-census-s15.json > $E/T006-log-census-s15.md
+  node $F/label-sweep.mjs /tmp/s16-checks/sbase1 --json $E/T006-log-census-s15.json > $E/T006-log-census-s15.md
   node $F/label-sweep.mjs /tmp/s16-checks/stageA --json $E/T006-log-census-stageA.json > $E/T006-log-census-stageA.md
   cmp <(jq -S .cells $E/T006-log-census-s15.json) <(jq -S .cells $E/T006-log-census-stageA.json) && echo CENSUS-IDENTICAL
   pnpm serve:out --dir /tmp/s16-checks/a-out --port 4618 & S1=$!; sleep 3
@@ -316,13 +315,13 @@
   pnpm build:fixtures && rm -rf /tmp/s16-checks/b-out-fixtures && cp -R apps/web/out-fixtures /tmp/s16-checks/b-out-fixtures
   pnpm serve:out --dir /tmp/s16-checks/b-out --port 4620 & S1=$!
   pnpm serve:out --dir /tmp/s16-checks/b-out-fixtures --port 4621 & S2=$!; sleep 3
-  node $F/label-matrix.mjs $PWD http://127.0.0.1:4620 --out /tmp/s16-checks/stageB --routes projects,home
-  node $F/label-matrix.mjs $PWD http://127.0.0.1:4621 --out /tmp/s16-checks/stageB --routes fixtures
+  node $F/label-matrix.mjs $PWD http://127.0.0.1:4620 --out /tmp/s16-checks/stageB --routes projects,home --workers 1
+  node $F/label-matrix.mjs $PWD http://127.0.0.1:4621 --out /tmp/s16-checks/stageB --routes fixtures --workers 1
   node $F/label-matrix.mjs $PWD http://127.0.0.1:4620 --control --out /tmp/s16-checks/controlB | tee $E/T008-log-sweep-control.txt
   kill $S1 $S2
   node $F/label-sweep.mjs /tmp/s16-checks/stageB --json $E/T008-log-sweep-matrix.json > $E/T008-log-sweep-matrix.md
   grep -q '^sweep: PASS (0 intersections' $E/T008-log-sweep-matrix.md
-  node $F/parity-compare.mjs /tmp/s16-checks/base1 /tmp/s16-checks/stageB --base-sweep $E/T006-log-census-s15.json > $E/T008-log-parity-stageB.md
+  node $F/parity-compare.mjs /tmp/s16-checks/sbase1 /tmp/s16-checks/stageB --base-sweep $E/T006-log-census-s15.json --stable $E/T001-log-stable-cells.json > $E/T008-log-parity-stageB.md
   grep -q '^parity: PASS' $E/T008-log-parity-stageB.md   # 0 px in every 0-hit cell; every cluster attributed
   node $F/bundle-gzip.mjs --diff /tmp/s16-checks/base-gzip.json /tmp/s16-checks/b-out | tee $E/T008-log-gzip.txt
   bash packages/xploder/test/frozen-surface.generate-s6.sh | tee $E/T008-log-reseal.txt
