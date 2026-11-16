@@ -43,7 +43,7 @@
 | Task | Status | Tier | Evidence | Merge SHA | Seal tag |
 |---|---|---|---|---|---|
 | T001 | ☑ after R11 (guards 9/9 OK + 4 negative controls bite; gzip base 472,002 B; timing base 12 cells 10/10; first 4-worker noise floor FAIL → diagnosed (S4/S5 scroll-extent feedback + load), Murphy chose option A; 3 serial base runs × 2,052 cells, 0 settle timeouts, 54 min each; pixel-stable 1,734 / 2,040, DOM-stable 242, pixel-unstable 306 (257 of them `middle`)) | 1 (Flash, sandbox off, 1 dispatch); orchestrator diagnosis, R11 tooling, serial base runs | evidence/T001-* | 3bc97b6 + 9f5da5b | — |
-| T002 | ☐ | | | | `seal/s6-…` |
+| T002 | ☑ (red: module missing; green: 2,272 cases, 0 differing values (`Object.is` walker); placers unchanged; S6 frozen 6/6; xploder 706, web 298 + 6 skipped, perf 309) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T002-log-{red,green,reseal}.txt | 9dd6d9a (fix 76ca441) | `seal/s6-76ca441` (pushed) |
 | T003 | ☐ | | | | `seal/s8-…` |
 | T004 | ☐ | | | | `seal/s6-…` |
 | T005 | ☐ (→ STOP 1) | | | | — |
