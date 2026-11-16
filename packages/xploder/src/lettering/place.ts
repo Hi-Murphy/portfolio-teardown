@@ -275,7 +275,8 @@ function markLettering(
   number: string,
   occluders: readonly (readonly Vec2[])[],
   look: LetteringLook,
-): MarkLettering {
+  strict = false,
+): MarkLettering | null {
   const basis = faceBasis(quad, look.baseline);
   const anchor = quad.reduce((front, corner) => (corner[1] > front[1] ? corner : front));
   const numberPx = look.numberMinPx;
@@ -298,6 +299,7 @@ function markLettering(
 
     return !collides(screen, occluders);
   });
+  if (strict && selected === undefined) return null;
   const [x, y] = selected ?? fallback;
 
   return {
@@ -315,5 +317,15 @@ export function letterPart(input: LetterPartInput): Lettering {
   const look = input.look ?? LETTERING_LOOK;
   const placed = faceLettering(input.quad, input.number, input.name, input.occluders, look);
 
-  return placed ?? markLettering(input.quad, input.number, input.occluders, look);
+  return placed ?? markLettering(input.quad, input.number, input.occluders, look, false)!;
+}
+
+export function letterPartAvoiding(
+  input: LetterPartInput & { readonly obstacles: readonly (readonly Vec2[])[] },
+): Lettering | null {
+  const look = input.look ?? LETTERING_LOOK;
+  const occluders = [...input.occluders, ...input.obstacles];
+  const placed = faceLettering(input.quad, input.number, input.name, occluders, look);
+
+  return placed ?? markLettering(input.quad, input.number, occluders, look, true);
 }
