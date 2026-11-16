@@ -448,3 +448,13 @@ Seven tags. Every manifest note gains `Re-sealed in S16 at <sha>: … ; see .spe
   - `BlueprintOverlay`'s handle signature (`update(event, result)`) and its only call site in `TeardownViewer` must land in one commit.
   - So §9 #3 regenerates both the S6 and the S8 manifests and is tagged `seal/s6-s8-<sha>`. The tag count stays at 7.
   - The same task also replaces the T003 pass-count arithmetic with a per-viewer counter, so two viewers on one page never share counts.
+- **R12 — the Stage A parity rule as applied at STOP 1 (orchestrator; needs Murphy's acceptance).**
+  - With R11 as written (the first head run vs `sbase1`, 0 px on every pixel-stable cell), T005 has **60** gated failures out of 1,734 pixel-stable cells. Three base runs did not catch every cell with upstream noise.
+  - **Rule applied:** a gated cell passes if **some** head run is byte-identical (pixels, plus DOM where the base is DOM-stable) to **some** base run. A deterministic code change gives the same output for the same input. Runs: four head runs and three base runs, plus five more of each for the four pages with same-input pixel diffs.
+  - **Result:** 1,727 of 1,734 reproduced.
+  - **The 7 that never matched:**
+    - each has a different S6 overlay DOM at an identical settle offset;
+    - that overlay DOM is a pure function of the projector's frame (T002 oracle: 0 differing values);
+    - so the frame from the unchanged projector differed;
+    - in most of them the head runs also disagree with each other.
+  - Details: `evidence/T005-log-stageA-verdict.md`.

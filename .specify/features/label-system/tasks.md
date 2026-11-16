@@ -46,7 +46,7 @@
 | T002 | ☑ (red: module missing; green: 2,272 cases, 0 differing values (`Object.is` walker); placers unchanged; S6 frozen 6/6; xploder 706, web 298 + 6 skipped, perf 309) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T002-log-{red,green,reseal}.txt | 9dd6d9a (fix 76ca441) | `seal/s6-76ca441` (pushed) |
 | T003 | ☑ (red 5/5 fail; green xploder-dom 35/35, xploder 706, web 307 + 2 skipped, perf 309; RENDER-UNTOUCHED; gzip +893 B cumulative; review: per-viewer counter → T004) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T003-log-{red,green,gzip,reseal}.txt | merge on slice branch (fix 8e6f2eb) | `seal/s8-8e6f2eb` (pushed) |
 | T004 | ☑ (red 2/7 fail: two base-model calls, no re-pass; green xploder-dom 37/37, blueprint-scene 8/8, overlay suites 144/144, xploder 706, web 309 + 2 skipped, perf 309; RENDER-UNTOUCHED; per-viewer counter (T003 review); gzip +1,045 B cumulative (+152 B)) | 1 (Flash, sandbox off, 1 dispatch) | evidence/T004-log-{red,green,gzip,reseal}.txt | merge on slice branch (fix 5d62338) | `seal/s6-s8-5d62338` (pushed; R10) |
-| T005 | ☐ (→ STOP 1) | | | | — |
+| T005 | ☑ → STOP 1 (R11 gate first run: 1,674 / 1,734 identical, 60 gated failures; 50 with a different upstream input; R12 reproduce rule over 4 head / 8 base runs: 1,727 / 1,734 reproduced, 7 with a differing projector frame (overlay DOM differs at an identical offset); 306 base-unstable listed; passes PASS, R3 = 0, churn 60/60 everywhere; gzip +1,045 B) | 1 (Flash, sandbox off, 1 dispatch) + orchestrator (reruns, reproduce-check, input analysis, passes-script resize fix) | evidence/T005-* | merge on slice branch | — |
 | T006 | ☐ | | | | — |
 | T007 | ☐ | | | | `seal/s7-…` |
 | T008 | ☐ | | | | `seal/s6-…` |
