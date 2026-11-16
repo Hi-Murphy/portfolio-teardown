@@ -1,0 +1,30 @@
+# command: pnpm --filter xploder exec vitest run test/label-pass-parity.test.ts --reporter verbose | commit: 03dc082 | exit: 1
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t002/packages/xploder
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/label-pass-parity.test.ts [ test/label-pass-parity.test.ts ]
+Error: Cannot find module '../src/labels/pass' imported from /private/tmp/s16-wt/t002/packages/xploder/test/label-pass-parity.test.ts
+ ❯ test/label-pass-parity.test.ts:10:1
+      8| import { look } from '../src/look/tokens';
+      9| import { overlayFrame, projectPoint, type OverlayFrame, type Vec2 } fr…
+     10| import { labelPass } from '../src/labels/pass';
+       | ^
+     11| import type { LabelPassInput } from '../src/labels/types';
+     12| import { projectAJson, projectBJson, projectCJson, techRegistryJson } …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_MODULE_NOT_FOUND' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  11:52:31
+   Duration  141ms (worker 96%, environment 4%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s16-wt/t002/packages/xploder
