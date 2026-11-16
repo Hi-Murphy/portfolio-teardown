@@ -10,9 +10,11 @@ import {
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 
+import { sweepEntries } from './label-sweep.mjs';
+
 function usage() {
   console.error(
-    'usage: node label-matrix.mjs <repo> <baseUrl> --out <dir> [--routes projects,fixtures,home] [--workers 4] [--only <cellIdPrefix>]',
+    'usage: node label-matrix.mjs <repo> <baseUrl> --out <dir> [--routes projects,fixtures,home] [--workers 4] [--only <cellIdPrefix>] [--control]',
   );
   process.exit(2);
 }
@@ -26,6 +28,7 @@ const numberList = (value) =>
 const argv = process.argv.slice(2);
 const positional = [];
 const options = {};
+const flagOptions = new Set(['control']);
 for (let index = 0; index < argv.length; index += 1) {
   const argument = argv[index];
   if (!argument.startsWith('--')) {
@@ -33,6 +36,10 @@ for (let index = 0; index < argv.length; index += 1) {
     continue;
   }
   const name = argument.slice(2);
+  if (flagOptions.has(name)) {
+    options[name] = true;
+    continue;
+  }
   const value = argv[index + 1];
   if (value === undefined || value.startsWith('--')) usage();
   options[name] = value;
@@ -48,6 +55,7 @@ const out = resolve(options.out);
 const routes = numberList(options.routes ?? 'projects,fixtures,home');
 const workers = Number(options.workers ?? 4);
 const only = options.only;
+const control = options.control === true;
 if (!Number.isSafeInteger(workers) || workers < 1) usage();
 for (const route of routes) {
   if (!['projects', 'fixtures', 'home'].includes(route)) usage();
@@ -113,6 +121,44 @@ const selectedTasks = tasks.filter((task) => {
   return pagePrefix.startsWith(only) || only.startsWith(pagePrefix);
 });
 if (selectedTasks.length === 0) usage();
+
+const controlTasks = [];
+if (control && routes.includes('projects')) {
+  controlTasks.push(
+    tasks.find(
+      (task) =>
+        task.kind === 'project' &&
+        task.routeSlug === projectRoutes[0] &&
+        task.width === 1440 &&
+        task.height === 900 &&
+        task.scheme === 'light',
+    ),
+  );
+}
+if (control && routes.includes('fixtures')) {
+  controlTasks.push(
+    tasks.find(
+      (task) =>
+        task.kind === 'fixture' &&
+        task.routeSlug === 'fixture-a' &&
+        task.width === 390 &&
+        task.height === 844 &&
+        task.scheme === 'dark',
+    ),
+  );
+}
+if (control && routes.includes('home')) {
+  controlTasks.push(
+    tasks.find(
+      (task) =>
+        task.kind === 'home' &&
+        task.width === 1440 &&
+        task.height === 900 &&
+        task.scheme === 'light',
+    ),
+  );
+}
+if (controlTasks.some((task) => task === undefined)) usage();
 
 const geometry = () => {
   const wrapper = document.querySelector('[data-xploder-lettering-on]');
@@ -571,6 +617,247 @@ async function runHomePage(page, task, appendLine, seen) {
     );
   }
   return summaries;
+}
+
+const controlPairJson = (pair) => ({
+  a: { marker: pair.a.marker, key: pair.a.key, quad: pair.a.quad },
+  b: { marker: pair.b.marker, key: pair.b.key, quad: pair.b.quad },
+  depth: pair.depth,
+});
+
+function controlPairs(entries) {
+  return sweepEntries(entries).pairs.map(controlPairJson);
+}
+
+function controlPairKey(pair) {
+  return [pair.a, pair.b]
+    .map((entry) => `${entry.marker}:${entry.key}:${JSON.stringify(entry.quad)}`)
+    .sort()
+    .join('|');
+}
+
+function includesSeed(pair) {
+  return pair.a.key?.startsWith('seed:') === true || pair.b.key?.startsWith('seed:') === true;
+}
+
+async function addSeedClone(page) {
+  return await page.evaluate(() => {
+    const wrapper = document.querySelector('[data-xploder-lettering-on]');
+    if (wrapper === null) throw new Error('viewer wrapper missing');
+
+    const effectiveOpacity = (element) => {
+      let opacity = 1;
+      for (let current = element; current !== null; current = current.parentElement) {
+        const style = getComputedStyle(current);
+        if (style.visibility === 'hidden' || style.display === 'none') return 0;
+        opacity *= Number(style.opacity === '' ? 1 : style.opacity);
+      }
+      return opacity;
+    };
+    const painted = (element) =>
+      effectiveOpacity(element) > 0 && element.getClientRects().length > 0;
+    const candidates = [
+      ...wrapper.querySelectorAll('[data-xploder-label], [data-xploder-lettering]'),
+    ];
+    const source = candidates.find(painted);
+    if (source === undefined || source.parentElement === null) {
+      throw new Error(
+        `no painted label or lettering element to seed (candidates=${candidates.length}, lettering=${wrapper.getAttribute('data-xploder-lettering')})`,
+      );
+    }
+
+    const sourceKey =
+      source.getAttribute('data-xploder-label') ??
+      source.getAttribute('data-xploder-lettering') ??
+      'label';
+    const clone = source.cloneNode(true);
+    if (!(clone instanceof HTMLElement)) throw new Error('seeded clone is not an element');
+    clone.removeAttribute('id');
+    clone.removeAttribute('data-xploder-lettering');
+    clone.removeAttribute('data-xploder-lettering-kind');
+    clone.setAttribute('data-xploder-label', `seed:${sourceKey}`);
+    clone.setAttribute('data-xploder-seed-control', 'true');
+
+    const transform = clone.style.transform || getComputedStyle(source).transform;
+    clone.style.transform =
+      transform === 'none' ? 'translate(1px, 1px)' : `translate(1px, 1px) ${transform}`;
+    source.parentElement.append(clone);
+    clone.getBoundingClientRect();
+    return clone.getAttribute('data-xploder-label');
+  });
+}
+
+async function removeSeedClone(page) {
+  await page.evaluate(() => {
+    document.querySelector('[data-xploder-seed-control="true"]')?.remove();
+  });
+}
+
+async function prepareControlCell(page, task) {
+  if (task.kind === 'home') {
+    await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
+    await page.locator('[data-xploder-ready="true"]').first().waitFor({ state: 'attached' });
+    await page.evaluate(() => document.fonts?.ready);
+    await page.locator('[data-hero-phase="explode"]').waitFor({ timeout: 60_000 });
+    const before = await settleCount(page);
+    const timedOut = await waitForSettled(page, before);
+    await waitForAnimations(page);
+    await page.getByRole('button', { name: /pause/i }).click();
+    await page.waitForTimeout(2500);
+    await page.evaluate(
+      () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))),
+    );
+    await page.waitForFunction(
+      () => document.querySelector('[data-xploder-lettering-on]')?.dataset.xploderLettering === 'shown',
+      null,
+      { timeout: 8000 },
+    );
+    await waitForAnimations(page);
+    const measured = await page.evaluate(geometry);
+    return {
+      details: {
+        state: 'hero-explode',
+        zoomIndex: 0,
+        zoom: measured.zoom,
+        scroll: 'n/a',
+        turn: 0,
+      },
+      timeout: timedOut,
+    };
+  }
+
+  await openViewer(page, task);
+  const controlName = task.kind === 'project' ? 'data-site-control' : 'data-engine-control';
+  const toggle = `[${controlName}="toggle"]`;
+  const zoomIn = `[${controlName}="zoom-in"]`;
+  let timedOut = await ensureState(page, 'exploded', toggle);
+  const zoomIndex = task.kind === 'project' ? 3 : 0;
+
+  for (let index = 0; index < zoomIndex; index += 1) {
+    timedOut ||= await clickAndSettle(page, zoomIn);
+  }
+  const beforeScroll = await page.evaluate(geometry);
+  const scroll = beforeScroll.extent <= 0 ? 'n/a' : 'top';
+  await applyScrollPosition(
+    page,
+    task,
+    scroll === 'n/a' ? { scroll, top: null } : { scroll, top: 0 },
+  );
+  const measured = await page.evaluate(geometry);
+  return {
+    details: {
+      state: 'exploded',
+      zoomIndex,
+      zoom: ZOOMS[zoomIndex],
+      scroll,
+      turn: 0,
+    },
+    timeout: timedOut,
+  };
+}
+
+async function runControlMode() {
+  mkdirSync(out, { recursive: true });
+  const controlPath = resolve(out, 'control.jsonl');
+  const records = new Map();
+  try {
+    for (const line of readFileSync(controlPath, 'utf8').split('\n').filter(Boolean)) {
+      const record = JSON.parse(line);
+      records.set(record.cellId, line);
+    }
+  } catch {
+    // The first control invocation has no previous records.
+  }
+
+  const browser = await chromium.launch();
+  let failures = 0;
+  console.log(
+    `# command: node label-matrix.mjs <repo> <baseUrl> --control --routes ${routes.join(',')} --out <dir> | base: ${baseUrl} | chromium: ${browser.version()} | commit: ${commit}`,
+  );
+
+  try {
+    for (const task of controlTasks) {
+      if (task === undefined) throw new Error('missing control task');
+      const context = await browser.newContext({
+        viewport: { width: task.width, height: task.height },
+        isMobile: task.mobile,
+        hasTouch: task.mobile,
+        deviceScaleFactor: 1,
+        colorScheme: task.scheme,
+        reducedMotion: 'no-preference',
+      });
+      await context.addInitScript(() => {
+        window.__xploderSettleCount = 0;
+        document.addEventListener(
+          'xploder:settled',
+          () => {
+            window.__xploderSettleCount += 1;
+          },
+          true,
+        );
+      });
+      const page = await context.newPage();
+
+      try {
+        const prepared = await prepareControlCell(page, task);
+        const id = cellId(task, prepared.details);
+        const before = await page.evaluate(geometry);
+        const beforePairs = controlPairs(before.quads);
+        const seed = await addSeedClone(page);
+        let detected = false;
+        let seededPairs = [];
+        let cleanedPairs = [];
+
+        try {
+          const seeded = await page.evaluate(geometry);
+          seededPairs = controlPairs(seeded.quads);
+          detected = seededPairs.some(includesSeed);
+        } finally {
+          await removeSeedClone(page);
+          const cleaned = await page.evaluate(geometry);
+          cleanedPairs = controlPairs(cleaned.quads);
+        }
+
+        const samePairs =
+          cleanedPairs.map(controlPairKey).sort().join('\n') ===
+          beforePairs.map(controlPairKey).sort().join('\n');
+        const record = {
+          cellId: id,
+          seed,
+          hits: seededPairs.length,
+          withoutSeedHits: beforePairs.length,
+          afterRemovalHits: cleanedPairs.length,
+          pairs: seededPairs,
+        };
+        records.set(id, JSON.stringify(record));
+
+        if (detected) {
+          console.log(`control ${id}: seed detected (${seededPairs.length} pairs incl. seed)`);
+        } else {
+          failures += 1;
+          console.log(`control ${id}: SEED NOT DETECTED`);
+        }
+        if (!samePairs || cleanedPairs.length !== beforePairs.length) {
+          failures += 1;
+          console.log(
+            `control ${id}: SEED CLEANUP FAILED (${beforePairs.length} before, ${cleanedPairs.length} after)`,
+          );
+        }
+      } finally {
+        await context.close();
+      }
+    }
+  } finally {
+    await browser.close();
+    writeFileSync(controlPath, `${[...records.values()].join('\n')}\n`);
+  }
+
+  if (failures > 0) process.exitCode = 1;
+}
+
+if (control) {
+  await runControlMode();
+  process.exit(process.exitCode ?? 0);
 }
 
 mkdirSync(out, { recursive: true });
