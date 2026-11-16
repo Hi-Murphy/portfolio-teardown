@@ -212,9 +212,9 @@ describe('frozen S7 surface', () => {
     const manifest = manifestS7Json as FrozenSurfaceManifest;
     const entries = Object.entries(manifest.files);
 
-    expect(manifest.base).toBe('5b22987');
+    expect(manifest.base).toBe('cc663f7');
     expect(manifest.note).toBe(
-      'S07 seal, Tier A (S08 RFC D1). Tier B files are edited for a11y only and guarded by the presentation snapshot. A later slice that changes a listed file regenerates this manifest in the same diff and states why.',
+      'S07 seal, Tier A (S08 RFC D1). Tier B files are edited for a11y only and guarded by the presentation snapshot. A later slice that changes a listed file regenerates this manifest in the same diff and states why. Re-sealed in S16 at cc663f7: src/lettering/place.ts + src/lettering/layers.ts — opt-in obstacles for the unified label pass (letterPartAvoiding; layerLetteringModel obstacles); output-identical without them (E3) + test/lettering-obstacles.test.ts; see .specify/features/label-system/evidence/T007-log-green.txt.',
     );
     expect(entries.length).toBeGreaterThanOrEqual(20);
 
