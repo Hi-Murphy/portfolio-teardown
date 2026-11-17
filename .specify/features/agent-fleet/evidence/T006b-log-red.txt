@@ -1,57 +1,75 @@
 
  RUN  v5.0.5 <worktree>/apps/web
 
- ❯ test/project-outline-focus.test.tsx (3 tests | 2 failed) 9ms
-   ❯ project outline focusability (3)
-     × omits the tabindex when the outline is not focusable 4ms
-     × uses a non-focusable outline as the canvas fallback 1ms
+ ❯ test/project-outline-focus.test.tsx (5 tests | 4 failed) 13ms
+   ❯ project outline focusability (5)
+     × drops the Tab stop for an outline inside a canvas 6ms
+     × keeps the Tab stop for an outline outside a canvas 1ms
+     × does nothing for a missing node 1ms
+     × uses the context-aware outline in the canvas fallback 0ms
 
-⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
 
- FAIL  test/project-outline-focus.test.tsx > project outline focusability > omits the tabindex when the outline is not focusable
-AssertionError: expected '<section data-site-outline="" tabinde…' not to contain 'tabindex'
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > drops the Tab stop for an outline inside a canvas
+TypeError: dropTabStopInsideCanvas is not a function
+ ❯ test/project-outline-focus.test.tsx:32:5
+     30|     expect(section).not.toBeNull();
+     31|
+     32|     dropTabStopInsideCanvas(section);
+       |     ^
+     33|
+     34|     expect(section?.tabIndex).toBe(-1);
 
-Expected: "tabindex"
-Received: "<section data-site-outline="" tabindex="0" class="flex flex-col gap-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
 
- ❯ test/project-outline-focus.test.tsx:27:40
-     25|
-     26|     expect(outlineSection(markup)).not.toHaveProperty('tabindex');
-     27|     expect(outlineSection(markup)).not.toContain('tabindex');
-       |                                        ^
-     28|   });
-     29|
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > keeps the Tab stop for an outline outside a canvas
+TypeError: dropTabStopInsideCanvas is not a function
+ ❯ test/project-outline-focus.test.tsx:42:5
+     40|     expect(section).not.toBeNull();
+     41|
+     42|     dropTabStopInsideCanvas(section);
+       |     ^
+     43|
+     44|     expect(section?.tabIndex).toBe(0);
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
 
- FAIL  test/project-outline-focus.test.tsx > project outline focusability > uses a non-focusable outline as the canvas fallback
-AssertionError: expected '\n            project={project}\n    …' to contain 'focusable={false}'
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > does nothing for a missing node
+AssertionError: expected [Function] to not throw an error but 'TypeError: (0 , __vite_ssr_import_3__…' was thrown
 
-- Expected
-+ Received
+- Expected:
+undefined
 
-- focusable={false}
-+
-+             project={project}
-+             message="WebGL is unavailable for this teardown."
-+             className="h-full overflow-y-auto p-4 sm:p-6"
-+           /
++ Received:
+"TypeError: (0 , __vite_ssr_import_3__.dropTabStopInsideCanvas) is not a function"
 
- ❯ test/project-outline-focus.test.tsx:38:27
-     36|
-     37|     expect(fallback).not.toBeNull();
-     38|     expect(fallback?.[1]).toContain('focusable={false}');
-       |                           ^
-     39|   });
-     40| });
+ ❯ test/project-outline-focus.test.tsx:48:53
+     46|
+     47|   test('does nothing for a missing node', () => {
+     48|     expect(() => dropTabStopInsideCanvas(null)).not.toThrow();
+       |                                                     ^
+     49|   });
+     50|
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > uses the context-aware outline in the canvas fallback
+TypeError: The URL must be of scheme file
+ ❯ test/project-outline-focus.test.tsx:52:20
+     50|
+     51|   test('uses the context-aware outline in the canvas fallback', () => {
+     52|     const source = readFileSync(
+       |                    ^
+     53|       new URL('../components/workbench/workbench-client.tsx', import.m…
+     54|       'utf8',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
 
 
  Test Files  1 failed (1)
-      Tests  2 failed | 1 passed (3)
-   Start at  18:03:59
-   Duration  523ms (import 52%, transform 35%, tests 8%, worker 4%)
+      Tests  4 failed | 1 passed (5)
+   Start at  18:15:50
+   Duration  512ms (environment 77%, import 11%, transform 8%, tests 3%)
 
 Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
 
