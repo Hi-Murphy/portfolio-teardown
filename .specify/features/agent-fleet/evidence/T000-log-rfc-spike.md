@@ -108,3 +108,15 @@ agent-fleet route adds no new distinct textual match in any class.
 **Conclusion recorded for the RFC:** with the brief's patterns applied literally to raw build bytes, G2 cannot
 reach "0 hits". The S17 site already produces 3,046 raw hits before a single agent-fleet byte exists, and none of
 them is a secret. RFC §5.3 and escalation E2 cover it.
+
+## Correction (orchestrator, during T006b)
+
+§2 above says the existing project HTML differs "only" by one chunk filename. **That is incomplete.** The spike diff was
+truncated at 12 lines. A full diff of `projects/websocket-inspector.html` and `projects/jev-toolkit.html` (chunk names
+masked) shows two more mechanical differences inside the embedded RSC payload:
+
+1. the **agent-fleet card entry** in the root not-found tree, which Next embeds in every page's payload (the 404 page
+   lists every project card), and
+2. the **RSC row ids renumbered** (`$L2c` → `$L2e`, …) because rows were inserted.
+
+Nothing else differs. This is escalated as E5 (rfc.md §12).
