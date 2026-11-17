@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, test } from 'vitest';
 
@@ -46,10 +47,7 @@ describe('project outline focusability', () => {
   });
 
   test('uses the context-aware outline in the canvas fallback', () => {
-    const source = readFileSync(
-      new URL('../components/workbench/workbench-client.tsx', import.meta.url),
-      'utf8',
-    );
+    const source = readFileSync(resolve('components/workbench/workbench-client.tsx'), 'utf8');
     const fallback = source.match(/fallback=\{\s*<ProjectOutline\b([\s\S]*?)>\s*\}/);
 
     expect(fallback).not.toBeNull();

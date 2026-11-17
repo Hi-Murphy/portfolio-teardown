@@ -1,9 +1,11 @@
+import type { Ref } from 'react';
 import type { Project } from 'xploder';
 
 export interface ProjectOutlineProps {
   readonly project: Project;
   readonly message?: string;
   readonly className?: string;
+  readonly ref?: Ref<HTMLElement>;
 }
 
 interface StoryPartProps {
@@ -22,11 +24,12 @@ function StoryPart({ label, text }: StoryPartProps) {
   );
 }
 
-export function ProjectOutline({ project, message, className }: ProjectOutlineProps) {
+export function ProjectOutline({ project, message, className, ref }: ProjectOutlineProps) {
   const { story, layers } = project;
 
   return (
     <section
+      ref={ref}
       data-site-outline=""
       tabIndex={0}
       className={[
@@ -92,4 +95,9 @@ export function ProjectOutline({ project, message, className }: ProjectOutlinePr
       </div>
     </section>
   );
+}
+
+/** R3F also renders a canvas fallback inside <canvas>, where it has no box; keep it out of the Tab order there only. */
+export function dropTabStopInsideCanvas(node: HTMLElement | null): void {
+  if (node !== null && node.closest('canvas') !== null) node.tabIndex = -1;
 }
