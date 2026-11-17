@@ -1,0 +1,9 @@
+{
+  "relationships": [
+    {
+      "to": "websocket-inspector",
+      "kind": "measured-on",
+      "note": "Every arm in this harness was measured against this app's real code."
+    }
+  ]
+}
