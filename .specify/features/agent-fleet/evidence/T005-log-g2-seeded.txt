@@ -1,0 +1,17 @@
+/                                      raw=1066 exempted=X1=1028 X3=2 X5=36 unexempted=0
+/404                                   raw=96 exempted=X1=72 X5=24 unexempted=0
+/projects                              raw=1173 exempted=X1=1143 X3=4 X5=26 unexempted=0
+/projects/agent-fleet                  raw=487 exempted=X1=458 X5=26 unexempted=3
+/projects/jev-toolkit                  raw=542 exempted=X1=508 X3=8 X5=26 unexempted=0
+/projects/websocket-inspector          raw=359 exempted=X1=333 X5=26 unexempted=0
+other                                  raw=0 exempted=none unexempted=0
+shared-assets                          raw=51 exempted=X1=7 X2=3 X3=3 X4=25 X6=1 X7=12 unexempted=0
+G2 unexempted: 3
+F1 ipv4 projects/agent-fleet.html:127402 192.…
+F3 ghp_ projects/agent-fleet.html:127418 ghp_…
+F4 github-url projects/agent-fleet.html:127442 gith…
+exit 6
+package.json build script:
+    "build": "pnpm og:build && next build && node scripts/redaction-scan.ts build out",
+build output not found: ../../does-not-exist
+missing-dir exit 2
