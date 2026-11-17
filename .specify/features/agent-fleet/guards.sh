@@ -36,8 +36,13 @@ paths_unchanged() {
     [[ -z "$(git ls-files --others --exclude-standard -- "$@")" ]]
 }
 
+# R-K: canonical content base = Merlin's amendment eda5c82 (the only sanctioned content change in S18).
+CONTENT_BASE=eda5c82
+
 frozen_ok() {
-  paths_unchanged "$BASE" .specify/slices .specify/KICKOFF-S18.md .specify/content
+  paths_unchanged "$BASE" .specify/slices .specify/KICKOFF-S18.md &&
+    paths_unchanged "$CONTENT_BASE" .specify/content &&
+    git diff --quiet "$BASE" "$CONTENT_BASE" -- . ':!.specify/content/agent-fleet.json'
 }
 
 xploder_ok() {
@@ -112,7 +117,7 @@ allowed_paths_ok() {
   local changed unexpected
   changed=$(changed_paths)
   [[ -n "$changed" ]] || return 0
-  unexpected=$(grep -vE '^(apps/web/scripts/(convert-content|redaction-scan)\.ts|apps/web/content/projects/(agent-fleet\.ts|agent-fleet\.source\.ts|index\.ts)|apps/web/components/tech-chip-list\.tsx|apps/web/package\.json|apps/web/test/|tools/perf/src/(project-sources|site-probe)\.ts|tools/perf/test/|\.github/workflows/perf\.yml|\.specify/features/agent-fleet/)' <<<"$changed" || true)
+  unexpected=$(grep -vE '^(\.specify/content/agent-fleet\.json|apps/web/scripts/(convert-content|redaction-scan)\.ts|apps/web/content/projects/(agent-fleet\.ts|agent-fleet\.source\.ts|index\.ts)|apps/web/components/tech-chip-list\.tsx|apps/web/package\.json|apps/web/test/|tools/perf/src/(project-sources|site-probe)\.ts|tools/perf/test/|\.github/workflows/perf\.yml|\.specify/features/agent-fleet/)' <<<"$changed" || true)
   [[ -z "$unexpected" ]] || {
     printf 'unexpected paths:\n%s\n' "$unexpected"
     return 1
