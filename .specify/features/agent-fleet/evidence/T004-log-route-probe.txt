@@ -1,0 +1,22 @@
+counts layers PASS expected=4 actual=4
+counts components PASS expected=14 actual=14
+counts flows PASS expected=3 actual=3
+flow option ids PASS expected=["order-in","slice-out","nightly"] actual=["order-in","slice-out","nightly"]
+panel chat-surface PASS name="Chat surface"
+panel approval-gate PASS name="Approval gate"
+panel review-thread PASS name="Review thread"
+panel issue-intake PASS name="Issue intake"
+panel label-router PASS name="Label router"
+panel dedup-state PASS name="Dedup state"
+panel orchestrator PASS name="Orchestrator"
+panel implementer PASS name="Implementer"
+panel worktree PASS name="Worktree"
+panel evidence PASS name="Evidence"
+panel gate-check PASS name="Gate check"
+panel edge-host PASS name="Edge host"
+panel workstation PASS name="Workstation"
+panel cron PASS name="Cron"
+flow order-in PASS steps=[0,1,2,3,4]
+flow slice-out PASS steps=[0,1,2,3,4]
+flow nightly PASS steps=[0,1,2]
+route probe PASS

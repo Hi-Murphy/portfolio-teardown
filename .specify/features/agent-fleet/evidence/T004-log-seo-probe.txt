@@ -1,0 +1,6 @@
+$ node tools/perf/src/cli/seo-probe.ts --out-dir apps/web/out --site-url http://localhost:3000 --expect apps/web/out-seo-expect.json --out <tmp>/s18-checks/t004-seo
+seo-probe: PASS
+artifacts: <tmp>/s18-checks/t004-seo
+websocket-inspector: 1
+jev-toolkit: 1
+agent-fleet: 1

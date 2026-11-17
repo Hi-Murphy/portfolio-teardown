@@ -1,0 +1,113 @@
+{
+  "counts": {
+    "layers": 4,
+    "components": 14,
+    "flows": 3
+  },
+  "panels": [
+    {
+      "id": "chat-surface",
+      "name": "Chat surface",
+      "pass": true
+    },
+    {
+      "id": "approval-gate",
+      "name": "Approval gate",
+      "pass": true
+    },
+    {
+      "id": "review-thread",
+      "name": "Review thread",
+      "pass": true
+    },
+    {
+      "id": "issue-intake",
+      "name": "Issue intake",
+      "pass": true
+    },
+    {
+      "id": "label-router",
+      "name": "Label router",
+      "pass": true
+    },
+    {
+      "id": "dedup-state",
+      "name": "Dedup state",
+      "pass": true
+    },
+    {
+      "id": "orchestrator",
+      "name": "Orchestrator",
+      "pass": true
+    },
+    {
+      "id": "implementer",
+      "name": "Implementer",
+      "pass": true
+    },
+    {
+      "id": "worktree",
+      "name": "Worktree",
+      "pass": true
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence",
+      "pass": true
+    },
+    {
+      "id": "gate-check",
+      "name": "Gate check",
+      "pass": true
+    },
+    {
+      "id": "edge-host",
+      "name": "Edge host",
+      "pass": true
+    },
+    {
+      "id": "workstation",
+      "name": "Workstation",
+      "pass": true
+    },
+    {
+      "id": "cron",
+      "name": "Cron",
+      "pass": true
+    }
+  ],
+  "flows": [
+    {
+      "id": "order-in",
+      "steps": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "pass": true
+    },
+    {
+      "id": "slice-out",
+      "steps": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "pass": true
+    },
+    {
+      "id": "nightly",
+      "steps": [
+        0,
+        1,
+        2
+      ],
+      "pass": true
+    }
+  ],
+  "pass": true
+}
