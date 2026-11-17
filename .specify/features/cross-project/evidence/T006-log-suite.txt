@@ -1,0 +1,7 @@
+# command: pnpm typecheck && pnpm lint && pnpm test | commit: 21df7a5 | exit: 0
+tools/perf test:  Test Files  32 passed (32)
+tools/perf test:       Tests  309 passed (309)
+packages/xploder test:  Test Files  81 passed (81)
+packages/xploder test:       Tests  727 passed (727)
+apps/web test:  Test Files  56 passed | 1 skipped (57)
+apps/web test:       Tests  347 passed | 2 skipped (349)

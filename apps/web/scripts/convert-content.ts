@@ -34,6 +34,18 @@ const CONTENT_FILES: readonly ContentFile[] = [
     typeImport: { typeName: 'ProjectInput', moduleSpecifier: 'xploder' },
   },
   {
+    source: '.specify/content/relationships/jev-toolkit.json',
+    target: 'content/projects/jev-toolkit.relationships.ts',
+    exportName: 'jevToolkitRelationships',
+    typeImport: { typeName: 'RelationshipsSource', moduleSpecifier: './relationships' },
+  },
+  {
+    source: '.specify/content/relationships/websocket-inspector.json',
+    target: 'content/projects/websocket-inspector.relationships.ts',
+    exportName: 'websocketInspectorRelationships',
+    typeImport: { typeName: 'RelationshipsSource', moduleSpecifier: './relationships' },
+  },
+  {
     source: '.specify/content/site.json',
     target: 'content/site.source.ts',
     exportName: 'siteSource',

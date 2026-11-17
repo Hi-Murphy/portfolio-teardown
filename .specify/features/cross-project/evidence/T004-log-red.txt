@@ -1,0 +1,50 @@
+# command: pnpm --filter web exec vitest run test/relationships.test.ts test/connections-classes.test.ts --reporter verbose | commit: d9c7c13 | exit: 1
+
+ RUN  v5.0.5 /private/tmp/s17-wt/t004/apps/web
+
+ × test/connections-classes.test.ts > every Connections class token already appears in another app or component source file 3ms
+   → ENOENT: no such file or directory, open '/private/tmp/s17-wt/t004/apps/web/components/connections.tsx'
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/relationships.test.ts [ test/relationships.test.ts ]
+Error: Cannot find module '../components/connections' imported from /private/tmp/s17-wt/t004/apps/web/test/relationships.test.ts
+ ❯ test/relationships.test.ts:14:1
+     12|   type RelationshipsSource,
+     13| } from '../content/projects/relationships';
+     14| import { Connections } from '../components/connections';
+       | ^
+     15|
+     16| interface MutableRelationship {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_MODULE_NOT_FOUND' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/connections-classes.test.ts > every Connections class token already appears in another app or component source file
+Error: ENOENT: no such file or directory, open '/private/tmp/s17-wt/t004/apps/web/components/connections.tsx'
+ ❯ test/connections-classes.test.ts:28:55
+     26|
+     27| test('every Connections class token already appears in another app or …
+     28|   const componentTokens = [...new Set(classNameTokens(readFileSync(COM…
+       |                                                       ^
+     29|   const otherSources = [
+     30|     ...new Set([...collectSourceFiles(APP_ROOT), ...collectSourceFiles…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { errno: -2, code: 'ENOENT', syscall: 'open', path: '/private/tmp/s17-wt/t004/apps/web/components/connections.tsx' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  1 failed (1)
+   Start at  12:46:24
+   Duration  518ms (transform 50%, worker 25%, import 18%, tests 7%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s17-wt/t004/apps/web
+

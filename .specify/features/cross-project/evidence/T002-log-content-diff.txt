@@ -1,0 +1,34 @@
+# command: git diff f0c2d37 --stat -- .specify/content; git diff f0c2d37 -- .specify/content | commit: 00c9cb049585b556f8d93fd67785631d6a811455 | exit: 0
+ .specify/content/relationships/jev-toolkit.json         | 9 +++++++++
+ .specify/content/relationships/websocket-inspector.json | 9 +++++++++
+ 2 files changed, 18 insertions(+)
+diff --git a/.specify/content/relationships/jev-toolkit.json b/.specify/content/relationships/jev-toolkit.json
+new file mode 100644
+index 0000000..7564987
+--- /dev/null
++++ b/.specify/content/relationships/jev-toolkit.json
+@@ -0,0 +1,9 @@
++{
++  "relationships": [
++    {
++      "to": "websocket-inspector",
++      "kind": "measured-on",
++      "note": "Every arm in this harness was measured against this app's real code."
++    }
++  ]
++}
+diff --git a/.specify/content/relationships/websocket-inspector.json b/.specify/content/relationships/websocket-inspector.json
+new file mode 100644
+index 0000000..f41451d
+--- /dev/null
++++ b/.specify/content/relationships/websocket-inspector.json
+@@ -0,0 +1,9 @@
++{
++  "relationships": [
++    {
++      "to": "jev-toolkit",
++      "kind": "measured-on",
++      "note": "This app is the benchmark target for the harness in jev-toolkit."
++    }
++  ]
++}

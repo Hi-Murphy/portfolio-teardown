@@ -1,0 +1,47 @@
+# command: pnpm perf:lighthouse + pnpm perf:weight on 4 routes | target: http://127.0.0.1:4721 | commit: 21df7a5
+## /
+performance: 1 >= 0.95 (median) pass
+lcp: 909.0751 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+mobile: 461003 bytes, 29 requests, PASS
+desktop: 469434 bytes, 32 requests, PASS
+pass: true
+## /projects
+performance: 1 >= 0.95 (median) pass
+lcp: 903.5563999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+mobile: 208193 bytes, 23 requests, PASS
+desktop: 216624 bytes, 26 requests, PASS
+pass: true
+## /projects/websocket-inspector
+performance: 1 >= 0.95 (median) pass
+lcp: 903.8501000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+mobile: 202194 bytes, 20 requests, PASS
+desktop: 202194 bytes, 20 requests, PASS
+pass: true
+## /projects/jev-toolkit
+performance: 1 >= 0.95 (median) pass
+lcp: 903.7004 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+mobile: 203214 bytes, 20 requests, PASS
+desktop: 203214 bytes, 20 requests, PASS
+pass: true
+
+## Lighthouse with --categories performance,accessibility
+### /
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4721/ --categories performance,accessibility --out /tmp/s17-checks/lha-
+performance: 1 >= 0.95 (median) pass
+accessibility: 1 >= 0.95 (median) pass
+### /projects
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4721/projects --categories performance,accessibility --out /tmp/s17-checks/lha-projects
+performance: 1 >= 0.95 (median) pass
+accessibility: 1 >= 0.95 (median) pass
+### /projects/websocket-inspector
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4721/projects/websocket-inspector --categories performance,accessibility --out /tmp/s17-checks/lha-projects-websocket-inspector
+performance: 1 >= 0.95 (median) pass
+accessibility: 1 >= 0.95 (median) pass
+### /projects/jev-toolkit
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4721/projects/jev-toolkit --categories performance,accessibility --out /tmp/s17-checks/lha-projects-jev-toolkit
+performance: 1 >= 0.95 (median) pass
+accessibility: 1 >= 0.95 (median) pass

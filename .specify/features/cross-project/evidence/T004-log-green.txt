@@ -1,0 +1,24 @@
+# command: pnpm --filter web exec vitest run test/relationships.test.ts test/connections-classes.test.ts --reporter verbose | commit: 2fa672d | exit: 0
+
+
+ RUN  v5.0.5 /private/tmp/s17-wt/t004/apps/web
+
+ ✓ test/connections-classes.test.ts > every Connections class token already appears in another app or component source file 10ms
+ ✓ test/relationships.test.ts > 1. an unknown target names the target, the owner and every known project 1ms
+ ✓ test/relationships.test.ts > 2. a self-reference is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 3. duplicate target is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 3. bad kind is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 3. extra key is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 3. empty note is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 3. whitespace note is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 3. non-slug target is rejected by the schema and the resolver 0ms
+ ✓ test/relationships.test.ts > 4. missing field produces no connections for its project 0ms
+ ✓ test/relationships.test.ts > 4. empty array produces no connections for its project 0ms
+ ✓ test/relationships.test.ts > 5. removing a relationship entry removes exactly that Connections strip 5ms
+ ✓ test/relationships.test.ts > 6. a relationships file with no matching project is rejected 0ms
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  12:49:54
+   Duration  119ms (import 58%, tests 22%, transform 16%, worker 4%)
+

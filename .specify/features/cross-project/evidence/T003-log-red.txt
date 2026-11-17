@@ -1,0 +1,147 @@
+# command: pnpm --filter web exec vitest run test/relationships.test.ts test/content-fidelity.test.ts test/no-hand-copied-content.test.ts --reporter verbose | commit: 09b96e14ae5c24f6389ae64d8240ef9bb4040374 | exit: 1
+
+
+ RUN  v5.0.5 /private/tmp/s17-wt/t003/apps/web
+
+ × test/relationships.test.ts > 1. an unknown target names the target, the owner and every known project 2ms
+   → The instanceof assertion needs a constructor but undefined was given.
+ × test/relationships.test.ts > 2. a self-reference is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 3. duplicate target is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 3. bad kind is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 3. extra key is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 3. empty note is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 3. whitespace note is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 3. non-slug target is rejected by the schema and the resolver 0ms
+   → createRelationshipsSchema is not a function
+ × test/relationships.test.ts > 4. missing field produces no connections for its project 0ms
+   → resolveConnections is not a function
+ × test/relationships.test.ts > 4. empty array produces no connections for its project 0ms
+   → resolveConnections is not a function
+ × test/relationships.test.ts > 5. a relationships file with no matching project is rejected 0ms
+   → The instanceof assertion needs a constructor but undefined was given.
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > ignores canonical strings shorter than twelve characters 1ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > every canonical project has a generated source module 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > every canonical relationship file has a generated relationship module 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > the generated site source carries every collected site string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > the generated project source carries every collected project string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > app, components and seo contain no hand-copied project or site content 66ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > content copy appears only in its generated source module 5ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit > negative control catches hand-copied project content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > the generated project source carries every collected project string 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > app, components and seo contain no hand-copied project or site content 37ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > content copy appears only in its generated source module 4ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector > negative control catches hand-copied project content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit relationships > the generated relationship source carries every collected note 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit relationships > app, components and seo contain no hand-copied relationship notes 19ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit relationships > relationship notes appear only in their generated relationship module 2ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > jev-toolkit relationships > negative control catches a hand-copied relationship note 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector relationships > the generated relationship source carries every collected note 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector relationships > app, components and seo contain no hand-copied relationship notes 18ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector relationships > relationship notes appear only in their generated relationship module 3ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > websocket-inspector relationships > negative control catches a hand-copied relationship note 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches hand-copied site content 0ms
+ ✓ test/no-hand-copied-content.test.ts > hand-copied content scanner > negative control catches a jev-toolkit string planted in a fixture 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/content-fidelity.test.ts [ test/content-fidelity.test.ts ]
+Error: Cannot find module '../content/projects/connections' imported from /private/tmp/s17-wt/t003/apps/web/test/content-fidelity.test.ts
+ ❯ test/content-fidelity.test.ts:10:1
+      8|
+      9| import { PROJECT_SLUGS } from '../content/projects';
+     10| import { RELATIONSHIP_SOURCES, connectionsFor } from '../content/proje…
+       | ^
+     11| import { SITE_REGISTRY } from '../content/tech-registry';
+     12| import { jevToolkit } from '../content/projects/jev-toolkit';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_MODULE_NOT_FOUND' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/relationships.test.ts > 1. an unknown target names the target, the owner and every known project
+AssertionError: The instanceof assertion needs a constructor but undefined was given.
+ ❯ expectRelationshipError test/relationships.test.ts:54:17
+     52|
+     53| function expectRelationshipError(error: unknown): RelationshipValidati…
+     54|   expect(error).toBeInstanceOf(RelationshipValidationError);
+       |                 ^
+     55|   expect((error as RelationshipValidationError).name).toBe('Relationsh…
+     56|
+ ❯ test/relationships.test.ts:64:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  test/relationships.test.ts > 2. a self-reference is rejected by the schema and the resolver
+TypeError: createRelationshipsSchema is not a function
+ ❯ test/relationships.test.ts:77:18
+     75|   relationships[0]!.to = 'jev-toolkit';
+     76|
+     77|   const result = createRelationshipsSchema({
+       |                  ^
+     78|     self: 'jev-toolkit',
+     79|     projects: PROJECT_NAMES,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  test/relationships.test.ts > 3. duplicate target is rejected by the schema and the resolver
+ FAIL  test/relationships.test.ts > 3. bad kind is rejected by the schema and the resolver
+ FAIL  test/relationships.test.ts > 3. extra key is rejected by the schema and the resolver
+ FAIL  test/relationships.test.ts > 3. empty note is rejected by the schema and the resolver
+ FAIL  test/relationships.test.ts > 3. whitespace note is rejected by the schema and the resolver
+ FAIL  test/relationships.test.ts > 3. non-slug target is rejected by the schema and the resolver
+TypeError: createRelationshipsSchema is not a function
+ ❯ test/relationships.test.ts:137:18
+    135| test.each(INVALID_RELATIONSHIPS)('3. $name is rejected by the schema a…
+    136|   const relationships = row.relationships as unknown as MutableRelatio…
+    137|   const result = createRelationshipsSchema({
+       |                  ^
+    138|     self: 'jev-toolkit',
+    139|     projects: PROJECT_NAMES,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  test/relationships.test.ts > 4. missing field produces no connections for its project
+ FAIL  test/relationships.test.ts > 4. empty array produces no connections for its project
+TypeError: resolveConnections is not a function
+ ❯ test/relationships.test.ts:167:23
+    165|   }
+    166|
+    167|   const connections = resolveConnections(asSources(sources), PROJECTS);
+       |                       ^
+    168|
+    169|   expect(connections.get('jev-toolkit')).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  test/relationships.test.ts > 5. a relationships file with no matching project is rejected
+AssertionError: The instanceof assertion needs a constructor but undefined was given.
+ ❯ expectRelationshipError test/relationships.test.ts:54:17
+     52|
+     53| function expectRelationshipError(error: unknown): RelationshipValidati…
+     54|   expect(error).toBeInstanceOf(RelationshipValidationError);
+       |                 ^
+     55|   expect((error as RelationshipValidationError).name).toBe('Relationsh…
+     56|
+ ❯ test/relationships.test.ts:176:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  11 failed | 22 passed (33)
+   Start at  12:40:53
+   Duration  379ms (tests 39%, import 38%, transform 21%, worker 1%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s17-wt/t003/apps/web
+

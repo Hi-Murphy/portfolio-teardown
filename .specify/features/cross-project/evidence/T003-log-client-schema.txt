@@ -1,0 +1,26 @@
+# command: grep -c 'RelationshipSchema\|cannot have a relationship' -r /tmp/s17-checks/t003-out/_next/static || echo SCHEMA-NOT-IN-CLIENT | commit: 4faab545c32885cb2364be4aaaa508dba12446c6 | exit: 0
+
+/tmp/s17-checks/t003-out/_next/static/chunks/29p5wlfz_1l3v.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/335gqv7yiqdzh.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/3-e0pq-vkwdqo.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/0ex_cgonf0mx6.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/0-feshdmxxqft.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/18o_7-7eq6i8z.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/1mzpr2e_yf4k_.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/turbopack-2u1d16houkiyo.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/3ovppnf4srecq.css:0
+/tmp/s17-checks/t003-out/_next/static/chunks/00074u8z_q3cx.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/2nw5xgyzztx9f.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/1x_7bfc20sw34.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/0jowprx3plh9c.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/23ozcnd6hhypu.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/3xl5otnp6lnep.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/3lgiu22xr8fof.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/0cz1d0mv5g_q7.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/3359ll6dl2j6z.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/1c1n5uh1al8a6.js:0
+/tmp/s17-checks/t003-out/_next/static/chunks/2e_so57tb_nr1.js:0
+/tmp/s17-checks/t003-out/_next/static/s17-fixed-build-id/_ssgManifest.js:0
+/tmp/s17-checks/t003-out/_next/static/s17-fixed-build-id/_clientMiddlewareManifest.js:0
+/tmp/s17-checks/t003-out/_next/static/s17-fixed-build-id/_buildManifest.js:0
+SCHEMA-NOT-IN-CLIENT
