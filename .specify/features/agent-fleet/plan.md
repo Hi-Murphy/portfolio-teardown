@@ -30,7 +30,7 @@ No sealed surface is touched and no re-seal is planned. Any need for one is a ST
 | Base | `33e2ba1` (S17 product code + S18 canonical JSON). Byte base = a fixed-id export of `33e2ba1` (`base-out`) |
 | Seal bases | S2/S4 `3aee8fc`, S5 `5d3abdb`, S6 `c8794b2`, S7 `cc663f7`, S8 `c8794b2` (pushed `seal/*` tags); S3 = `label-system/guards.sh:49-51` list |
 | Frozen | `.specify/slices/**`, `.specify/KICKOFF*.md`, **all** of `.specify/content/**` (incl. `agent-fleet.json`, `site.json`, `relationships/`), `packages/xploder/**`, the S3 `tools/perf` list, `pnpm-lock.yaml`, every `package.json` except the one `build` script line |
-| Allowed product paths | `apps/web/scripts/convert-content.ts`, `apps/web/scripts/redaction-scan.ts` (new), `apps/web/content/projects/{agent-fleet.ts,agent-fleet.source.ts,index.ts}`, `apps/web/components/tech-chip-list.tsx`, `apps/web/package.json` (`scripts.build` only), `apps/web/test/**`, `tools/perf/src/{project-sources,site-probe}.ts`, `tools/perf/test/**`, `.github/workflows/perf.yml` (route steps only) |
+| Allowed product paths | `apps/web/scripts/convert-content.ts`, `apps/web/scripts/redaction-scan.ts` (new), `apps/web/content/projects/{agent-fleet.ts,agent-fleet.source.ts,index.ts}`, `apps/web/components/tech-chip-list.tsx`, `apps/web/components/project-outline.tsx` + `apps/web/components/workbench/workbench-client.tsx` (E4-A only), `apps/web/package.json` (`scripts.build` only), `apps/web/test/**`, `tools/perf/src/{project-sources,site-probe}.ts`, `tools/perf/test/**`, `.github/workflows/perf.yml` (route steps only) |
 
 ## Constitution Check
 
