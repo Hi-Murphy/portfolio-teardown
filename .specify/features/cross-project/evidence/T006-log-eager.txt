@@ -1,0 +1,6 @@
+# command: pnpm eager:probe --serve <head export> --route / --runs 2 --expect live-loop | commit: 21df7a5
+$ node tools/perf/src/cli/eager-probe.ts --serve /tmp/s17-checks/head-out --route / --runs 2 --expect live-loop
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: /Users/murphy/orca/workspaces/portfolio-teardown/task-s17-cross-project/.evidence/eager-probe

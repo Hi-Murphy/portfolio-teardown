@@ -35,12 +35,12 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | | | |
-| T002 | ☐ | | | |
-| T003 | ☐ | | | |
-| T004 | ☐ | | | |
-| T005 | ☐ | | | |
-| T006 | ☐ | | | |
+| T001 | ☑ (U1 16.4.6; guards 10/10 + negative controls; B1 gates: LH 1.00, CLS 0, axe 0/0, draws 2, eager ×2) | 1 (Flash, 1 dispatch) | evidence/T001-* | e6201b4 |
+| T002 | ☑ v2 after brief revision 1 (v1 stopped: C2 + sealed-test conflict; branch `-t002-v1` kept); fidelity 22/22; +0 B; home 25/25 | 1 (Flash, 2 dispatches) + orchestrator (C2 tool) | evidence/T002-*, T002v1-* | merge after b970222 |
+| T003 | ☑ (red 11 fail → green 57; SCHEMA-NOT-IN-CLIENT; +0 B) | 1 (Flash, 1 dispatch) | evidence/T003-* | d9c7c13 |
+| T004 | ☑ after C3 (strips 1/1; unknown/self builds fail named; removal 0/1; home 25/25; +0 B; 8 screenshots) | 1 (Flash, 2 dispatches) + orchestrator (unused const) | evidence/T004-* | e18dd55 |
+| T005 | ☑ (probe 8 cells + 2 no-JS PASS; axe 0/0; CLS 0 ×16; draws 2; sweep 2,052 cells 0 hits; controls 3/3) | 1 (Flash, 1 dispatch) | evidence/T005-* | 21df7a5 |
+| T006 | ☑ local gates (home 25/25, +0 B, LH 1.00/1.00 ×4, CLS 0, draws 2, eager ×2, guards 10/10); CI → `T006-ci.txt` | orchestrator | evidence/T006-*, AC-selfcheck.md | — |
 
 ---
 

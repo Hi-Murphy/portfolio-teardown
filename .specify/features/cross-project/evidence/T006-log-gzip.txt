@@ -1,0 +1,2 @@
+# command: node .specify/features/cross-project/bundle-gzip.mjs --diff <B1 base-gzip.json> <head export> | commit: 21df7a5 | exit: 0
+GZIP-TOTAL 473625 -> 473625 (+0 B) budget 1536: PASS
