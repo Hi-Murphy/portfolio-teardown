@@ -29,7 +29,8 @@ export function ProjectOutline({ project, message, className, ref }: ProjectOutl
 
   return (
     <section
-      ref={ref}
+      // Only the client canvas fallback passes a ref; omitting the key keeps the server payload unchanged.
+      {...(ref === undefined ? {} : { ref })}
       data-site-outline=""
       tabIndex={0}
       className={[
