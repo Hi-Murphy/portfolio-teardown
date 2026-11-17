@@ -101,6 +101,7 @@ const S10_SOURCE_FILES = [
   'components/workbench/tour-panel.tsx',
   'content/poster.ts',
   'content/projects/index.ts',
+  'content/projects/connections.ts',
   'content/projects/relationships.ts',
   'content/projects/jev-toolkit.relationships.ts',
   'content/projects/websocket-inspector.relationships.ts',
