@@ -39,7 +39,14 @@ function localPath(urlPath) {
   return candidates.find(isFile) ?? candidates[0];
 }
 
-async function capture(browser, base) {
+// RFC §11 C2 (Murphy, 2026-11-17): AC4 compares the files of `/` itself. Other routes' payloads are
+// aborted in the gated capture, so Next cannot prefetch their chunks; a second, ungated capture lists
+// what the browser prefetches for other routes (reported, not gated).
+function isOwnPayload(file) {
+  return file === 'index.html' || file === 'index.txt' || /^__next\.[^/]*\.txt$/.test(file);
+}
+
+async function capture(browser, base, { blockOtherRoutes }) {
   const origin = new URL(base).origin;
   const responses = new Map();
   const context = await browser.newContext({
@@ -54,6 +61,16 @@ async function capture(browser, base) {
       const page = await context.newPage();
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       const paths = new Set();
+      if (blockOtherRoutes) {
+        await page.route('**/*', (route) => {
+          const url = new URL(route.request().url());
+          const file = localPath(url.pathname);
+          if (url.origin === origin && isNavigationPayload(file) && !isOwnPayload(file)) {
+            return route.abort();
+          }
+          return route.continue();
+        });
+      }
       page.on('response', (response) => {
         const url = new URL(response.url());
         if (url.origin !== origin) return;
@@ -141,9 +158,13 @@ function fetchSetsEqual(baseResponses, headResponses) {
 const browser = await chromium.launch({ headless: true });
 let baseResponses;
 let headResponses;
+let basePrefetch;
+let headPrefetch;
 try {
-  baseResponses = await capture(browser, baseUrl);
-  headResponses = await capture(browser, headUrl);
+  baseResponses = await capture(browser, baseUrl, { blockOtherRoutes: true });
+  headResponses = await capture(browser, headUrl, { blockOtherRoutes: true });
+  basePrefetch = await capture(browser, baseUrl, { blockOtherRoutes: false });
+  headPrefetch = await capture(browser, headUrl, { blockOtherRoutes: false });
 } finally {
   await browser.close();
 }
@@ -179,6 +200,26 @@ console.log(rows.join('\n'));
 if (fetchMismatches.length > 0) {
   for (const mismatch of fetchMismatches) console.log(`FETCH-PATHS DIFFER ${mismatch}`);
 }
+
+const ownStatic = new Set([...files].filter((file) => file.startsWith('_next/static/')));
+const prefetchRows = [];
+for (const [label, responses, dir] of [
+  ['base', basePrefetch, baseDir],
+  ['head', headPrefetch, headDir],
+]) {
+  for (const [key, value] of responses) {
+    if (key.startsWith('viewport:') || !value.startsWith('_next/static/') || ownStatic.has(value)) continue;
+    const bytes = readFileSync(resolve(dir, value));
+    prefetchRows.push(`| ${label} | \`${value}\` | ${sha256(bytes).slice(0, 12)} | ${bytes.byteLength} |`);
+  }
+}
+console.log('');
+console.log('Prefetched for other routes (not part of `/`; reported, not gated — C2):');
+console.log('');
+console.log('| export | path | sha256 (12) | bytes |');
+console.log('| --- | --- | --- | --- |');
+console.log(prefetchRows.length > 0 ? [...new Set(prefetchRows)].sort().join('\n') : '| - | none | - | - |');
+console.log('');
 
 if (differing.length === 0 && fetchMismatches.length === 0) {
   console.log(`HOME-BYTES IDENTICAL ${rows.length}/${rows.length}`);

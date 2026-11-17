@@ -28,7 +28,7 @@
 - **Test-first (Hard Rule 4):** each product task first commits the red test alone, with the failing output saved as `T<NNN>-log-red.txt` (non-zero exit). Then it commits the change, with `T<NNN>-log-green.txt`.
 - **Bytes:** every task that changes client code ends with `node $F/bundle-gzip.mjs --diff /tmp/s17-checks/base-gzip.json apps/web/out` (built with `build-fixed.sh`) and logs the cumulative Δ.
 - **No literals and no copy:** no motion, colour or transition class; no project string in code; only classes that already exist (R0/R4).
-- **Never touch:** `.specify/slices/**`, `.specify/KICKOFF*.md`, `.specify/content/site.json`, `packages/xploder/**`, `tools/perf/**`, `.github/**`.
+- **Never touch:** `.specify/slices/**`, `.specify/KICKOFF*.md`, `.specify/content/*.json` (all three; revision 1), `packages/xploder/**`, `tools/perf/**`, `.github/**`.
 - **Commits:** prefix `S17/TNNN:`, ending with the attribution line. Run `gitleaks dir` on new prose and evidence before each commit. Stage-boundary commits use `S17/stage-N:`.
 
 ## Ledger (resume point: update at every task boundary)
@@ -99,30 +99,30 @@
 
 ## Phase G2 — Content
 
-### T002 [US1, US2] Content patch + pass-through (fidelity red → green)
+### T002 [US1, US2] Relationship content files + conversion (fidelity red → green) — brief revision 1
 
-- **Seam:** canonical JSON ↔ generated module ↔ strict xploder schema.
+- **Seam:** canonical relationship JSON ↔ generated module. The project JSON files stay byte-identical (RFC §11, revision 1).
 - **Files:**
-  - **Red commit:** the two JSON patches (RFC §2, exact bytes), `content-patch-check.mjs`, and the fidelity test with (b) adjusted (strips `relationships` itself). Red: (a)/(d) fail on the stale module and the old SHA.
-  - **Green commit:** `content/projects/relationships.ts` (only `RELATIONSHIP_KINDS`, `RelationshipKind`, `RelationshipInput`, `ProjectSource`, `projectInput`), the converter's two project `typeImport`s → `{ typeName: 'ProjectSource', moduleSpecifier: './relationships' }`, `defineProject(projectInput(…))` in both project modules, and `pnpm --filter web content:convert`.
+  - **Red commit:** `.specify/content/relationships/{jev-toolkit,websocket-inspector}.json` (`{ "relationships": [ … ] }`, `JSON.stringify(data, null, 2) + "\n"`), `content-patch-check.mjs`, and new fidelity rows for the two relationship modules: (a) strict equality, (c) `--check`, (d) header SHA-256, (e) mutated-note negative control, plus the relationship completeness guard (files ↔ converter rows; slugs ⊆ `PROJECT_SLUGS`). The project completeness guard ignores the `relationships/` subfolder. Red: the generated modules are missing.
+  - **Green commit:** `content/projects/relationships.ts` (only `RELATIONSHIP_KINDS`, `RelationshipKind`, `RelationshipInput`, `RelationshipsSource`); two new converter rows (→ `content/projects/<slug>.relationships.ts`, `satisfies RelationshipsSource` from `./relationships`); `pnpm --filter web content:convert`; the literal-scan lists. The project rows, project modules and project sources are unchanged.
 - **Check:**
   ```sh
   set -euo pipefail; mkdir -p /tmp/s17-checks .specify/features/cross-project/evidence; E=.specify/features/cross-project/evidence; F=.specify/features/cross-project
   grep -Eq 'FAIL|failed' $E/T002-log-red.txt && echo RED-RECORDED
-  node $F/content-patch-check.mjs | tee $E/T002-log-content-patch.txt          # both files: CONTENT-PATCH PASS
-  git diff f0c2d37 -- .specify/content > $E/T002-log-content-diff.txt          # exactly the RFC §2 hunks
+  node $F/content-patch-check.mjs | tee $E/T002-log-content-patch.txt          # project JSON + site.json identical to f0c2d37; relationship files exact
+  git diff f0c2d37 --stat -- .specify/content > $E/T002-log-content-diff.txt; git diff f0c2d37 -- .specify/content >> $E/T002-log-content-diff.txt   # only the two new files
   pnpm --filter web exec vitest run test/content-fidelity.test.ts --reporter verbose 2>&1 | tee $E/T002-log-green.txt
   pnpm --filter web content:convert --check | tee -a $E/T002-log-green.txt
   bash $F/build-fixed.sh /tmp/s17-checks/t002-out
-  node $F/bundle-gzip.mjs --diff /tmp/s17-checks/base-gzip.json /tmp/s17-checks/t002-out | tee $E/T002-log-gzip.txt
-  bash $F/home-bytes.sh /tmp/s17-checks/base-out /tmp/s17-checks/t002-out | tee $E/T002-log-home-bytes.md   # all identical
+  node $F/bundle-gzip.mjs --diff /tmp/s17-checks/base-gzip.json /tmp/s17-checks/t002-out | tee $E/T002-log-gzip.txt   # expect +0 B
+  bash $F/home-bytes.sh /tmp/s17-checks/base-out /tmp/s17-checks/t002-out | tee $E/T002-log-home-bytes.md   # IDENTICAL (C2)
   bash $F/guards.sh && pnpm typecheck && pnpm lint && pnpm test && echo T002-OK
   ```
-- **Evidence:** `T002-log-{red,green,content-patch,content-diff,gzip,home-bytes}.*`.
+- **Evidence:** `T002-log-{red,green,content-patch,content-diff,gzip,home-bytes}.*`. (The superseded first attempt is on branch `task/s17-cross-project-t002-v1`; its diagnosis files are `evidence/T002v1-*`.)
 - **WHAT MURPHY SHOULD TEST/VALIDATE:**
-  1. Read `T002-log-content-diff.txt`: the only content change is one `relationships` block per file, with your approved notes.
+  1. Read `T002-log-content-diff.txt`: two new files with your approved notes; the project JSON files are untouched.
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
-  1. Nothing (default: the notes as approved at Gate 1).
+  1. Nothing (default: revision 1 as decided).
 
 ---
 
@@ -132,8 +132,8 @@
 
 - **Seam:** content relationships ↔ the set of known projects, validated at build.
 - **Files:**
-  - **Red commit:** `test/relationships.test.ts` cases 1–4 (RFC §3.5), fidelity (f), (e3) and the completeness guard, `no-hand-copied-content.test.ts` + `relationships[].note`. Red: the exports are missing.
-  - **Green commit:** `relationships.ts` + `RelationshipSchema` (from `LinkSchema` / `IdSchema` / `MetaSchema`), `createRelationshipsSchema` (self / unknown / duplicate), `RelationshipValidationError` (explicit `name`), `resolveConnections`; new `content/projects/connections.ts` (`CONNECTION_SOURCES`, `connectionsFor`); `no-{motion,color}-literals` lists + the two new files.
+  - **Red commit:** `test/relationships.test.ts` cases 1–4 (RFC §3.5) + the unknown-file-slug case (revision 1), fidelity (f), and `no-hand-copied-content.test.ts` + each relationship file's notes. Red: the exports are missing.
+  - **Green commit:** `relationships.ts` + `RelationshipSchema` (from `LinkSchema` / `IdSchema` / `MetaSchema`), `createRelationshipsSchema` (self / unknown / duplicate), `RelationshipValidationError` (explicit `name`), `resolveConnections`; new `content/projects/connections.ts` (`RELATIONSHIP_SOURCES` table, `connectionsFor`); `no-{motion,color}-literals` lists + the two new files.
 - **Check:**
   ```sh
   set -euo pipefail; mkdir -p /tmp/s17-checks .specify/features/cross-project/evidence; E=.specify/features/cross-project/evidence; F=.specify/features/cross-project
@@ -172,7 +172,7 @@
   # one-off build failures (restored afterwards; git status must be clean)
   for case in unknown self; do
     node -e '
-      const fs=require("fs"),p=".specify/content/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));
+      const fs=require("fs"),p=".specify/content/relationships/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));
       j.relationships[0].to = process.argv[1]==="unknown" ? "no-such-project" : "jev-toolkit";
       fs.writeFileSync(p, JSON.stringify(j,null,2)+"\n");' $case
     pnpm --filter web content:convert
@@ -183,8 +183,8 @@
   grep -q 'Unknown relationship target "no-such-project" in project "jev-toolkit"' $E/T004-log-unknown-build.txt && echo UNKNOWN-NAMED
   grep -q 'Project "jev-toolkit" cannot have a relationship to itself' $E/T004-log-self-build.txt && echo SELF-NAMED
   test -z "$(git status --porcelain)" && echo RESTORED-CLEAN
-  # one-off removal build: delete jev-toolkit's entry → jev 0, wsi 1; restore
-  node -e 'const fs=require("fs"),p=".specify/content/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));delete j.relationships;fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n")'
+  # one-off removal build: delete jev-toolkit's entry (relationships/jev-toolkit.json → []) → jev 0, wsi 1; restore
+  node -e 'const fs=require("fs"),p=".specify/content/relationships/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));j.relationships=[];fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n")'
   pnpm --filter web content:convert && bash $F/build-fixed.sh /tmp/s17-checks/t004-removal-out
   for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections' /tmp/s17-checks/t004-removal-out/projects/$s.html | wc -l)"; done | tee $E/T004-log-removal-build.txt   # jev 0, wsi 1
   git checkout -- .specify/content apps/web/content/projects && pnpm --filter web content:convert --check && test -z "$(git status --porcelain)" && echo RESTORED-CLEAN

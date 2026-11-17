@@ -1,0 +1,33 @@
+# command: pnpm test (workspace) | commit: 5676941 (T002 green) | exit: 1
+# Five xploder tests — four sealed (S6: label-pass-parity, label-sweep, overlay-note-clear; S7: lettering-obstacles) and overlay-place-equivalence (unsealed, still packages/xploder) — read .specify/content/<slug>.json directly and parse it with the strict xploder schema, so the new top-level key is rejected.
+
+tools/perf test:  Test Files  32 passed (32)
+tools/perf test:       Tests  309 passed (309)
+packages/xploder test:  FAIL  test/label-pass-parity.test.ts [ test/label-pass-parity.test.ts ]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: Serialized Error: … unrecognized_keys [relationships]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: ]' }, issues: [ { code: 'unrecognized_keys', keys: [ 'relationships' ], path: [], message: 'Unrecognized key: "relationships"' } ], format: 'Function<anonymous>', flatten: 'Function<anonymous>', addIssue: 'Function<anonymous>', addIssues: 'Function<anonymous>', isEmpty: false }
+packages/xploder test:  FAIL  test/label-sweep.test.ts [ test/label-sweep.test.ts ]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: Serialized Error: … unrecognized_keys [relationships]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: ]' }, issues: [ { code: 'unrecognized_keys', keys: [ 'relationships' ], path: [], message: 'Unrecognized key: "relationships"' } ], format: 'Function<anonymous>', flatten: 'Function<anonymous>', addIssue: 'Function<anonymous>', addIssues: 'Function<anonymous>', isEmpty: false }
+packages/xploder test:  FAIL  test/lettering-obstacles.test.ts [ test/lettering-obstacles.test.ts ]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: Serialized Error: … unrecognized_keys [relationships]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: ]' }, issues: [ { code: 'unrecognized_keys', keys: [ 'relationships' ], path: [], message: 'Unrecognized key: "relationships"' } ], format: 'Function<anonymous>', flatten: 'Function<anonymous>', addIssue: 'Function<anonymous>', addIssues: 'Function<anonymous>', isEmpty: false }
+packages/xploder test:  FAIL  test/overlay-note-clear.test.ts [ test/overlay-note-clear.test.ts ]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: Serialized Error: … unrecognized_keys [relationships]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: ]' }, issues: [ { code: 'unrecognized_keys', keys: [ 'relationships' ], path: [], message: 'Unrecognized key: "relationships"' } ], format: 'Function<anonymous>', flatten: 'Function<anonymous>', addIssue: 'Function<anonymous>', addIssues: 'Function<anonymous>', isEmpty: false }
+packages/xploder test:  FAIL  test/overlay-place-equivalence.test.ts [ test/overlay-place-equivalence.test.ts ]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: Serialized Error: … unrecognized_keys [relationships]
+packages/xploder test:     "code": "unrecognized_keys",
+packages/xploder test: ]' }, issues: [ { code: 'unrecognized_keys', keys: [ 'relationships' ], path: [], message: 'Unrecognized key: "relationships"' } ], format: 'Function<anonymous>', flatten: 'Function<anonymous>', addIssue: 'Function<anonymous>', addIssues: 'Function<anonymous>', isEmpty: false }
+packages/xploder test:  Test Files  5 failed | 76 passed (81)
+packages/xploder test:       Tests  710 passed (710)
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL

@@ -1,6 +1,6 @@
 # Feature Specification: S17 Cross-project relationships
 
-**Feature dir:** `.specify/features/cross-project/` · **Slice:** S17-cross-project · **Created:** 2026-11-17 · **Status:** Draft (Stage 2 gate)
+**Feature dir:** `.specify/features/cross-project/` · **Slice:** S17-cross-project · **Created:** 2026-11-17 · **Status:** Approved (Stage 2 gate passed; brief revision 1 of 2 + C2 recorded in `rfc.md` §11)
 **Scope source:** `.specify/slices/slice-17-cross-project.md` (frozen brief v1, revision counter 0 of 2) · **Design:** `rfc.md` (approved 2026-11-17: all §10 defaults + U1 Next upgrade + R1–R6, §11)
 
 > **Rule:** functional requirements map **1:1** to brief AC1–AC6, and their text is quoted verbatim. This spec invents **no** acceptance criteria. Scope items and the Murphy-authorised upgrade (U1) appear as supporting requirements (SR) under the FR they serve. They get task-level checks, not criteria of their own. Documented values (messages, classes, gate ids) come from the RFC and are referenced, not promoted to criteria.
@@ -83,7 +83,7 @@ The page ships almost no extra code, the 3D scene draws as before, no route is a
 
 - **No `relationships` key, or `[]`:** parses to no connections; no strip, no heading, no empty list (RFC §3.1).
 - **Duplicate target:** rejected (Q4).
-- **Unknown `kind`, extra key, empty note, non-slug `to`:** rejected by the strict schema; an unknown `kind` also fails typecheck (`ProjectSource`).
+- **Unknown `kind`, extra key, empty note, non-slug `to`:** rejected by the strict schema; an unknown `kind` also fails typecheck (`RelationshipsSource`).
 - **No JS:** the strip is server-rendered HTML after the `<noscript>` outline, so the order holds without JS.
 - **Several relationships:** one `<li>` each, in content order (the brief has one per file).
 - **Upgrade side effects (U1):** framework chunks change on every page. The AC4/AC5 base is therefore `B1` (R1). The upgrade's own deltas are reported separately.
@@ -93,7 +93,7 @@ The page ships almost no extra code, the 3D scene draws as before, no route is a
 ### Functional Requirements (1:1 with the brief's acceptance criteria, verbatim)
 
 - **FR-001 (AC1) — data-driven both ways.** "Both strips render from JSON alone; deleting one entry removes exactly that strip (test); an unknown `to` slug fails the build with a named error; a relationship to the same project is rejected by the schema."
-  - SR-001a: content patch per RFC §2 (exact bytes, notes verbatim, explicit in both files).
+  - SR-001a: content per RFC §11 brief revision 1 (sibling files `.specify/content/relationships/<slug>.json`, exact bytes, notes verbatim, explicit in both); the project JSON files stay byte-identical.
   - SR-001b: app-level schema + `RelationshipValidationError` per RFC §3.1–§3.2; validation at module load of `content/projects/connections.ts`.
   - SR-001c: `Connections` server component, empty list → `null`; mounted after `<Workbench>` (RFC §4).
 - **FR-002 (AC2) — accessible.** "The strip is a labelled list of links, keyboard reachable in order, visible focus, tap targets ≥ 44×44, link text names the destination project (not "here"). axe 0 serious / 0 critical."
@@ -121,8 +121,8 @@ The page ships almost no extra code, the 3D scene draws as before, no route is a
 
 ### Key Entities
 
-- **Relationship** (content): `{ to: slug, kind: 'measured-on' | 'shares-stack' | 'same-engine', note: string }`, under the top-level `relationships` of a project JSON.
-- **ProjectSource** (type): `ProjectInput & { relationships? }`, what the generated `.source.ts` satisfies.
+- **Relationship** (content): `{ to: slug, kind: 'measured-on' | 'shares-stack' | 'same-engine', note: string }`, in `.specify/content/relationships/<owner-slug>.json` under `relationships` (revision 1).
+- **RelationshipsSource** (type): `{ relationships: RelationshipInput[] }`, what the generated `<slug>.relationships.ts` satisfies.
 - **Connection** (resolved): `{ slug, name, kind, note }`; `name` = the target's `meta.name`.
 - **B1**: the T001 upgrade commit, the byte and JS baseline for AC4/AC5.
 

@@ -37,7 +37,10 @@ paths_unchanged() {
 }
 
 frozen_ok() {
-  paths_unchanged "$BASE" .specify/slices .specify/KICKOFF-S17.md .specify/content/site.json
+  # Brief revision 1 of 2: the project JSON files stay byte-identical; relationships live in
+  # .specify/content/relationships/.
+  paths_unchanged "$BASE" .specify/slices .specify/KICKOFF-S17.md .specify/content/site.json \
+    .specify/content/jev-toolkit.json .specify/content/websocket-inspector.json
 }
 
 xploder_ok() {
@@ -173,7 +176,7 @@ allowed_paths_ok() {
   local changed unexpected
   changed=$(changed_paths)
   [[ -n "$changed" ]] || return 0
-  unexpected=$(grep -vE '^(\.specify/content/(jev-toolkit|websocket-inspector)\.json|apps/web/content/projects/|apps/web/scripts/convert-content\.ts|apps/web/components/connections\.tsx|apps/web/app/\(site\)/projects/\[slug\]/page\.tsx|apps/web/test/|apps/web/package\.json|pnpm-lock\.yaml|apps/web/AGENTS\.md|\.specify/features/cross-project/)' <<<"$changed" || true)
+  unexpected=$(grep -vE '^(\.specify/content/relationships/[a-z0-9-]+\.json|apps/web/content/projects/|apps/web/scripts/convert-content\.ts|apps/web/components/connections\.tsx|apps/web/app/\(site\)/projects/\[slug\]/page\.tsx|apps/web/test/|apps/web/package\.json|pnpm-lock\.yaml|apps/web/AGENTS\.md|\.specify/features/cross-project/)' <<<"$changed" || true)
   [[ -z "$unexpected" ]] || {
     printf 'unexpected paths:\n%s\n' "$unexpected"
     return 1

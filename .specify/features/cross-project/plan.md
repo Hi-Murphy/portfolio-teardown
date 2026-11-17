@@ -9,7 +9,7 @@ Order (brief + kickoff Hard Rule 4, after the authorised upgrade): **upgrade →
 | # | Step | Task | Product paths | Test |
 |---|---|---|---|---|
 | 0 | Next 16.4.3 → 16.4.6 (U1) + every baseline on `B1` | T001 | `apps/web/package.json`, `pnpm-lock.yaml` (+ `apps/web/AGENTS.md` if `next dev` rewrites it) | full suite + gates on `B1`; 3 builds without the notice |
-| 1 | content patch + pass-through | T002 | the two JSON files, converter `typeImport`, `relationships.ts` (type + `projectInput` only), the two project modules, regenerated sources | fidelity red → green |
+| 1 | relationship content files + conversion (brief revision 1) | T002 | two new `.specify/content/relationships/*.json`, converter rows, `relationships.ts` (types only), generated `<slug>.relationships.ts` | fidelity red → green |
 | 2 | schema + errors + resolver | T003 | `relationships.ts` (schema, error, resolver), `connections.ts` | `relationships.test.ts` red → green; build failures |
 | 3 | `Connections` + mount | T004 | `components/connections.tsx`, the project route | removal render test, R4 class test, `/` bytes |
 | 4 | a11y + layout proof | T005 | none (probe + evidence) | `connections-probe.mjs`, axe, CLS, sweep |
@@ -26,8 +26,8 @@ No sealed surface is touched and no re-seal is planned. Any need for one is a ST
 | Tests | vitest (`apps/web/test`, `packages/xploder/test`, `tools/perf/test`); `site:probe`, `eager:probe`, `a11y:axe:site` on `apps/web/out`; S16 `label-matrix.mjs` (read-only reuse); feature scripts in this dir; `guards.sh` |
 | Base | `f0c2d37` (S16 merge `cec65ea` + S17 freeze). **Byte/JS base `B1`** = the T001 upgrade commit (R1) |
 | Seal bases | S2/S4 `3aee8fc`, S5 `5d3abdb`, S6 `c8794b2`, S7 `cc663f7`, S8 `c8794b2` (pushed `seal/*` tags) |
-| Frozen | `.specify/slices/**`, `.specify/KICKOFF*.md`, `.specify/content/site.json`; all of `packages/xploder`; all of `tools/perf`; `.github/workflows/**` |
-| Allowed product paths | `.specify/content/{jev-toolkit,websocket-inspector}.json` (relationships block only), `apps/web/content/projects/**`, `apps/web/scripts/convert-content.ts`, `apps/web/components/connections.tsx`, `apps/web/app/(site)/projects/[slug]/page.tsx`, `apps/web/test/**`; T001 only: `apps/web/package.json`, `pnpm-lock.yaml`, `apps/web/AGENTS.md` |
+| Frozen | `.specify/slices/**`, `.specify/KICKOFF*.md`, all three `.specify/content/*.json` (brief revision 1); all of `packages/xploder`; all of `tools/perf`; `.github/workflows/**` |
+| Allowed product paths | `.specify/content/relationships/*.json` (new, brief revision 1), `apps/web/content/projects/**`, `apps/web/scripts/convert-content.ts`, `apps/web/components/connections.tsx`, `apps/web/app/(site)/projects/[slug]/page.tsx`, `apps/web/test/**`; T001 only: `apps/web/package.json`, `pnpm-lock.yaml`, `apps/web/AGENTS.md` |
 
 ## Constitution Check
 
@@ -63,19 +63,18 @@ No sealed surface is touched and no re-seal is planned. Any need for one is a ST
 ### Source code (changes only)
 
 ```
-.specify/content/jev-toolkit.json            + relationships → websocket-inspector (RFC §2)       [T002]
-.specify/content/websocket-inspector.json    + relationships → jev-toolkit (RFC §2)               [T002]
+.specify/content/relationships/jev-toolkit.json          NEW  → websocket-inspector (RFC §11 rev 1) [T002]
+.specify/content/relationships/websocket-inspector.json  NEW  → jev-toolkit (RFC §11 rev 1)         [T002]
 apps/web/
   package.json                               next, eslint-config-next ^16.4.6 (U1)                [T001]
-  scripts/convert-content.ts                 project rows: typeImport ProjectSource './relationships' [T002]
-  content/projects/relationships.ts    NEW   ProjectSource, projectInput (T002); schema, error,
+  scripts/convert-content.ts                 + 2 rows: relationships/<slug>.json → <slug>.relationships.ts [T002]
+  content/projects/relationships.ts    NEW   RelationshipsSource types (T002); schema, error,
                                              resolveConnections (T003)
-  content/projects/connections.ts      NEW   CONNECTION_SOURCES, connectionsFor(slug) (server only) [T003]
-  content/projects/{jev-toolkit,websocket-inspector}.ts   defineProject(projectInput(…))          [T002]
-  content/projects/*.source.ts               regenerated                                           [T002]
+  content/projects/<slug>.relationships.ts   NEW, generated                                       [T002]
+  content/projects/connections.ts      NEW   RELATIONSHIP_SOURCES, connectionsFor(slug) (server only) [T003]
   components/connections.tsx           NEW   server component (RFC §4.3)                           [T004]
   app/(site)/projects/[slug]/page.tsx        + <Connections connections={connectionsFor(slug)} />  [T004]
-  test/content-fidelity.test.ts              (b) adjusted, (f), (e3), completeness                [T002, T003]
+  test/content-fidelity.test.ts              relationship rows (a,c,d,e), completeness (T002); (f) (T003)
   test/relationships.test.ts           NEW   RFC §3.5 cases 1–5                                    [T003, T004]
   test/connections-classes.test.ts     NEW   R4                                                    [T004]
   test/no-hand-copied-content.test.ts        + relationships[].note                                [T003]
@@ -113,7 +112,7 @@ A failing guard is never "fixed" by widening it. It is a STOP and an escalation 
 
 ### G2 — Content (T002)
 
-The JSON patch → fidelity (a)/(d) red (stale module, old SHA) → `ProjectSource` + `projectInput` + converter `typeImport` + convert → fidelity green with (b) adjusted. The site builds and renders as before (no UI yet). `content-patch-check.mjs` passes.
+Revision 1: two new relationship files → fidelity rows red (modules missing) → types + converter rows + convert → green. Project JSON, modules and sources untouched; the site builds and renders as before. `content-patch-check.mjs` passes.
 
 ### G3 — Schema (T003)
 
