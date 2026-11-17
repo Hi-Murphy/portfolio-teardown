@@ -241,6 +241,26 @@ describe('cards helpers', () => {
     });
   });
 
+  test('accepts zero chips when the source expects none', () => {
+    expect(evaluateCardChips([], ['Kotlin', 'Room'], 0)).toEqual({
+      pass: true,
+      count: 0,
+      unknown: [],
+    });
+  });
+
+  test('rejects a chip when the source expects none', () => {
+    expect(evaluateCardChips(['Kotlin'], ['Kotlin'], 0).pass).toBe(false);
+  });
+
+  test('accepts the exact expected chip count above one', () => {
+    expect(evaluateCardChips(['Kotlin', 'Room'], ['Kotlin', 'Room'], 2).pass).toBe(true);
+  });
+
+  test('rejects a chip count below the exact expectation', () => {
+    expect(evaluateCardChips(['Kotlin'], ['Kotlin'], 2).pass).toBe(false);
+  });
+
   test('passes a document that does not overflow horizontally', () => {
     expect(evaluateHorizontalScroll(390, 390)).toEqual({
       pass: true,
