@@ -1,0 +1,9 @@
+{
+  "relationships": [
+    {
+      "to": "jev-toolkit",
+      "kind": "measured-on",
+      "note": "This app is the benchmark target for the harness in jev-toolkit."
+    }
+  ]
+}
