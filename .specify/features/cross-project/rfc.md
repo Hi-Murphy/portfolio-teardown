@@ -375,3 +375,7 @@ Executor: DeepSeek Flash 4.1, one fresh worktree per task off the slice branch (
 - **R6 — `next dev` may rewrite `apps/web/AGENTS.md` after the upgrade.** If it does, the diff is reviewed for secrets and committed with T001 (the S04 rule). It is the only extra path `ALLOWED-PATHS-OK` admits for T001.
 
 **Stage 2 gate (Murphy, 2026-11-17): "1. r1 2. go".** R1 confirmed: the upgrade lands in S17 as T001, and AC4/AC5 measure the feature against `B1`. Stage 3 started.
+
+**Corrections during Stage 3:**
+
+- **C1 (orchestrator, before T003):** the one-off "unknown slug / self-reference fails the build" runs move from T003 to T004. In T003 no page imports `connections.ts` yet, so a build could not fail there. T003 proves the throw in unit tests; T004 proves it at build level once the route mounts the strip. No AC changes.

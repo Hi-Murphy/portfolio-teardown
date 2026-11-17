@@ -128,7 +128,7 @@
 
 ## Phase G3 — Schema
 
-### T003 [US2] Schema, named errors, resolver (red → green) + build failures
+### T003 [US2] Schema, named errors, resolver (red → green)
 
 - **Seam:** content relationships ↔ the set of known projects, validated at build.
 - **Files:**
@@ -139,28 +139,14 @@
   set -euo pipefail; mkdir -p /tmp/s17-checks .specify/features/cross-project/evidence; E=.specify/features/cross-project/evidence; F=.specify/features/cross-project
   grep -Eq 'FAIL|failed|Cannot find|is not exported' $E/T003-log-red.txt && echo RED-RECORDED
   pnpm --filter web exec vitest run test/relationships.test.ts test/content-fidelity.test.ts test/no-hand-copied-content.test.ts --reporter verbose 2>&1 | tee $E/T003-log-green.txt
-  # one-off build failures (restored afterwards; git status must be clean)
-  for case in unknown self; do
-    node -e '
-      const fs=require("fs"),p=".specify/content/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));
-      j.relationships[0].to = process.argv[1]==="unknown" ? "no-such-project" : "jev-toolkit";
-      fs.writeFileSync(p, JSON.stringify(j,null,2)+"\n");' $case
-    pnpm --filter web content:convert
-    if bash $F/build-fixed.sh /tmp/s17-checks/t003-$case-out > $E/T003-log-$case-build.txt 2>&1; then echo "BUILD-PASSED-$case"; exit 1; fi
-    grep -E 'RelationshipValidationError' $E/T003-log-$case-build.txt
-    git checkout -- .specify/content apps/web/content/projects && pnpm --filter web content:convert --check
-  done
-  grep -q 'Unknown relationship target "no-such-project" in project "jev-toolkit"' $E/T003-log-unknown-build.txt && echo UNKNOWN-NAMED
-  grep -q 'Project "jev-toolkit" cannot have a relationship to itself' $E/T003-log-self-build.txt && echo SELF-NAMED
-  test -z "$(git status --porcelain)" && echo RESTORED-CLEAN
   bash $F/build-fixed.sh /tmp/s17-checks/t003-out
   grep -c 'RelationshipSchema\|cannot have a relationship' -r /tmp/s17-checks/t003-out/_next/static || echo SCHEMA-NOT-IN-CLIENT   # server only
   node $F/bundle-gzip.mjs --diff /tmp/s17-checks/base-gzip.json /tmp/s17-checks/t003-out | tee $E/T003-log-gzip.txt
   bash $F/guards.sh && pnpm typecheck && pnpm lint && pnpm test && echo T003-OK
   ```
-- **Evidence:** `T003-log-{red,green,unknown-build,self-build,gzip}.txt`.
+- **Evidence:** `T003-log-{red,green,gzip}.txt`. (C1: the build-failure one-offs run in T004, once the route imports `connections.ts`.)
 - **WHAT MURPHY SHOULD TEST/VALIDATE:**
-  1. Optional: read `T003-log-unknown-build.txt`. The build stops with a message that names the bad slug and the project.
+  1. Nothing hands-on (default: the test log; the build-level failures are shown in T004).
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: the RFC §3.2 messages).
 
@@ -183,6 +169,20 @@
   bash $F/home-bytes.sh /tmp/s17-checks/base-out /tmp/s17-checks/t004-out | tee $E/T004-log-home-bytes.md        # / + stylesheet identical (STOP otherwise)
   cmp /tmp/s17-checks/base-out/sitemap.xml /tmp/s17-checks/t004-out/sitemap.xml && echo SITEMAP-IDENTICAL | tee -a $E/T004-log-home-bytes.md
   for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections' /tmp/s17-checks/t004-out/projects/$s.html | wc -l)"; done | tee $E/T004-log-strips.txt   # 1 each
+  # one-off build failures (restored afterwards; git status must be clean)
+  for case in unknown self; do
+    node -e '
+      const fs=require("fs"),p=".specify/content/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));
+      j.relationships[0].to = process.argv[1]==="unknown" ? "no-such-project" : "jev-toolkit";
+      fs.writeFileSync(p, JSON.stringify(j,null,2)+"\n");' $case
+    pnpm --filter web content:convert
+    if bash $F/build-fixed.sh /tmp/s17-checks/t003-$case-out > $E/T004-log-$case-build.txt 2>&1; then echo "BUILD-PASSED-$case"; exit 1; fi
+    grep -E 'RelationshipValidationError' $E/T004-log-$case-build.txt
+    git checkout -- .specify/content apps/web/content/projects && pnpm --filter web content:convert --check
+  done
+  grep -q 'Unknown relationship target "no-such-project" in project "jev-toolkit"' $E/T004-log-unknown-build.txt && echo UNKNOWN-NAMED
+  grep -q 'Project "jev-toolkit" cannot have a relationship to itself' $E/T004-log-self-build.txt && echo SELF-NAMED
+  test -z "$(git status --porcelain)" && echo RESTORED-CLEAN
   # one-off removal build: delete jev-toolkit's entry → jev 0, wsi 1; restore
   node -e 'const fs=require("fs"),p=".specify/content/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));delete j.relationships;fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n")'
   pnpm --filter web content:convert && bash $F/build-fixed.sh /tmp/s17-checks/t004-removal-out
@@ -196,10 +196,11 @@
   kill $S
   bash $F/guards.sh && pnpm typecheck && pnpm lint && pnpm test && echo T004-OK
   ```
-- **Evidence:** `T004-log-{red,green,home-bytes,strips,removal-build,gzip}.*`; `T004-screenshot-{jev,wsi}-{mobile,desktop}-{light,dark}.png` + `T004-meta-*.json`.
+- **Evidence:** `T004-log-{red,green,home-bytes,strips,unknown-build,self-build,removal-build,gzip}.*`; `T004-screenshot-{jev,wsi}-{mobile,desktop}-{light,dark}.png` + `T004-meta-*.json`.
 - **WHAT MURPHY SHOULD TEST/VALIDATE:**
   1. Look at the eight screenshots: the strip sits under the teardown, above the footer, on both pages, in both palettes.
-  2. Optional, hands-on: `pnpm dev`, open both project pages, scroll to the end, and follow each link.
+  2. Optional: read `T004-log-unknown-build.txt`. The build stops with a message that names the bad slug and the project.
+  3. Optional, hands-on: `pnpm dev`, open both project pages, scroll to the end, and follow each link.
 - **WHAT THE AGENT NEEDS FROM MURPHY:**
   1. Nothing (default: RFC §4.3 layout with existing classes only).
   2. Only if you dislike the look: say what to change. It must stay within classes that already exist, or `/` stops being byte-identical (R0).
