@@ -1,0 +1,14 @@
+$ node tools/perf/src/cli/a11y-axe-site.ts --serve <tmp>/s18-checks/t006b-out --out <tmp>/s18-checks/t006b-axe
+axe-site home/light/desktop [/]: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 32
+axe-site home/light/mobile [/]: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 32
+axe-site home/dark/desktop [/]: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 32
+axe-site home/dark/mobile [/]: 3 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 32
+axe-site projects/light/desktop [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site projects/light/mobile [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site projects/dark/desktop [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site projects/dark/mobile [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site project/light/desktop [/projects/websocket-inspector, /projects/jev-toolkit, /projects/agent-fleet]: 18 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 553
+axe-site project/light/mobile [/projects/websocket-inspector, /projects/jev-toolkit, /projects/agent-fleet]: 18 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 743
+axe-site project/dark/desktop [/projects/websocket-inspector, /projects/jev-toolkit, /projects/agent-fleet]: 18 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 483
+axe-site project/dark/mobile [/projects/websocket-inspector, /projects/jev-toolkit, /projects/agent-fleet]: 18 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 673
+axe-site total: serious 0 critical 0 moderate 0 minor 0 | incomplete 2580
