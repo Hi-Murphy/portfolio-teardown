@@ -1,0 +1,7 @@
+# Invisible Tab stop in the canvas fallback (pre-existing, all three project routes)
+# node .specify/features/agent-fleet/outline-tabstop-check.mjs  (export served on :4319, fixed build id)
+jev-toolkit outlines: [{"inCanvas":true,"noscript":false,"tabIndex":0,"w":0,"h":0,"vis":"visible","parentTag":"CANVAS"}] | tab stops on outline: [{"i":10,"inCanvas":true,"w":0,"h":0},{"i":41,"inCanvas":true,"w":0,"h":0}]
+websocket-inspector outlines: [{"inCanvas":true,"noscript":false,"tabIndex":0,"w":0,"h":0,"vis":"visible","parentTag":"CANVAS"}] | tab stops on outline: [{"i":10,"inCanvas":true,"w":0,"h":0},{"i":41,"inCanvas":true,"w":0,"h":0}]
+agent-fleet outlines: [{"inCanvas":true,"noscript":false,"tabIndex":0,"w":0,"h":0,"vis":"visible","parentTag":"CANVAS"}] | tab stops on outline: [{"i":9,"inCanvas":true,"w":0,"h":0},{"i":37,"inCanvas":true,"w":0,"h":0}]
+# Cause: apps/web/components/project-outline.tsx renders <section data-site-outline tabIndex={0}>; workbench-client.tsx passes it
+# to the live viewer as the R3F canvas fallback, so with WebGL available it sits inside <canvas> at 0x0 and stays in the Tab order.
