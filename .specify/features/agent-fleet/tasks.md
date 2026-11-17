@@ -37,7 +37,7 @@
 |---|---|---|---|---|
 | T001 | ☑ (canary red 23 → green 27/27; G1 0; G2 S17 base 0 unexempted; seeded 3/3; guards 11/11 + 5 controls; R-G/R-H/R-I) | 1 (Flash, 2 dispatches; both stops were spec gaps, not failures) + orchestrator (prose-guard scope, 1 type fix) | evidence/T001-* | e7ae0f1 |
 | T002 | ☑ (red: module missing → green; web 391 / xploder 727 / perf 309, 0 fail; build prerenders `/projects/agent-fleet`; G1 0; guards 12/12) | 1 (Flash, 1 dispatch) + orchestrator (path normalisation R-J) | evidence/T002-* | dbeb1aa |
-| T003 | ☐ | — | evidence/T003-* | — |
+| T003 | ☑ (red → green; empty-render 72/72 cells + 20/20 controls; site-probe cards 43/43; CSS identical; 16 screenshots; guards 12/12) | 1 (Flash, 1 dispatch) | evidence/T003-* | 54113f3 |
 | T004 | ☐ | — | evidence/T004-* | — |
 | T005 | ☐ | — | evidence/T005-*, source-map.md | — |
 | T006 | ☐ | — | evidence/T006-* | — |
