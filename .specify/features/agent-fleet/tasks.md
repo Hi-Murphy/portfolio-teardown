@@ -40,7 +40,7 @@
 | T003 | ☑ (red → green; empty-render 72/72 cells + 20/20 controls; site-probe cards 43/43; CSS identical; 16 screenshots; guards 12/12) | 1 (Flash, 1 dispatch) | evidence/T003-* | 54113f3 |
 | T004 | ☑ (route 4/14/3, panels 14/14, flows 3/3; sitemap 5; OG 5 × 1200×630 stable over 2 builds, existing 2 identical to base; JSON-LD 1 per project page ×3; 404; site-probe teardown/routes/draws/cards PASS; perf.yml steps) | 1 (Flash, 1 dispatch) | evidence/T004-* | 5f7a307 |
 | T005 | ☑ (G1 0; G2 in `pnpm build`, 0 unexempted on all 5 routes; differential = 6 new geometry floats, all X1; seeded 3/3 exit 6; fixture skip; G4 all SOURCED after Merlin `eda5c82` + A/B/D sources; G5 53 strings signed, 0 flags; R-K, R-L) | 1 (Flash, G2 part) + orchestrator (G4 map, G5 read, prose mode) | evidence/T005-*, source-map.md | 5e6e61d |
-| T006 | ☐ | — | evidence/T006-* | — |
+| T006 | ☑ (axe 0/0 all states incl. no-WebGL; keyboard 14/14 panels + 3/3 flows × 4 cells; focus visible 102/102; tap 43/43; E4-A fixed the pre-existing invisible canvas-fallback stop on all 3 routes; R-M probe rule) | 1 (Flash, 3 dispatches: probe; fix v1 stopped on axe no-WebGL = spec gap; fix v2) + orchestrator (probe focus rule, server-payload ref fix) | evidence/T006-*, T006b-* | bcbb704 |
 | T007 | ☐ | — | evidence/T007-*, AC-selfcheck.md | — |
 
 ---
