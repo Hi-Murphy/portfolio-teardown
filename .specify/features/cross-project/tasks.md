@@ -40,7 +40,7 @@
 | T003 | ☑ (red 11 fail → green 57; SCHEMA-NOT-IN-CLIENT; +0 B) | 1 (Flash, 1 dispatch) | evidence/T003-* | d9c7c13 |
 | T004 | ☑ after C3 (strips 1/1; unknown/self builds fail named; removal 0/1; home 25/25; +0 B; 8 screenshots) | 1 (Flash, 2 dispatches) + orchestrator (unused const) | evidence/T004-* | e18dd55 |
 | T005 | ☑ (probe 8 cells + 2 no-JS PASS; axe 0/0; CLS 0 ×16; draws 2; sweep 2,052 cells 0 hits; controls 3/3) | 1 (Flash, 1 dispatch) | evidence/T005-* | 21df7a5 |
-| T006 | ☑ local gates (home 25/25, +0 B, LH 1.00/1.00 ×4, CLS 0, draws 2, eager ×2, guards 10/10); CI → `T006-ci.txt` | orchestrator | evidence/T006-*, AC-selfcheck.md | — |
+| T006 | ☑ local gates (home 25/25, +0 B, LH 1.00/1.00 ×4, CLS 0, draws 2, eager ×2, guards 10/10); CI 11/11 (7/7 required) on PR #28 | orchestrator | evidence/T006-*, AC-selfcheck.md | — |
 
 ---
 
