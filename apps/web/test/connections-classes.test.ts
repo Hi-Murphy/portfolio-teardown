@@ -8,7 +8,6 @@ import { collectSourceFiles } from './source-scan';
 const APP_ROOT = fileURLToPath(new URL('../app/', import.meta.url));
 const COMPONENTS_ROOT = fileURLToPath(new URL('../components/', import.meta.url));
 const COMPONENT_FILE = fileURLToPath(new URL('../components/connections.tsx', import.meta.url));
-const SOURCE_EXTENSIONS = new Set(['.ts', '.tsx']);
 const CLASS_NAME_PATTERN =
   /\bclassName\s*=\s*(?:"([^"]*)"|'([^']*)'|\{\s*"([^"]*)"\s*\}|\{\s*'([^']*)'\s*\}|\{\s*`([^`]*)`\s*\})/g;
 
