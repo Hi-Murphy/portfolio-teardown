@@ -1,0 +1,6 @@
+# command: node .specify/features/cross-project/content-patch-check.mjs | commit: 00c9cb049585b556f8d93fd67785631d6a811455 | exit: 0
+CONTENT-PATCH PASS .specify/content/jev-toolkit.json
+CONTENT-PATCH PASS .specify/content/websocket-inspector.json
+CONTENT-PATCH PASS .specify/content/site.json
+CONTENT-PATCH PASS .specify/content/relationships/jev-toolkit.json
+CONTENT-PATCH PASS .specify/content/relationships/websocket-inspector.json
