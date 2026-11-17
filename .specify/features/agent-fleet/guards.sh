@@ -147,6 +147,11 @@ redaction_prose_ok() {
   done
 }
 
+evidence_paths_ok() {
+  # R-J: S18 evidence carries no local user paths (F6); normalise to <worktree>/<home> before commit.
+  ! grep -rlE '/(Users|home)/[A-Za-z]+/' "$F"
+}
+
 guard FROZEN-OK frozen_ok
 guard XPLODER-OK xploder_ok
 guard SURFACES-S2S8-OK surfaces_s2s8_ok
@@ -158,5 +163,6 @@ guard NO-REGISTRY-OK no_registry_ok
 guard NO-RELATIONSHIP-OK no_relationship_ok
 guard GITLEAKS-OK gitleaks_ok
 guard REDACTION-PROSE-OK redaction_prose_ok
+guard EVIDENCE-PATHS-OK evidence_paths_ok
 
 exit "$fails"

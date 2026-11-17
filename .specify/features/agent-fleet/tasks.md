@@ -28,6 +28,7 @@
 - **Red then green:** each product task first commits the red test alone, with the failing output in `T<NNN>-log-red.txt` (non-zero exit), then the change with `T<NNN>-log-green.txt`.
 - **No copy in code:** every visible string comes from the JSON; no motion, colour or transition literal; no new class.
 - **Never touch:** `.specify/slices/**`, `.specify/KICKOFF*.md`, `.specify/content/**`, `packages/xploder/**`, `apps/web/content/tech-registry.ts`, `apps/web/content/projects/connections.ts`, `pnpm-lock.yaml`.
+- **Evidence paths (R-J):** absolute local paths in logs are normalised to `<worktree>` / `<home>` before commit (`EVIDENCE-PATHS-OK`).
 - **Commits:** prefix `S18/TNNN:`, ending with the attribution line. Before each commit, run `gitleaks dir` and `node apps/web/scripts/redaction-scan.ts content` on new prose and evidence (R-C). Stage-boundary commits use `S18/stage-3-<group>:`.
 
 ## Ledger (resume point: update at every task boundary)
@@ -35,7 +36,7 @@
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
 | T001 | ☑ (canary red 23 → green 27/27; G1 0; G2 S17 base 0 unexempted; seeded 3/3; guards 11/11 + 5 controls; R-G/R-H/R-I) | 1 (Flash, 2 dispatches; both stops were spec gaps, not failures) + orchestrator (prose-guard scope, 1 type fix) | evidence/T001-* | e7ae0f1 |
-| T002 | ☐ | — | evidence/T002-* | — |
+| T002 | ☑ (red: module missing → green; web 391 / xploder 727 / perf 309, 0 fail; build prerenders `/projects/agent-fleet`; G1 0; guards 12/12) | 1 (Flash, 1 dispatch) + orchestrator (path normalisation R-J) | evidence/T002-* | dbeb1aa |
 | T003 | ☐ | — | evidence/T003-* | — |
 | T004 | ☐ | — | evidence/T004-* | — |
 | T005 | ☐ | — | evidence/T005-*, source-map.md | — |

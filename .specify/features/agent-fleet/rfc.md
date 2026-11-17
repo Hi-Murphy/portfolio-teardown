@@ -433,3 +433,4 @@ Note for Merlin: `evidence/REV1-revision-note.md`.
 - **R-H (T001):** X7 gains zod's nil-UUID regex literal (`0000-0000-0000`, an F9 phone false positive). The T000 spike had already measured it, but the Stage 2 ledger left it out.
 - **R-I (T001):** `REDACTION-PROSE-OK` scans only the claim-bearing prose (`source-map.md`, the G5 read, `AC-selfcheck.md`). The design documents quote the patterns and canary shapes by necessity; gitleaks still covers them.
 - Executor X5 reading approved: the public contact address is read from `site.json` `identity.email` as well as `identity.links[].url`.
+- **R-J (T002):** S18 evidence logs are normalised (`<worktree>`, `<home>`) so no local user path (F6) is committed; guard `EVIDENCE-PATHS-OK`. Forty evidence files from earlier slices contain local paths; they are outside S18's scope and reported to Murphy.
