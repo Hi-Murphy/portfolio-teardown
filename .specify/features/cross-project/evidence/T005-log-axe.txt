@@ -1,0 +1,12 @@
+# command: pnpm a11y:axe:site --serve /tmp/s17-checks/t005-out --out /tmp/s17-checks/axe | commit: e18dd55c2ab67cc150eedad1992a017148c1016c | exit: 0
+
+axe-site projects/light/mobile [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site projects/dark/desktop [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site projects/dark/mobile [/projects]: 1 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 0
+axe-site project/light/desktop [/projects/websocket-inspector, /projects/jev-toolkit]: 12 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 391
+axe-site project/light/mobile [/projects/websocket-inspector, /projects/jev-toolkit]: 12 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 525
+axe-site project/dark/desktop [/projects/websocket-inspector, /projects/jev-toolkit]: 12 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 341
+axe-site project/dark/mobile [/projects/websocket-inspector, /projects/jev-toolkit]: 12 states | serious 0 critical 0 moderate 0 minor 0 | incomplete 475
+axe-site total: serious 0 critical 0 moderate 0 minor 0 | incomplete 1860
+
+AXE-EXIT 0
