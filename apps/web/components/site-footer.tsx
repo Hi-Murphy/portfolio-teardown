@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { SITE } from '../content/site';
-import { GitHubIcon, LinkedInIcon, MailIcon, MonogramMark } from './icons';
+import { GitHubIcon, LinkedInIcon, LogoGlyph, MailIcon } from './icons';
 
 const BUILD_YEAR = new Date().getFullYear();
 const FOOTER_LINK_CLASS =
@@ -24,7 +24,7 @@ export function SiteFooter() {
               href="/"
               className="inline-flex min-h-11 w-fit items-center gap-3 text-base font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
-              <MonogramMark siteName={SITE.meta.siteName} />
+              <LogoGlyph />
               <span>{SITE.identity.name}</span>
             </Link>
             <p className="text-sm text-muted">

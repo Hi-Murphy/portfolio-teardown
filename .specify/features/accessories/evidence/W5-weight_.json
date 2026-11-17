@@ -1,0 +1,165 @@
+{
+  "kind": "weight",
+  "version": 1,
+  "url": "http://127.0.0.1:4719/",
+  "budgetBytes": 3000000,
+  "profiles": {
+    "mobile": {
+      "totalBytes": 467177,
+      "requests": 29,
+      "byType": {
+        "document": 26937,
+        "stylesheet": 7149,
+        "script": 395332,
+        "other": 535,
+        "fetch": 37224
+      },
+      "byOrigin": {
+        "first": 467177,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/1mzpr2e_yf4k_.js",
+          "type": "script",
+          "bytes": 139818,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/3359ll6dl2j6z.js",
+          "type": "script",
+          "bytes": 72072,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/0-feshdmxxqft.js",
+          "type": "script",
+          "bytes": 58363,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/29p5wlfz_1l3v.js",
+          "type": "script",
+          "bytes": 45920,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/335gqv7yiqdzh.js",
+          "type": "script",
+          "bytes": 42879,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/",
+          "type": "document",
+          "bytes": 26937,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/__next.!KHNpdGUp.__PAGE__.txt?_rsc=gzSU19M5behYtFJ2",
+          "type": "fetch",
+          "bytes": 12806,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/1c1n5uh1al8a6.js",
+          "type": "script",
+          "bytes": 9078,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/projects/jev-toolkit/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=lXgVy4icVkuKRDeA",
+          "type": "fetch",
+          "bytes": 7902,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/3ovppnf4srecq.css",
+          "type": "stylesheet",
+          "bytes": 7149,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    },
+    "desktop": {
+      "totalBytes": 467128,
+      "requests": 29,
+      "byType": {
+        "document": 26937,
+        "stylesheet": 7149,
+        "script": 395332,
+        "other": 535,
+        "fetch": 37175
+      },
+      "byOrigin": {
+        "first": 467128,
+        "third": 0
+      },
+      "top": [
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/1mzpr2e_yf4k_.js",
+          "type": "script",
+          "bytes": 139818,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/3359ll6dl2j6z.js",
+          "type": "script",
+          "bytes": 72072,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/0-feshdmxxqft.js",
+          "type": "script",
+          "bytes": 58363,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/29p5wlfz_1l3v.js",
+          "type": "script",
+          "bytes": 45920,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/335gqv7yiqdzh.js",
+          "type": "script",
+          "bytes": 42879,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/",
+          "type": "document",
+          "bytes": 26937,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/__next.!KHNpdGUp.__PAGE__.txt?_rsc=gzSU19M5behYtFJ2",
+          "type": "fetch",
+          "bytes": 12806,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/1c1n5uh1al8a6.js",
+          "type": "script",
+          "bytes": 9078,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/projects/jev-toolkit/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt?_rsc=lXgVy4icVkuKRDeA",
+          "type": "fetch",
+          "bytes": 7902,
+          "thirdParty": false
+        },
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/3ovppnf4srecq.css",
+          "type": "stylesheet",
+          "bytes": 7149,
+          "thirdParty": false
+        }
+      ],
+      "pass": true
+    }
+  },
+  "pass": true
+}

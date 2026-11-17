@@ -1,3 +1,5 @@
+import { LOGO_GLYPH_RECTS, LOGO_SHEET_SIZE } from '../content/logo-glyph';
+
 interface MonogramMarkProps {
   readonly siteName: string;
 }
@@ -17,6 +19,24 @@ export function MonogramMark({ siteName }: MonogramMarkProps) {
     <span aria-hidden="true" className={MONOGRAM_CLASS}>
       {initials}
     </span>
+  );
+}
+
+export function LogoGlyph() {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      width="20"
+      height="20"
+      viewBox={`0 0 ${LOGO_SHEET_SIZE} ${LOGO_SHEET_SIZE}`}
+      fill="currentColor"
+      className="shrink-0"
+    >
+      {LOGO_GLYPH_RECTS.map((rect) => (
+        <rect key={rect.x} {...rect} />
+      ))}
+    </svg>
   );
 }
 

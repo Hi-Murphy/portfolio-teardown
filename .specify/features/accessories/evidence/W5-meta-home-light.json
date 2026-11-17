@@ -1,0 +1,59 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://127.0.0.1:4719/",
+  "finalUrl": "http://127.0.0.1:4719/",
+  "httpStatus": 200,
+  "startedAt": "2026-11-17T16:09:58.076Z",
+  "finishedAt": "2026-11-17T16:10:06.488Z",
+  "durationMs": 8412,
+  "argv": [
+    "http://127.0.0.1:4719/",
+    "--runs",
+    "1",
+    "--color-scheme",
+    "light",
+    "--full-page",
+    "--out",
+    ".evidence/s19/ev_-light"
+  ],
+  "colorScheme": "light",
+  "git": {
+    "sha": "9fb8980386a9d5244c8a66a3024227c9a1222b5b",
+    "dirty": true
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 1007
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 853
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 6009
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}
