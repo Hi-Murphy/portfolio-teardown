@@ -251,6 +251,13 @@ export function scanContent(path: string): Hit[] {
   return hits;
 }
 
+/** Evidence prose (R-L): content rules without the bare `owner/repo` form, which every repo file path matches. */
+export function scanProse(path: string): Hit[] {
+  return scanText(readFileSync(path, 'utf8'), path, 'content').filter(
+    (hit) => hit.patternId !== 'bare',
+  );
+}
+
 export function scanBuild(outDir: string): BuildReport {
   const report: BuildReport = {
     raw: 0,
@@ -464,9 +471,13 @@ function prefix(match: string): string {
 function main(): void {
   const [command, argument, ...rest] = process.argv.slice(2);
 
-  if (command === 'content' && argument !== undefined && rest.length === 0) {
+  if (
+    (command === 'content' || command === 'prose') &&
+    argument !== undefined &&
+    rest.length === 0
+  ) {
     try {
-      const hits = scanContent(argument);
+      const hits = command === 'prose' ? scanProse(argument) : scanContent(argument);
       for (const hit of hits) {
         console.log(
           `G1 ${hit.cls} ${hit.patternId} ${hit.jsonPath ?? hit.offset} ${prefix(hit.match)}…`,
@@ -512,7 +523,7 @@ function main(): void {
     return;
   }
 
-  console.error('usage: redaction-scan.ts content <file> | build <outDir>');
+  console.error('usage: redaction-scan.ts content <file> | prose <file> | build <outDir>');
   process.exitCode = 2;
 }
 

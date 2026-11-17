@@ -10,6 +10,7 @@ import {
   exemptionFor,
   scanBuild,
   scanContent,
+  scanProse,
   scanText,
   type Hit,
   type Pattern,
@@ -242,5 +243,22 @@ describe('redaction scanner content and patterns', () => {
     expect(
       PATTERNS.filter((pattern) => pattern.cls === 'F6').map((pattern) => pattern.source),
     ).toEqual([String.raw`/home/\w+/`, String.raw`/Users/\w+/`, '~/[A-Za-z]']);
+  });
+});
+
+describe('redaction scanner prose mode (R-L)', () => {
+  test('ignores repo file paths but still reports the canary 3/3', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'redaction-prose-'));
+    tempDirs.push(directory);
+    const file = join(directory, 'source-map.md');
+    writeFileSync(
+      file,
+      `| 1 | see apps/web/scripts/redaction-scan.ts and .specify/slices |\n| 2 | ${canary} |\n`,
+    );
+
+    const hits = scanProse(file);
+
+    expect(hits.map((hit) => hit.cls).sort()).toStrictEqual(['F1', 'F3', 'F4']);
+    expect(hits.find((hit) => hit.cls === 'F4')?.patternId).toBe('github-url');
   });
 });

@@ -148,7 +148,7 @@ redaction_prose_ok() {
   local file
   for file in "$F/evidence/source-map.md" "$F/evidence/T005-log-g5-read.md" "$F/evidence/AC-selfcheck.md"; do
     [[ -f "$file" ]] || continue
-    node apps/web/scripts/redaction-scan.ts content "$file" || return 1
+    node apps/web/scripts/redaction-scan.ts prose "$file" || return 1
   done
 }
 
