@@ -1,6 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
 import { defineProject, type Project } from 'xploder';
 import { describe, expect, test } from 'vitest';
 
+import { agentFleet } from '../content/projects/agent-fleet';
 import { getProject, cardModel, PROJECT_SLUGS, PROJECTS } from '../content/projects';
 import { jevToolkit } from '../content/projects/jev-toolkit';
 import { websocketInspector } from '../content/projects/websocket-inspector';
@@ -80,6 +84,15 @@ describe('project card model', () => {
     expect(model.chips.length).toBeLessThanOrEqual(4);
   });
 
+  test('maps the agent-fleet meta with no chips', () => {
+    expect(cardModel(agentFleet)).toStrictEqual({
+      slug: agentFleet.meta.slug,
+      name: agentFleet.meta.name,
+      tagline: agentFleet.meta.tagline,
+      chips: [],
+    });
+  });
+
   test('ranks by count before first appearance', () => {
     const model = cardModel(
       syntheticProject([
@@ -132,14 +145,71 @@ describe('project card model', () => {
 });
 
 describe('project index', () => {
-  test('exposes the websocket-inspector and jev-toolkit projects and slugs', () => {
-    expect(PROJECTS).toEqual([websocketInspector, jevToolkit]);
-    expect(PROJECT_SLUGS).toEqual(['websocket-inspector', 'jev-toolkit']);
+  test('exposes the websocket-inspector, jev-toolkit and agent-fleet projects and slugs', () => {
+    expect(PROJECTS).toEqual([websocketInspector, jevToolkit, agentFleet]);
+    expect(PROJECT_SLUGS).toEqual(['websocket-inspector', 'jev-toolkit', 'agent-fleet']);
   });
 
   test('resolves a project by slug', () => {
     expect(getProject('websocket-inspector')).toBe(websocketInspector);
     expect(getProject('jev-toolkit')).toBe(jevToolkit);
+    expect(getProject('agent-fleet')).toBe(agentFleet);
     expect(getProject('nope')).toBeUndefined();
+  });
+});
+
+describe('agent-fleet route model (AC1)', () => {
+  test('matches the canonical layer, component and flow model', () => {
+    const jsonPath = fileURLToPath(
+      new URL('../../../.specify/content/agent-fleet.json', import.meta.url),
+    );
+    const json = JSON.parse(readFileSync(jsonPath, 'utf8')) as {
+      meta: { links: readonly unknown[] };
+      layers: readonly {
+        id: string;
+        name: string;
+        components: readonly { id: string; name: string }[];
+      }[];
+      flows: readonly { id: string; path: readonly string[] }[];
+    };
+    const components = agentFleet.layers.flatMap((layer) => layer.components);
+    const componentIds = new Set(components.map((component) => component.id));
+
+    expect(agentFleet.layers).toHaveLength(4);
+    expect(components).toHaveLength(14);
+    expect(agentFleet.flows).toHaveLength(3);
+    expect(agentFleet.layers.map((layer) => layer.id).sort()).toStrictEqual(
+      json.layers.map((layer) => layer.id).sort(),
+    );
+    expect(components.map((component) => component.id).sort()).toStrictEqual(
+      json.layers.flatMap((layer) => layer.components.map((component) => component.id)).sort(),
+    );
+    expect(agentFleet.flows.map((flow) => flow.id).sort()).toStrictEqual(
+      json.flows.map((flow) => flow.id).sort(),
+    );
+    expect(
+      agentFleet.layers.map((layer) => layer.components.map((component) => component.id)),
+    ).toStrictEqual(json.layers.map((layer) => layer.components.map((component) => component.id)));
+
+    for (const flow of agentFleet.flows) {
+      const sourceFlow = json.flows.find((candidate) => candidate.id === flow.id);
+
+      expect(sourceFlow).toBeDefined();
+      expect(flow.path).toStrictEqual(sourceFlow?.path);
+
+      for (const step of flow.path) {
+        expect(componentIds.has(step)).toBe(true);
+      }
+    }
+
+    expect(Math.max(...components.map((component) => component.name.length))).toBeLessThanOrEqual(
+      14,
+    );
+    expect(Math.max(...agentFleet.layers.map((layer) => layer.name.length))).toBeLessThanOrEqual(
+      16,
+    );
+    expect(components.reduce((total, component) => total + component.techs.length, 0)).toBe(0);
+    expect(components.reduce((total, component) => total + component.links.length, 0)).toBe(0);
+    expect(agentFleet.meta.links).toHaveLength(0);
   });
 });
