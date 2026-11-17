@@ -373,3 +373,5 @@ Executor: DeepSeek Flash 4.1, one fresh worktree per task off the slice branch (
 - **R4 — R0 also checked in CI.** A new `test/connections-classes.test.ts` asserts that every class token in `components/connections.tsx` also appears in another file under `app/` or `components/`. It is a cheap proxy for "already in the stylesheet" that runs without a build. The stylesheet `cmp` (G11) stays the binding proof.
 - **R5 — sweep re-run = the S16 final matrix.** `label-matrix.mjs` with `--routes projects,home` on `out` and `--routes fixtures` on `out-fixtures`, plus `--control`: the same 2,052 cells as S16 T012.
 - **R6 — `next dev` may rewrite `apps/web/AGENTS.md` after the upgrade.** If it does, the diff is reviewed for secrets and committed with T001 (the S04 rule). It is the only extra path `ALLOWED-PATHS-OK` admits for T001.
+
+**Stage 2 gate (Murphy, 2026-11-17): "1. r1 2. go".** R1 confirmed: the upgrade lands in S17 as T001, and AC4/AC5 measure the feature against `B1`. Stage 3 started.
