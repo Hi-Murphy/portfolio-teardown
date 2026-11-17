@@ -478,10 +478,16 @@ async function activeFocus(page) {
       .map(([key, value]) => `${key}=${value}`)
       .join('|');
     const outlineWidth = Number.parseFloat(style.outlineWidth) || 0;
+    // Chrome draws its default focus ring as `outline-style: auto` (computed width 1px, rendered as a two-tone ring),
+    // so `auto` counts as visible. A focused element with an empty box can never show a ring.
+    const box = active.getBoundingClientRect();
     const focusVisible =
-      (style.outlineStyle !== 'none' && outlineWidth >= 2) ||
+      box.width > 0 &&
+      box.height > 0 &&
+      ((style.outlineStyle === 'auto' && outlineWidth >= 1) ||
+        (style.outlineStyle !== 'none' && outlineWidth >= 2) ||
       (style.boxShadow !== 'none' && style.boxShadow !== '') ||
-      (matches.proxy && ringVisible);
+        (matches.proxy && ringVisible));
 
     return {
       tag,
@@ -495,6 +501,7 @@ async function activeFocus(page) {
       outlineWidth,
       outlineColor: style.outlineColor,
       boxShadow: style.boxShadow,
+      box: { width: Math.round(box.width), height: Math.round(box.height) },
       ringVisible,
       focusVisible,
     };

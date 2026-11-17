@@ -1,18 +1,18 @@
 keyboard focus-order desktop-light PASS stops=12
 keyboard panels desktop-light PASS 14/14
 keyboard flows desktop-light PASS 3/3
-keyboard focus-visible desktop-light FAIL stops=103 failed=30
+keyboard focus-visible desktop-light FAIL stops=103 failed=1
 keyboard focus-order desktop-dark PASS stops=12
 keyboard panels desktop-dark PASS 14/14
 keyboard flows desktop-dark PASS 3/3
-keyboard focus-visible desktop-dark FAIL stops=103 failed=30
+keyboard focus-visible desktop-dark FAIL stops=103 failed=1
 keyboard focus-order mobile-light PASS stops=12
 keyboard panels mobile-light PASS 14/14
 keyboard flows mobile-light PASS 3/3
-keyboard focus-visible mobile-light FAIL stops=103 failed=30
+keyboard focus-visible mobile-light FAIL stops=103 failed=1
 keyboard focus-order mobile-dark PASS stops=12
 keyboard panels mobile-dark PASS 14/14
 keyboard flows mobile-dark PASS 3/3
-keyboard focus-visible mobile-dark FAIL stops=103 failed=30
+keyboard focus-visible mobile-dark FAIL stops=103 failed=1
 keyboard tap-targets mobile-light PASS elements=43 failures=0
 keyboard FAIL
