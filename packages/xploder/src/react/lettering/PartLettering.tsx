@@ -13,28 +13,19 @@ import {
 import { Vector3 } from 'three';
 
 import type { Phase } from '../../engine/explode';
-import { VIEW, type ProjectLayout } from '../../layout';
-import {
-  compactColumn,
-  compactColumnAtRest,
-  compactColumnTextScale,
-  type CompactColumn,
-  type CompactColumnLayer,
-} from '../../lettering/column';
-import { topFaceQuad } from '../../lettering/faces';
-import { layerLetteringModel, type LayerLettering } from '../../lettering/layers';
+import { labelPass } from '../../labels/pass';
+import type { LabelPassResult } from '../../labels/types';
+import type { ProjectLayout } from '../../layout';
+import { compactColumnTextScale, type CompactColumn } from '../../lettering/column';
+import type { LayerLettering } from '../../lettering/layers';
 import { LETTERING_LOOK } from '../../lettering/look';
-import { letteringModel, type ComponentLettering } from '../../lettering/model';
+import type { ComponentLettering } from '../../lettering/model';
 import type { LookTokens } from '../../look/tokens';
 import { emphasis } from '../../motion/emphasis';
 import type { MotionTokens } from '../../motion';
-import { scrollExtent } from '../../interaction/scroll';
-import { calloutMode } from '../../overlay/columns';
-import type { OverlayFrame, Vec2 } from '../../overlay/project';
-import { partShortText } from '../../overlay/parts';
 import { overlayTiming } from '../../overlay/timing';
 import type { Palette } from '../../theme';
-import { faceLetteringAllOrNone } from './faceNames';
+import { snapshotFaces, stageExtent } from '../labels/faces';
 import type { OverlayEvent } from '../scene/OverlayProjector';
 import type { PickBridgeHandle } from '../scene/PickBridge';
 import type { TeardownTarget, TourStatus, ViewerProject } from '../useTeardownViewer';
@@ -55,7 +46,7 @@ function layerHideCss(scope: string, layerIds: readonly string[]): string {
 }
 
 export interface PartLetteringHandle {
-  update(event: OverlayEvent): void;
+  update(event: OverlayEvent, result?: LabelPassResult): void;
   setScroll(offsetY: number): void;
 }
 
@@ -70,7 +61,7 @@ export interface PartLetteringProps {
   readonly phase: Phase | null;
   readonly tourStatus: TourStatus;
   readonly focus: { readonly layerId: string | null; readonly suspended: boolean };
-  readonly highlight: string | null;
+  readonly emphasis: { readonly hover: string | null; readonly selected: string | null };
   readonly wrapperRef: RefObject<HTMLDivElement | null>;
   readonly zoomFactor?: number;
 }
@@ -113,95 +104,12 @@ function opacityTransition(tokens: MotionTokens): string | undefined {
   return fadeMs <= 0 ? undefined : `opacity ${fadeMs}ms ${tokens.easings.hover.css}`;
 }
 
-function componentNames(project: ViewerProject): ReadonlyMap<string, string> {
-  const names = new Map<string, string>();
-
-  for (const layer of project.layers) {
-    for (const component of layer.components) {
-      names.set(component.id, component.name ?? component.id);
-    }
-  }
-
-  return names;
-}
-
 function layerIdsByComponent(layout: ProjectLayout): ReadonlyMap<string, string> {
   return new Map(layout.components.map((component) => [component.id, component.layerId]));
 }
 
 function layerIdsByIndex(layout: ProjectLayout): ReadonlyMap<number, string> {
   return new Map(layout.layers.map((layer) => [layer.index, layer.id]));
-}
-
-function drawingMaxX(frame: OverlayFrame): number {
-  let max = -Infinity;
-
-  for (const layer of frame.layers) {
-    for (const corner of layer.corners) max = Math.max(max, corner[0]);
-  }
-
-  for (const component of frame.components) {
-    for (const point of component.hull) max = Math.max(max, point[0]);
-  }
-
-  return max;
-}
-
-function frameExtent(frame: OverlayFrame, height: number): number {
-  let top = Infinity;
-  let bottom = -Infinity;
-
-  for (const layer of frame.layers) {
-    for (const point of layer.corners) {
-      top = Math.min(top, point[1]);
-      bottom = Math.max(bottom, point[1]);
-    }
-  }
-
-  for (const component of frame.components) {
-    for (const point of component.hull) {
-      top = Math.min(top, point[1]);
-      bottom = Math.max(bottom, point[1]);
-    }
-  }
-
-  if (!Number.isFinite(top) || !Number.isFinite(bottom)) return Number.POSITIVE_INFINITY;
-
-  return scrollExtent(top, bottom, height, VIEW.fitMargin * height);
-}
-
-function stageExtent(wrapper: HTMLDivElement | null): number | null {
-  const stage = wrapper?.querySelector('[data-xploder-stage]');
-  const value = stage?.getAttribute('data-xploder-scroll-extent');
-
-  if (value === null || value === undefined || value.trim() === '') return null;
-
-  const parsed = Number(value);
-
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function columnLayers(
-  frame: OverlayFrame,
-  layout: ProjectLayout,
-  names: ReadonlyMap<string, string>,
-): readonly CompactColumnLayer[] {
-  return frame.layers.map((layer) => ({
-    index: layer.index,
-    corners: layer.corners,
-    partLabels: layout.components
-      .filter((component) => component.layerIndex === layer.index)
-      .sort((left, right) => left.slot - right.slot)
-      .map((component) => ({
-        id: component.id,
-        number: partShortText(layer.index, component.slot),
-        name: names.get(component.id) ?? component.id,
-      })),
-  }));
-}
-
-function arrayPoint(point: Vec2): Vec2 {
-  return [point[0], point[1]];
 }
 
 export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>(
@@ -217,7 +125,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
       phase,
       tourStatus,
       focus,
-      highlight,
+      emphasis: slots,
       wrapperRef,
       zoomFactor = 1,
     },
@@ -228,7 +136,6 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     const offsetRef = useRef(0);
     const fadeAnimationRef = useRef<Animation | null>(null);
     const vector = useMemo(() => new Vector3(), []);
-    const names = useMemo(() => componentNames(project), [project]);
     const layerIds = useMemo(() => layerIdsByComponent(layout), [layout]);
     const scope = useId();
     const layerIdsByLayerIndex = useMemo(() => layerIdsByIndex(layout), [layout]);
@@ -245,7 +152,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
     }, []);
 
     const update = useCallback(
-      (event: OverlayEvent) => {
+      (event: OverlayEvent, result?: LabelPassResult) => {
         if (event.kind === 'moving') {
           fadeAnimationRef.current?.cancel();
           fadeAnimationRef.current = null;
@@ -256,101 +163,36 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
           return;
         }
 
-        const bridge = bridgeRef.current;
-        const camera = bridge.camera;
-        const progress = bridge.progress;
+        const pass =
+          result ??
+          labelPass({
+            frame: event.frame,
+            faces: snapshotFaces(bridgeRef.current, layout, event, vector),
+            viewport: { width: event.width, height: event.height },
+            offsetY: event.offsetY,
+            extentPx: stageExtent(wrapperRef.current),
+            zoomFactor: zoomFactorRef.current,
+            target,
+            layout,
+            project,
+            look,
+          });
 
-        if (camera === null || progress === null) {
+        if (pass.lettering === null) {
           setMoving(false);
           return;
         }
-
-        camera.updateMatrixWorld(true);
-
-        const projectPoint = (point: readonly [number, number, number]) => {
-          const ndc = vector.set(point[0], point[1], point[2]).project(camera);
-
-          return [
-            ((ndc.x + 1) * event.width) / 2,
-            ((1 - ndc.y) * event.height) / 2 + event.offsetY,
-          ] as const;
-        };
-        const components = layout.components.map((component, index) => {
-          const frameComponent = event.frame.components[index];
-
-          if (frameComponent === undefined) {
-            throw new Error(`Missing overlay component ${component.id}`);
-          }
-
-          return {
-            id: component.id,
-            layerIndex: component.layerIndex,
-            slot: component.slot,
-            quad: topFaceQuad(component, progress[layout.layers.length + index] ?? 0, projectPoint),
-            hull: frameComponent.hull,
-          };
-        });
-        const columnLayersValue = columnLayers(event.frame, layout, names);
-        const maxX = drawingMaxX(event.frame);
-        const extentPx = stageExtent(wrapperRef.current) ?? frameExtent(event.frame, event.height);
-        const mode = calloutMode(
-          event.frame,
-          layout,
-          project,
-          { width: event.width, height: event.height },
-          look,
-        );
-        const column =
-          mode === 'tags' && compactColumnAtRest({ offsetY: event.offsetY, extentPx })
-            ? compactColumn({
-                canvas: { width: event.width, height: event.height },
-                layers: columnLayersValue,
-                drawingMaxX: maxX,
-                look: LETTERING_LOOK,
-              })
-            : null;
-        const items = faceLetteringAllOrNone({
-          zoomFactor: zoomFactorRef.current,
-          columnActive: column !== null,
-          names,
-          build: (faceNames) =>
-            letteringModel({
-              layout,
-              components,
-              layers: event.frame.layers,
-              names: faceNames,
-            }),
-        });
-        const layersShown = mode === 'tags' || extentPx > 1e-9;
-        const layerLabels = layersShown
-          ? layerLetteringModel({
-              layers: event.frame.layers.map((layer) => ({
-                id: layer.id,
-                index: layer.index,
-                name: project.layers[layer.index]?.name ?? layer.id,
-                corners: layer.corners,
-              })),
-              components: event.frame.components.map((component) => ({
-                layerIndex: component.layerIndex,
-                hull: component.hull.map(arrayPoint),
-              })),
-              canvasWidth: event.width,
-            })
-          : [];
 
         offsetRef.current = event.offsetY;
         setScroll(event.offsetY);
         setMoving(false);
         setSettled({
-          items,
-          column,
-          layerLabels,
-          layersShown,
+          ...pass.lettering,
           width: event.width,
           height: event.height,
         });
       },
-      [bridgeRef, layout, look, names, project, setScroll, vector, wrapperRef],
+      [bridgeRef, layout, look, project, setScroll, target, vector, wrapperRef],
     );
 
     useImperativeHandle(ref, () => ({ update, setScroll }), [setScroll, update]);
@@ -432,12 +274,98 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
         ? emphasis.dim.level
         : 1;
     };
-    const numberColor = (id: string): string =>
-      highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
-    const faceNumberColor = (id: string): string =>
-      highlight === id ? palette.ink : palette[look.annotation.partRole];
-    const faceNameColor = (id: string): string =>
-      highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+    const emphasisSlot = (id: string): 'hover selected' | 'hover' | 'selected' | undefined => {
+      const hover = slots.hover === id;
+      const selected = slots.selected === id;
+
+      return hover ? (selected ? 'hover selected' : 'hover') : selected ? 'selected' : undefined;
+    };
+    const renderItem = (
+      item: ComponentLettering,
+      slot: ReturnType<typeof emphasisSlot>,
+    ): React.ReactNode => {
+      const lettering = item.lettering;
+      const opacity = layerOpacity(item.id);
+      const highlight = slot === undefined ? null : item.id;
+      const numberColor = (id: string): string =>
+        highlight === id ? palette[look.callouts.emphasisRole] : palette[look.annotation.partRole];
+      const faceNumberColor = (id: string): string =>
+        highlight === id ? palette.ink : palette[look.annotation.partRole];
+      const faceNameColor = (id: string): string =>
+        highlight === id ? palette.ink : palette[look.annotation.textRole] || palette.label;
+      const color = numberColor(item.id);
+
+      if (lettering.kind === 'mark') {
+        return (
+          <div
+            key={item.id}
+            data-xploder-lettering={item.id}
+            data-xploder-lettering-kind="mark"
+            data-xploder-emphasis-slot={slot}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: lettering.box.w,
+              height: lettering.box.h,
+              transformOrigin: '0 0',
+              transform: `matrix(${lettering.matrix.join(',')})`,
+              pointerEvents: 'auto',
+              userSelect: 'text',
+              whiteSpace: 'nowrap',
+              font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+              color,
+              opacity,
+              ...(transition === undefined ? {} : { transition }),
+            }}
+          >
+            {item.number}
+          </div>
+        );
+      }
+
+      return (
+        <div
+          key={item.id}
+          data-xploder-lettering={item.id}
+          data-xploder-lettering-kind="face"
+          data-xploder-emphasis-slot={slot}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: lettering.box.w,
+            height: lettering.box.h,
+            transformOrigin: '0 0',
+            transform: `matrix(${lettering.matrix.join(',')})`,
+            pointerEvents: 'auto',
+            userSelect: 'text',
+            whiteSpace: 'nowrap',
+            font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+            color: faceNumberColor(item.id),
+            borderColor: numberColor(item.id),
+            opacity,
+            ...(transition === undefined ? {} : { transition }),
+          }}
+        >
+          {item.number}
+          {lettering.namePx === null
+            ? null
+            : lettering.nameLines.map((line, index) => (
+                <div
+                  key={`${item.id}-name-${index}`}
+                  style={{
+                    font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
+                    textTransform: 'uppercase',
+                    color: faceNameColor(item.id),
+                  }}
+                >
+                  {line}
+                </div>
+              ))}
+        </div>
+      );
+    };
 
     return (
       <div ref={rootRef} data-xploder-lettering-layer="" aria-hidden="true" style={ROOT_STYLE}>
@@ -482,7 +410,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
           {columnShown
             ? column.rows.map((row) => {
                 const opacity = layerOpacityByIndex(row.layerIndex);
-                const emphasized = highlight === row.id;
+                const emphasized = emphasisSlot(row.id) !== undefined;
                 const nameColor = emphasized ? palette[look.callouts.emphasisRole] : palette.label;
                 const firstLine = row.lines[0] ?? row.number;
                 const firstRemainder = firstLine.startsWith(row.number)
@@ -498,6 +426,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                   <div
                     key={row.id}
                     data-xploder-column-row={row.id}
+                    data-xploder-emphasis-slot={emphasisSlot(row.id)}
                     data-xploder-column-layer={row.layerIndex}
                     style={{
                       position: 'absolute',
@@ -548,80 +477,7 @@ export const PartLettering = forwardRef<PartLetteringHandle, PartLetteringProps>
                 );
               })
             : null}
-          {items.map((item) => {
-            const lettering = item.lettering;
-            const opacity = layerOpacity(item.id);
-            const color = numberColor(item.id);
-
-            if (lettering.kind === 'mark') {
-              return (
-                <div
-                  key={item.id}
-                  data-xploder-lettering={item.id}
-                  data-xploder-lettering-kind="mark"
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    width: lettering.box.w,
-                    height: lettering.box.h,
-                    transformOrigin: '0 0',
-                    transform: `matrix(${lettering.matrix.join(',')})`,
-                    pointerEvents: 'auto',
-                    userSelect: 'text',
-                    whiteSpace: 'nowrap',
-                    font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                    color,
-                    opacity,
-                    ...(transition === undefined ? {} : { transition }),
-                  }}
-                >
-                  {item.number}
-                </div>
-              );
-            }
-
-            return (
-              <div
-                key={item.id}
-                data-xploder-lettering={item.id}
-                data-xploder-lettering-kind="face"
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                  width: lettering.box.w,
-                  height: lettering.box.h,
-                  transformOrigin: '0 0',
-                  transform: `matrix(${lettering.matrix.join(',')})`,
-                  pointerEvents: 'auto',
-                  userSelect: 'text',
-                  whiteSpace: 'nowrap',
-                  font: `600 ${lettering.numberPx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                  color: faceNumberColor(item.id),
-                  borderColor: numberColor(item.id),
-                  opacity,
-                  ...(transition === undefined ? {} : { transition }),
-                }}
-              >
-                {item.number}
-                {lettering.namePx === null
-                  ? null
-                  : lettering.nameLines.map((line, index) => (
-                      <div
-                        key={`${item.id}-name-${index}`}
-                        style={{
-                          font: `${lettering.namePx}px/${LETTERING_LOOK.lineEm} ${MONO_FONT}`,
-                          textTransform: 'uppercase',
-                          color: faceNameColor(item.id),
-                        }}
-                      >
-                        {line}
-                      </div>
-                    ))}
-              </div>
-            );
-          })}
+          {items.map((item) => renderItem(item, emphasisSlot(item.id)))}
           {layerLabelsShown
             ? (settled?.layerLabels ?? []).map((label) => {
                 const opacity = layerOpacityByIndex(label.layerIndex);

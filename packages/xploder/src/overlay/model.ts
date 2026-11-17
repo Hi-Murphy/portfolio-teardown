@@ -81,6 +81,7 @@ export interface OverlayLabel {
   readonly srText?: string;
   readonly anchor?: Vec2;
   readonly emphasis?: boolean;
+  readonly emphasisSlot?: string;
   readonly opacity: number;
 }
 
@@ -147,7 +148,9 @@ export interface OverlayModelInput {
 export type OverlayBaseModelInput = Pick<
   OverlayModelInput,
   'frame' | 'layout' | 'project' | 'viewport' | 'offsetY' | 'target' | 'look'
->;
+> & {
+  readonly extraObstacles?: readonly (readonly Vec2[])[];
+};
 
 export interface TraceFlow {
   readonly path: readonly string[];
@@ -553,6 +556,7 @@ export function tagsModel(
   viewport: { readonly width: number; readonly height: number },
   offsetY: number,
   look: LookTokens,
+  extraObstacles: readonly (readonly Vec2[])[] = [],
 ): OverlayModel {
   const componentHulls = frame.components.map((component) => component.hull);
   const layerQuads = layerLetteringModel({
@@ -593,7 +597,12 @@ export function tagsModel(
     });
   }
 
-  const result = placeLabels(labels, [...componentHulls, ...layerQuads], viewport, look);
+  const result = placeLabels(
+    labels,
+    [...componentHulls, ...layerQuads, ...extraObstacles],
+    viewport,
+    look,
+  );
   const renderLabels = result.placements.map((placement): OverlayLabel => {
     const labelMeta = meta.get(placement.key);
 
@@ -623,6 +632,7 @@ export function overlayBaseModel({
   offsetY,
   target,
   look,
+  extraObstacles,
 }: OverlayBaseModelInput): OverlayModel {
   const viewportFrame = shiftFrame(frame, -offsetY);
 
@@ -665,42 +675,70 @@ export function overlayBaseModel({
     return columnModel(viewportFrame, layout, columns, offsetY, look);
   }
 
-  return tagsModel(viewportFrame, layout, project, viewport, offsetY, look);
+  return tagsModel(
+    viewportFrame,
+    layout,
+    project,
+    viewport,
+    offsetY,
+    look,
+    extraObstacles?.map((obstacle) => obstacle.map((point) => shiftPoint(point, -offsetY))),
+  );
 }
 
 export function overlayHighlight(
   base: OverlayModel,
   highlight: string | null | undefined,
   look: LookTokens,
+  selected?: string | null,
 ): OverlayModel {
-  if (highlight === null || highlight === undefined) return base;
+  const slots = new Map<string, string>();
 
-  const key = `part:${highlight}`;
-  const target = base.labels.find((label) => label.key === key);
+  if (highlight != null) slots.set(`part:${highlight}`, 'hover');
+  if (selected != null) {
+    const key = `part:${selected}`;
 
-  if (target === undefined) return base;
-
-  const labels = base.labels.map((label) =>
-    label.key === key ? { ...label, emphasis: true } : label,
-  );
-
-  if (base.calloutMode !== 'columns' || target.anchor === undefined) {
-    return { ...base, labels };
+    slots.set(key, slots.has(key) ? 'hover selected' : 'selected');
   }
+  if (slots.size === 0) return base;
 
-  const middleY = target.y + target.h / 2;
-  const leader: OverlayStroke = {
-    key: `leader:${key}`,
-    kind: 'leader',
-    points: [[target.x, middleY], [target.x - 12, middleY], target.anchor],
-    role: look.callouts.emphasisRole,
-    opacity: target.opacity,
-  };
+  const labels = base.labels.map((label) => {
+    const slot = slots.get(label.key);
+
+    return slot === undefined
+      ? label
+      : { ...label, emphasis: true, ...(selected === undefined ? {} : { emphasisSlot: slot }) };
+  });
+
+  if (base.calloutMode !== 'columns') return { ...base, labels };
+
+  const leaders = labels.flatMap((target): OverlayStroke[] => {
+    if (target.emphasis !== true || target.anchor === undefined) return [];
+
+    const middleY = target.y + target.h / 2;
+
+    return [
+      {
+        key: `leader:${target.key}`,
+        kind: 'leader',
+        points: [[target.x, middleY], [target.x - 12, middleY], target.anchor],
+        role: look.callouts.emphasisRole,
+        opacity: target.opacity,
+      },
+    ];
+  });
+
+  if (leaders.length === 0) return { ...base, labels };
 
   return {
     ...base,
     labels,
-    strokes: [...base.strokes.filter((candidate) => candidate.key !== leader.key), leader],
+    strokes: [
+      ...base.strokes.filter(
+        (candidate) => !leaders.some((leader) => leader.key === candidate.key),
+      ),
+      ...leaders,
+    ],
   };
 }
 
@@ -769,6 +807,7 @@ export function overlayStateModel(
   },
   highlight: string | null | undefined,
   look: LookTokens,
+  selected?: string | null,
 ): OverlayModel {
   if (tour.status !== 'idle') return tourTrailModel(base, project, tour, look);
 
@@ -808,7 +847,7 @@ export function overlayStateModel(
               },
       };
 
-  return overlayHighlight(focused, highlight, look);
+  return overlayHighlight(focused, highlight, look, selected);
 }
 
 export function overlayModel(input: OverlayModelInput): OverlayModel {

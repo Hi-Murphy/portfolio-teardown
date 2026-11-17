@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import type { Phase } from '../../engine/explode';
+import type { LabelPassResult } from '../../labels/types';
 import type { ProjectLayout } from '../../layout';
 import type { LookTokens } from '../../look/tokens';
 import type { MotionTokens } from '../../motion';
@@ -39,12 +40,13 @@ export interface BlueprintOverlayProps {
   readonly tour: Pick<TeardownViewerHandle['tour'], 'flowId' | 'status' | 'step'>;
   readonly focus: TeardownViewerHandle['focus'];
   readonly highlight: string | null;
+  readonly selected?: string | null;
   readonly look: LookTokens;
   readonly onTitleBlockShown?: (shown: boolean) => void;
 }
 
 export interface BlueprintOverlayHandle {
-  update(event: OverlayEvent): void;
+  update(event: OverlayEvent, result?: LabelPassResult): void;
   setScroll(offsetY: number): void;
 }
 
@@ -55,7 +57,10 @@ interface SettledFrame {
   readonly height: number;
   readonly offsetY: number;
   readonly target: TeardownTarget;
+  readonly overlay: OverlayModel | null;
 }
+
+type PendingFrame = Omit<SettledFrame, 'target'>;
 
 const ROOT_STYLE: CSSProperties = {
   position: 'absolute',
@@ -185,6 +190,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       tour,
       focus,
       highlight,
+      selected,
       look,
       onTitleBlockShown,
     },
@@ -215,7 +221,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
 
     // A settled frame can arrive a frame before React commits the explode phase that
     // produced it; keep it pending and apply it once phase and target agree.
-    const pendingRef = useRef<Omit<SettledFrame, 'target'> | null>(null);
+    const pendingRef = useRef<PendingFrame | null>(null);
 
     useLayoutEffect(() => {
       layoutRef.current = layout;
@@ -238,11 +244,20 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
       pendingRef.current = null;
       setScroll(pending.offsetY);
       setMoving(false);
-      setSettled({ ...pending, target: targetRef.current });
+
+      setSettled({
+        frame: pending.frame,
+        layout: pending.layout,
+        width: pending.width,
+        height: pending.height,
+        offsetY: pending.offsetY,
+        target: targetRef.current,
+        overlay: pending.overlay,
+      });
     }, [setScroll]);
 
     const update = useCallback(
-      (event: OverlayEvent) => {
+      (event: OverlayEvent, result?: LabelPassResult) => {
         if (event.kind === 'moving') {
           pendingRef.current = null;
           fadeAnimationRef.current?.cancel();
@@ -260,6 +275,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
           width: event.width,
           height: event.height,
           offsetY: event.offsetY,
+          overlay: result?.overlay ?? null,
         };
         applyPending();
       },
@@ -284,22 +300,25 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
     const baseModel = useMemo<OverlayModel | null>(() => {
       if (settled === null) return null;
 
-      return overlayBaseModel({
-        frame: settled.frame,
-        layout,
-        project,
-        viewport: { width: settled.width, height: settled.height },
-        offsetY: settled.offsetY,
-        target: settled.target,
-        look,
-      });
+      return (
+        settled.overlay ??
+        overlayBaseModel({
+          frame: settled.frame,
+          layout,
+          project,
+          viewport: { width: settled.width, height: settled.height },
+          offsetY: settled.offsetY,
+          target: settled.target,
+          look,
+        })
+      );
     }, [layout, look, project, settled]);
 
     const model = useMemo<OverlayModel | null>(() => {
       if (baseModel === null) return null;
 
-      return overlayStateModel(baseModel, project, focus, tour, highlight, look);
-    }, [baseModel, focus, highlight, look, project, tour]);
+      return overlayStateModel(baseModel, project, focus, tour, highlight, look, selected);
+    }, [baseModel, focus, highlight, look, project, selected, tour]);
 
     const trace = useMemo<TraceModel | null>(() => {
       if (settled === null || !visible) return null;
@@ -416,6 +435,7 @@ export const BlueprintOverlay = forwardRef<BlueprintOverlayHandle, BlueprintOver
               key={label.key}
               data-xploder-label={label.key}
               data-xploder-emphasis={label.emphasis === true ? 'true' : undefined}
+              data-xploder-emphasis-slot={label.emphasisSlot}
               style={labelStyle(label, palette, look, transition)}
             >
               {label.text}

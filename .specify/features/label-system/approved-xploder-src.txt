@@ -1,0 +1,17 @@
+# S16 approved sealed edits (one packages/xploder path per line).
+packages/xploder/src/labels/pass.ts
+packages/xploder/src/labels/types.ts
+packages/xploder/src/labels/sweep.ts
+packages/xploder/src/react/labels/faces.ts
+packages/xploder/src/react/TeardownViewer.tsx
+packages/xploder/src/react/lettering/PartLettering.tsx
+packages/xploder/src/react/overlay/BlueprintOverlay.tsx
+packages/xploder/src/overlay/model.ts
+packages/xploder/src/lettering/place.ts
+packages/xploder/src/lettering/layers.ts
+packages/xploder/src/lettering/model.ts
+packages/xploder/test/label-pass-parity.test.ts
+packages/xploder/test/oracles/labels-s15.ts
+packages/xploder/test/label-sweep.test.ts
+packages/xploder/test/lettering-obstacles.test.ts
+packages/xploder/test/overlay-emphasis-slots.test.ts

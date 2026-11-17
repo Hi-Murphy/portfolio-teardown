@@ -47,6 +47,7 @@ export interface LayerLetteringInput {
   readonly components: readonly LayerLetteringComponent[];
   /** Canvas width in px: the lettering slides along the plate's front edge to stay fully on screen. */
   readonly canvasWidth?: number;
+  readonly obstacles?: readonly (readonly Vec2[])[];
   readonly look?: LetteringLook;
 }
 
@@ -116,6 +117,7 @@ function plainLettering(
 
 export function layerLetteringModel(input: LayerLetteringInput): readonly LayerLettering[] {
   const look = input.look ?? LETTERING_LOOK;
+  const obstacles = input.obstacles ? [...input.obstacles] : null;
 
   return input.layers.map((layer) => {
     const text = `${layer.index + 1} ${layer.name}`.toUpperCase();
@@ -141,7 +143,12 @@ export function layerLetteringModel(input: LayerLetteringInput): readonly LayerL
         const candidate = screenQuad(basis.origin, basis.u, basis.v, candidateX, y, w, h);
 
         if (!insideWidth(candidate, input.canvasWidth)) continue;
-        if (occluders.some((hull) => convexPolygonsIntersect(candidate, hull))) continue;
+        if (
+          occluders.some((hull) => convexPolygonsIntersect(candidate, hull)) ||
+          obstacles?.some((obstacle) => convexPolygonsIntersect(candidate, obstacle))
+        ) {
+          continue;
+        }
 
         x = candidateX;
         screen = candidate;
@@ -150,7 +157,7 @@ export function layerLetteringModel(input: LayerLetteringInput): readonly LayerL
 
       if (screen === null) continue;
 
-      return {
+      const label: FaceLayerLettering = {
         kind: 'face' as const,
         id: layer.id,
         layerIndex: layer.index,
@@ -168,6 +175,9 @@ export function layerLetteringModel(input: LayerLetteringInput): readonly LayerL
         h,
         screen,
       };
+      obstacles?.push(label.screen);
+
+      return label;
     }
 
     return plainLettering(layer, text, look);

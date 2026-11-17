@@ -9,16 +9,18 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type FocusEvent as ReactFocusEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react';
-import { WebGLRenderer } from 'three';
+import { Vector3, WebGLRenderer } from 'three';
 
 import { announce, type AnnounceEvent } from '../a11y/announce';
 import { PAN_PAGE_FRACTION, PAN_STEP_PX } from '../a11y/look';
 import type { Phase } from '../engine/explode';
 import { captionAnchor } from '../interaction/caption';
 import { rescaleScroll } from '../interaction/scroll';
+import { labelPass } from '../labels/pass';
 import { resolveViewerLayoutOptions } from '../look/product';
 import { look } from '../look/tokens';
 import { layoutProject, type LayoutOptions } from '../layout';
@@ -33,6 +35,7 @@ import { CanvasBoundary } from './a11y/CanvasBoundary';
 import { ComponentNavigator, type ComponentNavigatorHandle } from './a11y/ComponentNavigator';
 import { LiveRegion, type LiveRegionHandle } from './a11y/LiveRegion';
 import { hasWebgl } from './a11y/webgl';
+import { snapshotFaces, stageExtent } from './labels/faces';
 import {
   LETTERING_HIDE_CSS,
   PartLettering,
@@ -201,6 +204,7 @@ export function TeardownViewer({
   const [scrollExtentPx, setScrollExtentPx] = useState(0);
   const [phase, setPhase] = useState<Phase | null>(null);
   const [webgl] = useState(() => hasWebgl());
+  const [focusedProxyId, setFocusedProxyId] = useState<string | null>(null);
   const eventHandlersRef = useRef<ViewerEventHandlers>({});
   const [events, setEvents] = useState<ViewerEvents | null>(null);
   const [, rerender] = useReducer((n: number) => n + 1, 0);
@@ -219,6 +223,10 @@ export function TeardownViewer({
     progress: null,
     onFrame: null,
   });
+  const labelVectorRef = useRef(new Vector3());
+  const targetRef = useRef(viewer.target);
+  const zoomFactorRef = useRef(viewer.rig.zoomFactor);
+  const labelPassCountRef = useRef(0);
   const readyRef = useRef(false);
   const warnedProjectRef = useRef(false);
   const { pointer, position, project: viewerProject } = viewerMetadataOf(viewer);
@@ -286,14 +294,39 @@ export function TeardownViewer({
 
   const onOverlay = useCallback(
     (event: OverlayEvent) => {
-      overlayRef.current?.update(event);
-      letteringRef.current?.update(event);
+      if (event.kind === 'settled') {
+        const result = labelPass({
+          frame: event.frame,
+          faces: snapshotFaces(pickBridgeRef.current, layout, event, labelVectorRef.current),
+          viewport: { width: event.width, height: event.height },
+          offsetY: event.offsetY,
+          extentPx: stageExtent(wrapperRef.current),
+          zoomFactor: zoomFactorRef.current,
+          target: targetRef.current,
+          layout,
+          project,
+          look,
+        });
+
+        labelPassCountRef.current += 1;
+
+        if (wrapperRef.current !== null) {
+          wrapperRef.current.dataset.xploderLabelPasses = String(labelPassCountRef.current);
+        }
+
+        overlayRef.current?.update(event, result);
+        letteringRef.current?.update(event, result);
+      } else {
+        overlayRef.current?.update(event);
+        letteringRef.current?.update(event);
+      }
+
       panelLayerRef.current?.update(event);
       navigatorRef.current?.update(event);
 
       if (event.kind === 'settled') events?.settled(event.phase, event.at);
     },
-    [events],
+    [events, layout, project],
   );
 
   const onTitleBlockShown = useCallback((shown: boolean) => {
@@ -325,6 +358,7 @@ export function TeardownViewer({
     if (proxy === null) return false;
 
     proxy.focus({ preventScroll: true });
+    setFocusedProxyId(null);
     return true;
   }, []);
 
@@ -480,10 +514,11 @@ export function TeardownViewer({
   }, [project, viewerProject]);
 
   const detailOpenId = panelsHandle.state.kind === 'detail' ? panelsHandle.state.componentId : null;
+  const selected = detailOpenId ?? focusedProxyId;
   const emphasis = useMemo<EmphasisState>(
     () => ({
       highlight: viewer.highlight,
-      selected: detailOpenId,
+      selected,
       focusLayerId: viewer.focus.layerId,
       focusSuspended: viewer.tour.status !== 'idle',
       tourComponentId: position.componentId,
@@ -491,9 +526,9 @@ export function TeardownViewer({
       tourPlaying: viewer.tour.status === 'playing',
     }),
     [
-      detailOpenId,
       position.componentId,
       position.stepStartedAt,
+      selected,
       viewer.focus.layerId,
       viewer.highlight,
       viewer.tour.status,
@@ -505,6 +540,14 @@ export function TeardownViewer({
 
     setPhase(phase);
   }, []);
+
+  const onWrapperFocus = useCallback((event: ReactFocusEvent<HTMLDivElement>) => {
+    const target = event.target;
+
+    setFocusedProxyId(target instanceof HTMLElement ? (target.dataset.xploderProxy ?? null) : null);
+  }, []);
+
+  const onWrapperBlur = useCallback(() => setFocusedProxyId(null), []);
 
   const onEmphasisPhase = useCallback((phase: EmphasisPhase) => {
     if (wrapperRef.current === null) return;
@@ -553,6 +596,11 @@ export function TeardownViewer({
     element.dataset.xploderTweening = 'false';
     element.dataset.xploderPulse = 'false';
   }, []);
+
+  useLayoutEffect(() => {
+    targetRef.current = viewer.target;
+    zoomFactorRef.current = viewer.rig.zoomFactor;
+  }, [viewer.rig.zoomFactor, viewer.target]);
 
   useLayoutEffect(() => {
     const previous = previousMotionRef.current;
@@ -681,12 +729,12 @@ export function TeardownViewer({
 
     if (element === null) return;
 
-    if (detailOpenId === null) {
+    if (selected === null) {
       delete element.dataset.xploderSelected;
     } else {
-      element.dataset.xploderSelected = detailOpenId;
+      element.dataset.xploderSelected = selected;
     }
-  }, [detailOpenId]);
+  }, [selected]);
 
   useLayoutEffect(() => {
     const element = wrapperRef.current;
@@ -857,6 +905,8 @@ export function TeardownViewer({
       aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown PageUp PageDown Home End + - 0"
       aria-describedby={keysHelpId}
       onKeyDown={onWrapperKeyDown}
+      onFocus={onWrapperFocus}
+      onBlur={onWrapperBlur}
       style={WRAPPER_STYLE}
       className={className}
       data-xploder-titleblock="hidden"
@@ -928,7 +978,8 @@ export function TeardownViewer({
                   phase={phase}
                   tour={viewer.tour}
                   focus={viewer.focus}
-                  highlight={viewer.highlight ?? detailOpenId}
+                  highlight={viewer.highlight}
+                  selected={selected}
                   look={look}
                   onTitleBlockShown={onTitleBlockShown}
                 />
@@ -945,7 +996,7 @@ export function TeardownViewer({
                 phase={phase}
                 tourStatus={viewer.tour.status}
                 focus={viewer.focus}
-                highlight={viewer.highlight ?? detailOpenId}
+                emphasis={{ hover: viewer.highlight, selected }}
                 wrapperRef={wrapperRef}
                 zoomFactor={viewer.rig.zoomFactor}
               />

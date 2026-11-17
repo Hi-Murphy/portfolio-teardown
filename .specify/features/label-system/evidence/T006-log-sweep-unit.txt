@@ -1,0 +1,19 @@
+# command: pnpm --filter xploder exec vitest run test/label-sweep.test.ts --reporter verbose | commit: 67560d8c376f21318243f850ebcabf3419f620a8 | exit: 0
+
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t006/packages/xploder
+
+stdout | test/label-sweep.test.ts > label sweep > model census
+model census: 1672 cases, 0 with intersections, 0 pairs
+model census pair kinds: none
+
+ ✓ test/label-sweep.test.ts > label sweep > quadsIntersect predicate table 1ms
+ ✓ test/label-sweep.test.ts > label sweep > label-sweep.mjs predicate agrees on 10,000 random quad pairs 8ms
+ ✓ test/label-sweep.test.ts > label sweep > seeded unit control reports the shifted copy and not the touching copy 1ms
+ ✓ test/label-sweep.test.ts > label sweep > model census 0ms
+ ✓ test/label-sweep.test.ts > label sweep > AC1 model sweep: 0 intersections 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  17:39:49
+   Duration  1.76s (import 98%, transform 2%, tests 1%)

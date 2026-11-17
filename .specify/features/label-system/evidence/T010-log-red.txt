@@ -1,0 +1,131 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom/label-emphasis.dom.test.tsx --reporter verbose | commit: 791fc28 | exit: 1
+
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t010/apps/web
+
+(node:79855) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ × test/xploder-dom/label-emphasis.dom.test.tsx > row 1: A open plus B hovered assigns selected and hover 102ms
+   → expected null to be 'selected' // Object.is equality
+ × test/xploder-dom/label-emphasis.dom.test.tsx > row 2: leaving B keeps A selected 31ms
+   → expected null to be 'selected' // Object.is equality
+ ✓ test/xploder-dom/label-emphasis.dom.test.tsx > row 3: closing A with the pointer elsewhere clears both slots 28ms
+ × test/xploder-dom/label-emphasis.dom.test.tsx > row 4: closing A while hovering it keeps the hover slot 26ms
+   → expected null to be 'hover' // Object.is equality
+ × test/xploder-dom/label-emphasis.dom.test.tsx > row 5: keyboard focus on A without a panel fills both slots 17ms
+   → expected null to be 'hover selected' // Object.is equality
+ × test/xploder-dom/label-emphasis.dom.test.tsx > row 6: keyboard focus on A plus B hover keeps focus as selected 19ms
+   → expected null to be 'selected' // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/xploder-dom/label-emphasis.dom.test.tsx > row 1: A open plus B hovered assigns selected and hover
+AssertionError: expected null to be 'selected' // Object.is equality
+
+- Expected:
+"selected"
+
++ Received:
+null
+
+ ❯ expectRow test/xploder-dom/label-emphasis.dom.test.tsx:238:20
+    236|   viewedSlots: { readonly highlight: string | null; readonly selected:…
+    237| ): void {
+    238|   expect(label(A)).toBe(slots.a);
+       |                    ^
+    239|   expect(lettering(A)).toBe(slots.a);
+    240|   expect(columnRow(A)).toBe(slots.a);
+ ❯ test/xploder-dom/label-emphasis.dom.test.tsx:280:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  test/xploder-dom/label-emphasis.dom.test.tsx > row 2: leaving B keeps A selected
+AssertionError: expected null to be 'selected' // Object.is equality
+
+- Expected:
+"selected"
+
++ Received:
+null
+
+ ❯ expectRow test/xploder-dom/label-emphasis.dom.test.tsx:238:20
+    236|   viewedSlots: { readonly highlight: string | null; readonly selected:…
+    237| ): void {
+    238|   expect(label(A)).toBe(slots.a);
+       |                    ^
+    239|   expect(lettering(A)).toBe(slots.a);
+    240|   expect(columnRow(A)).toBe(slots.a);
+ ❯ test/xploder-dom/label-emphasis.dom.test.tsx:289:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  test/xploder-dom/label-emphasis.dom.test.tsx > row 4: closing A while hovering it keeps the hover slot
+AssertionError: expected null to be 'hover' // Object.is equality
+
+- Expected:
+"hover"
+
++ Received:
+null
+
+ ❯ expectRow test/xploder-dom/label-emphasis.dom.test.tsx:238:20
+    236|   viewedSlots: { readonly highlight: string | null; readonly selected:…
+    237| ): void {
+    238|   expect(label(A)).toBe(slots.a);
+       |                    ^
+    239|   expect(lettering(A)).toBe(slots.a);
+    240|   expect(columnRow(A)).toBe(slots.a);
+ ❯ test/xploder-dom/label-emphasis.dom.test.tsx:307:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  test/xploder-dom/label-emphasis.dom.test.tsx > row 5: keyboard focus on A without a panel fills both slots
+AssertionError: expected null to be 'hover selected' // Object.is equality
+
+- Expected:
+"hover selected"
+
++ Received:
+null
+
+ ❯ expectRow test/xploder-dom/label-emphasis.dom.test.tsx:238:20
+    236|   viewedSlots: { readonly highlight: string | null; readonly selected:…
+    237| ): void {
+    238|   expect(label(A)).toBe(slots.a);
+       |                    ^
+    239|   expect(lettering(A)).toBe(slots.a);
+    240|   expect(columnRow(A)).toBe(slots.a);
+ ❯ test/xploder-dom/label-emphasis.dom.test.tsx:314:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  test/xploder-dom/label-emphasis.dom.test.tsx > row 6: keyboard focus on A plus B hover keeps focus as selected
+AssertionError: expected null to be 'selected' // Object.is equality
+
+- Expected:
+"selected"
+
++ Received:
+null
+
+ ❯ expectRow test/xploder-dom/label-emphasis.dom.test.tsx:238:20
+    236|   viewedSlots: { readonly highlight: string | null; readonly selected:…
+    237| ): void {
+    238|   expect(label(A)).toBe(slots.a);
+       |                    ^
+    239|   expect(lettering(A)).toBe(slots.a);
+    240|   expect(columnRow(A)).toBe(slots.a);
+ ❯ test/xploder-dom/label-emphasis.dom.test.tsx:322:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  23:18:05
+   Duration  646ms (environment 41%, tests 38%, import 16%, transform 5%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /private/tmp/s16-wt/t010/apps/web

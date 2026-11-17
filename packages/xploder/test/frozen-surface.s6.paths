@@ -1,4 +1,5 @@
 src/look
+src/labels
 src/overlay
 src/react/overlay/BlueprintOverlay.tsx
 src/react/overlay/CircuitTrace.tsx
@@ -13,6 +14,8 @@ test/scene-clock.test.tsx
 test/scene-pause.test.tsx
 test/look-fills.test.ts
 test/look-tokens.test.ts
+test/label-pass-parity.test.ts
+test/oracles/labels-s15.ts
 test/overlay-columns.test.ts
 test/overlay-dimension.test.ts
 test/overlay-model.test.ts
@@ -25,3 +28,5 @@ test/overlay-timing.test.ts
 test/overlay-titleblock.test.ts
 test/overlay-trace.test.ts
 test/product-gap.test.ts
+test/label-sweep.test.ts
+test/overlay-emphasis-slots.test.ts

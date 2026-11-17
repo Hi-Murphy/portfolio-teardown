@@ -1,0 +1,102 @@
+# command: pnpm --filter web exec vitest run test/xploder-dom --reporter verbose; pnpm --filter xploder exec vitest run test/blueprint-scene.test.tsx; (cd packages/xploder && pnpm exec vitest run test/overlay-*.test.ts*); render-diff | commit: cd3ef15 | exit: 0
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t004/apps/web
+
+(node:30066) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30069) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30072) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30067) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30070) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30068) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30073) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30065) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ test/xploder-dom/a11y-navigator.dom.test.tsx > rovings through items, activates, bubbles other keys and rings only after focus 109ms
+ ✓ test/xploder-dom/viewer-clock.dom.test.tsx > Scene receives the viewer clock 62ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > the Scene stub no longer receives onSettled from TeardownViewer 54ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > the first stats callback emits ready once and later stats callbacks do nothing 10ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > settled emits once per call with phase and at, while moving emits nothing 21ms
+ ✓ test/xploder-dom/a11y-live-region.dom.test.tsx > keeps one live region mounted and announces tour steps on the same node 54ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > one settle runs one pass and the lettering renders that result 83ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a turn sends one moving to every overlay consumer before a frame 48ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a zoom sends one moving to every overlay consumer before a frame 8ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > an explode sends one moving to every overlay consumer before a frame 15ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > mount sends no moving 6ms
+ ✓ test/xploder-dom/viewer-moving.dom.test.tsx > a re-render without a target, turn, or zoom change sends no moving 6ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > a settle before the first stats callback is delivered immediately after ready 13ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > a two-step tour emits tour-ended once when it reaches ended 47ms
+ ✓ test/xploder-dom/viewer-events.dom.test.tsx > pauseTour and stop are not tour ends 16ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > focuses the detail heading on open and after a dock change or visibility restore 80ms
+ ✓ test/xploder-dom/a11y-panel-focus.dom.test.tsx > closes through TeardownViewer and returns focus to the recorded proxy opener 14ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the tour command adapter maps pause to pauseTour 89ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > open A plus hover B lights both 80ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > leaving B while A is open keeps A selected 18ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > the overlay renders the pass model after one base-model call 41ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > an apply-time target mismatch re-passes once and renders the returned overlay 11ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a re-render from emphasis and tour state does not run another pass 15ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a moving event does not run a pass 9ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a second settled event object runs a second pass 9ms
+ ✓ test/xploder-dom/label-pass.dom.test.tsx > a missing camera still counts the pass but keeps the prior lettering state 8ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > opening the case study pauses the tour and leaves the clock running 19ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > data-xploder-clock follows the viewer clock 10ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause stops every running animation and leaves finished animations alone 8ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > the next frame catches an animation created after the pause 8ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > resume plays the held animations and cancels the queued sweep 8ms
+ ✓ test/xploder-dom/viewer-pause.dom.test.tsx > pause and resume do not throw without getAnimations 7ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > closing A with the pointer elsewhere clears both 39ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > mouse hover survives closing A by slab toggle 10ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > keyboard activation opens A and Escape returns focus with A highlighted 11ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > Escape returns focus to the A proxy and keeps A highlighted 9ms
+ ✓ test/xploder-dom/viewer-selected.dom.test.tsx > opening A while it is hovered keeps the highlight immediately 7ms
+
+ Test Files  9 passed (9)
+      Tests  37 passed (37)
+   Start at  12:07:58
+   Duration  1.02s (environment 55%, import 18%, tests 15%, transform 12%)
+
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t004/packages/xploder
+
+(node:30094) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  12:08:00
+   Duration  169ms (import 51%, transform 25%, tests 23%, worker 1%)
+
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t004/packages/xploder
+
+(node:30118) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30120) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:30119) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  15 passed (15)
+      Tests  144 passed (144)
+   Start at  12:08:00
+   Duration  30.60s (tests 96%, import 3%, transform 1%)
+
+RENDER-UNTOUCHED

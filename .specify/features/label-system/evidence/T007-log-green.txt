@@ -1,0 +1,132 @@
+# command: pnpm --filter xploder exec vitest run test/lettering-obstacles.test.ts test/lettering.test.ts test/lettering-column.test.ts test/lettering-face-names.test.ts test/label-pass-parity.test.ts --reporter verbose | commit: 0a6a747 | exit: 0
+
+
+ RUN  v5.0.5 /private/tmp/s16-wt/t007/packages/xploder
+
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the second zoom-in click at zoom 1 1ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name below the second zoom-in click at zoom 1.25 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 1.5625 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 2.44140625 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > shows every face name at zoom 3 when every name fits 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > hides every face name when one face can only fit its number 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 1 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 1.5625 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > keeps face names out of the compact column at zoom 3 0ms
+ ✓ test/lettering-face-names.test.ts > face lettering names > ignores mark lettering when deciding whether every face has a name 0ms
+stdout | test/lettering-column.test.ts > compact phone part column > fits every A component label at zoom 1 on both phone canvases
+compact-column A: wrapped=64 two-line=64
+
+stdout | test/lettering-column.test.ts > compact phone part column > fits every B component label at zoom 1 on both phone canvases
+compact-column B: wrapped=40 two-line=40
+
+stdout | test/lettering-column.test.ts > compact phone part column > fits every C component label at zoom 1 on both phone canvases
+compact-column C: wrapped=92 two-line=92
+
+stdout | test/lettering-column.test.ts > zoomed layer lettering > labels every A layer without touching upper hulls
+layer-lettering A: face=32 plain=0
+
+stdout | test/lettering-column.test.ts > zoomed layer lettering > labels every B layer without touching upper hulls
+layer-lettering B: face=32 plain=0
+
+stdout | test/lettering-column.test.ts > zoomed layer lettering > labels every C layer without touching upper hulls
+layer-lettering C: face=38 plain=2
+
+ ✓ test/lettering-column.test.ts > compact phone part column > fits every A component label at zoom 1 on both phone canvases 7ms
+ ✓ test/lettering-column.test.ts > compact phone part column > fits every B component label at zoom 1 on both phone canvases 2ms
+ ✓ test/lettering-column.test.ts > compact phone part column > fits every C component label at zoom 1 on both phone canvases 3ms
+ ✓ test/lettering-column.test.ts > compact phone part column > is hidden by the offset/extent rule at the first zoom notch 0ms
+ ✓ test/lettering-column.test.ts > zoomed layer lettering > labels every A layer without touching upper hulls 3ms
+ ✓ test/lettering-column.test.ts > zoomed layer lettering > labels every B layer without touching upper hulls 1ms
+ ✓ test/lettering-column.test.ts > zoomed layer lettering > labels every C layer without touching upper hulls 3ms
+stdout | test/lettering.test.ts > part lettering matrix > labels every A fixture component at every view and scroll offset
+lettering histogram A: face+name=672 face number-only=480 mark=0
+
+stdout | test/lettering.test.ts > part lettering matrix > labels every B fixture component at every view and scroll offset
+lettering histogram B: face+name=336 face number-only=384 mark=0
+
+stdout | test/lettering-obstacles.test.ts > letterPartAvoiding > is identical to letterPart without obstacles and strictly hides blocked marks
+obstacle corpus: cases=2232 faces=2232 clear-marks=0 blocked-marks=0
+
+stdout | test/lettering-obstacles.test.ts > layerLetteringModel obstacles > matches the absent-obstacles output over the project corpus
+layer obstacle corpus: cases=180 differences=0
+
+ ✓ test/lettering-obstacles.test.ts > letterPartAvoiding > is identical to letterPart without obstacles and strictly hides blocked marks 88ms
+ ✓ test/lettering-obstacles.test.ts > letterPartAvoiding > preserves a clear mark and hides a colliding fallback 1ms
+ ✓ test/lettering-obstacles.test.ts > letterPartAvoiding > moves face lettering away from its chosen grid spot 1ms
+ ✓ test/lettering-obstacles.test.ts > letterPartAvoiding > returns null when every mark candidate is blocked 1ms
+ ✓ test/lettering-obstacles.test.ts > layerLetteringModel obstacles > makes an overlapping later plate name avoid the earlier name 1ms
+ ✓ test/lettering-obstacles.test.ts > layerLetteringModel obstacles > matches the absent-obstacles output over the project corpus 18ms
+stdout | test/lettering.test.ts > part lettering matrix > labels every C fixture component at every view and scroll offset
+lettering histogram C: face+name=816 face number-only=1038 mark=18
+
+ ✓ test/lettering.test.ts > part lettering matrix > labels every A fixture component at every view and scroll offset 57ms
+ ✓ test/lettering.test.ts > part lettering matrix > labels every B fixture component at every view and scroll offset 26ms
+ ✓ test/lettering.test.ts > part lettering matrix > labels every C fixture component at every view and scroll offset 76ms
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture A
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=A canvas=358x506 zoom=1.00 names=0/8 number-only=8 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.25 names=2/8 number-only=6 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.56 names=6/8 number-only=2 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=1.95 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=2.44 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=358x506 zoom=3.00 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.00 names=0/8 number-only=8 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.25 names=2/8 number-only=6 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.56 names=6/8 number-only=2 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=1.95 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=2.44 names=8/8 number-only=0 mark=0
+names-on-phone fixture=A canvas=1216x480 zoom=3.00 names=8/8 number-only=0 mark=0
+
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture B
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=B canvas=358x506 zoom=1.00 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.25 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.56 names=2/5 number-only=3 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=1.95 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=2.44 names=5/5 number-only=0 mark=0
+names-on-phone fixture=B canvas=358x506 zoom=3.00 names=5/5 number-only=0 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.00 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.25 names=0/5 number-only=5 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.56 names=1/5 number-only=4 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=1.95 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=2.44 names=4/5 number-only=1 mark=0
+names-on-phone fixture=B canvas=1216x480 zoom=3.00 names=5/5 number-only=0 mark=0
+
+stdout | test/lettering.test.ts > names on phone > prints the lettering mix for fixture C
+names-on-phone fixture canvas zoom names number-only mark
+names-on-phone fixture=C canvas=358x506 zoom=1.00 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.25 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.56 names=3/13 number-only=10 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=1.95 names=11/13 number-only=2 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=2.44 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=358x506 zoom=3.00 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.00 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.25 names=0/13 number-only=13 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.56 names=3/13 number-only=10 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=1.95 names=10/13 number-only=3 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=2.44 names=13/13 number-only=0 mark=0
+names-on-phone fixture=C canvas=1216x480 zoom=3.00 names=13/13 number-only=0 mark=0
+
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 0.7853981633974483 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 2.356194490192345 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 3.9269908169872414 0ms
+ ✓ test/lettering.test.ts > face basis > points right without mirroring at azimuth 5.497787143782138 0ms
+ ✓ test/lettering.test.ts > face direction > keeps every A face pointing down-right across components and rotations 1ms
+ ✓ test/lettering.test.ts > face direction > keeps every C face pointing down-right across components and rotations 2ms
+ ✓ test/lettering.test.ts > letterPart > puts the number and name on a face when both fit 0ms
+ ✓ test/lettering.test.ts > letterPart > wraps a long name at spaces when it cannot fit on one line 0ms
+ ✓ test/lettering.test.ts > letterPart > drops the name before the number on a tiny face 0ms
+ ✓ test/lettering.test.ts > letterPart > marks the front corner when every face position is occluded 3ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture A 2ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture B 1ms
+ ✓ test/lettering.test.ts > names on phone > prints the lettering mix for fixture C 2ms
+stdout | test/label-pass-parity.test.ts > labelPass parity > matches the frozen S15 overlay and lettering compositions exactly
+cases: 2272, differing values: 0
+
+ ✓ test/label-pass-parity.test.ts > labelPass parity > matches the frozen S15 overlay and lettering compositions exactly 4619ms
+
+ Test Files  5 passed (5)
+      Tests  40 passed (40)
+   Start at  17:47:07
+   Duration  4.81s (tests 92%, transform 4%, import 3%)
+
