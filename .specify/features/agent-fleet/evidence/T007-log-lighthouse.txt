@@ -1,0 +1,35 @@
+=====  -> home =====
+$ node tools/perf/src/cli/lighthouse-gate.ts http://localhost:4318/ --categories performance,accessibility --out <tmp>/s18-checks/lh-home
+performance: 1 >= 0.95 (median) pass
+lcp: 908.1438 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: <tmp>/s18-checks/lh-home/lighthouse-summary.json
+===== projects -> projects =====
+$ node tools/perf/src/cli/lighthouse-gate.ts http://localhost:4318/projects --categories performance,accessibility --out <tmp>/s18-checks/lh-projects
+performance: 1 >= 0.95 (median) pass
+lcp: 904.0065 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: <tmp>/s18-checks/lh-projects/lighthouse-summary.json
+===== projects/websocket-inspector -> projects-websocket-inspector =====
+$ node tools/perf/src/cli/lighthouse-gate.ts http://localhost:4318/projects/websocket-inspector --categories performance,accessibility --out <tmp>/s18-checks/lh-projects-websocket-inspector
+performance: 1 >= 0.95 (median) pass
+lcp: 904.3588 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: <tmp>/s18-checks/lh-projects-websocket-inspector/lighthouse-summary.json
+===== projects/jev-toolkit -> projects-jev-toolkit =====
+$ node tools/perf/src/cli/lighthouse-gate.ts http://localhost:4318/projects/jev-toolkit --categories performance,accessibility --out <tmp>/s18-checks/lh-projects-jev-toolkit
+performance: 1 >= 0.95 (median) pass
+lcp: 904.1322 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: <tmp>/s18-checks/lh-projects-jev-toolkit/lighthouse-summary.json
+===== projects/agent-fleet -> projects-agent-fleet =====
+$ node tools/perf/src/cli/lighthouse-gate.ts http://localhost:4318/projects/agent-fleet --categories performance,accessibility --out <tmp>/s18-checks/lh-projects-agent-fleet
+performance: 1 >= 0.95 (median) pass
+lcp: 903.5385000000001 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+accessibility: 1 >= 0.95 (median) pass
+summary: <tmp>/s18-checks/lh-projects-agent-fleet/lighthouse-summary.json

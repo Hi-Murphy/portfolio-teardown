@@ -1,0 +1,59 @@
+$ node tools/perf/src/cli/site-probe.ts --serve <tmp>/s18-checks/head-out --group cls,draws --out <tmp>/s18-checks/site
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls /projects/jev-toolkit desktop light total=0.000000 PASS
+cls /projects/agent-fleet desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls /projects/jev-toolkit desktop dark total=0.000000 PASS
+cls /projects/agent-fleet desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls /projects/jev-toolkit mobile light total=0.000000 PASS
+cls /projects/agent-fleet mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls /projects/jev-toolkit mobile dark total=0.000000 PASS
+cls /projects/agent-fleet mobile dark total=0.000000 PASS
+cls hero-marks-stable-390x844 shifts=0 PASS
+cls hero-marks-stable-390x740 shifts=0 PASS
+cls hero-marks-stable-360x740 shifts=0 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS hero-marks-stable-390x844: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-390x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-360x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+cls: PASS (23 checks)
+draws project websocket-inspector: mode=2 rendered=32 total=32 PASS
+draws project jev-toolkit: mode=2 rendered=32 total=32 PASS
+draws project agent-fleet: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project-websocket-inspector: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-jev-toolkit: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-agent-fleet: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (4 checks)
+site-probe: PASS
+artifacts: <tmp>/s18-checks/site
