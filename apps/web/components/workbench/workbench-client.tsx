@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { getProject } from '../../content/projects';
 import { SITE_REGISTRY } from '../../content/tech-registry';
 import { LIVE_CLASS } from '../hero/hero-classes';
-import { ProjectOutline } from '../project-outline';
+import { dropTabStopInsideCanvas, ProjectOutline } from '../project-outline';
 import { LiveViewer, useLiveViewer, useViewerPanels } from '../viewer/live-viewer';
 import { ExplorePanel, type ExploreMode } from './explore-panel';
 import { buildLayerModels, buildTourFlows, jumpSequence } from './tour-model';
@@ -120,6 +120,7 @@ export function WorkbenchClient({ slug, targets }: WorkbenchClientProps) {
             project={project}
             message="WebGL is unavailable for this teardown."
             className="h-full overflow-y-auto p-4 sm:p-6"
+            ref={dropTabStopInsideCanvas}
           />
         }
         onFirstFrame={reveal}

@@ -17,7 +17,6 @@
         "T006-screenshot-focus-project-back-desktop-light.png",
         "T006-screenshot-focus-theme-toggle-desktop-light.png",
         "T006-screenshot-focus-workbench-control-desktop-light.png",
-        "T006-screenshot-focus-workbench-fallback-desktop-light.png",
         "T006-screenshot-focus-component-proxy-desktop-light.png",
         "T006-screenshot-focus-panel-heading-desktop-light.png",
         "T006-screenshot-focus-panel-close-desktop-light.png",
@@ -392,42 +391,6 @@
         },
         {
           "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(34, 38, 43)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        },
-        {
-          "stage": "focus-order",
           "type": "component-proxy",
           "tag": "button",
           "role": "button",
@@ -3721,48 +3684,11 @@
           "focusVisible": true
         }
       ],
-      "focusFailures": [
-        {
-          "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(34, 38, 43)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        }
-      ],
+      "focusFailures": [],
       "focusOrderPass": true,
       "focusOrderDetail": {
         "first": "Skip to content",
-        "stops": 12,
+        "stops": 11,
         "workbenchControl": true,
         "navigatorProxy": true
       },
@@ -3885,8 +3811,8 @@
       "flowsPass": true,
       "themePass": true,
       "fatal": null,
-      "focusVisiblePass": false,
-      "pass": false
+      "focusVisiblePass": true,
+      "pass": true
     },
     {
       "id": "desktop-dark",
@@ -3898,7 +3824,6 @@
         "T006-screenshot-focus-project-back-desktop-dark.png",
         "T006-screenshot-focus-theme-toggle-desktop-dark.png",
         "T006-screenshot-focus-workbench-control-desktop-dark.png",
-        "T006-screenshot-focus-workbench-fallback-desktop-dark.png",
         "T006-screenshot-focus-component-proxy-desktop-dark.png",
         "T006-screenshot-focus-panel-heading-desktop-dark.png",
         "T006-screenshot-focus-panel-close-desktop-dark.png",
@@ -4273,42 +4198,6 @@
         },
         {
           "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(230, 237, 245)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        },
-        {
-          "stage": "focus-order",
           "type": "component-proxy",
           "tag": "button",
           "role": "button",
@@ -7602,48 +7491,11 @@
           "focusVisible": true
         }
       ],
-      "focusFailures": [
-        {
-          "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(230, 237, 245)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        }
-      ],
+      "focusFailures": [],
       "focusOrderPass": true,
       "focusOrderDetail": {
         "first": "Skip to content",
-        "stops": 12,
+        "stops": 11,
         "workbenchControl": true,
         "navigatorProxy": true
       },
@@ -7766,8 +7618,8 @@
       "flowsPass": true,
       "themePass": true,
       "fatal": null,
-      "focusVisiblePass": false,
-      "pass": false
+      "focusVisiblePass": true,
+      "pass": true
     },
     {
       "id": "mobile-light",
@@ -7779,7 +7631,6 @@
         "T006-screenshot-focus-project-back-mobile-light.png",
         "T006-screenshot-focus-theme-toggle-mobile-light.png",
         "T006-screenshot-focus-workbench-control-mobile-light.png",
-        "T006-screenshot-focus-workbench-fallback-mobile-light.png",
         "T006-screenshot-focus-component-proxy-mobile-light.png",
         "T006-screenshot-focus-panel-heading-mobile-light.png",
         "T006-screenshot-focus-panel-close-mobile-light.png",
@@ -8154,42 +8005,6 @@
         },
         {
           "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(34, 38, 43)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        },
-        {
-          "stage": "focus-order",
           "type": "component-proxy",
           "tag": "button",
           "role": "button",
@@ -11483,48 +11298,11 @@
           "focusVisible": true
         }
       ],
-      "focusFailures": [
-        {
-          "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(34, 38, 43)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        }
-      ],
+      "focusFailures": [],
       "focusOrderPass": true,
       "focusOrderDetail": {
         "first": "Skip to content",
-        "stops": 12,
+        "stops": 11,
         "workbenchControl": true,
         "navigatorProxy": true
       },
@@ -11647,8 +11425,8 @@
       "flowsPass": true,
       "themePass": true,
       "fatal": null,
-      "focusVisiblePass": false,
-      "pass": false,
+      "focusVisiblePass": true,
+      "pass": true,
       "tapTargetsPass": true
     },
     {
@@ -12023,42 +11801,6 @@
         },
         {
           "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(230, 237, 245)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        },
-        {
-          "stage": "focus-order",
           "type": "component-proxy",
           "tag": "button",
           "role": "button",
@@ -15352,48 +15094,11 @@
           "focusVisible": true
         }
       ],
-      "focusFailures": [
-        {
-          "stage": "focus-order",
-          "type": "workbench-fallback",
-          "tag": "section",
-          "role": "",
-          "name": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "text": "WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A pla",
-          "data": {
-            "data-site-outline": ""
-          },
-          "key": "section|data-site-outline=|WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.ApproachWork arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.OutcomeThe pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.MetricsSlice units shipped22Revisions logged15Required CI contexts7Approval gates per slice2Scheduled jobs12Hosts2Human surfaceChat surfaceWhere an order is spokenApproval gateTwo words, then workReview threadWhere a decision staysIntakeIssue intakeAn order that survives the sessionLabel routerRouting by label, not by guessDedup stateSeen before?ExecutionOrchestratorOne slice, one planImplementerOne task, one checkoutWorktreeA checkout per taskEvidenceProof, not a summaryGate checkThe criterion decidesFleetEdge hostAlways on, little stateWorkstationWhere the hands areCronTwelve small clocks",
-          "matches": {
-            "navLink": false,
-            "themeToggle": false,
-            "projectBack": false,
-            "workbench": true,
-            "workbenchFallback": true,
-            "proxy": false,
-            "panelHeading": false,
-            "panelClose": false,
-            "exploreTab": false,
-            "flowOption": false,
-            "tourPlay": false,
-            "tourNext": false
-          },
-          "outlineStyle": "none",
-          "outlineWidth": 3,
-          "outlineColor": "rgb(230, 237, 245)",
-          "boxShadow": "none",
-          "box": {
-            "width": 0,
-            "height": 0
-          },
-          "ringVisible": false,
-          "focusVisible": false
-        }
-      ],
+      "focusFailures": [],
       "focusOrderPass": true,
       "focusOrderDetail": {
         "first": "Skip to content",
-        "stops": 12,
+        "stops": 11,
         "workbenchControl": true,
         "navigatorProxy": true
       },
@@ -15516,8 +15221,8 @@
       "flowsPass": true,
       "themePass": true,
       "fatal": null,
-      "focusVisiblePass": false,
-      "pass": false
+      "focusVisiblePass": true,
+      "pass": true
     }
   ],
   "tapTargets": {
@@ -15529,5 +15234,5 @@
     ],
     "failures": 0
   },
-  "pass": false
+  "pass": true
 }
