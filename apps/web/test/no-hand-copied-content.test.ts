@@ -13,6 +13,9 @@ const COMPONENTS_ROOT = fileURLToPath(new URL('../components/', import.meta.url)
 const CONTENT_ROOT = fileURLToPath(new URL('../content/', import.meta.url));
 const SEO_ROOT = fileURLToPath(new URL('../seo/', import.meta.url));
 const PROJECT_JSON_ROOT = fileURLToPath(new URL('../../../.specify/content/', import.meta.url));
+const RELATIONSHIPS_JSON_ROOT = fileURLToPath(
+  new URL('../../../.specify/content/relationships/', import.meta.url),
+);
 const PROJECT_SOURCE_ROOT = fileURLToPath(new URL('../content/projects/', import.meta.url));
 const SITE_JSON_PATH = fileURLToPath(
   new URL('../../../.specify/content/site.json', import.meta.url),
@@ -45,7 +48,7 @@ interface ProjectCopy {
   }[];
 }
 
-type CopyRule = 'project-copy' | 'site-copy';
+type CopyRule = 'project-copy' | 'relationship-copy' | 'site-copy';
 
 interface SourceCopy {
   readonly value: string;
@@ -57,6 +60,19 @@ interface ProjectFixture {
   readonly jsonPath: string;
   readonly sourcePath: string;
   readonly strings: readonly string[];
+}
+
+interface RelationshipCopy {
+  readonly relationships: readonly {
+    readonly note: string;
+  }[];
+}
+
+interface RelationshipFixture {
+  readonly slug: string;
+  readonly jsonPath: string;
+  readonly sourcePath: string;
+  readonly notes: readonly string[];
 }
 
 function longStrings(values: readonly (string | undefined)[]): string[] {
@@ -125,6 +141,26 @@ function collectProjectFixtures(): ProjectFixture[] {
 }
 
 const PROJECT_FIXTURES = collectProjectFixtures();
+
+function collectRelationshipFixtures(): RelationshipFixture[] {
+  return readdirSync(RELATIONSHIPS_JSON_ROOT)
+    .filter((name) => name.endsWith('.json'))
+    .sort((left, right) => left.localeCompare(right))
+    .map((name) => {
+      const slug = basename(name, '.json');
+      const jsonPath = join(RELATIONSHIPS_JSON_ROOT, name);
+      const relationships = readJson<RelationshipCopy>(jsonPath);
+
+      return {
+        slug,
+        jsonPath,
+        sourcePath: join(PROJECT_SOURCE_ROOT, `${slug}.relationships.ts`),
+        notes: longStrings(relationships.relationships.map((relationship) => relationship.note)),
+      };
+    });
+}
+
+const RELATIONSHIP_FIXTURES = collectRelationshipFixtures();
 
 function scriptKindFor(file: string): ts.ScriptKind {
   if (file.endsWith('.tsx')) return ts.ScriptKind.TSX;
@@ -209,6 +245,22 @@ function scanForbiddenCopy(
   });
 }
 
+function scanForRelationshipCopy(
+  files: readonly string[],
+  relationship: RelationshipFixture,
+): Hit[] {
+  return files.flatMap((file) => {
+    if (file === relationship.sourcePath) return [];
+
+    return scanTextForCopy(
+      readFileSync(file, 'utf8'),
+      file,
+      relationship.notes,
+      'relationship-copy',
+    );
+  });
+}
+
 function firstString(values: readonly string[], label: string): string {
   const value = values[0];
 
@@ -231,6 +283,14 @@ describe('hand-copied content scanner', () => {
     const missing = PROJECT_FIXTURES.filter((project) => !existsSync(project.sourcePath)).map(
       (project) => project.sourcePath,
     );
+
+    expect(missing).toEqual([]);
+  });
+
+  test('every canonical relationship file has a generated relationship module', () => {
+    const missing = RELATIONSHIP_FIXTURES.filter(
+      (relationship) => !existsSync(relationship.sourcePath),
+    ).map((relationship) => relationship.sourcePath);
 
     expect(missing).toEqual([]);
   });
@@ -281,6 +341,45 @@ describe('hand-copied content scanner', () => {
         hits.map((hit) => hit.rule),
         formatHits(hits),
       ).toEqual(['project-copy']);
+    });
+  });
+
+  describe.each(RELATIONSHIP_FIXTURES)('$slug relationships', (relationship) => {
+    test('the generated relationship source carries every collected note', () => {
+      const text = readFileSync(relationship.sourcePath, 'utf8');
+      const missing = relationship.notes.filter((value) => !text.includes(value));
+
+      expect(missing).toEqual([]);
+    });
+
+    test('app, components and seo contain no hand-copied relationship notes', () => {
+      const hits = scanForRelationshipCopy(
+        [...sourceFiles(APP_ROOT), ...sourceFiles(COMPONENTS_ROOT), ...sourceFiles(SEO_ROOT)],
+        relationship,
+      );
+
+      expect(hits, formatHits(hits)).toEqual([]);
+    });
+
+    test('relationship notes appear only in their generated relationship module', () => {
+      const hits = scanForRelationshipCopy(sourceFiles(CONTENT_ROOT), relationship);
+
+      expect(hits, formatHits(hits)).toEqual([]);
+    });
+
+    test('negative control catches a hand-copied relationship note', () => {
+      const sample = firstString(relationship.notes, 'relationship');
+      const hits = scanTextForCopy(
+        `const copied = ${JSON.stringify(sample)};`,
+        'fixture.tsx',
+        [sample],
+        'relationship-copy',
+      );
+
+      expect(
+        hits.map((hit) => hit.rule),
+        formatHits(hits),
+      ).toEqual(['relationship-copy']);
     });
   });
 

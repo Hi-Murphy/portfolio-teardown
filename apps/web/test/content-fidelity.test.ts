@@ -7,6 +7,7 @@ import { parseProject } from 'xploder';
 import { describe, expect, test } from 'vitest';
 
 import { PROJECT_SLUGS } from '../content/projects';
+import { RELATIONSHIP_SOURCES, connectionsFor } from '../content/projects/connections';
 import { SITE_REGISTRY } from '../content/tech-registry';
 import { jevToolkit } from '../content/projects/jev-toolkit';
 import { jevToolkitSource } from '../content/projects/jev-toolkit.source';
@@ -67,6 +68,13 @@ const relationshipRows = [
     ),
   },
 ] as const;
+
+const projectJsonBySlug = new Map<string, { meta: { name: string } }>(
+  rows.map(({ slug, jsonPath }) => [
+    slug,
+    JSON.parse(readFileSync(jsonPath, 'utf8')) as { meta: { name: string } },
+  ]),
+);
 
 describe.each(rows)('$slug content fidelity', ({ slug, jsonPath, source, project, sourcePath }) => {
   const bytes = readFileSync(jsonPath);
@@ -147,6 +155,21 @@ describe.each(relationshipRows)(
 
       expect(source).not.toStrictEqual(mutated);
     });
+
+    test('(f) connections match the canonical relationship JSON', () => {
+      const canonical = json as {
+        relationships: readonly { to: string; kind: string; note: string }[];
+      };
+      const expected = canonical.relationships.map(({ to, kind, note }) => {
+        const target = projectJsonBySlug.get(to);
+
+        if (target === undefined) throw new Error(`Missing project JSON for "${to}".`);
+
+        return { slug: to, name: target.meta.name, kind, note };
+      });
+
+      expect(connectionsFor(slug)).toStrictEqual(expected);
+    });
   },
 );
 
@@ -179,6 +202,7 @@ test('relationship completeness: content files, fidelity rows and converter entr
     .map((name) => name.slice(0, -'.json'.length))
     .sort();
   const rowSlugs = relationshipRows.map(({ slug }) => slug).sort();
+  const sourceSlugs = Object.keys(RELATIONSHIP_SOURCES).sort();
   const converterSlugs = [
     ...readFileSync(CONVERTER_PATH, 'utf8').matchAll(
       /source:\s*['"]\.specify\/content\/relationships\/([^'"]+)\.json['"]/g,
@@ -189,6 +213,7 @@ test('relationship completeness: content files, fidelity rows and converter entr
     .sort();
 
   expect(rowSlugs).toStrictEqual(contentSlugs);
+  expect(sourceSlugs).toStrictEqual(contentSlugs);
   expect(converterSlugs).toStrictEqual(contentSlugs);
 
   for (const slug of contentSlugs) {
