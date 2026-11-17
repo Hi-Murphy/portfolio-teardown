@@ -62,6 +62,10 @@ jobs:
         run: >-
           pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects/jev-toolkit"
           --categories performance,accessibility --out .evidence/ci/lighthouse-project-jev-toolkit
+      - name: 'Lighthouse gate (project route: agent-fleet)'
+        run: >-
+          pnpm perf:lighthouse "${{ steps.preview.outputs.url }}projects/agent-fleet"
+          --categories performance,accessibility --out .evidence/ci/lighthouse-project-agent-fleet
       - name: Upload Lighthouse evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -113,6 +117,10 @@ jobs:
         run: >-
           pnpm perf:weight "${{ steps.preview.outputs.url }}projects/jev-toolkit"
           --out .evidence/ci/weight-project-jev-toolkit
+      - name: 'Weight gate (project route: agent-fleet)'
+        run: >-
+          pnpm perf:weight "${{ steps.preview.outputs.url }}projects/agent-fleet"
+          --out .evidence/ci/weight-project-agent-fleet
       - name: Upload weight evidence
         if: always()
         uses: actions/upload-artifact@v7
