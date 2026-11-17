@@ -1,0 +1,55 @@
+# command: node -e (set jev relationships to []) && pnpm --filter web content:convert && bash .specify/features/cross-project/build-fixed.sh /tmp/s17-checks/t004-removal-out && render-count | commit: c70e8fd739f467252ebaaa7eccdf978094f9a7b5 | exit: 0
+
+build exit 0
+
+--- build log: /tmp/s17-checks/t004-removal-out.log ---
+$ pnpm -r --if-present build
+$ pnpm og:build && next build
+$ tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts
+public/og/home.png 75554 bytes 312bead39820255a3b659b985a2c0aa20cc5f398670fc20575dfc617bb2f3a97
+public/og/projects.png 93278 bytes a5bd1ef656317599d07f90d19ff1acad0c8969fa219c7b4a84795c76a079baef
+public/og/projects/websocket-inspector.png 79743 bytes 74e0a6099a11e544829d121cedf5175f980f2f44d0d87e6e39470eae4bed9cd3
+public/og/projects/jev-toolkit.png 76330 bytes 2231a0eb01e7553bc49472af4366dbf0cb4bb70ed2bfee489a1a9e4ec0f419c9
+public/apple-touch-icon.png 1186 bytes e1bd7bbd3011681f91cadb506f95e534398df9d1fc466a78953eb7613434a51b
+▲ Next.js 16.4.6 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 230ms
+  Running TypeScript ...
+  Finished TypeScript in 1016ms ...
+  Collecting page data using 9 workers ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (0/9) ...
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+SITE_URL is not set; using http://localhost:3000 for this local build. Set SITE_URL=https://example.com for a public build.
+  Generating static pages using 9 workers (2/9) 
+  Generating static pages using 9 workers (4/9) 
+  Generating static pages using 9 workers (6/9) 
+✓ Generating static pages using 9 workers (9/9) in 280ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /projects
+├   /projects/[slug]
+│ ├ ● /projects/websocket-inspector
+│ └ ● /projects/jev-toolkit
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+
+--- rendered strip counts (C3) ---
+jev-toolkit        0
+websocket-inspector        1

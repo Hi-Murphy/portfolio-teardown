@@ -1,0 +1,12 @@
+# command: bash .specify/features/cross-project/guards.sh | commit: c70e8fd739f467252ebaaa7eccdf978094f9a7b5 | exit: 0
+
+FROZEN-OK
+XPLODER-OK
+SURFACES-S2S8-OK
+TOOLS-OK
+CI-OK
+NO-DEP-OK
+ALLOWED-PATHS-OK
+CONTENT-PATCH-OK
+CONVERT-CHECK-OK
+GITLEAKS-OK

@@ -1,0 +1,57 @@
+{
+  "kind": "evidence-meta",
+  "version": 1,
+  "url": "http://127.0.0.1:4718/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4718/projects/websocket-inspector",
+  "httpStatus": 200,
+  "startedAt": "2026-11-17T05:56:44.264Z",
+  "finishedAt": "2026-11-17T05:57:02.936Z",
+  "durationMs": 18672,
+  "argv": [
+    "http://127.0.0.1:4718/projects/websocket-inspector",
+    "--color-scheme",
+    "dark",
+    "--full-page",
+    "--out",
+    "/tmp/s17-checks/ev-final-websocket-inspector-dark"
+  ],
+  "colorScheme": "dark",
+  "git": {
+    "sha": "71f3f1a1c1ce891666831fab3fc555bfd7bdb1a0",
+    "dirty": false
+  },
+  "tools": {
+    "evidence": "0.0.0",
+    "lighthouse": "13.6.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "node": "v24.19.0",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "steps": [
+    {
+      "name": "screenshot-mobile",
+      "ok": true,
+      "ms": 803
+    },
+    {
+      "name": "screenshot-desktop",
+      "ok": true,
+      "ms": 768
+    },
+    {
+      "name": "lighthouse",
+      "ok": true,
+      "ms": 16930
+    }
+  ],
+  "artifacts": [
+    "screenshot-mobile.png",
+    "screenshot-desktop.png",
+    "lighthouse-summary.json",
+    "lighthouse-report.json",
+    "meta.json"
+  ],
+  "exitCode": 0
+}

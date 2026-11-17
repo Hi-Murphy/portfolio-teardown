@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Connections } from '../../../../components/connections';
 import { JsonLd } from '../../../../components/json-ld';
 import { Workbench } from '../../../../components/workbench/workbench';
 import { PROJECT_SLUGS, getProject } from '../../../../content/projects';
+import { connectionsFor } from '../../../../content/projects/connections';
 import { projectLd } from '../../../../seo/json-ld';
 import { routeMetadata } from '../../../../seo/metadata';
 import { routeForSlug } from '../../../../seo/routes';
@@ -83,6 +85,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </header>
       <Workbench project={project} />
+      <Connections connections={connectionsFor(slug)} />
     </div>
   );
 }
