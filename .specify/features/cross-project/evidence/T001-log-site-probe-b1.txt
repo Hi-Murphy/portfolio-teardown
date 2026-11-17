@@ -1,0 +1,64 @@
+# command: pnpm site:probe --serve /tmp/s17-checks/base-out --group cls,draws,routes | target: /tmp/s17-checks/base-out | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+$ node tools/perf/src/cli/site-probe.ts --serve /tmp/s17-checks/base-out --group cls,draws,routes --out /tmp/s17-checks/site-probe-b1
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls /projects/jev-toolkit desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls /projects/jev-toolkit desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls /projects/jev-toolkit mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls /projects/jev-toolkit mobile dark total=0.000000 PASS
+cls hero-marks-stable-390x844 shifts=0 PASS
+cls hero-marks-stable-390x740 shifts=0 PASS
+cls hero-marks-stable-360x740 shifts=0 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS hero-marks-stable-390x844: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-390x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-360x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+cls: PASS (19 checks)
+draws project websocket-inspector: mode=2 rendered=32 total=32 PASS
+draws project jev-toolkit: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project-websocket-inspector: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-jev-toolkit: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (3 checks)
+PASS routes-home-title: expected "Timur Haryo — Software Engineer · Android & Developer Tools" actual "Timur Haryo — Software Engineer · Android & Developer Tools"
+PASS routes-home-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-projects-title: expected "Projects · Timur Haryo" actual "Projects · Timur Haryo"
+PASS routes-projects-description: expected "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer." actual "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer."
+PASS routes-project-title-websocket-inspector: expected "Scarlet Inspector · Timur Haryo" actual "Scarlet Inspector · Timur Haryo"
+PASS routes-project-description-websocket-inspector: expected "Every WebSocket frame, captured and inspectable." actual "Every WebSocket frame, captured and inspectable."
+PASS routes-project-title-jev-toolkit: expected "JEV Benchmark · Timur Haryo" actual "JEV Benchmark · Timur Haryo"
+PASS routes-project-description-jev-toolkit: expected "Measuring what an AI reads before it codes." actual "Measuring what an AI reads before it codes."
+PASS routes-unknown-project-status: expected 404 actual 404
+PASS routes-unknown-project-content: expected "not-found content" actual {"h1":"Page not found"}
+PASS routes-/dev/engine-404: expected 404 actual 404
+PASS routes-/fixtures/fps-calibration-404: expected 404 actual 404
+PASS routes-/resume.pdf-404: expected 404 actual 404
+routes: PASS (13 checks)
+site-probe: PASS
+artifacts: /tmp/s17-checks/site-probe-b1

@@ -1,0 +1,6 @@
+# command: pnpm eager:probe --serve /tmp/s17-checks/base-out --route / --runs 2 --expect live-loop | target: /tmp/s17-checks/base-out | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+$ node tools/perf/src/cli/eager-probe.ts --serve /tmp/s17-checks/base-out --route / --runs 2 --expect live-loop
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: /private/tmp/s17-wt/t001/.evidence/eager-probe

@@ -1,0 +1,36 @@
+# command: node .specify/features/cross-project/bundle-gzip.mjs --diff /tmp/s17-checks/ref-gzip.json /tmp/s17-checks/base-out | target: f0c2d37 -> B1 | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0 (reported, not gated)
+ADDED _next/static/chunks/0-feshdmxxqft.js
+ADDED _next/static/chunks/00074u8z_q3cx.js
+ADDED _next/static/chunks/0ex_cgonf0mx6.js
+ADDED _next/static/chunks/0jowprx3plh9c.js
+ADDED _next/static/chunks/18o_7-7eq6i8z.js
+ADDED _next/static/chunks/1c1n5uh1al8a6.js
+ADDED _next/static/chunks/1mzpr2e_yf4k_.js
+ADDED _next/static/chunks/1x_7bfc20sw34.js
+ADDED _next/static/chunks/23ozcnd6hhypu.js
+ADDED _next/static/chunks/29p5wlfz_1l3v.js
+ADDED _next/static/chunks/2e_so57tb_nr1.js
+ADDED _next/static/chunks/2nw5xgyzztx9f.js
+ADDED _next/static/chunks/3-e0pq-vkwdqo.js
+ADDED _next/static/chunks/3359ll6dl2j6z.js
+ADDED _next/static/chunks/335gqv7yiqdzh.js
+ADDED _next/static/chunks/3xl5otnp6lnep.js
+ADDED _next/static/chunks/turbopack-2u1d16houkiyo.js
+REMOVED _next/static/chunks/01ggf6886os7h.js
+REMOVED _next/static/chunks/02n26d9jacs56.js
+REMOVED _next/static/chunks/0iw9shbiu44o8.js
+REMOVED _next/static/chunks/0qmkus77y4fw2.js
+REMOVED _next/static/chunks/0zg6eppr07ss-.js
+REMOVED _next/static/chunks/10kujx8nsd3ck.js
+REMOVED _next/static/chunks/15sqspq6apjg7.js
+REMOVED _next/static/chunks/1fzq_fvhhdbjt.js
+REMOVED _next/static/chunks/1jr83020c6cbx.js
+REMOVED _next/static/chunks/1kgrt2f4mrm63.js
+REMOVED _next/static/chunks/1l11n2fi2cuji.js
+REMOVED _next/static/chunks/1nlhtid_zcgr5.js
+REMOVED _next/static/chunks/1uvkdyge0qxoc.js
+REMOVED _next/static/chunks/1x3r7_nshv8ww.js
+REMOVED _next/static/chunks/3j8ve043q54t0.js
+REMOVED _next/static/chunks/3vnmkhfgdnq2d.js
+REMOVED _next/static/chunks/turbopack-3-ry682tkyiqk.js
+GZIP-TOTAL 473774 -> 473625 (-149 B) budget 1536: PASS

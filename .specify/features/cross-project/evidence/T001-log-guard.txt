@@ -1,0 +1,17 @@
+# command: .specify/features/cross-project/guards.sh; source/dependency negative controls | target: repository | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+FROZEN-OK
+XPLODER-OK
+SURFACES-S2S8-OK
+TOOLS-OK
+CI-OK
+NO-DEP-OK
+ALLOWED-PATHS-OK
+CONTENT-PATCH-OK (n/a before T002)
+CONVERT-CHECK-OK
+GITLEAKS-OK
+--- negative controls (files restored) ---
+FAIL XPLODER
+FAIL SURFACES-S2S8
+FAIL TOOLS
+FAIL ALLOWED-PATHS
+FAIL NO-DEP
