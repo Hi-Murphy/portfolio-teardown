@@ -19,6 +19,8 @@ export interface TechChipListProps {
 }
 
 export function TechChipList({ chips, className }: TechChipListProps) {
+  if (chips.length === 0) return null;
+
   return (
     <ul aria-label="Tech" className={['flex flex-wrap gap-2', className].filter(Boolean).join(' ')}>
       {chips.map((chip) => (
