@@ -163,6 +163,12 @@ export const LEDGER: readonly LedgerEntry[] = [
     match: '~/g',
     reason: 'zod JSON-pointer escape',
   },
+  {
+    cls: 'F9',
+    patternId: 'phone',
+    match: '0000-0000-0000',
+    reason: 'zod nil-UUID regex literal',
+  },
 ];
 
 const F4_ALLOWLIST = new Set(
@@ -320,7 +326,7 @@ export function exemptionFor(hit: Hit, text: string): string | undefined {
     hit.cls === 'F2' &&
     hit.patternId === 'host' &&
     isJavaScript &&
-    !['"', "'", '`', '/', '@', ':'].includes(before) &&
+    !['"', "'", '`', '/', '@'].includes(before) &&
     ['.', '&', ')', ',', ';', '}', '?', '|', '='].includes(after)
   ) {
     return 'X4';

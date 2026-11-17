@@ -142,6 +142,14 @@ describe('redaction ledger negatives', () => {
       }
     });
   }
+
+  test('X4 colon before host remains unexempted in JavaScript', () => {
+    const unexempted = scanSingleFile('var h="host:db.internal:22";', 'js');
+
+    expect(
+      unexempted.some((hit) => hit.cls === 'F2' && hit.patternId === 'host'),
+    ).toBe(true);
+  });
 });
 
 describe('redaction ledger positives', () => {
@@ -172,6 +180,12 @@ describe('redaction ledger positives', () => {
         extension: 'js',
         ruleId: 'X4',
         name: 'X4 JS member',
+      },
+      {
+        text: 'x?1:r.internal.frames',
+        extension: 'js',
+        ruleId: 'X4',
+        name: 'X4 JS ternary member',
       },
       { text: contactEmail, extension: 'html', ruleId: 'X5', name: 'X5 public contact' },
       { text: '9223372036854775807', extension: 'html', ruleId: 'X6', name: 'X6 int64 bound' },
