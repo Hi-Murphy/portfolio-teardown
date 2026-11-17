@@ -4,16 +4,5 @@
 /projects/jev-toolkit                  raw=542 exempted=X1=508 X3=8 X5=26 unexempted=0
 /projects/websocket-inspector          raw=359 exempted=X1=333 X5=26 unexempted=0
 other                                  raw=0 exempted=none unexempted=0
-shared-assets                          raw=51 exempted=X1=7 X2=3 X3=3 X4=22 X6=1 X7=11 unexempted=4
-G2 unexempted: 4
-F2 host _next/static/chunks/0-feshdmxxqft.js:13759 r.in…
-F2 host _next/static/chunks/0-feshdmxxqft.js:168523 r.in…
-F2 host _next/static/chunks/0-feshdmxxqft.js:169118 e.in…
-F9 phone _next/static/chunks/0ex_cgonf0mx6.js:19836 0000…
-exit 6
-
-Uncovered base hits (no approved rule; STOP):
-F2 host _next/static/chunks/0-feshdmxxqft.js:13759 prefix=r.in context=i=n?n(<M>.interaction):r.interaction
-F2 host _next/static/chunks/0-feshdmxxqft.js:168523 prefix=r.in context=s-1),"always"===r.frameloop?1:<M>.frames}let tc=!1,tf=!1;functi
-F2 host _next/static/chunks/0-feshdmxxqft.js:169118 prefix=e.in context=mes+t):tf?e.internal.frames=2:<M>.frames=1,tc||(tc=!0,requestAn
-F9 phone _next/static/chunks/0ex_cgonf0mx6.js:19836 prefix=0000 context=-fA-F]{3}-[0-9a-fA-F]{12}|0000<M>-0000-000000000000|ffffffff-ff
+shared-assets                          raw=51 exempted=X1=7 X2=3 X3=3 X4=25 X6=1 X7=12 unexempted=0
+G2 unexempted: 0

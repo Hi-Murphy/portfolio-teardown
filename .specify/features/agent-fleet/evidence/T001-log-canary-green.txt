@@ -16,11 +16,13 @@
  ✓ test/redaction-scan.test.ts > redaction ledger negatives > X4 handle host remains unexempted in JavaScript and HTML 1ms
  ✓ test/redaction-scan.test.ts > redaction ledger negatives > X5 other email remains unexempted in JavaScript and HTML 1ms
  ✓ test/redaction-scan.test.ts > redaction ledger negatives > X6 other int64 remains unexempted in JavaScript and HTML 1ms
+ ✓ test/redaction-scan.test.ts > redaction ledger negatives > X4 colon before host remains unexempted in JavaScript 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X1 SVG geometry is exempted by X1 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X1 float fraction is exempted by X1 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X2 JS ternary is exempted by X2 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X3 mid-word sk- is exempted by X3 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X4 JS member is exempted by X4 0ms
+ ✓ test/redaction-scan.test.ts > redaction ledger positives > X4 JS ternary member is exempted by X4 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X5 public contact is exempted by X5 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > X6 int64 bound is exempted by X6 0ms
  ✓ test/redaction-scan.test.ts > redaction ledger positives > exemptionFor applies the same verdict to a direct hit 0ms
@@ -28,7 +30,7 @@
  ✓ test/redaction-scan.test.ts > redaction scanner content and patterns > pattern sources match the brief verbatim 0ms
 
  Test Files  1 passed (1)
-      Tests  25 passed (25)
-   Start at  15:33:39
-   Duration  89ms (tests 44%, transform 37%, import 15%, worker 4%)
+      Tests  27 passed (27)
+   Start at  15:39:08
+   Duration  82ms (tests 65%, import 21%, transform 9%, worker 6%)
 

@@ -138,15 +138,13 @@ gitleaks_ok() {
 }
 
 redaction_prose_ok() {
-  if [[ ! -f apps/web/scripts/redaction-scan.ts ]]; then
-    echo "redaction scanner not present yet"
-    return 0
-  fi
-
+  # R-C (corrected, R-I): only the prose that makes claims about the fleet is scanned with the content rules.
+  # Design docs (rfc/spec/plan/tasks, T000 spike log) quote the patterns themselves; gitleaks covers them.
   local file
-  while IFS= read -r -d '' file; do
-    node apps/web/scripts/redaction-scan.ts content "$file" >/dev/null || return 1
-  done < <(find "$F" -type f -name '*.md' -print0)
+  for file in "$F/evidence/source-map.md" "$F/evidence/T005-log-g5-read.md" "$F/evidence/AC-selfcheck.md"; do
+    [[ -f "$file" ]] || continue
+    node apps/web/scripts/redaction-scan.ts content "$file" || return 1
+  done
 }
 
 guard FROZEN-OK frozen_ok

@@ -146,9 +146,7 @@ describe('redaction ledger negatives', () => {
   test('X4 colon before host remains unexempted in JavaScript', () => {
     const unexempted = scanSingleFile('var h="host:db.internal:22";', 'js');
 
-    expect(
-      unexempted.some((hit) => hit.cls === 'F2' && hit.patternId === 'host'),
-    ).toBe(true);
+    expect(unexempted.some((hit) => hit.cls === 'F2' && hit.patternId === 'host')).toBe(true);
   });
 });
 

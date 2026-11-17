@@ -497,7 +497,7 @@ function main(): void {
     for (const [route, counts] of Object.entries(report.byRoute).sort(([a], [b]) =>
       a.localeCompare(b),
     )) {
-      const exempted = RULE_IDS.filter((ruleId) => counts.exempted[ruleId] > 0)
+      const exempted = RULE_IDS.filter((ruleId) => (counts.exempted[ruleId] ?? 0) > 0)
         .map((ruleId) => `${ruleId}=${counts.exempted[ruleId]}`)
         .join(' ');
       console.log(
