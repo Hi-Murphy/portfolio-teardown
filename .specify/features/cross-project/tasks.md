@@ -168,7 +168,7 @@
   bash $F/build-fixed.sh /tmp/s17-checks/t004-out
   bash $F/home-bytes.sh /tmp/s17-checks/base-out /tmp/s17-checks/t004-out | tee $E/T004-log-home-bytes.md        # / + stylesheet identical (STOP otherwise)
   cmp /tmp/s17-checks/base-out/sitemap.xml /tmp/s17-checks/t004-out/sitemap.xml && echo SITEMAP-IDENTICAL | tee -a $E/T004-log-home-bytes.md
-  for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections' /tmp/s17-checks/t004-out/projects/$s.html | wc -l)"; done | tee $E/T004-log-strips.txt   # 1 each
+  for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections=""' /tmp/s17-checks/t004-out/projects/$s.html | wc -l)"; done | tee $E/T004-log-strips.txt   # 1 each
   # one-off build failures (restored afterwards; git status must be clean)
   for case in unknown self; do
     node -e '
@@ -186,7 +186,7 @@
   # one-off removal build: delete jev-toolkit's entry (relationships/jev-toolkit.json → []) → jev 0, wsi 1; restore
   node -e 'const fs=require("fs"),p=".specify/content/relationships/jev-toolkit.json",j=JSON.parse(fs.readFileSync(p,"utf8"));j.relationships=[];fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n")'
   pnpm --filter web content:convert && bash $F/build-fixed.sh /tmp/s17-checks/t004-removal-out
-  for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections' /tmp/s17-checks/t004-removal-out/projects/$s.html | wc -l)"; done | tee $E/T004-log-removal-build.txt   # jev 0, wsi 1
+  for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections=""' /tmp/s17-checks/t004-removal-out/projects/$s.html | wc -l)"; done | tee $E/T004-log-removal-build.txt   # jev 0, wsi 1
   git checkout -- .specify/content apps/web/content/projects && pnpm --filter web content:convert --check && test -z "$(git status --porcelain)" && echo RESTORED-CLEAN
   node $F/bundle-gzip.mjs --diff /tmp/s17-checks/base-gzip.json /tmp/s17-checks/t004-out | tee $E/T004-log-gzip.txt
   # screenshots: both routes × 390/1440 × light/dark, strip element + viewport (connections-probe --shots-only lands in T005; here pnpm evidence)
