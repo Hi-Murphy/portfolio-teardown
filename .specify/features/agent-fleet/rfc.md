@@ -1,6 +1,6 @@
 # RFC — S18 Agent-fleet teardown (third project)
 
-**slice:** S18-agent-fleet · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-18-agent-fleet.md` (frozen brief v1, revision counter 0 of 2) · **branch:** `task/s18-agent-fleet` · **base:** `33e2ba1` (product code = S17 merge `d5c7756`) · **date:** 2026-11-17
+**slice:** S18-agent-fleet · **status:** APPROVED at Gate 1 (2026-11-17): all §11 defaults; brief revision 1 of 2 (E1, E2); ruling C3 (E3); refinements R-A–R-F (§12) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-18-agent-fleet.md` (frozen brief v1, revision counter **1 of 2** after Gate 1) · **branch:** `task/s18-agent-fleet` · **base:** `33e2ba1` (product code = S17 merge `d5c7756`) · **date:** 2026-11-17
 
 > This RFC records design decisions only. It does not change scope. Where it seems to conflict with the brief, the brief wins and the conflict is raised in §11. Nothing here is implemented. The one throwaway spike was reverted (`evidence/T000-log-rfc-spike.md`).
 
@@ -397,4 +397,32 @@ The executor is DeepSeek Flash 4.1 per task. Stuck ×2 → the orchestrator take
 
 ## 12. Gate 1 record
 
-_Pending Murphy._
+**Gate 1 (Murphy, 2026-11-17): "all defaults. go".** Every escalation and question resolves to its default:
+
+| # | Decision |
+|---|---|
+| E1 | **Brief revision 1 of 2.** AC2 reads **5** `<loc>` and **5** OG cards. AC6's Lighthouse gate and G2 cover all **five** routes (`/`, `/projects`, three project routes) |
+| E2 | **Same revision.** G2 = **0 unexempted hits**: patterns verbatim, every raw hit accounted for by the committed exemption ledger (§5.3: structural X1–X4, exact-string X5–X7), each structural rule with a negative test. The report shows raw / exempted-per-rule / unexempted per route, plus the base-vs-head differential |
+| E3 | **Ruling C3.** AC7 "own files byte-identical" for the two existing project pages is checked after masking `/_next/static/chunks/<hash>.js` names. A separate proof shows the renamed chunks differ only by the agent-fleet data and the cascaded names |
+| Q1 | "Empty" reads as intentional; confirmed on the T003 screenshots |
+| Q2 | §5.1 **[RFC]** regexes approved |
+| Q3 | UNSOURCED rows → STOP + report; Murphy or Merlin amends `agent-fleet.json` in a separate commit; the orchestrator never edits it |
+| Q4 | "22 slice units" counts S18; SOURCED at merge (`.specify/slices/` 22 briefs + the S18 merge commit) |
+| Q5 | **No default existed.** Murphy's pointers for "15 revisions", "12 scheduled jobs" and "2 hosts" are still needed **before T005** (G4). Until then those rows are PENDING, not UNSOURCED |
+| Q6 | `perf.yml` gains the `projects/agent-fleet` Lighthouse and weight steps |
+| Q7 | S16 sweep on agent-fleet: evidence-only, report-only |
+| Q8 | per-project lazy chunks → backlog for Merlin, not S18 |
+| Q9 | the "Both started as side projects" about copy stays; flagged to Merlin |
+| Q10 | G1 scope = `agent-fleet.json` only |
+| P1 | "The fleet runs for weeks without attention" (`story.outcome`) → UNSOURCED candidate; Murphy/Merlin decide at T005 (Q3 path) |
+
+Note for Merlin: `evidence/REV1-revision-note.md`.
+
+**Refinements (orchestrator, Stage 2 re-check against the code; none changes an AC):**
+
+- **R-A: one scanner module.** `apps/web/tsconfig.json` has no `allowImportingTsExtensions`, so `node scripts/x.ts` cannot import a sibling `.ts` file without a tsconfig change. Patterns, ledger, scan functions and CLI therefore live in **one** file, `apps/web/scripts/redaction-scan.ts`, with named exports for the test and a `main` guarded by `import.meta.url === pathToFileURL(process.argv[1]).href`. This supersedes the three-file layout in §5.1/§5.3/§9.
+- **R-B: G2 runs on the production export only.** `PERF_FIXTURES=1` builds write to `out-fixtures` and are never deployed (EVIDENCE.md §2). The `build` step scans `out` only when `PERF_FIXTURES !== '1'`; otherwise it logs `G2 skipped: fixture build`. "The four (now five) routes" are production routes.
+- **R-C: the scanner also covers the evidence prose.** `redaction-scan.ts content <file>` accepts JSON (string leaves) or text (whole file). T005 runs it on `evidence/source-map.md` and the G5 table, with no exemptions. The only allowed IP is the RFC 5737 canary range, which is never written to a committed file (it is assembled at run time).
+- **R-D: brief order wins over kickoff order.** The scanner + canary (T001) land before registration (T002), as the brief's executor rule requires (§9 R1).
+- **R-E: the e2 fidelity fix.** `layers.at(-1)!.components[0]!` replaces `layers[4]!.components[2]!` for every row (§2). The existing rows still mutate a nested summary.
+- **R-F: feature tooling, not product.** `guards.sh`, `build-fixed.sh` (S18 build id), `empty-render-probe.mjs`, `route-probe.mjs`, `bytes-report.mjs` and `g2-diff.mjs` live in `.specify/features/agent-fleet/`. Product changes stay inside plan.md's allowed paths.
