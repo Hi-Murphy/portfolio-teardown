@@ -34,6 +34,12 @@ const CONTENT_FILES: readonly ContentFile[] = [
     typeImport: { typeName: 'ProjectInput', moduleSpecifier: 'xploder' },
   },
   {
+    source: '.specify/content/agent-fleet.json',
+    target: 'content/projects/agent-fleet.source.ts',
+    exportName: 'agentFleetSource',
+    typeImport: { typeName: 'ProjectInput', moduleSpecifier: 'xploder' },
+  },
+  {
     source: '.specify/content/relationships/jev-toolkit.json',
     target: 'content/projects/jev-toolkit.relationships.ts',
     exportName: 'jevToolkitRelationships',

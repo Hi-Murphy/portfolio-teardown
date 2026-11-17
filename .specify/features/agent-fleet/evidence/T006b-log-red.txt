@@ -1,0 +1,78 @@
+
+ RUN  v5.0.5 <worktree>/apps/web
+
+ ❯ test/project-outline-focus.test.tsx (5 tests | 4 failed) 13ms
+   ❯ project outline focusability (5)
+     × drops the Tab stop for an outline inside a canvas 6ms
+     × keeps the Tab stop for an outline outside a canvas 1ms
+     × does nothing for a missing node 1ms
+     × uses the context-aware outline in the canvas fallback 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > drops the Tab stop for an outline inside a canvas
+TypeError: dropTabStopInsideCanvas is not a function
+ ❯ test/project-outline-focus.test.tsx:32:5
+     30|     expect(section).not.toBeNull();
+     31|
+     32|     dropTabStopInsideCanvas(section);
+       |     ^
+     33|
+     34|     expect(section?.tabIndex).toBe(-1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > keeps the Tab stop for an outline outside a canvas
+TypeError: dropTabStopInsideCanvas is not a function
+ ❯ test/project-outline-focus.test.tsx:42:5
+     40|     expect(section).not.toBeNull();
+     41|
+     42|     dropTabStopInsideCanvas(section);
+       |     ^
+     43|
+     44|     expect(section?.tabIndex).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > does nothing for a missing node
+AssertionError: expected [Function] to not throw an error but 'TypeError: (0 , __vite_ssr_import_3__…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"TypeError: (0 , __vite_ssr_import_3__.dropTabStopInsideCanvas) is not a function"
+
+ ❯ test/project-outline-focus.test.tsx:48:53
+     46|
+     47|   test('does nothing for a missing node', () => {
+     48|     expect(() => dropTabStopInsideCanvas(null)).not.toThrow();
+       |                                                     ^
+     49|   });
+     50|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  test/project-outline-focus.test.tsx > project outline focusability > uses the context-aware outline in the canvas fallback
+TypeError: The URL must be of scheme file
+ ❯ test/project-outline-focus.test.tsx:52:20
+     50|
+     51|   test('uses the context-aware outline in the canvas fallback', () => {
+     52|     const source = readFileSync(
+       |                    ^
+     53|       new URL('../components/workbench/workbench-client.tsx', import.m…
+     54|       'utf8',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 1 passed (5)
+   Start at  18:15:50
+   Duration  512ms (environment 77%, import 11%, transform 8%, tests 3%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <home>/orca/workspaces/portfolio-
+  │ teardown/task-s18-agent-fleet-t006b/apps/web
+

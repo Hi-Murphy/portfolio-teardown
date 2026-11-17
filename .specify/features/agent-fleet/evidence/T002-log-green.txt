@@ -1,0 +1,65 @@
+
+ RUN  v5.0.5 <worktree>/apps/web
+
+ ✓ test/content-model.test.ts > project card model > maps the websocket-inspector meta and top four registry chips 1ms
+ ✓ test/content-model.test.ts > project card model > maps the jev-toolkit meta and registry chips 0ms
+ ✓ test/content-model.test.ts > project card model > maps the agent-fleet meta with no chips 0ms
+ ✓ test/content-model.test.ts > project card model > ranks by count before first appearance 0ms
+ ✓ test/content-model.test.ts > project card model > breaks equal counts by first appearance 0ms
+ ✓ test/content-model.test.ts > project card model > caps the chips at four when a project has six technologies 0ms
+ ✓ test/content-model.test.ts > project card model > returns fewer than four chips when the project has fewer technologies 0ms
+ ✓ test/content-model.test.ts > project index > exposes the websocket-inspector, jev-toolkit and agent-fleet projects and slugs 0ms
+ ✓ test/content-model.test.ts > project index > resolves a project by slug 0ms
+ ✓ test/content-model.test.ts > agent-fleet route model (AC1) > matches the canonical layer, component and flow model 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (a) generated module is strictly equal to the canonical JSON 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (c) content:convert --check exits 0 130ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (a) generated module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 1ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (c) content:convert --check exits 0 128ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > agent-fleet content fidelity > (a) generated module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > agent-fleet content fidelity > (b) parsed module is strictly equal to the canonical JSON parsed project 0ms
+ ✓ test/content-fidelity.test.ts > agent-fleet content fidelity > (c) content:convert --check exits 0 132ms
+ ✓ test/content-fidelity.test.ts > agent-fleet content fidelity > (d) generated header records the canonical JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > agent-fleet content fidelity > (e) negative control: a mutated canonical copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > agent-fleet content fidelity > (e2) negative control: a mutated nested copy is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector relationship fidelity > (a) generated relationship module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector relationship fidelity > (c) content:convert --check exits 0 132ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector relationship fidelity > (d) generated header records the canonical relationship JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector relationship fidelity > (e) negative control: a mutated relationship note is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > websocket-inspector relationship fidelity > (f) connections match the canonical relationship JSON 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit relationship fidelity > (a) generated relationship module is strictly equal to the canonical JSON 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit relationship fidelity > (c) content:convert --check exits 0 131ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit relationship fidelity > (d) generated header records the canonical relationship JSON sha256 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit relationship fidelity > (e) negative control: a mutated relationship note is not strictly equal 0ms
+ ✓ test/content-fidelity.test.ts > jev-toolkit relationship fidelity > (f) connections match the canonical relationship JSON 0ms
+ ✓ test/content-fidelity.test.ts > completeness: content files, fidelity rows and converter entries agree 0ms
+ ✓ test/content-fidelity.test.ts > relationship completeness: content files, fidelity rows and converter entries agree 0ms
+
+ Test Files  2 passed (2)
+      Tests  40 passed (40)
+   Start at  15:40:57
+   Duration  781ms (tests 85%, import 9%, transform 6%)
+
+
+ RUN  v5.0.5 <worktree>/tools/perf
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  15:40:59
+   Duration  87ms (transform 66%, import 21%, tests 8%, worker 5%)
+
+$ node scripts/convert-content.ts --check
+content:convert: apps/web/content/projects/websocket-inspector.source.ts is up to date
+content:convert: apps/web/content/projects/jev-toolkit.source.ts is up to date
+content:convert: apps/web/content/projects/agent-fleet.source.ts is up to date
+content:convert: apps/web/content/projects/jev-toolkit.relationships.ts is up to date
+content:convert: apps/web/content/projects/websocket-inspector.relationships.ts is up to date
+content:convert: apps/web/content/site.source.ts is up to date

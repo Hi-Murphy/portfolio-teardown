@@ -1,0 +1,1312 @@
+{
+  "cells": [
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "home-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "projects-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "404-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "agent-route-header",
+      "counts": {
+        "projectLinks": 0,
+        "connections": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-chat-surface",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-approval-gate",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-review-thread",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-issue-intake",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-label-router",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-dedup-state",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-orchestrator",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-implementer",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-worktree",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-evidence",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-gate-check",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-edge-host",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-workstation",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "panel-cron",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "home-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "projects-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "404-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "agent-route-header",
+      "counts": {
+        "projectLinks": 0,
+        "connections": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-chat-surface",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-approval-gate",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-review-thread",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-issue-intake",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-label-router",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-dedup-state",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-orchestrator",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-implementer",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-worktree",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-evidence",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-gate-check",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-edge-host",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-workstation",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "panel-cron",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "home-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "projects-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "404-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "agent-route-header",
+      "counts": {
+        "projectLinks": 0,
+        "connections": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-chat-surface",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-approval-gate",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-review-thread",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-issue-intake",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-label-router",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-dedup-state",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-orchestrator",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-implementer",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-worktree",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-evidence",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-gate-check",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-edge-host",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-workstation",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "panel-cron",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "home-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "projects-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "404-agent-card",
+      "counts": {
+        "techLists": 0,
+        "techItems": 0,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "agent-route-header",
+      "counts": {
+        "projectLinks": 0,
+        "connections": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-chat-surface",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-approval-gate",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-review-thread",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-issue-intake",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-label-router",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-dedup-state",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-orchestrator",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-implementer",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-worktree",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-evidence",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-gate-check",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-edge-host",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-workstation",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "panel-cron",
+      "counts": {
+        "chips": 0,
+        "techHeadings": 0,
+        "linksHeadings": 0,
+        "targetAnchors": 0,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    }
+  ],
+  "controls": [
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "home-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "projects-jev-toolkit-control",
+      "expected": {
+        "techLists": 1,
+        "sourceLinks": 1,
+        "techItemsAtLeast": 1
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 1,
+        "sourceLinks": 1,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "404-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "jev-route-header-control",
+      "expected": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "actual": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "light",
+      "surface": "jev-panel-control",
+      "expected": {
+        "chipsAtLeast": 1,
+        "techHeadings": 1
+      },
+      "actual": {
+        "chips": 1,
+        "techHeadings": 1,
+        "linksHeadings": 1,
+        "targetAnchors": 1,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "home-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "projects-jev-toolkit-control",
+      "expected": {
+        "techLists": 1,
+        "sourceLinks": 1,
+        "techItemsAtLeast": 1
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 1,
+        "sourceLinks": 1,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "404-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "jev-route-header-control",
+      "expected": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "actual": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "palette": "dark",
+      "surface": "jev-panel-control",
+      "expected": {
+        "chipsAtLeast": 1,
+        "techHeadings": 1
+      },
+      "actual": {
+        "chips": 1,
+        "techHeadings": 1,
+        "linksHeadings": 1,
+        "targetAnchors": 1,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "home-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "projects-jev-toolkit-control",
+      "expected": {
+        "techLists": 1,
+        "sourceLinks": 1,
+        "techItemsAtLeast": 1
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 1,
+        "sourceLinks": 1,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "404-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "jev-route-header-control",
+      "expected": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "actual": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "light",
+      "surface": "jev-panel-control",
+      "expected": {
+        "chipsAtLeast": 1,
+        "techHeadings": 1
+      },
+      "actual": {
+        "chips": 1,
+        "techHeadings": 1,
+        "linksHeadings": 1,
+        "targetAnchors": 1,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "home-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "projects-jev-toolkit-control",
+      "expected": {
+        "techLists": 1,
+        "sourceLinks": 1,
+        "techItemsAtLeast": 1
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 1,
+        "sourceLinks": 1,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "404-websocket-inspector-control",
+      "expected": {
+        "techListsAtLeast": 1,
+        "techItems": 4
+      },
+      "actual": {
+        "found": true,
+        "techLists": 1,
+        "techItems": 4,
+        "sourceLinks": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "jev-route-header-control",
+      "expected": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "actual": {
+        "projectLinks": 1,
+        "connections": 1
+      },
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "palette": "dark",
+      "surface": "jev-panel-control",
+      "expected": {
+        "chipsAtLeast": 1,
+        "techHeadings": 1
+      },
+      "actual": {
+        "chips": 1,
+        "techHeadings": 1,
+        "linksHeadings": 1,
+        "targetAnchors": 1,
+        "hrs": 0,
+        "emptyContainers": 0
+      },
+      "pass": true
+    }
+  ],
+  "screenshots": 16,
+  "pass": true
+}

@@ -1,0 +1,48 @@
+=====  -> home =====
+$ node tools/perf/src/cli/weight-gate.ts http://localhost:4318/ --out <tmp>/s18-checks/w-home
+mobile: 462906 bytes, 29 requests, PASS
+  139818 B  script  http://localhost:4318/_next/static/chunks/1mzpr2e_yf4k_.js
+  72072 B  script  http://localhost:4318/_next/static/chunks/3359ll6dl2j6z.js
+  58363 B  script  http://localhost:4318/_next/static/chunks/0-feshdmxxqft.js
+  45920 B  script  http://localhost:4318/_next/static/chunks/29p5wlfz_1l3v.js
+  42879 B  script  http://localhost:4318/_next/static/chunks/335gqv7yiqdzh.js
+desktop: 471353 bytes, 32 requests, PASS
+  139818 B  script  http://localhost:4318/_next/static/chunks/1mzpr2e_yf4k_.js
+  72072 B  script  http://localhost:4318/_next/static/chunks/3359ll6dl2j6z.js
+  58363 B  script  http://localhost:4318/_next/static/chunks/0-feshdmxxqft.js
+  45920 B  script  http://localhost:4318/_next/static/chunks/29p5wlfz_1l3v.js
+  42879 B  script  http://localhost:4318/_next/static/chunks/335gqv7yiqdzh.js
+pass: true
+weight.json: <tmp>/s18-checks/w-home/weight.json
+===== projects -> projects =====
+$ node tools/perf/src/cli/weight-gate.ts http://localhost:4318/projects --out <tmp>/s18-checks/w-projects
+mobile: 212584 bytes, 23 requests, PASS
+  72072 B  script  http://localhost:4318/_next/static/chunks/3359ll6dl2j6z.js
+  45920 B  script  http://localhost:4318/_next/static/chunks/29p5wlfz_1l3v.js
+  19602 B  document  http://localhost:4318/projects
+  11641 B  fetch  http://localhost:4318/__next.!KHNpdGUp.__PAGE__.txt?_rsc=9Kyrjlw-Z8CAJXA4
+  9078 B  script  http://localhost:4318/_next/static/chunks/1c1n5uh1al8a6.js
+desktop: 228330 bytes, 29 requests, PASS
+  72072 B  script  http://localhost:4318/_next/static/chunks/3359ll6dl2j6z.js
+  45920 B  script  http://localhost:4318/_next/static/chunks/29p5wlfz_1l3v.js
+  19602 B  document  http://localhost:4318/projects
+  11641 B  fetch  http://localhost:4318/__next.!KHNpdGUp.__PAGE__.txt?_rsc=9Kyrjlw-Z8CAJXA4
+  9078 B  script  http://localhost:4318/_next/static/chunks/1c1n5uh1al8a6.js
+pass: true
+weight.json: <tmp>/s18-checks/w-projects/weight.json
+===== projects/agent-fleet -> projects-agent-fleet =====
+$ node tools/perf/src/cli/weight-gate.ts http://localhost:4318/projects/agent-fleet --out <tmp>/s18-checks/w-projects-agent-fleet
+mobile: 202364 bytes, 20 requests, PASS
+  72072 B  script  http://localhost:4318/_next/static/chunks/3359ll6dl2j6z.js
+  45920 B  script  http://localhost:4318/_next/static/chunks/29p5wlfz_1l3v.js
+  17382 B  document  http://localhost:4318/projects/agent-fleet
+  11641 B  fetch  http://localhost:4318/__next.!KHNpdGUp.__PAGE__.txt?_rsc=2Z_mVZOEu__rhUiO
+  9078 B  script  http://localhost:4318/_next/static/chunks/1c1n5uh1al8a6.js
+desktop: 202398 bytes, 20 requests, PASS
+  72072 B  script  http://localhost:4318/_next/static/chunks/3359ll6dl2j6z.js
+  45920 B  script  http://localhost:4318/_next/static/chunks/29p5wlfz_1l3v.js
+  17382 B  document  http://localhost:4318/projects/agent-fleet
+  11641 B  fetch  http://localhost:4318/__next.!KHNpdGUp.__PAGE__.txt?_rsc=2Z_mVZOEu__rhUiO
+  9078 B  script  http://localhost:4318/_next/static/chunks/1c1n5uh1al8a6.js
+pass: true
+weight.json: <tmp>/s18-checks/w-projects-agent-fleet/weight.json

@@ -1,0 +1,18 @@
+keyboard focus-order desktop-light PASS stops=11
+keyboard panels desktop-light PASS 14/14
+keyboard flows desktop-light PASS 3/3
+keyboard focus-visible desktop-light PASS stops=102 failed=0
+keyboard focus-order desktop-dark PASS stops=11
+keyboard panels desktop-dark PASS 14/14
+keyboard flows desktop-dark PASS 3/3
+keyboard focus-visible desktop-dark PASS stops=102 failed=0
+keyboard focus-order mobile-light PASS stops=11
+keyboard panels mobile-light PASS 14/14
+keyboard flows mobile-light PASS 3/3
+keyboard focus-visible mobile-light PASS stops=102 failed=0
+keyboard focus-order mobile-dark PASS stops=11
+keyboard panels mobile-dark PASS 14/14
+keyboard flows mobile-dark PASS 3/3
+keyboard focus-visible mobile-dark PASS stops=102 failed=0
+keyboard tap-targets mobile-light PASS elements=43 failures=0
+keyboard PASS

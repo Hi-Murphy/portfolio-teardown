@@ -1,6 +1,7 @@
 import type { Project, Tech } from 'xploder';
 
 import { SITE_REGISTRY } from '../tech-registry';
+import { agentFleet } from './agent-fleet';
 import { jevToolkit } from './jev-toolkit';
 import { websocketInspector } from './websocket-inspector';
 
@@ -15,7 +16,7 @@ export interface ProjectCardModel {
   readonly chips: readonly CardChip[];
 }
 
-export const PROJECTS = [websocketInspector, jevToolkit] as const;
+export const PROJECTS = [websocketInspector, jevToolkit, agentFleet] as const;
 
 export const PROJECT_SLUGS = PROJECTS.map((project) => project.meta.slug);
 

@@ -1,0 +1,44 @@
+
+ RUN  v5.0.5 <worktree>/apps/web
+
+ ❯ test/content-model.test.ts (0 test)
+ ❯ test/content-fidelity.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/content-fidelity.test.ts [ test/content-fidelity.test.ts ]
+Error: Cannot find module '../content/projects/agent-fleet' imported from <worktree>/apps/web/test/content-fidelity.test.ts
+ ❯ test/content-fidelity.test.ts:12:1
+     10| import { RELATIONSHIP_SOURCES, connectionsFor } from '../content/proje…
+     11| import { SITE_REGISTRY } from '../content/tech-registry';
+     12| import { agentFleet } from '../content/projects/agent-fleet';
+       | ^
+     13| import { agentFleetSource } from '../content/projects/agent-fleet.sour…
+     14| import { jevToolkit } from '../content/projects/jev-toolkit';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/content-model.test.ts [ test/content-model.test.ts ]
+Error: Cannot find module '../content/projects/agent-fleet' imported from <worktree>/apps/web/test/content-model.test.ts
+ ❯ test/content-model.test.ts:7:1
+      5| import { describe, expect, test } from 'vitest';
+      6|
+      7| import { agentFleet } from '../content/projects/agent-fleet';
+       | ^
+      8| import { getProject, cardModel, PROJECT_SLUGS, PROJECTS } from '../con…
+      9| import { jevToolkit } from '../content/projects/jev-toolkit';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  no tests
+   Start at  15:40:21
+   Duration  108ms (worker 96%, environment 4%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in <home>/orca/workspaces/portfolio-
+  │ teardown/task-s18-agent-fleet-t002/apps/web
+
+exit 1

@@ -1,0 +1,5 @@
+$ node tools/perf/src/cli/eager-probe.ts http://localhost:4318/ --route /
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: PASS (2 runs)
+artifacts: <worktree>/.evidence/eager-probe

@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, test } from 'vitest';
 
+import { agentFleetSource } from '../../../apps/web/content/projects/agent-fleet.source.ts';
 import { jevToolkitSource } from '../../../apps/web/content/projects/jev-toolkit.source.ts';
 import { websocketInspectorSource } from '../../../apps/web/content/projects/websocket-inspector.source.ts';
 import { PROJECT_SOURCES } from '../src/project-sources.ts';
@@ -53,6 +54,7 @@ describe('PROJECT_SOURCES', () => {
 
   test('holds the same source objects imported by slug', () => {
     const sourcesBySlug: Record<string, unknown> = {
+      'agent-fleet': agentFleetSource,
       'jev-toolkit': jevToolkitSource,
       'websocket-inspector': websocketInspectorSource,
     };
@@ -65,10 +67,11 @@ describe('PROJECT_SOURCES', () => {
   test('negative control: a missing project does not equal the content set', async () => {
     const indexText = await readFile(PROJECT_INDEX, 'utf8');
     const missingProject = indexText.replace(
-      'PROJECTS = [websocketInspector, jevToolkit] as const',
+      'PROJECTS = [websocketInspector, jevToolkit, agentFleet] as const',
       'PROJECTS = [websocketInspector] as const',
     );
 
+    expect(missingProject).not.toBe(indexText);
     expect(projectOrderFromIndex(missingProject)).not.toEqual(await contentSlugs());
     expect(new Set(projectOrderFromIndex(missingProject))).not.toEqual(
       new Set(await contentSlugs()),
