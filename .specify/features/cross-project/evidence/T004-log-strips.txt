@@ -1,0 +1,4 @@
+# command: for s in jev-toolkit websocket-inspector; do echo "$s $(grep -o 'data-site-connections=""' /tmp/s17-checks/t004-out/projects/$s.html | wc -l)"; done | commit: 907badd0c2a75ad9203d8dd1927e27d02b700247 | exit: 0
+
+jev-toolkit        1
+websocket-inspector        1

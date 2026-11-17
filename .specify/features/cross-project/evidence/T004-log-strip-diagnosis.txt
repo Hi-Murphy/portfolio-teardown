@@ -1,0 +1,59 @@
+# command: grep -o counts + Node context extraction on /tmp/s17-checks/t004-out/projects/*.html and .txt | commit: 907badd0c2a75ad9203d8dd1927e27d02b700247 | exit: 0
+
+## Symptom
+
+Counting the bare token `data-site-connections` reports two matches in each project HTML file. Only one of those matches is the rendered strip. The other is the same section serialized inside Next's RSC payload.
+
+| project HTML | bare `data-site-connections` | rendered `data-site-connections=""` |
+| --- | ---: | ---: |
+| `projects/jev-toolkit.html` | 2 | 1 |
+| `projects/websocket-inspector.html` | 2 | 1 |
+
+## Rendered HTML occurrence
+
+This is the first occurrence in `projects/jev-toolkit.html`, at byte 44442:
+
+```html
+</section></noscript></div><section aria-labelledby="site-connections-title" data-site-connections="" class="mt-10 border-t border-line/30 pt-5"><h2 id="site-connections-title" class="font-mono text-xs uppercase tracking-[0.16em] text-muted">Connections</h2
+```
+
+This is the first occurrence in `projects/websocket-inspector.html`, at byte 40487:
+
+```html
+</section></noscript></div><section aria-labelledby="site-connections-title" data-site-connections="" class="mt-10 border-t border-line/30 pt-5"><h2 id="site-connections-title" class="font-mono text-xs uppercase tracking-[0.16em] text-muted">Connections</h2
+```
+
+## RSC copy embedded in the same HTML
+
+This is the second occurrence in `projects/jev-toolkit.html`, at byte 130520:
+
+```text
+":\"$57\"}]\n51:[\"$\",\"section\",null,{\"aria-labelledby\":\"site-connections-title\",\"data-site-connections\":\"\",\"className\":\"mt-10 border-t border-line/30 pt-5\",\"children\":[[\"$\",\"h2\",null,{\"id\":\"site-connections-title\",\"className\":\"font-mono text
+```
+
+This is the second occurrence in `projects/websocket-inspector.html`, at byte 122802:
+
+```text
+":\"$54\"}]\n4e:[\"$\",\"section\",null,{\"aria-labelledby\":\"site-connections-title\",\"data-site-connections\":\"\",\"className\":\"mt-10 border-t border-line/30 pt-5\",\"children\":[[\"$\",\"h2\",null,{\"id\":\"site-connections-title\",\"className\":\"font-mono text
+```
+
+## RSC `.txt` responses
+
+The route's RSC text does not contain the HTML attribute spelling, because the prop is serialized as JSON:
+
+```text
+projects/jev-toolkit/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt             bare=1 exact=0
+projects/jev-toolkit/__next._full.txt                                          bare=1 exact=0
+projects/websocket-inspector/__next.!KHNpdGUp.projects.$d$slug.__PAGE__.txt    bare=1 exact=0
+projects/websocket-inspector/__next._full.txt                                  bare=1 exact=0
+```
+
+Example from the jev-toolkit page payload:
+
+```text
+2f:["$","section",null,{"aria-labelledby":"site-connections-title","data-site-connections":"","className":"mt-10 border-t border-line/30 pt-5","children":[["$","h2",null,{"id":"site-connections-title","className":"font-mono text-
+```
+
+## Conclusion
+
+Correction C3 is correct: `grep -o 'data-site-connections=""' <file> | wc -l` counts the rendered strips and reports 1 for each project. The bare-token count includes RSC serialization and is not a strip count.
