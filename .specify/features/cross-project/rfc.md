@@ -1,6 +1,6 @@
 # RFC — S17 Cross-project relationships
 
-**slice:** S17-cross-project · **status:** DRAFT, awaiting Gate 1 · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-17-cross-project.md` (frozen brief v1) · **branch:** `task/s17-cross-project` · **base:** `f0c2d37` (product code = S16 merge `cec65ea`) · **date:** 2026-11-17
+**slice:** S17-cross-project · **status:** APPROVED at Gate 1 (2026-11-17): all §10 defaults + U1 Next upgrade (§11) · **author:** orchestrator (Opus 5.5) · **scope source:** `.specify/slices/slice-17-cross-project.md` (frozen brief v1) · **branch:** `task/s17-cross-project` · **base:** `f0c2d37` (product code = S16 merge `cec65ea`) · **date:** 2026-11-17
 
 > This RFC holds design decisions only. It does not change scope. If anything here seems to conflict with the brief, the brief wins, and the conflict is raised as an open question (§10). Nothing here is implemented yet.
 
@@ -346,4 +346,30 @@ Executor: DeepSeek Flash 4.1, one fresh worktree per task off the slice branch (
 
 ## 11. Gate 1 record
 
-*(pending Murphy)*
+**Gate 1 (Murphy, 2026-11-17): "all defaults. you can upgrade it as well on this s17".** Every §10 question resolves to its default:
+
+| Q | Decision |
+|---|---|
+| Q1 | both notes approved verbatim (the "JEV Benchmark" vs "jev-toolkit" naming stays as written) |
+| Q2 | visible eyebrow `h2` "Connections"; it names the region and the list |
+| Q3 | schema built from xploder's exported zod instances; no `zod` in `apps/web` |
+| Q4 | duplicate targets rejected |
+| Q5 | `sitemap.xml` byte-identical, base vs head |
+| Q6 | `next/link` with default prefetch |
+| Q7 | feature-local tooling; no `tools/perf` or workflow change |
+| Q8 | JSON-LD and OG unchanged |
+
+**Murphy-authorised addition U1: the Next.js security upgrade, done in S17.**
+
+- `next` and `eslint-config-next` go from `16.4.3` to `16.4.6`, the latest patch. This fixes GHSA-mfr8-8qww-v76h (moderate, `>=16.3.0 <=16.4.4`). That is the advisory behind the `SecurityFatalError` notice that stopped two spike builds.
+- This is not a brief revision: no AC or scope line changes, and the revision counter stays at 0 of 2. It is not a new dependency either, since both packages are already direct dependencies.
+- `pnpm audit` also lists `glob` (via lighthouse in `tools/perf`) and `minimatch` (via eslint). Both are dev-tool transitive dependencies outside the Next upgrade. They are reported, not changed.
+
+**Refinements (orchestrator, Stage 2 re-check against the code; none changes an AC):**
+
+- **R1 — the upgrade lands first, and the byte baselines move to it.** U1 is task T001: its own commit, with gates run on it. A framework bump changes framework chunk bytes on every page, `/` included. So the **AC4 byte comparison and the AC5 JS delta measure the S17 feature against the upgrade commit `B1`**, not `f0c2d37`. The upgrade's own effect (`f0c2d37` → `B1`: `/` files that change, JS gzip Δ, Lighthouse) is measured and reported separately, so nothing is hidden. **If Murphy instead wants AC4 to hold against `f0c2d37`, the upgrade must ship as its own PR to `main` first (`bug/next-16-4-6`), and S17 rebases on it.** That is the only way both can hold literally. Default: R1, as authorised.
+- **R2 — `NO-DEP-OK` made exact.** `package.json` may differ only in the two `next` / `eslint-config-next` version strings. In `pnpm-lock.yaml`, the set of package **names** must be unchanged; only `next`, `@next/*` and `eslint-config-next` versions may move.
+- **R3 — fixed build id for every byte comparison.** `build-fixed.sh` sets `VERCEL_GIT_COMMIT_SHA=s17-fixed-build-id`. After T001 the build must run three times without the security notice, which proves the upgrade. The retry-on-notice is kept only for the `f0c2d37` reference build.
+- **R4 — R0 also checked in CI.** A new `test/connections-classes.test.ts` asserts that every class token in `components/connections.tsx` also appears in another file under `app/` or `components/`. It is a cheap proxy for "already in the stylesheet" that runs without a build. The stylesheet `cmp` (G11) stays the binding proof.
+- **R5 — sweep re-run = the S16 final matrix.** `label-matrix.mjs` with `--routes projects,home` on `out` and `--routes fixtures` on `out-fixtures`, plus `--control`: the same 2,052 cells as S16 T012.
+- **R6 — `next dev` may rewrite `apps/web/AGENTS.md` after the upgrade.** If it does, the diff is reviewed for secrets and committed with T001 (the S04 rule). It is the only extra path `ALLOWED-PATHS-OK` admits for T001.
