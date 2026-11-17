@@ -5,7 +5,7 @@ import { defineProject, type Project } from 'xploder';
 import { describe, expect, test } from 'vitest';
 
 import { agentFleet } from '../content/projects/agent-fleet';
-import { getProject, cardModel, PROJECT_SLUGS, PROJECTS } from '../content/projects';
+import { getProject, cardModel, heroProject, PROJECT_SLUGS, PROJECTS } from '../content/projects';
 import { jevToolkit } from '../content/projects/jev-toolkit';
 import { websocketInspector } from '../content/projects/websocket-inspector';
 import { SITE_REGISTRY } from '../content/tech-registry';
@@ -91,6 +91,11 @@ describe('project card model', () => {
       tagline: agentFleet.meta.tagline,
       chips: expectedChips(['infra', 'agent', 'linux', 'git']),
     });
+  });
+
+  test('heroProject resolves the slug and falls back to the first project', () => {
+    expect(heroProject('jev-toolkit')).toBe(jevToolkit);
+    expect(heroProject('no-such-project')).toBe(PROJECTS[0]);
   });
 
   test('ranks by count before first appearance', () => {

@@ -8,7 +8,7 @@ import { HeroScrollMemory } from '../hero/hero-scroll-memory';
 import { HeroShowcaseProvider } from '../hero/hero-showcase';
 import { LogoGlyph } from '../icons';
 import { TeardownPoster } from '../teardown-poster';
-import { PROJECTS } from '../../content/projects';
+import { heroProject as heroProjectFor } from '../../content/projects';
 import { SITE } from '../../content/site';
 import { BlueprintSheet } from './blueprint-sheet';
 
@@ -16,9 +16,7 @@ const PRIMARY_CTA_CLASS =
   'inline-flex min-h-11 items-center gap-2 text-base font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 export function HeroSection() {
-  const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;
-  const heroProject =
-    projects.find((project) => project.meta.slug === SITE.hero.project) ?? projects[0];
+  const heroProject = heroProjectFor(SITE.hero.project);
 
   return (
     <section

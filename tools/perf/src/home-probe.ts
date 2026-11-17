@@ -725,11 +725,14 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     }
     return risks;
   };
-  const gridTracks = (style: CSSStyleDeclaration): string[] => {
+  const gridTracks = (
+    style: CSSStyleDeclaration,
+    template: string = style.gridTemplateColumns,
+  ): string[] => {
     const tokens: string[] = [];
     let token = '';
     let depth = 0;
-    for (const character of style.gridTemplateColumns) {
+    for (const character of template) {
       if (character === '(') depth += 1;
       if (character === ')') depth = Math.max(0, depth - 1);
       if (/\s/.test(character) && depth === 0) {
@@ -760,6 +763,9 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     if (grid === undefined || !grid.contains(element)) return null;
 
     const style = getComputedStyle(grid);
+    // Column-major reading only holds for a one-row grid (the hero's text and figure columns).
+    // A grid that wraps into rows (the project cards) reads row by row, so y/x order decides.
+    if (gridTracks(style, style.gridTemplateRows).length > 1) return null;
     const trackWidths = gridTracks(style).flatMap((track) => {
       const pixels = [...track.matchAll(/([\d.]+)px/g)];
       const width = Number(pixels.at(-1)?.[1]);

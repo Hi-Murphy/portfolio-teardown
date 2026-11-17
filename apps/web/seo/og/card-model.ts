@@ -1,6 +1,6 @@
 import type { Project } from 'xploder';
 
-import { PROJECTS } from '../../content/projects';
+import { heroProject, PROJECTS } from '../../content/projects';
 import { posterGeometry, type PosterSlab, type PosterViewBox } from '../../content/poster';
 import { SITE } from '../../content/site';
 import type { SeoRoute } from '../routes';
@@ -58,13 +58,13 @@ function projectRows(projects: readonly Project[]): readonly string[] {
 }
 
 function homeCard(): OgCardModel {
-  const heroProject = PROJECTS[0];
+  const hero = heroProject(SITE.hero.project);
 
   return {
     eyebrow: SITE.hero.eyebrow,
     title: SITE.meta.siteName,
     subtitle: SITE.hero.headline,
-    silhouettes: heroProject === undefined ? [] : [silhouette(heroProject)],
+    silhouettes: hero === undefined ? [] : [silhouette(hero)],
     titleBlock: {
       title: SITE.meta.siteName,
       meta: SITE.identity.role,

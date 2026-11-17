@@ -1,27 +1,5 @@
 import { LOGO_GLYPH_RECTS, LOGO_SHEET_SIZE } from '../content/logo-glyph';
 
-interface MonogramMarkProps {
-  readonly siteName: string;
-}
-
-const MONOGRAM_CLASS =
-  'inline-flex size-9 shrink-0 items-center justify-center rounded-sm border border-line font-mono text-xs font-semibold leading-none tracking-tight text-fg';
-
-export function MonogramMark({ siteName }: MonogramMarkProps) {
-  const initials = siteName
-    .trim()
-    .split(/\s+/)
-    .filter((part) => part.length > 0)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join('');
-
-  return (
-    <span aria-hidden="true" className={MONOGRAM_CLASS}>
-      {initials}
-    </span>
-  );
-}
-
 export function LogoGlyph() {
   return (
     <svg
