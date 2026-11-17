@@ -426,3 +426,10 @@ Note for Merlin: `evidence/REV1-revision-note.md`.
 - **R-D: brief order wins over kickoff order.** The scanner + canary (T001) land before registration (T002), as the brief's executor rule requires (§9 R1).
 - **R-E: the e2 fidelity fix.** `layers.at(-1)!.components[0]!` replaces `layers[4]!.components[2]!` for every row (§2). The existing rows still mutate a nested summary.
 - **R-F: feature tooling, not product.** `guards.sh`, `build-fixed.sh` (S18 build id), `empty-render-probe.mjs`, `route-probe.mjs`, `bytes-report.mjs` and `g2-diff.mjs` live in `.specify/features/agent-fleet/`. Product changes stay inside plan.md's allowed paths.
+
+**Corrections during Stage 3 (orchestrator; no AC changes):**
+
+- **R-G (T001):** X4's forbidden-before set drops `:`. R3F's minified code reads `?1:r.internal.frames`, a member access after a ternary colon. The after-character condition still rejects hosts inside strings and URLs; a new negative test keeps `"host:db.internal:22"` a hit.
+- **R-H (T001):** X7 gains zod's nil-UUID regex literal (`0000-0000-0000`, an F9 phone false positive). The T000 spike had already measured it, but the Stage 2 ledger left it out.
+- **R-I (T001):** `REDACTION-PROSE-OK` scans only the claim-bearing prose (`source-map.md`, the G5 read, `AC-selfcheck.md`). The design documents quote the patterns and canary shapes by necessity; gitleaks still covers them.
+- Executor X5 reading approved: the public contact address is read from `site.json` `identity.email` as well as `identity.links[].url`.

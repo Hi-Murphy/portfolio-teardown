@@ -34,7 +34,7 @@
 
 | Task | Status | Tier | Evidence | Merge SHA |
 |---|---|---|---|---|
-| T001 | ☐ | — | evidence/T001-* | — |
+| T001 | ☑ (canary red 23 → green 27/27; G1 0; G2 S17 base 0 unexempted; seeded 3/3; guards 11/11 + 5 controls; R-G/R-H/R-I) | 1 (Flash, 2 dispatches; both stops were spec gaps, not failures) + orchestrator (prose-guard scope, 1 type fix) | evidence/T001-* | e7ae0f1 |
 | T002 | ☐ | — | evidence/T002-* | — |
 | T003 | ☐ | — | evidence/T003-* | — |
 | T004 | ☐ | — | evidence/T004-* | — |
