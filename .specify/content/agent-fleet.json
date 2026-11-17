@@ -18,7 +18,7 @@
     "headline": "How much of the work can leave your hands before it stops being reviewable?",
     "problem": "Agent sessions forget themselves. A plan, the reason a decision was made, the test that proved it, the one that failed twice: all of it dies with the context window. Multi-step work needs somewhere durable to live, and a gate that an operator at 1am cannot skip by accident. The alternative is either no delegation or delegation nobody can audit.",
     "approach": "Work arrives as an issue rather than a chat message, so it survives a lost session. A label decides which machine picks it up. An orchestrator reads a frozen brief and decomposes it into tasks; an implementer runs one task at a time in a throwaway checkout and escalates after two failures instead of grinding. Every task leaves evidence the orchestrator must read before the next one starts. Nothing merges on an agent's word: the plan and the merge each need an explicit human reply.",
-    "outcome": "The pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and every one of them changed the brief template that produced it. Seven CI contexts must pass before a merge is even offered. The fleet runs for weeks without attention; the only queue that needs a human is the one a human opened.",
+    "outcome": "The pipeline has shipped 22 slice units on this site, each through the same two gates. Fifteen revisions were logged and coded by cause rather than by blame, and each one changed the brief or the template that produced the next slice. Seven CI contexts must pass before a merge is even offered.",
     "metrics": [
       {
         "label": "Slice units shipped",
@@ -88,7 +88,7 @@
           "techs": [],
           "links": [],
           "metrics": [],
-          "description": "Each slice keeps one thread: the evidence, the objections, the verdict, and the reason a criterion was rewritten. A decision that only exists in a chat log is a rumour; a decision with a thread is a record."
+          "description": "Each slice keeps one thread: the handoff, the verdict, any objection, and the evidence linked from it. A decision that only exists in a chat log is a rumour; a decision with a thread is a record."
         }
       ]
     },
@@ -208,7 +208,7 @@
           "techs": [],
           "links": [],
           "metrics": [],
-          "description": "The long-lived machine: queue watchers, scheduled jobs, backups, and the agent that talks to the operator. It holds little state of its own, which is why it can be rebuilt from the vault and the queue."
+          "description": "The long-lived machine: queue watchers, scheduled jobs, backups, and the agent that talks to the operator. It holds little state of its own — what matters lives in the vault and the queue."
         },
         {
           "id": "workstation",
