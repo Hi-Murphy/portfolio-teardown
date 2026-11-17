@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm og:build && next dev",
-    "build": "pnpm og:build && next build",
+    "build": "pnpm og:build && next build && node scripts/redaction-scan.ts build out",
     "og:build": "tsx --tsconfig scripts/tsconfig.og.json scripts/build-og.ts",
     "content:convert": "node scripts/convert-content.ts",
     "seo:expect": "SEO_EXPECT_OUT=out-seo-expect.json vitest run test/seo-expect.write.test.ts",
