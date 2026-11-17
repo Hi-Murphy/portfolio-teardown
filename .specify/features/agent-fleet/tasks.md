@@ -39,7 +39,7 @@
 | T002 | ☑ (red: module missing → green; web 391 / xploder 727 / perf 309, 0 fail; build prerenders `/projects/agent-fleet`; G1 0; guards 12/12) | 1 (Flash, 1 dispatch) + orchestrator (path normalisation R-J) | evidence/T002-* | dbeb1aa |
 | T003 | ☑ (red → green; empty-render 72/72 cells + 20/20 controls; site-probe cards 43/43; CSS identical; 16 screenshots; guards 12/12) | 1 (Flash, 1 dispatch) | evidence/T003-* | 54113f3 |
 | T004 | ☑ (route 4/14/3, panels 14/14, flows 3/3; sitemap 5; OG 5 × 1200×630 stable over 2 builds, existing 2 identical to base; JSON-LD 1 per project page ×3; 404; site-probe teardown/routes/draws/cards PASS; perf.yml steps) | 1 (Flash, 1 dispatch) | evidence/T004-* | 5f7a307 |
-| T005 | ☐ | — | evidence/T005-*, source-map.md | — |
+| T005 | ☑ (G1 0; G2 in `pnpm build`, 0 unexempted on all 5 routes; differential = 6 new geometry floats, all X1; seeded 3/3 exit 6; fixture skip; G4 all SOURCED after Merlin `eda5c82` + A/B/D sources; G5 53 strings signed, 0 flags; R-K, R-L) | 1 (Flash, G2 part) + orchestrator (G4 map, G5 read, prose mode) | evidence/T005-*, source-map.md | 5e6e61d |
 | T006 | ☐ | — | evidence/T006-* | — |
 | T007 | ☐ | — | evidence/T007-*, AC-selfcheck.md | — |
 
