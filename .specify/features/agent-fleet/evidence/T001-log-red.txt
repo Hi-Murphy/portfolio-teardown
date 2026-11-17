@@ -1,0 +1,359 @@
+
+ RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t001/apps/web
+
+ ❯ test/redaction-scan.test.ts (25 tests | 23 failed) 13ms
+   ❯ redaction scanner canary (3)
+     × G3 content reports the canary in a JSON description 4ms
+     × G3 build reports the canary once from HTML, text and JavaScript 1ms
+     × the canary mutation without ghp_ has two hits 0ms
+   ❯ redaction ledger negatives (12)
+     × X1 ipv4 remains unexempted in JavaScript and HTML 1ms
+     × X1 snowflake remains unexempted in JavaScript and HTML 0ms
+     × X2 ipv6 remains unexempted in JavaScript and HTML 0ms
+     × X2 ipv6 hex remains unexempted in JavaScript and HTML 0ms
+     × X3 leading space remains unexempted in JavaScript and HTML 0ms
+     × X3 leading quote remains unexempted in JavaScript and HTML 0ms
+     × X3 equals sign remains unexempted in JavaScript and HTML 1ms
+     × X4 quoted host remains unexempted in JavaScript and HTML 0ms
+     × X4 URL host remains unexempted in JavaScript and HTML 0ms
+     × X4 handle host remains unexempted in JavaScript and HTML 0ms
+     × X5 other email remains unexempted in JavaScript and HTML 0ms
+     × X6 other int64 remains unexempted in JavaScript and HTML 0ms
+   ❯ redaction ledger positives (8)
+     × X1 SVG geometry is exempted by X1 0ms
+     × X1 float fraction is exempted by X1 0ms
+     × X2 JS ternary is exempted by X2 0ms
+     × X3 mid-word sk- is exempted by X3 0ms
+     × X4 JS member is exempted by X4 0ms
+     × X5 public contact is exempted by X5 0ms
+     × X6 int64 bound is exempted by X6 0ms
+     × exemptionFor applies the same verdict to a direct hit 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction scanner canary > G3 content reports the canary in a JSON description
+AssertionError: expected [] to have a length of 3 but got +0
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ test/redaction-scan.test.ts:69:18
+     67|     const hits = scanContent(path);
+     68|
+     69|     expect(hits).toHaveLength(3);
+       |                  ^
+     70|     expect(classes(hits)).toEqual(['F1', 'F3', 'F4']);
+     71|     expect(hits.map((hit) => hit.jsonPath)).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction scanner canary > G3 build reports the canary once from HTML, text and JavaScript
+AssertionError: expected [] to have a length of 9 but got +0
+
+- Expected
++ Received
+
+- 9
++ 0
+
+ ❯ test/redaction-scan.test.ts:86:31
+     84|     const report = scanBuild(directory);
+     85|
+     86|     expect(report.unexempted).toHaveLength(9);
+       |                               ^
+     87|     for (const file of ['index.html', 'index.txt', '_next/static/chunk…
+     88|       expect(classes(report.unexempted.filter((hit) => hit.file === fi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction scanner canary > the canary mutation without ghp_ has two hits
+AssertionError: expected [] to have a length of 2 but got +0
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ test/redaction-scan.test.ts:99:67
+     97|     const withoutGhp = PATTERNS.filter((pattern) => pattern.id !== 'gh…
+     98|
+     99|     expect(scanText(canary, 'canary.txt', 'content', withoutGhp)).toHa…
+       |                                                                   ^
+    100|   });
+    101| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X1 ipv4 remains unexempted in JavaScript and HTML
+AssertionError: X1 ipv4 (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X1 snowflake remains unexempted in JavaScript and HTML
+AssertionError: X1 snowflake (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X2 ipv6 remains unexempted in JavaScript and HTML
+AssertionError: X2 ipv6 (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X2 ipv6 hex remains unexempted in JavaScript and HTML
+AssertionError: X2 ipv6 hex (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X3 leading space remains unexempted in JavaScript and HTML
+AssertionError: X3 leading space (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X3 leading quote remains unexempted in JavaScript and HTML
+AssertionError: X3 leading quote (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X3 equals sign remains unexempted in JavaScript and HTML
+AssertionError: X3 equals sign (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X4 quoted host remains unexempted in JavaScript and HTML
+AssertionError: X4 quoted host (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X4 URL host remains unexempted in JavaScript and HTML
+AssertionError: X4 URL host (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X4 handle host remains unexempted in JavaScript and HTML
+AssertionError: X4 handle host (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X5 other email remains unexempted in JavaScript and HTML
+AssertionError: X5 other email (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger negatives > X6 other int64 remains unexempted in JavaScript and HTML
+AssertionError: X6 other int64 (js): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/redaction-scan.test.ts:141:11
+    139|           unexempted.some((hit) => hit.cls === entry.cls && hit.patter…
+    140|           `${entry.name} (${extension})`,
+    141|         ).toBe(true);
+       |           ^
+    142|       }
+    143|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X1 SVG geometry is exempted by X1
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X1 float fraction is exempted by X1
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X2 JS ternary is exempted by X2
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X3 mid-word sk- is exempted by X3
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X4 JS member is exempted by X4
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X5 public contact is exempted by X5
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > X6 int64 bound is exempted by X6
+TypeError: actual value must be number or bigint, received "undefined"
+ ❯ test/redaction-scan.test.ts:186:45
+    184|       const report = scanBuild(directory);
+    185|
+    186|       expect(report.exempted[entry.ruleId]).toBeGreaterThan(0);
+       |                                             ^
+    187|       expect(report.unexempted).toHaveLength(0);
+    188|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/23]⎯
+
+ FAIL  test/redaction-scan.test.ts > redaction ledger positives > exemptionFor applies the same verdict to a direct hit
+AssertionError: expected undefined to be defined
+ ❯ test/redaction-scan.test.ts:196:17
+    194|       (candidate) => candidate.cls === 'F1',
+    195|     );
+    196|     expect(hit).toBeDefined();
+       |                 ^
+    197|     expect(exemptionFor(hit as Hit, text)).toBe('X1');
+    198|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/23]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  23 failed | 2 passed (25)
+   Start at  15:33:06
+   Duration  137ms (transform 40%, tests 40%, import 16%, worker 4%)
+
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  │ teardown/task-s18-agent-fleet-t001/apps/web
+
