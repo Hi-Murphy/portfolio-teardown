@@ -90,6 +90,7 @@ const S10_SOURCE_FILES = [
   'components/icons.tsx',
   'components/interaction-gate.ts',
   'components/nav-projects-link.tsx',
+  'components/connections.tsx',
   'components/project-card.tsx',
   'components/project-outline.tsx',
   'components/site-footer.tsx',

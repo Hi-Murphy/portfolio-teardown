@@ -48,6 +48,19 @@ function stripCount(markup: string): number {
   return markup.match(/data-site-connections/g)?.length ?? 0;
 }
 
+function decodeHtmlText(text: string): string {
+  const entities: Readonly<Record<string, string>> = {
+    '&amp;': '&',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&#x27;': "'",
+    '&lt;': '<',
+    '&gt;': '>',
+  };
+
+  return text.replace(/&(?:amp|quot|lt|gt|#39|#x27);/g, (entity) => entities[entity]!);
+}
+
 function thrownBy(callback: () => unknown): unknown {
   try {
     callback();
@@ -215,7 +228,7 @@ test('5. removing a relationship entry removes exactly that Connections strip', 
     const noteText = markup.match(/<p[^>]*>([^<]*)<\/p>/)?.[1];
 
     expect(linkText).toBe(PROJECT_NAMES.get(relationship.to));
-    expect(noteText).toBe(relationship.note);
+    expect(noteText === undefined ? undefined : decodeHtmlText(noteText)).toBe(relationship.note);
   }
 
   expect(renderConnections([])).toBe('');
