@@ -5,19 +5,27 @@ vi.mock('../components/hero/hero-boot', () => ({ bootHeroStage: vi.fn() }));
 
 import HomePage from '../app/(site)/page';
 import { TeardownPoster } from '../components/teardown-poster';
+import type { Project } from 'xploder';
+
+import { getProject } from '../content/projects';
 import { websocketInspector } from '../content/projects/websocket-inspector';
+import { SITE } from '../content/site';
 import { posterFlowPoints, posterGeometry, projectPoint } from '../content/poster';
 
-function capturePath(): readonly string[] {
-  const flow = websocketInspector.flows[0];
+function capturePath(project: Project = websocketInspector): readonly string[] {
+  const flow = project.flows[0];
 
   if (flow === undefined) throw new Error('expected the hero project to define a flow');
 
   return flow.path;
 }
 
-function expectedPoints(path: readonly string[], state: 'exploded' | 'imploded' = 'exploded') {
-  const geometry = posterGeometry(websocketInspector, state);
+function expectedPoints(
+  path: readonly string[],
+  state: 'exploded' | 'imploded' = 'exploded',
+  project: Project = websocketInspector,
+) {
+  const geometry = posterGeometry(project, state);
 
   return path.map((componentId) => {
     const slab = geometry.slabs.find(
@@ -53,8 +61,12 @@ describe('home poster path', () => {
     }
   });
 
-  test('renders the first content flow in the home route SSR output', () => {
-    const path = capturePath();
+  test("renders the hero project's first flow in the home route SSR output", () => {
+    const heroProject = getProject(SITE.hero.project);
+
+    if (heroProject === undefined) throw new Error('expected SITE.hero.project to be a project');
+
+    const path = capturePath(heroProject);
     vi.stubGlobal('__XP_EAGER_HERO__', true);
     vi.stubGlobal('__XP_EAGER_3D__', false);
     const markup = renderToStaticMarkup(<HomePage />);
@@ -62,7 +74,9 @@ describe('home poster path', () => {
 
     expect(markup.match(/data-site-poster=""/g)).toHaveLength(2);
     expect(markup.match(/data-site-poster-flow="/g)).toHaveLength(1);
-    expect(markup).toContain(`points="${pointsAttribute(expectedPoints(path))}"`);
+    expect(markup).toContain(
+      `points="${pointsAttribute(expectedPoints(path, 'exploded', heroProject))}"`,
+    );
     expect(markup).toContain('motion-reduce:block');
     expect(markup).toContain('peer-data-[site-live-state=skipped]:block');
   });

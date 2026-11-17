@@ -84,12 +84,12 @@ describe('project card model', () => {
     expect(model.chips.length).toBeLessThanOrEqual(4);
   });
 
-  test('maps the agent-fleet meta with no chips', () => {
+  test('maps the agent-fleet meta and four registry chips in rank order (S19)', () => {
     expect(cardModel(agentFleet)).toStrictEqual({
       slug: agentFleet.meta.slug,
       name: agentFleet.meta.name,
       tagline: agentFleet.meta.tagline,
-      chips: [],
+      chips: expectedChips(['infra', 'agent', 'linux', 'git']),
     });
   });
 
@@ -208,7 +208,7 @@ describe('agent-fleet route model (AC1)', () => {
     expect(Math.max(...agentFleet.layers.map((layer) => layer.name.length))).toBeLessThanOrEqual(
       16,
     );
-    expect(components.reduce((total, component) => total + component.techs.length, 0)).toBe(0);
+    expect(components.reduce((total, component) => total + component.techs.length, 0)).toBe(8);
     expect(components.reduce((total, component) => total + component.links.length, 0)).toBe(0);
     expect(agentFleet.meta.links).toHaveLength(0);
   });

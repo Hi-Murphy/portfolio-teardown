@@ -6,6 +6,7 @@ import { HeroLeader } from '../hero/hero-leader';
 import { HeroLive } from '../hero/hero-live';
 import { HeroScrollMemory } from '../hero/hero-scroll-memory';
 import { HeroShowcaseProvider } from '../hero/hero-showcase';
+import { LogoGlyph } from '../icons';
 import { TeardownPoster } from '../teardown-poster';
 import { PROJECTS } from '../../content/projects';
 import { SITE } from '../../content/site';
@@ -16,7 +17,8 @@ const PRIMARY_CTA_CLASS =
 
 export function HeroSection() {
   const projects: readonly (typeof PROJECTS)[number][] = PROJECTS;
-  const heroProject = projects[0];
+  const heroProject =
+    projects.find((project) => project.meta.slug === SITE.hero.project) ?? projects[0];
 
   return (
     <section
@@ -28,7 +30,10 @@ export function HeroSection() {
       <HeroScrollMemory />
       <div className="relative z-10 mx-auto flex w-full max-w-[88rem] flex-1 flex-col px-5 pb-14 pt-5 sm:px-8 sm:pb-16 sm:pt-8 lg:grid lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] lg:items-center lg:gap-12 lg:py-3">
         <div className="flex flex-col items-start gap-3 sm:gap-4">
-          <p className="text-base font-semibold text-fg">{SITE.identity.name}</p>
+          <p className="flex items-center gap-2 text-base font-semibold text-fg">
+            <LogoGlyph />
+            {SITE.identity.name}
+          </p>
           <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.18em] text-muted">
             <span aria-hidden="true" className="h-px w-[22px] shrink-0 bg-accent" />
             {SITE.hero.eyebrow}

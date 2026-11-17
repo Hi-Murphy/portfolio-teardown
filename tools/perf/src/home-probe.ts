@@ -8,7 +8,7 @@ import { siteSource } from '../../../apps/web/content/site.source.ts';
 import { evaluateTabWalk, type FocusStep } from './a11y-probe.ts';
 import { chromiumVersion, launch } from './browser.ts';
 import { CliError, EXIT } from './exit-codes.ts';
-import { PROJECT_SOURCES } from './project-sources.ts';
+import { heroProjectSource, PROJECT_SOURCES } from './project-sources.ts';
 
 export const HOME_PROBE_GROUPS = ['order', 'fold', 'responsive', 'structure', 'copy'] as const;
 export type HomeProbeGroup = (typeof HOME_PROBE_GROUPS)[number];
@@ -641,7 +641,7 @@ export function evaluateCopy(
 }
 
 export function homeProbeConfig(): HomeProbeConfig {
-  const heroProject = PROJECT_SOURCES[0];
+  const heroProject = heroProjectSource();
 
   return {
     identityName: siteSource.identity.name,
@@ -1467,7 +1467,7 @@ async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<
   const strings: string[] = [];
   flattenStrings(siteSource, strings);
   for (const project of PROJECT_SOURCES) flattenStrings(project, strings);
-  strings.push(...heroNarrationCompositions(PROJECT_SOURCES[0]));
+  strings.push(...heroNarrationCompositions(heroProjectSource()));
   strings.push(...(await techLabels(rootDir)));
   strings.push(
     `${siteSource.identity.role} · ${siteSource.identity.location}`,

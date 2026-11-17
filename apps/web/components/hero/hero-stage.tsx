@@ -18,9 +18,6 @@ import {
 } from './hero-loop';
 import { showcaseForSequence, useHeroShowcase, type HeroShowcaseState } from './hero-showcase';
 
-const CAPTURE_FLOW = 'capture-path';
-const INSPECT_FLOW = 'inspect-path';
-
 interface TourWatchState {
   status: HeroTourStatus;
   step: number;
@@ -105,8 +102,10 @@ export function HeroStage({
         stopTour: () => viewer.actions.stop(),
       },
       follow,
-      captureFlow: CAPTURE_FLOW,
-      inspectFlow: INSPECT_FLOW,
+      // The storyboard's two flow phases follow the hero project's first two flows (S19: the hero
+      // project is data, so its flow ids are too).
+      captureFlow: project.flows[0]?.id ?? '',
+      inspectFlow: project.flows[1]?.id ?? project.flows[0]?.id ?? '',
       schedule: (callback, delayMs) => viewer.clock.schedule(delayMs / MS_PER_SECOND, callback),
       cancel: (handle) => (handle as () => void)(),
       now: () => viewer.clock.now() * MS_PER_SECOND,

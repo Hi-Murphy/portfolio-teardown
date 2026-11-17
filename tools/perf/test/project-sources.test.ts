@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 import { agentFleetSource } from '../../../apps/web/content/projects/agent-fleet.source.ts';
 import { jevToolkitSource } from '../../../apps/web/content/projects/jev-toolkit.source.ts';
 import { websocketInspectorSource } from '../../../apps/web/content/projects/websocket-inspector.source.ts';
-import { PROJECT_SOURCES } from '../src/project-sources.ts';
+import { heroProjectSource, PROJECT_SOURCES } from '../src/project-sources.ts';
 
 const CONTENT_DIR = fileURLToPath(new URL('../../../.specify/content/', import.meta.url));
 const PROJECT_INDEX = fileURLToPath(
@@ -76,5 +76,11 @@ describe('PROJECT_SOURCES', () => {
     expect(new Set(projectOrderFromIndex(missingProject))).not.toEqual(
       new Set(await contentSlugs()),
     );
+  });
+});
+
+describe('hero project source', () => {
+  test('follows site.hero.project (S19: jev-toolkit)', () => {
+    expect(heroProjectSource()).toBe(jevToolkitSource);
   });
 });
