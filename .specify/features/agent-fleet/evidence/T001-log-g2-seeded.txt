@@ -1,0 +1,12 @@
+/                                      raw=1066 exempted=X1=1028 X3=2 X5=36 unexempted=0
+/404                                   raw=96 exempted=X1=72 X5=24 unexempted=0
+/projects                              raw=793 exempted=X1=763 X3=4 X5=26 unexempted=0
+/projects/jev-toolkit                  raw=545 exempted=X1=508 X3=8 X5=26 unexempted=3
+/projects/websocket-inspector          raw=359 exempted=X1=333 X5=26 unexempted=0
+other                                  raw=0 exempted=none unexempted=0
+shared-assets                          raw=51 exempted=X1=7 X2=3 X3=3 X4=25 X6=1 X7=12 unexempted=0
+G2 unexempted: 3
+F1 ipv4 projects/jev-toolkit.html:145063 192.…
+F3 ghp_ projects/jev-toolkit.html:145079 ghp_…
+F4 github-url projects/jev-toolkit.html:145103 gith…
+exit 6
