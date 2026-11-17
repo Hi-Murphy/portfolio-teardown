@@ -38,7 +38,7 @@
 | T001 | ☑ (canary red 23 → green 27/27; G1 0; G2 S17 base 0 unexempted; seeded 3/3; guards 11/11 + 5 controls; R-G/R-H/R-I) | 1 (Flash, 2 dispatches; both stops were spec gaps, not failures) + orchestrator (prose-guard scope, 1 type fix) | evidence/T001-* | e7ae0f1 |
 | T002 | ☑ (red: module missing → green; web 391 / xploder 727 / perf 309, 0 fail; build prerenders `/projects/agent-fleet`; G1 0; guards 12/12) | 1 (Flash, 1 dispatch) + orchestrator (path normalisation R-J) | evidence/T002-* | dbeb1aa |
 | T003 | ☑ (red → green; empty-render 72/72 cells + 20/20 controls; site-probe cards 43/43; CSS identical; 16 screenshots; guards 12/12) | 1 (Flash, 1 dispatch) | evidence/T003-* | 54113f3 |
-| T004 | ☐ | — | evidence/T004-* | — |
+| T004 | ☑ (route 4/14/3, panels 14/14, flows 3/3; sitemap 5; OG 5 × 1200×630 stable over 2 builds, existing 2 identical to base; JSON-LD 1 per project page ×3; 404; site-probe teardown/routes/draws/cards PASS; perf.yml steps) | 1 (Flash, 1 dispatch) | evidence/T004-* | 5f7a307 |
 | T005 | ☐ | — | evidence/T005-*, source-map.md | — |
 | T006 | ☐ | — | evidence/T006-* | — |
 | T007 | ☐ | — | evidence/T007-*, AC-selfcheck.md | — |
