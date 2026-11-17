@@ -1,0 +1,6 @@
+# command: for i in 1 2 3; do .specify/features/cross-project/build-fixed.sh /tmp/s17-checks/b1-out-$i; done; ! grep SecurityFatalError; cmp -s index.html | target: /tmp/s17-checks/b1-out-{1,2,3} | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+build exit 0
+build exit 0
+build exit 0
+NO-NOTICE
+B1-DETERMINISTIC

@@ -1,0 +1,18 @@
+# command: pnpm install --frozen-lockfile (clean node_modules after U1) | target: workspace | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+Scope: all 4 workspace projects
+✓ Lockfile passes supply-chain policies (verified 2s ago)
+Lockfile is up to date, resolution step is skipped
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: <pnpm-store>
+  Virtual store is at:             node_modules/.pnpm
+Packages: +566
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 566, reused 566, downloaded 0, added 566, done
+.../node_modules/unrs-resolver postinstall$ node postinstall.js
+.../node_modules/unrs-resolver postinstall: Done
+
+devDependencies:
++ prettier 3.9.10
++ typescript 5.9.3
+
+Done in 902ms using pnpm v12.15.0

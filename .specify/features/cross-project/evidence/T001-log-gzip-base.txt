@@ -1,0 +1,5 @@
+# command: node .specify/features/cross-project/bundle-gzip.mjs --write /tmp/s17-checks/base-gzip.json /tmp/s17-checks/base-out | target: /tmp/s17-checks/base-out | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+OUT /tmp/s17-checks/base-out
+FILES 22
+RAW-TOTAL 1629428 B
+GZIP-TOTAL 473625 B

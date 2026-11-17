@@ -1,0 +1,25 @@
+# command: pnpm perf:lighthouse http://127.0.0.1:4717$r for /, /projects, /projects/websocket-inspector, /projects/jev-toolkit | target: http://127.0.0.1:4717 | commit: e17375b3ae0dbcd013675112de325a645254cd8b | exit: 0
+=== / ===
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4717/ --out /tmp/s17-checks/lh-b1-
+performance: 1 >= 0.95 (median) pass
+lcp: 905.2920999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: /tmp/s17-checks/lh-b1-/lighthouse-summary.json
+=== /projects ===
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4717/projects --out /tmp/s17-checks/lh-b1-projects
+performance: 1 >= 0.95 (median) pass
+lcp: 903.4999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: /tmp/s17-checks/lh-b1-projects/lighthouse-summary.json
+=== /projects/websocket-inspector ===
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4717/projects/websocket-inspector --out /tmp/s17-checks/lh-b1-projects-websocket-inspector
+performance: 1 >= 0.95 (median) pass
+lcp: 903.8934999999999 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: /tmp/s17-checks/lh-b1-projects-websocket-inspector/lighthouse-summary.json
+=== /projects/jev-toolkit ===
+$ node tools/perf/src/cli/lighthouse-gate.ts http://127.0.0.1:4717/projects/jev-toolkit --out /tmp/s17-checks/lh-b1-projects-jev-toolkit
+performance: 1 >= 0.95 (median) pass
+lcp: 903.0316 < 2500 (median) pass
+cls: 0, 0, 0 === 0 (every-run) pass
+summary: /tmp/s17-checks/lh-b1-projects-jev-toolkit/lighthouse-summary.json
