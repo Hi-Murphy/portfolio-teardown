@@ -9,6 +9,8 @@ import { describe, expect, test } from 'vitest';
 import { PROJECT_SLUGS } from '../content/projects';
 import { RELATIONSHIP_SOURCES, connectionsFor } from '../content/projects/connections';
 import { SITE_REGISTRY } from '../content/tech-registry';
+import { agentFleet } from '../content/projects/agent-fleet';
+import { agentFleetSource } from '../content/projects/agent-fleet.source';
 import { jevToolkit } from '../content/projects/jev-toolkit';
 import { jevToolkitSource } from '../content/projects/jev-toolkit.source';
 import { jevToolkitRelationships } from '../content/projects/jev-toolkit.relationships';
@@ -42,6 +44,15 @@ const rows = [
     project: jevToolkit,
     sourcePath: fileURLToPath(
       new URL('../content/projects/jev-toolkit.source.ts', import.meta.url),
+    ),
+  },
+  {
+    slug: 'agent-fleet',
+    jsonPath: fileURLToPath(new URL('../../../.specify/content/agent-fleet.json', import.meta.url)),
+    source: agentFleetSource,
+    project: agentFleet,
+    sourcePath: fileURLToPath(
+      new URL('../content/projects/agent-fleet.source.ts', import.meta.url),
     ),
   },
 ] as const;
@@ -116,7 +127,9 @@ describe.each(rows)('$slug content fidelity', ({ slug, jsonPath, source, project
     const mutated = structuredClone(json) as {
       layers: Array<{ components: Array<{ summary: string }> }>;
     };
-    mutated.layers[4]!.components[2]!.summary = `${mutated.layers[4]!.components[2]!.summary} (mutated)`;
+    const lastLayer = mutated.layers.at(-1)!;
+    const firstComponent = lastLayer.components[0]!;
+    firstComponent.summary = `${firstComponent.summary} (mutated)`;
 
     expect(source).not.toStrictEqual(mutated);
   });

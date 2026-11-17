@@ -87,7 +87,7 @@ test('1. an unknown target names the target, the owner and every known project',
   const error = expectRelationshipError(() => resolveConnections(asSources(sources), PROJECTS));
 
   expect(error.message).toContain(
-    'Unknown relationship target "no-such-project" in project "jev-toolkit". Known projects: websocket-inspector, jev-toolkit.',
+    'Unknown relationship target "no-such-project" in project "jev-toolkit". Known projects: websocket-inspector, jev-toolkit, agent-fleet.',
   );
   expect(error.message).toContain('relationships[0].to');
 });
