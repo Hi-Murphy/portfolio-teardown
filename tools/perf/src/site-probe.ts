@@ -420,12 +420,17 @@ export function cardOrderMatches(actual: readonly string[], expected: readonly s
 export function evaluateCardChips(
   labels: readonly string[],
   registryLabels: readonly string[],
+  expectedCount?: number,
 ): CardChipVerdict {
   const registry = new Set(registryLabels.map(compactText));
   const unknown = labels.map(compactText).filter((label) => !registry.has(label));
+  const countPass =
+    expectedCount === undefined
+      ? labels.length >= CARD_CHIP_MIN && labels.length <= CARD_CHIP_MAX
+      : labels.length === expectedCount;
 
   return {
-    pass: labels.length >= CARD_CHIP_MIN && labels.length <= CARD_CHIP_MAX && unknown.length === 0,
+    pass: countPass && unknown.length === 0,
     count: labels.length,
     unknown,
   };
@@ -2730,6 +2735,7 @@ interface CardExpectation {
   readonly slug: string;
   readonly name: string;
   readonly tagline: string | null;
+  readonly expectedChips: number;
 }
 
 interface CardSnapshot {
@@ -2737,6 +2743,7 @@ interface CardSnapshot {
   headingText: string | null;
   taglineFound: boolean;
   chipLabels: string[];
+  chipListPresent: boolean;
   href: string | null;
 }
 
@@ -2760,6 +2767,11 @@ async function runCardsGroup(
     slug: source.meta.slug,
     name: source.meta.name,
     tagline: source.meta.tagline ?? null,
+    expectedChips: Math.min(
+      new Set(source.layers.flatMap((layer) => layer.components.flatMap((item) => item.techs)))
+        .size,
+      CARD_CHIP_MAX,
+    ),
   }));
   const expectedSlugs = PROJECT_SOURCES.map((source) => source.meta.slug);
 
@@ -2786,6 +2798,7 @@ async function runCardsGroup(
                   headingText: null,
                   taglineFound: false,
                   chipLabels: [],
+                  chipListPresent: false,
                   href: null,
                 },
               ]),
@@ -2820,6 +2833,7 @@ async function runCardsGroup(
                 );
                 return label === undefined ? '' : compact(label.textContent ?? '');
               });
+              entry.chipListPresent = card.querySelector('ul[aria-label="Tech"]') !== null;
             }
 
             return {
@@ -2836,14 +2850,20 @@ async function runCardsGroup(
               headingText: null,
               taglineFound: false,
               chipLabels: [],
+              chipListPresent: false,
               href: null,
             };
-            const chips = evaluateCardChips(actual.chipLabels, registryLabels);
+            const chips = evaluateCardChips(
+              actual.chipLabels,
+              registryLabels,
+              expected.expectedChips,
+            );
             const pass =
               actual.count === 1 &&
               actual.headingText === compactText(expected.name) &&
               actual.taglineFound &&
               chips.pass &&
+              (expected.expectedChips !== 0 || !actual.chipListPresent) &&
               actual.href === `/projects/${expected.slug}`;
             checks.push(
               check(
@@ -2853,14 +2873,23 @@ async function runCardsGroup(
                   count: 1,
                   headingText: expected.name,
                   tagline: expected.tagline,
-                  chips: { min: CARD_CHIP_MIN, max: CARD_CHIP_MAX, registry: 'known labels' },
+                  chips: {
+                    min: CARD_CHIP_MIN,
+                    max: CARD_CHIP_MAX,
+                    expected: expected.expectedChips,
+                    registry: 'known labels',
+                  },
                   href: `/projects/${expected.slug}`,
                 },
                 {
                   count: actual.count,
                   headingText: actual.headingText,
                   taglineFound: actual.taglineFound,
-                  chips: { ...chips, labels: actual.chipLabels },
+                  chips: {
+                    ...chips,
+                    labels: actual.chipLabels,
+                    chipListPresent: actual.chipListPresent,
+                  },
                   href: actual.href,
                 },
               ),
