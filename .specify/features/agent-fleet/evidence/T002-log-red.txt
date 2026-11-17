@@ -1,5 +1,5 @@
 
- RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t002/apps/web
+ RUN  v5.0.5 <worktree>/apps/web
 
  ❯ test/content-model.test.ts (0 test)
  ❯ test/content-fidelity.test.ts (0 test)
@@ -7,7 +7,7 @@
 ⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  test/content-fidelity.test.ts [ test/content-fidelity.test.ts ]
-Error: Cannot find module '../content/projects/agent-fleet' imported from /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t002/apps/web/test/content-fidelity.test.ts
+Error: Cannot find module '../content/projects/agent-fleet' imported from <worktree>/apps/web/test/content-fidelity.test.ts
  ❯ test/content-fidelity.test.ts:12:1
      10| import { RELATIONSHIP_SOURCES, connectionsFor } from '../content/proje…
      11| import { SITE_REGISTRY } from '../content/tech-registry';
@@ -19,7 +19,7 @@ Error: Cannot find module '../content/projects/agent-fleet' imported from /Users
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
 
  FAIL  test/content-model.test.ts [ test/content-model.test.ts ]
-Error: Cannot find module '../content/projects/agent-fleet' imported from /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t002/apps/web/test/content-model.test.ts
+Error: Cannot find module '../content/projects/agent-fleet' imported from <worktree>/apps/web/test/content-model.test.ts
  ❯ test/content-model.test.ts:7:1
       5| import { describe, expect, test } from 'vitest';
       6|
@@ -38,7 +38,7 @@ Error: Cannot find module '../content/projects/agent-fleet' imported from /Users
 
 Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
 
-  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  × "pnpm recursive exec" failed in <home>/orca/workspaces/portfolio-
   │ teardown/task-s18-agent-fleet-t002/apps/web
 
 exit 1

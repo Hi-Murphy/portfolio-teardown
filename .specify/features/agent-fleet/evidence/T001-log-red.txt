@@ -1,5 +1,5 @@
 
- RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t001/apps/web
+ RUN  v5.0.5 <worktree>/apps/web
 
  ❯ test/redaction-scan.test.ts (25 tests | 23 failed) 13ms
    ❯ redaction scanner canary (3)
@@ -354,6 +354,6 @@ AssertionError: expected undefined to be defined
 
 Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
 
-  × "pnpm recursive exec" failed in /Users/murphy/orca/workspaces/portfolio-
+  × "pnpm recursive exec" failed in <home>/orca/workspaces/portfolio-
   │ teardown/task-s18-agent-fleet-t001/apps/web
 

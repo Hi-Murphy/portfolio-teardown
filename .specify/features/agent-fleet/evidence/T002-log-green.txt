@@ -1,5 +1,5 @@
 
- RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t002/apps/web
+ RUN  v5.0.5 <worktree>/apps/web
 
  ✓ test/content-model.test.ts > project card model > maps the websocket-inspector meta and top four registry chips 1ms
  ✓ test/content-model.test.ts > project card model > maps the jev-toolkit meta and registry chips 0ms
@@ -48,7 +48,7 @@
    Duration  781ms (tests 85%, import 9%, transform 6%)
 
 
- RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t002/tools/perf
+ RUN  v5.0.5 <worktree>/tools/perf
 
 
  Test Files  1 passed (1)

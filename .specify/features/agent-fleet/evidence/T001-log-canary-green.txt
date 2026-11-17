@@ -1,5 +1,5 @@
 
- RUN  v5.0.5 /Users/murphy/orca/workspaces/portfolio-teardown/task-s18-agent-fleet-t001/apps/web
+ RUN  v5.0.5 <worktree>/apps/web
 
  ✓ test/redaction-scan.test.ts > redaction scanner canary > G3 content reports the canary in a JSON description 2ms
  ✓ test/redaction-scan.test.ts > redaction scanner canary > G3 build reports the canary once from HTML, text and JavaScript 2ms
