@@ -75,7 +75,7 @@
   pnpm typecheck && pnpm lint && pnpm test 2>&1 | tail -30 | tee $E/T001-log-suite.txt
   # commit = B1, then baselines on B1
   cp -R /tmp/s17-checks/b1-out-3 /tmp/s17-checks/base-out
-  pnpm build:fixtures && cp -R apps/web/out-fixtures /tmp/s17-checks/base-out-fixtures
+  pnpm build:fixtures && cp -R out-fixtures /tmp/s17-checks/base-out-fixtures
   node $F/bundle-gzip.mjs --write /tmp/s17-checks/base-gzip.json /tmp/s17-checks/base-out | tee $E/T001-log-gzip-base.txt
   node $F/bundle-gzip.mjs --write /tmp/s17-checks/ref-gzip.json /tmp/s17-checks/ref-out > /dev/null
   node $F/bundle-gzip.mjs --diff /tmp/s17-checks/ref-gzip.json /tmp/s17-checks/base-out | tee $E/T001-log-upgrade-gzip.txt || true   # reported, not budgeted
@@ -225,7 +225,7 @@
 - **Check:**
   ```sh
   set -euo pipefail; mkdir -p /tmp/s17-checks .specify/features/cross-project/evidence; E=.specify/features/cross-project/evidence; F=.specify/features/cross-project
-  bash $F/build-fixed.sh /tmp/s17-checks/t005-out && pnpm build:fixtures && cp -R apps/web/out-fixtures /tmp/s17-checks/t005-out-fixtures
+  bash $F/build-fixed.sh /tmp/s17-checks/t005-out && pnpm build:fixtures && cp -R out-fixtures /tmp/s17-checks/t005-out-fixtures
   pnpm serve:out --dir /tmp/s17-checks/t005-out --port 4719 & S1=$!
   pnpm serve:out --dir /tmp/s17-checks/t005-out-fixtures --port 4720 & S2=$!; sleep 3
   node $F/connections-probe.mjs http://127.0.0.1:4719 --out /tmp/s17-checks/probe | tee $E/T005-log-connections-probe.md   # PASS, 0 intersections
