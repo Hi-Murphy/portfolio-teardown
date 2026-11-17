@@ -22,3 +22,10 @@
 
 - **C3 (ruling):** AC7's "own files byte-identical" for the two existing project pages is checked with hashed chunk names masked. The lazy workbench chunk bundles every project since S13, so adding any project renames it and the two small chunks that reference it (`rfc.md` §7).
 - **Backlog suggestions:** per-project lazy chunks (so a future project leaves existing pages byte-identical); the `site.json` about copy still says "Both started as side projects".
+
+## Addendum (Stage 3, not a revision)
+
+- **C3 extended by E5-A (Murphy):** the existing project pages also carry the 404's project-card list in their embedded RSC payload. AC7's own-file check therefore allows that added entry (plus RSC row-id renumbering), with the rendered DOM identical.
+- **E4-A (Murphy):** a pre-existing invisible Tab stop (the canvas-fallback copy of the project outline) was fixed on all three project routes; the visible no-WebGL fallback keeps its Tab stop.
+- **Content amendment:** your `eda5c82`, recorded as R-K.
+- **Backlog suggestions, added:** the 404 page's project list makes every new project touch every page's payload; consider whether the 404 should list projects at all.
