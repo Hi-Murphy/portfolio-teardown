@@ -6,6 +6,7 @@ import { describe, expect, test } from 'vitest';
 import { agentFleetSource } from '../../../apps/web/content/projects/agent-fleet.source.ts';
 import { jevToolkitSource } from '../../../apps/web/content/projects/jev-toolkit.source.ts';
 import { websocketInspectorSource } from '../../../apps/web/content/projects/websocket-inspector.source.ts';
+import { siteSource } from '../../../apps/web/content/site.source.ts';
 import { heroProjectSource, PROJECT_SOURCES } from '../src/project-sources.ts';
 
 const CONTENT_DIR = fileURLToPath(new URL('../../../.specify/content/', import.meta.url));
@@ -80,7 +81,7 @@ describe('PROJECT_SOURCES', () => {
 });
 
 describe('hero project source', () => {
-  test('follows site.hero.project (S19: jev-toolkit)', () => {
-    expect(heroProjectSource()).toBe(jevToolkitSource);
+  test('follows site.hero.project', () => {
+    expect(heroProjectSource().meta.slug).toBe(siteSource.hero.project);
   });
 });

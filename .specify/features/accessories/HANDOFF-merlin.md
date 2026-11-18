@@ -29,6 +29,25 @@ deviations to undo.
 - **W3 approved list:** the test now reads `.specify/features/accessories/sections-approved.txt`.
   The S11.9 `g1-approved.txt` was left as it was.
 
+## Pre-merge scouting fixes (X2, approved by Murphy 2026-11-18)
+
+- `pnpm home:probe` now defaults to `.specify/features/accessories/sections-approved.txt`. The old
+  S11.9 default made a bare run fail the order check.
+- New test: `site.hero.primaryCta.href` must equal `/projects/<site.hero.project>`. **When you change
+  the hero project, change the CTA href in the same edit.** The two are separate keys in
+  `site.json`.
+- The hero tests follow `site.hero.project` rather than pinning `jev-toolkit`, so changing the hero
+  needs no test edit.
+- The footer gap between glyph and name is now 8 px, as in the hero and nav.
+- Murphy kept both marks on phones (nav and hero name line, ~50 px apart). That was a deliberate
+  choice.
+
+## Design asset to fix (Merlin)
+
+`.specify/design/logo-c-180.svg` has `rx="34"` on a 32-unit tile. That clamps to a full circle,
+while the 32 px files use `rx="6"`. It is probably a typo. The code does not read this file (the apple
+icon is generated, full-bleed paper), but the asset should be corrected or the intent stated.
+
 ## Results to carry forward
 
 - Holds: unchanged (labelled 3.40/3.35 s, zoomed 1.73 s, tour-end 1.61 + 1.61 s). The loop is

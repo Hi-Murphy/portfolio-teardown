@@ -24,7 +24,7 @@ interface HomeProbeArgs {
   positionals: string[];
 }
 
-const DEFAULT_APPROVED = '.specify/features/home-composition/g1-approved.txt';
+const DEFAULT_APPROVED = '.specify/features/accessories/sections-approved.txt';
 
 const usage = `Usage: pnpm home:probe <url> | --serve <dir> [options]
 

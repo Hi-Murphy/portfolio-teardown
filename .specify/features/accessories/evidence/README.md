@@ -107,6 +107,13 @@ Lighthouse here ran on the local export. CI repeats it on the Vercel preview.
 | focus-order probe | `tools/perf` home-probe reads a grid column-first only when the grid has one row (the hero); wrapping card grids read row by row | home-probe PASS at all widths (was FAIL at 768/1440 on main too) | `X1-log-home-probe.txt` |
 | live hero in dark | new `dark-hero.mjs`: dark theme, zero interaction, 6 phases screenshotted and lit, pause/play by click | PASS at 1440x900 and 390x844 | `X1-log-dark-hero.md`, `X1-screenshot-dark-hero/` |
 
+X2 (pre-merge scouting, approved by Murphy):
+- `home:probe` default approved list fixed. A bare `pnpm home:probe --serve apps/web/out` passes
+  all groups (`X2-log-home-probe-default.txt`).
+- CTA/hero match test added; hero tests no longer pin `jev-toolkit`.
+- Footer glyph gap 12 → 8 px (`X2-screenshot-glyph-footer-light.png`).
+- CI home TBT check: see the PR thread (re-run on the perf workflow).
+
 Other notes:
 - axe "incomplete" (needs review) on `/` is 34 vs base 32. The extra items are poster step numbers:
   JEV's first flow has 8 steps vs 7.

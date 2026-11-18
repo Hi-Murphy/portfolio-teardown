@@ -5,9 +5,17 @@ vi.mock('../components/hero/hero-boot', () => ({ bootHeroStage: vi.fn() }));
 
 import type { Project } from 'xploder';
 
-import { jevToolkit } from '../content/projects/jev-toolkit';
 import { HeroSection } from '../components/home/hero-section';
+import { getProject } from '../content/projects';
 import { SITE } from '../content/site';
+
+// The configured hero project. Tests follow site.hero.project rather than pinning a slug.
+function configuredHero(): Project {
+  const project = getProject(SITE.hero.project);
+  if (project === undefined) throw new Error(`site.hero.project "${SITE.hero.project}" is unknown`);
+
+  return project;
+}
 
 function staticCaptionOf(project: Project): string {
   const { name, tagline } = project.meta;
@@ -22,7 +30,7 @@ describe('hero figure SSR', () => {
     vi.stubGlobal('__XP_EAGER_HERO__', true);
     vi.stubGlobal('__XP_EAGER_3D__', false);
     const markup = renderToStaticMarkup(<HeroSection />);
-    const staticCaption = staticCaptionOf(jevToolkit);
+    const staticCaption = staticCaptionOf(configuredHero());
 
     expect(markup).toContain('<figure aria-labelledby="hero-caption"');
     expect(markup).toMatch(/<figcaption id="hero-caption" class="sr-only">/);
@@ -43,12 +51,15 @@ describe('hero figure SSR', () => {
   });
 
   test('takes the hero project from SITE.hero.project (S19 W2)', () => {
-    expect(SITE.hero.project).toBe(jevToolkit.meta.slug);
     vi.stubGlobal('__XP_EAGER_HERO__', true);
     vi.stubGlobal('__XP_EAGER_3D__', false);
     const markup = renderToStaticMarkup(<HeroSection />);
 
-    expect(markup).toContain(staticCaptionOf(jevToolkit));
+    expect(markup).toContain(staticCaptionOf(configuredHero()));
+  });
+
+  test('the primary CTA links to the hero project', () => {
+    expect(SITE.hero.primaryCta.href).toBe(`/projects/${configuredHero().meta.slug}`);
   });
 
   test('falls back to the first project when the hero slug is unknown', async () => {
@@ -68,6 +79,5 @@ describe('hero figure SSR', () => {
     vi.doUnmock('../content/site');
 
     expect(markup).toContain(staticCaptionOf(PROJECTS[0]));
-    expect(markup).not.toContain(staticCaptionOf(jevToolkit));
   });
 });
