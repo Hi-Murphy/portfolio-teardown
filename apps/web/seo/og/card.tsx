@@ -2,7 +2,9 @@
 import type { CSSProperties, ReactElement } from 'react';
 import { blueprint } from 'xploder/theme';
 
+import { LOGO_GLYPH_BOUNDS, logoGlyphRectsSvg } from '../../content/logo-glyph';
 import type { PosterPoint } from '../../content/poster';
+import { SITE } from '../../content/site';
 import type { OgCardModel, OgCardSilhouette } from './card-model';
 
 const CANVAS_WIDTH = 1200;
@@ -34,6 +36,10 @@ const RIGHT_COLUMN_PADDING_BOTTOM = 10;
 const SILHOUETTE_GAP = 12;
 const SILHOUETTE_ROW_MAX_WIDTH = 480;
 const SILHOUETTE_STROKE_DIVISOR = 260;
+
+const EYEBROW_GLYPH_HEIGHT = 13;
+const TITLE_GLYPH_HEIGHT = 26;
+const GLYPH_GAP_EM = 0.3;
 
 const SANS_FONT = 'IBM Plex Sans';
 const MONO_FONT = 'IBM Plex Mono';
@@ -77,6 +83,31 @@ function silhouetteSvg(silhouette: OgCardSilhouette): string {
 
 function imageSource(svg: string): string {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+function glyphSvg(): string {
+  const { x, y, width, height } = LOGO_GLYPH_BOUNDS;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${width} ${height}"><g fill="${palette.ink}">${logoGlyphRectsSvg()}</g></svg>`;
+}
+
+// The wordmark: the logo glyph before the site name, wherever the card's text column shows it.
+// Satori needs the row itself to be the flex box, so the line's own style carries it.
+function textLine(text: string, style: CSSProperties, glyphHeight: number): ReactElement {
+  if (text !== SITE.meta.siteName) return <div style={style}>{text}</div>;
+
+  const glyphWidth = (glyphHeight * LOGO_GLYPH_BOUNDS.width) / LOGO_GLYPH_BOUNDS.height;
+
+  return (
+    <div style={{ ...style, display: 'flex', alignItems: 'center', gap: `${GLYPH_GAP_EM}em` }}>
+      <img
+        src={imageSource(glyphSvg())}
+        style={{ width: `${glyphWidth}px`, height: `${glyphHeight}px`, flex: 'none' }}
+        alt=""
+      />
+      <span>{text}</span>
+    </div>
+  );
 }
 
 function sheetSvg(): string {
@@ -294,9 +325,9 @@ export function cardElement(model: OgCardModel): ReactElement {
 
       <div style={contentStyle}>
         <div style={textColumnStyle}>
-          <div style={eyebrowStyle}>{model.eyebrow}</div>
+          {textLine(model.eyebrow, eyebrowStyle, EYEBROW_GLYPH_HEIGHT)}
           <div style={ruleStyle} />
-          <div style={titleStyle}>{model.title}</div>
+          {textLine(model.title, titleStyle, TITLE_GLYPH_HEIGHT)}
           <div style={subtitleStyle}>{model.subtitle}</div>
         </div>
 

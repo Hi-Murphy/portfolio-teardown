@@ -3,8 +3,25 @@ import { describe, expect, test, vi } from 'vitest';
 
 vi.mock('../components/hero/hero-boot', () => ({ bootHeroStage: vi.fn() }));
 
-import { websocketInspector } from '../content/projects/websocket-inspector';
+import type { Project } from 'xploder';
+
 import { HeroSection } from '../components/home/hero-section';
+import { getProject } from '../content/projects';
+import { SITE } from '../content/site';
+
+// The configured hero project. Tests follow site.hero.project rather than pinning a slug.
+function configuredHero(): Project {
+  const project = getProject(SITE.hero.project);
+  if (project === undefined) throw new Error(`site.hero.project "${SITE.hero.project}" is unknown`);
+
+  return project;
+}
+
+function staticCaptionOf(project: Project): string {
+  const { name, tagline } = project.meta;
+
+  return tagline === undefined ? name : `${name} — ${tagline}`;
+}
 
 describe('hero figure SSR', () => {
   test('keeps the static caption, permanent project line, and larger borderless hero stage', () => {
@@ -13,8 +30,7 @@ describe('hero figure SSR', () => {
     vi.stubGlobal('__XP_EAGER_HERO__', true);
     vi.stubGlobal('__XP_EAGER_3D__', false);
     const markup = renderToStaticMarkup(<HeroSection />);
-    const { name, tagline } = websocketInspector.meta;
-    const staticCaption = tagline === undefined ? name : `${name} — ${tagline}`;
+    const staticCaption = staticCaptionOf(configuredHero());
 
     expect(markup).toContain('<figure aria-labelledby="hero-caption"');
     expect(markup).toMatch(/<figcaption id="hero-caption" class="sr-only">/);
@@ -32,5 +48,36 @@ describe('hero figure SSR', () => {
     expect(markup).toContain('_[data-xploder-caption]]:hidden');
     expect(markup).toContain('data-site-poster=""');
     expect(markup).not.toContain('data-hero-narration');
+  });
+
+  test('takes the hero project from SITE.hero.project (S19 W2)', () => {
+    vi.stubGlobal('__XP_EAGER_HERO__', true);
+    vi.stubGlobal('__XP_EAGER_3D__', false);
+    const markup = renderToStaticMarkup(<HeroSection />);
+
+    expect(markup).toContain(staticCaptionOf(configuredHero()));
+  });
+
+  test('the primary CTA links to the hero project', () => {
+    expect(SITE.hero.primaryCta.href).toBe(`/projects/${configuredHero().meta.slug}`);
+  });
+
+  test('falls back to the first project when the hero slug is unknown', async () => {
+    vi.resetModules();
+    vi.doMock('../content/site', async (importOriginal) => {
+      const actual = await importOriginal<typeof import('../content/site')>();
+
+      return {
+        SITE: { ...actual.SITE, hero: { ...actual.SITE.hero, project: 'no-such-project' } },
+      };
+    });
+    vi.stubGlobal('__XP_EAGER_HERO__', true);
+    vi.stubGlobal('__XP_EAGER_3D__', false);
+    const { HeroSection: FallbackHero } = await import('../components/home/hero-section');
+    const { PROJECTS } = await import('../content/projects');
+    const markup = renderToStaticMarkup(<FallbackHero />);
+    vi.doUnmock('../content/site');
+
+    expect(markup).toContain(staticCaptionOf(PROJECTS[0]));
   });
 });

@@ -43,7 +43,8 @@ function expectedStrings(route: SeoRoute): ExpectedCardStrings {
       eyebrow: SITE.hero.eyebrow,
       title: SITE.meta.siteName,
       subtitle: SITE.hero.headline,
-      silhouetteIds: PROJECTS.slice(0, 1).map((project) => project.meta.slug),
+      // S19: the home card shows the hero project (site.hero.project).
+      silhouetteIds: [SITE.hero.project],
       titleBlock: {
         title: SITE.meta.siteName,
         meta: SITE.identity.role,

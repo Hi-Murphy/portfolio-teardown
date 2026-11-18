@@ -24,6 +24,11 @@ export function getProject(slug: string): Project | undefined {
   return PROJECTS.find((project) => project.meta.slug === slug);
 }
 
+// The home hero's project (S19 W2): the slug from site copy, else the first project.
+export function heroProject(slug: string): Project | undefined {
+  return getProject(slug) ?? PROJECTS[0];
+}
+
 export function cardModel(project: Project): ProjectCardModel {
   const rankings = new Map<string, { count: number; firstAppearance: number }>();
   let nextAppearance = 0;

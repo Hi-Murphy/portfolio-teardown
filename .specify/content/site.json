@@ -3,7 +3,7 @@
   "identity": {
     "name": "Timur Haryo Mahissanular",
     "goesBy": "Murphy",
-    "role": "Android engineer",
+    "role": "Software engineer",
     "location": "Indonesia",
     "email": "vibing.murphy@gmail.com",
     "links": [
@@ -19,24 +19,25 @@
     "resume": "/resume.pdf"
   },
   "hero": {
-    "eyebrow": "Android engineer · Performance",
+    "eyebrow": "Software engineer · Android",
     "headline": "Every project, taken apart.",
-    "subline": "I build Android apps — community features, and the unglamorous work that makes them fast: payments, lists, benchmarks. Every project here is taken apart.",
+    "subline": "I build software for Android — trading, community, architecture, automation — and the performance work that makes it feel fast. Every project here is taken apart.",
     "primaryCta": {
       "label": "See how it works",
-      "href": "/projects/websocket-inspector"
+      "href": "/projects/jev-toolkit"
     },
     "loopPause": "Pause animation",
-    "loopPlay": "Play animation"
+    "loopPlay": "Play animation",
+    "project": "jev-toolkit"
   },
   "about": {
     "title": "About",
     "paragraphs": [
-      "I build Android apps at ████████, focused on community features — plus the unglamorous work that decides whether an app feels fast: a customizable payment library on Google Play Billing, a resource controller that made dynamic lists behave, liveness, and macro-benchmarking of UI-layer resource use.",
-      "I measure before I believe. When an existing tool could not answer a question, I wrote the harness: an inspector for WebSocket traffic, and a benchmark for how coding agents decide what to read. Both started as side projects and ended up changing how I work.",
-      "This site is built the same way. Each project is an exploded view of how it is actually put together — layer by layer, component by component, with the numbers that came out of the measurements."
+      "Software engineer, Android by trade, product by habit. At ████████ I work across the whole surface rather than one corner of it: trading, community, architecture, automation and research — the features people use every day, and the systems that keep them fast and shippable.",
+      "I measure before I believe. The parts I like best are the ones nobody demos — the slow list, the flaky test, the migration with a deadline — because they are where measurement separates a guess from a decision.",
+      "This site is that method applied to itself: every project taken apart layer by layer, with the numbers that came out of the measurements."
     ],
-    "skillsNote": "Kotlin · Compose · Coroutines · Room · Clean architecture · Android profiling · Firebase · CI/CD"
+    "skillsNote": "Kotlin · Compose · Coroutines · Room · Clean architecture · Android profiling · Automation · Firebase · CI/CD"
   },
   "projects": {
     "title": "Projects",
@@ -51,7 +52,7 @@
   },
   "meta": {
     "title": "Timur Haryo — Software Engineer · Android & Developer Tools",
-    "description": "Android engineer building community features and the performance work behind them. Every project, taken apart — layer by layer.",
+    "description": "Software engineer working on Android — trading, community, architecture, automation, and the performance work behind them. Every project, taken apart.",
     "siteName": "Timur Haryo",
     "locale": "en"
   }

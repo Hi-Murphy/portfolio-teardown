@@ -1,0 +1,98 @@
+{
+  "kind": "lighthouse-summary",
+  "version": 1,
+  "url": "http://127.0.0.1:4719/projects/websocket-inspector",
+  "finalUrl": "http://127.0.0.1:4719/projects/websocket-inspector",
+  "tools": {
+    "lighthouse": "13.6.0",
+    "chromium": "156.0.0.0"
+  },
+  "formFactor": "mobile",
+  "throttling": "simulate",
+  "runs": [
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 904.1143999999999,
+      "cls": 0,
+      "tbtMs": 0.5,
+      "fcpMs": 904.1143999999999,
+      "siMs": 904.1143999999999,
+      "totalByteWeight": 206443,
+      "benchmarkIndex": 4300,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/29p5wlfz_1l3v.js",
+          "startMs": 2104.1144,
+          "durMs": 51
+        }
+      ]
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 904.3765000000001,
+      "cls": 0,
+      "tbtMs": 0,
+      "fcpMs": 904.3765000000001,
+      "siMs": 904.3765000000001,
+      "totalByteWeight": 206443,
+      "benchmarkIndex": 4273,
+      "longTasks": []
+    },
+    {
+      "performance": 1,
+      "accessibility": 1,
+      "lcpMs": 903.9190000000001,
+      "cls": 0,
+      "tbtMs": 0,
+      "fcpMs": 903.9190000000001,
+      "siMs": 903.9190000000001,
+      "totalByteWeight": 206406,
+      "benchmarkIndex": 4245,
+      "longTasks": [
+        {
+          "url": "http://127.0.0.1:4719/_next/static/chunks/29p5wlfz_1l3v.js",
+          "startMs": 2103.919,
+          "durMs": 50
+        }
+      ]
+    }
+  ],
+  "medianRun": 0,
+  "assertions": [
+    {
+      "id": "performance",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "lcp",
+      "threshold": "< 2500",
+      "actual": 904.1143999999999,
+      "scope": "median",
+      "pass": true
+    },
+    {
+      "id": "cls",
+      "threshold": "=== 0",
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "scope": "every-run",
+      "pass": true
+    },
+    {
+      "id": "accessibility",
+      "threshold": ">= 0.95",
+      "actual": 1,
+      "scope": "median",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

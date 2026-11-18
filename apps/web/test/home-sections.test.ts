@@ -9,7 +9,7 @@ vi.mock('../components/hero/hero-live', () => ({
 }));
 
 const FEATURE_ROOT = fileURLToPath(
-  new URL('../../../.specify/features/home-composition/', import.meta.url),
+  new URL('../../../.specify/features/accessories/', import.meta.url),
 );
 
 function pageSectionIds(sections: readonly string[], layoutSections: readonly string[]): string[] {
@@ -59,7 +59,7 @@ describe('home section data', () => {
 
   test('the unmocked list matches the approved list', async () => {
     const { HOME_SECTIONS } = await import('../content/home-sections');
-    const approved = readFileSync(`${FEATURE_ROOT}/g1-approved.txt`, 'utf8')
+    const approved = readFileSync(`${FEATURE_ROOT}/sections-approved.txt`, 'utf8')
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean);

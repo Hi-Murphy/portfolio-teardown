@@ -1,0 +1,120 @@
+$ node tools/perf/src/cli/site-probe.ts http://127.0.0.1:4719 --group drill,hero,cls,reduced-motion,nojs,routes,draws --out .evidence/s19b/site-probe
+drill tabs: skip -> nav:home -> nav:projects -> nav:about -> nav:contact -> nav:github -> nav:linkedin -> nav:theme -> hero:primary -> hero:pause -> card:websocket-inspector -> card:jev-toolkit -> card:agent-fleet -> contact:email -> contact:github -> contact:linkedin -> footer:home -> footer:top PASS
+PASS drill-tab-logical-order: expected ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","hero:pause","card:websocket-inspector","card:jev-toolkit","card:agent-fleet","contact:email","contact:github","contact:linkedin","footer:home","footer:top"] actual ["skip","nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme","hero:primary","hero:pause","card:websocket-inspector","card:jev-toolkit","card:agent-fleet","contact:email","contact:github","contact:linkedin","footer:home","footer:top"]
+PASS drill-nav-dom-order: expected ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"] actual ["nav:home","nav:projects","nav:about","nav:contact","nav:github","nav:linkedin","nav:theme"]
+PASS drill-no-resume-link: expected 0 actual 0
+PASS drill-shift-tab-reverses: expected ["footer:home","contact:linkedin","contact:github","contact:email","card:agent-fleet","card:jev-toolkit","card:websocket-inspector","hero:pause","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"] actual ["footer:home","contact:linkedin","contact:github","contact:email","card:agent-fleet","card:jev-toolkit","card:websocket-inspector","hero:pause","hero:primary","nav:theme","nav:linkedin","nav:github","nav:contact","nav:about","nav:projects","nav:home","skip"]
+PASS drill-no-trap: expected true actual {"stoppedAfterLast":true,"anchor":"footer:top","trap":false,"repeated":null}
+PASS drill-card-enter-url: expected "/projects/websocket-inspector" actual "/projects/websocket-inspector"
+PASS drill-card-enter-viewer: expected true actual true
+PASS drill-card-enter-h1: expected "Scarlet Inspector" actual "Scarlet Inspector"
+PASS drill-soft-navigation: expected true actual {"project":true,"back":true}
+PASS drill-back-card-reachable: expected true actual true
+PASS drill-soft-nav-cls: expected 0 actual {"total":0,"entries":[]}
+PASS drill-projects-one-activation: expected "/projects" actual "/projects"
+PASS drill-card-hrefs-200: expected "every status 200" actual [{"href":"/projects/websocket-inspector","status":200},{"href":"/projects/jev-toolkit","status":200},{"href":"/projects/agent-fleet","status":200}]
+drill: PASS (13 checks)
+PASS hero-ssr-poster: expected true actual true
+PASS hero-first-paint-is-poster: expected {"liveStateNot":"revealed","hasFcp":true} actual {"fcpAt":40,"loadAt":44.80000001192093,"liveStateAtFcp":"idle","liveStateAtLoad":"idle"}
+PASS hero-eager-no-interaction: expected {"liveState":"revealed","canvases":1,"ready":true} actual {"liveState":"revealed","canvases":1,"ready":true}
+PASS hero-revealed-after-load: expected {"afterLoad":true,"liveState":"revealed"} actual {"fcpAt":40,"loadAt":44.80000001192093,"liveStateAtFcp":"idle","liveStateAtLoad":"idle","liveStateAfterInteraction":"revealed"}
+PASS hero-loop-running: expected {"heroLoop":"running","canvases":1,"tour":"capture or inspect"} actual {"heroLoop":"running","canvases":1,"tour":"idle"}
+PASS hero-one-canvas-max: expected 1 actual 1
+PASS hero-project-poster-websocket-inspector: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+PASS hero-project-poster-jev-toolkit: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+PASS hero-project-poster-agent-fleet: expected {"canvases":0,"poster":true,"staticExplore":true,"exploreControl":true} actual {"canvases":0,"posterWidth":1086,"staticExploreVisible":true,"controlVisible":true}
+hero: PASS (9 checks)
+cls / desktop light total=0.000000 PASS
+cls /projects desktop light total=0.000000 PASS
+cls /projects/websocket-inspector desktop light total=0.000000 PASS
+cls /projects/jev-toolkit desktop light total=0.000000 PASS
+cls /projects/agent-fleet desktop light total=0.000000 PASS
+cls / desktop dark total=0.000000 PASS
+cls /projects desktop dark total=0.000000 PASS
+cls /projects/websocket-inspector desktop dark total=0.000000 PASS
+cls /projects/jev-toolkit desktop dark total=0.000000 PASS
+cls /projects/agent-fleet desktop dark total=0.000000 PASS
+cls / mobile light total=0.000000 PASS
+cls /projects mobile light total=0.000000 PASS
+cls /projects/websocket-inspector mobile light total=0.000000 PASS
+cls /projects/jev-toolkit mobile light total=0.000000 PASS
+cls /projects/agent-fleet mobile light total=0.000000 PASS
+cls / mobile dark total=0.000000 PASS
+cls /projects mobile dark total=0.000000 PASS
+cls /projects/websocket-inspector mobile dark total=0.000000 PASS
+cls /projects/jev-toolkit mobile dark total=0.000000 PASS
+cls /projects/agent-fleet mobile dark total=0.000000 PASS
+cls hero-marks-stable-390x844 shifts=0 PASS
+cls hero-marks-stable-390x740 shifts=0 PASS
+cls hero-marks-stable-360x740 shifts=0 PASS
+PASS cls-/-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-desktop-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-desktop-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-mobile-light: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/websocket-inspector-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/jev-toolkit-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS cls-/projects/agent-fleet-mobile-dark: expected 0 actual {"total":0,"sources":[]}
+PASS hero-marks-stable-390x844: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":814,"width":18,"height":18},{"x":362,"y":814,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-390x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":362,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":362,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+PASS hero-marks-stable-360x740: expected {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0} actual {"boxes":[{"x":10,"y":53,"width":18,"height":18},{"x":332,"y":53,"width":18,"height":18},{"x":10,"y":791.78125,"width":18,"height":18},{"x":332,"y":791.78125,"width":18,"height":18}],"shifts":0,"entries":[]}
+cls: PASS (23 checks)
+PASS reduced-home-skipped: expected {"liveState":"skipped","heroCanvases":0,"posterVisible":true} actual {"liveState":"skipped","heroCanvases":0,"posterWidth":817.609375}
+PASS reduced-home-no-animations: expected "all samples 0" actual [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+PASS reduced-poster-no-transition-websocket-inspector: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-websocket-inspector: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-websocket-inspector: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+PASS reduced-poster-no-transition-jev-toolkit: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-jev-toolkit: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-jev-toolkit: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+PASS reduced-poster-no-transition-agent-fleet: expected "all durations 0" actual "0s"
+PASS reduced-project-toggles-instant-agent-fleet: expected {"phases":["exploded","imploded","exploded"],"tweeningNeverTrue":true} actual {"phases":["exploded","imploded","exploded"],"tweening":["false"]}
+PASS reduced-project-no-animations-agent-fleet: expected {"implode":0,"explode":0} actual {"implode":0,"explode":0}
+reduced-motion: PASS (11 checks)
+PASS nojs-home-poster-and-list: expected {"posters":1,"list":"cards"} actual {"posters":2,"posterWidth":350,"cards":3,"outlines":0}
+PASS nojs-project-websocket-inspector-poster-and-list: expected {"posters":1,"list":"outline"} actual {"posters":1,"posterWidth":348,"cards":0,"outlines":1}
+PASS nojs-project-jev-toolkit-poster-and-list: expected {"posters":1,"list":"outline"} actual {"posters":1,"posterWidth":348,"cards":0,"outlines":1}
+PASS nojs-project-agent-fleet-poster-and-list: expected {"posters":1,"list":"outline"} actual {"posters":1,"posterWidth":348,"cards":0,"outlines":1}
+PASS nojs-project-websocket-inspector-no-webgl-outline: expected {"outline":true,"message":true,"canvases":0} actual {"outline":true,"message":true,"canvases":0,"text":"WebGL is unavailable for this teardown.An inspector for the invisible half of Android networking.ProblemWebSocket traffic is the hardest part of an Android app to debug: frames fly past, sessions blen"}
+PASS nojs-project-jev-toolkit-no-webgl-outline: expected {"outline":true,"message":true,"canvases":0} actual {"outline":true,"message":true,"canvases":0,"text":"WebGL is unavailable for this teardown.How much of a repo does a model need to read before it decides where to look?ProblemCoding agents burn context on orientation. The expensive question is not what"}
+PASS nojs-project-agent-fleet-no-webgl-outline: expected {"outline":true,"message":true,"canvases":0} actual {"outline":true,"message":true,"canvases":0,"text":"WebGL is unavailable for this teardown.How much of the work can leave your hands before it stops being reviewable?ProblemAgent sessions forget themselves. A plan, the reason a decision was made, the t"}
+nojs: PASS (7 checks)
+PASS routes-home-title: expected "Timur Haryo — Software Engineer · Android & Developer Tools" actual "Timur Haryo — Software Engineer · Android & Developer Tools"
+PASS routes-home-description: expected "Software engineer working on Android — trading, community, architecture, automation, and the performance work behind them. Every project, taken apart." actual "Software engineer working on Android — trading, community, architecture, automation, and the performance work behind them. Every project, taken apart."
+PASS routes-projects-title: expected "Projects · Timur Haryo" actual "Projects · Timur Haryo"
+PASS routes-projects-description: expected "Software engineer working on Android — trading, community, architecture, automation, and the performance work behind them. Every project, taken apart." actual "Software engineer working on Android — trading, community, architecture, automation, and the performance work behind them. Every project, taken apart."
+PASS routes-project-title-websocket-inspector: expected "Scarlet Inspector · Timur Haryo" actual "Scarlet Inspector · Timur Haryo"
+PASS routes-project-description-websocket-inspector: expected "Every WebSocket frame, captured and inspectable." actual "Every WebSocket frame, captured and inspectable."
+PASS routes-project-title-jev-toolkit: expected "JEV Benchmark · Timur Haryo" actual "JEV Benchmark · Timur Haryo"
+PASS routes-project-description-jev-toolkit: expected "Measuring what an AI reads before it codes." actual "Measuring what an AI reads before it codes."
+PASS routes-project-title-agent-fleet: expected "Agent fleet · Timur Haryo" actual "Agent fleet · Timur Haryo"
+PASS routes-project-description-agent-fleet: expected "Two hosts, two human words." actual "Two hosts, two human words."
+PASS routes-unknown-project-status: expected 404 actual 404
+PASS routes-unknown-project-content: expected "not-found content" actual {"h1":"Page not found"}
+PASS routes-/dev/engine-404: expected 404 actual 404
+PASS routes-/fixtures/fps-calibration-404: expected 404 actual 404
+PASS routes-/resume.pdf-404: expected 404 actual 404
+routes: PASS (15 checks)
+draws project websocket-inspector: mode=2 rendered=32 total=32 PASS
+draws project jev-toolkit: mode=2 rendered=32 total=32 PASS
+draws project agent-fleet: mode=2 rendered=32 total=32 PASS
+draws hero: mode=2 rendered=40 total=40 PASS
+PASS draws-project-websocket-inspector: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-jev-toolkit: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-project-agent-fleet: expected 2 actual {"pass":true,"mode":2,"modeCount":32,"renderedFrames":32,"totalFrames":32,"counts":{"2":32}}
+PASS draws-hero: expected 2 actual {"pass":true,"mode":2,"modeCount":40,"renderedFrames":40,"totalFrames":40,"counts":{"2":40}}
+draws: PASS (4 checks)
+site-probe: PASS
+artifacts: <repo>/.evidence/s19b/site-probe

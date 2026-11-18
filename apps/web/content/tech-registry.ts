@@ -10,5 +10,9 @@ export const SITE_REGISTRY = defineTechRegistry({
     { id: 'room', label: 'Room', category: 'storage' },
     { id: 'websocket', label: 'WebSocket', category: 'network' },
     { id: 'nodejs', label: 'Node.js', category: 'platform' },
+    { id: 'linux', label: 'Linux', category: 'platform' },
+    { id: 'git', label: 'Git', category: 'tooling' },
+    { id: 'agent', label: 'Agents', category: 'ai' },
+    { id: 'infra', label: 'Infrastructure', category: 'tooling' },
   ],
 });

@@ -1,0 +1,128 @@
+$ node tools/perf/src/cli/home-probe.ts http://127.0.0.1:4719 --approved .specify/features/accessories/sections-approved.txt --out .evidence/s19b/home-probe
+PASS 390:order-approved-list: expected ["nav","hero","about","projects","contact","footer"] actual ["nav","hero","about","projects","contact","footer"]
+PASS 390:order-dom-sequence: expected ["nav","hero","about","projects","contact","footer"] actual ["nav","hero","about","projects","contact","footer"]
+PASS 390:order-sections-non-empty: expected [] actual []
+PASS 390:order-section-headings: expected [] actual []
+PASS 390:order-section-tops: expected true actual [0,45,844,1475.5,2232,2511]
+PASS 390:order-no-css-reordering: expected [] actual []
+PASS 768:order-approved-list: expected ["nav","hero","about","projects","contact","footer"] actual ["nav","hero","about","projects","contact","footer"]
+PASS 768:order-dom-sequence: expected ["nav","hero","about","projects","contact","footer"] actual ["nav","hero","about","projects","contact","footer"]
+PASS 768:order-sections-non-empty: expected [] actual []
+PASS 768:order-section-headings: expected [] actual []
+PASS 768:order-section-tops: expected true actual [0,45,1024,1512,2100,2307]
+PASS 768:order-no-css-reordering: expected [] actual []
+PASS 1440:order-approved-list: expected ["nav","hero","about","projects","contact","footer"] actual ["nav","hero","about","projects","contact","footer"]
+PASS 1440:order-dom-sequence: expected ["nav","hero","about","projects","contact","footer"] actual ["nav","hero","about","projects","contact","footer"]
+PASS 1440:order-sections-non-empty: expected [] actual []
+PASS 1440:order-section-headings: expected [] actual []
+PASS 1440:order-section-tops: expected true actual [0,45,900,1368.5,1828.5,2035.5]
+PASS 1440:order-no-css-reordering: expected [] actual []
+order: PASS (18 checks)
+PASS light:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":65,"width":226.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"SOFTWARE ENGINEER · ANDROID","tag":"p","rect":{"x":20,"y":101,"width":285.390625,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":129,"width":350,"height":76.78125},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"See how it works","tag":"a","rect":{"x":20,"y":333.78125,"width":151.515625,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"JEV Benchmark — Measuring what an AI reads before it codes.","tag":"p","rect":{"x":20,"y":721.78125,"width":294,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS light:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2828,"clientHeight":844}
+PASS dark:fold-identity-name: expected true actual {"key":"fold:name","text":"Timur Haryo Mahissanular","tag":"p","rect":{"x":20,"y":65,"width":226.34375,"height":24},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-role-eyebrow: expected true actual {"key":"fold:eyebrow","text":"SOFTWARE ENGINEER · ANDROID","tag":"p","rect":{"x":20,"y":101,"width":285.390625,"height":16},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-headline: expected true actual {"key":"fold:headline","text":"Every project, taken apart.","tag":"h1","rect":{"x":20,"y":129,"width":350,"height":76.78125},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-primary-cta: expected true actual {"key":"fold:primary-cta","text":"See how it works","tag":"a","rect":{"x":20,"y":333.78125,"width":151.515625,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-project-signal: expected true actual {"key":"fold:project-signal","text":"JEV Benchmark — Measuring what an AI reads before it codes.","tag":"p","rect":{"x":20,"y":721.78125,"width":294,"height":44},"rendered":true,"fullyInsideViewport":true}
+PASS dark:fold-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2828,"clientHeight":844}
+fold: PASS (12 checks)
+PASS mobile-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2828,"clientHeight":844}
+PASS mobile-light:responsive-no-section-overlap: expected [] actual []
+PASS mobile-light:responsive-no-text-overlap: expected [] actual []
+PASS mobile-light:responsive-no-clipping: expected [] actual []
+PASS mobile-light:responsive-tap-targets: expected [] actual []
+PASS mobile-light:responsive-body-font-size: expected [] actual []
+PASS mobile-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":390,"clientWidth":390,"scrollHeight":2828,"clientHeight":844}
+PASS mobile-dark:responsive-no-section-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-text-overlap: expected [] actual []
+PASS mobile-dark:responsive-no-clipping: expected [] actual []
+PASS mobile-dark:responsive-tap-targets: expected [] actual []
+PASS mobile-dark:responsive-body-font-size: expected [] actual []
+PASS tablet-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2621,"clientHeight":1024}
+PASS tablet-light:responsive-no-section-overlap: expected [] actual []
+PASS tablet-light:responsive-no-text-overlap: expected [] actual []
+PASS tablet-light:responsive-no-clipping: expected [] actual []
+PASS tablet-light:responsive-tap-targets: expected [] actual []
+PASS tablet-light:responsive-body-font-size: expected [] actual []
+PASS tablet-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":768,"clientWidth":768,"scrollHeight":2621,"clientHeight":1024}
+PASS tablet-dark:responsive-no-section-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-text-overlap: expected [] actual []
+PASS tablet-dark:responsive-no-clipping: expected [] actual []
+PASS tablet-dark:responsive-tap-targets: expected [] actual []
+PASS tablet-dark:responsive-body-font-size: expected [] actual []
+PASS desktop-light:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":2349,"clientHeight":900}
+PASS desktop-light:responsive-no-section-overlap: expected [] actual []
+PASS desktop-light:responsive-no-text-overlap: expected [] actual []
+PASS desktop-light:responsive-no-clipping: expected [] actual []
+PASS desktop-light:responsive-tap-targets: expected [] actual []
+PASS desktop-light:responsive-body-font-size: expected [] actual []
+PASS desktop-dark:responsive-no-horizontal-scroll: expected true actual {"scrollWidth":1440,"clientWidth":1440,"scrollHeight":2349,"clientHeight":900}
+PASS desktop-dark:responsive-no-section-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-text-overlap: expected [] actual []
+PASS desktop-dark:responsive-no-clipping: expected [] actual []
+PASS desktop-dark:responsive-tap-targets: expected [] actual []
+PASS desktop-dark:responsive-body-font-size: expected [] actual []
+responsive: PASS (36 checks)
+PASS 390:structure-one-h1: expected 1 actual 1
+PASS 390:structure-heading-levels: expected [] actual []
+PASS 390:structure-section-headings: expected ["hero:h1","about:h2","projects:h2","contact:h2"] actual ["hero:h1","about:h2","projects:h2","contact:h2"]
+PASS 390:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390:structure-named-regions: expected [] actual []
+PASS 390:structure-skip-first: expected "skip" actual "skip"
+PASS 390:structure-no-positive-tabindex: expected [] actual []
+PASS 390:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:16:a:Timur Haryo Mahissanular","focus:15:a:LinkedIn","focus:14:a:GitHub","focus:13:a:Email vibing.murphy@gmail.com","focus:12:a:Agent fleet","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"],"actualBackward":["focus:16:a:Timur Haryo Mahissanular","focus:15:a:LinkedIn","focus:14:a:GitHub","focus:13:a:Email vibing.murphy@gmail.com","focus:12:a:Agent fleet","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"]}
+PASS 390:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,333.78125,20],[1,0,721.78125,326],[3,0,1583.5,37],[3,0,1792,37],[3,0,1966.5,37],[4,0,2323,20],[4,0,2375,20],[4,0,2427,20],[5,0,2552,16],[5,0,2744,296.703125]]
+PASS 390:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+PASS 768:structure-one-h1: expected 1 actual 1
+PASS 768:structure-heading-levels: expected [] actual []
+PASS 768:structure-section-headings: expected ["hero:h1","about:h2","projects:h2","contact:h2"] actual ["hero:h1","about:h2","projects:h2","contact:h2"]
+PASS 768:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 768:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 768:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 768:structure-named-regions: expected [] actual []
+PASS 768:structure-skip-first: expected "skip" actual "skip"
+PASS 768:structure-no-positive-tabindex: expected [] actual []
+PASS 768:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:16:a:Timur Haryo Mahissanular","focus:15:a:LinkedIn","focus:14:a:GitHub","focus:13:a:Email vibing.murphy@gmail.com","focus:12:a:Agent fleet","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"],"actualBackward":["focus:16:a:Timur Haryo Mahissanular","focus:15:a:LinkedIn","focus:14:a:GitHub","focus:13:a:Email vibing.murphy@gmail.com","focus:12:a:Agent fleet","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"]}
+PASS 768:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,24],[0,0,0,384.421875],[0,0,0,458.6875],[0,0,0,518.515625],[0,0,0,604],[0,0,0,652],[0,0,0,700],[1,0,361.78125,32],[1,0,837.78125,692],[3,0,1640,53],[3,0,1640,413],[3,0,1890.5,53],[4,0,2207,32],[4,0,2207,332.5625],[4,0,2207,443.4375],[5,0,2356,24],[5,0,2528.5,666.703125]]
+PASS 768:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 768:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":692,"y":837.78125,"width":44,"height":44}}
+PASS 1440:structure-one-h1: expected 1 actual 1
+PASS 1440:structure-heading-levels: expected [] actual []
+PASS 1440:structure-section-headings: expected ["hero:h1","about:h2","projects:h2","contact:h2"] actual ["hero:h1","about:h2","projects:h2","contact:h2"]
+PASS 1440:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 1440:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 1440:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 1440:structure-named-regions: expected [] actual []
+PASS 1440:structure-skip-first: expected "skip" actual "skip"
+PASS 1440:structure-no-positive-tabindex: expected [] actual []
+PASS 1440:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:16:a:Timur Haryo Mahissanular","focus:15:a:LinkedIn","focus:14:a:GitHub","focus:13:a:Email vibing.murphy@gmail.com","focus:12:a:Agent fleet","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"],"actualBackward":["focus:16:a:Timur Haryo Mahissanular","focus:15:a:LinkedIn","focus:14:a:GitHub","focus:13:a:Email vibing.murphy@gmail.com","focus:12:a:Agent fleet","focus:11:a:JEV Benchmark","focus:10:a:Scarlet Inspector","focus:9:button:Pause animation","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"]}
+PASS 1440:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,168],[0,0,0,912.421875],[0,0,0,986.6875],[0,0,0,1046.515625],[0,0,0,1132],[0,0,0,1180],[0,0,0,1228],[1,0,615.9375,48],[1,1,841.5,1348],[3,0,1496.5,197],[3,0,1496.5,749],[3,0,1653,197],[4,0,1935.5,176],[4,0,1935.5,476.5625],[4,0,1935.5,587.4375],[5,0,2084.5,168],[5,0,2257,1194.703125]]
+PASS 1440:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 1440:structure-hero-loop-control: expected {"loop":"running","button":true,"buttonInSlot":true,"slot":44} actual {"loop":"running","button":true,"buttonInSlot":true,"posterVisible":false,"slot":{"x":1348,"y":841.5,"width":44,"height":44}}
+PASS 390-reduced:structure-one-h1: expected 1 actual 1
+PASS 390-reduced:structure-heading-levels: expected [] actual []
+PASS 390-reduced:structure-section-headings: expected ["hero:h1","about:h2","projects:h2","contact:h2"] actual ["hero:h1","about:h2","projects:h2","contact:h2"]
+PASS 390-reduced:structure-hero-named: expected true actual {"labelledby":"hero-title","label":"Every project, taken apart.","heading":"Every project, taken apart."}
+PASS 390-reduced:structure-contact-h2: expected "Contact" actual {"level":2,"text":"Contact","sectionId":"contact","elementId":"contact-title"}
+PASS 390-reduced:structure-landmarks: expected {"banner":1,"main":1,"contentinfo":1} actual {"banner":1,"main":1,"contentinfo":1}
+PASS 390-reduced:structure-named-regions: expected [] actual []
+PASS 390-reduced:structure-skip-first: expected "skip" actual "skip"
+PASS 390-reduced:structure-no-positive-tabindex: expected [] actual []
+PASS 390-reduced:structure-tab-walk: expected true actual {"pass":true,"reachedLast":true,"trap":false,"forwardMatches":true,"backwardMatches":true,"repeated":null,"expectedBackward":["focus:15:a:Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Agent fleet","focus:10:a:JEV Benchmark","focus:9:a:Scarlet Inspector","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"],"actualBackward":["focus:15:a:Timur Haryo Mahissanular","focus:14:a:LinkedIn","focus:13:a:GitHub","focus:12:a:Email vibing.murphy@gmail.com","focus:11:a:Agent fleet","focus:10:a:JEV Benchmark","focus:9:a:Scarlet Inspector","focus:8:a:See how it works","focus:7:button:Switch to dark theme","focus:6:a:LinkedIn","focus:5:a:GitHub","focus:4:a:Contact","focus:3:a:About","focus:2:a:Projects","focus:1:a:Timur Haryo","skip"]}
+PASS 390-reduced:structure-focus-order: expected true actual [[-1,0,-84,12],[0,0,0,6],[0,0,0,72.421875],[0,0,0,134.6875],[0,0,0,182.515625],[0,0,0,252],[0,0,0,296],[0,0,0,340],[1,0,333.78125,20],[3,0,1583.5,37],[3,0,1792,37],[3,0,1966.5,37],[4,0,2323,20],[4,0,2375,20],[4,0,2427,20],[5,0,2552,16],[5,0,2744,296.703125]]
+PASS 390-reduced:footer-contact-hidden-on-home: expected "none" actual "none"
+PASS 390-reduced:structure-hero-poster-path: expected {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":44} actual {"loop":null,"button":false,"buttonInSlot":false,"posterVisible":true,"slot":{"x":326,"y":721.78125,"width":44,"height":44}}
+structure: PASS (52 checks)
+PASS copy-known-text: expected [] actual []
+allowlist: Skip to content | Back to top ↑ | Switch to light theme | Switch to dark theme | Primary | Tech
+copy: PASS (1 checks)
+home-probe: PASS
+artifacts: <repo>/.evidence/s19b/home-probe

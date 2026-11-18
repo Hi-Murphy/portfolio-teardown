@@ -3,10 +3,12 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import type { Project } from 'xploder';
 import { createFakeClock, type FakeClock } from 'xploder/fixtures';
 import { motion } from 'xploder/motion';
 import { clockFromNow, type EngineClock } from 'xploder/react';
 
+import { jevToolkit } from '../content/projects/jev-toolkit';
 import { websocketInspector } from '../content/projects/websocket-inspector';
 import { HeroCaption } from '../components/hero/hero-caption';
 import {
@@ -184,16 +186,12 @@ async function flush(): Promise<void> {
   });
 }
 
-async function renderHero(): Promise<void> {
+async function renderHero(project: Project = websocketInspector): Promise<void> {
   await act(async () => {
     root?.render(
       <HeroShowcaseProvider>
-        <HeroLive project={websocketInspector} />
-        <HeroCaption
-          name={websocketInspector.meta.name}
-          tagline={websocketInspector.meta.tagline}
-          labels={LABELS}
-        />
+        <HeroLive project={project} />
+        <HeroCaption name={project.meta.name} tagline={project.meta.tagline} labels={LABELS} />
       </HeroShowcaseProvider>,
     );
   });
@@ -931,6 +929,15 @@ describe('hero stage storyboard', () => {
     expect(viewerActions.selectFlow).toHaveBeenLastCalledWith('capture-path');
     expect(viewerActions.play).toHaveBeenCalledTimes(1);
     expect(projectLine()).toBe(expectedProjectLine());
+  });
+
+  test("tours the hero project's own first flow (S19: JEV hero)", async () => {
+    await renderHero(jevToolkit);
+    await firstFrame();
+    await advanceToCapture();
+
+    expect(heroPhase()).toBe('capture');
+    expect(viewerActions.selectFlow).toHaveBeenLastCalledWith(jevToolkit.flows[0]?.id);
   });
 
   test('runs capture → inspect → turn → implode → capture again', async () => {

@@ -5,7 +5,7 @@ import { defineProject, type Project } from 'xploder';
 import { describe, expect, test } from 'vitest';
 
 import { agentFleet } from '../content/projects/agent-fleet';
-import { getProject, cardModel, PROJECT_SLUGS, PROJECTS } from '../content/projects';
+import { getProject, cardModel, heroProject, PROJECT_SLUGS, PROJECTS } from '../content/projects';
 import { jevToolkit } from '../content/projects/jev-toolkit';
 import { websocketInspector } from '../content/projects/websocket-inspector';
 import { SITE_REGISTRY } from '../content/tech-registry';
@@ -84,13 +84,18 @@ describe('project card model', () => {
     expect(model.chips.length).toBeLessThanOrEqual(4);
   });
 
-  test('maps the agent-fleet meta with no chips', () => {
+  test('maps the agent-fleet meta and four registry chips in rank order (S19)', () => {
     expect(cardModel(agentFleet)).toStrictEqual({
       slug: agentFleet.meta.slug,
       name: agentFleet.meta.name,
       tagline: agentFleet.meta.tagline,
-      chips: [],
+      chips: expectedChips(['infra', 'agent', 'linux', 'git']),
     });
+  });
+
+  test('heroProject resolves the slug and falls back to the first project', () => {
+    expect(heroProject('jev-toolkit')).toBe(jevToolkit);
+    expect(heroProject('no-such-project')).toBe(PROJECTS[0]);
   });
 
   test('ranks by count before first appearance', () => {
@@ -208,7 +213,7 @@ describe('agent-fleet route model (AC1)', () => {
     expect(Math.max(...agentFleet.layers.map((layer) => layer.name.length))).toBeLessThanOrEqual(
       16,
     );
-    expect(components.reduce((total, component) => total + component.techs.length, 0)).toBe(0);
+    expect(components.reduce((total, component) => total + component.techs.length, 0)).toBe(8);
     expect(components.reduce((total, component) => total + component.links.length, 0)).toBe(0);
     expect(agentFleet.meta.links).toHaveLength(0);
   });

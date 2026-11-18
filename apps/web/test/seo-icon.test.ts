@@ -134,12 +134,7 @@ describe('SEO icon', () => {
     const document = new JSDOM(svg, { contentType: 'image/svg+xml' }).window.document;
     const style = document.querySelector('style')?.textContent ?? '';
     const palette = new Set(
-      [blueprint.light, blueprint.dark].flatMap((entry) => [
-        entry.paper,
-        entry.line,
-        entry.lineMuted,
-        entry.accent,
-      ]),
+      [blueprint.light, blueprint.dark].flatMap((entry) => [entry.paper, entry.ink]),
     );
     const colours = [...style.matchAll(/#[0-9a-fA-F]{6}\b/g)].map((match) => match[0]);
 
@@ -150,13 +145,9 @@ describe('SEO icon', () => {
     expect(colours).toEqual(
       expect.arrayContaining([
         blueprint.light.paper,
-        blueprint.light.line,
-        blueprint.light.lineMuted,
-        blueprint.light.accent,
+        blueprint.light.ink,
         blueprint.dark.paper,
-        blueprint.dark.line,
-        blueprint.dark.lineMuted,
-        blueprint.dark.accent,
+        blueprint.dark.ink,
       ]),
     );
   });
@@ -173,5 +164,15 @@ describe('SEO icon', () => {
     expect({ width: pixel.width, height: pixel.height }).toEqual({ width: 180, height: 180 });
     expect({ red: pixel.red, green: pixel.green, blue: pixel.blue }).toEqual(paper);
     expect(pixel.alpha).toBe(255);
+  });
+
+  test('apple icon draws the logo glyph in ink', async () => {
+    const bytes = await renderPng(appleIconElement(), { width: 180, height: 180 });
+    const leftBlock = decodePixel(bytes, 40, 90);
+    const dash = decodePixel(bytes, 90, 90);
+    const ink = rgb(blueprint.light.ink);
+
+    expect({ red: leftBlock.red, green: leftBlock.green, blue: leftBlock.blue }).toEqual(ink);
+    expect({ red: dash.red, green: dash.green, blue: dash.blue }).toEqual(ink);
   });
 });

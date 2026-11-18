@@ -400,6 +400,30 @@ describe('structure group', () => {
     expect(result.pass).toBe(true);
     expect(result.checks.find((entry) => entry.name === 'structure-focus-order')?.pass).toBe(true);
   });
+  test('reads a wrapping card grid row by row (no column index)', () => {
+    const focusables = [
+      focus('skip', -1, -96, 12),
+      focus('nav:home', 0, 0, 8),
+      focus('card:one', 3, 1000, 20),
+      focus('card:two', 3, 1000, 600),
+      focus('card:three', 3, 1160, 20),
+      focus('footer:top', 5, 1600, 20),
+    ];
+    const result = evaluateStructure(
+      snapshot({
+        focusables,
+        tabWalk: {
+          forward: focusables,
+          backward: [...focusables].reverse().slice(1),
+          anchor: focusables.at(-1) ?? null,
+        },
+      }),
+      APPROVED,
+      'Contact',
+    );
+
+    expect(result.checks.find((entry) => entry.name === 'structure-focus-order')?.pass).toBe(true);
+  });
 });
 
 describe('hero control slot', () => {

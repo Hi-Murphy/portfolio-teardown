@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { ThemeToggle } from '../app/theme-toggle';
 import { SITE } from '../content/site';
-import { GitHubIcon, LinkedInIcon, MonogramMark } from './icons';
+import { GitHubIcon, LinkedInIcon, LogoGlyph } from './icons';
 import { NavProjectsLink } from './nav-projects-link';
 
 const NAV_LINK_CLASS =
@@ -24,9 +24,9 @@ export function SiteNav() {
         <nav aria-label="Primary" className="flex h-11 min-w-0 items-center">
           <Link
             href="/"
-            className="inline-flex h-11 min-w-11 shrink-0 items-center text-sm font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:gap-2"
+            className="inline-flex h-11 min-w-11 shrink-0 items-center justify-center text-sm font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:gap-2"
           >
-            <MonogramMark siteName={SITE.meta.siteName} />
+            <LogoGlyph />
             <span className="sr-only sm:not-sr-only sm:inline sm:whitespace-nowrap">
               {SITE.meta.siteName}
             </span>

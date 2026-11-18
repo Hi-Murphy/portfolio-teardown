@@ -8,7 +8,7 @@ import { siteSource } from '../../../apps/web/content/site.source.ts';
 import { evaluateTabWalk, type FocusStep } from './a11y-probe.ts';
 import { chromiumVersion, launch } from './browser.ts';
 import { CliError, EXIT } from './exit-codes.ts';
-import { PROJECT_SOURCES } from './project-sources.ts';
+import { heroProjectSource, PROJECT_SOURCES } from './project-sources.ts';
 
 export const HOME_PROBE_GROUPS = ['order', 'fold', 'responsive', 'structure', 'copy'] as const;
 export type HomeProbeGroup = (typeof HOME_PROBE_GROUPS)[number];
@@ -641,7 +641,7 @@ export function evaluateCopy(
 }
 
 export function homeProbeConfig(): HomeProbeConfig {
-  const heroProject = PROJECT_SOURCES[0];
+  const heroProject = heroProjectSource();
 
   return {
     identityName: siteSource.identity.name,
@@ -725,11 +725,14 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     }
     return risks;
   };
-  const gridTracks = (style: CSSStyleDeclaration): string[] => {
+  const gridTracks = (
+    style: CSSStyleDeclaration,
+    template: string = style.gridTemplateColumns,
+  ): string[] => {
     const tokens: string[] = [];
     let token = '';
     let depth = 0;
-    for (const character of style.gridTemplateColumns) {
+    for (const character of template) {
       if (character === '(') depth += 1;
       if (character === ')') depth = Math.max(0, depth - 1);
       if (/\s/.test(character) && depth === 0) {
@@ -760,6 +763,9 @@ function collectSnapshotInPage(config: HomeProbeConfig): HomePageSnapshot {
     if (grid === undefined || !grid.contains(element)) return null;
 
     const style = getComputedStyle(grid);
+    // Column-major reading only holds for a one-row grid (the hero's text and figure columns).
+    // A grid that wraps into rows (the project cards) reads row by row, so y/x order decides.
+    if (gridTracks(style, style.gridTemplateRows).length > 1) return null;
     const trackWidths = gridTracks(style).flatMap((track) => {
       const pixels = [...track.matchAll(/([\d.]+)px/g)];
       const width = Number(pixels.at(-1)?.[1]);
@@ -1467,7 +1473,7 @@ async function copyAllowlist(rootDir: string, config: HomeProbeConfig): Promise<
   const strings: string[] = [];
   flattenStrings(siteSource, strings);
   for (const project of PROJECT_SOURCES) flattenStrings(project, strings);
-  strings.push(...heroNarrationCompositions(PROJECT_SOURCES[0]));
+  strings.push(...heroNarrationCompositions(heroProjectSource()));
   strings.push(...(await techLabels(rootDir)));
   strings.push(
     `${siteSource.identity.role} · ${siteSource.identity.location}`,

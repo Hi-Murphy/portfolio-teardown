@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "siteUrl": "https://hi-murphy.me",
+  "cards": [
+    {
+      "route": "/",
+      "path": "/og/home.png",
+      "bytes": 76058,
+      "sha256": "abc84e863be81f8a5ae51df0f5c09a34e07b954f68ce512c30be0f4f280b7d8d"
+    },
+    {
+      "route": "/projects",
+      "path": "/og/projects.png",
+      "bytes": 91496,
+      "sha256": "141547c1c33751e43045f9e08ed1afd0b3aedced7fdabd4e9fdf684de61c3b8d"
+    },
+    {
+      "route": "/projects/websocket-inspector",
+      "path": "/og/projects/websocket-inspector.png",
+      "bytes": 79988,
+      "sha256": "04dbd97c63eb96e26d8d0c946997ce34b26b628ce831248d8afd9f88726cd346"
+    },
+    {
+      "route": "/projects/jev-toolkit",
+      "path": "/og/projects/jev-toolkit.png",
+      "bytes": 76530,
+      "sha256": "94f9947d6cd48bb4eb29aa988602c8a297ad01b32af2b2687c251ec493b13abe"
+    },
+    {
+      "route": "/projects/agent-fleet",
+      "path": "/og/projects/agent-fleet.png",
+      "bytes": 71408,
+      "sha256": "c4e718dd447617af52853aab0d186441c60e2663a781ad19542b255a591d5924"
+    }
+  ]
+}

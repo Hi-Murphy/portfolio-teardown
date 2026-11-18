@@ -1,0 +1,24 @@
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --expect live-loop --runs 3 --out .evidence/s19/eager
+eager-probe: home/normal r1 PASS
+eager-probe: home/normal r2 PASS
+eager-probe: home/normal r3 PASS
+eager-probe: PASS (3 runs)
+artifacts: <repo>/.evidence/s19/eager
+== reduced
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --expect live-loop --reduced-motion --runs 1 --out .evidence/s19/eager-rm
+error: --expect live-loop requires normal motion without --save-data
+[ELIFECYCLE] Command failed with exit code 2.
+== save-data
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --expect live-loop --save-data --runs 1 --out .evidence/s19/eager-sd
+error: --expect live-loop requires normal motion without --save-data
+[ELIFECYCLE] Command failed with exit code 2.
+== reduced
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --reduced-motion --runs 1 --out .evidence/s19/eager-rm
+eager-probe: home/reduce r1 PASS
+eager-probe: PASS (1 runs)
+artifacts: <repo>/.evidence/s19/eager-rm
+== save-data
+$ node tools/perf/src/cli/eager-probe.ts --serve apps/web/out --route / --save-data --runs 1 --out .evidence/s19/eager-sd
+eager-probe: home/save-data r1 PASS
+eager-probe: PASS (1 runs)
+artifacts: <repo>/.evidence/s19/eager-sd
